@@ -77,11 +77,13 @@ export const toolBuilderSelectors = {
 
 export const toolBuilderActions = {
   initializeTool(tool: Tool) {
+    console.log("Initializing tool:", tool);
     toolBuilderStore.setState((state) => ({
       ...state,
       tool,
       selectedCommand: tool.commands[0],
     }));
+    console.log("Tool initialized:", toolBuilderStore.state.tool);
   },
 
   updateTool(updates: Partial<Tool>) {

@@ -2,7 +2,6 @@ import { defineConfig } from "vite";
 import tsConfigPaths from "vite-tsconfig-paths";
 import path from "path";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
-import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [
     tsConfigPaths({

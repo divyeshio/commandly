@@ -42,6 +42,7 @@ export default function ToolEditor({ tool: toolToEdit }: ToolEditorProps) {
 
   useEffect(() => {
     toolBuilderActions.initializeTool(toolToEdit);
+    console.log("Tool editor initialized with:", toolToEdit);
   }, [toolToEdit]);
 
   const selectedParam = [...globalParameters, ...currentParameters].find(

@@ -13,6 +13,7 @@ import { DefaultCatchBoundary } from "@/components/error-component";
 import { NotFound } from "@/components/not-found";
 import appCss from "../styles/app.css?url";
 import { NuqsAdapter } from "nuqs/adapters/react";
+import { Toaster } from "sonner";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
@@ -71,14 +72,15 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html>
+    <html suppressHydrationWarning={true}>
       <head>
         <HeadContent />
       </head>
       <body>
-        <div className="p-2 flex gap-2 text-lg"></div>
-        <hr />
-        <NuqsAdapter>{children}</NuqsAdapter>
+        <NuqsAdapter>
+          <main className="p-4">{children}</main>
+          <Toaster />
+        </NuqsAdapter>
         <TanStackRouterDevtools position="bottom-right" />
         <ReactQueryDevtools buttonPosition="bottom-left" />
         <Scripts />

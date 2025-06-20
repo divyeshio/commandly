@@ -27,13 +27,34 @@ import { createNewTool, fetchTools, type NewTool } from "@/lib/api/tools.api";
 import { ImportDialog } from "@/components/tool-editor-ui/dialogs/import-dialog";
 import { UploadIcon } from "lucide-react";
 import type { Tool } from "@/lib/types/tool-editor";
+import { createServerFn } from "@tanstack/react-start";
+import { promises as fs } from "fs";
+import path from "path";
+import React from "react";
 
 export const toolsQueryOptions = () =>
   queryOptions({
     queryKey: ["tools"],
-    queryFn: () => fetchTools(),
+    queryFn: () => getToolsList(),
     staleTime: Infinity,
   });
+
+const getToolsList = createServerFn({
+  method: "GET",
+}).handler(async () => {
+  const collectionDir = path.join(process.cwd(), "collection");
+  const files = await fs.readdir(collectionDir);
+  return files.map((file) => {
+    return {
+      name: file.replace(/\.json$/, ""),
+      displayName: file.replace(/\.json$/, ""),
+      description: `Tool for ${file}`,
+      version: "0.1.0",
+      supportedInput: ["StandardInput"],
+      supportedOutput: ["StandardOutput"],
+    } as Tool;
+  });
+});
 
 export const Route = createFileRoute("/tools/")({
   component: RouteComponent,
@@ -43,10 +64,7 @@ export const Route = createFileRoute("/tools/")({
 });
 
 function RouteComponent() {
-  // Handler for import/AI import
   const handleImportData = (importedTool: Tool) => {
-    // You may want to route to the tool builder or update state here
-    // For now, just log
     console.log("Imported tool:", importedTool);
   };
 
@@ -96,7 +114,7 @@ function RouteComponent() {
 function ListComponent() {
   const { data: tools } = useSuspenseQuery(toolsQueryOptions());
   return (
-    <>
+    <React.Fragment>
       {tools.map((tool, index) => (
         <Link
           to="/tools/$toolName"
@@ -106,7 +124,7 @@ function ListComponent() {
           <ToolCard tool={tool} />
         </Link>
       ))}
-    </>
+    </React.Fragment>
   );
 }
 

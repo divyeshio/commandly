@@ -53,6 +53,8 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
 
   const parameters = isGlobal ? globalParameters : commandParameters;
 
+  console.log(parameters);
+
   const getParameterIcon = (parameterType: ParameterType) => {
     switch (parameterType) {
       case "Flag":

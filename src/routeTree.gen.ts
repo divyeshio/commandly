@@ -8,10 +8,15 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createServerRootRoute } from '@tanstack/react-start/server'
+
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolsIndexRouteImport } from './routes/tools/index'
 import { Route as ToolsToolNameRouteImport } from './routes/tools/$toolName'
+import { ServerRoute as ApiToolsToolNameServerRouteImport } from './routes/api/tools.$toolName'
+
+const rootServerRouteImport = createServerRootRoute()
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -27,6 +32,11 @@ const ToolsToolNameRoute = ToolsToolNameRouteImport.update({
   id: '/tools/$toolName',
   path: '/tools/$toolName',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ApiToolsToolNameServerRoute = ApiToolsToolNameServerRouteImport.update({
+  id: '/api/tools/$toolName',
+  path: '/api/tools/$toolName',
+  getParentRoute: () => rootServerRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -58,6 +68,27 @@ export interface RootRouteChildren {
   ToolsToolNameRoute: typeof ToolsToolNameRoute
   ToolsIndexRoute: typeof ToolsIndexRoute
 }
+export interface FileServerRoutesByFullPath {
+  '/api/tools/$toolName': typeof ApiToolsToolNameServerRoute
+}
+export interface FileServerRoutesByTo {
+  '/api/tools/$toolName': typeof ApiToolsToolNameServerRoute
+}
+export interface FileServerRoutesById {
+  __root__: typeof rootServerRouteImport
+  '/api/tools/$toolName': typeof ApiToolsToolNameServerRoute
+}
+export interface FileServerRouteTypes {
+  fileServerRoutesByFullPath: FileServerRoutesByFullPath
+  fullPaths: '/api/tools/$toolName'
+  fileServerRoutesByTo: FileServerRoutesByTo
+  to: '/api/tools/$toolName'
+  id: '__root__' | '/api/tools/$toolName'
+  fileServerRoutesById: FileServerRoutesById
+}
+export interface RootServerRouteChildren {
+  ApiToolsToolNameServerRoute: typeof ApiToolsToolNameServerRoute
+}
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
@@ -84,6 +115,17 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+declare module '@tanstack/react-start/server' {
+  interface ServerFileRoutesByPath {
+    '/api/tools/$toolName': {
+      id: '/api/tools/$toolName'
+      path: '/api/tools/$toolName'
+      fullPath: '/api/tools/$toolName'
+      preLoaderRoute: typeof ApiToolsToolNameServerRouteImport
+      parentRoute: typeof rootServerRouteImport
+    }
+  }
+}
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -93,3 +135,9 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+const rootServerRouteChildren: RootServerRouteChildren = {
+  ApiToolsToolNameServerRoute: ApiToolsToolNameServerRoute,
+}
+export const serverRouteTree = rootServerRouteImport
+  ._addFileChildren(rootServerRouteChildren)
+  ._addFileTypes<FileServerRouteTypes>()

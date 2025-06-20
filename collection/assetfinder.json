@@ -1,0 +1,82 @@
+{
+  "name": "assetfinder",
+  "displayName": "AssetFinder",
+  "description": "Command line tool with timeout and enumeration parameters",
+  "version": "0.1.0",
+  "supportedInput": ["StandardInput"],
+  "supportedOutput": ["StandardOutput"],
+  "commands": [
+    {
+      "parentCommandName": null,
+      "name": "assetfinder",
+      "description": "Default command",
+      "isDefault": true,
+      "sortOrder": 1,
+      "subcommands": []
+    }
+  ],
+  "parameters": [
+    {
+      "name": "Subs Only",
+      "commandName": "assetfinder",
+      "description": "Only find subdomains",
+      "parameterType": "Flag",
+      "dataType": "String",
+      "isRequired": false,
+      "isRepeatable": false,
+      "isGlobal": false,
+      "defaultValue": null,
+      "shortFlag": null,
+      "longFlag": "--subs-only",
+      "position": null,
+      "sortOrder": 1,
+      "arraySeparator": null,
+      "keyValueSeparator": " ",
+      "enumValues": [],
+      "validations": [],
+      "dependencies": []
+    },
+    {
+      "name": "OutputFile",
+      "commandName": "assetfinder",
+      "description": "File to write output to",
+      "parameterType": "Option",
+      "dataType": "String",
+      "isRequired": false,
+      "isRepeatable": false,
+      "isGlobal": false,
+      "defaultValue": null,
+      "shortFlag": null,
+      "longFlag": " >",
+      "position": null,
+      "sortOrder": 2,
+      "arraySeparator": null,
+      "keyValueSeparator": " ",
+      "enumValues": [],
+      "validations": [],
+      "dependencies": []
+    },
+    {
+      "name": "Target Domain",
+      "commandName": "assetfinder",
+      "description": "Target Domain",
+      "parameterType": "Argument",
+      "dataType": "String",
+      "isRequired": true,
+      "isRepeatable": false,
+      "isGlobal": false,
+      "defaultValue": null,
+      "shortFlag": null,
+      "longFlag": "",
+      "position": 1,
+      "sortOrder": 2,
+      "arraySeparator": null,
+      "keyValueSeparator": " ",
+      "enumValues": [],
+      "validations": [],
+      "dependencies": []
+    }
+  ],
+  "exclusionGroups": [],
+  "templates": []
+}
