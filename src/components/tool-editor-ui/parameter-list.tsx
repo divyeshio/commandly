@@ -38,22 +38,23 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
     toolBuilderSelectors.getGlobalParameters(state)
   );
   const commandParameters = useStore(toolBuilderStore, (state) =>
-    selectedCommand?.id
-      ? toolBuilderSelectors.getParametersForCommand(state, selectedCommand.id)
+    selectedCommand?.name
+      ? toolBuilderSelectors.getParametersForCommand(
+          state,
+          selectedCommand.name
+        )
       : []
   );
   const exclusionGroups = useStore(toolBuilderStore, (state) =>
-    selectedCommand?.id
+    selectedCommand?.name
       ? toolBuilderSelectors.getExclusionGroupsForCommand(
           state,
-          selectedCommand.id
+          selectedCommand.name
         )
       : []
   );
 
   const parameters = isGlobal ? globalParameters : commandParameters;
-
-  console.log(parameters);
 
   const getParameterIcon = (parameterType: ParameterType) => {
     switch (parameterType) {
@@ -145,7 +146,7 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
                   {parameter.parameterType}
                 </Badge>
                 <Badge variant="secondary" className="text-xs">
-                  {parameter.parameterDataType}
+                  {parameter.dataType}
                 </Badge>
                 {isGlobal && (
                   <Badge variant="default" className="text-xs">

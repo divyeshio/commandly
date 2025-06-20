@@ -52,7 +52,7 @@ export const toolBuilderSelectors = {
   ): Parameter[] => {
     return state.tool.parameters.filter((param: Parameter) => {
       if (param.isGlobal) return false;
-      return param.commandId === commandId;
+      return param.command === commandId;
     });
   },
 
@@ -77,13 +77,11 @@ export const toolBuilderSelectors = {
 
 export const toolBuilderActions = {
   initializeTool(tool: Tool) {
-    console.log("Initializing tool:", tool);
     toolBuilderStore.setState((state) => ({
       ...state,
       tool,
       selectedCommand: tool.commands[0],
     }));
-    console.log("Tool initialized:", toolBuilderStore.state.tool);
   },
 
   updateTool(updates: Partial<Tool>) {
@@ -114,17 +112,17 @@ export const toolBuilderActions = {
   deleteCommand(commandId: string) {
     toolBuilderStore.setState((state) => {
       const subcommands = getAllSubcommands(commandId, state.tool.commands);
-      const commandsToDelete = [commandId, ...subcommands.map((c) => c.id)];
+      const commandsToDelete = [commandId, ...subcommands.map((c) => c.name)];
 
       const newState = {
         ...state,
         tool: {
           ...state.tool,
           commands: state.tool.commands.filter(
-            (cmd) => !commandsToDelete.includes(cmd.id)
+            (cmd) => !commandsToDelete.includes(cmd.name)
           ),
           parameters: state.tool.parameters.filter(
-            (param) => !commandsToDelete.includes(param.commandId || "")
+            (param) => !commandsToDelete.includes(param.command || "")
           ),
           exclusionGroups: state.tool.exclusionGroups.filter(
             (group) => !commandsToDelete.includes(group.commandId || "")
@@ -132,7 +130,7 @@ export const toolBuilderActions = {
         },
       };
 
-      if (state.selectedCommand?.id === commandId) {
+      if (state.selectedCommand?.name === commandId) {
         newState.selectedCommand = newState.tool.commands[0];
       }
 
@@ -151,7 +149,7 @@ export const toolBuilderActions = {
         ...state.tool,
         commands: state.tool.commands.map((cmd) => {
           let updatedCmd: Command;
-          if (cmd.id === commandId) {
+          if (cmd.name === commandId) {
             updatedCmd = { ...cmd, ...updates };
           } else {
             if (!updates.isDefault) updatedCmd = cmd;
@@ -169,7 +167,7 @@ export const toolBuilderActions = {
     toolBuilderStore.setState((state) => {
       const newParameter = createNewParameter(
         isGlobal,
-        !isGlobal ? state.selectedCommand?.id : undefined
+        !isGlobal ? state.selectedCommand?.name : undefined
       );
       return {
         ...state,
@@ -205,11 +203,11 @@ export const toolBuilderActions = {
               updatedParameter.isGlobal &&
               updatedParameter.isGlobal !== param.isGlobal
             ) {
-              updatedParam.commandId = undefined;
+              updatedParam.command = undefined;
             }
             // If switching from global, set commandId to current command
             if (updatedParameter.isGlobal === false && param.isGlobal) {
-              updatedParam.commandId = state.selectedCommand?.id;
+              updatedParam.command = state.selectedCommand?.name;
             }
             return updatedParam;
           }
@@ -287,7 +285,7 @@ export const toolBuilderActions = {
       const newGroup = {
         ...group,
         id: uuidv7(),
-        commandId: state.selectedCommand?.id,
+        commandId: state.selectedCommand?.name,
       };
 
       return {

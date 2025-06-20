@@ -65,7 +65,7 @@ export function ParameterDetailsDialog({
 
   const commandId = useStore(
     toolBuilderStore,
-    (state) => state.selectedCommand?.id
+    (state) => state.selectedCommand?.name
   );
 
   const availableParameters = useStore(toolBuilderStore, (state) => {
@@ -73,7 +73,7 @@ export function ParameterDetailsDialog({
     return state.tool.parameters.filter((p) => {
       if (p.id === selectedParameter.id) return false;
       if (selectedParameter.isGlobal) return p.isGlobal;
-      return p.isGlobal || p.commandId === commandId;
+      return p.isGlobal || p.command === commandId;
     });
   });
 
@@ -240,9 +240,9 @@ export function ParameterDetailsDialog({
             <div className="flex flex-col gap-2">
               <Label>Data Type</Label>
               <Select
-                value={parameter.parameterDataType}
+                value={parameter.dataType}
                 onValueChange={(value: ParameterDataType) =>
-                  updateParameter({ parameterDataType: value })
+                  updateParameter({ dataType: value })
                 }
               >
                 <SelectTrigger className="w-full">
@@ -541,7 +541,7 @@ export function ParameterDetailsDialog({
           </div>
 
           {/* Enum Values Section */}
-          {parameter.parameterDataType === "Enum" && (
+          {parameter.dataType === "Enum" && (
             <>
               <Separator />
               <div>

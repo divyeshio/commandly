@@ -14,7 +14,7 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
   // Convert parameters to nested format
   const convertParameter = (param: Parameter): NestedParameter => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { id, commandId, ...rest } = param;
+    const { id, command: commandId, ...rest } = param;
     return {
       ...rest,
       validations: param.validations?.map((v) => {
@@ -25,7 +25,7 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
         };
       }),
       metadata: param.metadata,
-      dataType: param.parameterDataType, // Map parameterDataType to dataType
+      dataType: param.dataType, // Map parameterDataType to dataType
       dependencies: param.dependencies?.map((dep) => {
         const dependsOnParam = tool.parameters.find(
           (p) => p.id === dep.dependsOnParameterId
@@ -45,10 +45,10 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
     parentId?: string
   ): NestedCommand[] => {
     return commands
-      .filter((cmd) => cmd.parentCommandId === parentId)
+      .filter((cmd) => cmd.parentCommand === parentId)
       .map((cmd) => {
         const commandParameters = tool.parameters.filter(
-          (p) => p.commandId === cmd.id && !p.isGlobal
+          (p) => p.command === cmd.name && !p.isGlobal
         );
         return {
           name: cmd.name,
@@ -56,7 +56,7 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
           isDefault: cmd.isDefault,
           sortOrder: cmd.sortOrder,
           parameters: commandParameters.map(convertParameter),
-          subcommands: buildNestedCommands(commands, cmd.id),
+          subcommands: buildNestedCommands(commands, cmd.name),
         };
       });
   };

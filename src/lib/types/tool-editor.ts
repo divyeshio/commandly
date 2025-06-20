@@ -1,6 +1,6 @@
 export interface Command {
   id: string;
-  parentCommandId?: string;
+  parentCommand?: string;
   name: string;
   description: string;
   isDefault: boolean;
@@ -48,11 +48,11 @@ export type DependencyType = "requires" | "conflicts_with";
 export interface Parameter {
   id: string;
   name: string;
-  commandId?: string;
+  command?: string;
   description: string;
   metadata?: ParameterMetadata;
   parameterType: ParameterType;
-  parameterDataType: ParameterDataType;
+  dataType: ParameterDataType;
   isRequired: boolean;
   isRepeatable: boolean;
   isGlobal: boolean;

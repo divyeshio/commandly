@@ -52,9 +52,9 @@ export function CommandTree() {
   };
 
   const renderCommandNode = (command: Command, level = 0): JSX.Element => {
-    const isExpanded = expandedCommands.has(command.id);
+    const isExpanded = expandedCommands.has(command.name);
     const hasSubcommands = command.subcommands.length > 0;
-    const isSelected = selectedCommand?.id === command.id;
+    const isSelected = selectedCommand?.name === command.name;
     const isRoot = command.name == tool.name;
 
     return (
@@ -73,7 +73,7 @@ export function CommandTree() {
               className="h-4 w-4 p-0"
               onClick={(e) => {
                 e.stopPropagation();
-                toggleExpanded(command.id);
+                toggleExpanded(command.name);
               }}
             >
               {isExpanded ? (
@@ -110,7 +110,7 @@ export function CommandTree() {
             className="h-4 w-4 p-0 opacity-0 group-hover:opacity-100"
             onClick={(e) => {
               e.stopPropagation();
-              toolBuilderActions.addSubcommand(command.id);
+              toolBuilderActions.addSubcommand(command.name);
             }}
           >
             <PlusIcon className="h-3 w-3" />
@@ -122,7 +122,7 @@ export function CommandTree() {
               className="h-4 w-4 p-0 opacity-0 group-hover:opacity-100"
               onClick={(e) => {
                 e.stopPropagation();
-                toolBuilderActions.deleteCommand(command.id);
+                toolBuilderActions.deleteCommand(command.name);
               }}
             >
               <Trash2Icon className="h-3 w-3 text-destructive" />

@@ -45,9 +45,9 @@ export function HelpMenu() {
           shortFlag && longFlag
             ? `${shortFlag}, ${longFlag}`
             : shortFlag || longFlag;
-        const valueType = option.parameterDataType.includes("array")
+        const valueType = option.dataType.includes("array")
           ? `<value1${option.arraySeparator}value2>`
-          : `<${option.parameterDataType}>`;
+          : `<${option.dataType}>`;
         const required = option.isRequired ? "Required: " : "";
         preview += `  ${flagStr.padEnd(20)} ${required}${option.description}\n`;
         preview += `  ${" ".repeat(20)} Value: ${valueType}\n`;
@@ -64,7 +64,7 @@ export function HelpMenu() {
       }\n`;
 
       const commandParams = tool.parameters.filter(
-        (p) => !p.isGlobal && p.commandId === command.id
+        (p) => !p.isGlobal && p.command === command.name
       );
 
       const flags = commandParams.filter((p) => p.parameterType === "Flag");
@@ -98,9 +98,9 @@ export function HelpMenu() {
             shortFlag && longFlag
               ? `${shortFlag}, ${longFlag}`
               : shortFlag || longFlag;
-          const valueType = option.parameterDataType.includes("array")
+          const valueType = option.dataType.includes("array")
             ? `<value1${option.arraySeparator}value2>`
-            : `<${option.parameterDataType}>`;
+            : `<${option.dataType}>`;
           const required = option.isRequired ? "Required: " : "";
           preview += `${indent}    ${flagStr.padEnd(18)} ${required}${
             option.description
@@ -116,7 +116,7 @@ export function HelpMenu() {
           preview += `${indent}    ${arg.name.padEnd(18)} ${required}${
             arg.description
           }\n`;
-          if (arg.parameterDataType === "Enum") {
+          if (arg.dataType === "Enum") {
             preview += `${indent}    ${" ".repeat(18)} Values: ${arg.enumValues
               .map((e) => e.value)
               .join(", ")}\n`;

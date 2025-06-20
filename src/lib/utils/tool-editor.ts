@@ -19,12 +19,12 @@ export const buildCommandHierarchy = (commands: Command[]): Command[] => {
   commands.forEach((cmd) => {
     const command = commandMap.get(cmd.id)!;
 
-    if (!cmd.parentCommandId) {
+    if (!cmd.parentCommand) {
       // This is a root command
       rootCommands.push(command);
     } else {
       // This is a subcommand
-      const parent = commandMap.get(cmd.parentCommandId);
+      const parent = commandMap.get(cmd.parentCommand);
       if (parent) {
         parent.subcommands.push(command);
       }
@@ -66,7 +66,7 @@ export const getCommandPath = (command: Command, tool: Tool): string => {
   };
 
   const hierarchy = buildCommandHierarchy(tool.commands);
-  const path = findCommandPath(command.id, hierarchy);
+  const path = findCommandPath(command.name, hierarchy);
 
   if (!path) return command.name;
 
@@ -92,7 +92,7 @@ export const getAllSubcommands = (
 
   const findSubcommands = (parentId: string) => {
     commands.forEach((cmd) => {
-      if (cmd.parentCommandId === parentId) {
+      if (cmd.parentCommand === parentId) {
         result.push(cmd);
         findSubcommands(cmd.id);
       }
@@ -149,21 +149,21 @@ export const flattenImportedData = (importedData: any): Tool => {
     parameters.forEach((param: any) => {
       allParameters.push({
         ...param,
-        commandId: command.id,
-        isGlobal: !command.id,
+        command: command.name,
+        isGlobal: !command.name,
       });
     });
 
     const flatCommand: Command = {
       ...commandData,
-      parentCommandId: parentId,
+      parentCommand: parentId,
     };
 
     const flatCommands = [flatCommand];
 
     // Recursively flatten subcommands
     subcommands.forEach((subcmd: any) => {
-      flatCommands.push(...flattenCommandParameters(subcmd, command.id));
+      flatCommands.push(...flattenCommandParameters(subcmd, command.name));
     });
 
     return flatCommands;
@@ -207,7 +207,7 @@ export const defaultTool = (toolName?: string): Tool => {
         name: "Help",
         description: "Displays help menu of tool",
         parameterType: "Flag",
-        parameterDataType: "String",
+        dataType: "String",
         isRequired: false,
         isGlobal: true,
         shortFlag: "-h",
@@ -227,7 +227,7 @@ export const defaultTool = (toolName?: string): Tool => {
 export const validateDefaultValue = (
   parameter: Parameter
 ): { isValid: boolean; error?: string } => {
-  const { defaultValue, validations, parameterDataType: dataType } = parameter;
+  const { defaultValue, validations, dataType: dataType } = parameter;
 
   if (!defaultValue || !validations) return { isValid: true };
 
@@ -317,7 +317,7 @@ export const validateDefaultValue = (
 export const createNewCommand = (parentId?: string): Command => {
   return {
     id: uuidv7(),
-    parentCommandId: parentId,
+    parentCommand: parentId,
     name: randomCommandName(),
     description: "",
     isDefault: false,
@@ -333,10 +333,10 @@ export const createNewParameter = (
   return {
     id: uuidv7(),
     name: "new-parameter",
-    commandId: isGlobal ? undefined : commandId,
+    command: isGlobal ? undefined : commandId,
     description: "New parameter description",
     parameterType: "Option",
-    parameterDataType: "String",
+    dataType: "String",
     isRequired: false,
     isRepeatable: false,
     isGlobal,

@@ -69,15 +69,10 @@ export function RuntimePreview({
   useEffect(() => {
     if (!providedCommand && selectedCommand) {
       if (selectedCommand.isDefault) {
-        console.debug(`Using default command: ${selectedCommand.name}`);
       } else if (
         selectedCommand.name.toLowerCase() === tool.name.toLowerCase()
       ) {
-        console.debug(
-          `Using command matching tool name: ${selectedCommand.name}`
-        );
       } else {
-        console.debug(`Using first available command: ${selectedCommand.name}`);
       }
     }
   }, [providedCommand, selectedCommand, tool.name]);
@@ -118,7 +113,7 @@ export function RuntimePreview({
         );
 
       case "Option":
-        if (parameter.parameterDataType === "Enum") {
+        if (parameter.dataType === "Enum") {
           return (
             <div key={parameter.id} className="space-y-2">
               <Label>
@@ -159,7 +154,7 @@ export function RuntimePreview({
               </Select>
             </div>
           );
-        } else if (parameter.parameterDataType === "Boolean") {
+        } else if (parameter.dataType === "Boolean") {
           return (
             <div key={parameter.id} className="flex items-center space-x-2">
               <Switch
@@ -212,11 +207,9 @@ export function RuntimePreview({
                 )}
               </Label>
               <Input
-                type={
-                  parameter.parameterDataType === "Number" ? "number" : "text"
-                }
+                type={parameter.dataType === "Number" ? "number" : "text"}
                 value={
-                  parameter.parameterDataType == "Number"
+                  parameter.dataType == "Number"
                     ? (value as number)
                     : (value as string)
                 }
@@ -253,11 +246,9 @@ export function RuntimePreview({
               </Badge>
             </Label>
             <Input
-              type={
-                parameter.parameterDataType === "Number" ? "number" : "text"
-              }
+              type={parameter.dataType === "Number" ? "number" : "text"}
               value={
-                parameter.parameterDataType == "Number"
+                parameter.dataType == "Number"
                   ? (value as number)
                   : (value as string)
               }

@@ -35,14 +35,16 @@ export default function ToolEditor({ tool: toolToEdit }: ToolEditorProps) {
     toolBuilderSelectors.getGlobalParameters(state)
   );
   const currentParameters = useStore(toolBuilderStore, (state) =>
-    selectedCommand?.id
-      ? toolBuilderSelectors.getParametersForCommand(state, selectedCommand.id)
+    selectedCommand?.name
+      ? toolBuilderSelectors.getParametersForCommand(
+          state,
+          selectedCommand.name
+        )
       : []
   );
 
   useEffect(() => {
     toolBuilderActions.initializeTool(toolToEdit);
-    console.log("Tool editor initialized with:", toolToEdit);
   }, [toolToEdit]);
 
   const selectedParam = [...globalParameters, ...currentParameters].find(
