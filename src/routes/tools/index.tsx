@@ -1,4 +1,4 @@
-import React, { Suspense, useCallback, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { SearchIcon } from "lucide-react";
@@ -48,17 +48,68 @@ const getToolsList = createServerFn({
   });
 });
 
+function loadLocalTools(): Tool[] {
+  const localTools: Tool[] = [];
+  if (typeof window !== "undefined") {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith("tool-")) {
+        try {
+          const tool = JSON.parse(localStorage.getItem(key)!);
+          if (tool && tool.name && tool.displayName) {
+            localTools.push(tool);
+          }
+        } catch {}
+      }
+    }
+  }
+  return localTools;
+}
+
+function mergeTools(serverTools: Tool[], localTools: Tool[]): Tool[] {
+  const serverToolNames = new Set(serverTools.map((t) => t.name));
+  return [
+    ...serverTools,
+    ...localTools.filter((t) => !serverToolNames.has(t.name)),
+  ];
+}
+
 export const Route = createFileRoute("/tools/")({
   component: RouteComponent,
+  ssr: false,
   loader: async ({ context: { queryClient } }) => {
-    queryClient.prefetchQuery(toolsQueryOptions());
+    const serverTools = await queryClient.fetchQuery(toolsQueryOptions());
+    const localTools = loadLocalTools();
+    const mergedTools = mergeTools(serverTools as Tool[], localTools);
+    return { tools: mergedTools };
   },
 });
 
 function RouteComponent() {
-  const navigation = useNavigate();
+  const navigation = useNavigate({ from: "/tools" });
+  const loaderData = Route.useLoaderData();
+  const [tools, setTools] = useState<Tool[]>(loaderData.tools);
+  const [serverToolNames, setServerToolNames] = useState<Set<string>>(
+    new Set((loaderData.tools || []).map((t: any) => t.name))
+  );
+  console.log("Loader data tools:", loaderData.tools);
+
+  // On client, keep tools in sync with localStorage
+  useEffect(() => {
+    const localTools = loadLocalTools();
+    const serverToolNamesSet = new Set(
+      (loaderData.tools || []).map((t: any) => t.name)
+    );
+    setServerToolNames(serverToolNamesSet);
+    const mergedTools = mergeTools(loaderData.tools || [], localTools);
+    setTools(mergedTools);
+  }, [loaderData.tools]);
+
   const handleNavigation = (importedTool: Tool) => {
-    localStorage.setItem(importedTool.name, JSON.stringify(importedTool));
+    localStorage.setItem(
+      `tool-${importedTool.name}`,
+      JSON.stringify(importedTool)
+    );
     navigation({
       to: "/tools/$toolName",
       params: { toolName: importedTool.name },
@@ -99,7 +150,7 @@ function RouteComponent() {
                 </>
               }
             >
-              <ListComponent />
+              <ListComponent tools={tools} serverToolNames={serverToolNames} />
             </Suspense>
             <ScrollBar orientation="vertical" />
           </div>
@@ -109,19 +160,28 @@ function RouteComponent() {
   );
 }
 
-function ListComponent() {
-  const { data: tools } = useSuspenseQuery(toolsQueryOptions());
+function ListComponent({
+  tools,
+  serverToolNames,
+}: {
+  tools: Tool[];
+  serverToolNames: Set<string>;
+}) {
   return (
     <React.Fragment>
-      {tools.map((tool, index) => (
-        <Link
-          to="/tools/$toolName"
-          params={{ toolName: tool.name! }}
-          key={index}
-        >
-          <ToolCard tool={tool} />
-        </Link>
-      ))}
+      {tools.map((tool: Tool, index: number) => {
+        const isLocal = !serverToolNames.has(tool.name!);
+        return (
+          <Link
+            to="/tools/$toolName"
+            params={{ toolName: tool.name! }}
+            key={index}
+            {...(isLocal ? { search: { newTool: tool.name } } : {})}
+          >
+            <ToolCard tool={tool} />
+          </Link>
+        );
+      })}
     </React.Fragment>
   );
 }

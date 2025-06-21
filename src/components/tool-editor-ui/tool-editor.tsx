@@ -15,6 +15,7 @@ import {
   toolBuilderSelectors,
   toolBuilderStore,
 } from "@/components/tool-editor-ui/tool-editor.store";
+import { toast } from "sonner";
 
 interface ToolEditorProps {
   tool: Tool;
@@ -84,7 +85,10 @@ export default function ToolEditor({
                 <Button
                   variant="default"
                   size="sm"
-                  onClick={() => onSave(toolBuilderStore.state.tool)}
+                  onClick={() => {
+                    onSave(toolBuilderStore.state.tool);
+                    toast("Tool saved successfully!");
+                  }}
                 >
                   <SaveIcon className="h-4 w-4 mr-2" />
                   Save

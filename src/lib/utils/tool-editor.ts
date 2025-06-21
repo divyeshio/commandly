@@ -10,20 +10,16 @@ export const buildCommandHierarchy = (commands: Command[]): Command[] => {
   const commandMap = new Map<string, Command>();
   const rootCommands: Command[] = [];
 
-  // First pass: create map of all commands with empty subcommands
   commands.forEach((cmd) => {
     commandMap.set(cmd.name, { ...cmd, subcommands: [] });
   });
 
-  // Second pass: build hierarchy
   commands.forEach((cmd) => {
     const command = commandMap.get(cmd.name)!;
 
     if (!cmd.parentCommand) {
-      // This is a root command
       rootCommands.push(command);
     } else {
-      // This is a subcommand
       const parent = commandMap.get(cmd.parentCommand);
       if (parent) {
         parent.subcommands.push(command);
@@ -31,7 +27,6 @@ export const buildCommandHierarchy = (commands: Command[]): Command[] => {
     }
   });
 
-  // Sort commands and subcommands recursively
   const sortCommands = (commands: Command[]): Command[] => {
     return commands
       .sort((a, b) => a.sortOrder - b.sortOrder)
@@ -70,12 +65,10 @@ export const getCommandPath = (command: Command, tool: Tool): string => {
 
   if (!path) return command.name;
 
-  // Handle root command display
   if (command.name === tool.name && command.isDefault) {
     return tool.name;
   }
 
-  // Replace 'root' with tool name if root is default
   const rootCommand = tool.commands.find((c) => c.name === tool.name);
   if (rootCommand?.isDefault && path[0] === tool.name) {
     path[0] = tool.name;
@@ -103,11 +96,9 @@ export const getAllSubcommands = (
   return result;
 };
 
-// Export the tool in flat JSON structure (matches database schema)
 export const exportToStructuredJSON = (tool: Tool) => {
   const flattenCommand = (cmd: Command) => {
     const flatCmd = { ...cmd };
-    // Remove the subcommands property to flatten the structure
     delete (flatCmd as { subcommands?: Command[] }).subcommands;
     return flatCmd;
   };
@@ -218,8 +209,8 @@ export const defaultTool = (toolName?: string, displayName?: string): Tool => {
       },
     ],
     exclusionGroups: [],
-    supportedInput: ["StandardInput"],
-    supportedOutput: ["StandardOutput"],
+    supportedInput: [],
+    supportedOutput: [],
   };
 };
 
@@ -352,7 +343,7 @@ export const createNewParameter = (
 
 export const getSavedCommandsFromStorage = (toolId: string): SavedCommand[] => {
   try {
-    const saved = localStorage.getItem(toolId);
+    const saved = localStorage.getItem(`saved-${toolId}`);
     return saved ? JSON.parse(saved) : [];
   } catch {
     return [];

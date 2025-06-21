@@ -1,5 +1,5 @@
 import ToolEditor from "@/components/tool-editor-ui/tool-editor";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import path from "path";
 import { promises as fs } from "fs";
@@ -7,6 +7,7 @@ import { Tool, ToolSchema } from "@/lib/types/tool-editor";
 import { defaultTool } from "@/lib/utils/tool-editor";
 import { zodValidator } from "@tanstack/zod-adapter";
 import z from "zod/v4";
+import { useEffect } from "react";
 
 const getToolDetails = createServerFn()
   .validator((data: string) => data)
@@ -31,8 +32,13 @@ export const Route = createFileRoute("/tools/$toolName")({
     newTool,
   }),
   loader: async ({ params: { toolName }, deps: { newTool } }) => {
+    // check if executed not in browser context
+    if (typeof window === "undefined") {
+      return null;
+    }
+
     if (!!newTool) {
-      const newToolData = localStorage.getItem(newTool);
+      const newToolData = localStorage.getItem(`tool-${newTool}`);
       if (newToolData) {
         const validatedTool = zodValidator(ToolSchema).parse(
           JSON.parse(newToolData)
@@ -59,11 +65,17 @@ export const Route = createFileRoute("/tools/$toolName")({
 function RouteComponent() {
   const tool = Route.useLoaderData();
 
+  const router = useRouter();
+  useEffect(() => {
+    router.invalidate({ sync: true });
+  }, []);
+  if (!tool) return <div>Tool not found.</div>;
+
   return (
     <ToolEditor
-      tool={tool}
+      tool={tool!}
       onSave={(tool) => {
-        localStorage.setItem(tool.name, JSON.stringify(tool));
+        localStorage.setItem(`tool-${tool.name}`, JSON.stringify(tool));
       }}
     />
   );

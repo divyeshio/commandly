@@ -248,7 +248,6 @@ export const toolBuilderActions = {
   addSavedCommand(command: string) {
     const toolId =
       toolBuilderStore.state.tool.id || toolBuilderStore.state.tool.name;
-
     const existingCommands = getSavedCommandsFromStorage(toolId);
     if (existingCommands.some((cmd) => cmd.command === command)) {
       toast.error("Command already exists", {
@@ -261,7 +260,7 @@ export const toolBuilderActions = {
       command,
     };
 
-    addSavedCommandToStorage(toolId, newSavedCommand);
+    addSavedCommandToStorage(`saved-${toolId}`, newSavedCommand);
 
     toast("Command Saved", {
       description: "Command has been saved successfully.",
@@ -271,7 +270,7 @@ export const toolBuilderActions = {
   removeSavedCommand(commandId: string) {
     toolBuilderStore.setState((state) => {
       const toolId = state.tool.id || state.tool.name;
-      removeSavedCommandFromStorage(toolId, commandId);
+      removeSavedCommandFromStorage(`saved-${toolId}`, commandId);
       return { ...state };
     });
 

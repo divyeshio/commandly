@@ -8,7 +8,7 @@ export const CommandSchema = z.object({
   description: z.string(),
   isDefault: z.boolean(),
   sortOrder: z.number(),
-  subcommands: z.lazy(() => z.array(CommandSchema)),
+  subcommands: z.lazy(() => z.array(CommandSchema).optional()),
 });
 export type Command = z.infer<typeof CommandSchema>;
 
@@ -51,7 +51,7 @@ export type ParameterValue = string | number | boolean;
 export type ParameterDependency = z.infer<typeof ParameterDependencySchema>;
 
 export const ParameterMetadataSchema = z.object({
-  tags: z.array(z.string()),
+  tags: z.array(z.string()).optional(),
 });
 export type ParameterMetadata = z.infer<typeof ParameterMetadataSchema>;
 
@@ -74,8 +74,8 @@ export const ParameterSchema = z.object({
   arraySeparator: z.string().optional(),
   keyValueSeparator: z.string().optional(),
   enumValues: z.array(ParameterEnumValueSchema),
-  validations: z.array(ParameterValidationSchema),
-  dependencies: z.array(ParameterDependencySchema),
+  validations: z.array(ParameterValidationSchema).optional(),
+  dependencies: z.array(ParameterDependencySchema).optional(),
 });
 export type Parameter = z.infer<typeof ParameterSchema>;
 
