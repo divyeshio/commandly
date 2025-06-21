@@ -8,7 +8,11 @@ export const ServerRoute = createServerFileRoute(
   "/api/tools/$toolName"
 ).methods({
   GET: async ({ params }) => {
-    const collectionDir = path.join(process.cwd(), "collection");
+    const collectionDir = path.join(
+      process.cwd(),
+      "public",
+      "tools-collection"
+    );
     const toolFilePath = path.join(collectionDir, `${params?.toolName}.json`);
     const file = await fs.readFile(toolFilePath, "utf-8");
     return json(JSON.parse(file) as Tool);

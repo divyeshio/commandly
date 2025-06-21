@@ -42,7 +42,7 @@ export const toolsQueryOptions = () =>
 const getToolsList = createServerFn({
   method: "GET",
 }).handler(async () => {
-  const collectionDir = path.join(process.cwd(), "collection");
+  const collectionDir = path.join(process.cwd(), "public", "tools-collection");
   const files = await fs.readdir(collectionDir);
   return files.map((file) => {
     return {
