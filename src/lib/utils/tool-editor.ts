@@ -334,7 +334,7 @@ export const createNewParameter = (
     id: uuidv7(),
     name: "new-parameter",
     command: isGlobal ? undefined : commandId,
-    description: "New parameter description",
+    description: "",
     parameterType: "Option",
     dataType: "String",
     isRequired: false,

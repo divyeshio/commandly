@@ -48,19 +48,10 @@ import { validateDefaultValue } from "@/lib/utils/tool-editor";
 import { v7 as uuidv7 } from "uuid";
 import { TagsComponent } from "@/components/tags";
 
-interface ParameterDetailsDialogProps {
-  isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
-}
-
-export function ParameterDetailsDialog({
-  isOpen,
-  onOpenChange,
-}: ParameterDetailsDialogProps) {
-  const selectedParameter = useStore(toolBuilderStore, (state) =>
-    state.selectedParameterId
-      ? state.tool.parameters.find((p) => p.id === state.selectedParameterId)
-      : null
+export function ParameterDetailsDialog() {
+  const selectedParameter = useStore(
+    toolBuilderStore,
+    (state) => state.selectedParameter
   );
 
   const commandId = useStore(
@@ -100,19 +91,18 @@ export function ParameterDetailsDialog({
     }
   };
 
+  const isOpen = !!selectedParameter;
+
   const handleClose = () => {
-    if (hasChanges && parameter) {
-      toolBuilderActions.updateParameter(parameter);
-    }
+    toolBuilderActions.setSelectedParameter(null);
+    setParameter(null);
     setHasChanges(false);
-    onOpenChange(false);
   };
 
   const handleSave = () => {
     if (parameter) {
       toolBuilderActions.updateParameter(parameter);
       setHasChanges(false);
-      onOpenChange(false);
     }
   };
 
@@ -191,8 +181,32 @@ export function ParameterDetailsDialog({
 
   const validation = validateDefaultValue(parameter);
 
+  const canSaveChanges = () => {
+    if (!hasChanges) return false;
+
+    if (parameter.defaultValue && !validation.isValid) {
+      return false;
+    }
+
+    if (!parameter.name.trim() || !parameter.longFlag.trim()) {
+      return false;
+    }
+    if (
+      availableParameters.some(
+        (p) =>
+          p.name.trim() === parameter.name.trim() ||
+          parameter.longFlag == p.longFlag ||
+          parameter.shortFlag == p.shortFlag
+      )
+    ) {
+      return false;
+    }
+
+    return true;
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+    <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
@@ -210,7 +224,9 @@ export function ParameterDetailsDialog({
           {/* Basic Info */}
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-2">
-              <Label>Parameter Name</Label>
+              <Label>
+                Parameter Name<span className="text-destructive ml-1">*</span>
+              </Label>
               <Input
                 value={parameter.name}
                 onChange={(e) => updateParameter({ name: e.target.value })}
@@ -282,7 +298,10 @@ export function ParameterDetailsDialog({
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <Label>Long Flag (include prefix)</Label>
+                <Label>
+                  Long Flag (include prefix){" "}
+                  <span className="text-destructive ml-1">*</span>
+                </Label>
                 <Input
                   value={parameter.longFlag}
                   onChange={(e) =>
@@ -630,7 +649,7 @@ export function ParameterDetailsDialog({
           <Button variant="outline" onClick={handleClose}>
             Cancel
           </Button>
-          <Button onClick={handleSave} disabled={!hasChanges}>
+          <Button onClick={handleSave} disabled={!canSaveChanges()}>
             Save Changes
           </Button>
         </DialogFooter>

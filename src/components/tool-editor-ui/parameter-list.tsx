@@ -18,7 +18,10 @@ import {
   toolBuilderActions,
   toolBuilderSelectors,
 } from "@/components/tool-editor-ui/tool-editor.store";
-import { validateDefaultValue } from "@/lib/utils/tool-editor";
+import {
+  createNewParameter,
+  validateDefaultValue,
+} from "@/lib/utils/tool-editor";
 
 interface ParameterListProps {
   title: string;
@@ -30,9 +33,9 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
     toolBuilderStore,
     (state) => state.selectedCommand
   );
-  const selectedParameterId = useStore(
+  const selectedParameter = useStore(
     toolBuilderStore,
-    (state) => state.selectedParameterId
+    (state) => state.selectedParameter
   );
   const globalParameters = useStore(toolBuilderStore, (state) =>
     toolBuilderSelectors.getGlobalParameters(state)
@@ -85,7 +88,11 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
           {title} ({parameters.length})
         </h3>
         <Button
-          onClick={() => toolBuilderActions.addParameter(isGlobal)}
+          onClick={() =>
+            toolBuilderActions.setSelectedParameter(
+              createNewParameter(isGlobal)
+            )
+          }
           size="sm"
         >
           <PlusIcon className="h-4 w-4" />
@@ -95,7 +102,7 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
       <div className="space-y-2">
         {parameters.map((parameter) => {
           const validation = validateDefaultValue(parameter);
-          const isSelected = selectedParameterId === parameter.id;
+          const isSelected = selectedParameter?.id === parameter.id;
           const paramGroups = getParameterExclusionGroups(parameter.id);
 
           return (
@@ -104,9 +111,7 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
               className={`p-3 border rounded cursor-pointer hover:bg-muted/50 ${
                 isSelected ? "bg-muted border-primary" : ""
               }`}
-              onClick={() =>
-                toolBuilderActions.setSelectedParameterId(parameter.id)
-              }
+              onClick={() => toolBuilderActions.setSelectedParameter(parameter)}
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">

@@ -22,7 +22,7 @@ import { v7 as uuidv7 } from "uuid";
 interface ToolBuilderState {
   tool: Tool;
   selectedCommand: Command;
-  selectedParameterId: string;
+  selectedParameter: Parameter | null;
   editingCommand: Command | null;
   parameterValues: Record<string, ParameterValue>;
   dialogs: {
@@ -35,7 +35,7 @@ interface ToolBuilderState {
 export const toolBuilderStore = new Store<ToolBuilderState>({
   tool: defaultTool(),
   selectedCommand: {} as Command,
-  selectedParameterId: "",
+  selectedParameter: null,
   editingCommand: null,
   parameterValues: {},
   dialogs: {
@@ -233,8 +233,8 @@ export const toolBuilderActions = {
         },
       };
 
-      if (state.selectedParameterId === parameterId) {
-        newState.selectedParameterId = "";
+      if (state.selectedParameter?.id === parameterId) {
+        newState.selectedParameter = null;
       }
 
       return newState;
@@ -371,10 +371,10 @@ export const toolBuilderActions = {
     }));
   },
 
-  setSelectedParameterId(id: string) {
+  setSelectedParameter(parameter: Parameter | null) {
     toolBuilderStore.setState((state) => ({
       ...state,
-      selectedParameterId: id,
+      selectedParameter: parameter,
     }));
   },
 

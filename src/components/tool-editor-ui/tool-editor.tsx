@@ -28,7 +28,7 @@ export default function ToolEditor({ tool: toolToEdit }: ToolEditorProps) {
   );
   const selectedParameter = useStore(
     toolBuilderStore,
-    (state) => state.selectedParameterId
+    (state) => state.selectedParameter
   );
 
   const globalParameters = useStore(toolBuilderStore, (state) =>
@@ -48,7 +48,7 @@ export default function ToolEditor({ tool: toolToEdit }: ToolEditorProps) {
   }, [toolToEdit]);
 
   const selectedParam = [...globalParameters, ...currentParameters].find(
-    (p) => p.id === selectedParameter
+    (p) => p.id === selectedParameter?.id
   );
 
   return (
@@ -115,17 +115,7 @@ export default function ToolEditor({ tool: toolToEdit }: ToolEditorProps) {
         </div>
       </div>
 
-      {selectedParam && (
-        <ParameterDetailsDialog
-          isOpen={!!selectedParameter}
-          onOpenChange={(open) => {
-            if (!open) {
-              toolBuilderActions.setSelectedParameterId("");
-            }
-          }}
-        />
-      )}
-
+      <ParameterDetailsDialog />
       <ToolDetailsDialog />
       <SavedCommandsDialog />
       <ExclusionGroupsDialog />

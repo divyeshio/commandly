@@ -21,6 +21,7 @@ import { convertToNestedStructure } from "@/lib/utils/tool-editor-nested";
 import { Tool } from "@/lib/types/tool-editor";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import { toast } from "sonner";
+import { useQueryState } from "nuqs";
 
 const jsonOptions = [
   { value: "nested", label: "Nested" },
@@ -34,7 +35,9 @@ interface JsonTypeComponentProps {
 export function JsonOutput({ tool }: JsonTypeComponentProps) {
   const [open, setOpen] = useState(false);
   const [jsonString, setJsonString] = useState<string>();
-  const [jsonType, setJsonType] = useState("nested");
+  const [jsonType, setJsonType] = useQueryState("output", {
+    defaultValue: "flat",
+  });
   useEffect(() => {
     const config =
       jsonType === "flat"
