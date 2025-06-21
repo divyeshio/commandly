@@ -27,8 +27,8 @@ import {
   ParameterEnumValue,
   ParameterType,
   ParameterDataType,
-  DependencyType,
-  ValidationType,
+  ParameterDependencyType as DependencyType,
+  ParameterValidationType as ValidationType,
 } from "@/lib/types/tool-editor";
 import {
   FileTextIcon,
@@ -101,8 +101,13 @@ export function ParameterDetailsDialog() {
 
   const handleSave = () => {
     if (parameter) {
-      toolBuilderActions.updateParameter(parameter);
+      if (availableParameters.some((p) => p.id === parameter.id)) {
+        toolBuilderActions.updateParameter(parameter);
+      } else {
+        toolBuilderActions.addParameter(parameter);
+      }
       setHasChanges(false);
+      handleClose();
     }
   };
 
@@ -131,7 +136,7 @@ export function ParameterDetailsDialog() {
     updates: Partial<ParameterDependency>
   ) => {
     if (!parameter) return;
-    const updatedDependencies = parameter.dependencies.map((dep) =>
+    const updatedDependencies = parameter.dependencies?.map((dep) =>
       dep.id === dependencyId ? { ...dep, ...updates } : dep
     );
     updateParameter({ dependencies: updatedDependencies });
@@ -139,7 +144,7 @@ export function ParameterDetailsDialog() {
 
   const removeDependency = (dependencyId: string) => {
     if (!parameter) return;
-    const updatedDependencies = parameter.dependencies.filter(
+    const updatedDependencies = parameter.dependencies?.filter(
       (dep) => dep.id !== dependencyId
     );
     updateParameter({ dependencies: updatedDependencies });
@@ -183,7 +188,6 @@ export function ParameterDetailsDialog() {
 
   const canSaveChanges = () => {
     if (!hasChanges) return false;
-
     if (parameter.defaultValue && !validation.isValid) {
       return false;
     }
@@ -196,7 +200,7 @@ export function ParameterDetailsDialog() {
         (p) =>
           p.name.trim() === parameter.name.trim() ||
           parameter.longFlag == p.longFlag ||
-          parameter.shortFlag == p.shortFlag
+          (parameter.shortFlag && parameter.shortFlag == p.shortFlag)
       )
     ) {
       return false;
@@ -502,7 +506,7 @@ export function ParameterDetailsDialog() {
                     <Select
                       value={validation.validationType}
                       onValueChange={(value: ValidationType) => {
-                        const updatedValidations = parameter.validations.map(
+                        const updatedValidations = parameter.validations?.map(
                           (v) =>
                             v.id === validation.id
                               ? { ...v, validationType: value }
@@ -527,7 +531,7 @@ export function ParameterDetailsDialog() {
                     <Input
                       value={validation.validationValue}
                       onChange={(e) => {
-                        const updatedValidations = parameter.validations.map(
+                        const updatedValidations = parameter.validations?.map(
                           (v) =>
                             v.id === validation.id
                               ? { ...v, validationValue: e.target.value }
@@ -544,9 +548,10 @@ export function ParameterDetailsDialog() {
                       size="sm"
                       variant="ghost"
                       onClick={() => {
-                        const updatedValidations = parameter.validations.filter(
-                          (v) => v.id !== validation.id
-                        );
+                        const updatedValidations =
+                          parameter.validations?.filter(
+                            (v) => v.id !== validation.id
+                          );
                         updateParameter({
                           validations: updatedValidations,
                         });

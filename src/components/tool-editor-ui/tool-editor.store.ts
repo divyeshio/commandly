@@ -163,24 +163,19 @@ export const toolBuilderActions = {
     }));
   },
 
-  addParameter(isGlobal = false) {
+  addParameter(newParameter: Parameter) {
     toolBuilderStore.setState((state) => {
-      const newParameter = createNewParameter(
-        isGlobal,
-        !isGlobal ? state.selectedCommand?.name : undefined
-      );
       return {
         ...state,
         tool: {
           ...state.tool,
           parameters: [...state.tool.parameters, newParameter],
         },
-        selectedParameterId: newParameter.id,
       };
     });
 
     toast("Parameter Added", {
-      description: `New ${isGlobal ? "global " : ""}parameter has been created successfully.`,
+      description: `New ${newParameter.isGlobal ? "global " : ""}parameter has been created successfully.`,
     });
   },
 

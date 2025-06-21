@@ -1,7 +1,5 @@
 import { z } from "zod/v4";
 
-// Zod schemas replacing TypeScript interfaces and types
-
 export const CommandSchema = z.object({
   parentCommand: z.string().optional(),
   name: z.string(),
@@ -23,26 +21,37 @@ export const ParameterEnumValueSchema = z.object({
 });
 export type ParameterEnumValue = z.infer<typeof ParameterEnumValueSchema>;
 
+export const ParameterValidationTypeSchema = z.enum([
+  "min_length",
+  "max_length",
+  "min_value",
+  "max_value",
+  "regex",
+]);
+export type ParameterValidationType = z.infer<
+  typeof ParameterValidationTypeSchema
+>;
+
 export const ParameterValidationSchema = z.object({
   id: z.string(),
   parameterId: z.string(),
-  validationType: z.enum([
-    "min_length",
-    "max_length",
-    "min_value",
-    "max_value",
-    "regex",
-  ]),
+  validationType: ParameterValidationTypeSchema,
   validationValue: z.string(),
   errorMessage: z.string(),
 });
 export type ParameterValidation = z.infer<typeof ParameterValidationSchema>;
-
+export const ParameterDependencyTypeSchema = z.enum([
+  "requires",
+  "conflicts_with",
+]);
+export type ParameterDependencyType = z.infer<
+  typeof ParameterDependencyTypeSchema
+>;
 export const ParameterDependencySchema = z.object({
   id: z.string(),
   parameterId: z.string(),
   dependsOnParameterId: z.string(),
-  dependencyType: z.enum(["requires", "conflicts_with"]),
+  dependencyType: ParameterDependencyTypeSchema,
   conditionValue: z.string().optional(),
 });
 
@@ -54,6 +63,16 @@ export const ParameterMetadataSchema = z.object({
   tags: z.array(z.string()).optional(),
 });
 export type ParameterMetadata = z.infer<typeof ParameterMetadataSchema>;
+export const ParameterTypeSchema = z.enum(["Flag", "Option", "Argument"]);
+export type ParameterType = z.infer<typeof ParameterTypeSchema>;
+
+export const ParameterDataTypeSchema = z.enum([
+  "String",
+  "Number",
+  "Boolean",
+  "Enum",
+]);
+export type ParameterDataType = z.infer<typeof ParameterDataTypeSchema>;
 
 export const ParameterSchema = z.object({
   id: z.string(),
@@ -61,8 +80,8 @@ export const ParameterSchema = z.object({
   command: z.string().optional(),
   description: z.string(),
   metadata: ParameterMetadataSchema.optional(),
-  parameterType: z.enum(["Flag", "Option", "Argument"]),
-  dataType: z.enum(["String", "Number", "Boolean", "Enum"]),
+  parameterType: ParameterTypeSchema,
+  dataType: ParameterDataTypeSchema,
   isRequired: z.boolean(),
   isRepeatable: z.boolean(),
   isGlobal: z.boolean(),

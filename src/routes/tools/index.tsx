@@ -48,8 +48,8 @@ const getToolsList = createServerFn({
   });
 });
 
-function loadLocalTools(): Tool[] {
-  const localTools: Tool[] = [];
+function loadLocalTools(): Partial<Tool>[] {
+  const localTools: Partial<Tool>[] = [];
   if (typeof window !== "undefined") {
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
@@ -66,7 +66,10 @@ function loadLocalTools(): Tool[] {
   return localTools;
 }
 
-function mergeTools(serverTools: Tool[], localTools: Tool[]): Tool[] {
+function mergeTools(
+  serverTools: Partial<Tool>[],
+  localTools: Partial<Tool>[]
+): Partial<Tool>[] {
   const serverToolNames = new Set(serverTools.map((t) => t.name));
   return [
     ...serverTools,
@@ -80,30 +83,29 @@ export const Route = createFileRoute("/tools/")({
   loader: async ({ context: { queryClient } }) => {
     const serverTools = await queryClient.fetchQuery(toolsQueryOptions());
     const localTools = loadLocalTools();
-    const mergedTools = mergeTools(serverTools as Tool[], localTools);
-    return { tools: mergedTools };
+    return { localTools, serverTools };
   },
 });
 
 function RouteComponent() {
   const navigation = useNavigate({ from: "/tools" });
   const loaderData = Route.useLoaderData();
-  const [tools, setTools] = useState<Tool[]>(loaderData.tools);
+  const [tools, setTools] = useState<Partial<Tool>[]>(loaderData.localTools);
   const [serverToolNames, setServerToolNames] = useState<Set<string>>(
-    new Set((loaderData.tools || []).map((t: any) => t.name))
+    new Set((loaderData.serverTools || []).map((t: any) => t.name))
   );
-  console.log("Loader data tools:", loaderData.tools);
+  console.log("Loader data tools:", loaderData.serverTools);
 
   // On client, keep tools in sync with localStorage
   useEffect(() => {
     const localTools = loadLocalTools();
     const serverToolNamesSet = new Set(
-      (loaderData.tools || []).map((t: any) => t.name)
+      (loaderData.serverTools || []).map((t: any) => t.name)
     );
     setServerToolNames(serverToolNamesSet);
-    const mergedTools = mergeTools(loaderData.tools || [], localTools);
+    const mergedTools = mergeTools(loaderData.serverTools || [], localTools);
     setTools(mergedTools);
-  }, [loaderData.tools]);
+  }, [loaderData.serverTools]);
 
   const handleNavigation = (importedTool: Tool) => {
     localStorage.setItem(
@@ -164,12 +166,12 @@ function ListComponent({
   tools,
   serverToolNames,
 }: {
-  tools: Tool[];
+  tools: Partial<Tool>[];
   serverToolNames: Set<string>;
 }) {
   return (
     <React.Fragment>
-      {tools.map((tool: Tool, index: number) => {
+      {tools.map((tool: Partial<Tool>, index: number) => {
         const isLocal = !serverToolNames.has(tool.name!);
         return (
           <Link
