@@ -1,16 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { InputRoot, InputIcon, Input } from "@/components/ui/input";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import {
-  queryOptions,
-  useMutation,
-  useQuery,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
+import React, { Suspense, useEffect, useState } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { SearchIcon } from "lucide-react";
 import { ToolCard } from "@/components/tool-card";
 import { Button } from "@/components/ui/button";
-import { Suspense, useCallback } from "react";
 import { SkeletonCard } from "@/components/square-card-skeleton";
 import {
   Dialog,
@@ -21,16 +14,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Input, InputIcon, InputRoot } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useAppForm } from "@/components/ui/tanstack-form";
-import { createNewTool, fetchTools, type NewTool } from "@/lib/api/tools.api";
-import { ImportDialog } from "@/components/tool-editor-ui/dialogs/import-dialog";
+import { Label } from "@/components/ui/label";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { UploadIcon } from "lucide-react";
-import type { Tool } from "@/lib/types/tool-editor";
+import type { NewTool, Tool } from "@/lib/types/tool-editor";
 import { createServerFn } from "@tanstack/react-start";
 import { promises as fs } from "fs";
 import path from "path";
-import React from "react";
+import { ImportDialog } from "@/components/tool-editor-ui/dialogs/import-dialog";
+import { defaultTool } from "@/lib/utils/tool-editor";
 
 export const toolsQueryOptions = () =>
   queryOptions({
@@ -42,30 +36,87 @@ export const toolsQueryOptions = () =>
 const getToolsList = createServerFn({
   method: "GET",
 }).handler(async () => {
-  const collectionDir = path.join(process.cwd(), "collection");
+  const collectionDir = path.join(process.cwd(), "tools-collection");
   const files = await fs.readdir(collectionDir);
   return files.map((file) => {
     return {
       name: file.replace(/\.json$/, ""),
       displayName: file.replace(/\.json$/, ""),
-      description: `Tool for ${file}`,
-      version: "0.1.0",
-      supportedInput: ["StandardInput"],
-      supportedOutput: ["StandardOutput"],
-    } as Tool;
+      supportedInput: [],
+      supportedOutput: [],
+    } as Partial<Tool>;
   });
 });
 
+function loadLocalTools(): Partial<Tool>[] {
+  const localTools: Partial<Tool>[] = [];
+  if (typeof window !== "undefined") {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith("tool-")) {
+        try {
+          const tool = JSON.parse(localStorage.getItem(key)!);
+          if (tool && tool.name && tool.displayName) {
+            localTools.push(tool);
+          }
+        } catch {}
+      }
+    }
+  }
+  return localTools;
+}
+
+function mergeTools(
+  serverTools: Partial<Tool>[],
+  localTools: Partial<Tool>[]
+): Partial<Tool>[] {
+  const serverToolNames = new Set(serverTools.map((t) => t.name));
+  return [
+    ...serverTools,
+    ...localTools.filter((t) => !serverToolNames.has(t.name)),
+  ];
+}
+
 export const Route = createFileRoute("/tools/")({
   component: RouteComponent,
+  ssr: false,
   loader: async ({ context: { queryClient } }) => {
-    queryClient.prefetchQuery(toolsQueryOptions());
+    const serverTools = await queryClient.fetchQuery(toolsQueryOptions());
+    const localTools = loadLocalTools();
+    return { localTools, serverTools };
   },
 });
 
 function RouteComponent() {
-  const handleImportData = (importedTool: Tool) => {
-    console.log("Imported tool:", importedTool);
+  const navigation = useNavigate({ from: "/tools" });
+  const loaderData = Route.useLoaderData();
+  const [tools, setTools] = useState<Partial<Tool>[]>(loaderData.localTools);
+  const [serverToolNames, setServerToolNames] = useState<Set<string>>(
+    new Set((loaderData.serverTools || []).map((t: any) => t.name))
+  );
+  console.log("Loader data tools:", loaderData.serverTools);
+
+  // On client, keep tools in sync with localStorage
+  useEffect(() => {
+    const localTools = loadLocalTools();
+    const serverToolNamesSet = new Set(
+      (loaderData.serverTools || []).map((t: any) => t.name)
+    );
+    setServerToolNames(serverToolNamesSet);
+    const mergedTools = mergeTools(loaderData.serverTools || [], localTools);
+    setTools(mergedTools);
+  }, [loaderData.serverTools]);
+
+  const handleNavigation = (importedTool: Tool) => {
+    localStorage.setItem(
+      `tool-${importedTool.name}`,
+      JSON.stringify(importedTool)
+    );
+    navigation({
+      to: "/tools/$toolName",
+      params: { toolName: importedTool.name },
+      search: { newTool: importedTool.name },
+    });
   };
 
   return (
@@ -78,14 +129,14 @@ function RouteComponent() {
           <Input placeholder="Search tools..." />
         </InputRoot>
         <div className="flex gap-3 items-center">
-          <ImportDialog onImportData={handleImportData}>
+          <ImportDialog onImportData={handleNavigation}>
             <Button variant="outline">
               <UploadIcon className="h-4 w-4 mr-2" />
               Import / AI
             </Button>
           </ImportDialog>
-          <NewToolDialog>
-            <Button variant="default">New Tool</Button>{" "}
+          <NewToolDialog handleNavigation={handleNavigation}>
+            <Button variant="default">New Tool</Button>
           </NewToolDialog>
         </div>
       </div>
@@ -101,7 +152,7 @@ function RouteComponent() {
                 </>
               }
             >
-              <ListComponent />
+              <ListComponent tools={tools} serverToolNames={serverToolNames} />
             </Suspense>
             <ScrollBar orientation="vertical" />
           </div>
@@ -111,56 +162,56 @@ function RouteComponent() {
   );
 }
 
-function ListComponent() {
-  const { data: tools } = useSuspenseQuery(toolsQueryOptions());
+function ListComponent({
+  tools,
+  serverToolNames,
+}: {
+  tools: Partial<Tool>[];
+  serverToolNames: Set<string>;
+}) {
   return (
     <React.Fragment>
-      {tools.map((tool, index) => (
-        <Link
-          to="/tools/$toolName"
-          params={{ toolName: tool.name }}
-          key={index}
-        >
-          <ToolCard tool={tool} />
-        </Link>
-      ))}
+      {tools.map((tool: Partial<Tool>, index: number) => {
+        const isLocal = !serverToolNames.has(tool.name!);
+        return (
+          <Link
+            to="/tools/$toolName"
+            params={{ toolName: tool.name! }}
+            key={index}
+            {...(isLocal ? { search: { newTool: tool.name } } : {})}
+          >
+            <ToolCard tool={tool} />
+          </Link>
+        );
+      })}
     </React.Fragment>
   );
 }
 
-function NewToolDialog({ children }: { children: React.ReactNode }) {
-  const form = useAppForm({
-    defaultValues: {
-      name: "",
-      displayName: "",
-      description: "",
-      version: "",
-    },
-    onSubmit: async ({ value }) => {
-      const createdTool = await mutation.mutateAsync(value);
-      console.log(createdTool);
-    },
+function NewToolDialog({
+  handleNavigation,
+  children,
+}: {
+  handleNavigation: (tool: Tool) => void;
+  children: React.ReactNode;
+}) {
+  const [open, setOpen] = useState(false);
+  const [newTool, setFormData] = useState<NewTool>({
+    name: "",
+    displayName: "",
+    description: "",
+    version: "",
   });
 
-  const mutation = useMutation({
-    mutationFn: async (newTool: NewTool) => {
-      return createNewTool(newTool);
-    },
-  });
-
-  const handleSubmit = useCallback(
-    (e: React.FormEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      form.handleSubmit();
-    },
-    [form]
-  );
-
-  const query = useQuery(toolsQueryOptions());
+  const handleInputChange =
+    (name: keyof typeof newTool) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const value = e.target.value;
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    };
 
   return (
-    <Dialog onOpenChange={() => form.reset()}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <div>{children}</div>
       </DialogTrigger>
@@ -169,112 +220,64 @@ function NewToolDialog({ children }: { children: React.ReactNode }) {
           <DialogTitle>Add New Tool</DialogTitle>
           <DialogDescription />
         </DialogHeader>
-        <form.AppForm>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <div className="space-y-4 ">
-              <div className="grid grid-cols-2 gap-4">
-                <form.AppField
-                  name="name"
-                  validators={{
-                    onChange: ({ value }) =>
-                      !value
-                        ? "Name is required"
-                        : query.data?.map((t) => t.name).includes(value)
-                          ? "Already exists!"
-                          : undefined,
-                  }}
-                  children={(field) => (
-                    <field.FormItem>
-                      <div className="flex flex-col gap-3">
-                        <field.FormLabel htmlFor="tool-name-full">
-                          Tool Name
-                        </field.FormLabel>
-                        <field.FormControl>
-                          <Input
-                            required
-                            id="tool-name-full"
-                            value={field.state.value}
-                            onBlur={field.handleBlur}
-                            onChange={(e) => field.handleChange(e.target.value)}
-                          />
-                        </field.FormControl>
-                        <field.FormMessage />
-                      </div>
-                    </field.FormItem>
-                  )}
-                />
-                <form.AppField
-                  name="version"
-                  children={(field) => (
-                    <field.FormItem>
-                      <div className="flex flex-col gap-3">
-                        <field.FormLabel htmlFor="tool-version-full">
-                          Version
-                        </field.FormLabel>
-                        <field.FormControl>
-                          <Input
-                            id="tool-version-full"
-                            value={field.state.value}
-                            onChange={(e) => field.handleChange(e.target.value)}
-                          />
-                        </field.FormControl>
-                      </div>
-                    </field.FormItem>
-                  )}
+        <form
+          onSubmit={(e) => e.preventDefault()}
+          className="flex flex-col gap-4"
+        >
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="flex flex-col gap-3">
+                <Label htmlFor="tool-name-full">Tool Name</Label>
+                <Input
+                  required
+                  id="tool-name-full"
+                  value={newTool.name}
+                  onChange={handleInputChange("name")}
                 />
               </div>
-              <form.AppField
-                name="displayName"
-                validators={{
-                  onChange: ({ value }) =>
-                    !value ? "Display Name is required" : undefined,
-                }}
-                children={(field) => (
-                  <field.FormItem>
-                    <div className="flex flex-col gap-3">
-                      <field.FormLabel htmlFor="tool-display-name">
-                        Display Name
-                      </field.FormLabel>
-                      <field.FormControl>
-                        <Input
-                          required
-                          id="tool-display-name"
-                          value={field.state.value}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          onBlur={field.handleBlur}
-                        />
-                      </field.FormControl>
-                      <field.FormMessage />
-                    </div>
-                  </field.FormItem>
-                )}
-              />
-              <form.AppField
-                name="description"
-                children={(field) => (
-                  <field.FormItem>
-                    <div className="flex flex-col gap-3">
-                      <field.FormLabel htmlFor="tool-description">
-                        Description
-                      </field.FormLabel>
-                      <field.FormControl>
-                        <Textarea
-                          id="tool-description"
-                          value={field.state.value}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          rows={3}
-                        />
-                      </field.FormControl>
-                    </div>
-                  </field.FormItem>
-                )}
+              <div className="flex flex-col gap-3">
+                <Label htmlFor="tool-version-full">Version</Label>
+                <Input
+                  id="tool-version-full"
+                  value={newTool.version}
+                  onChange={handleInputChange("version")}
+                />
+              </div>
+            </div>
+            <div className="flex flex-col gap-3">
+              <Label htmlFor="tool-display-name">Display Name</Label>
+              <Input
+                required
+                id="tool-display-name"
+                value={newTool.displayName}
+                onChange={handleInputChange("displayName")}
               />
             </div>
-            <DialogFooter>
-              <Button type="submit">Create</Button>
-            </DialogFooter>
-          </form>
-        </form.AppForm>
+            <div className="flex flex-col gap-3">
+              <Label htmlFor="tool-description">Description</Label>
+              <Textarea
+                id="tool-description"
+                value={newTool.description}
+                onChange={handleInputChange("description")}
+                rows={3}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              type="submit"
+              disabled={!newTool.name || !newTool.displayName}
+              onClick={() =>
+                handleNavigation({
+                  ...defaultTool(newTool.name, newTool.displayName),
+                  ...newTool,
+                })
+              }
+            >
+              Create
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );

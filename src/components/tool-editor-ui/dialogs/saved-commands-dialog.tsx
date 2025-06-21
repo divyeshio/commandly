@@ -60,32 +60,33 @@ export function SavedCommandsDialog() {
           </div>
         ) : (
           <div className="space-y-4 overflow-y-auto pr-4 max-h-[calc(80vh-8rem)]">
-            {savedCommands.map((savedCommand) => (
-              <div
-                key={savedCommand.id}
-                className="p-3 border rounded-lg space-y-3"
-              >
-                <div className="flex items-center gap-2 justify-end">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => copyCommand(savedCommand.command)}
-                  >
-                    <CopyIcon className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => deleteCommand(savedCommand.id)}
-                  >
-                    <Trash2Icon className="h-4 w-4" />
-                  </Button>
+            {savedCommands && savedCommands.length > 0 &&
+              savedCommands.map((savedCommand) => (
+                <div
+                  key={savedCommand.id}
+                  className="p-3 border rounded-lg space-y-3"
+                >
+                  <div className="flex items-center gap-2 justify-end">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => copyCommand(savedCommand.command)}
+                    >
+                      <CopyIcon className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => deleteCommand(savedCommand.id)}
+                    >
+                      <Trash2Icon className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  <pre className="bg-muted p-3 rounded font-mono text-sm">
+                    {savedCommand.command}
+                  </pre>
                 </div>
-                <pre className="bg-muted p-3 rounded font-mono text-sm">
-                  {savedCommand.command}
-                </pre>
-              </div>
-            ))}
+              ))}
           </div>
         )}
 

@@ -11,6 +11,7 @@ export default defineConfig({
       spa: {
         enabled: true,
         prerender: {
+          autoSubfolderIndex: true,
           crawlLinks: true,
         },
       },

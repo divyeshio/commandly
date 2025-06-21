@@ -39,8 +39,8 @@ export function ImportDialog({ onImportData, children }: ImportDialogProps) {
     setIsImporting(true);
     try {
       const importedData = JSON.parse(jsonInput);
-      const a = flattenImportedData(importedData);
-      onImportData(a);
+      const data = flattenImportedData(importedData);
+      onImportData(data);
       setJsonInput("");
       setIsOpen(false);
     } catch (error) {
