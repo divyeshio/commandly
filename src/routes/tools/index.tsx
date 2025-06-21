@@ -23,10 +23,9 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { useAppForm } from "@/components/ui/tanstack-form";
-import { createNewTool, fetchTools, type NewTool } from "@/lib/api/tools.api";
 import { ImportDialog } from "@/components/tool-editor-ui/dialogs/import-dialog";
 import { UploadIcon } from "lucide-react";
-import type { Tool } from "@/lib/types/tool-editor";
+import type { NewTool, Tool } from "@/lib/types/tool-editor";
 import { createServerFn } from "@tanstack/react-start";
 import { promises as fs } from "fs";
 import path from "path";
@@ -42,17 +41,15 @@ export const toolsQueryOptions = () =>
 const getToolsList = createServerFn({
   method: "GET",
 }).handler(async () => {
-  const collectionDir = path.join(process.cwd(), "public", "tools-collection");
+  const collectionDir = path.join(process.cwd(), "tools-collection");
   const files = await fs.readdir(collectionDir);
   return files.map((file) => {
     return {
       name: file.replace(/\.json$/, ""),
       displayName: file.replace(/\.json$/, ""),
-      description: `Tool for ${file}`,
-      version: "0.1.0",
-      supportedInput: ["StandardInput"],
-      supportedOutput: ["StandardOutput"],
-    } as Tool;
+      supportedInput: [],
+      supportedOutput: [],
+    } as Partial<Tool>;
   });
 });
 
@@ -118,7 +115,7 @@ function ListComponent() {
       {tools.map((tool, index) => (
         <Link
           to="/tools/$toolName"
-          params={{ toolName: tool.name }}
+          params={{ toolName: tool.name! }}
           key={index}
         >
           <ToolCard tool={tool} />
@@ -143,9 +140,7 @@ function NewToolDialog({ children }: { children: React.ReactNode }) {
   });
 
   const mutation = useMutation({
-    mutationFn: async (newTool: NewTool) => {
-      return createNewTool(newTool);
-    },
+    mutationFn: async (newTool: NewTool) => {},
   });
 
   const handleSubmit = useCallback(

@@ -8,10 +8,10 @@ export function ToolCard({
   tool,
   isSelected = false,
 }: {
-  tool: Tool;
+  tool: Partial<Tool>;
   isSelected?: boolean;
 }) {
-  const supportedIO = [...tool.supportedInput, ...tool.supportedOutput];
+  const supportedIO = [...tool.supportedInput!, ...tool.supportedOutput!];
 
   return (
     <Card

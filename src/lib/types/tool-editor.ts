@@ -117,3 +117,10 @@ export interface AIParseResponse {
   data?: Tool;
   error?: string;
 }
+
+export interface NewTool {
+  displayName: string;
+  name: string;
+  version?: string;
+  description?: string;
+}
