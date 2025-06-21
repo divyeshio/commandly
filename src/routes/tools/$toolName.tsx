@@ -3,7 +3,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import path from "path";
 import { promises as fs } from "fs";
-import { Tool } from "@/lib/types/tool-editor";
+import { Tool, ToolSchema } from "@/lib/types/tool-editor";
+import { defaultTool } from "@/lib/utils/tool-editor";
+import { zodValidator } from "@tanstack/zod-adapter";
+import z from "zod/v4";
 
 const getToolDetails = createServerFn()
   .validator((data: string) => data)
@@ -17,10 +20,30 @@ const getToolDetails = createServerFn()
     return JSON.parse(file) as Tool;
   });
 
+const SearchParamsSchema = z.object({
+  newTool: z.string().optional(),
+});
+
 export const Route = createFileRoute("/tools/$toolName")({
   component: RouteComponent,
-  loader: async ({ params: { toolName } }) => {
-    return getToolDetails({ data: toolName });
+  validateSearch: zodValidator(SearchParamsSchema),
+  loaderDeps: ({ search: { newTool } }) => ({
+    newTool,
+  }),
+  loader: async ({ params: { toolName }, deps: { newTool } }) => {
+    if (!!newTool) {
+      const newToolData = localStorage.getItem(newTool);
+      if (newToolData) {
+        const validatedTool = zodValidator(ToolSchema).parse(
+          JSON.parse(newToolData)
+        );
+        return validatedTool;
+      } else {
+        return defaultTool() as Tool;
+      }
+    } else {
+      return await getToolDetails({ data: toolName });
+    }
   },
   ssr: false,
   pendingMinMs: 0,
@@ -36,5 +59,12 @@ export const Route = createFileRoute("/tools/$toolName")({
 function RouteComponent() {
   const tool = Route.useLoaderData();
 
-  return <ToolEditor tool={tool} />;
+  return (
+    <ToolEditor
+      tool={tool}
+      onSave={(tool) => {
+        localStorage.setItem(tool.name, JSON.stringify(tool));
+      }}
+    />
+  );
 }

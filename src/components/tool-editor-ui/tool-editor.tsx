@@ -18,9 +18,13 @@ import {
 
 interface ToolEditorProps {
   tool: Tool;
+  onSave?: (tool: Tool) => void;
 }
 
-export default function ToolEditor({ tool: toolToEdit }: ToolEditorProps) {
+export default function ToolEditor({
+  tool: toolToEdit,
+  onSave,
+}: ToolEditorProps) {
   const tool = useStore(toolBuilderStore, (state) => state.tool);
   const selectedCommand = useStore(
     toolBuilderStore,
@@ -46,10 +50,6 @@ export default function ToolEditor({ tool: toolToEdit }: ToolEditorProps) {
   useEffect(() => {
     toolBuilderActions.initializeTool(toolToEdit);
   }, [toolToEdit]);
-
-  const selectedParam = [...globalParameters, ...currentParameters].find(
-    (p) => p.id === selectedParameter?.id
-  );
 
   return (
     <div className="flex bg-background">
@@ -80,6 +80,16 @@ export default function ToolEditor({ tool: toolToEdit }: ToolEditorProps) {
               </Button>
             </div>
             <div className="flex items-center gap-2">
+              {onSave && (
+                <Button
+                  variant="default"
+                  size="sm"
+                  onClick={() => onSave(toolBuilderStore.state.tool)}
+                >
+                  <SaveIcon className="h-4 w-4 mr-2" />
+                  Save
+                </Button>
+              )}
               <Button
                 variant="outline"
                 size="sm"

@@ -12,12 +12,12 @@ export const buildCommandHierarchy = (commands: Command[]): Command[] => {
 
   // First pass: create map of all commands with empty subcommands
   commands.forEach((cmd) => {
-    commandMap.set(cmd.id, { ...cmd, subcommands: [] });
+    commandMap.set(cmd.name, { ...cmd, subcommands: [] });
   });
 
   // Second pass: build hierarchy
   commands.forEach((cmd) => {
-    const command = commandMap.get(cmd.id)!;
+    const command = commandMap.get(cmd.name)!;
 
     if (!cmd.parentCommand) {
       // This is a root command
@@ -53,7 +53,7 @@ export const getCommandPath = (command: Command, tool: Tool): string => {
     for (const cmd of commands) {
       const currentPath = [...path, cmd.name];
 
-      if (cmd.id === targetId) {
+      if (cmd.name === targetId) {
         return currentPath;
       }
 
@@ -94,7 +94,7 @@ export const getAllSubcommands = (
     commands.forEach((cmd) => {
       if (cmd.parentCommand === parentId) {
         result.push(cmd);
-        findSubcommands(cmd.id);
+        findSubcommands(cmd.name);
       }
     });
   };
@@ -185,15 +185,14 @@ export const flattenImportedData = (importedData: any): Tool => {
   };
 };
 
-export const defaultTool = (toolName?: string): Tool => {
+export const defaultTool = (toolName?: string, displayName?: string): Tool => {
   return {
     name: toolName || "my-tool",
-    displayName: toolName || "My Tool",
+    displayName: displayName || "My Tool",
     description: "",
     version: "",
     commands: [
       {
-        id: uuidv7(),
         name: toolName || "my-tool",
         description: "Main command",
         isDefault: true,
@@ -316,7 +315,6 @@ export const validateDefaultValue = (
 
 export const createNewCommand = (parentId?: string): Command => {
   return {
-    id: uuidv7(),
     parentCommand: parentId,
     name: randomCommandName(),
     description: "",
