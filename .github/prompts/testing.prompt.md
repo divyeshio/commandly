@@ -1,3 +1,9 @@
+---
+mode: "agent"
+tools: ["githubRepo", "codebase"]
+description: "Writing tests for React component"
+---
+
 # Testing Instructions
 
 1. Write extensive unit tests for the given react component.
