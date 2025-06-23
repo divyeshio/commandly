@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "allowJs": true,
+    "target": "es2024",
+    // Bundler mode
+    "types": [
+      "vitest/globals",
+      "@testing-library/jest-dom"
+    ],
+    "moduleResolution": "bundler",
+    "module": "Preserve",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": false,
+    "noEmit": true,
+    "strictNullChecks": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "./tests/vitest.setup.ts"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
+}

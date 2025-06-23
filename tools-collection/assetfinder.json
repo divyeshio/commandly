@@ -1,0 +1,70 @@
+{
+  "name": "assetfinder",
+  "displayName": "AssetFinder",
+  "description": "Command line tool with timeout and enumeration parameters",
+  "version": "0.1.0",
+  "commands": [
+    {
+      "name": "assetfinder",
+      "description": "Default command",
+      "isDefault": true,
+      "sortOrder": 1
+    }
+  ],
+  "parameters": [
+    {
+      "id": "01978bbf-be38-76b6-8213-540b818ab9fa",
+      "command": "assetfinder",
+      "name": "Subs Only",
+      "description": "Only find subdomains",
+      "longFlag": "--subs-only",
+      "parameterType": "Flag",
+      "dataType": "String",
+      "keyValueSeparator": " ",
+      "isRequired": false,
+      "isRepeatable": false,
+      "isGlobal": false,
+      "metadata": {},
+      "sortOrder": 1,
+      "enumValues": []
+    },
+    {
+      "id": "01978bbf-be38-7781-947b-6068fe18e9cd",
+      "command": "assetfinder",
+      "name": "OutputFile",
+      "description": "File to write output to",
+      "longFlag": " >",
+      "parameterType": "Option",
+      "dataType": "String",
+      "keyValueSeparator": " ",
+      "isRequired": false,
+      "isRepeatable": false,
+      "isGlobal": false,
+      "metadata": {},
+      "enabled": false,
+      "enumValues": []
+    },
+    {
+      "id": "01978bbf-be38-7b38-a832-e1188568b69f",
+      "command": "assetfinder",
+      "name": "Target Domain",
+      "description": "Target Domain",
+      "longFlag": "",
+      "parameterType": "Argument",
+      "dataType": "String",
+      "keyValueSeparator": " ",
+      "isRequired": true,
+      "isRepeatable": false,
+      "isGlobal": false,
+      "metadata": {},
+      "position": 1,
+
+      "sortOrder": 2,
+
+      "enumValues": []
+    }
+  ],
+  "exclusionGroups": [],
+  "supportedInput": ["StandardInput"],
+  "supportedOutput": ["StandardOutput"]
+}
