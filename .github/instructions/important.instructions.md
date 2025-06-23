@@ -1,3 +1,7 @@
+---
+applyTo: "**"
+---
+
 # Important Instructions
 
 1. Do not add comments unnecessarily everywhere in the code.Add comments only when the user explicitly asks to add comments for certain sections of code or the code is exetremly complex to understand.

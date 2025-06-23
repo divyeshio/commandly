@@ -18,7 +18,7 @@ import {
 } from "@/lib/utils/tool-editor";
 import { v7 as uuidv7 } from "uuid";
 
-interface ToolBuilderState {
+export interface ToolBuilderState {
   tool: Tool;
   selectedCommand: Command;
   selectedParameter: Parameter | null;
