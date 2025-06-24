@@ -12,7 +12,11 @@ import { useEffect } from "react";
 const getToolDetails = createServerFn()
   .validator((data: string) => data)
   .handler(async (ctx) => {
-    const collectionDir = path.join(process.cwd(), "tools-collection");
+    const collectionDir = path.join(
+      process.cwd(),
+      "public",
+      "tools-collection"
+    );
     const toolFilePath = path.join(collectionDir, `${ctx.data}.json`);
     const file = await fs.readFile(toolFilePath, "utf-8");
     if (!file) {

@@ -16,7 +16,7 @@ export default defineConfig({
         }
       },
       target: "vercel"
-    })
+    }),
   ],
   server: {
     port: 4001
