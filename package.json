@@ -48,7 +48,7 @@
   "devDependencies": {
     "@tanstack/react-query-devtools": "^5.80.10",
     "@tanstack/react-router-devtools": "^1.121.27",
-    "@tanstack/router-plugin": "^1.121.29",
+    "@tanstack/router-plugin": "^1.121.34",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
