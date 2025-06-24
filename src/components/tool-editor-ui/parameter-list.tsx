@@ -41,18 +41,15 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
     toolBuilderSelectors.getGlobalParameters(state)
   );
   const commandParameters = useStore(toolBuilderStore, (state) =>
-    selectedCommand?.name
-      ? toolBuilderSelectors.getParametersForCommand(
-          state,
-          selectedCommand.name
-        )
+    selectedCommand?.id
+      ? toolBuilderSelectors.getParametersForCommand(state, selectedCommand.id)
       : []
   );
   const exclusionGroups = useStore(toolBuilderStore, (state) =>
-    selectedCommand?.name
+    selectedCommand?.id
       ? toolBuilderSelectors.getExclusionGroupsForCommand(
           state,
-          selectedCommand.name
+          selectedCommand.id
         )
       : []
   );

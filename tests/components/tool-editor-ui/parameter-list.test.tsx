@@ -10,7 +10,7 @@ import { Parameter, ExclusionGroup } from "@/lib/types/tool-editor";
 const createTestParameter = (
   overrides: Partial<Parameter> = {}
 ): Parameter => ({
-  id: "param1",
+  id: "01979f70-cc01-73fe-b638-11efe685b4df",
   name: "test-param",
   description: "Test parameter",
   parameterType: "Option",
@@ -21,14 +21,14 @@ const createTestParameter = (
   longFlag: "--test",
   shortFlag: "-t",
   enumValues: [],
-  command: "test-command",
+  command: "01979f70-cc01-73fe-b638-14ec567e43be",
   ...overrides,
 });
 
 const createTestExclusionGroup = (
   parameterIds: string[] = []
 ): ExclusionGroup => ({
-  id: "group1",
+  id: "01979f70-cc01-73fe-b638-19d9a00394e8",
   name: "Test Group",
   exclusionType: "mutual_exclusive",
   parameterIds,
@@ -37,6 +37,7 @@ const createTestExclusionGroup = (
 var testState: ToolBuilderState = {
   tool: defaultTool("test-tool", "Test tool"),
   selectedCommand: {
+    id: "01979f70-cc01-73fe-b638-14ec567e43be",
     name: "test-command",
     description: "Test command",
     isDefault: false,
@@ -63,7 +64,7 @@ describe("ParameterList - Rendering & Structure", () => {
   it("renders the title and parameter count correctly", () => {
     const parameters = [
       createTestParameter(),
-      createTestParameter({ id: "param2", name: "param2" }),
+      createTestParameter({ id: "01979f70-cc01-73fe-b638-1e8086d40f60", name: "param2" }),
     ];
     toolBuilderStore.setState((prev) => ({
       ...prev,
@@ -100,9 +101,9 @@ describe("ParameterList - Rendering & Structure", () => {
 
   it("renders the correct number of parameter cards based on the parameters array", () => {
     const parameters = [
-      createTestParameter({ id: "param1", name: "param1" }),
-      createTestParameter({ id: "param2", name: "param2" }),
-      createTestParameter({ id: "param3", name: "param3" }),
+      createTestParameter({ id: "01979f70-cc01-73fe-b638-23765035e40b", name: "param1" }),
+      createTestParameter({ id: "01979f70-cc01-73fe-b638-25a9f6a78256", name: "param2" }),
+      createTestParameter({ id: "01979f70-cc01-73fe-b638-2ab8af3f1441", name: "param3" }),
     ];
     toolBuilderStore.setState((prev) => ({
       ...prev,
@@ -120,17 +121,17 @@ describe("ParameterList - Rendering & Structure", () => {
     it("displays the correct icon for each parameterType", () => {
       const parameters = [
         createTestParameter({
-          id: "flag",
+          id: "01979f70-cc02-7448-a882-11054dbe85cb",
           name: "flag-param",
           parameterType: "Flag",
         }),
         createTestParameter({
-          id: "option",
+          id: "01979f70-cc02-7448-a882-176b0cf062da",
           name: "option-param",
           parameterType: "Option",
         }),
         createTestParameter({
-          id: "argument",
+          id: "01979f70-cc02-7448-a882-1b553df35cd8",
           name: "argument-param",
           parameterType: "Argument",
         }),
@@ -158,13 +159,13 @@ describe("ParameterList - Rendering & Structure", () => {
         shortFlag: "-v",
       });
       const paramWithLongFlagOnly = createTestParameter({
-        id: "param2",
+        id: "01979f70-cc01-73fe-b638-2de859c60304",
         name: "long-only",
         longFlag: "--long-only",
         shortFlag: "",
       });
       const paramWithNoFlags = createTestParameter({
-        id: "param3",
+        id: "01979f70-cc02-7448-a882-0890d68964bd",
         name: "no-flags",
         longFlag: "",
         shortFlag: "",
@@ -235,7 +236,7 @@ describe("ParameterList - Rendering & Structure", () => {
     it("shows the required badge if isRequired is true", () => {
       const requiredParam = createTestParameter({ isRequired: true });
       const optionalParam = createTestParameter({
-        id: "param2",
+        id: "01979f70-cc02-7448-a882-0fbb2489cd74",
         name: "optional-param",
         isRequired: false,
       });
@@ -259,17 +260,17 @@ describe("ParameterList - Rendering & Structure", () => {
     it("shows the correct badge for parameterType", () => {
       const parameters = [
         createTestParameter({
-          id: "flag",
+          id: "01979f70-cc02-7448-a882-1e463f97de3f",
           name: "flag-param",
           parameterType: "Flag",
         }),
         createTestParameter({
-          id: "option",
+          id: "01979f70-cc02-7448-a882-229dd1870f13",
           name: "option-param",
           parameterType: "Option",
         }),
         createTestParameter({
-          id: "argument",
+          id: "01979f70-cc02-7448-a882-2490528ca727",
           name: "argument-param",
           parameterType: "Argument",
         }),
@@ -290,22 +291,22 @@ describe("ParameterList - Rendering & Structure", () => {
     it("shows the correct badge for dataType", () => {
       const parameters = [
         createTestParameter({
-          id: "string",
+          id: "01979f70-cc02-7448-a882-2833166af1b2",
           name: "string-param",
           dataType: "String",
         }),
         createTestParameter({
-          id: "number",
+          id: "01979f70-cc02-7448-a882-2e30ce8b2a02",
           name: "number-param",
           dataType: "Number",
         }),
         createTestParameter({
-          id: "boolean",
+          id: "01979f70-cc02-7448-a882-31d6e6a82958",
           name: "boolean-param",
           dataType: "Boolean",
         }),
         createTestParameter({
-          id: "enum",
+          id: "01979f70-cc02-7448-a882-37ea2bcbc7e7",
           name: "enum-param",
           dataType: "Enum",
         }),
@@ -341,7 +342,7 @@ describe("ParameterList - Rendering & Structure", () => {
     it("shows exclusion group badges with correct group names and icons", () => {
       const parameter = createTestParameter();
       const exclusionGroup = createTestExclusionGroup([parameter.id]);
-      exclusionGroup.commandId = "test-command";
+      exclusionGroup.commandId = "01979f70-cc01-73fe-b638-14ec567e43be";
 
       toolBuilderStore.setState((prev) => ({
         ...prev,
@@ -365,8 +366,8 @@ describe("ParameterList - Rendering & Structure", () => {
         defaultValue: "invalid-number",
         validations: [
           {
-            id: "val1",
-            parameterId: "param1",
+            id: "01979f7f-a85f-773a-a81d-19861ba0152b",
+            parameterId: "01979f70-cc01-73fe-b638-11efe685b4df",
             validationType: "min_value",
             validationValue: "0",
             errorMessage: "Must be positive",

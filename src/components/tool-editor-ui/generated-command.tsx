@@ -29,11 +29,8 @@ export function GeneratedCommand() {
     toolBuilderSelectors.getGlobalParameters(state)
   );
   const currentParameters = useStore(toolBuilderStore, (state) =>
-    selectedCommand?.name
-      ? toolBuilderSelectors.getParametersForCommand(
-          state,
-          selectedCommand.name
-        )
+    selectedCommand?.id
+      ? toolBuilderSelectors.getParametersForCommand(state, selectedCommand.id)
       : []
   );
 

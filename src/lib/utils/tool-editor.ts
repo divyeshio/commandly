@@ -11,11 +11,11 @@ export const buildCommandHierarchy = (commands: Command[]): Command[] => {
   const rootCommands: Command[] = [];
 
   commands.forEach((cmd) => {
-    commandMap.set(cmd.name, { ...cmd, subcommands: [] });
+    commandMap.set(cmd.id, { ...cmd, subcommands: [] });
   });
 
   commands.forEach((cmd) => {
-    const command = commandMap.get(cmd.name)!;
+    const command = commandMap.get(cmd.id)!;
 
     if (!cmd.parentCommand) {
       rootCommands.push(command);
@@ -87,7 +87,7 @@ export const getAllSubcommands = (
     commands.forEach((cmd) => {
       if (cmd.parentCommand === parentId) {
         result.push(cmd);
-        findSubcommands(cmd.name);
+        findSubcommands(cmd.id);
       }
     });
   };
@@ -184,6 +184,7 @@ export const defaultTool = (toolName?: string, displayName?: string): Tool => {
     version: "",
     commands: [
       {
+        id: uuidv7(),
         name: toolName || "my-tool",
         description: "Main command",
         isDefault: true,
@@ -209,8 +210,8 @@ export const defaultTool = (toolName?: string, displayName?: string): Tool => {
       },
     ],
     exclusionGroups: [],
-    supportedInput: [],
-    supportedOutput: [],
+    supportedInput: ["StandardInput"],
+    supportedOutput: ["StandardOutput"],
   };
 };
 
@@ -306,6 +307,7 @@ export const validateDefaultValue = (
 
 export const createNewCommand = (parentId?: string): Command => {
   return {
+    id: uuidv7(),
     parentCommand: parentId,
     name: randomCommandName(),
     description: "",

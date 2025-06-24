@@ -35,13 +35,13 @@ export function ExclusionGroupsDialog() {
   );
 
   const exclusionGroups = useStore(toolBuilderStore, (state) => {
-    const commandId = state.selectedCommand?.name;
+    const commandId = state.selectedCommand?.id;
     return commandId
       ? toolBuilderSelectors.getExclusionGroupsForCommand(state, commandId)
       : [];
   });
   const parameters = useStore(toolBuilderStore, (state) => {
-    const commandId = state.selectedCommand?.name;
+    const commandId = state.selectedCommand?.id;
     return commandId
       ? toolBuilderSelectors.getParametersForCommand(state, commandId)
       : [];
@@ -56,7 +56,7 @@ export function ExclusionGroupsDialog() {
       name: "",
       exclusionType: "mutual_exclusive",
       parameterIds: [],
-      commandId: selectedCommand?.name,
+      commandId: selectedCommand?.id,
     });
   };
 

@@ -30,7 +30,7 @@ export function CommandTree() {
   );
 
   const [expandedCommands, setExpandedCommands] = useState<Set<string>>(
-    new Set([tool.name])
+    new Set([tool.commands[0]?.id || tool.name])
   );
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -51,13 +51,13 @@ export function CommandTree() {
   };
 
   const renderCommandNode = (command: Command, level = 0): JSX.Element => {
-    const isExpanded = expandedCommands.has(command.name);
+    const isExpanded = expandedCommands.has(command.id);
     const hasSubcommands = command.subcommands.length > 0;
-    const isSelected = selectedCommand?.name === command.name;
+    const isSelected = selectedCommand?.id === command.id;
     const isRoot = command.name == tool.name;
 
     return (
-      <div key={command.name}>
+      <div key={command.id}>
         <div
           className={`flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-muted/50 group ${
             isSelected ? "bg-muted" : ""
@@ -72,7 +72,7 @@ export function CommandTree() {
               className="h-4 w-4 p-0"
               onClick={(e) => {
                 e.stopPropagation();
-                toggleExpanded(command.name);
+                toggleExpanded(command.id);
               }}
             >
               {isExpanded ? (
@@ -109,7 +109,7 @@ export function CommandTree() {
             className="h-4 w-4 p-0 opacity-0 group-hover:opacity-100"
             onClick={(e) => {
               e.stopPropagation();
-              toolBuilderActions.addSubcommand(command.name);
+              toolBuilderActions.addSubcommand(command.id);
             }}
           >
             <PlusIcon className="h-3 w-3" />
@@ -121,7 +121,7 @@ export function CommandTree() {
               className="h-4 w-4 p-0 opacity-0 group-hover:opacity-100"
               onClick={(e) => {
                 e.stopPropagation();
-                toolBuilderActions.deleteCommand(command.name);
+                toolBuilderActions.deleteCommand(command.id);
               }}
             >
               <Trash2Icon className="h-3 w-3 text-destructive" />

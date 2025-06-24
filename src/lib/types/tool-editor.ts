@@ -1,6 +1,7 @@
 import { z } from "zod/v4";
 
 export const CommandSchema = z.object({
+  id: z.uuidv7(),
   parentCommand: z.string().optional(),
   name: z.string(),
   description: z.string(),
@@ -11,8 +12,8 @@ export const CommandSchema = z.object({
 export type Command = z.infer<typeof CommandSchema>;
 
 export const ParameterEnumValueSchema = z.object({
-  id: z.string(),
-  parameterId: z.string(),
+  id: z.uuidv7(),
+  parameterId: z.uuidv7(),
   value: z.string(),
   displayName: z.string(),
   description: z.string(),

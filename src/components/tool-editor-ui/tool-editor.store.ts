@@ -33,7 +33,7 @@ export interface ToolBuilderState {
 
 export const toolBuilderStore = new Store<ToolBuilderState>({
   tool: defaultTool(),
-  selectedCommand: {} as Command,
+  selectedCommand: null,
   selectedParameter: null,
   editingCommand: null,
   parameterValues: {},
@@ -111,14 +111,14 @@ export const toolBuilderActions = {
   deleteCommand(commandId: string) {
     toolBuilderStore.setState((state) => {
       const subcommands = getAllSubcommands(commandId, state.tool.commands);
-      const commandsToDelete = [commandId, ...subcommands.map((c) => c.name)];
+      const commandsToDelete = [commandId, ...subcommands.map((c) => c.id)];
 
       const newState = {
         ...state,
         tool: {
           ...state.tool,
           commands: state.tool.commands.filter(
-            (cmd) => !commandsToDelete.includes(cmd.name)
+            (cmd) => !commandsToDelete.includes(cmd.id)
           ),
           parameters: state.tool.parameters.filter(
             (param) => !commandsToDelete.includes(param.command || "")
@@ -129,7 +129,7 @@ export const toolBuilderActions = {
         },
       };
 
-      if (state.selectedCommand?.name === commandId) {
+      if (state.selectedCommand?.id === commandId) {
         newState.selectedCommand = newState.tool.commands[0];
       }
 
@@ -148,7 +148,7 @@ export const toolBuilderActions = {
         ...state.tool,
         commands: state.tool.commands.map((cmd) => {
           let updatedCmd: Command;
-          if (cmd.name === commandId) {
+          if (cmd.id === commandId) {
             updatedCmd = { ...cmd, ...updates };
           } else {
             if (!updates.isDefault) updatedCmd = cmd;
@@ -201,7 +201,7 @@ export const toolBuilderActions = {
             }
             // If switching from global, set commandId to current command
             if (updatedParameter.isGlobal === false && param.isGlobal) {
-              updatedParam.command = state.selectedCommand?.name;
+              updatedParam.command = state.selectedCommand?.id;
             }
             return updatedParam;
           }
@@ -278,7 +278,7 @@ export const toolBuilderActions = {
       const newGroup = {
         ...group,
         id: uuidv7(),
-        commandId: state.selectedCommand?.name,
+        commandId: state.selectedCommand?.id,
       };
 
       return {

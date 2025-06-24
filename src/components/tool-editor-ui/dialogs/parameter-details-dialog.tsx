@@ -56,7 +56,7 @@ export function ParameterDetailsDialog() {
 
   const commandId = useStore(
     toolBuilderStore,
-    (state) => state.selectedCommand?.name
+    (state) => state.selectedCommand?.id
   );
 
   const availableParameters = useStore(toolBuilderStore, (state) => {
