@@ -11,13 +11,14 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
+  DialogDescription
 } from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -28,7 +29,7 @@ import {
   ParameterType,
   ParameterDataType,
   ParameterDependencyType as DependencyType,
-  ParameterValidationType as ValidationType,
+  ParameterValidationType as ValidationType
 } from "@/lib/types/tool-editor";
 import {
   FileTextIcon,
@@ -37,12 +38,12 @@ import {
   LinkIcon,
   PlusIcon,
   ShieldIcon,
-  Trash2Icon,
+  Trash2Icon
 } from "lucide-react";
 import { useStore } from "@tanstack/react-store";
 import {
   toolBuilderStore,
-  toolBuilderActions,
+  toolBuilderActions
 } from "@/components/tool-editor-ui/tool-editor.store";
 import { validateDefaultValue } from "@/lib/utils/tool-editor";
 import { v7 as uuidv7 } from "uuid";
@@ -56,7 +57,7 @@ export function ParameterDetailsDialog() {
 
   const commandId = useStore(
     toolBuilderStore,
-    (state) => state.selectedCommand?.name
+    (state) => state.selectedCommand?.id
   );
 
   const availableParameters = useStore(toolBuilderStore, (state) => {
@@ -64,17 +65,15 @@ export function ParameterDetailsDialog() {
     return state.tool.parameters.filter((p) => {
       if (p.id === selectedParameter.id) return false;
       if (selectedParameter.isGlobal) return p.isGlobal;
-      return p.isGlobal || p.command === commandId;
+      return p.isGlobal || p.commandId === commandId;
     });
   });
 
-  const [parameter, setParameter] = useState<Parameter | null>(
-    selectedParameter ?? null
-  );
+  const [parameter, setParameter] = useState<Parameter>(selectedParameter!);
   const [hasChanges, setHasChanges] = useState(false);
 
   useEffect(() => {
-    setParameter(selectedParameter ?? null);
+    setParameter(selectedParameter!);
     setHasChanges(false);
   }, [selectedParameter]);
 
@@ -95,24 +94,19 @@ export function ParameterDetailsDialog() {
 
   const handleClose = () => {
     toolBuilderActions.setSelectedParameter(null);
-    setParameter(null);
     setHasChanges(false);
   };
 
   const handleSave = () => {
     if (parameter) {
-      if (availableParameters.some((p) => p.id === parameter.id)) {
-        toolBuilderActions.updateParameter(parameter);
-      } else {
-        toolBuilderActions.addParameter(parameter);
-      }
+      toolBuilderActions.upsertParameter(parameter);
       setHasChanges(false);
       handleClose();
     }
   };
 
   const updateParameter = (updates: Partial<Parameter>) => {
-    setParameter((prev) => (prev ? { ...prev, ...updates } : null));
+    setParameter((prev) => ({ ...prev, ...updates }));
     setHasChanges(true);
   };
 
@@ -123,11 +117,11 @@ export function ParameterDetailsDialog() {
       id: uuidv7(),
       parameterId: parameter.id,
       dependsOnParameterId: availableParameters[0].id,
-      dependencyType: "requires",
+      dependencyType: "requires"
     };
 
     updateParameter({
-      dependencies: [...(parameter.dependencies || []), newDependency],
+      dependencies: [...(parameter.dependencies || []), newDependency]
     });
   };
 
@@ -157,11 +151,11 @@ export function ParameterDetailsDialog() {
       parameterId: parameter.id,
       validationType: "min_length",
       validationValue: "1",
-      errorMessage: "Value is too short",
+      errorMessage: "Value is too short"
     };
 
     updateParameter({
-      validations: [...(parameter.validations || []), newValidation],
+      validations: [...(parameter.validations || []), newValidation]
     });
   };
 
@@ -174,11 +168,11 @@ export function ParameterDetailsDialog() {
       displayName: "New Value",
       description: "",
       isDefault: false,
-      sortOrder: 0,
+      sortOrder: 0
     };
 
     updateParameter({
-      enumValues: [...parameter.enumValues, newEnumValue],
+      enumValues: [...parameter.enumValues, newEnumValue]
     });
   };
 
@@ -222,6 +216,7 @@ export function ParameterDetailsDialog() {
               </Badge>
             )}
           </DialogTitle>
+          <DialogDescription></DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
@@ -335,13 +330,14 @@ export function ParameterDetailsDialog() {
 
           {parameter.parameterType === "Argument" && (
             <div className="flex flex-col gap-2">
-              <Label>Position</Label>
+              <Label htmlFor="position">Position</Label>
               <Input
+                id="position"
                 type="number"
                 value={parameter.position || 0}
                 onChange={(e) =>
                   updateParameter({
-                    position: Number.parseInt(e.target.value) || 0,
+                    position: Number.parseInt(e.target.value) || 0
                   })
                 }
                 placeholder="0"
@@ -360,8 +356,9 @@ export function ParameterDetailsDialog() {
 
           <div className="grid grid-cols-2 gap-4 items-center">
             <div className="flex flex-col gap-2">
-              <Label>Default Value</Label>
+              <Label htmlFor="defaultValue">Default Value</Label>
               <Input
+                id="defaultValue"
                 value={parameter.defaultValue}
                 onChange={(e) =>
                   updateParameter({ defaultValue: e.target.value })
@@ -377,21 +374,23 @@ export function ParameterDetailsDialog() {
             <div className="flex items-center space-x-4 pt-6">
               <div className="flex items-center space-x-2">
                 <Switch
+                  id="isRequired"
                   checked={parameter.isRequired}
                   onCheckedChange={(checked) =>
                     updateParameter({ isRequired: checked })
                   }
                 />
-                <Label>Required</Label>
+                <Label htmlFor="isRequired">Required</Label>
               </div>
               <div className="flex items-center space-x-2">
                 <Switch
+                  id="isRepeatable"
                   checked={parameter.isRepeatable}
                   onCheckedChange={(checked) =>
                     updateParameter({ isRepeatable: checked })
                   }
                 />
-                <Label>Repeatable</Label>
+                <Label htmlFor="isRepeatable">Repeatable</Label>
               </div>
             </div>
           </div>
@@ -411,7 +410,10 @@ export function ParameterDetailsDialog() {
           {/* Dependencies Section */}
           <div>
             <div className="flex items-center justify-between mb-3">
-              <Label className="text-base font-medium flex items-center gap-2">
+              <Label
+                htmlFor="dependencies"
+                className="text-base font-medium flex items-center gap-2"
+              >
                 <LinkIcon className="h-4 w-4" />
                 Dependencies
               </Label>
@@ -425,7 +427,7 @@ export function ParameterDetailsDialog() {
                 Add
               </Button>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2" id="dependencies">
               {parameter.dependencies &&
                 parameter.dependencies.map((dependency) => (
                   <div
@@ -436,7 +438,7 @@ export function ParameterDetailsDialog() {
                       value={dependency.dependencyType}
                       onValueChange={(value: DependencyType) =>
                         updateDependency(dependency.id, {
-                          dependencyType: value,
+                          dependencyType: value
                         })
                       }
                     >
@@ -454,7 +456,7 @@ export function ParameterDetailsDialog() {
                       value={dependency.dependsOnParameterId}
                       onValueChange={(value) =>
                         updateDependency(dependency.id, {
-                          dependsOnParameterId: value,
+                          dependsOnParameterId: value
                         })
                       }
                     >
@@ -513,7 +515,7 @@ export function ParameterDetailsDialog() {
                               : v
                         );
                         updateParameter({
-                          validations: updatedValidations,
+                          validations: updatedValidations
                         });
                       }}
                     >
@@ -538,7 +540,7 @@ export function ParameterDetailsDialog() {
                               : v
                         );
                         updateParameter({
-                          validations: updatedValidations,
+                          validations: updatedValidations
                         });
                       }}
                       placeholder="Value"
@@ -553,7 +555,7 @@ export function ParameterDetailsDialog() {
                             (v) => v.id !== validation.id
                           );
                         updateParameter({
-                          validations: updatedValidations,
+                          validations: updatedValidations
                         });
                       }}
                     >
@@ -570,13 +572,18 @@ export function ParameterDetailsDialog() {
               <Separator />
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <Label className="text-base font-medium">Enum Values</Label>
+                  <Label
+                    htmlFor="enum-values"
+                    className="text-base font-medium"
+                  >
+                    Enum Values
+                  </Label>
                   <Button size="sm" variant="outline" onClick={addEnumValue}>
                     <PlusIcon className="h-3 w-3 mr-1" />
                     Add
                   </Button>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2" id="enum-values">
                   {parameter.enumValues.map((enumValue) => (
                     <div
                       key={enumValue.id}
@@ -592,7 +599,7 @@ export function ParameterDetailsDialog() {
                                 : ev
                           );
                           updateParameter({
-                            enumValues: updatedEnumValues,
+                            enumValues: updatedEnumValues
                           });
                         }}
                         placeholder="value"
@@ -608,7 +615,7 @@ export function ParameterDetailsDialog() {
                                 : ev
                           );
                           updateParameter({
-                            enumValues: updatedEnumValues,
+                            enumValues: updatedEnumValues
                           });
                         }}
                         placeholder="Display Name"
@@ -624,7 +631,7 @@ export function ParameterDetailsDialog() {
                                 : ev
                           );
                           updateParameter({
-                            enumValues: updatedEnumValues,
+                            enumValues: updatedEnumValues
                           });
                         }}
                       />
@@ -636,7 +643,7 @@ export function ParameterDetailsDialog() {
                             (ev) => ev.id !== enumValue.id
                           );
                           updateParameter({
-                            enumValues: updatedEnumValues,
+                            enumValues: updatedEnumValues
                           });
                         }}
                       >

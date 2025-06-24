@@ -5,23 +5,25 @@ import { vi } from "vitest";
 vi.mock("../tool-editor.store", () => ({
   toolBuilderStore: {
     getState: () => ({
-      selectedCommand: { name: "test", id: "cmd1" },
+      selectedCommand: {
+        name: "test",
+        id: "01979f70-cc01-73fe-b638-11efe685b4df"
+      },
       tool: { name: "tool", commands: [], parameters: [] },
-      parameterValues: {},
+      parameterValues: {}
     }),
-    subscribe: vi.fn(),
+    subscribe: vi.fn()
   },
   toolBuilderActions: {
-    addSavedCommand: vi.fn(),
+    addSavedCommand: vi.fn()
   },
   toolBuilderSelectors: {
     getGlobalParameters: () => [],
-    getParametersForCommand: () => [],
-  },
+    getParametersForCommand: () => []
+  }
 }));
 
 describe("GeneratedCommand", () => {
-
   it("renders configure parameters message if no generated command", () => {
     render(<GeneratedCommand />);
     expect(screen.getByText(/Configure parameters/)).toBeInTheDocument();

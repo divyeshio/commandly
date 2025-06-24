@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "commands": [
     {
+      "id": "01978bbf-be38-7b38-a832-e1188568b69f",
       "name": "assetfinder",
       "description": "Default command",
       "isDefault": true,
@@ -14,7 +15,7 @@
   "parameters": [
     {
       "id": "01978bbf-be38-76b6-8213-540b818ab9fa",
-      "command": "assetfinder",
+      "commandId": "01978bbf-be38-7b38-a832-e1188568b69f",
       "name": "Subs Only",
       "description": "Only find subdomains",
       "longFlag": "--subs-only",
@@ -30,7 +31,7 @@
     },
     {
       "id": "01978bbf-be38-7781-947b-6068fe18e9cd",
-      "command": "assetfinder",
+      "commandId": "01978bbf-be38-7b38-a832-e1188568b69f",
       "name": "OutputFile",
       "description": "File to write output to",
       "longFlag": " >",
@@ -46,7 +47,7 @@
     },
     {
       "id": "01978bbf-be38-7b38-a832-e1188568b69f",
-      "command": "assetfinder",
+      "commandId": "01978bbf-be38-7b38-a832-e1188568b69f",
       "name": "Target Domain",
       "description": "Target Domain",
       "longFlag": "",

@@ -2,7 +2,7 @@ import type {
   Command,
   Parameter,
   SavedCommand,
-  Tool,
+  Tool
 } from "@/lib/types/tool-editor";
 import { v7 as uuidv7 } from "uuid";
 
@@ -11,16 +11,16 @@ export const buildCommandHierarchy = (commands: Command[]): Command[] => {
   const rootCommands: Command[] = [];
 
   commands.forEach((cmd) => {
-    commandMap.set(cmd.name, { ...cmd, subcommands: [] });
+    commandMap.set(cmd.id, { ...cmd, subcommands: [] });
   });
 
   commands.forEach((cmd) => {
-    const command = commandMap.get(cmd.name)!;
+    const command = commandMap.get(cmd.id)!;
 
-    if (!cmd.parentCommand) {
+    if (!cmd.parentCommandId) {
       rootCommands.push(command);
     } else {
-      const parent = commandMap.get(cmd.parentCommand);
+      const parent = commandMap.get(cmd.parentCommandId);
       if (parent) {
         parent.subcommands.push(command);
       }
@@ -32,7 +32,7 @@ export const buildCommandHierarchy = (commands: Command[]): Command[] => {
       .sort((a, b) => a.sortOrder - b.sortOrder)
       .map((cmd) => ({
         ...cmd,
-        subcommands: sortCommands(cmd.subcommands),
+        subcommands: sortCommands(cmd.subcommands)
       }));
   };
 
@@ -85,9 +85,9 @@ export const getAllSubcommands = (
 
   const findSubcommands = (parentId: string) => {
     commands.forEach((cmd) => {
-      if (cmd.parentCommand === parentId) {
+      if (cmd.parentCommandId === parentId) {
         result.push(cmd);
-        findSubcommands(cmd.name);
+        findSubcommands(cmd.id);
       }
     });
   };
@@ -112,7 +112,7 @@ export const exportToStructuredJSON = (tool: Tool) => {
     parameters: tool.parameters,
     exclusionGroups: tool.exclusionGroups,
     supportedInput: tool.supportedInput,
-    supportedOutput: tool.supportedOutput,
+    supportedOutput: tool.supportedOutput
   };
 };
 
@@ -124,7 +124,7 @@ export const flattenImportedData = (importedData: any): Tool => {
     commands = [],
     exclusionGroups = [],
     supportedInput = [],
-    supportedOutput = [],
+    supportedOutput = []
   } = importedData;
 
   // Flatten parameters from commands
@@ -140,14 +140,14 @@ export const flattenImportedData = (importedData: any): Tool => {
     parameters.forEach((param: any) => {
       allParameters.push({
         ...param,
-        command: command.name,
-        isGlobal: !command.name,
+        commandId: command.id,
+        isGlobal: !command.name
       });
     });
 
     const flatCommand: Command = {
       ...commandData,
-      parentCommand: parentId,
+      parentCommandId: parentId
     };
 
     const flatCommands = [flatCommand];
@@ -172,7 +172,7 @@ export const flattenImportedData = (importedData: any): Tool => {
     parameters: allParameters,
     exclusionGroups,
     supportedInput: supportedInput,
-    supportedOutput: supportedOutput,
+    supportedOutput: supportedOutput
   };
 };
 
@@ -184,12 +184,13 @@ export const defaultTool = (toolName?: string, displayName?: string): Tool => {
     version: "",
     commands: [
       {
+        id: uuidv7(),
         name: toolName || "my-tool",
         description: "Main command",
         isDefault: true,
         sortOrder: 0,
-        subcommands: [],
-      },
+        subcommands: []
+      }
     ],
     parameters: [
       {
@@ -205,19 +206,19 @@ export const defaultTool = (toolName?: string, displayName?: string): Tool => {
         isRepeatable: false,
         enumValues: [],
         validations: [],
-        dependencies: [],
-      },
+        dependencies: []
+      }
     ],
     exclusionGroups: [],
-    supportedInput: [],
-    supportedOutput: [],
+    supportedInput: ["StandardInput"],
+    supportedOutput: ["StandardOutput"]
   };
 };
 
 export const validateDefaultValue = (
   parameter: Parameter
 ): { isValid: boolean; error?: string } => {
-  const { defaultValue, validations, dataType: dataType } = parameter;
+  const { defaultValue, validations, dataType } = parameter;
 
   if (!defaultValue || !validations) return { isValid: true };
 
@@ -232,7 +233,7 @@ export const validateDefaultValue = (
       if (!["true", "false", "1", "0"].includes(defaultValue.toLowerCase())) {
         return {
           isValid: false,
-          error: "Default value must be true/false or 1/0",
+          error: "Default value must be true/false or 1/0"
         };
       }
       break;
@@ -250,7 +251,7 @@ export const validateDefaultValue = (
         ) {
           return {
             isValid: false,
-            error: validation.errorMessage || "Value too short",
+            error: validation.errorMessage || "Value too short"
           };
         }
         break;
@@ -261,7 +262,7 @@ export const validateDefaultValue = (
         ) {
           return {
             isValid: false,
-            error: validation.errorMessage || "Value too long",
+            error: validation.errorMessage || "Value too long"
           };
         }
         break;
@@ -272,7 +273,7 @@ export const validateDefaultValue = (
         ) {
           return {
             isValid: false,
-            error: validation.errorMessage || "Value too small",
+            error: validation.errorMessage || "Value too small"
           };
         }
         break;
@@ -283,7 +284,7 @@ export const validateDefaultValue = (
         ) {
           return {
             isValid: false,
-            error: validation.errorMessage || "Value too large",
+            error: validation.errorMessage || "Value too large"
           };
         }
         break;
@@ -294,7 +295,7 @@ export const validateDefaultValue = (
         ) {
           return {
             isValid: false,
-            error: validation.errorMessage || "Value doesn't match pattern",
+            error: validation.errorMessage || "Value doesn't match pattern"
           };
         }
         break;
@@ -306,12 +307,13 @@ export const validateDefaultValue = (
 
 export const createNewCommand = (parentId?: string): Command => {
   return {
-    parentCommand: parentId,
+    id: uuidv7(),
+    parentCommandId: parentId,
     name: randomCommandName(),
     description: "",
     isDefault: false,
     sortOrder: 1,
-    subcommands: [],
+    subcommands: []
   };
 };
 
@@ -322,7 +324,7 @@ export const createNewParameter = (
   return {
     id: uuidv7(),
     name: "new-parameter",
-    command: isGlobal ? undefined : commandId,
+    commandId: isGlobal ? undefined : commandId,
     description: "",
     parameterType: "Option",
     dataType: "String",
@@ -337,7 +339,7 @@ export const createNewParameter = (
     keyValueSeparator: " ",
     enumValues: [],
     validations: [],
-    dependencies: [],
+    dependencies: []
   };
 };
 

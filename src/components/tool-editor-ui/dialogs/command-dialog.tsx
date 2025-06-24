@@ -9,6 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
+  DialogDescription
 } from "@/components/ui/dialog";
 import { Command } from "@/lib/types/tool-editor";
 import { TerminalIcon } from "lucide-react";
@@ -16,7 +17,7 @@ import { useState } from "react";
 import { useStore } from "@tanstack/react-store";
 import {
   toolBuilderActions,
-  toolBuilderStore,
+  toolBuilderStore
 } from "@/components/tool-editor-ui/tool-editor.store";
 
 interface CommandDialogProps {
@@ -37,6 +38,9 @@ export function CommandDialog({ isOpen, onOpenChange }: CommandDialogProps) {
             <TerminalIcon className="h-5 w-5" />
             Edit Command Settings
           </DialogTitle>
+          <DialogDescription>
+            Dialog for editing command details
+          </DialogDescription>
         </DialogHeader>
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
@@ -49,7 +53,7 @@ export function CommandDialog({ isOpen, onOpenChange }: CommandDialogProps) {
                 onChange={(e) =>
                   setCommand((prev) => ({
                     ...prev,
-                    name: e.target.value,
+                    name: e.target.value
                   }))
                 }
               />
@@ -65,7 +69,7 @@ export function CommandDialog({ isOpen, onOpenChange }: CommandDialogProps) {
                 onChange={(e) =>
                   setCommand((prev) => ({
                     ...prev,
-                    sortOrder: Number.parseInt(e.target.value) || 0,
+                    sortOrder: Number.parseInt(e.target.value) || 0
                   }))
                 }
               />
@@ -78,7 +82,7 @@ export function CommandDialog({ isOpen, onOpenChange }: CommandDialogProps) {
                 onCheckedChange={(checked) => {
                   setCommand((prev) => ({
                     ...prev,
-                    isDefault: checked,
+                    isDefault: checked
                   }));
                 }}
               />
@@ -101,7 +105,7 @@ export function CommandDialog({ isOpen, onOpenChange }: CommandDialogProps) {
           <Button
             variant="outline"
             onClick={() => {
-              toolBuilderActions.updateCommand(editCommand.name, editCommand);
+              toolBuilderActions.updateCommand(editCommand.id, editCommand);
               onOpenChange(false);
             }}
           >

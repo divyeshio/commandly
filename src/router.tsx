@@ -12,10 +12,11 @@ export function createRouter() {
     createTanStackRouter({
       routeTree,
       defaultSsr: false,
+      defaultStructuralSharing: true,
       context: { queryClient },
       defaultPreload: "intent",
       defaultErrorComponent: DefaultCatchBoundary,
-      defaultNotFoundComponent: () => <NotFound />,
+      defaultNotFoundComponent: () => <NotFound />
     }),
     queryClient
   );

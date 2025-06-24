@@ -10,17 +10,17 @@ import {
   LayersIcon,
   PlusIcon,
   Trash2Icon,
-  XCircleIcon,
+  XCircleIcon
 } from "lucide-react";
 import { useStore } from "@tanstack/react-store";
 import {
   toolBuilderStore,
   toolBuilderActions,
-  toolBuilderSelectors,
+  toolBuilderSelectors
 } from "@/components/tool-editor-ui/tool-editor.store";
 import {
   createNewParameter,
-  validateDefaultValue,
+  validateDefaultValue
 } from "@/lib/utils/tool-editor";
 
 interface ParameterListProps {
@@ -41,18 +41,15 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
     toolBuilderSelectors.getGlobalParameters(state)
   );
   const commandParameters = useStore(toolBuilderStore, (state) =>
-    selectedCommand?.name
-      ? toolBuilderSelectors.getParametersForCommand(
-          state,
-          selectedCommand.name
-        )
+    selectedCommand?.id
+      ? toolBuilderSelectors.getParametersForCommand(state, selectedCommand.id)
       : []
   );
   const exclusionGroups = useStore(toolBuilderStore, (state) =>
-    selectedCommand?.name
+    selectedCommand?.id
       ? toolBuilderSelectors.getExclusionGroupsForCommand(
           state,
-          selectedCommand.name
+          selectedCommand.id
         )
       : []
   );
@@ -90,7 +87,7 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
         <Button
           onClick={() =>
             toolBuilderActions.setSelectedParameter(
-              createNewParameter(isGlobal, selectedCommand?.name)
+              createNewParameter(isGlobal, selectedCommand?.id)
             )
           }
           size="sm"

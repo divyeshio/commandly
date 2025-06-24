@@ -2,13 +2,19 @@ import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,
+  PopoverTrigger
 } from "@/components/ui/popover";
 import { CheckIcon, PlusIcon } from "lucide-react";
 import { useState } from "react";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "./ui/command";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList
+} from "./ui/command";
 import { Badge } from "./ui/badge";
-
 
 export interface TagsProps {
   tags: string[];
@@ -20,7 +26,7 @@ export interface TagsProps {
 export const TagsComponent = ({
   tags: initialTags,
   maxCount = 3,
-  onOpenChange,
+  onOpenChange
 }: TagsProps) => {
   const [tags, setTags] = useState(initialTags);
   const [searchValue, setSearchValue] = useState("");

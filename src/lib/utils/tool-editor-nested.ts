@@ -3,7 +3,7 @@ import type {
   NestedTool,
   NestedCommand,
   NestedParameter,
-  NestedExclusionGroup,
+  NestedExclusionGroup
 } from "@/lib/types/tool-editor-nested";
 
 // Convert flat tool structure to nested structure
@@ -14,28 +14,30 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
   // Convert parameters to nested format
   const convertParameter = (param: Parameter): NestedParameter => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { id, command: commandId, ...rest } = param;
+    const { id, commandId, ...rest } = param;
     return {
       ...rest,
-      validations: param.validations?.map((v) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { id, parameterId, ...restValidations } = v;
-        return {
-          ...restValidations,
-        };
-      }),
+      validations:
+        param.validations?.map((v) => {
+          return {
+            validationType: v.validationType,
+            validationValue: v.validationValue,
+            errorMessage: v.errorMessage
+          };
+        }) || [],
       metadata: param.metadata,
       dataType: param.dataType, // Map parameterDataType to dataType
-      dependencies: param.dependencies?.map((dep) => {
-        const dependsOnParam = tool.parameters.find(
-          (p) => p.id === dep.dependsOnParameterId
-        );
-        return {
-          dependsOnParameter: dependsOnParam?.longFlag || "",
-          dependencyType: dep.dependencyType,
-          conditionValue: dep.conditionValue,
-        };
-      }),
+      dependencies:
+        param.dependencies?.map((dep) => {
+          const dependsOnParam = tool.parameters.find(
+            (p) => p.id === dep.dependsOnParameterId
+          );
+          return {
+            dependsOnParameter: dependsOnParam?.longFlag || "",
+            dependencyType: dep.dependencyType,
+            conditionValue: dep.conditionValue
+          };
+        }) || []
     };
   };
 
@@ -45,10 +47,10 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
     parentId?: string
   ): NestedCommand[] => {
     return commands
-      .filter((cmd) => cmd.parentCommand === parentId)
+      .filter((cmd) => cmd.parentCommandId === parentId)
       .map((cmd) => {
         const commandParameters = tool.parameters.filter(
-          (p) => p.command === cmd.name && !p.isGlobal
+          (p) => p.commandId === cmd.id && !p.isGlobal
         );
         return {
           name: cmd.name,
@@ -56,7 +58,7 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
           isDefault: cmd.isDefault,
           sortOrder: cmd.sortOrder,
           parameters: commandParameters.map(convertParameter),
-          subcommands: buildNestedCommands(commands, cmd.name),
+          subcommands: buildNestedCommands(commands, cmd.id)
         };
       });
   };
@@ -70,7 +72,7 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
         parameters: group.parameterIds.map((pid) => {
           const param = tool.parameters.find((p) => p.id === pid);
           return param?.longFlag || "";
-        }),
+        })
       };
     });
 
@@ -83,6 +85,6 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
     supportedOutput: tool.supportedOutput,
     globalParameters: globalParameters.map(convertParameter),
     commands: buildNestedCommands(tool.commands),
-    exclusionGroups: nestedExclusionGroups,
+    exclusionGroups: nestedExclusionGroups
   };
 };

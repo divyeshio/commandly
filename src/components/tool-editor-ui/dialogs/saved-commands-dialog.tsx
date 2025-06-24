@@ -4,14 +4,14 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
+  DialogFooter
 } from "@/components/ui/dialog";
 import { SaveIcon, CopyIcon, Trash2Icon } from "lucide-react";
 import { useStore } from "@tanstack/react-store";
 import {
   toolBuilderStore,
   toolBuilderActions,
-  toolBuilderSelectors,
+  toolBuilderSelectors
 } from "@/components/tool-editor-ui/tool-editor.store";
 import { toast } from "sonner";
 
@@ -36,7 +36,7 @@ export function SavedCommandsDialog() {
   const deleteCommand = (commandId: string) => {
     toolBuilderActions.removeSavedCommand(commandId);
     toast("Command Removed", {
-      description: "Saved command has been removed successfully.",
+      description: "Saved command has been removed successfully."
     });
   };
 
@@ -60,7 +60,8 @@ export function SavedCommandsDialog() {
           </div>
         ) : (
           <div className="space-y-4 overflow-y-auto pr-4 max-h-[calc(80vh-8rem)]">
-            {savedCommands && savedCommands.length > 0 &&
+            {savedCommands &&
+              savedCommands.length > 0 &&
               savedCommands.map((savedCommand) => (
                 <div
                   key={savedCommand.id}

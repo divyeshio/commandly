@@ -6,7 +6,7 @@ import type {
   ParameterType,
   ParameterValidation,
   SupportedToolInputType,
-  SupportedToolOutputType,
+  SupportedToolOutputType
 } from "./tool-editor";
 
 // This file contains types for nested JSON structure

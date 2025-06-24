@@ -3,7 +3,7 @@ import { JsonOutput } from "@/components/tool-editor-ui/json-output";
 import { defaultTool } from "@/lib/utils/tool-editor";
 import {
   OnUrlUpdateFunction,
-  withNuqsTestingAdapter,
+  withNuqsTestingAdapter
 } from "nuqs/adapters/testing";
 
 describe("JsonOutput", () => {
@@ -13,8 +13,8 @@ describe("JsonOutput", () => {
     render(<JsonOutput tool={defaultTool()} />, {
       wrapper: withNuqsTestingAdapter({
         searchParams: "?newTool=newTool",
-        onUrlUpdate,
-      }),
+        onUrlUpdate
+      })
     });
     expect(screen.getByText(/Output type/)).toBeInTheDocument();
   });

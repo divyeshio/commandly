@@ -4,6 +4,7 @@
   "description": "Subfinder is a subdomain discovery tool that discovers subdomains for websites by using passive online sources.",
   "commands": [
     {
+      "id": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "subfinder",
       "description": "Subfinder is a subdomain discovery tool that discovers subdomains for websites by using passive online sources.",
       "isDefault": true,
@@ -13,7 +14,7 @@
   "parameters": [
     {
       "id": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Target Domain",
       "description": "Domains to find subdomains for",
       "longFlag": "-domain",
@@ -29,7 +30,7 @@
     },
     {
       "id": "01978ea4-4942-7485-b7b0-1f1abfd4ce64",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Sources",
       "description": "Specific sources to use for discovery (-s crtsh,github). Use -ls to display all available sources.",
       "longFlag": "-sources",
@@ -45,7 +46,7 @@
     },
     {
       "id": "01978ea4-4942-7b34-9189-3ca9d9967655",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Recursive",
       "description": "Use only sources that can handle subdomains recursively rather than both recursive and non-recursive sources",
       "longFlag": "-recursive",
@@ -60,7 +61,7 @@
     },
     {
       "id": "01978ea4-4942-7c46-8324-8150fd11db8a",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Target Domains List",
       "description": "File containing list of domains for subdomain discovery",
       "longFlag": "-list",
@@ -75,7 +76,7 @@
     },
     {
       "id": "01978ea4-4952-70b6-8986-431a315b7b62",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Output Directory",
       "description": "Directory to write output (-dL only)",
       "longFlag": "-output-dir",
@@ -90,7 +91,7 @@
     },
     {
       "id": "01978ea4-4952-711b-b36a-e8f1ff6fe01e",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Report Statistics",
       "description": "Report source statistics",
       "longFlag": "-stats",
@@ -105,7 +106,7 @@
     },
     {
       "id": "01978ea4-4952-71a0-9374-accedad21a0e",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Timeout in seconds",
       "description": "Seconds to wait before timing out (default 30)",
       "longFlag": "-timeout",
@@ -120,7 +121,7 @@
     },
     {
       "id": "01978ea4-4952-71bd-9ce6-3dd28b74cef6",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Resolvers File",
       "description": "File containing list of resolvers to use",
       "longFlag": "-rlist",
@@ -135,7 +136,7 @@
     },
     {
       "id": "01978ea4-4952-72d7-8bf9-8da9064a9603",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Update",
       "description": "Update subfinder to latest version",
       "longFlag": "-update",
@@ -151,7 +152,7 @@
     },
     {
       "id": "01978ea4-4952-738e-b392-b4f024e5a1a0",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Version",
       "description": "Show version of subfinder",
       "longFlag": "-version",
@@ -166,7 +167,7 @@
     },
     {
       "id": "01978ea4-4952-73db-bd93-c80f5262f7a5",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Exclude IPs",
       "description": "Exclude IPs from the list of domains",
       "longFlag": "-exclude-ip",
@@ -182,7 +183,7 @@
     },
     {
       "id": "01978ea4-4952-7467-a4e8-2c6296409968",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Proxy",
       "description": "Http proxy to use with subfinder",
       "longFlag": "-proxy",
@@ -196,7 +197,7 @@
     },
     {
       "id": "01978ea4-4952-7477-b26c-1dc6df7e3e6b",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "No Colour in Output",
       "description": "Disable color in output",
       "longFlag": "-no-color",
@@ -212,7 +213,7 @@
     },
     {
       "id": "01978ea4-4952-74c5-8ed1-86e39b868af3",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Match",
       "description": "Subdomain or list of subdomain to match (file or comma separated)",
       "longFlag": "-match",
@@ -228,7 +229,7 @@
     },
     {
       "id": "01978ea4-4952-75e4-9716-e40f90a6701e",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Include IP",
       "description": "Include host IP in output (-active only)",
       "longFlag": "-ip",
@@ -244,7 +245,7 @@
     },
     {
       "id": "01978ea4-4952-76a2-884a-392d6de2f087",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Active Domains Only",
       "description": "Display active subdomains only",
       "longFlag": "-active",
@@ -260,7 +261,7 @@
     },
     {
       "id": "01978ea4-4952-76ee-979f-26be2eb99723",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Rate Limits",
       "description": "Maximum number of http requests to send per second for providers in key=value format (-rls hackertarget=10/m)",
       "longFlag": "-rate-limits",
@@ -276,7 +277,7 @@
     },
     {
       "id": "01978ea4-4952-774c-8599-fc04dc5c933a",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Disable Update Check",
       "description": "Disable automatic subfinder update check",
       "longFlag": "-disable-update-check",
@@ -292,7 +293,7 @@
     },
     {
       "id": "01978ea4-4952-77cb-a274-4ab236a4c285",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Collect Sources",
       "description": "Include all sources in the output (-json only)",
       "longFlag": "-collect-sources",
@@ -308,7 +309,7 @@
     },
     {
       "id": "01978ea4-4952-7922-85e9-23cf941184e9",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Output File",
       "description": "File to write output to",
       "longFlag": "-output",
@@ -323,7 +324,7 @@
     },
     {
       "id": "01978ea4-4952-79a7-8277-781758f4e814",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Verbose Output",
       "description": "Show verbose output",
       "longFlag": "-v",
@@ -338,7 +339,7 @@
     },
     {
       "id": "01978ea4-4952-7b4a-9bc9-4201f84e6176",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Resolvers to use",
       "description": "Comma separated list of resolvers to use",
       "longFlag": "-r",
@@ -353,7 +354,7 @@
     },
     {
       "id": "01978ea4-4952-7c05-a6a6-5c15e5228bfc",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Json",
       "description": "Write output in JSONL(ines) format",
       "longFlag": "-json",
@@ -369,7 +370,7 @@
     },
     {
       "id": "01978ea4-4952-7c14-b83b-5c04f065eecb",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Configuration file",
       "description": "Subfinder config file",
       "longFlag": "-config",
@@ -384,7 +385,7 @@
     },
     {
       "id": "01978ea4-4952-7c4d-aa5e-3007fb2742c4",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Rate Limit",
       "description": "Maximum number of http requests to send per second (global)",
       "longFlag": "-rate-limit",
@@ -399,7 +400,7 @@
     },
     {
       "id": "01978ea4-4952-7ca0-9dce-9ed92ed8e39f",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Filter",
       "description": "Subdomain or list of subdomain to filter (file or comma separated)",
       "longFlag": "-filter",
@@ -415,7 +416,7 @@
     },
     {
       "id": "01978ea4-4952-7d09-ba36-641ba3d7d574",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Silent",
       "description": "Show only subdomains in output",
       "longFlag": "-silent",
@@ -430,7 +431,7 @@
     },
     {
       "id": "01978ea4-4952-7d31-9135-93d49d2a6968",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "All Sources",
       "description": "Use all sources for enumeration (slow)",
       "longFlag": "-all",
@@ -445,7 +446,7 @@
     },
     {
       "id": "01978ea4-4952-7d73-89a9-6cadb6b004ce",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "List Sources",
       "description": "List all available sources",
       "longFlag": "-list-sources",
@@ -461,7 +462,7 @@
     },
     {
       "id": "01978ea4-4952-7dec-9727-0e32e82dd687",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Exclude Sources",
       "description": "Sources to exclude from enumeration (-es alienvault,zoomeyeapi)",
       "longFlag": "-exclude-sources",
@@ -477,7 +478,7 @@
     },
     {
       "id": "01978ea4-4952-7df5-9ff4-9715707ced01",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Max time",
       "description": "Minutes to wait for enumeration results (default 10)",
       "longFlag": "-max-time",
@@ -492,7 +493,7 @@
     },
     {
       "id": "01978ea4-4952-7e84-9fa1-3aef9abcb01c",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Threads",
       "description": "Number of concurrent goroutines for resolving (-active only) (default 10)",
       "longFlag": "-t",
@@ -507,7 +508,7 @@
     },
     {
       "id": "01978ea4-4952-7ede-9179-9a37bd10f67c",
-      "command": "subfinder",
+      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Provider Configuration file",
       "description": "Provider config file",
       "longFlag": "-provider-config",
