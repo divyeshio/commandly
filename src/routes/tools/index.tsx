@@ -36,7 +36,7 @@ export const toolsQueryOptions = () =>
 const getToolsList = createServerFn({
   method: "GET"
 }).handler(async () => {
-  const collectionDir = path.join(process.cwd(), "tools-collection");
+  const collectionDir = path.join(process.cwd(), "public", "tools-collection");
   const files = await fs.readdir(collectionDir);
   return files.map((file) => {
     return {
@@ -94,7 +94,6 @@ function RouteComponent() {
   const [serverToolNames, setServerToolNames] = useState<Set<string>>(
     new Set((loaderData.serverTools || []).map((t: any) => t.name))
   );
-  console.log("Loader data tools:", loaderData.serverTools);
 
   // On client, keep tools in sync with localStorage
   useEffect(() => {

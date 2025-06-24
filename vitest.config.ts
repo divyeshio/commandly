@@ -12,7 +12,10 @@ export default mergeConfig(
       globals: true,
       setupFiles: ["./tests/vitest.setup.ts"],
       coverage: {
-        reporter: ["text", "json", "html"]
+        provider: "v8",
+        reporter: process.env.GITHUB_ACTIONS
+          ? ["text", "github-actions"]
+          : ["text"]
       }
     }
   })

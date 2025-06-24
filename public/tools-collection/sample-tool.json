@@ -1,0 +1,62 @@
+{
+  "name": "sample-tool",
+  "displayName": "Sample Tool",
+  "description": "",
+  "version": "",
+  "commands": [
+    {
+      "id": "0197a12c-fb55-76ab-aa00-9e0a3eca3c3d",
+      "name": "sample-tool",
+      "description": "Main command",
+      "isDefault": true,
+      "sortOrder": 0
+    },
+    {
+      "id": "0197a12d-04e6-75cb-9e3d-54bcc71fc080",
+      "name": "test",
+      "description": "",
+      "isDefault": false,
+      "sortOrder": 1
+    }
+  ],
+  "parameters": [
+    {
+      "id": "--help",
+      "name": "Help",
+      "description": "Displays help menu of tool",
+      "parameterType": "Flag",
+      "dataType": "String",
+      "isRequired": false,
+      "isRepeatable": false,
+      "isGlobal": true,
+      "shortFlag": "-h",
+      "longFlag": "--help",
+      "enumValues": [],
+      "validations": [],
+      "dependencies": []
+    },
+    {
+      "id": "0197a12d-8336-7067-a7a0-f67326cb2c26",
+      "name": "Version",
+      "commandId": "0197a12c-fb55-76ab-aa00-9e0a3eca3c3d",
+      "description": "Outputs version of tool",
+      "parameterType": "Flag",
+      "dataType": "String",
+      "isRequired": false,
+      "isRepeatable": false,
+      "isGlobal": false,
+      "defaultValue": "",
+      "shortFlag": "-v",
+      "longFlag": "--version",
+      "sortOrder": 0,
+      "arraySeparator": ",",
+      "keyValueSeparator": " ",
+      "enumValues": [],
+      "validations": [],
+      "dependencies": []
+    }
+  ],
+  "exclusionGroups": [],
+  "supportedInput": ["StandardInput"],
+  "supportedOutput": ["StandardOutput"]
+}

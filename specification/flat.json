@@ -1,0 +1,314 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "displayName": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/__schema0"
+      }
+    },
+    "parameters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "commandId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
+          },
+          "description": {
+            "type": "string"
+          },
+          "metadata": {
+            "type": "object",
+            "properties": {
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "additionalProperties": false
+          },
+          "parameterType": {
+            "type": "string",
+            "enum": ["Flag", "Option", "Argument"]
+          },
+          "dataType": {
+            "type": "string",
+            "enum": ["String", "Number", "Boolean", "Enum"]
+          },
+          "isRequired": {
+            "type": "boolean"
+          },
+          "isRepeatable": {
+            "type": "boolean"
+          },
+          "isGlobal": {
+            "type": "boolean"
+          },
+          "defaultValue": {
+            "type": "string"
+          },
+          "shortFlag": {
+            "type": "string"
+          },
+          "longFlag": {
+            "type": "string"
+          },
+          "position": {
+            "type": "number"
+          },
+          "sortOrder": {
+            "type": "number"
+          },
+          "arraySeparator": {
+            "type": "string"
+          },
+          "keyValueSeparator": {
+            "type": "string"
+          },
+          "enumValues": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
+                },
+                "parameterId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
+                },
+                "value": {
+                  "type": "string"
+                },
+                "displayName": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "isDefault": {
+                  "type": "boolean"
+                },
+                "sortOrder": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "id",
+                "parameterId",
+                "value",
+                "displayName",
+                "description",
+                "isDefault",
+                "sortOrder"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "validations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "parameterId": {
+                  "type": "string"
+                },
+                "validationType": {
+                  "type": "string",
+                  "enum": [
+                    "min_length",
+                    "max_length",
+                    "min_value",
+                    "max_value",
+                    "regex"
+                  ]
+                },
+                "validationValue": {
+                  "type": "string"
+                },
+                "errorMessage": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "parameterId",
+                "validationType",
+                "validationValue",
+                "errorMessage"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "dependencies": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "parameterId": {
+                  "type": "string"
+                },
+                "dependsOnParameterId": {
+                  "type": "string"
+                },
+                "dependencyType": {
+                  "type": "string",
+                  "enum": ["requires", "conflicts_with"]
+                },
+                "conditionValue": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "parameterId",
+                "dependsOnParameterId",
+                "dependencyType"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "description",
+          "parameterType",
+          "dataType",
+          "isRequired",
+          "isRepeatable",
+          "isGlobal",
+          "longFlag",
+          "enumValues"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "exclusionGroups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "commandId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "exclusionType": {
+            "type": "string",
+            "enum": ["mutual_exclusive", "required_one_of"]
+          },
+          "parameterIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": ["name", "exclusionType", "parameterIds"],
+        "additionalProperties": false
+      }
+    },
+    "supportedInput": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["StandardInput", "Parameter"]
+      }
+    },
+    "supportedOutput": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["StandardOutput", "File", "Directory"]
+      }
+    }
+  },
+  "required": [
+    "name",
+    "displayName",
+    "commands",
+    "parameters",
+    "exclusionGroups",
+    "supportedInput",
+    "supportedOutput"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "__schema0": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
+        },
+        "parentCommandId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "isDefault": {
+          "type": "boolean"
+        },
+        "sortOrder": {
+          "type": "number"
+        },
+        "subcommands": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/__schema0"
+          }
+        }
+      },
+      "required": ["id", "name", "description", "isDefault", "sortOrder"],
+      "additionalProperties": false
+    }
+  }
+}
