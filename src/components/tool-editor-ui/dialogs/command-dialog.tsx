@@ -9,6 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Command } from "@/lib/types/tool-editor";
 import { TerminalIcon } from "lucide-react";
@@ -37,6 +38,9 @@ export function CommandDialog({ isOpen, onOpenChange }: CommandDialogProps) {
             <TerminalIcon className="h-5 w-5" />
             Edit Command Settings
           </DialogTitle>
+          <DialogDescription>
+            Dialog for editing command details
+          </DialogDescription>
         </DialogHeader>
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">

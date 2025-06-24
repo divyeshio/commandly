@@ -68,13 +68,11 @@ export function ParameterDetailsDialog() {
     });
   });
 
-  const [parameter, setParameter] = useState<Parameter | null>(
-    selectedParameter ?? null
-  );
+  const [parameter, setParameter] = useState<Parameter>(selectedParameter!);
   const [hasChanges, setHasChanges] = useState(false);
 
   useEffect(() => {
-    setParameter(selectedParameter ?? null);
+    setParameter(selectedParameter!);
     setHasChanges(false);
   }, [selectedParameter]);
 
@@ -95,24 +93,19 @@ export function ParameterDetailsDialog() {
 
   const handleClose = () => {
     toolBuilderActions.setSelectedParameter(null);
-    setParameter(null);
     setHasChanges(false);
   };
 
   const handleSave = () => {
     if (parameter) {
-      if (availableParameters.some((p) => p.id === parameter.id)) {
-        toolBuilderActions.updateParameter(parameter);
-      } else {
-        toolBuilderActions.addParameter(parameter);
-      }
+      toolBuilderActions.upsertParameter(parameter);
       setHasChanges(false);
       handleClose();
     }
   };
 
   const updateParameter = (updates: Partial<Parameter>) => {
-    setParameter((prev) => (prev ? { ...prev, ...updates } : null));
+    setParameter((prev) => ({ ...prev, ...updates }));
     setHasChanges(true);
   };
 

@@ -162,55 +162,6 @@ export const toolBuilderActions = {
     }));
   },
 
-  addParameter(newParameter: Parameter) {
-    toolBuilderStore.setState((state) => {
-      return {
-        ...state,
-        tool: {
-          ...state.tool,
-          parameters: [...state.tool.parameters, newParameter],
-        },
-      };
-    });
-
-    toast("Parameter Added", {
-      description: `New ${newParameter.isGlobal ? "global " : ""}parameter has been created successfully.`,
-    });
-  },
-
-  updateParameter(updatedParameter: Parameter) {
-    toolBuilderStore.setState((state) => ({
-      ...state,
-      tool: {
-        ...state.tool,
-        parameters: state.tool.parameters.map((param) => {
-          if (param.id === updatedParameter.id) {
-            const updatedParam = {
-              ...param,
-              ...updatedParameter,
-              dependencies: updatedParameter.dependencies || [],
-              validations: updatedParameter.validations || [],
-              enumValues: updatedParameter.enumValues || [],
-            };
-            // If switching to global, clear commandId
-            if (
-              updatedParameter.isGlobal &&
-              updatedParameter.isGlobal !== param.isGlobal
-            ) {
-              updatedParam.commandId = undefined;
-            }
-            // If switching from global, set commandId to current command
-            if (updatedParameter.isGlobal === false && param.isGlobal) {
-              updatedParam.commandId = state.selectedCommand?.id;
-            }
-            return updatedParam;
-          }
-          return param;
-        }),
-      },
-    }));
-  },
-
   removeParameter(parameterId: string) {
     toolBuilderStore.setState((state) => {
       const newState = {
@@ -238,7 +189,6 @@ export const toolBuilderActions = {
       description: "Parameter has been removed successfully.",
     });
   },
-
   addSavedCommand(command: string) {
     const toolId =
       toolBuilderStore.state.tool.id || toolBuilderStore.state.tool.name;
@@ -376,5 +326,48 @@ export const toolBuilderActions = {
       ...state,
       editingCommand: command,
     }));
+  },
+
+  upsertParameter(parameter: Parameter) {
+    toolBuilderStore.setState((state) => {
+      const exists = state.tool.parameters.some((p) => p.id === parameter.id);
+      let newParameters: Parameter[];
+      if (exists) {
+        newParameters = state.tool.parameters.map((param) => {
+          if (param.id === parameter.id) {
+            const updatedParam = {
+              ...param,
+              ...parameter,
+              dependencies: parameter.dependencies || [],
+              validations: parameter.validations || [],
+              enumValues: parameter.enumValues || [],
+            };
+            if (parameter.isGlobal && parameter.isGlobal !== param.isGlobal) {
+              updatedParam.commandId = undefined;
+            }
+            if (parameter.isGlobal === false && param.isGlobal) {
+              updatedParam.commandId = state.selectedCommand?.id;
+            }
+            return updatedParam;
+          }
+          return param;
+        });
+        toast("Parameter Updated", {
+          description: `Parameter has been updated successfully.`,
+        });
+      } else {
+        newParameters = [...state.tool.parameters, parameter];
+        toast("Parameter Added", {
+          description: `New ${parameter.isGlobal ? "global " : ""}parameter has been created successfully.`,
+        });
+      }
+      return {
+        ...state,
+        tool: {
+          ...state.tool,
+          parameters: newParameters,
+        },
+      };
+    });
   },
 };

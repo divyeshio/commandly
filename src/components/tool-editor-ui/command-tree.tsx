@@ -143,9 +143,6 @@ export function CommandTree() {
   };
 
   const commandHierarchy = buildCommandHierarchy(tool.commands);
-
-  console.log("Command Hierarchy:", commandHierarchy);
-
   return (
     <>
       <ScrollArea className="flex-1 p-1">

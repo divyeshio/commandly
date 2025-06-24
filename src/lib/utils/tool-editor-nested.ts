@@ -53,7 +53,6 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
           (p) => p.commandId === cmd.id && !p.isGlobal
         );
         return {
-          id: cmd.id,
           name: cmd.name,
           description: cmd.description,
           isDefault: cmd.isDefault,
