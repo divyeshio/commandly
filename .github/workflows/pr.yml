@@ -30,10 +30,10 @@ jobs:
         run: bun install
 
       - run: bun run lint
-      - name: Format code
+      - run: bunx prettier . --check
         env:
           NODE_OPTIONS: --experimental-strip-types
-        run: bunx prettier . --write
+
 
   build-test:
     runs-on: ubuntu-latest
