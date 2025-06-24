@@ -14,7 +14,7 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
   // Convert parameters to nested format
   const convertParameter = (param: Parameter): NestedParameter => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { id, command: commandId, ...rest } = param;
+    const { id, commandId: commandId, ...rest } = param;
     return {
       ...rest,
       validations:
@@ -50,7 +50,7 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
       .filter((cmd) => cmd.parentCommand === parentId)
       .map((cmd) => {
         const commandParameters = tool.parameters.filter(
-          (p) => p.command === cmd.id && !p.isGlobal
+          (p) => p.commandId === cmd.id && !p.isGlobal
         );
         return {
           id: cmd.id,

@@ -64,7 +64,7 @@ export function HelpMenu() {
       }\n`;
 
       const commandParams = tool.parameters.filter(
-        (p) => !p.isGlobal && p.command === command.name
+        (p) => !p.isGlobal && p.commandId === command.name
       );
 
       const flags = commandParams.filter((p) => p.parameterType === "Flag");

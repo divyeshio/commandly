@@ -17,10 +17,10 @@ export const buildCommandHierarchy = (commands: Command[]): Command[] => {
   commands.forEach((cmd) => {
     const command = commandMap.get(cmd.id)!;
 
-    if (!cmd.parentCommand) {
+    if (!cmd.parentCommandId) {
       rootCommands.push(command);
     } else {
-      const parent = commandMap.get(cmd.parentCommand);
+      const parent = commandMap.get(cmd.parentCommandId);
       if (parent) {
         parent.subcommands.push(command);
       }
@@ -85,7 +85,7 @@ export const getAllSubcommands = (
 
   const findSubcommands = (parentId: string) => {
     commands.forEach((cmd) => {
-      if (cmd.parentCommand === parentId) {
+      if (cmd.parentCommandId === parentId) {
         result.push(cmd);
         findSubcommands(cmd.id);
       }
@@ -140,14 +140,14 @@ export const flattenImportedData = (importedData: any): Tool => {
     parameters.forEach((param: any) => {
       allParameters.push({
         ...param,
-        command: command.name,
+        commandId: command.id,
         isGlobal: !command.name,
       });
     });
 
     const flatCommand: Command = {
       ...commandData,
-      parentCommand: parentId,
+      parentCommandId: parentId,
     };
 
     const flatCommands = [flatCommand];
@@ -308,7 +308,7 @@ export const validateDefaultValue = (
 export const createNewCommand = (parentId?: string): Command => {
   return {
     id: uuidv7(),
-    parentCommand: parentId,
+    parentCommandId: parentId,
     name: randomCommandName(),
     description: "",
     isDefault: false,
@@ -324,7 +324,7 @@ export const createNewParameter = (
   return {
     id: uuidv7(),
     name: "new-parameter",
-    command: isGlobal ? undefined : commandId,
+    commandId: isGlobal ? undefined : commandId,
     description: "",
     parameterType: "Option",
     dataType: "String",

@@ -2,7 +2,7 @@ import { z } from "zod/v4";
 
 export const CommandSchema = z.object({
   id: z.uuidv7(),
-  parentCommand: z.string().optional(),
+  parentCommandId: z.uuidv7().optional(),
   name: z.string(),
   description: z.string(),
   isDefault: z.boolean(),
@@ -78,7 +78,7 @@ export type ParameterDataType = z.infer<typeof ParameterDataTypeSchema>;
 export const ParameterSchema = z.object({
   id: z.string(),
   name: z.string(),
-  command: z.string().optional(),
+  commandId: z.uuidv7().optional(),
   description: z.string(),
   metadata: ParameterMetadataSchema.optional(),
   parameterType: ParameterTypeSchema,

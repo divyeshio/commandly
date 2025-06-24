@@ -87,7 +87,7 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
         <Button
           onClick={() =>
             toolBuilderActions.setSelectedParameter(
-              createNewParameter(isGlobal, selectedCommand?.name)
+              createNewParameter(isGlobal, selectedCommand?.id)
             )
           }
           size="sm"

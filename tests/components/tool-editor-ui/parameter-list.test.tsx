@@ -21,7 +21,7 @@ const createTestParameter = (
   longFlag: "--test",
   shortFlag: "-t",
   enumValues: [],
-  command: "01979f70-cc01-73fe-b638-14ec567e43be",
+  commandId: "01979f70-cc01-73fe-b638-14ec567e43be",
   ...overrides,
 });
 
@@ -64,7 +64,10 @@ describe("ParameterList - Rendering & Structure", () => {
   it("renders the title and parameter count correctly", () => {
     const parameters = [
       createTestParameter(),
-      createTestParameter({ id: "01979f70-cc01-73fe-b638-1e8086d40f60", name: "param2" }),
+      createTestParameter({
+        id: "01979f70-cc01-73fe-b638-1e8086d40f60",
+        name: "param2",
+      }),
     ];
     toolBuilderStore.setState((prev) => ({
       ...prev,
@@ -101,9 +104,18 @@ describe("ParameterList - Rendering & Structure", () => {
 
   it("renders the correct number of parameter cards based on the parameters array", () => {
     const parameters = [
-      createTestParameter({ id: "01979f70-cc01-73fe-b638-23765035e40b", name: "param1" }),
-      createTestParameter({ id: "01979f70-cc01-73fe-b638-25a9f6a78256", name: "param2" }),
-      createTestParameter({ id: "01979f70-cc01-73fe-b638-2ab8af3f1441", name: "param3" }),
+      createTestParameter({
+        id: "01979f70-cc01-73fe-b638-23765035e40b",
+        name: "param1",
+      }),
+      createTestParameter({
+        id: "01979f70-cc01-73fe-b638-25a9f6a78256",
+        name: "param2",
+      }),
+      createTestParameter({
+        id: "01979f70-cc01-73fe-b638-2ab8af3f1441",
+        name: "param3",
+      }),
     ];
     toolBuilderStore.setState((prev) => ({
       ...prev,
@@ -464,7 +476,9 @@ describe("ParameterList - Rendering & Structure", () => {
       const updatedState = toolBuilderStore.state;
       expect(updatedState.selectedParameter).toBeTruthy();
       expect(updatedState.selectedParameter?.isGlobal).toBe(false);
-      expect(updatedState.selectedParameter?.command).toBe("test-command");
+      expect(updatedState.selectedParameter?.commandId).toBe(
+        "01979f70-cc01-73fe-b638-14ec567e43be"
+      );
     });
 
     it("add button creates a new parameter with correct context for global parameters", () => {

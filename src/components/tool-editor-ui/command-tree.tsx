@@ -30,7 +30,7 @@ export function CommandTree() {
   );
 
   const [expandedCommands, setExpandedCommands] = useState<Set<string>>(
-    new Set([tool.commands[0]?.id || tool.name])
+    new Set([tool.commands[0]?.id])
   );
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -144,6 +144,8 @@ export function CommandTree() {
 
   const commandHierarchy = buildCommandHierarchy(tool.commands);
 
+  console.log("Command Hierarchy:", commandHierarchy);
+
   return (
     <>
       <ScrollArea className="flex-1 p-1">
@@ -153,7 +155,7 @@ export function CommandTree() {
         <div className="p-2">
           <Button
             className="w-full"
-            onClick={() => toolBuilderActions.addSubcommand(null!)}
+            onClick={() => toolBuilderActions.addSubcommand()}
           >
             <PlusIcon className="h-3 w-3 mr-1" />
             Add Command

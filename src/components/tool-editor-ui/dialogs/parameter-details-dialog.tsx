@@ -64,7 +64,7 @@ export function ParameterDetailsDialog() {
     return state.tool.parameters.filter((p) => {
       if (p.id === selectedParameter.id) return false;
       if (selectedParameter.isGlobal) return p.isGlobal;
-      return p.isGlobal || p.command === commandId;
+      return p.isGlobal || p.commandId === commandId;
     });
   });
 

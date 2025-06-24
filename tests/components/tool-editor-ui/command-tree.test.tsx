@@ -32,7 +32,7 @@ const createComplexTool = (): Tool => {
       {
         id: "01979f6d-f206-7716-a2f2-6bd94d6bc515",
         name: "config",
-        parentCommand: "01979f6d-f206-7716-a2f2-64e1baed9686",
+        parentCommandId: "01979f6d-f206-7716-a2f2-64e1baed9686",
         description: "Configuration management",
         isDefault: false,
         sortOrder: 1,
@@ -41,7 +41,7 @@ const createComplexTool = (): Tool => {
       {
         id: "01979f6d-f206-7716-a2f2-6ced0d4d3b0b",
         name: "get",
-        parentCommand: "01979f6d-f206-7716-a2f2-6bd94d6bc515",
+        parentCommandId: "01979f6d-f206-7716-a2f2-6bd94d6bc515",
         description: "Get configuration values",
         isDefault: true,
         sortOrder: 0,
@@ -50,7 +50,7 @@ const createComplexTool = (): Tool => {
       {
         id: "01979f6d-f206-7716-a2f2-7012a6c8f412",
         name: "set",
-        parentCommand: "01979f6d-f206-7716-a2f2-6bd94d6bc515",
+        parentCommandId: "01979f6d-f206-7716-a2f2-6bd94d6bc515",
         description: "Set configuration values",
         isDefault: false,
         sortOrder: 1,
@@ -59,7 +59,7 @@ const createComplexTool = (): Tool => {
       {
         id: "01979f6d-f206-7716-a2f2-73b963d82a18",
         name: "list",
-        parentCommand: "01979f6d-f206-7716-a2f2-6bd94d6bc515",
+        parentCommandId: "01979f6d-f206-7716-a2f2-6bd94d6bc515",
         description: "List all configurations",
         isDefault: false,
         sortOrder: 2,
@@ -68,7 +68,7 @@ const createComplexTool = (): Tool => {
       {
         id: "01979f6d-f206-7716-a2f2-768e4c6f7653",
         name: "data",
-        parentCommand: "01979f6d-f206-7716-a2f2-64e1baed9686",
+        parentCommandId: "01979f6d-f206-7716-a2f2-64e1baed9686",
         description: "Data management operations",
         isDefault: false,
         sortOrder: 2,
@@ -77,7 +77,7 @@ const createComplexTool = (): Tool => {
       {
         id: "01979f6d-f206-7716-a2f2-7a8347e15b42",
         name: "create",
-        parentCommand: "01979f6d-f206-7716-a2f2-768e4c6f7653",
+        parentCommandId: "01979f6d-f206-7716-a2f2-768e4c6f7653",
         description: "Create new data entries",
         isDefault: false,
         sortOrder: 0,
@@ -86,7 +86,7 @@ const createComplexTool = (): Tool => {
       {
         id: "01979f6d-f206-7716-a2f2-7d1c24f8a9e7",
         name: "read",
-        parentCommand: "01979f6d-f206-7716-a2f2-768e4c6f7653",
+        parentCommandId: "01979f6d-f206-7716-a2f2-768e4c6f7653",
         description: "Read existing data",
         isDefault: true,
         sortOrder: 1,
@@ -95,7 +95,7 @@ const createComplexTool = (): Tool => {
       {
         id: "01979f6d-f206-7716-a2f2-7f8d9b3c6af1",
         name: "update",
-        parentCommand: "01979f6d-f206-7716-a2f2-768e4c6f7653",
+        parentCommandId: "01979f6d-f206-7716-a2f2-768e4c6f7653",
         description: "Update existing data",
         isDefault: false,
         sortOrder: 2,
@@ -104,7 +104,7 @@ const createComplexTool = (): Tool => {
       {
         id: "01979f6d-f206-7716-a2f2-8249f7b8d5c4",
         name: "delete",
-        parentCommand: "01979f6d-f206-7716-a2f2-768e4c6f7653",
+        parentCommandId: "01979f6d-f206-7716-a2f2-768e4c6f7653",
         description: "Delete data entries",
         isDefault: false,
         sortOrder: 3,
@@ -113,7 +113,7 @@ const createComplexTool = (): Tool => {
       {
         id: "01979f6d-f206-7716-a2f2-85a6c1f3e291",
         name: "utils",
-        parentCommand: "01979f6d-f206-7716-a2f2-64e1baed9686",
+        parentCommandId: "01979f6d-f206-7716-a2f2-64e1baed9686",
         description: "Utility functions",
         isDefault: false,
         sortOrder: 3,
@@ -122,7 +122,7 @@ const createComplexTool = (): Tool => {
       {
         id: "01979f6d-f206-7716-a2f2-8876d4e9c7f8",
         name: "validate",
-        parentCommand: "01979f6d-f206-7716-a2f2-85a6c1f3e291",
+        parentCommandId: "01979f6d-f206-7716-a2f2-85a6c1f3e291",
         description: "Validate data integrity",
         isDefault: false,
         sortOrder: 0,
@@ -131,7 +131,7 @@ const createComplexTool = (): Tool => {
       {
         id: "01979f6d-f206-7716-a2f2-8b4f7a2d5e91",
         name: "backup",
-        parentCommand: "01979f6d-f206-7716-a2f2-85a6c1f3e291",
+        parentCommandId: "01979f6d-f206-7716-a2f2-85a6c1f3e291",
         description: "Backup operations",
         isDefault: false,
         sortOrder: 1,
@@ -140,7 +140,7 @@ const createComplexTool = (): Tool => {
       {
         id: "01979f6d-f206-7716-a2f2-8e1c9f6b3a74",
         name: "help",
-        parentCommand: "01979f6d-f206-7716-a2f2-64e1baed9686",
+        parentCommandId: "01979f6d-f206-7716-a2f2-64e1baed9686",
         description: "Display help information",
         isDefault: false,
         sortOrder: 4,
@@ -490,7 +490,7 @@ describe("CommandTree", () => {
             )
         );
         expect(newCommands.length).toBe(1);
-        expect(newCommands[0].parentCommand).toBe(
+        expect(newCommands[0].parentCommandId).toBe(
           "01979f6d-f206-7716-a2f2-6bd94d6bc515"
         );
       } else {
@@ -623,7 +623,7 @@ describe("CommandTree", () => {
         // Verify the nested command is selected
         const selectedCommand = toolBuilderStore.state.selectedCommand;
         expect(selectedCommand.name).toBe("get");
-        expect(selectedCommand.parentCommand).toBe(
+        expect(selectedCommand.parentCommandId).toBe(
           "01979f6d-f206-7716-a2f2-6bd94d6bc515"
         );
       }
@@ -654,7 +654,7 @@ describe("CommandTree", () => {
       // Verify store was updated
       const updatedState = toolBuilderStore.state;
       expect(updatedState.selectedCommand.name).toBe("config");
-      expect(updatedState.selectedCommand.parentCommand).toBe(
+      expect(updatedState.selectedCommand.parentCommandId).toBe(
         "01979f6d-f206-7716-a2f2-64e1baed9686"
       );
     });
@@ -709,7 +709,7 @@ describe("CommandTree", () => {
           !initialCommands.some((initialCmd) => initialCmd.name === cmd.name)
       );
       expect(newCommand).toBeDefined();
-      expect(newCommand?.parentCommand).toBe(null); // Root command gets null, not undefined
+      expect(newCommand?.parentCommandId).toBe(undefined);
     });
 
     it("updates tool commands when adding subcommand", () => {
@@ -744,7 +744,7 @@ describe("CommandTree", () => {
             !initialCommands.some((initialCmd) => initialCmd.name === cmd.name)
         );
         expect(newCommand).toBeDefined();
-        expect(newCommand?.parentCommand).toBe(
+        expect(newCommand?.parentCommandId).toBe(
           "01979f6d-f206-7716-a2f2-6bd94d6bc515"
         );
       }

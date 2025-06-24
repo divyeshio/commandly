@@ -51,7 +51,7 @@ export const toolBuilderSelectors = {
   ): Parameter[] => {
     return state.tool.parameters.filter((param: Parameter) => {
       if (param.isGlobal) return false;
-      return param.command === commandId;
+      return param.commandId === commandId;
     });
   },
 
@@ -121,7 +121,7 @@ export const toolBuilderActions = {
             (cmd) => !commandsToDelete.includes(cmd.id)
           ),
           parameters: state.tool.parameters.filter(
-            (param) => !commandsToDelete.includes(param.command || "")
+            (param) => !commandsToDelete.includes(param.commandId || "")
           ),
           exclusionGroups: state.tool.exclusionGroups.filter(
             (group) => !commandsToDelete.includes(group.commandId || "")
@@ -197,11 +197,11 @@ export const toolBuilderActions = {
               updatedParameter.isGlobal &&
               updatedParameter.isGlobal !== param.isGlobal
             ) {
-              updatedParam.command = undefined;
+              updatedParam.commandId = undefined;
             }
             // If switching from global, set commandId to current command
             if (updatedParameter.isGlobal === false && param.isGlobal) {
-              updatedParam.command = state.selectedCommand?.id;
+              updatedParam.commandId = state.selectedCommand?.id;
             }
             return updatedParam;
           }
