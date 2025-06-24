@@ -3,12 +3,12 @@ import {
   screen,
   fireEvent,
   waitFor,
-  act,
+  act
 } from "@testing-library/react";
 import { CommandTree } from "@/components/tool-editor-ui/command-tree";
 import {
   ToolBuilderState,
-  toolBuilderStore,
+  toolBuilderStore
 } from "@/components/tool-editor-ui/tool-editor.store";
 import { defaultTool } from "@/lib/utils/tool-editor";
 import { Tool } from "@/lib/types/tool-editor";
@@ -27,7 +27,7 @@ const createComplexTool = (): Tool => {
         description: "Main CLI tool command",
         isDefault: true,
         sortOrder: 0,
-        subcommands: [],
+        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-6bd94d6bc515",
@@ -36,7 +36,7 @@ const createComplexTool = (): Tool => {
         description: "Configuration management",
         isDefault: false,
         sortOrder: 1,
-        subcommands: [],
+        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-6ced0d4d3b0b",
@@ -45,7 +45,7 @@ const createComplexTool = (): Tool => {
         description: "Get configuration values",
         isDefault: true,
         sortOrder: 0,
-        subcommands: [],
+        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-7012a6c8f412",
@@ -54,7 +54,7 @@ const createComplexTool = (): Tool => {
         description: "Set configuration values",
         isDefault: false,
         sortOrder: 1,
-        subcommands: [],
+        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-73b963d82a18",
@@ -63,7 +63,7 @@ const createComplexTool = (): Tool => {
         description: "List all configurations",
         isDefault: false,
         sortOrder: 2,
-        subcommands: [],
+        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-768e4c6f7653",
@@ -72,7 +72,7 @@ const createComplexTool = (): Tool => {
         description: "Data management operations",
         isDefault: false,
         sortOrder: 2,
-        subcommands: [],
+        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-7a8347e15b42",
@@ -81,7 +81,7 @@ const createComplexTool = (): Tool => {
         description: "Create new data entries",
         isDefault: false,
         sortOrder: 0,
-        subcommands: [],
+        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-7d1c24f8a9e7",
@@ -90,7 +90,7 @@ const createComplexTool = (): Tool => {
         description: "Read existing data",
         isDefault: true,
         sortOrder: 1,
-        subcommands: [],
+        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-7f8d9b3c6af1",
@@ -99,7 +99,7 @@ const createComplexTool = (): Tool => {
         description: "Update existing data",
         isDefault: false,
         sortOrder: 2,
-        subcommands: [],
+        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-8249f7b8d5c4",
@@ -108,7 +108,7 @@ const createComplexTool = (): Tool => {
         description: "Delete data entries",
         isDefault: false,
         sortOrder: 3,
-        subcommands: [],
+        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-85a6c1f3e291",
@@ -117,7 +117,7 @@ const createComplexTool = (): Tool => {
         description: "Utility functions",
         isDefault: false,
         sortOrder: 3,
-        subcommands: [],
+        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-8876d4e9c7f8",
@@ -126,7 +126,7 @@ const createComplexTool = (): Tool => {
         description: "Validate data integrity",
         isDefault: false,
         sortOrder: 0,
-        subcommands: [],
+        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-8b4f7a2d5e91",
@@ -135,7 +135,7 @@ const createComplexTool = (): Tool => {
         description: "Backup operations",
         isDefault: false,
         sortOrder: 1,
-        subcommands: [],
+        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-8e1c9f6b3a74",
@@ -144,13 +144,13 @@ const createComplexTool = (): Tool => {
         description: "Display help information",
         isDefault: false,
         sortOrder: 4,
-        subcommands: [],
-      },
+        subcommands: []
+      }
     ],
     parameters: [],
     exclusionGroups: [],
     supportedInput: [],
-    supportedOutput: [],
+    supportedOutput: []
   };
 };
 
@@ -163,8 +163,8 @@ var testState: ToolBuilderState = {
   dialogs: {
     editTool: false,
     savedCommands: false,
-    exclusionGroups: false,
-  },
+    exclusionGroups: false
+  }
 };
 
 describe("CommandTree", () => {
@@ -190,7 +190,7 @@ describe("CommandTree", () => {
       toolBuilderStore.setState((prev) => ({
         ...prev,
         tool: complexTool,
-        selectedCommand: complexTool.commands[0],
+        selectedCommand: complexTool.commands[0]
       }));
 
       render(<CommandTree />);
@@ -208,7 +208,7 @@ describe("CommandTree", () => {
       toolBuilderStore.setState((prev) => ({
         ...prev,
         tool: complexTool,
-        selectedCommand: complexTool.commands[0],
+        selectedCommand: complexTool.commands[0]
       }));
 
       render(<CommandTree />);
@@ -243,7 +243,7 @@ describe("CommandTree", () => {
       toolBuilderStore.setState((prev) => ({
         ...prev,
         tool: complexTool,
-        selectedCommand: complexTool.commands[0],
+        selectedCommand: complexTool.commands[0]
       }));
     });
 
@@ -329,10 +329,10 @@ describe("CommandTree", () => {
 
           // Check that nested commands have greater indentation
           expect(getElement).toHaveStyle({
-            paddingLeft: expect.stringMatching(/\d+px/),
+            paddingLeft: expect.stringMatching(/\d+px/)
           });
           expect(setElement).toHaveStyle({
-            paddingLeft: expect.stringMatching(/\d+px/),
+            paddingLeft: expect.stringMatching(/\d+px/)
           });
         });
       }
@@ -365,7 +365,7 @@ describe("CommandTree", () => {
       toolBuilderStore.setState((prev) => ({
         ...prev,
         tool: complexTool,
-        selectedCommand: complexTool.commands[0],
+        selectedCommand: complexTool.commands[0]
       }));
     });
 
@@ -556,7 +556,7 @@ describe("CommandTree", () => {
         act(() => {
           toolBuilderStore.setState((prev) => ({
             ...prev,
-            selectedCommand: rootCommand,
+            selectedCommand: rootCommand
           }));
         });
       }
@@ -636,7 +636,7 @@ describe("CommandTree", () => {
       toolBuilderStore.setState((prev) => ({
         ...prev,
         tool: complexTool,
-        selectedCommand: complexTool.commands[0],
+        selectedCommand: complexTool.commands[0]
       }));
     });
 
@@ -794,7 +794,7 @@ describe("CommandTree", () => {
         act(() => {
           toolBuilderStore.setState((prev) => ({
             ...prev,
-            selectedCommand: helpCommand,
+            selectedCommand: helpCommand
           }));
         });
       }
@@ -857,7 +857,7 @@ describe("CommandTree", () => {
         act(() => {
           toolBuilderStore.setState((prev) => ({
             ...prev,
-            selectedCommand: dataCommand,
+            selectedCommand: dataCommand
           }));
         });
 
@@ -884,18 +884,18 @@ describe("CommandTree", () => {
         description: "A new test command",
         isDefault: false,
         sortOrder: 10,
-        subcommands: [],
+        subcommands: []
       };
 
       const updatedTool = {
         ...initialTool,
-        commands: [...initialTool.commands, newCommand],
+        commands: [...initialTool.commands, newCommand]
       };
 
       act(() => {
         toolBuilderStore.setState((prev) => ({
           ...prev,
-          tool: updatedTool,
+          tool: updatedTool
         }));
       });
 
@@ -933,7 +933,7 @@ describe("CommandTree", () => {
           act(() => {
             toolBuilderStore.setState((prev) => ({
               ...prev,
-              selectedCommand: dataCommand,
+              selectedCommand: dataCommand
             }));
           });
         }
@@ -951,7 +951,7 @@ describe("CommandTree", () => {
       toolBuilderStore.setState((prev) => ({
         ...prev,
         tool: complexTool,
-        selectedCommand: complexTool.commands[0],
+        selectedCommand: complexTool.commands[0]
       }));
     });
 
@@ -984,7 +984,7 @@ describe("CommandTree", () => {
             description: "Level 3 command",
             isDefault: false,
             sortOrder: 0,
-            subcommands: [],
+            subcommands: []
           },
           {
             id: "01979f84-ade1-723b-a8c1-e442b3a14d6a",
@@ -993,16 +993,16 @@ describe("CommandTree", () => {
             description: "Level 4 command",
             isDefault: false,
             sortOrder: 0,
-            subcommands: [],
-          },
-        ],
+            subcommands: []
+          }
+        ]
       };
 
       act(() => {
         toolBuilderStore.setState((prev) => ({
           ...prev,
           tool: deepTool,
-          selectedCommand: deepTool.commands[0],
+          selectedCommand: deepTool.commands[0]
         }));
       });
 
@@ -1060,7 +1060,7 @@ describe("CommandTree", () => {
         act(() => {
           toolBuilderStore.setState((prev) => ({
             ...prev,
-            selectedCommand: helpCommand,
+            selectedCommand: helpCommand
           }));
         });
 
@@ -1099,16 +1099,16 @@ describe("CommandTree", () => {
             description: "Minimal tool with just root command",
             isDefault: true,
             sortOrder: 0,
-            subcommands: [],
-          },
-        ],
+            subcommands: []
+          }
+        ]
       };
 
       act(() => {
         toolBuilderStore.setState((prev) => ({
           ...prev,
           tool: minimalTool,
-          selectedCommand: minimalTool.commands[0],
+          selectedCommand: minimalTool.commands[0]
         }));
       });
 
@@ -1184,15 +1184,15 @@ describe("CommandTree", () => {
         act(() => {
           toolBuilderStore.setState((prev) => ({
             ...prev,
-            selectedCommand: configCommand,
+            selectedCommand: configCommand
           }));
           toolBuilderStore.setState((prev) => ({
             ...prev,
-            selectedCommand: dataCommand,
+            selectedCommand: dataCommand
           }));
           toolBuilderStore.setState((prev) => ({
             ...prev,
-            selectedCommand: utilsCommand,
+            selectedCommand: utilsCommand
           }));
         });
 
@@ -1217,7 +1217,7 @@ describe("CommandTree", () => {
             description: "Root command",
             isDefault: true,
             sortOrder: 0,
-            subcommands: [],
+            subcommands: []
           },
           {
             id: "orphan-id",
@@ -1226,16 +1226,16 @@ describe("CommandTree", () => {
             description: "Orphaned command",
             isDefault: false,
             sortOrder: 1,
-            subcommands: [],
-          },
-        ],
+            subcommands: []
+          }
+        ]
       };
 
       act(() => {
         toolBuilderStore.setState((prev) => ({
           ...prev,
           tool: brokenTool,
-          selectedCommand: brokenTool.commands[0],
+          selectedCommand: brokenTool.commands[0]
         }));
       });
 

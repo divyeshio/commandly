@@ -4,7 +4,7 @@ import { useQueryState } from "nuqs";
 import { useStore } from "@tanstack/react-store";
 import {
   toolBuilderSelectors,
-  toolBuilderStore,
+  toolBuilderStore
 } from "@/components/tool-editor-ui/tool-editor.store";
 import { RuntimePreview } from "./runtime-preview";
 import { GeneratedCommand } from "./generated-command";
@@ -12,7 +12,7 @@ import { JsonOutput } from "./json-output";
 
 export function PreviewTabs() {
   const [currentTab, setActiveTab] = useQueryState("tab", {
-    defaultValue: "ui",
+    defaultValue: "ui"
   });
 
   const selectedCommand = useStore(

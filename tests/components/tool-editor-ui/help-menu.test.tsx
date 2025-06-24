@@ -5,10 +5,10 @@ import { vi } from "vitest";
 vi.mock("../tool-editor.store", () => ({
   toolBuilderStore: {
     getState: () => ({
-      tool: { name: "tool", displayName: "Tool", commands: [], parameters: [] },
+      tool: { name: "tool", displayName: "Tool", commands: [], parameters: [] }
     }),
-    subscribe: vi.fn(),
-  },
+    subscribe: vi.fn()
+  }
 }));
 
 describe("HelpMenu", () => {

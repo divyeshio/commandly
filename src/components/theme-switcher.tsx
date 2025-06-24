@@ -43,13 +43,13 @@ export function ThemeSwitcher() {
       {
         clipPath: [
           `circle(0px at ${x}px ${y}px)`,
-          `circle(${maxRadius}px at ${x}px ${y}px)`,
-        ],
+          `circle(${maxRadius}px at ${x}px ${y}px)`
+        ]
       },
       {
         duration: 500,
         easing: "ease-in-out",
-        pseudoElement: "::view-transition-new(root)",
+        pseudoElement: "::view-transition-new(root)"
       }
     );
     localStorage.setItem(storageKey, theme);

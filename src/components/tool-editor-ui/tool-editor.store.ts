@@ -5,7 +5,7 @@ import {
   Parameter,
   SavedCommand,
   ExclusionGroup,
-  ParameterValue,
+  ParameterValue
 } from "@/lib/types/tool-editor";
 import { toast } from "sonner";
 import {
@@ -14,7 +14,7 @@ import {
   defaultTool,
   getAllSubcommands,
   getSavedCommandsFromStorage,
-  removeSavedCommandFromStorage,
+  removeSavedCommandFromStorage
 } from "@/lib/utils/tool-editor";
 import { v7 as uuidv7 } from "uuid";
 
@@ -40,8 +40,8 @@ export const toolBuilderStore = new Store<ToolBuilderState>({
   dialogs: {
     editTool: false,
     savedCommands: false,
-    exclusionGroups: false,
-  },
+    exclusionGroups: false
+  }
 });
 
 export const toolBuilderSelectors = {
@@ -71,7 +71,7 @@ export const toolBuilderSelectors = {
   getSavedCommandsForCurrentTool: (state: ToolBuilderState): SavedCommand[] => {
     const currentToolId = state.tool.id || state.tool.name;
     return getSavedCommandsFromStorage(currentToolId);
-  },
+  }
 };
 
 export const toolBuilderActions = {
@@ -79,7 +79,7 @@ export const toolBuilderActions = {
     toolBuilderStore.setState((state) => ({
       ...state,
       tool,
-      selectedCommand: tool.commands[0],
+      selectedCommand: tool.commands[0]
     }));
   },
 
@@ -88,8 +88,8 @@ export const toolBuilderActions = {
       ...state,
       tool: {
         ...state.tool,
-        ...updates,
-      },
+        ...updates
+      }
     }));
   },
 
@@ -99,12 +99,12 @@ export const toolBuilderActions = {
       ...state,
       tool: {
         ...state.tool,
-        commands: [...state.tool.commands, newCommand],
-      },
+        commands: [...state.tool.commands, newCommand]
+      }
     }));
 
     toast("Command Added", {
-      description: "New command has been created successfully.",
+      description: "New command has been created successfully."
     });
   },
 
@@ -125,8 +125,8 @@ export const toolBuilderActions = {
           ),
           exclusionGroups: state.tool.exclusionGroups.filter(
             (group) => !commandsToDelete.includes(group.commandId || "")
-          ),
-        },
+          )
+        }
       };
 
       if (state.selectedCommand?.id === commandId) {
@@ -137,7 +137,7 @@ export const toolBuilderActions = {
     });
 
     toast("Command Deleted", {
-      description: "Command and all its subcommands have been deleted.",
+      description: "Command and all its subcommands have been deleted."
     });
   },
 
@@ -157,8 +157,8 @@ export const toolBuilderActions = {
             }
           }
           return updatedCmd;
-        }),
-      },
+        })
+      }
     }));
   },
 
@@ -173,9 +173,9 @@ export const toolBuilderActions = {
           ),
           exclusionGroups: state.tool.exclusionGroups.map((group) => ({
             ...group,
-            parameterIds: group.parameterIds.filter((id) => id !== parameterId),
-          })),
-        },
+            parameterIds: group.parameterIds.filter((id) => id !== parameterId)
+          }))
+        }
       };
 
       if (state.selectedParameter?.id === parameterId) {
@@ -186,7 +186,7 @@ export const toolBuilderActions = {
     });
 
     toast("Parameter Deleted", {
-      description: "Parameter has been removed successfully.",
+      description: "Parameter has been removed successfully."
     });
   },
   addSavedCommand(command: string) {
@@ -195,19 +195,19 @@ export const toolBuilderActions = {
     const existingCommands = getSavedCommandsFromStorage(toolId);
     if (existingCommands.some((cmd) => cmd.command === command)) {
       toast.error("Command already exists", {
-        description: "This command has already been saved.",
+        description: "This command has already been saved."
       });
       return;
     }
     const newSavedCommand: SavedCommand = {
       id: uuidv7(),
-      command,
+      command
     };
 
     addSavedCommandToStorage(`saved-${toolId}`, newSavedCommand);
 
     toast("Command Saved", {
-      description: "Command has been saved successfully.",
+      description: "Command has been saved successfully."
     });
   },
 
@@ -219,7 +219,7 @@ export const toolBuilderActions = {
     });
 
     toast("Command Removed", {
-      description: "Saved command has been removed successfully.",
+      description: "Saved command has been removed successfully."
     });
   },
 
@@ -228,20 +228,20 @@ export const toolBuilderActions = {
       const newGroup = {
         ...group,
         id: uuidv7(),
-        commandId: state.selectedCommand?.id,
+        commandId: state.selectedCommand?.id
       };
 
       return {
         ...state,
         tool: {
           ...state.tool,
-          exclusionGroups: [...state.tool.exclusionGroups, newGroup],
-        },
+          exclusionGroups: [...state.tool.exclusionGroups, newGroup]
+        }
       };
     });
 
     toast("Group Added", {
-      description: "New exclusion group has been created successfully.",
+      description: "New exclusion group has been created successfully."
     });
   },
 
@@ -252,12 +252,12 @@ export const toolBuilderActions = {
         ...state.tool,
         exclusionGroups: state.tool.exclusionGroups.map((group) =>
           group.id === updatedGroup.id ? updatedGroup : group
-        ),
-      },
+        )
+      }
     }));
 
     toast("Group Updated", {
-      description: "Exclusion group has been updated successfully.",
+      description: "Exclusion group has been updated successfully."
     });
   },
 
@@ -268,12 +268,12 @@ export const toolBuilderActions = {
         ...state.tool,
         exclusionGroups: state.tool.exclusionGroups.filter(
           (group) => group.id !== groupId
-        ),
-      },
+        )
+      }
     }));
 
     toast("Group Removed", {
-      description: "Exclusion group has been removed successfully.",
+      description: "Exclusion group has been removed successfully."
     });
   },
 
@@ -282,8 +282,8 @@ export const toolBuilderActions = {
       ...state,
       dialogs: {
         ...state.dialogs,
-        editTool: open,
-      },
+        editTool: open
+      }
     }));
   },
 
@@ -292,8 +292,8 @@ export const toolBuilderActions = {
       ...state,
       dialogs: {
         ...state.dialogs,
-        savedCommands: open,
-      },
+        savedCommands: open
+      }
     }));
   },
 
@@ -302,29 +302,29 @@ export const toolBuilderActions = {
       ...state,
       dialogs: {
         ...state.dialogs,
-        exclusionGroups: open,
-      },
+        exclusionGroups: open
+      }
     }));
   },
 
   setSelectedCommand(command: Command) {
     toolBuilderStore.setState((state) => ({
       ...state,
-      selectedCommand: command,
+      selectedCommand: command
     }));
   },
 
   setSelectedParameter(parameter: Parameter | null) {
     toolBuilderStore.setState((state) => ({
       ...state,
-      selectedParameter: parameter,
+      selectedParameter: parameter
     }));
   },
 
   setEditingCommand(command: Command | null) {
     toolBuilderStore.setState((state) => ({
       ...state,
-      editingCommand: command,
+      editingCommand: command
     }));
   },
 
@@ -340,7 +340,7 @@ export const toolBuilderActions = {
               ...parameter,
               dependencies: parameter.dependencies || [],
               validations: parameter.validations || [],
-              enumValues: parameter.enumValues || [],
+              enumValues: parameter.enumValues || []
             };
             if (parameter.isGlobal && parameter.isGlobal !== param.isGlobal) {
               updatedParam.commandId = undefined;
@@ -353,21 +353,21 @@ export const toolBuilderActions = {
           return param;
         });
         toast("Parameter Updated", {
-          description: `Parameter has been updated successfully.`,
+          description: `Parameter has been updated successfully.`
         });
       } else {
         newParameters = [...state.tool.parameters, parameter];
         toast("Parameter Added", {
-          description: `New ${parameter.isGlobal ? "global " : ""}parameter has been created successfully.`,
+          description: `New ${parameter.isGlobal ? "global " : ""}parameter has been created successfully.`
         });
       }
       return {
         ...state,
         tool: {
           ...state.tool,
-          parameters: newParameters,
-        },
+          parameters: newParameters
+        }
       };
     });
-  },
+  }
 };

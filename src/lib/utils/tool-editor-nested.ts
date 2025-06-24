@@ -3,7 +3,7 @@ import type {
   NestedTool,
   NestedCommand,
   NestedParameter,
-  NestedExclusionGroup,
+  NestedExclusionGroup
 } from "@/lib/types/tool-editor-nested";
 
 // Convert flat tool structure to nested structure
@@ -22,7 +22,7 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
           return {
             validationType: v.validationType,
             validationValue: v.validationValue,
-            errorMessage: v.errorMessage,
+            errorMessage: v.errorMessage
           };
         }) || [],
       metadata: param.metadata,
@@ -35,9 +35,9 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
           return {
             dependsOnParameter: dependsOnParam?.longFlag || "",
             dependencyType: dep.dependencyType,
-            conditionValue: dep.conditionValue,
+            conditionValue: dep.conditionValue
           };
-        }) || [],
+        }) || []
     };
   };
 
@@ -58,7 +58,7 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
           isDefault: cmd.isDefault,
           sortOrder: cmd.sortOrder,
           parameters: commandParameters.map(convertParameter),
-          subcommands: buildNestedCommands(commands, cmd.id),
+          subcommands: buildNestedCommands(commands, cmd.id)
         };
       });
   };
@@ -72,7 +72,7 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
         parameters: group.parameterIds.map((pid) => {
           const param = tool.parameters.find((p) => p.id === pid);
           return param?.longFlag || "";
-        }),
+        })
       };
     });
 
@@ -85,6 +85,6 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
     supportedOutput: tool.supportedOutput,
     globalParameters: globalParameters.map(convertParameter),
     commands: buildNestedCommands(tool.commands),
-    exclusionGroups: nestedExclusionGroups,
+    exclusionGroups: nestedExclusionGroups
   };
 };

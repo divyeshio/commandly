@@ -7,28 +7,28 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
+  DialogFooter
 } from "@/components/ui/dialog";
 import { SettingsIcon } from "lucide-react";
 import { useStore } from "@tanstack/react-store";
 import {
   toolBuilderStore,
-  toolBuilderActions,
+  toolBuilderActions
 } from "@/components/tool-editor-ui/tool-editor.store";
 import { MultiSelect } from "@/components/ui/multi-select";
 import {
   SupportedToolInputType,
-  SupportedToolOutputType,
+  SupportedToolOutputType
 } from "@/lib/types/tool-editor";
 
 const supportedInputOptions = [
   { value: "StandardInput", label: "Standard Input" },
-  { value: "Parameter", label: "Parameter" },
+  { value: "Parameter", label: "Parameter" }
 ];
 
 const supportedOutputOptions = [
   { value: "StandardOutput", label: "Standard Output" },
-  { value: "File", label: "File" },
+  { value: "File", label: "File" }
 ];
 
 export function ToolDetailsDialog() {
@@ -61,7 +61,7 @@ export function ToolDetailsDialog() {
                     name: newName,
                     commands: tool.commands.map((cmd) =>
                       cmd.name === prevName ? { ...cmd, name: newName } : cmd
-                    ),
+                    )
                   });
                 }}
               />
@@ -98,7 +98,7 @@ export function ToolDetailsDialog() {
                   toolBuilderActions.updateTool({
                     supportedInput: value.map(
                       (v) => v as SupportedToolInputType
-                    ),
+                    )
                   })
                 }
                 defaultValue={tool.supportedInput}
@@ -115,7 +115,7 @@ export function ToolDetailsDialog() {
                   toolBuilderActions.updateTool({
                     supportedOutput: value.map(
                       (v) => v as SupportedToolOutputType
-                    ),
+                    )
                   })
                 }
                 defaultValue={tool.supportedOutput}

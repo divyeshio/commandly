@@ -12,7 +12,7 @@ import { useEffect } from "react";
 import { useStore } from "@tanstack/react-store";
 import {
   toolBuilderActions,
-  toolBuilderStore,
+  toolBuilderStore
 } from "@/components/tool-editor-ui/tool-editor.store";
 import { toast } from "sonner";
 
@@ -23,7 +23,7 @@ interface ToolEditorProps {
 
 export default function ToolEditor({
   tool: toolToEdit,
-  onSave,
+  onSave
 }: ToolEditorProps) {
   const tool = useStore(toolBuilderStore, (state) => state.tool);
 

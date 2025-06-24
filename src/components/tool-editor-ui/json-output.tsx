@@ -7,14 +7,14 @@ import {
   Command as UICommand,
   CommandGroup,
   CommandItem,
-  CommandList,
+  CommandList
 } from "../ui/command";
 import {
   Card,
   CardAction,
   CardContent,
   CardHeader,
-  CardTitle,
+  CardTitle
 } from "../ui/card";
 import { exportToStructuredJSON } from "@/lib/utils/tool-editor";
 import { convertToNestedStructure } from "@/lib/utils/tool-editor-nested";
@@ -25,7 +25,7 @@ import { useQueryState } from "nuqs";
 
 const jsonOptions = [
   { value: "nested", label: "Nested" },
-  { value: "flat", label: "Flat" },
+  { value: "flat", label: "Flat" }
 ];
 
 interface JsonTypeComponentProps {
@@ -36,7 +36,7 @@ export function JsonOutput({ tool }: JsonTypeComponentProps) {
   const [open, setOpen] = useState(false);
   const [jsonString, setJsonString] = useState<string>();
   const [jsonType, setJsonType] = useQueryState("output", {
-    defaultValue: "flat",
+    defaultValue: "flat"
   });
   useEffect(() => {
     const config =

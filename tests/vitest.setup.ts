@@ -13,4 +13,4 @@ global.ResizeObserver = class ResizeObserver {
 };
 
 // Mock scrollIntoView
-Element.prototype.scrollIntoView = function() {};
+Element.prototype.scrollIntoView = function () {};

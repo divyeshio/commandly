@@ -3,7 +3,7 @@ import { ParameterDetailsDialog } from "@/components/tool-editor-ui/dialogs/para
 import {
   ToolBuilderState,
   toolBuilderStore,
-  toolBuilderActions,
+  toolBuilderActions
 } from "@/components/tool-editor-ui/tool-editor.store";
 import { defaultTool } from "@/lib/utils/tool-editor";
 import { Parameter, Command } from "@/lib/types/tool-editor";
@@ -22,7 +22,7 @@ const createTestParameter = (
   isGlobal: false,
   longFlag: "--test",
   enumValues: [],
-  ...overrides,
+  ...overrides
 });
 
 const createTestCommand = (overrides: Partial<Command> = {}): Command => ({
@@ -32,7 +32,7 @@ const createTestCommand = (overrides: Partial<Command> = {}): Command => ({
   isDefault: false,
   sortOrder: 0,
   subcommands: [],
-  ...overrides,
+  ...overrides
 });
 
 const createTestState = (
@@ -48,8 +48,8 @@ const createTestState = (
   dialogs: {
     editTool: false,
     savedCommands: false,
-    exclusionGroups: false,
-  },
+    exclusionGroups: false
+  }
 });
 
 describe("ParameterDetailsDialog - Dialog Lifecycle", () => {
@@ -91,7 +91,7 @@ describe("ParameterDetailsDialog - Form Fields", () => {
       name: "my-parameter",
       description: "Initial description",
       parameterType: "Option",
-      dataType: "String",
+      dataType: "String"
     });
 
     act(() => {
@@ -113,7 +113,7 @@ describe("ParameterDetailsDialog - Form Fields", () => {
     act(() => {
       fireEvent.change(nameInput, { target: { value: "updated-param" } });
       fireEvent.change(descriptionTextarea, {
-        target: { value: "Updated description" },
+        target: { value: "Updated description" }
       });
     });
 
@@ -124,7 +124,7 @@ describe("ParameterDetailsDialog - Form Fields", () => {
   it("handles parameter type and data type changes", () => {
     const testParameter = createTestParameter({
       parameterType: "Option",
-      dataType: "String",
+      dataType: "String"
     });
 
     act(() => {
@@ -160,7 +160,7 @@ describe("ParameterDetailsDialog - Form Fields", () => {
     const testParameter = createTestParameter({
       isRequired: false,
       isGlobal: false,
-      isRepeatable: false,
+      isRepeatable: false
     });
 
     act(() => {
@@ -273,7 +273,7 @@ describe("ParameterDetailsDialog - Parameter Type Specific Fields", () => {
   it("updates Key-Value Separator when changed", () => {
     const testParameter = createTestParameter({
       parameterType: "Option",
-      keyValueSeparator: "=",
+      keyValueSeparator: "="
     });
 
     act(() => {
@@ -354,7 +354,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     const firstParameter = createTestParameter({ name: "first-param" });
     const secondParameter = createTestParameter({
       id: "different-id",
-      name: "second-param",
+      name: "second-param"
     });
 
     act(() => {
@@ -367,7 +367,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
 
     act(() => {
       fireEvent.change(nameInput, {
-        target: { value: "modified-first-param" },
+        target: { value: "modified-first-param" }
       });
     });
 
@@ -390,7 +390,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     const testParameter = createTestParameter({
       name: "original-param",
       description: "Original description",
-      isRequired: false,
+      isRequired: false
     });
 
     const testState = createTestState(testParameter);
@@ -410,7 +410,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     act(() => {
       fireEvent.change(nameInput, { target: { value: "modified-param" } });
       fireEvent.change(descriptionTextarea, {
-        target: { value: "Modified description" },
+        target: { value: "Modified description" }
       });
     });
 
@@ -446,7 +446,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
       isRequired: false,
       isGlobal: false,
       parameterType: "Option",
-      dataType: "String",
+      dataType: "String"
     });
 
     const testState = createTestState(testParameter);
@@ -468,7 +468,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     act(() => {
       fireEvent.change(nameInput, { target: { value: "updated-param" } });
       fireEvent.change(descriptionTextarea, {
-        target: { value: "Updated description" },
+        target: { value: "Updated description" }
       });
       fireEvent.click(requiredSwitch);
       fireEvent.click(globalSwitch);
@@ -537,7 +537,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     expect(upsertParameterSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         ...testParameter,
-        name: "modified-param",
+        name: "modified-param"
       })
     );
     expect(setSelectedParameterSpy).toHaveBeenCalledWith(null);
@@ -608,7 +608,7 @@ describe("ParameterDetailsDialog - UI/UX", () => {
       isRepeatable: true,
       isGlobal: true,
       keyValueSeparator: "=",
-      metadata: { tags: ["tag1", "tag2"] },
+      metadata: { tags: ["tag1", "tag2"] }
     });
 
     act(() => {
@@ -661,7 +661,7 @@ describe("ParameterDetailsDialog - UI/UX", () => {
   it("displays correct parameter icon and global badge based on type and properties", () => {
     const globalParameter = createTestParameter({
       parameterType: "Flag",
-      isGlobal: true,
+      isGlobal: true
     });
 
     act(() => {
@@ -696,7 +696,7 @@ describe("ParameterDetailsDialog - UI/UX", () => {
       parameterType: "Option",
       keyValueSeparator: "=",
       longFlag: "--test",
-      shortFlag: "-t",
+      shortFlag: "-t"
     });
 
     const testState = createTestState(testParameter);

@@ -5,7 +5,7 @@ import { useStore } from "@tanstack/react-store";
 import {
   toolBuilderSelectors,
   toolBuilderStore,
-  toolBuilderActions,
+  toolBuilderActions
 } from "@/components/tool-editor-ui/tool-editor.store";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -42,7 +42,7 @@ export function GeneratedCommand() {
     parameterValues,
     selectedCommand,
     globalParameters,
-    currentParameters,
+    currentParameters
   ]);
 
   const generateCommand = () => {

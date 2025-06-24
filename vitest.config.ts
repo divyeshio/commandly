@@ -12,8 +12,8 @@ export default mergeConfig(
       globals: true,
       setupFiles: ["./tests/vitest.setup.ts"],
       coverage: {
-        reporter: ["text", "json", "html"],
-      },
-    },
+        reporter: ["text", "json", "html"]
+      }
+    }
   })
 );

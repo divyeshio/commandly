@@ -6,7 +6,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
+  CardTitle
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
@@ -15,7 +15,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from "@/components/ui/select";
 import { InfoIcon } from "lucide-react";
 import { Parameter, ParameterValue } from "@/lib/types/tool-editor";
@@ -47,7 +47,7 @@ export function RuntimePreview({
   selectedCommand: providedCommand,
   tool,
   globalParameters,
-  currentParameters,
+  currentParameters
 }: RuntimePreviewProps) {
   const parameterValues = useStore(
     toolBuilderStore,
@@ -59,8 +59,8 @@ export function RuntimePreview({
       ...state,
       parameterValues: {
         ...state.parameterValues,
-        [parameterId]: value,
-      },
+        [parameterId]: value
+      }
     }));
   };
 

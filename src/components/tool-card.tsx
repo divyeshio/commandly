@@ -6,7 +6,7 @@ import { Tool } from "@/lib/types/tool-editor";
 
 export function ToolCard({
   tool,
-  isSelected = false,
+  isSelected = false
 }: {
   tool: Partial<Tool>;
   isSelected?: boolean;

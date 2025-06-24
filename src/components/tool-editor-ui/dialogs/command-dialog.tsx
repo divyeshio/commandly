@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-  DialogDescription,
+  DialogDescription
 } from "@/components/ui/dialog";
 import { Command } from "@/lib/types/tool-editor";
 import { TerminalIcon } from "lucide-react";
@@ -17,7 +17,7 @@ import { useState } from "react";
 import { useStore } from "@tanstack/react-store";
 import {
   toolBuilderActions,
-  toolBuilderStore,
+  toolBuilderStore
 } from "@/components/tool-editor-ui/tool-editor.store";
 
 interface CommandDialogProps {
@@ -53,7 +53,7 @@ export function CommandDialog({ isOpen, onOpenChange }: CommandDialogProps) {
                 onChange={(e) =>
                   setCommand((prev) => ({
                     ...prev,
-                    name: e.target.value,
+                    name: e.target.value
                   }))
                 }
               />
@@ -69,7 +69,7 @@ export function CommandDialog({ isOpen, onOpenChange }: CommandDialogProps) {
                 onChange={(e) =>
                   setCommand((prev) => ({
                     ...prev,
-                    sortOrder: Number.parseInt(e.target.value) || 0,
+                    sortOrder: Number.parseInt(e.target.value) || 0
                   }))
                 }
               />
@@ -82,7 +82,7 @@ export function CommandDialog({ isOpen, onOpenChange }: CommandDialogProps) {
                 onCheckedChange={(checked) => {
                   setCommand((prev) => ({
                     ...prev,
-                    isDefault: checked,
+                    isDefault: checked
                   }));
                 }}
               />

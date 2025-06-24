@@ -2,7 +2,7 @@ import type {
   Command,
   Parameter,
   SavedCommand,
-  Tool,
+  Tool
 } from "@/lib/types/tool-editor";
 import { v7 as uuidv7 } from "uuid";
 
@@ -32,7 +32,7 @@ export const buildCommandHierarchy = (commands: Command[]): Command[] => {
       .sort((a, b) => a.sortOrder - b.sortOrder)
       .map((cmd) => ({
         ...cmd,
-        subcommands: sortCommands(cmd.subcommands),
+        subcommands: sortCommands(cmd.subcommands)
       }));
   };
 
@@ -112,7 +112,7 @@ export const exportToStructuredJSON = (tool: Tool) => {
     parameters: tool.parameters,
     exclusionGroups: tool.exclusionGroups,
     supportedInput: tool.supportedInput,
-    supportedOutput: tool.supportedOutput,
+    supportedOutput: tool.supportedOutput
   };
 };
 
@@ -124,7 +124,7 @@ export const flattenImportedData = (importedData: any): Tool => {
     commands = [],
     exclusionGroups = [],
     supportedInput = [],
-    supportedOutput = [],
+    supportedOutput = []
   } = importedData;
 
   // Flatten parameters from commands
@@ -141,13 +141,13 @@ export const flattenImportedData = (importedData: any): Tool => {
       allParameters.push({
         ...param,
         commandId: command.id,
-        isGlobal: !command.name,
+        isGlobal: !command.name
       });
     });
 
     const flatCommand: Command = {
       ...commandData,
-      parentCommandId: parentId,
+      parentCommandId: parentId
     };
 
     const flatCommands = [flatCommand];
@@ -172,7 +172,7 @@ export const flattenImportedData = (importedData: any): Tool => {
     parameters: allParameters,
     exclusionGroups,
     supportedInput: supportedInput,
-    supportedOutput: supportedOutput,
+    supportedOutput: supportedOutput
   };
 };
 
@@ -189,8 +189,8 @@ export const defaultTool = (toolName?: string, displayName?: string): Tool => {
         description: "Main command",
         isDefault: true,
         sortOrder: 0,
-        subcommands: [],
-      },
+        subcommands: []
+      }
     ],
     parameters: [
       {
@@ -206,12 +206,12 @@ export const defaultTool = (toolName?: string, displayName?: string): Tool => {
         isRepeatable: false,
         enumValues: [],
         validations: [],
-        dependencies: [],
-      },
+        dependencies: []
+      }
     ],
     exclusionGroups: [],
     supportedInput: ["StandardInput"],
-    supportedOutput: ["StandardOutput"],
+    supportedOutput: ["StandardOutput"]
   };
 };
 
@@ -233,7 +233,7 @@ export const validateDefaultValue = (
       if (!["true", "false", "1", "0"].includes(defaultValue.toLowerCase())) {
         return {
           isValid: false,
-          error: "Default value must be true/false or 1/0",
+          error: "Default value must be true/false or 1/0"
         };
       }
       break;
@@ -251,7 +251,7 @@ export const validateDefaultValue = (
         ) {
           return {
             isValid: false,
-            error: validation.errorMessage || "Value too short",
+            error: validation.errorMessage || "Value too short"
           };
         }
         break;
@@ -262,7 +262,7 @@ export const validateDefaultValue = (
         ) {
           return {
             isValid: false,
-            error: validation.errorMessage || "Value too long",
+            error: validation.errorMessage || "Value too long"
           };
         }
         break;
@@ -273,7 +273,7 @@ export const validateDefaultValue = (
         ) {
           return {
             isValid: false,
-            error: validation.errorMessage || "Value too small",
+            error: validation.errorMessage || "Value too small"
           };
         }
         break;
@@ -284,7 +284,7 @@ export const validateDefaultValue = (
         ) {
           return {
             isValid: false,
-            error: validation.errorMessage || "Value too large",
+            error: validation.errorMessage || "Value too large"
           };
         }
         break;
@@ -295,7 +295,7 @@ export const validateDefaultValue = (
         ) {
           return {
             isValid: false,
-            error: validation.errorMessage || "Value doesn't match pattern",
+            error: validation.errorMessage || "Value doesn't match pattern"
           };
         }
         break;
@@ -313,7 +313,7 @@ export const createNewCommand = (parentId?: string): Command => {
     description: "",
     isDefault: false,
     sortOrder: 1,
-    subcommands: [],
+    subcommands: []
   };
 };
 
@@ -339,7 +339,7 @@ export const createNewParameter = (
     keyValueSeparator: " ",
     enumValues: [],
     validations: [],
-    dependencies: [],
+    dependencies: []
   };
 };
 

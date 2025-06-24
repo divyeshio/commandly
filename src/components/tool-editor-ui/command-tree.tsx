@@ -9,13 +9,13 @@ import {
   ChevronRightIcon,
   Edit2Icon,
   PlusIcon,
-  Trash2Icon,
+  Trash2Icon
 } from "lucide-react";
 import { CommandDialog } from "./dialogs/command-dialog";
 import { useStore } from "@tanstack/react-store";
 import {
   toolBuilderStore,
-  toolBuilderActions,
+  toolBuilderActions
 } from "@/components/tool-editor-ui/tool-editor.store";
 
 export function CommandTree() {

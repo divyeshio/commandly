@@ -3,7 +3,7 @@ import { CommandDialog } from "@/components/tool-editor-ui/dialogs/command-dialo
 import {
   ToolBuilderState,
   toolBuilderStore,
-  toolBuilderActions,
+  toolBuilderActions
 } from "@/components/tool-editor-ui/tool-editor.store";
 import { defaultTool } from "@/lib/utils/tool-editor";
 import { Command } from "@/lib/types/tool-editor";
@@ -15,7 +15,7 @@ const createTestCommand = (overrides: Partial<Command> = {}): Command => ({
   isDefault: false,
   sortOrder: 0,
   subcommands: [],
-  ...overrides,
+  ...overrides
 });
 
 const createTestState = (
@@ -30,8 +30,8 @@ const createTestState = (
   dialogs: {
     editTool: false,
     savedCommands: false,
-    exclusionGroups: false,
-  },
+    exclusionGroups: false
+  }
 });
 
 describe("CommandDialog - Rendering & Structure", () => {
@@ -177,7 +177,7 @@ describe("CommandDialog - Form Fields", () => {
 
     const descriptionTextarea = screen.getByLabelText("Description");
     fireEvent.change(descriptionTextarea, {
-      target: { value: "New description" },
+      target: { value: "New description" }
     });
 
     expect((descriptionTextarea as HTMLTextAreaElement).value).toBe(
@@ -241,7 +241,7 @@ describe("CommandDialog - Save Functionality", () => {
   it("calls updateCommand and closes dialog when Save & Close is clicked", () => {
     const command = createTestCommand({
       id: "01979f6d-f206-7716-a2f2-4ee692f068ac",
-      name: "original-command",
+      name: "original-command"
     });
     toolBuilderStore.setState(createTestState(command));
 
@@ -259,7 +259,7 @@ describe("CommandDialog - Save Functionality", () => {
         name: "updated-command",
         description: "Test command description",
         isDefault: false,
-        sortOrder: 0,
+        sortOrder: 0
       })
     );
     expect(mockOnOpenChange).toHaveBeenCalledWith(false);
@@ -268,20 +268,20 @@ describe("CommandDialog - Save Functionality", () => {
   it("saves all modified fields correctly", () => {
     const command = createTestCommand({
       id: "01979f6d-f206-7716-a2f2-532cbd425da4",
-      name: "original-command",
+      name: "original-command"
     });
     toolBuilderStore.setState(createTestState(command));
 
     render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
 
     fireEvent.change(screen.getByLabelText("Command Name"), {
-      target: { value: "new-name" },
+      target: { value: "new-name" }
     });
     fireEvent.change(screen.getByLabelText("Sort Order"), {
-      target: { value: "15" },
+      target: { value: "15" }
     });
     fireEvent.change(screen.getByLabelText("Description"), {
-      target: { value: "New description" },
+      target: { value: "New description" }
     });
     fireEvent.click(screen.getByLabelText("Default Command"));
 
@@ -294,7 +294,7 @@ describe("CommandDialog - Save Functionality", () => {
         name: "new-name",
         description: "New description",
         isDefault: true,
-        sortOrder: 15,
+        sortOrder: 15
       })
     );
   });
@@ -302,7 +302,7 @@ describe("CommandDialog - Save Functionality", () => {
   it("handles save with empty command name", () => {
     const command = createTestCommand({
       id: "01979f6d-f206-7716-a2f2-547182850366",
-      name: "original-name",
+      name: "original-name"
     });
     toolBuilderStore.setState(createTestState(command));
 
@@ -317,7 +317,7 @@ describe("CommandDialog - Save Functionality", () => {
     expect(toolBuilderActions.updateCommand).toHaveBeenCalledWith(
       "01979f6d-f206-7716-a2f2-547182850366",
       expect.objectContaining({
-        name: "",
+        name: ""
       })
     );
   });
@@ -329,9 +329,9 @@ describe("CommandDialog - Save Functionality", () => {
       subcommands: [
         createTestCommand({
           id: "01979f6d-f206-7716-a2f2-5fd8fc5e3483",
-          name: "child-command",
-        }),
-      ],
+          name: "child-command"
+        })
+      ]
     });
     toolBuilderStore.setState(createTestState(command));
 
@@ -347,7 +347,7 @@ describe("CommandDialog - Save Functionality", () => {
       "01979f6d-f206-7716-a2f2-592fb8c958e4",
       expect.objectContaining({
         name: "updated-parent",
-        subcommands: [expect.objectContaining({ name: "child-command" })],
+        subcommands: [expect.objectContaining({ name: "child-command" })]
       })
     );
   });
@@ -355,7 +355,7 @@ describe("CommandDialog - Save Functionality", () => {
   it("correctly updates command name using original name as identifier", () => {
     const originalCommand = createTestCommand({
       id: "01979f6d-f206-7716-a2f2-61a036f2549b",
-      name: "original-name",
+      name: "original-name"
     });
     toolBuilderStore.setState(createTestState(originalCommand));
 
@@ -370,7 +370,7 @@ describe("CommandDialog - Save Functionality", () => {
     expect(toolBuilderActions.updateCommand).toHaveBeenCalledWith(
       "01979f6d-f206-7716-a2f2-61a036f2549b",
       expect.objectContaining({
-        name: "completely-new-name",
+        name: "completely-new-name"
       })
     );
   });
@@ -426,7 +426,7 @@ describe("CommandDialog - State Management", () => {
       name: "initial-command",
       description: "Initial description",
       sortOrder: 5,
-      isDefault: true,
+      isDefault: true
     });
     toolBuilderStore.setState(createTestState(command));
 
@@ -446,7 +446,7 @@ describe("CommandDialog - State Management", () => {
 
     // Modify the form without saving
     fireEvent.change(screen.getByLabelText("Command Name"), {
-      target: { value: "modified-name" },
+      target: { value: "modified-name" }
     });
 
     // Original command should remain unchanged
@@ -462,7 +462,7 @@ describe("CommandDialog - State Management", () => {
 
     // Change local state
     fireEvent.change(screen.getByLabelText("Command Name"), {
-      target: { value: "local-change" },
+      target: { value: "local-change" }
     });
 
     // Update store with different command
@@ -486,7 +486,7 @@ describe("CommandDialog - Edge Cases", () => {
     const minimalCommand = createTestCommand({ name: "", description: "" });
     toolBuilderStore.setState({
       ...createTestState(minimalCommand),
-      editingCommand: minimalCommand,
+      editingCommand: minimalCommand
     });
 
     expect(() => {

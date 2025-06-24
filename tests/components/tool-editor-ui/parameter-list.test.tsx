@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { ParameterList } from "@/components/tool-editor-ui/parameter-list";
 import {
   ToolBuilderState,
-  toolBuilderStore,
+  toolBuilderStore
 } from "@/components/tool-editor-ui/tool-editor.store";
 import { defaultTool } from "@/lib/utils/tool-editor";
 import { Parameter, ExclusionGroup } from "@/lib/types/tool-editor";
@@ -22,7 +22,7 @@ const createTestParameter = (
   shortFlag: "-t",
   enumValues: [],
   commandId: "01979f70-cc01-73fe-b638-14ec567e43be",
-  ...overrides,
+  ...overrides
 });
 
 const createTestExclusionGroup = (
@@ -31,7 +31,7 @@ const createTestExclusionGroup = (
   id: "01979f70-cc01-73fe-b638-19d9a00394e8",
   name: "Test Group",
   exclusionType: "mutual_exclusive",
-  parameterIds,
+  parameterIds
 });
 
 var testState: ToolBuilderState = {
@@ -42,7 +42,7 @@ var testState: ToolBuilderState = {
     description: "Test command",
     isDefault: false,
     sortOrder: 0,
-    subcommands: [],
+    subcommands: []
   },
   selectedParameter: null,
   editingCommand: null,
@@ -50,8 +50,8 @@ var testState: ToolBuilderState = {
   dialogs: {
     editTool: false,
     savedCommands: false,
-    exclusionGroups: false,
-  },
+    exclusionGroups: false
+  }
 };
 
 describe("ParameterList - Rendering & Structure", () => {
@@ -66,12 +66,12 @@ describe("ParameterList - Rendering & Structure", () => {
       createTestParameter(),
       createTestParameter({
         id: "01979f70-cc01-73fe-b638-1e8086d40f60",
-        name: "param2",
-      }),
+        name: "param2"
+      })
     ];
     toolBuilderStore.setState((prev) => ({
       ...prev,
-      tool: { ...prev.tool, parameters },
+      tool: { ...prev.tool, parameters }
     }));
 
     render(<ParameterList title="Test Parameters" />);
@@ -82,7 +82,7 @@ describe("ParameterList - Rendering & Structure", () => {
     const globalParam = createTestParameter({ isGlobal: true });
     toolBuilderStore.setState((prev) => ({
       ...prev,
-      tool: { ...prev.tool, parameters: [globalParam] },
+      tool: { ...prev.tool, parameters: [globalParam] }
     }));
 
     render(<ParameterList title="Global Parameters" isGlobal />);
@@ -106,20 +106,20 @@ describe("ParameterList - Rendering & Structure", () => {
     const parameters = [
       createTestParameter({
         id: "01979f70-cc01-73fe-b638-23765035e40b",
-        name: "param1",
+        name: "param1"
       }),
       createTestParameter({
         id: "01979f70-cc01-73fe-b638-25a9f6a78256",
-        name: "param2",
+        name: "param2"
       }),
       createTestParameter({
         id: "01979f70-cc01-73fe-b638-2ab8af3f1441",
-        name: "param3",
-      }),
+        name: "param3"
+      })
     ];
     toolBuilderStore.setState((prev) => ({
       ...prev,
-      tool: { ...prev.tool, parameters },
+      tool: { ...prev.tool, parameters }
     }));
 
     render(<ParameterList title="Parameters" />);
@@ -135,22 +135,22 @@ describe("ParameterList - Rendering & Structure", () => {
         createTestParameter({
           id: "01979f70-cc02-7448-a882-11054dbe85cb",
           name: "flag-param",
-          parameterType: "Flag",
+          parameterType: "Flag"
         }),
         createTestParameter({
           id: "01979f70-cc02-7448-a882-176b0cf062da",
           name: "option-param",
-          parameterType: "Option",
+          parameterType: "Option"
         }),
         createTestParameter({
           id: "01979f70-cc02-7448-a882-1b553df35cd8",
           name: "argument-param",
-          parameterType: "Argument",
-        }),
+          parameterType: "Argument"
+        })
       ];
       toolBuilderStore.setState((prev) => ({
         ...prev,
-        tool: { ...prev.tool, parameters },
+        tool: { ...prev.tool, parameters }
       }));
 
       render(<ParameterList title="Parameters" />);
@@ -168,19 +168,19 @@ describe("ParameterList - Rendering & Structure", () => {
       const paramWithBothFlags = createTestParameter({
         name: "test-param",
         longFlag: "--verbose",
-        shortFlag: "-v",
+        shortFlag: "-v"
       });
       const paramWithLongFlagOnly = createTestParameter({
         id: "01979f70-cc01-73fe-b638-2de859c60304",
         name: "long-only",
         longFlag: "--long-only",
-        shortFlag: "",
+        shortFlag: ""
       });
       const paramWithNoFlags = createTestParameter({
         id: "01979f70-cc02-7448-a882-0890d68964bd",
         name: "no-flags",
         longFlag: "",
-        shortFlag: "",
+        shortFlag: ""
       });
 
       toolBuilderStore.setState((prev) => ({
@@ -190,9 +190,9 @@ describe("ParameterList - Rendering & Structure", () => {
           parameters: [
             paramWithBothFlags,
             paramWithLongFlagOnly,
-            paramWithNoFlags,
-          ],
-        },
+            paramWithNoFlags
+          ]
+        }
       }));
 
       render(<ParameterList title="Parameters" />);
@@ -213,7 +213,7 @@ describe("ParameterList - Rendering & Structure", () => {
       toolBuilderStore.setState((prev) => ({
         ...prev,
         tool: { ...prev.tool, parameters: [parameter] },
-        selectedParameter: parameter,
+        selectedParameter: parameter
       }));
 
       render(<ParameterList title="Parameters" />);
@@ -228,7 +228,7 @@ describe("ParameterList - Rendering & Structure", () => {
       const parameter = createTestParameter();
       toolBuilderStore.setState((prev) => ({
         ...prev,
-        tool: { ...prev.tool, parameters: [parameter] },
+        tool: { ...prev.tool, parameters: [parameter] }
       }));
 
       render(<ParameterList title="Parameters" />);
@@ -250,12 +250,12 @@ describe("ParameterList - Rendering & Structure", () => {
       const optionalParam = createTestParameter({
         id: "01979f70-cc02-7448-a882-0fbb2489cd74",
         name: "optional-param",
-        isRequired: false,
+        isRequired: false
       });
 
       toolBuilderStore.setState((prev) => ({
         ...prev,
-        tool: { ...prev.tool, parameters: [requiredParam, optionalParam] },
+        tool: { ...prev.tool, parameters: [requiredParam, optionalParam] }
       }));
 
       render(<ParameterList title="Parameters" />);
@@ -274,23 +274,23 @@ describe("ParameterList - Rendering & Structure", () => {
         createTestParameter({
           id: "01979f70-cc02-7448-a882-1e463f97de3f",
           name: "flag-param",
-          parameterType: "Flag",
+          parameterType: "Flag"
         }),
         createTestParameter({
           id: "01979f70-cc02-7448-a882-229dd1870f13",
           name: "option-param",
-          parameterType: "Option",
+          parameterType: "Option"
         }),
         createTestParameter({
           id: "01979f70-cc02-7448-a882-2490528ca727",
           name: "argument-param",
-          parameterType: "Argument",
-        }),
+          parameterType: "Argument"
+        })
       ];
 
       toolBuilderStore.setState((prev) => ({
         ...prev,
-        tool: { ...prev.tool, parameters },
+        tool: { ...prev.tool, parameters }
       }));
 
       render(<ParameterList title="Parameters" />);
@@ -305,28 +305,28 @@ describe("ParameterList - Rendering & Structure", () => {
         createTestParameter({
           id: "01979f70-cc02-7448-a882-2833166af1b2",
           name: "string-param",
-          dataType: "String",
+          dataType: "String"
         }),
         createTestParameter({
           id: "01979f70-cc02-7448-a882-2e30ce8b2a02",
           name: "number-param",
-          dataType: "Number",
+          dataType: "Number"
         }),
         createTestParameter({
           id: "01979f70-cc02-7448-a882-31d6e6a82958",
           name: "boolean-param",
-          dataType: "Boolean",
+          dataType: "Boolean"
         }),
         createTestParameter({
           id: "01979f70-cc02-7448-a882-37ea2bcbc7e7",
           name: "enum-param",
-          dataType: "Enum",
-        }),
+          dataType: "Enum"
+        })
       ];
 
       toolBuilderStore.setState((prev) => ({
         ...prev,
-        tool: { ...prev.tool, parameters },
+        tool: { ...prev.tool, parameters }
       }));
 
       render(<ParameterList title="Parameters" />);
@@ -342,7 +342,7 @@ describe("ParameterList - Rendering & Structure", () => {
 
       toolBuilderStore.setState((prev) => ({
         ...prev,
-        tool: { ...prev.tool, parameters: [globalParam] },
+        tool: { ...prev.tool, parameters: [globalParam] }
       }));
 
       render(<ParameterList title="Global Parameters" isGlobal />);
@@ -361,8 +361,8 @@ describe("ParameterList - Rendering & Structure", () => {
         tool: {
           ...prev.tool,
           parameters: [parameter],
-          exclusionGroups: [exclusionGroup],
-        },
+          exclusionGroups: [exclusionGroup]
+        }
       }));
 
       render(<ParameterList title="Parameters" />);
@@ -382,14 +382,14 @@ describe("ParameterList - Rendering & Structure", () => {
             parameterId: "01979f70-cc01-73fe-b638-11efe685b4df",
             validationType: "min_value",
             validationValue: "0",
-            errorMessage: "Must be positive",
-          },
-        ],
+            errorMessage: "Must be positive"
+          }
+        ]
       });
 
       toolBuilderStore.setState((prev) => ({
         ...prev,
-        tool: { ...prev.tool, parameters: [invalidParam] },
+        tool: { ...prev.tool, parameters: [invalidParam] }
       }));
 
       render(<ParameterList title="Parameters" />);
@@ -404,12 +404,12 @@ describe("ParameterList - Rendering & Structure", () => {
     it("shows the success icon if the default value is valid and present", () => {
       const validParam = createTestParameter({
         dataType: "String",
-        defaultValue: "valid-value",
+        defaultValue: "valid-value"
       });
 
       toolBuilderStore.setState((prev) => ({
         ...prev,
-        tool: { ...prev.tool, parameters: [validParam] },
+        tool: { ...prev.tool, parameters: [validParam] }
       }));
 
       render(<ParameterList title="Parameters" />);
@@ -427,7 +427,7 @@ describe("ParameterList - Rendering & Structure", () => {
       const parameter = createTestParameter();
       toolBuilderStore.setState((prev) => ({
         ...prev,
-        tool: { ...prev.tool, parameters: [parameter] },
+        tool: { ...prev.tool, parameters: [parameter] }
       }));
 
       render(<ParameterList title="Parameters" />);
@@ -446,7 +446,7 @@ describe("ParameterList - Rendering & Structure", () => {
       toolBuilderStore.setState((prev) => ({
         ...prev,
         tool: { ...prev.tool, parameters: [parameter] },
-        selectedParameter: null,
+        selectedParameter: null
       }));
 
       render(<ParameterList title="Parameters" />);
@@ -465,7 +465,7 @@ describe("ParameterList - Rendering & Structure", () => {
     it("add button creates a new parameter with correct context for command parameters", () => {
       toolBuilderStore.setState((prev) => ({
         ...prev,
-        selectedParameter: null,
+        selectedParameter: null
       }));
 
       render(<ParameterList title="Parameters" />);
@@ -485,7 +485,7 @@ describe("ParameterList - Rendering & Structure", () => {
       toolBuilderStore.setState((prev) => ({
         ...prev,
         selectedParameter: null,
-        tool: { ...prev.tool, parameters: [] },
+        tool: { ...prev.tool, parameters: [] }
       }));
 
       render(<ParameterList title="Global Parameters" isGlobal />);
@@ -503,7 +503,7 @@ describe("ParameterList - Rendering & Structure", () => {
     it("renders correctly when there are no parameters", () => {
       toolBuilderStore.setState((prev) => ({
         ...prev,
-        tool: { ...prev.tool, parameters: [] },
+        tool: { ...prev.tool, parameters: [] }
       }));
 
       render(<ParameterList title="Empty Parameters" />);
@@ -518,12 +518,12 @@ describe("ParameterList - Rendering & Structure", () => {
         longFlag: "",
         shortFlag: "",
         defaultValue: undefined,
-        validations: undefined,
+        validations: undefined
       });
 
       toolBuilderStore.setState((prev) => ({
         ...prev,
-        tool: { ...prev.tool, parameters: [paramWithMissingFields] },
+        tool: { ...prev.tool, parameters: [paramWithMissingFields] }
       }));
 
       render(<ParameterList title="Parameters" />);
@@ -543,8 +543,8 @@ describe("ParameterList - Rendering & Structure", () => {
         tool: {
           ...prev.tool,
           parameters: [parameter],
-          exclusionGroups: [exclusionGroupWithNoParams],
-        },
+          exclusionGroups: [exclusionGroupWithNoParams]
+        }
       }));
 
       render(<ParameterList title="Parameters" />);
@@ -556,12 +556,12 @@ describe("ParameterList - Rendering & Structure", () => {
     it("handles parameters with both longFlag and shortFlag", () => {
       const paramWithBothFlags = createTestParameter({
         longFlag: "--verbose",
-        shortFlag: "-v",
+        shortFlag: "-v"
       });
 
       toolBuilderStore.setState((prev) => ({
         ...prev,
-        tool: { ...prev.tool, parameters: [paramWithBothFlags] },
+        tool: { ...prev.tool, parameters: [paramWithBothFlags] }
       }));
 
       render(<ParameterList title="Parameters" />);
@@ -573,12 +573,12 @@ describe("ParameterList - Rendering & Structure", () => {
     it("handles parameters with only longFlag", () => {
       const paramWithLongFlag = createTestParameter({
         longFlag: "--verbose",
-        shortFlag: "",
+        shortFlag: ""
       });
 
       toolBuilderStore.setState((prev) => ({
         ...prev,
-        tool: { ...prev.tool, parameters: [paramWithLongFlag] },
+        tool: { ...prev.tool, parameters: [paramWithLongFlag] }
       }));
 
       render(<ParameterList title="Parameters" />);
@@ -590,12 +590,12 @@ describe("ParameterList - Rendering & Structure", () => {
     it("handles parameters with only shortFlag", () => {
       const paramWithShortFlag = createTestParameter({
         longFlag: "",
-        shortFlag: "-v",
+        shortFlag: "-v"
       });
 
       toolBuilderStore.setState((prev) => ({
         ...prev,
-        tool: { ...prev.tool, parameters: [paramWithShortFlag] },
+        tool: { ...prev.tool, parameters: [paramWithShortFlag] }
       }));
 
       render(<ParameterList title="Parameters" />);
@@ -607,12 +607,12 @@ describe("ParameterList - Rendering & Structure", () => {
     it("handles parameters with no flags", () => {
       const paramWithNoFlags = createTestParameter({
         longFlag: "",
-        shortFlag: "",
+        shortFlag: ""
       });
 
       toolBuilderStore.setState((prev) => ({
         ...prev,
-        tool: { ...prev.tool, parameters: [paramWithNoFlags] },
+        tool: { ...prev.tool, parameters: [paramWithNoFlags] }
       }));
 
       render(<ParameterList title="Parameters" />);
@@ -626,7 +626,7 @@ describe("ParameterList - Rendering & Structure", () => {
       toolBuilderStore.setState((prev) => ({
         ...prev,
         selectedCommand: null,
-        tool: { ...prev.tool, parameters: [] },
+        tool: { ...prev.tool, parameters: [] }
       }));
 
       render(<ParameterList title="Parameters" />);
@@ -640,7 +640,7 @@ describe("ParameterList - Rendering & Structure", () => {
       toolBuilderStore.setState((prev) => ({
         ...prev,
         selectedParameter: null,
-        tool: { ...prev.tool, parameters: [parameter] },
+        tool: { ...prev.tool, parameters: [parameter] }
       }));
 
       render(<ParameterList title="Parameters" />);

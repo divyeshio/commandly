@@ -10,17 +10,17 @@ import {
   LayersIcon,
   PlusIcon,
   Trash2Icon,
-  XCircleIcon,
+  XCircleIcon
 } from "lucide-react";
 import { useStore } from "@tanstack/react-store";
 import {
   toolBuilderStore,
   toolBuilderActions,
-  toolBuilderSelectors,
+  toolBuilderSelectors
 } from "@/components/tool-editor-ui/tool-editor.store";
 import {
   createNewParameter,
-  validateDefaultValue,
+  validateDefaultValue
 } from "@/lib/utils/tool-editor";
 
 interface ParameterListProps {

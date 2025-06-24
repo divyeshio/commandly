@@ -12,7 +12,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogTrigger
 } from "@/components/ui/dialog";
 import { Input, InputIcon, InputRoot } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -30,11 +30,11 @@ export const toolsQueryOptions = () =>
   queryOptions({
     queryKey: ["tools"],
     queryFn: () => getToolsList(),
-    staleTime: Infinity,
+    staleTime: Infinity
   });
 
 const getToolsList = createServerFn({
-  method: "GET",
+  method: "GET"
 }).handler(async () => {
   const collectionDir = path.join(process.cwd(), "tools-collection");
   const files = await fs.readdir(collectionDir);
@@ -43,7 +43,7 @@ const getToolsList = createServerFn({
       name: file.replace(/\.json$/, ""),
       displayName: file.replace(/\.json$/, ""),
       supportedInput: [],
-      supportedOutput: [],
+      supportedOutput: []
     } as Partial<Tool>;
   });
 });
@@ -73,7 +73,7 @@ function mergeTools(
   const serverToolNames = new Set(serverTools.map((t) => t.name));
   return [
     ...serverTools,
-    ...localTools.filter((t) => !serverToolNames.has(t.name)),
+    ...localTools.filter((t) => !serverToolNames.has(t.name))
   ];
 }
 
@@ -84,7 +84,7 @@ export const Route = createFileRoute("/tools/")({
     const serverTools = await queryClient.fetchQuery(toolsQueryOptions());
     const localTools = loadLocalTools();
     return { localTools, serverTools };
-  },
+  }
 });
 
 function RouteComponent() {
@@ -115,7 +115,7 @@ function RouteComponent() {
     navigation({
       to: "/tools/$toolName",
       params: { toolName: importedTool.name },
-      search: { newTool: importedTool.name },
+      search: { newTool: importedTool.name }
     });
   };
 
@@ -164,7 +164,7 @@ function RouteComponent() {
 
 function ListComponent({
   tools,
-  serverToolNames,
+  serverToolNames
 }: {
   tools: Partial<Tool>[];
   serverToolNames: Set<string>;
@@ -190,7 +190,7 @@ function ListComponent({
 
 function NewToolDialog({
   handleNavigation,
-  children,
+  children
 }: {
   handleNavigation: (tool: Tool) => void;
   children: React.ReactNode;
@@ -200,7 +200,7 @@ function NewToolDialog({
     name: "",
     displayName: "",
     description: "",
-    version: "",
+    version: ""
   });
 
   const handleInputChange =
@@ -270,7 +270,7 @@ function NewToolDialog({
               onClick={() =>
                 handleNavigation({
                   ...defaultTool(newTool.name, newTool.displayName),
-                  ...newTool,
+                  ...newTool
                 })
               }
             >

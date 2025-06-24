@@ -3,7 +3,7 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
-  DialogTitle,
+  DialogTitle
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,7 +12,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from "@/components/ui/select";
 import { ExclusionGroup } from "@/lib/types/tool-editor";
 import { PlusIcon, TrashIcon } from "lucide-react";
@@ -21,7 +21,7 @@ import { useStore } from "@tanstack/react-store";
 import {
   toolBuilderStore,
   toolBuilderActions,
-  toolBuilderSelectors,
+  toolBuilderSelectors
 } from "@/components/tool-editor-ui/tool-editor.store";
 
 export function ExclusionGroupsDialog() {
@@ -56,7 +56,7 @@ export function ExclusionGroupsDialog() {
       name: "",
       exclusionType: "mutual_exclusive",
       parameterIds: [],
-      commandId: selectedCommand?.id,
+      commandId: selectedCommand?.id
     });
   };
 
@@ -155,7 +155,7 @@ export function ExclusionGroupsDialog() {
                   onValueChange={(value) =>
                     setEditingGroup({
                       ...editingGroup,
-                      exclusionType: value as ExclusionGroup["exclusionType"],
+                      exclusionType: value as ExclusionGroup["exclusionType"]
                     })
                   }
                 >
@@ -182,8 +182,8 @@ export function ExclusionGroupsDialog() {
                       ...editingGroup,
                       parameterIds: [
                         ...(editingGroup.parameterIds || []),
-                        value,
-                      ],
+                        value
+                      ]
                     })
                   }
                 >
@@ -220,7 +220,7 @@ export function ExclusionGroupsDialog() {
                                 ...editingGroup,
                                 parameterIds: editingGroup.parameterIds?.filter(
                                   (pid) => pid !== id
-                                ),
+                                )
                               })
                             }
                           >

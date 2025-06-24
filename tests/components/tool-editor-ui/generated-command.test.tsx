@@ -7,20 +7,20 @@ vi.mock("../tool-editor.store", () => ({
     getState: () => ({
       selectedCommand: {
         name: "test",
-        id: "01979f70-cc01-73fe-b638-11efe685b4df",
+        id: "01979f70-cc01-73fe-b638-11efe685b4df"
       },
       tool: { name: "tool", commands: [], parameters: [] },
-      parameterValues: {},
+      parameterValues: {}
     }),
-    subscribe: vi.fn(),
+    subscribe: vi.fn()
   },
   toolBuilderActions: {
-    addSavedCommand: vi.fn(),
+    addSavedCommand: vi.fn()
   },
   toolBuilderSelectors: {
     getGlobalParameters: () => [],
-    getParametersForCommand: () => [],
-  },
+    getParametersForCommand: () => []
+  }
 }));
 
 describe("GeneratedCommand", () => {

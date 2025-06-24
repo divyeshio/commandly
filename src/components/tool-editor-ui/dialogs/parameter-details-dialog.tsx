@@ -11,14 +11,14 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-  DialogDescription,
+  DialogDescription
 } from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -29,7 +29,7 @@ import {
   ParameterType,
   ParameterDataType,
   ParameterDependencyType as DependencyType,
-  ParameterValidationType as ValidationType,
+  ParameterValidationType as ValidationType
 } from "@/lib/types/tool-editor";
 import {
   FileTextIcon,
@@ -38,12 +38,12 @@ import {
   LinkIcon,
   PlusIcon,
   ShieldIcon,
-  Trash2Icon,
+  Trash2Icon
 } from "lucide-react";
 import { useStore } from "@tanstack/react-store";
 import {
   toolBuilderStore,
-  toolBuilderActions,
+  toolBuilderActions
 } from "@/components/tool-editor-ui/tool-editor.store";
 import { validateDefaultValue } from "@/lib/utils/tool-editor";
 import { v7 as uuidv7 } from "uuid";
@@ -117,11 +117,11 @@ export function ParameterDetailsDialog() {
       id: uuidv7(),
       parameterId: parameter.id,
       dependsOnParameterId: availableParameters[0].id,
-      dependencyType: "requires",
+      dependencyType: "requires"
     };
 
     updateParameter({
-      dependencies: [...(parameter.dependencies || []), newDependency],
+      dependencies: [...(parameter.dependencies || []), newDependency]
     });
   };
 
@@ -151,11 +151,11 @@ export function ParameterDetailsDialog() {
       parameterId: parameter.id,
       validationType: "min_length",
       validationValue: "1",
-      errorMessage: "Value is too short",
+      errorMessage: "Value is too short"
     };
 
     updateParameter({
-      validations: [...(parameter.validations || []), newValidation],
+      validations: [...(parameter.validations || []), newValidation]
     });
   };
 
@@ -168,11 +168,11 @@ export function ParameterDetailsDialog() {
       displayName: "New Value",
       description: "",
       isDefault: false,
-      sortOrder: 0,
+      sortOrder: 0
     };
 
     updateParameter({
-      enumValues: [...parameter.enumValues, newEnumValue],
+      enumValues: [...parameter.enumValues, newEnumValue]
     });
   };
 
@@ -337,7 +337,7 @@ export function ParameterDetailsDialog() {
                 value={parameter.position || 0}
                 onChange={(e) =>
                   updateParameter({
-                    position: Number.parseInt(e.target.value) || 0,
+                    position: Number.parseInt(e.target.value) || 0
                   })
                 }
                 placeholder="0"
@@ -438,7 +438,7 @@ export function ParameterDetailsDialog() {
                       value={dependency.dependencyType}
                       onValueChange={(value: DependencyType) =>
                         updateDependency(dependency.id, {
-                          dependencyType: value,
+                          dependencyType: value
                         })
                       }
                     >
@@ -456,7 +456,7 @@ export function ParameterDetailsDialog() {
                       value={dependency.dependsOnParameterId}
                       onValueChange={(value) =>
                         updateDependency(dependency.id, {
-                          dependsOnParameterId: value,
+                          dependsOnParameterId: value
                         })
                       }
                     >
@@ -515,7 +515,7 @@ export function ParameterDetailsDialog() {
                               : v
                         );
                         updateParameter({
-                          validations: updatedValidations,
+                          validations: updatedValidations
                         });
                       }}
                     >
@@ -540,7 +540,7 @@ export function ParameterDetailsDialog() {
                               : v
                         );
                         updateParameter({
-                          validations: updatedValidations,
+                          validations: updatedValidations
                         });
                       }}
                       placeholder="Value"
@@ -555,7 +555,7 @@ export function ParameterDetailsDialog() {
                             (v) => v.id !== validation.id
                           );
                         updateParameter({
-                          validations: updatedValidations,
+                          validations: updatedValidations
                         });
                       }}
                     >
@@ -599,7 +599,7 @@ export function ParameterDetailsDialog() {
                                 : ev
                           );
                           updateParameter({
-                            enumValues: updatedEnumValues,
+                            enumValues: updatedEnumValues
                           });
                         }}
                         placeholder="value"
@@ -615,7 +615,7 @@ export function ParameterDetailsDialog() {
                                 : ev
                           );
                           updateParameter({
-                            enumValues: updatedEnumValues,
+                            enumValues: updatedEnumValues
                           });
                         }}
                         placeholder="Display Name"
@@ -631,7 +631,7 @@ export function ParameterDetailsDialog() {
                                 : ev
                           );
                           updateParameter({
-                            enumValues: updatedEnumValues,
+                            enumValues: updatedEnumValues
                           });
                         }}
                       />
@@ -643,7 +643,7 @@ export function ParameterDetailsDialog() {
                             (ev) => ev.id !== enumValue.id
                           );
                           updateParameter({
-                            enumValues: updatedEnumValues,
+                            enumValues: updatedEnumValues
                           });
                         }}
                       >

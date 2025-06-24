@@ -22,14 +22,14 @@ const getToolDetails = createServerFn()
   });
 
 const SearchParamsSchema = z.object({
-  newTool: z.string().optional(),
+  newTool: z.string().optional()
 });
 
 export const Route = createFileRoute("/tools/$toolName")({
   component: RouteComponent,
   validateSearch: zodValidator(SearchParamsSchema),
   loaderDeps: ({ search: { newTool } }) => ({
-    newTool,
+    newTool
   }),
   loader: async ({ params: { toolName }, deps: { newTool } }) => {
     // check if executed not in browser context
@@ -56,10 +56,10 @@ export const Route = createFileRoute("/tools/$toolName")({
   head: (context) => ({
     meta: [
       {
-        title: context.loaderData?.displayName ?? context.params.toolName,
-      },
-    ],
-  }),
+        title: context.loaderData?.displayName ?? context.params.toolName
+      }
+    ]
+  })
 });
 
 function RouteComponent() {

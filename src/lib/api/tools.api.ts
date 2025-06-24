@@ -6,8 +6,8 @@ export async function fetchTools(): Promise<Tool[]> {
   const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/tools`, {
     method: "GET",
     headers: {
-      "Content-Type": "application/json",
-    },
+      "Content-Type": "application/json"
+    }
   });
   if (!response.ok) throw new Error("Fetch failed");
   return response.json();

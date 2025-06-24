@@ -4,7 +4,7 @@ import { vi } from "vitest";
 import { defaultTool } from "@/lib/utils/tool-editor";
 import {
   withNuqsTestingAdapter,
-  type OnUrlUpdateFunction,
+  type OnUrlUpdateFunction
 } from "nuqs/adapters/testing";
 
 vi.mock("../tool-editor.store", () => ({
@@ -12,20 +12,20 @@ vi.mock("../tool-editor.store", () => ({
     getState: () => ({
       tool: { name: "tool", displayName: "Tool", commands: [], parameters: [] },
       selectedCommand: null,
-      selectedParameter: null,
+      selectedParameter: null
     }),
-    subscribe: vi.fn(),
+    subscribe: vi.fn()
   },
   toolBuilderActions: {
     initializeTool: vi.fn(),
     setEditToolDialogOpen: vi.fn(),
     setSavedCommandsDialogOpen: vi.fn(),
-    setExclusionGroupsDialogOpen: vi.fn(),
+    setExclusionGroupsDialogOpen: vi.fn()
   },
   toolBuilderSelectors: {
     getGlobalParameters: () => [],
-    getParametersForCommand: () => [],
-  },
+    getParametersForCommand: () => []
+  }
 }));
 
 describe("ToolEditor", () => {
@@ -35,8 +35,8 @@ describe("ToolEditor", () => {
     render(<ToolEditor tool={defaultTool("newTool", "New Tool")} />, {
       wrapper: withNuqsTestingAdapter({
         searchParams: "?newTool=newTool",
-        onUrlUpdate,
-      }),
+        onUrlUpdate
+      })
     });
     expect(
       screen.getByText(/New Tool/, { selector: "span" })
