@@ -7,7 +7,7 @@ on:
 jobs:
   lint-format:
     runs-on: ubuntu-latest
-    name: bun lint
+    name: Lint and Format Code
     steps:
       - uses: actions/checkout@v4
         with:
@@ -30,11 +30,14 @@ jobs:
         run: bun install
 
       - run: bun run lint
-      - run: NODE_OPTIONS="--experimental-strip-types" bunx prettier . --write
+      - name: Format code
+        env:
+          NODE_OPTIONS: "--experimental-strip-types"
+        run: bunx prettier . --write
 
   build-test:
     runs-on: ubuntu-latest
-    name: Build project
+    name: Build and Test
     steps:
       - uses: actions/checkout@v4
         with:
