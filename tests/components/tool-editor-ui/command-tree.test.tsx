@@ -963,11 +963,12 @@ describe("CommandTree", () => {
       expect(helpElement).toBeInTheDocument();
 
       // Should not have an expand button
-      const expandButton = helpElement?.querySelector("button");
+      const expandButton = helpElement?.querySelector("#expand-button");
       // The first button would be for actions, not expansion since there are no subcommands
       // Commands without subcommands should have a spacer div instead of expand button
       const spacerDiv = helpElement?.querySelector("div.w-4");
       expect(spacerDiv).toBeInTheDocument();
+      expect(expandButton).not.toBeInTheDocument(); // No expand button for commands without subcommands
     });
 
     it("handles deep nesting of commands", async () => {

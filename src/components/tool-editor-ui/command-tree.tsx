@@ -67,6 +67,7 @@ export function CommandTree() {
         >
           {hasSubcommands ? (
             <Button
+              id="expand-button"
               variant="ghost"
               size="sm"
               className="h-4 w-4 p-0"

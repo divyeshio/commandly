@@ -218,7 +218,7 @@ export const defaultTool = (toolName?: string, displayName?: string): Tool => {
 export const validateDefaultValue = (
   parameter: Parameter
 ): { isValid: boolean; error?: string } => {
-  const { defaultValue, validations, dataType: dataType } = parameter;
+  const { defaultValue, validations, dataType } = parameter;
 
   if (!defaultValue || !validations) return { isValid: true };
 

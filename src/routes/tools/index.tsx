@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { queryOptions } from "@tanstack/react-query";
 import { SearchIcon } from "lucide-react";
 import { ToolCard } from "@/components/tool-card";
 import { Button } from "@/components/ui/button";

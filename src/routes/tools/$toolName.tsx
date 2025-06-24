@@ -37,7 +37,7 @@ export const Route = createFileRoute("/tools/$toolName")({
       return null;
     }
 
-    if (!!newTool) {
+    if (newTool) {
       const newToolData = localStorage.getItem(`tool-${newTool}`);
       if (newToolData) {
         const validatedTool = zodValidator(ToolSchema).parse(
