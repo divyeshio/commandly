@@ -31,9 +31,6 @@ jobs:
 
       - run: bun run lint
       - run: bunx prettier . --check
-        env:
-          NODE_OPTIONS: --experimental-strip-types
-
 
   build-test:
     runs-on: ubuntu-latest
