@@ -140,4 +140,4 @@ dist
 .tanstack/
 .nitro/
 .output/
-.vercel/
+.vercel
