@@ -11,6 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import {
   Select,
@@ -215,6 +216,7 @@ export function ParameterDetailsDialog() {
               </Badge>
             )}
           </DialogTitle>
+          <DialogDescription></DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
@@ -328,8 +330,9 @@ export function ParameterDetailsDialog() {
 
           {parameter.parameterType === "Argument" && (
             <div className="flex flex-col gap-2">
-              <Label>Position</Label>
+              <Label htmlFor="position">Position</Label>
               <Input
+                id="position"
                 type="number"
                 value={parameter.position || 0}
                 onChange={(e) =>
@@ -353,8 +356,9 @@ export function ParameterDetailsDialog() {
 
           <div className="grid grid-cols-2 gap-4 items-center">
             <div className="flex flex-col gap-2">
-              <Label>Default Value</Label>
+              <Label htmlFor="defaultValue">Default Value</Label>
               <Input
+                id="defaultValue"
                 value={parameter.defaultValue}
                 onChange={(e) =>
                   updateParameter({ defaultValue: e.target.value })
@@ -370,21 +374,23 @@ export function ParameterDetailsDialog() {
             <div className="flex items-center space-x-4 pt-6">
               <div className="flex items-center space-x-2">
                 <Switch
+                  id="isRequired"
                   checked={parameter.isRequired}
                   onCheckedChange={(checked) =>
                     updateParameter({ isRequired: checked })
                   }
                 />
-                <Label>Required</Label>
+                <Label htmlFor="isRequired">Required</Label>
               </div>
               <div className="flex items-center space-x-2">
                 <Switch
+                  id="isRepeatable"
                   checked={parameter.isRepeatable}
                   onCheckedChange={(checked) =>
                     updateParameter({ isRepeatable: checked })
                   }
                 />
-                <Label>Repeatable</Label>
+                <Label htmlFor="isRepeatable">Repeatable</Label>
               </div>
             </div>
           </div>
@@ -404,7 +410,10 @@ export function ParameterDetailsDialog() {
           {/* Dependencies Section */}
           <div>
             <div className="flex items-center justify-between mb-3">
-              <Label className="text-base font-medium flex items-center gap-2">
+              <Label
+                htmlFor="dependencies"
+                className="text-base font-medium flex items-center gap-2"
+              >
                 <LinkIcon className="h-4 w-4" />
                 Dependencies
               </Label>
@@ -418,7 +427,7 @@ export function ParameterDetailsDialog() {
                 Add
               </Button>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2" id="dependencies">
               {parameter.dependencies &&
                 parameter.dependencies.map((dependency) => (
                   <div
@@ -563,13 +572,18 @@ export function ParameterDetailsDialog() {
               <Separator />
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <Label className="text-base font-medium">Enum Values</Label>
+                  <Label
+                    htmlFor="enum-values"
+                    className="text-base font-medium"
+                  >
+                    Enum Values
+                  </Label>
                   <Button size="sm" variant="outline" onClick={addEnumValue}>
                     <PlusIcon className="h-3 w-3 mr-1" />
                     Add
                   </Button>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2" id="enum-values">
                   {parameter.enumValues.map((enumValue) => (
                     <div
                       key={enumValue.id}
