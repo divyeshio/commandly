@@ -34,7 +34,8 @@ export const toolsQueryOptions = () =>
   });
 
 const getToolsList = createServerFn({
-  method: "GET"
+  method: "GET",
+  type: "static"
 }).handler(async () => {
   const collectionDir = path.join(process.cwd(), "public", "tools-collection");
   const files = await fs.readdir(collectionDir);

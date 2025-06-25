@@ -8,14 +8,35 @@ export default defineConfig({
       projects: ["./tsconfig.json"]
     }),
     tanstackStart({
+      prerender: {
+        enabled: true,
+      },
+      pages: [{
+        path: "/",
+        prerender: {
+          enabled: true,
+          autoSubfolderIndex: false,
+          crawlLinks: true,
+        },
+      },
+      {
+        path: "/tools",
+        prerender: {
+          enabled: true,
+          autoSubfolderIndex: false,
+          crawlLinks: true,
+        },
+      }
+      ],
       spa: {
         enabled: true,
         prerender: {
+          enabled: true,
           autoSubfolderIndex: true,
           crawlLinks: true
         }
       },
-      target: "vercel"
+      target: "vercel-static"
     })
   ],
   server: {
