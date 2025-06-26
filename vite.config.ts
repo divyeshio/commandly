@@ -8,9 +8,6 @@ export default defineConfig({
       projects: ["./tsconfig.json"]
     }),
     tanstackStart({
-      prerender: {
-        enabled: true,
-      },
       pages: [{
         path: "/",
         prerender: {
@@ -36,7 +33,7 @@ export default defineConfig({
           crawlLinks: true
         }
       },
-      target: "vercel-static"
+      target: "github-pages"
     })
   ],
   server: {

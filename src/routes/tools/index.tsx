@@ -80,7 +80,7 @@ function mergeTools(
 
 export const Route = createFileRoute("/tools/")({
   component: RouteComponent,
-  ssr: false,
+  ssr: true,
   loader: async ({ context: { queryClient } }) => {
     const serverTools = await queryClient.fetchQuery(toolsQueryOptions());
     const localTools = loadLocalTools();
