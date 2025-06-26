@@ -34,7 +34,8 @@ export const toolsQueryOptions = () =>
   });
 
 const getToolsList = createServerFn({
-  method: "GET"
+  method: "GET",
+  type: "static"
 }).handler(async () => {
   const collectionDir = path.join(process.cwd(), "public", "tools-collection");
   const files = await fs.readdir(collectionDir);
@@ -79,7 +80,7 @@ function mergeTools(
 
 export const Route = createFileRoute("/tools/")({
   component: RouteComponent,
-  ssr: false,
+  ssr: true,
   loader: async ({ context: { queryClient } }) => {
     const serverTools = await queryClient.fetchQuery(toolsQueryOptions());
     const localTools = loadLocalTools();

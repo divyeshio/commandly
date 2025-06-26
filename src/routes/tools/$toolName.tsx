@@ -1,29 +1,11 @@
 import ToolEditor from "@/components/tool-editor-ui/tool-editor";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { createServerFn } from "@tanstack/react-start";
-import path from "path";
-import { promises as fs } from "fs";
 import { Tool, ToolSchema } from "@/lib/types/tool-editor";
 import { defaultTool } from "@/lib/utils/tool-editor";
 import { zodValidator } from "@tanstack/zod-adapter";
 import z from "zod/v4";
 import { useEffect } from "react";
-
-const getToolDetails = createServerFn()
-  .validator((data: string) => data)
-  .handler(async (ctx) => {
-    const collectionDir = path.join(
-      process.cwd(),
-      "public",
-      "tools-collection"
-    );
-    const toolFilePath = path.join(collectionDir, `${ctx.data}.json`);
-    const file = await fs.readFile(toolFilePath, "utf-8");
-    if (!file) {
-      throw new Error(`Tool ${ctx.data} not found`);
-    }
-    return JSON.parse(file) as Tool;
-  });
+import { fetchToolDetails } from "@/lib/api/tools.api";
 
 const SearchParamsSchema = z.object({
   newTool: z.string().optional()
@@ -52,7 +34,7 @@ export const Route = createFileRoute("/tools/$toolName")({
         return defaultTool() as Tool;
       }
     } else {
-      return await getToolDetails({ data: toolName });
+      return await fetchToolDetails(toolName);
     }
   },
   ssr: false,

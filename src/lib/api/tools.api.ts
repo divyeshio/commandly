@@ -12,3 +12,14 @@ export async function fetchTools(): Promise<Tool[]> {
   if (!response.ok) throw new Error("Fetch failed");
   return response.json();
 }
+
+export async function fetchToolDetails(toolName: string): Promise<Tool> {
+  const response = await fetch(`/tools-collection/${toolName}.json`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+  if (!response.ok) throw new Error("Fetch failed");
+  return response.json();
+}
