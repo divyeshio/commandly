@@ -20,34 +20,16 @@ import { Label } from "@/components/ui/label";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { UploadIcon } from "lucide-react";
 import type { NewTool, Tool } from "@/lib/types/tool-editor";
-import { createServerFn } from "@tanstack/react-start";
-import { promises as fs } from "fs";
-import path from "path";
 import { ImportDialog } from "@/components/tool-editor-ui/dialogs/import-dialog";
 import { defaultTool } from "@/lib/utils/tool-editor";
+import { fetchTools } from "@/lib/api/tools.api";
 
 export const toolsQueryOptions = () =>
   queryOptions({
     queryKey: ["tools"],
-    queryFn: () => getToolsList(),
+    queryFn: () => fetchTools(),
     staleTime: Infinity
   });
-
-const getToolsList = createServerFn({
-  method: "GET",
-  type: "static"
-}).handler(async () => {
-  const collectionDir = path.join(process.cwd(), "public", "tools-collection");
-  const files = await fs.readdir(collectionDir);
-  return files.map((file) => {
-    return {
-      name: file.replace(/\.json$/, ""),
-      displayName: file.replace(/\.json$/, ""),
-      supportedInput: [],
-      supportedOutput: []
-    } as Partial<Tool>;
-  });
-});
 
 function loadLocalTools(): Partial<Tool>[] {
   const localTools: Partial<Tool>[] = [];

@@ -3,7 +3,7 @@ import type { Tool } from "@/lib/types/tool-editor";
 export async function fetchTools(): Promise<Tool[]> {
   //await new Promise((resolve) => setTimeout(resolve, 3000)); // 3 second delay
 
-  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/tools`, {
+  const response = await fetch(`/api/tools`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json"

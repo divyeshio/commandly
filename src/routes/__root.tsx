@@ -1,91 +1,94 @@
-/// <reference types="vite/client" />
-import {
-  HeadContent,
-  Outlet,
-  Scripts,
-  createRootRouteWithContext
-} from "@tanstack/react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import {
+  CatchBoundary,
+  createRootRouteWithContext,
+  HeadContent,
+  Outlet
+} from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import * as React from "react";
-import type { QueryClient } from "@tanstack/react-query";
-import { DefaultCatchBoundary } from "@/components/error-component";
-import { NotFound } from "@/components/not-found";
-import appCss from "../styles/app.css?url";
-import { NuqsAdapter } from "nuqs/adapters/react";
-import { Toaster } from "sonner";
+import { Link } from "@tanstack/react-router";
 
-export const Route = createRootRouteWithContext<{
+import { NotFound } from "@/components/not-found";
+import { Toaster } from "@/components/ui/sonner";
+import { ThemeSwitcher } from "@/components/theme-switcher";
+import { DefaultCatchBoundary } from "@/components/default-catch-boundary";
+import { GithubIcon, LinkedinIcon, XIcon } from "@/components/icons";
+import { Button } from "@/components/ui/button";
+interface MyRouterContext {
   queryClient: QueryClient;
-}>()({
+}
+
+export const Route = createRootRouteWithContext<MyRouterContext>()({
+  component: RootComponent,
   head: () => ({
     meta: [
       {
-        charSet: "utf-8"
-      },
-      {
-        name: "viewport",
-        content: "width=device-width, initial-scale=1"
+        title: "Commandly"
       }
-    ],
-    links: [
-      { rel: "stylesheet", href: appCss },
-      {
-        rel: "apple-touch-icon",
-        sizes: "180x180",
-        href: "/apple-touch-icon.png"
-      },
-      {
-        rel: "icon",
-        type: "image/png",
-        sizes: "32x32",
-        href: "/favicon-32x32.png"
-      },
-      {
-        rel: "icon",
-        type: "image/png",
-        sizes: "16x16",
-        href: "/favicon-16x16.png"
-      },
-      { rel: "manifest", href: "/site.webmanifest", color: "#fffff" },
-      { rel: "icon", href: "/favicon.ico" }
     ]
   }),
-  errorComponent: (props) => {
-    return (
-      <RootDocument>
-        <DefaultCatchBoundary {...props} />
-      </RootDocument>
-    );
-  },
-  notFoundComponent: () => <NotFound />,
-  component: RootComponent
+  notFoundComponent: () => <NotFound />
 });
+
+const queryClient = new QueryClient();
 
 function RootComponent() {
   return (
-    <RootDocument>
-      <Outlet />
-    </RootDocument>
-  );
-}
-
-function RootDocument({ children }: { children: React.ReactNode }) {
-  return (
-    <html suppressHydrationWarning={true}>
-      <head>
-        <script src="/spa-redirect.js"></script>
+    <div>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools />
         <HeadContent />
-      </head>
-      <body>
-        <NuqsAdapter>
-          <main className="p-4">{children}</main>
-          <Toaster />
-        </NuqsAdapter>
-        <TanStackRouterDevtools position="bottom-right" />
-        <ReactQueryDevtools buttonPosition="bottom-left" />
-        <Scripts />
-      </body>
-    </html>
+        <header className="flex h-16 items-center justify-between px-4">
+          <div className="text-xl font-bold">
+            <Link to="/">Commandly</Link>
+          </div>
+          <nav className="flex space-x-4">
+            <Link to="/tools">Tools</Link>
+            <Link to="/editor">Editor</Link>
+          </nav>
+          <div className="flex items-center space-x-4">
+            <Button variant="ghost" size="icon" asChild>
+              <a
+                href="https://github.com/username/repo"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <GithubIcon />
+              </a>
+            </Button>
+            <Button variant="ghost" size="icon" asChild>
+              <a
+                href="https://twitter.com/username"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <XIcon />
+              </a>
+            </Button>
+            <Button variant="ghost" size="icon" asChild>
+              <a
+                href="https://linkedin.com/in/username"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <LinkedinIcon />
+              </a>
+            </Button>
+            <ThemeSwitcher />
+          </div>
+        </header>
+        <CatchBoundary
+          getResetKey={() => "reset"}
+          onCatch={(error, info) => console.error(error, info)}
+          errorComponent={DefaultCatchBoundary}
+        >
+          <Outlet />
+        </CatchBoundary>
+
+        <Toaster />
+        <TanStackRouterDevtools />
+      </QueryClientProvider>
+    </div>
   );
 }

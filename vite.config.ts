@@ -1,48 +1,25 @@
 import { defineConfig } from "vite";
-import tsConfigPaths from "vite-tsconfig-paths";
+import tailwindcss from "@tailwindcss/vite";
 import path from "path";
-import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import viteReact from "@vitejs/plugin-react";
+import tanstackRouter from "@tanstack/router-plugin/vite";
+
+// https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    tsConfigPaths({
-      projects: ["./tsconfig.json"]
+    tailwindcss(),
+    tanstackRouter({
+      target: "react",
+      autoCodeSplitting: true,
     }),
-    tanstackStart({
-      pages: [
-        {
-          path: "/",
-          prerender: {
-            enabled: true,
-            autoSubfolderIndex: false,
-            crawlLinks: true
-          }
-        },
-        {
-          path: "/tools",
-          prerender: {
-            enabled: true,
-            autoSubfolderIndex: false,
-            crawlLinks: true
-          }
-        }
-      ],
-      spa: {
-        enabled: true,
-        prerender: {
-          enabled: true,
-          autoSubfolderIndex: true,
-          crawlLinks: true
-        }
-      },
-      target: "github-pages"
-    })
+    viteReact(),
   ],
   server: {
-    port: 4001
+    port: 4001,
   },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src")
-    }
-  }
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
 });
