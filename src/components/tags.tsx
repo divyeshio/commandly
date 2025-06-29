@@ -18,7 +18,6 @@ import { Badge } from "./ui/badge";
 
 export interface TagsProps {
   tags: string[];
-  id: string;
   maxCount?: number;
   onOpenChange?: (isOpen: boolean, tags: string[]) => void;
 }

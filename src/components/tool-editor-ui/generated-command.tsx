@@ -1,53 +1,47 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { TerminalIcon, CopyIcon, SaveIcon } from "lucide-react";
 import { toast } from "sonner";
-import { useStore } from "@tanstack/react-store";
-import {
-  toolBuilderSelectors,
-  toolBuilderStore,
-  toolBuilderActions
-} from "@/components/tool-editor-ui/tool-editor.store";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getCommandPath } from "@/lib/utils/tool-editor";
-import { Parameter, ParameterValue } from "@/lib/types/tool-editor";
+import {
+  Parameter,
+  ParameterValue,
+  Tool,
+  Command
+} from "@/lib/types/tool-editor";
 
-export function GeneratedCommand() {
+interface GeneratedCommandProps {
+  tool: Tool;
+  selectedCommand?: Command;
+  parameterValues: Record<string, ParameterValue>;
+  onSaveCommand?: (command: string) => void;
+}
+
+export function GeneratedCommand({
+  tool,
+  selectedCommand,
+  parameterValues,
+  onSaveCommand
+}: GeneratedCommandProps) {
+  selectedCommand = selectedCommand || tool.commands[0];
   const [generatedCommand, setGeneratedCommand] = useState("");
 
-  const selectedCommand = useStore(
-    toolBuilderStore,
-    (state) => state.selectedCommand
-  );
-  const tool = useStore(toolBuilderStore, (state) => state.tool);
-  const parameterValues = useStore(
-    toolBuilderStore,
-    (state) => state.parameterValues
-  );
+  const globalParameters = useMemo(() => {
+    return tool.parameters?.filter((p) => p.isGlobal) || [];
+  }, [tool]);
 
-  const globalParameters = useStore(toolBuilderStore, (state) =>
-    toolBuilderSelectors.getGlobalParameters(state)
-  );
-  const currentParameters = useStore(toolBuilderStore, (state) =>
-    selectedCommand?.id
-      ? toolBuilderSelectors.getParametersForCommand(state, selectedCommand.id)
-      : []
-  );
+  const currentParameters = useMemo(() => {
+    return (
+      tool?.parameters?.filter((p) => p.commandId === selectedCommand.id) || []
+    );
+  }, [tool, selectedCommand]);
 
   useEffect(() => {
     generateCommand();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    tool,
-    parameterValues,
-    selectedCommand,
-    globalParameters,
-    currentParameters
-  ]);
+  }, [tool, parameterValues, selectedCommand]);
 
   const generateCommand = () => {
-    if (!selectedCommand) return;
-
     const commandPath = getCommandPath(selectedCommand, tool);
     let command = commandPath;
 
@@ -108,61 +102,51 @@ export function GeneratedCommand() {
       toast("No command to save");
       return;
     }
-
-    toolBuilderActions.addSavedCommand(generatedCommand);
+    if (onSaveCommand) {
+      onSaveCommand(generatedCommand);
+      toast("Command saved!");
+    }
   };
 
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <TerminalIcon className="h-5 w-5" />
-            Generated Command
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {tool.commands.length === 0 ? (
-            <div className="text-center py-8">
-              <TerminalIcon className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">
-                No commands available for this tool.
-              </p>
-            </div>
-          ) : generatedCommand ? (
-            <>
-              <div className="bg-muted p-4 rounded font-mono text-sm">
-                {generatedCommand}
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  onClick={copyCommand}
-                  variant="outline"
-                  className="flex-1"
-                >
-                  <CopyIcon className="h-4 w-4 mr-2" />
-                  Copy Command
-                </Button>
-                <Button
-                  onClick={saveCommand}
-                  variant="outline"
-                  className="flex-1"
-                >
-                  <SaveIcon className="h-4 w-4 mr-2" />
-                  Save Command
-                </Button>
-              </div>
-            </>
-          ) : (
-            <div className="text-center py-8">
-              <TerminalIcon className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">
-                Configure parameters to generate the command.
-              </p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+    <div>
+      {tool.commands.length === 0 ? (
+        <div className="text-center py-8">
+          <TerminalIcon className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+          <p className="text-muted-foreground">
+            No commands available for this tool.
+          </p>
+        </div>
+      ) : generatedCommand ? (
+        <div className="space-y-4">
+          <div className="bg-muted p-4 rounded font-mono text-sm">
+            {generatedCommand}
+          </div>
+          <div className="flex gap-2">
+            <Button onClick={copyCommand} variant="outline" className="flex-1">
+              <CopyIcon className="h-4 w-4 mr-2" />
+              Copy Command
+            </Button>
+            {onSaveCommand && (
+              <Button
+                onClick={saveCommand}
+                variant="outline"
+                className="flex-1"
+              >
+                <SaveIcon className="h-4 w-4 mr-2" />
+                Save Command
+              </Button>
+            )}
+          </div>
+        </div>
+      ) : (
+        <div className="text-center py-8">
+          <TerminalIcon className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+          <p className="text-muted-foreground">
+            Configure parameters to generate the command.
+          </p>
+        </div>
+      )}
     </div>
   );
 }

@@ -7,8 +7,11 @@ type Theme = "dark" | "light" | "system";
 const storageKey = "ui-theme";
 
 export function ThemeSwitcher() {
+  if (typeof window === "undefined") {
+    return null;
+  }
   const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || "system"
+    () => (localStorage.getItem(storageKey) as Theme) || "dark"
   );
   const ref = useRef<HTMLButtonElement>(null);
 
