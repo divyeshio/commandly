@@ -10,7 +10,7 @@
     ],
     "module": "ESNext",
     "skipLibCheck": true,
-    "baseUrl": ".",
+    "baseUrl": "./src/tools/",
     "paths": {
       "@app/*": [
         "./app/*"
@@ -18,23 +18,23 @@
       "@assets/*": [
         "./assets/*"
       ],
-      "@/components/*": [
-        "./src/spa/components/*"
+      "@components/*": [
+        "./components/*"
       ],
       "@styles/*": [
-        "./src/spa/styles/*"
+        "./styles/*"
       ],
       "@utils/*": [
-        "./src/spa/utils/*"
+        "./utils/*"
       ],
       "@hooks/*": [
-        "./src/spa/hooks/*"
+        "./hooks/*"
       ],
       "@lib/*": [
-        "./src/spa/lib/*"
+        "./lib/*"
       ],
       "@/*": [
-        "./src/*"
+        "./*"
       ]
     },
     /* Bundler mode */

@@ -1,12 +1,15 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
-import { ParameterDetailsDialog } from "@/components/tool-editor-ui/dialogs/parameter-details-dialog";
+import { ParameterDetailsDialog } from "../../../../src/tools/components/tool-editor-ui/dialogs/parameter-details-dialog";
 import {
   ToolBuilderState,
   toolBuilderStore,
   toolBuilderActions
-} from "@/components/tool-editor-ui/tool-editor.store";
-import { defaultTool } from "@/lib/utils/tool-editor";
-import { Parameter, Command } from "@/lib/types/tool-editor";
+} from "../../../../src/tools/components/tool-editor-ui/tool-editor.store";
+import { defaultTool } from "../../../../src/tools/lib/utils/tool-editor";
+import {
+  Parameter,
+  Command
+} from "../../../../src/tools/lib/types/tool-editor";
 
 const createTestParameter = (
   overrides: Partial<Parameter> = {}

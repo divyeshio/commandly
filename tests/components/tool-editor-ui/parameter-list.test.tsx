@@ -1,11 +1,14 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { ParameterList } from "@/components/tool-editor-ui/parameter-list";
+import { ParameterList } from "../../../src/tools/components/tool-editor-ui/parameter-list";
 import {
   ToolBuilderState,
   toolBuilderStore
-} from "@/components/tool-editor-ui/tool-editor.store";
-import { defaultTool } from "@/lib/utils/tool-editor";
-import { Parameter, ExclusionGroup } from "@/lib/types/tool-editor";
+} from "../../../src/tools/components/tool-editor-ui/tool-editor.store";
+import { defaultTool } from "../../../src/tools/lib/utils/tool-editor";
+import {
+  Parameter,
+  ExclusionGroup
+} from "../../../src/tools/lib/types/tool-editor";
 
 const createTestParameter = (
   overrides: Partial<Parameter> = {}

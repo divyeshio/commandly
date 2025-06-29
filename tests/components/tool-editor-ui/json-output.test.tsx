@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import { JsonOutput } from "@/components/tool-editor-ui/json-output";
-import { defaultTool } from "@/lib/utils/tool-editor";
+import { JsonOutput } from "../../../src/tools/components/tool-editor-ui/json-output";
+import { defaultTool } from "../../../src/tools/lib/utils/tool-editor";
 import {
   OnUrlUpdateFunction,
   withNuqsTestingAdapter

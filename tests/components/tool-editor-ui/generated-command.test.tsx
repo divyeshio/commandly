@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { GeneratedCommand } from "@/components/tool-editor-ui/generated-command";
+import { GeneratedCommand } from "../../../src/tools/components/tool-editor-ui/generated-command";
 import { vi } from "vitest";
 
 vi.mock("../tool-editor.store", () => ({

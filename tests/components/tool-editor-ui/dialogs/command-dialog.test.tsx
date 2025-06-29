@@ -1,12 +1,12 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { CommandDialog } from "@/components/tool-editor-ui/dialogs/command-dialog";
+import { CommandDialog } from "../../../../src/tools/components/tool-editor-ui/dialogs/command-dialog";
 import {
   ToolBuilderState,
   toolBuilderStore,
   toolBuilderActions
-} from "@/components/tool-editor-ui/tool-editor.store";
-import { defaultTool } from "@/lib/utils/tool-editor";
-import { Command } from "@/lib/types/tool-editor";
+} from "../../../../src/tools/components/tool-editor-ui/tool-editor.store";
+import { defaultTool } from "../../../../src/tools/lib/utils/tool-editor";
+import { Command } from "../../../../src/tools/lib/types/tool-editor";
 
 const createTestCommand = (overrides: Partial<Command> = {}): Command => ({
   id: "01979f6d-f205-73e3-a176-4456d7bf7eb3",

@@ -5,13 +5,13 @@ import {
   waitFor,
   act
 } from "@testing-library/react";
-import { CommandTree } from "@/components/tool-editor-ui/command-tree";
+import { CommandTree } from "../../../src/tools/components/tool-editor-ui/command-tree";
 import {
   ToolBuilderState,
   toolBuilderStore
-} from "@/components/tool-editor-ui/tool-editor.store";
-import { defaultTool } from "@/lib/utils/tool-editor";
-import { Tool } from "@/lib/types/tool-editor";
+} from "../../../src/tools/components/tool-editor-ui/tool-editor.store";
+import { defaultTool } from "../../../src/tools/lib/utils/tool-editor";
+import { Tool } from "../../../src/tools/lib/types/tool-editor";
 
 // Helper function to create a tool with complex command structure
 const createComplexTool = (): Tool => {

@@ -1,0 +1,30 @@
+---
+import { Route } from "@tanstack/react-router";
+import { App } from "../../tools/app";
+import { routeTree } from "../../tools/routeTree.gen";
+import "../../styles/global.css";
+
+export async function getStaticPaths() {
+  const mapChildren = (route: Route): any => {
+    if (!route?.options) {
+      return [];
+    }
+    return [
+      route.options,
+      ...Object.values(route?.children || []).flatMap((child) =>
+        mapChildren(child)
+      )
+    ];
+  };
+
+  const asMapped = mapChildren(routeTree as unknown as Route);
+  return asMapped.map((route: { path?: string }) => ({
+    params: {
+      // splice the prefixed `/dashboard` by the generator
+      path: route.path?.split("/")?.splice(2)?.join("/")
+    }
+  }));
+}
+---
+
+<App client:only="react" />

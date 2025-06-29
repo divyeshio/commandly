@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
-import ToolEditor from "@/components/tool-editor-ui/tool-editor";
+import ToolEditor from "../../../src/tools/components/tool-editor-ui/tool-editor";
 import { vi } from "vitest";
-import { defaultTool } from "@/lib/utils/tool-editor";
+import { defaultTool } from "../../../src/tools/lib/utils/tool-editor";
 import {
   withNuqsTestingAdapter,
   type OnUrlUpdateFunction

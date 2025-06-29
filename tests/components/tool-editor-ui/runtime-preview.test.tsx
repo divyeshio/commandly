@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { RuntimePreview } from "@/components/tool-editor-ui/runtime-preview";
+import { RuntimePreview } from "../../../src/tools/components/tool-editor-ui/runtime-preview";
 
 describe("RuntimePreview", () => {
   it("renders no parameters message if none", () => {

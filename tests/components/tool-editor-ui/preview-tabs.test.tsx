@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { PreviewTabs } from "@/components/tool-editor-ui/preview-tabs";
+import { PreviewTabs } from "../../../src/tools/components/tool-editor-ui/preview-tabs";
 import { vi } from "vitest";
 import {
   OnUrlUpdateFunction,

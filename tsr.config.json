@@ -1,4 +1,0 @@
-{
-    "routesDirectory": "./src/spa/routes",
-    "generatedRouteTree": "./src/spa/routeTree.gen.ts"
-  }

@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { HelpMenu } from "@/components/tool-editor-ui/help-menu";
+import { HelpMenu } from "../../../src/tools/components/tool-editor-ui/help-menu";
 import { vi } from "vitest";
 
 vi.mock("../tool-editor.store", () => ({

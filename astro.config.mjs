@@ -2,7 +2,6 @@
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
-import viteReact from "@vitejs/plugin-react";
 import tanstackRouter from "@tanstack/router-plugin/vite";
 import react from "@astrojs/react";
 
@@ -17,10 +16,10 @@ export default defineConfig({
       tanstackRouter({
         target: "react",
         autoCodeSplitting: true,
-        routesDirectory: path.resolve(__dirname, "./src/spa/routes"),
+        routesDirectory: path.resolve(__dirname, "./src/tools/routes"),
         generatedRouteTree: path.resolve(
           __dirname,
-          "./src/spa/routes/routeTree.gen.ts"
+          "./src/tools/routes/routeTree.gen.ts"
         )
       })
     ],
