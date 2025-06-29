@@ -31,26 +31,26 @@
       "@assets/*": [
         "./assets/*"
       ],
-      "@components/*": [
-        "./components/*"
+      "@/components/*": [
+        "./src/spa/components/*"
       ],
       "@styles/*": [
-        "./styles/*"
+        "./src/spa/styles/*"
       ],
       "@utils/*": [
-        "./utils/*"
+        "./src/spa/utils/*"
       ],
       "@hooks/*": [
-        "./hooks/*"
+        "./src/spa/hooks/*"
       ],
       "@lib/*": [
-        "./lib/*"
+        "./src/spa/lib/*"
       ],
       "@types/*": [
-        "./types/*"
+        "./src/spa/types/*"
       ],
       "@/*": [
-        "./src/*"
+        "./src/spa/*"
       ]
     },
   }

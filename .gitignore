@@ -141,3 +141,4 @@ dist
 .nitro/
 .output/
 .vercel
+.astro/
