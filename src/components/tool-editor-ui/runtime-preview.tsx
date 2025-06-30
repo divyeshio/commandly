@@ -1,13 +1,7 @@
 import { useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from "@/components/ui/card";
+
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import {
@@ -20,9 +14,8 @@ import {
 import { InfoIcon } from "lucide-react";
 import { Parameter, ParameterValue } from "@/lib/types/tool-editor";
 import { Command, Tool } from "@/lib/types/tool-editor";
-import { useStore } from "@tanstack/react-store";
-import { toolBuilderStore } from "@/components/tool-editor-ui/tool-editor.store";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import React from "react";
 
 const findDefaultCommand = (tool: Tool): Command | null => {
   const defaultCommand = tool.commands.find((command) => command.isDefault);
@@ -39,43 +32,17 @@ const findDefaultCommand = (tool: Tool): Command | null => {
 interface RuntimePreviewProps {
   selectedCommand?: Command | null;
   tool: Tool;
-  globalParameters: Parameter[];
-  currentParameters: Parameter[];
+  parameterValues: Record<string, ParameterValue>;
+  updateParameterValue: (parameterId: string, value: ParameterValue) => void;
 }
 
 export function RuntimePreview({
   selectedCommand: providedCommand,
   tool,
-  globalParameters,
-  currentParameters
+  parameterValues,
+  updateParameterValue
 }: RuntimePreviewProps) {
-  const parameterValues = useStore(
-    toolBuilderStore,
-    (state) => state.parameterValues
-  );
-
-  const updateParameterValue = (parameterId: string, value: ParameterValue) => {
-    toolBuilderStore.setState((state) => ({
-      ...state,
-      parameterValues: {
-        ...state.parameterValues,
-        [parameterId]: value
-      }
-    }));
-  };
-
   const selectedCommand = providedCommand ?? findDefaultCommand(tool);
-
-  useEffect(() => {
-    if (!providedCommand && selectedCommand) {
-      if (selectedCommand.isDefault) {
-      } else if (
-        selectedCommand.name.toLowerCase() === tool.name.toLowerCase()
-      ) {
-      } else {
-      }
-    }
-  }, [providedCommand, selectedCommand, tool.name]);
 
   const renderParameterInput = (parameter: Parameter) => {
     const value = parameterValues[parameter.id] || parameter.defaultValue || "";
@@ -265,31 +232,28 @@ export function RuntimePreview({
     }
   };
 
-  const allParameters = [...globalParameters, ...currentParameters];
-
   return (
-    <Card>
-      <CardHeader>
-        <CardDescription hidden={true}></CardDescription>
-        <CardTitle>Runtime Preview</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {selectedCommand && tool.commands.length === 0 ? (
-          <p className="text-muted-foreground text-sm">
-            No commands available for this tool.
-          </p>
-        ) : (
-          <div className="space-y-4">
-            {allParameters.length > 0 ? (
-              allParameters.map(renderParameterInput)
-            ) : (
-              <p className="text-muted-foreground text-sm">
-                No parameters available for this command.
-              </p>
-            )}
-          </div>
-        )}
-      </CardContent>
-    </Card>
+    <React.Fragment>
+      {selectedCommand && tool.commands.length === 0 ? (
+        <p className="text-muted-foreground text-sm">
+          No commands available for this tool.
+        </p>
+      ) : (
+        <div className="space-y-4">
+          {tool.parameters.length > 0 ? (
+            tool.parameters
+              .filter(
+                (param) =>
+                  param.commandId === selectedCommand?.id || param.isGlobal
+              )
+              .map(renderParameterInput)
+          ) : (
+            <p className="text-muted-foreground text-sm">
+              No parameters available for this command.
+            </p>
+          )}
+        </div>
+      )}
+    </React.Fragment>
   );
 }

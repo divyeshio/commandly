@@ -11,14 +11,13 @@ const SearchParamsSchema = z.object({
   newTool: z.string().optional()
 });
 
-export const Route = createFileRoute("/tools/$toolName")({
+export const Route = createFileRoute("/tools/$toolName/edit")({
   component: RouteComponent,
   validateSearch: zodValidator(SearchParamsSchema),
   loaderDeps: ({ search: { newTool } }) => ({
     newTool
   }),
   loader: async ({ params: { toolName }, deps: { newTool } }) => {
-    // check if executed not in browser context
     if (typeof window === "undefined") {
       return null;
     }
@@ -38,7 +37,6 @@ export const Route = createFileRoute("/tools/$toolName")({
     }
   },
   ssr: false,
-  pendingMinMs: 0,
   head: (context) => ({
     meta: [
       {

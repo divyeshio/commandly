@@ -20,6 +20,7 @@ import {
   SupportedToolInputType,
   SupportedToolOutputType
 } from "@/lib/types/tool-editor";
+import { TagsComponent } from "@/components/tags";
 
 const supportedInputOptions = [
   { value: "StandardInput", label: "Standard Input" },
@@ -88,6 +89,16 @@ export function ToolDetailsDialog() {
                 }
               />
             </div>
+            <div className="flex flex-col gap-3">
+              <Label htmlFor="tool-category">Category</Label>
+              <Input
+                id="tool-category"
+                value={tool.category}
+                onChange={(e) =>
+                  toolBuilderActions.updateTool({ category: e.target.value })
+                }
+              />
+            </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-3">
@@ -125,6 +136,14 @@ export function ToolDetailsDialog() {
               />
             </div>
           </div>
+          <TagsComponent
+            tags={tool.tags || []}
+            onOpenChange={(onOpen, tags) => {
+              if (!onOpen) {
+                toolBuilderActions.updateTool({ tags });
+              }
+            }}
+          />
           <div className="flex flex-col gap-3">
             <Label htmlFor="tool-description">Description</Label>
             <Textarea

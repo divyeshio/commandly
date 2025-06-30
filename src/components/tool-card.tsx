@@ -1,44 +1,120 @@
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckIcon, ScanIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { Tool } from "@/lib/types/tool-editor";
+import { Button } from "./ui/button";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { Edit2Icon, Trash2Icon } from "lucide-react";
+import {
+  HoverCard,
+  HoverCardTrigger,
+  HoverCardContent
+} from "@/components/ui/hover-card";
+import React, { useRef, useEffect, useState } from "react";
 
 export function ToolCard({
   tool,
-  isSelected = false
+  isLocal = false,
+  onDelete
 }: {
   tool: Partial<Tool>;
-  isSelected?: boolean;
+  isLocal?: boolean;
+  onDelete?: (tool: Partial<Tool>) => void;
 }) {
   const supportedIO = [...tool.supportedInput!, ...tool.supportedOutput!];
+  const navigation = useNavigate();
+  const descRef = useRef<HTMLParagraphElement>(null);
+  const [isOverflowing, setIsOverflowing] = useState(false);
+
+  useEffect(() => {
+    const el = descRef.current;
+    if (el) {
+      setIsOverflowing(
+        el.scrollHeight > el.clientHeight || el.scrollWidth > el.clientWidth
+      );
+    }
+  }, [tool.description]);
+
+  const handleClick = () => {
+    navigation({
+      to: "/tools/$toolName",
+      params: { toolName: tool.name!! },
+      search: isLocal ? { newTool: tool.name } : {}
+    });
+  };
 
   return (
-    <Card
-      className={cn(
-        "group hover:shadow-md transition-all duration-200 hover:-translate-y-1 cursor-pointer relative overflow-hidden",
-        isSelected && "ring-2 ring-primary"
-      )}
-    >
-      <div
-        className={cn(
-          "absolute inset-0 bg-background/60 backdrop-blur-[1px] opacity-0 transition-opacity duration-200",
-          isSelected && "opacity-100"
-        )}
-      />
-      <CardContent className="p-6 flex flex-col items-center justify-center gap-4 min-h-[200px] relative">
-        <div
-          className={cn(
-            "text-4xl text-muted-foreground transition-colors",
-            isSelected ? "text-primary" : "group-hover:text-primary"
+    <Card className="hover:shadow-md  w-72 h-72 flex flex-col gap-0 py-3">
+      <CardHeader className="border-b [.border-b]:pb-1 flex items-center justify-between">
+        <CardTitle className="font-semibold">{tool.displayName}</CardTitle>
+        <CardAction>
+          <Button
+            variant="link"
+            size="icon"
+            className="text-foreground dark:text-primary"
+            asChild
+          >
+            <Link
+              to="/tools/$toolName/edit"
+              params={{ toolName: tool.name!! }}
+              {...(isLocal ? { search: { newTool: tool.name } } : {})}
+            >
+              <Edit2Icon className="size-4" />
+            </Link>
+          </Button>
+          {isLocal && (
+            <Button
+              size="icon"
+              variant="link"
+              className="text-foreground dark:text-primary cursor-pointer"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onDelete?.(tool);
+              }}
+            >
+              <Trash2Icon className="size-4" />
+            </Button>
           )}
-        >
-          <ScanIcon />
+        </CardAction>
+      </CardHeader>
+      <CardContent
+        className="flex flex-col items-center justify-center gap-4 flex-1 align-top mb-6 cursor-pointer"
+        onClick={handleClick}
+      >
+        <div className="w-full flex-1 flex items-center justify-center py-1">
+          {tool.description ? (
+            isOverflowing ? (
+              <HoverCard openDelay={0}>
+                <HoverCardTrigger asChild>
+                  <p className="p-1 line-clamp-4 overflow-ellipsis text-justify cursor-pointer text-foreground/60">
+                    {tool.description}
+                  </p>
+                </HoverCardTrigger>
+                <HoverCardContent className="max-w-xs text-sm">
+                  {tool.description}
+                </HoverCardContent>
+              </HoverCard>
+            ) : (
+              <p
+                ref={descRef}
+                className="p-1 line-clamp-4 overflow-ellipsis text-justify"
+              >
+                {tool.description}
+              </p>
+            )
+          ) : (
+            <p className="text-muted">No description available</p>
+          )}
         </div>
-        <div className="text-lg font-semibold text-center relative z-10">
-          {tool.displayName}
-        </div>
-        <div className="flex flex-wrap gap-2 justify-center relative z-10">
+
+        <div className="flex flex-wrap gap-2 justify-center relative z-10 justify-self-end self-end">
           {supportedIO &&
             supportedIO.map((type) => (
               <Badge key={type} variant="secondary" className="text-xs">
@@ -46,17 +122,18 @@ export function ToolCard({
               </Badge>
             ))}
         </div>
-        <div
-          className={cn(
-            "absolute bottom-4 left-1/2 -translate-x-1/2 transform opacity-0 transition-all duration-200",
-            isSelected && "opacity-100"
-          )}
-        >
-          <div className="bg-primary text-primary-foreground rounded-full p-1.5 shadow-lg">
-            <CheckIcon className="w-4 h-4" />
-          </div>
-        </div>
       </CardContent>
+      <CardFooter className="flex justify-center gap-2 w-full mt-auto">
+        <Button className="flex-1" asChild>
+          <Link
+            to="/tools/$toolName"
+            params={{ toolName: tool.name! }}
+            {...(isLocal ? { search: { newTool: tool.name } } : {})}
+          >
+            Go
+          </Link>
+        </Button>
+      </CardFooter>
     </Card>
   );
 }

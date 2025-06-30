@@ -7,8 +7,11 @@ type Theme = "dark" | "light" | "system";
 const storageKey = "ui-theme";
 
 export function ThemeSwitcher() {
+  if (typeof window === "undefined") {
+    return null;
+  }
   const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || "system"
+    () => (localStorage.getItem(storageKey) as Theme) || "dark"
   );
   const ref = useRef<HTMLButtonElement>(null);
 
@@ -47,7 +50,7 @@ export function ThemeSwitcher() {
         ]
       },
       {
-        duration: 500,
+        duration: 400,
         easing: "ease-in-out",
         pseudoElement: "::view-transition-new(root)"
       }
@@ -65,8 +68,8 @@ export function ThemeSwitcher() {
 
   return (
     <Button
-      variant="link"
       size="icon"
+      variant="ghost"
       className="rounded-full"
       onClick={() =>
         theme === "dark" ? toggleDarkMode("light") : toggleDarkMode("dark")

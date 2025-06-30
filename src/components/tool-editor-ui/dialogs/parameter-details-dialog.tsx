@@ -397,7 +397,6 @@ export function ParameterDetailsDialog() {
 
           <TagsComponent
             tags={parameter.metadata?.tags || []}
-            id={parameter.id}
             onOpenChange={(onOpen, tags) => {
               if (!onOpen) {
                 updateParameter({ metadata: { tags } });

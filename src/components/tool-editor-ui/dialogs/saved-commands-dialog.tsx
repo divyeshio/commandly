@@ -7,41 +7,36 @@ import {
   DialogFooter
 } from "@/components/ui/dialog";
 import { SaveIcon, CopyIcon, Trash2Icon } from "lucide-react";
-import { useStore } from "@tanstack/react-store";
-import {
-  toolBuilderStore,
-  toolBuilderActions,
-  toolBuilderSelectors
-} from "@/components/tool-editor-ui/tool-editor.store";
 import { toast } from "sonner";
+import { SavedCommand } from "@/lib/types/tool-editor";
 
-export function SavedCommandsDialog() {
-  const isOpen = useStore(
-    toolBuilderStore,
-    (state) => state.dialogs.savedCommands
-  );
-  const savedCommands = useStore(toolBuilderStore, (state) =>
-    toolBuilderSelectors.getSavedCommandsForCurrentTool(state)
-  );
+interface SavedCommandsDialogProps {
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+  savedCommands: SavedCommand[];
+  onDeleteCommand: (commandId: string) => void;
+}
 
-  const handleClose = () => {
-    toolBuilderActions.setSavedCommandsDialogOpen(false);
-  };
-
+export function SavedCommandsDialog({
+  isOpen,
+  onOpenChange,
+  savedCommands,
+  onDeleteCommand
+}: SavedCommandsDialogProps) {
   const copyCommand = (command: string) => {
     navigator.clipboard.writeText(command);
     toast("Command copied!");
   };
 
   const deleteCommand = (commandId: string) => {
-    toolBuilderActions.removeSavedCommand(commandId);
+    onDeleteCommand(commandId);
     toast("Command Removed", {
       description: "Saved command has been removed successfully."
     });
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleClose}>
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl max-h-[80vh]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
@@ -92,7 +87,7 @@ export function SavedCommandsDialog() {
         )}
 
         <DialogFooter>
-          <Button variant="outline" onClick={handleClose}>
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
             Close
           </Button>
         </DialogFooter>

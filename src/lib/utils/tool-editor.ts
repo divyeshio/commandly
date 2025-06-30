@@ -180,7 +180,7 @@ export const defaultTool = (toolName?: string, displayName?: string): Tool => {
   return {
     name: toolName || "my-tool",
     displayName: displayName || "My Tool",
-    description: "",
+    description: undefined,
     version: "",
     commands: [
       {
