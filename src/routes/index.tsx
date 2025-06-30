@@ -9,7 +9,7 @@ export const Route = createFileRoute("/")({
 function RouteComponent() {
   return (
     <div className="flex flex-col w-full gap-10">
-      <section className="w-full flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-background to-primary/65 via-secondary dark:from-primary/30 dark:via-background dark:to-secondary/10 shadow-2xl relative overflow-hidden">
+      <section className="w-full flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-background to-primary/65 via-secondary dark:from-primary/30 dark:via-black/80 dark:to-secondary/90 shadow-2xl relative overflow-hidden">
         <div
           className="absolute inset-0 pointer-events-none z-0"
           style={{

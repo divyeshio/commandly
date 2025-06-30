@@ -242,7 +242,10 @@ export function RuntimePreview({
         <div className="space-y-4">
           {tool.parameters.length > 0 ? (
             tool.parameters
-              .filter((param) => param.commandId === selectedCommand?.id)
+              .filter(
+                (param) =>
+                  param.commandId === selectedCommand?.id || param.isGlobal
+              )
               .map(renderParameterInput)
           ) : (
             <p className="text-muted-foreground text-sm">

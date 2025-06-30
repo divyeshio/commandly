@@ -170,7 +170,7 @@ function RouteComponent() {
           Saved Commands
         </Button>
       </div>
-      <div className="flex gap-4 px-4 w-full align-center justify-center">
+      <div className="flex gap-16 px-4 w-full align-center justify-center">
         <Card className="w-2xl max-w-4xl">
           <CardHeader>
             <CardDescription hidden={true}></CardDescription>
