@@ -9,7 +9,7 @@ export const Route = createFileRoute("/")({
 function RouteComponent() {
   return (
     <div className="flex flex-col w-full gap-10">
-      <section className="w-full flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-primary/30 via-background to-secondary/10 shadow-2xl relative overflow-hidden">
+      <section className="w-full flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-background to-primary via-secondary dark:from-primary/30 dark:via-background dark:to-secondary/10 shadow-2xl relative overflow-hidden">
         <div
           className="absolute inset-0 pointer-events-none z-0"
           style={{
@@ -17,11 +17,11 @@ function RouteComponent() {
               "radial-gradient(ellipse at 60% 40%, rgba(255,255,255,0.10) 0%, transparent 70%)"
           }}
         />
-        <h1 className="text-7xl font-mono mb-6 z-10 drop-shadow-xl text-primary dark:drop-shadow-lg flex items-center gap-2">
+        <h1 className="text-7xl font-mono mb-6 z-10 drop-shadow-xl dark:text-primary dark:drop-shadow-lg flex items-center gap-2">
           <TerminalIcon size={60} />
           Commandly
         </h1>
-        <p className="text-2xl text-foreground max-w-3xl mb-10 text-center z-10 drop-shadow-lg font-mono">
+        <p className="text-2xl text-foreground max-w-3xl mb-10 text-center z-10 drop-shadow-md font-mono">
           Build, preview, and manage CLI commands visually—no syntax to
           memorize, no flags to forget. Commandly makes the terminal accessible,
           powerful, and fun for everyone.

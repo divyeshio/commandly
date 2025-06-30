@@ -11,7 +11,12 @@ import { Tool } from "@/lib/types/tool-editor";
 import { Button } from "./ui/button";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Edit2Icon, Trash2Icon } from "lucide-react";
-import { cn } from "@/lib/utils";
+import {
+  HoverCard,
+  HoverCardTrigger,
+  HoverCardContent
+} from "@/components/ui/hover-card";
+import React, { useRef, useEffect, useState } from "react";
 
 export function ToolCard({
   tool,
@@ -24,6 +29,17 @@ export function ToolCard({
 }) {
   const supportedIO = [...tool.supportedInput!, ...tool.supportedOutput!];
   const navigation = useNavigate();
+  const descRef = useRef<HTMLParagraphElement>(null);
+  const [isOverflowing, setIsOverflowing] = useState(false);
+
+  useEffect(() => {
+    const el = descRef.current;
+    if (el) {
+      setIsOverflowing(
+        el.scrollHeight > el.clientHeight || el.scrollWidth > el.clientWidth
+      );
+    }
+  }, [tool.description]);
 
   const handleClick = () => {
     navigation({
@@ -72,11 +88,32 @@ export function ToolCard({
         className="flex flex-col items-center justify-center gap-4 flex-1 align-top mb-6 cursor-pointer"
         onClick={handleClick}
       >
-        <p className="text-secondary-foreground p-2 text-center w-full flex-1 flex items-center justify-center">
-          <span className={cn("", tool.description ? "" : "text-muted")}>
-            {tool.description ? tool.description : "No description available"}
-          </span>
-        </p>
+        <div className="w-full flex-1 flex items-center justify-center py-1">
+          {tool.description ? (
+            isOverflowing ? (
+              <HoverCard openDelay={0}>
+                <HoverCardTrigger asChild>
+                  <p className="p-1 line-clamp-4 overflow-ellipsis text-justify cursor-pointer text-foreground/60">
+                    {tool.description}
+                  </p>
+                </HoverCardTrigger>
+                <HoverCardContent className="max-w-xs text-sm">
+                  {tool.description}
+                </HoverCardContent>
+              </HoverCard>
+            ) : (
+              <p
+                ref={descRef}
+                className="p-1 line-clamp-4 overflow-ellipsis text-justify"
+              >
+                {tool.description}
+              </p>
+            )
+          ) : (
+            <p className="text-muted">No description available</p>
+          )}
+        </div>
+
         <div className="flex flex-wrap gap-2 justify-center relative z-10 justify-self-end self-end">
           {supportedIO &&
             supportedIO.map((type) => (

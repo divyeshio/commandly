@@ -147,6 +147,11 @@ function RouteComponent() {
     });
   };
 
+  const handleDelete = (tool: Partial<Tool>) => {
+    localStorage.removeItem(`tool-${tool.name}`);
+    setTools((prev) => prev.filter((t) => t.name !== tool.name));
+  };
+
   const filteredTools = React.useMemo(() => {
     return tools.filter((tool) => {
       const matchesName = searchValue
@@ -242,6 +247,7 @@ function RouteComponent() {
                 <ListComponent
                   tools={filteredTools}
                   serverToolNames={serverToolNames}
+                  onDelete={handleDelete}
                 />
               </Suspense>
               <ScrollBar orientation="vertical" />
@@ -255,10 +261,12 @@ function RouteComponent() {
 
 function ListComponent({
   tools,
-  serverToolNames
+  serverToolNames,
+  onDelete
 }: {
   tools: Partial<Tool>[];
   serverToolNames: Set<string>;
+  onDelete: (tool: Partial<Tool>) => void;
 }) {
   return (
     <React.Fragment>
@@ -268,9 +276,7 @@ function ListComponent({
             key={tool.name || index}
             tool={tool}
             isLocal={!serverToolNames.has(tool.name!)}
-            onDelete={(tool) => {
-              localStorage.removeItem(`tool-${tool.name}`);
-            }}
+            onDelete={onDelete}
           />
         );
       })}

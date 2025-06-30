@@ -4,7 +4,7 @@ import {
   Outlet,
   Scripts,
   createRootRouteWithContext,
-  useLocation,
+  useLocation
 } from "@tanstack/react-router";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
@@ -18,6 +18,7 @@ import { Toaster } from "sonner";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
+import { TerminalIcon } from "lucide-react";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
@@ -76,13 +77,14 @@ function RootComponent() {
 
 function Navbar() {
   return (
-    <nav className="w-full bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 fixed top-0 z-50">
+    <nav className="w-full bg-transparent backdrop-blur supports-[backdrop-filter]:bg-background/60 fixed top-0 z-50">
       <div className="flex items-center h-16 px-8 gap-2 w-full">
         <div className="flex-1 flex items-center min-w-0">
           <Link
             to="/"
-            className="text-lg tracking-tight whitespace-nowrap font-mono"
+            className="text-lg tracking-tight whitespace-nowrap font-mono flex gap-1.5"
           >
+            <TerminalIcon />
             Commandly
           </Link>
         </div>
