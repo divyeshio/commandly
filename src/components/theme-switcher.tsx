@@ -50,7 +50,7 @@ export function ThemeSwitcher() {
         ]
       },
       {
-        duration: 500,
+        duration: 400,
         easing: "ease-in-out",
         pseudoElement: "::view-transition-new(root)"
       }

@@ -9,7 +9,7 @@ export const Route = createFileRoute("/")({
 function RouteComponent() {
   return (
     <div className="flex flex-col w-full gap-10">
-      <section className="w-full flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-background to-primary via-secondary dark:from-primary/30 dark:via-background dark:to-secondary/10 shadow-2xl relative overflow-hidden">
+      <section className="w-full flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-background to-primary/65 via-secondary dark:from-primary/30 dark:via-background dark:to-secondary/10 shadow-2xl relative overflow-hidden">
         <div
           className="absolute inset-0 pointer-events-none z-0"
           style={{
@@ -155,7 +155,7 @@ function RouteComponent() {
             <ul className="list-disc list-inside mt-2 text-muted-foreground">
               <li>Use exclusion groups for advanced option logic</li>
               <li>Preview runtime output before running anything</li>
-              <li>Organize commands by project or tag</li>
+              <li>Save commands for later use</li>
               <li>Use the AI parser to extract commands and parameters!</li>
             </ul>
           </div>
@@ -166,7 +166,7 @@ function RouteComponent() {
               <li>Team collaboration features</li>
               <li>Cloud sync</li>
               <li>More export formats</li>
-              <li>Plugin system</li>
+              <li>More tools</li>
             </ul>
           </div>
         </div>

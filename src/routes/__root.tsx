@@ -77,14 +77,14 @@ function RootComponent() {
 
 function Navbar() {
   return (
-    <nav className="w-full bg-transparent backdrop-blur supports-[backdrop-filter]:bg-background/60 fixed top-0 z-50">
+    <nav className="w-full bg-transparent backdrop-blur supports-[backdrop-filter]:bg-background/60 fixed top-0 z-50 rounded-b-lg shadow-2xs">
       <div className="flex items-center h-16 px-8 gap-2 w-full">
         <div className="flex-1 flex items-center min-w-0">
           <Link
             to="/"
             className="text-lg tracking-tight whitespace-nowrap font-mono flex gap-1.5"
           >
-            <TerminalIcon />
+            <TerminalIcon className="dark:stroke-primary" />
             Commandly
           </Link>
         </div>

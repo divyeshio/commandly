@@ -169,7 +169,7 @@ function RouteComponent() {
   }, [tools, searchValue, filterCategory, filterTag]);
 
   return (
-    <div className="flex border-t">
+    <div className="flex border-t border-muted">
       <aside className="w-64 min-w-[200px] h-screen max-w-xs p-4 border-r-2 border-muted">
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">

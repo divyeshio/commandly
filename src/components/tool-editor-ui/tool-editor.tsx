@@ -49,8 +49,8 @@ export default function ToolEditor({
 
   return (
     <div className="flex bg-background">
-      <div className="w-72 border-r overflow-hidden flex flex-col">
-        <div className="p-2 flex flex-col gap-2 border-b justify-center">
+      <div className="w-72 border-r border-muted overflow-hidden flex flex-col">
+        <div className="p-2 flex flex-col gap-2 border-b border-muted justify-center">
           <p className="p-3">Commands</p>
         </div>
         <CommandTree />
@@ -58,7 +58,7 @@ export default function ToolEditor({
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
-        <div className="p-4 border-b">
+        <div className="p-4 border-b border-muted">
           <div className="flex justify-between">
             <div className="flex items-center gap-2 justify-between">
               <span className="font-medium text-lg">
