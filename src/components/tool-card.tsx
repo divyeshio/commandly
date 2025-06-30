@@ -11,6 +11,7 @@ import { Tool } from "@/lib/types/tool-editor";
 import { Button } from "./ui/button";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Edit2Icon, Trash2Icon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export function ToolCard({
   tool,
@@ -33,10 +34,7 @@ export function ToolCard({
   };
 
   return (
-    <Card
-      className="hover:shadow-md cursor-pointer w-72 h-72 flex flex-col gap-0 py-3"
-      onClick={handleClick}
-    >
+    <Card className="hover:shadow-md  w-72 h-72 flex flex-col gap-0 py-3">
       <CardHeader className="border-b [.border-b]:pb-1 flex items-center justify-between">
         <CardTitle className="font-semibold">{tool.displayName}</CardTitle>
         <CardAction>
@@ -70,9 +68,14 @@ export function ToolCard({
           )}
         </CardAction>
       </CardHeader>
-      <CardContent className="flex flex-col items-center justify-center gap-4 flex-1 align-top mb-6">
+      <CardContent
+        className="flex flex-col items-center justify-center gap-4 flex-1 align-top mb-6 cursor-pointer"
+        onClick={handleClick}
+      >
         <p className="text-secondary-foreground p-2 text-center w-full flex-1 flex items-center justify-center">
-          {tool.description}
+          <span className={cn("", tool.description ? "" : "text-muted")}>
+            {tool.description ? tool.description : "No description available"}
+          </span>
         </p>
         <div className="flex flex-wrap gap-2 justify-center relative z-10 justify-self-end self-end">
           {supportedIO &&
@@ -90,7 +93,7 @@ export function ToolCard({
             params={{ toolName: tool.name! }}
             {...(isLocal ? { search: { newTool: tool.name } } : {})}
           >
-            View
+            Go
           </Link>
         </Button>
       </CardFooter>

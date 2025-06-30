@@ -165,7 +165,7 @@ function RouteComponent() {
 
   return (
     <div className="flex border-t">
-      <aside className="w-64 min-w-[200px] h-screen max-w-xs p-4 border-r-2 border-gray-200 dark:border-muted">
+      <aside className="w-64 min-w-[200px] h-screen max-w-xs p-4 border-r-2 border-muted">
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
             <Label
@@ -212,13 +212,18 @@ function RouteComponent() {
           </InputRoot>
           <div className="flex gap-3 items-center">
             <ImportDialog onImportData={handleNavigation}>
-              <Button variant="outline">
+              <Button
+                variant="outline"
+                className="border-0 shadow-md dark:border-1"
+              >
                 <UploadIcon className="h-4 w-4 mr-2" />
                 Import / AI
               </Button>
             </ImportDialog>
             <NewToolDialog handleNavigation={handleNavigation}>
-              <Button variant="default">New Tool</Button>
+              <Button variant="default" className="shadow-sm">
+                New Tool
+              </Button>
             </NewToolDialog>
           </div>
         </div>
@@ -260,7 +265,7 @@ function ListComponent({
       {tools.map((tool: Partial<Tool>, index: number) => {
         return (
           <ToolCard
-            key={tool.name}
+            key={tool.name || index}
             tool={tool}
             isLocal={!serverToolNames.has(tool.name!)}
             onDelete={(tool) => {
