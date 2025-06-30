@@ -15,7 +15,7 @@ import { NotFound } from "@/components/not-found";
 import appCss from "../styles/app.css?url";
 import { NuqsAdapter } from "nuqs/adapters/react";
 import { Toaster } from "sonner";
-import { ThemeSwitcher } from "@/components/theme-switcher";
+import { ThemeProvider, ThemeSwitcher } from "@/components/theme-switcher";
 import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { TerminalIcon } from "lucide-react";
@@ -69,9 +69,11 @@ export const Route = createRootRouteWithContext<{
 
 function RootComponent() {
   return (
-    <RootDocument>
-      <Outlet />
-    </RootDocument>
+    <ThemeProvider>
+      <RootDocument>
+        <Outlet />
+      </RootDocument>
+    </ThemeProvider>
   );
 }
 
@@ -155,8 +157,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           </main>
           <Toaster />
         </NuqsAdapter>
-        <TanStackRouterDevtools position="bottom-right" />
-        <ReactQueryDevtools buttonPosition="bottom-left" />
+        {/* <TanStackRouterDevtools position="bottom-right" />
+        <ReactQueryDevtools buttonPosition="bottom-left" /> */}
         <Scripts />
       </body>
     </html>

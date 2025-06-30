@@ -1,3 +1,4 @@
+import { useTheme } from "@/components/theme-switcher";
 import { Button } from "@/components/ui/button";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { TerminalIcon } from "lucide-react";
@@ -7,6 +8,8 @@ export const Route = createFileRoute("/")({
 });
 
 function RouteComponent() {
+  const { theme } = useTheme();
+
   return (
     <div className="flex flex-col w-full gap-10">
       <section className="w-full flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-background to-primary/65 via-secondary dark:from-primary/30 dark:via-black/80 dark:to-secondary/90 shadow-2xl relative overflow-hidden">
@@ -59,9 +62,9 @@ function RouteComponent() {
           </div>
           <div className="flex-[2.5] flex flex-col gap-4 items-center min-w-[0]">
             <img
-              src="/image.png"
+              src={theme === "dark" ? "/images/ui-dark.png" : "/images/ui.png"}
               alt="Commandly UI Screenshot"
-              className="rounded-2xl border-2 border-primary shadow-2xl w-full max-w-[1600px] min-h-[400px] min-w-[900px] object-contain bg-background"
+              className="rounded-2xl border-2 border-primary shadow-2xl w-full max-w-[1600px] min-h-[400px] min-w-[900px] object-contain bg-background p-4"
             />
             <span className="text-base text-muted-foreground">UI Preview</span>
           </div>
