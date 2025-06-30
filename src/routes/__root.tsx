@@ -3,7 +3,8 @@ import {
   HeadContent,
   Outlet,
   Scripts,
-  createRootRouteWithContext
+  createRootRouteWithContext,
+  useLocation,
 } from "@tanstack/react-router";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
@@ -16,6 +17,7 @@ import { NuqsAdapter } from "nuqs/adapters/react";
 import { Toaster } from "sonner";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { Link } from "@tanstack/react-router";
+import { cn } from "@/lib/utils";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
@@ -74,7 +76,7 @@ function RootComponent() {
 
 function Navbar() {
   return (
-    <nav className="w-full bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
+    <nav className="w-full bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 fixed top-0 z-50">
       <div className="flex items-center h-16 px-8 gap-2 w-full">
         <div className="flex-1 flex items-center min-w-0">
           <Link
@@ -134,6 +136,9 @@ function Navbar() {
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const pathname = useLocation({
+    select: (location) => location.pathname
+  });
   return (
     <html suppressHydrationWarning={true}>
       <head>
@@ -143,7 +148,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body className="bg-background text-foreground antialiased">
         <NuqsAdapter>
           <Navbar />
-          <main className="w-full">{children}</main>
+          <main className={cn("w-full", pathname == "/" ? "" : "mt-16")}>
+            {children}
+          </main>
           <Toaster />
         </NuqsAdapter>
         <TanStackRouterDevtools position="bottom-right" />

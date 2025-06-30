@@ -69,6 +69,7 @@ export function ThemeSwitcher() {
   return (
     <Button
       size="icon"
+      variant="ghost"
       className="rounded-full"
       onClick={() =>
         theme === "dark" ? toggleDarkMode("light") : toggleDarkMode("dark")

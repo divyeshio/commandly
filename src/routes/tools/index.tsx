@@ -19,7 +19,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { UploadIcon } from "lucide-react";
-import { ToolSchema, type NewTool, type Tool } from "@/lib/types/tool-editor";
+import { type NewTool, type Tool } from "@/lib/types/tool-editor";
 import { createServerFn } from "@tanstack/react-start";
 import { promises as fs } from "fs";
 import path from "path";
@@ -164,11 +164,9 @@ function RouteComponent() {
   }, [tools, searchValue, filterCategory, filterTag]);
 
   return (
-    <div className="mt-4 flex">
-      {/* Filtering section on the left */}
-      <aside className="w-64 min-w-[200px] max-w-xs p-4 border-r border-gray-200 dark:border-gray-800 bg-background/60">
+    <div className="flex border-t">
+      <aside className="w-64 min-w-[200px] h-screen max-w-xs p-4 border-r-2 border-gray-200 dark:border-muted">
         <div className="flex flex-col gap-6">
-          {/* Removed name filter input */}
           <div className="flex flex-col gap-2">
             <Label
               className="block text-sm font-medium mb-1"
@@ -199,7 +197,7 @@ function RouteComponent() {
           </div>
         </div>
       </aside>
-      <div className="flex-1">
+      <div className="flex-1 pt-4">
         <div className="flex gap-4 px-4">
           <InputRoot className="w-full">
             <InputIcon>
@@ -262,9 +260,12 @@ function ListComponent({
       {tools.map((tool: Partial<Tool>, index: number) => {
         return (
           <ToolCard
-            key={tool.id}
+            key={tool.name}
             tool={tool}
             isLocal={!serverToolNames.has(tool.name!)}
+            onDelete={(tool) => {
+              localStorage.removeItem(`tool-${tool.name}`);
+            }}
           />
         );
       })}

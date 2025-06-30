@@ -9,7 +9,6 @@ export const Route = createFileRoute("/")({
 function RouteComponent() {
   return (
     <div className="flex flex-col w-full gap-10">
-      {/* Hero Section */}
       <section className="w-full flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-primary/30 via-background to-secondary/10 shadow-2xl relative overflow-hidden">
         <div
           className="absolute inset-0 pointer-events-none z-0"
@@ -174,8 +173,8 @@ function RouteComponent() {
       </section>
 
       {/* Final Call to Action */}
-      <footer className="w-full flex flex-col items-center gap-8 py-16 bg-gradient-to-t from-primary/20 to-background border-t mt-auto shadow-inner">
-        <h2 className="text-3xl font-bold mb-2 text-background drop-shadow-lg drop-shadow-indigo-900 dark:text-primary">
+      <footer className="w-full flex flex-col items-center gap-8 py-16 bg-gradient-to-t from-primary/20 to-background border-t border-muted mt-auto shadow-inner">
+        <h2 className="text-3xl font-bold mb-2 dark:text-primary">
           Ready to build your next command?
         </h2>
         <Button
