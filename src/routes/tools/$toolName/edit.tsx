@@ -18,7 +18,6 @@ export const Route = createFileRoute("/tools/$toolName/edit")({
     newTool
   }),
   loader: async ({ params: { toolName }, deps: { newTool } }) => {
-    // check if executed not in browser context
     if (typeof window === "undefined") {
       return null;
     }

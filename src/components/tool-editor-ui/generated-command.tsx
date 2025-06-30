@@ -43,7 +43,8 @@ export function GeneratedCommand({
 
   const generateCommand = () => {
     const commandPath = getCommandPath(selectedCommand, tool);
-    let command = commandPath;
+    let command =
+      tool.name == commandPath ? tool.name : `${tool.name} ${commandPath}`;
 
     const parametersWithValues: Array<{
       param: Parameter;
@@ -97,17 +98,6 @@ export function GeneratedCommand({
     toast("Command copied!");
   };
 
-  const saveCommand = () => {
-    if (!generatedCommand.trim()) {
-      toast("No command to save");
-      return;
-    }
-    if (onSaveCommand) {
-      onSaveCommand(generatedCommand);
-      toast("Command saved!");
-    }
-  };
-
   return (
     <div>
       {tool.commands.length === 0 ? (
@@ -129,7 +119,7 @@ export function GeneratedCommand({
             </Button>
             {onSaveCommand && (
               <Button
-                onClick={saveCommand}
+                onClick={() => onSaveCommand(generatedCommand)}
                 variant="outline"
                 className="flex-1"
               >

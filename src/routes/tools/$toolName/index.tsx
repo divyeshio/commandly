@@ -1,5 +1,8 @@
+import { SavedCommandsDialog } from "@/components/tool-editor-ui/dialogs/saved-commands-dialog";
 import { GeneratedCommand } from "@/components/tool-editor-ui/generated-command";
 import { RuntimePreview } from "@/components/tool-editor-ui/runtime-preview";
+import { toolBuilderActions } from "@/components/tool-editor-ui/tool-editor.store";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,14 +12,44 @@ import {
 } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { fetchToolDetails } from "@/lib/api/tools.api";
-import { Tool, ToolSchema } from "@/lib/types/tool-editor";
-import { defaultTool } from "@/lib/utils/tool-editor";
+import { SavedCommand, Tool, ToolSchema } from "@/lib/types/tool-editor";
+import {
+  addSavedCommandToStorage,
+  defaultTool,
+  getSavedCommandsFromStorage
+} from "@/lib/utils/tool-editor";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
-import { TerminalIcon } from "lucide-react";
+import {
+  CheckIcon,
+  ChevronsUpDownIcon,
+  InfoIcon,
+  SaveIcon,
+  TerminalIcon
+} from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import z from "zod/v4";
-
+import { v7 as uuidv7 } from "uuid";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from "@/components/ui/tooltip";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from "@/components/ui/popover";
+import {
+  Command,
+  CommandGroup,
+  CommandItem,
+  CommandList
+} from "@/components/ui/command";
+import { useQueryState } from "nuqs";
+import { cn } from "@/lib/utils";
 const SearchParamsSchema = z.object({
   newTool: z.string().optional()
 });
@@ -64,44 +97,161 @@ function RouteComponent() {
   }, []);
 
   const [parameterValues, setParameterValues] = useState({});
+
+  const handleSaveCommand = (command: string) => {
+    const toolId = (tool?.id || tool?.name)!;
+    const existingCommands = getSavedCommandsFromStorage(toolId);
+    if (existingCommands.some((cmd) => cmd.command === command)) {
+      toast.error("Command already exists", {
+        description: "This command has already been saved."
+      });
+      return;
+    }
+    const newSavedCommand: SavedCommand = {
+      id: uuidv7(),
+      command
+    };
+
+    addSavedCommandToStorage(`saved-${toolId}`, newSavedCommand);
+
+    toast("Command Saved", {
+      description: "Command has been saved successfully."
+    });
+  };
+
+  const [open, setOpen] = useState(false);
+  const [selectedCommand, setSelectedCommand] = useQueryState("command", {
+    defaultValue: tool?.commands[0].name!
+  });
+
   if (!tool) return <div>Tool not found.</div>;
 
   return (
-    <div className="flex gap-4 mt-6 px-4 w-full">
-      <Card className="w-2xl max-w-4xl">
-        <CardHeader>
-          <CardDescription hidden={true}></CardDescription>
-          <CardTitle>Runtime Preview</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <ScrollArea className="[&>[data-radix-scroll-area-viewport]]:max-h-[calc(100vh-200px)]">
-            <div className="p-4">
-              <RuntimePreview
-                tool={tool}
-                parameterValues={parameterValues}
-                updateParameterValue={(parameterId, value) =>
-                  setParameterValues((prev) => ({
-                    ...prev,
-                    [parameterId]: value
-                  }))
-                }
-              />
-            </div>
-          </ScrollArea>
-        </CardContent>
-      </Card>
+    <div className="flex flex-col">
+      <div className="relative flex mx-8 my-4 items-center gap-2">
+        <p className="absolute left-1/2 -translate-x-1/2 flex gap-2">
+          <span className="font-medium text-lg">
+            {tool.displayName
+              ? `${tool.displayName} (${tool.name})`
+              : `${tool.name}`}
+          </span>
+          {tool.description && (
+            <Tooltip>
+              <TooltipTrigger>
+                <InfoIcon className="h-3.5 w-3.5" />
+              </TooltipTrigger>
+              <TooltipContent>
+                <span>{tool.description}</span>
+              </TooltipContent>
+            </Tooltip>
+          )}
+        </p>
+        <Button
+          className="ml-auto relative z-10"
+          variant="outline"
+          size="sm"
+          onClick={() => toolBuilderActions.setSavedCommandsDialogOpen(true)}
+        >
+          <SaveIcon className="h-4 w-4 mr-2" />
+          Saved Commands
+        </Button>
+      </div>
+      <div className="flex gap-4 px-4 w-full align-center justify-center">
+        <Card className="w-2xl max-w-4xl">
+          <CardHeader>
+            <CardDescription hidden={true}></CardDescription>
+            <CardTitle className="flex items-center gap-2">
+              <div className="flex items-center gap-4">
+                <span className="text-sm">Command</span>
+                <Popover open={open} onOpenChange={setOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={open}
+                      className="w-48 justify-between"
+                    >
+                      {
+                        tool.commands.find(
+                          (command) => command.name === selectedCommand
+                        )?.name
+                      }
+                      <ChevronsUpDownIcon className="opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-48 p-0">
+                    <Command>
+                      <CommandList>
+                        <CommandGroup>
+                          {tool.commands.map((option) => (
+                            <CommandItem
+                              key={option.id}
+                              value={option.name}
+                              onSelect={(currentValue) => {
+                                setSelectedCommand(currentValue);
+                                setOpen(false);
+                              }}
+                            >
+                              {option.name}
+                              <CheckIcon
+                                className={cn(
+                                  "ml-auto h-4 w-4",
+                                  selectedCommand === option.name
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                )}
+                              />
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+              </div>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <ScrollArea className="[&>[data-radix-scroll-area-viewport]]:max-h-[calc(100vh-260px)]">
+              <div className="p-4">
+                <RuntimePreview
+                  selectedCommand={tool.commands.find(
+                    (command) => command.name === selectedCommand
+                  )}
+                  tool={tool}
+                  parameterValues={parameterValues}
+                  updateParameterValue={(parameterId, value) =>
+                    setParameterValues((prev) => ({
+                      ...prev,
+                      [parameterId]: value
+                    }))
+                  }
+                />
+              </div>
+            </ScrollArea>
+          </CardContent>
+        </Card>
 
-      <Card className="w-3xl max-w-full h-full">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <TerminalIcon className="h-5 w-5" />
-            Generated Command
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <GeneratedCommand tool={tool} parameterValues={parameterValues} />
-        </CardContent>
-      </Card>
+        <Card className="w-3xl max-w-full h-full">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <TerminalIcon className="h-5 w-5" />
+              Generated Command
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <GeneratedCommand
+              selectedCommand={tool.commands.find(
+                (command) => command.name === selectedCommand
+              )}
+              tool={tool}
+              parameterValues={parameterValues}
+              onSaveCommand={handleSaveCommand}
+            />
+          </CardContent>
+        </Card>
+      </div>
+      <SavedCommandsDialog />
     </div>
   );
 }

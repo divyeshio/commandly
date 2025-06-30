@@ -199,7 +199,6 @@ function RouteComponent() {
           </div>
         </div>
       </aside>
-      {/* Main content area remains unchanged except tools list uses filteredTools */}
       <div className="flex-1">
         <div className="flex gap-4 px-4">
           <InputRoot className="w-full">
@@ -226,7 +225,7 @@ function RouteComponent() {
         </div>
         <ScrollArea className="flex [&>[data-radix-scroll-area-viewport]]:max-h-[calc(100vh-180px)]">
           <div className="container mx-auto p-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-2">
+            <div className="flex gap-8 flex-wrap justify-start">
               <Suspense
                 fallback={
                   <>
@@ -260,16 +259,12 @@ function ListComponent({
   return (
     <React.Fragment>
       {tools.map((tool: Partial<Tool>, index: number) => {
-        const isLocal = !serverToolNames.has(tool.name!);
         return (
-          <Link
-            to="/tools/$toolName"
-            params={{ toolName: tool.name! }}
-            key={index}
-            {...(isLocal ? { search: { newTool: tool.name } } : {})}
-          >
-            <ToolCard tool={tool} isLocal={isLocal} />
-          </Link>
+          <ToolCard
+            key={tool.id}
+            tool={tool}
+            isLocal={!serverToolNames.has(tool.name!)}
+          />
         );
       })}
     </React.Fragment>

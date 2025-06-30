@@ -217,10 +217,6 @@ export const toolBuilderActions = {
       removeSavedCommandFromStorage(`saved-${toolId}`, commandId);
       return { ...state };
     });
-
-    toast("Command Removed", {
-      description: "Saved command has been removed successfully."
-    });
   },
 
   addExclusionGroup(group: Omit<ExclusionGroup, "id">) {

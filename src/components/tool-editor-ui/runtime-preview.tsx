@@ -44,17 +44,6 @@ export function RuntimePreview({
 }: RuntimePreviewProps) {
   const selectedCommand = providedCommand ?? findDefaultCommand(tool);
 
-  useEffect(() => {
-    if (!providedCommand && selectedCommand) {
-      if (selectedCommand.isDefault) {
-      } else if (
-        selectedCommand.name.toLowerCase() === tool.name.toLowerCase()
-      ) {
-      } else {
-      }
-    }
-  }, [providedCommand, selectedCommand, tool.name]);
-
   const renderParameterInput = (parameter: Parameter) => {
     const value = parameterValues[parameter.id] || parameter.defaultValue || "";
 
@@ -252,7 +241,9 @@ export function RuntimePreview({
       ) : (
         <div className="space-y-4">
           {tool.parameters.length > 0 ? (
-            tool.parameters.map(renderParameterInput)
+            tool.parameters
+              .filter((param) => param.commandId === selectedCommand?.id)
+              .map(renderParameterInput)
           ) : (
             <p className="text-muted-foreground text-sm">
               No parameters available for this command.
