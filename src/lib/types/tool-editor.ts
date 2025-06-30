@@ -114,15 +114,22 @@ export const SavedCommandSchema = z.object({
 });
 export type SavedCommand = z.infer<typeof SavedCommandSchema>;
 
-export const SupportedToolInputTypeSchema = z.enum(["StandardInput", "Parameter"]);
-export type SupportedToolInputType = z.infer<typeof SupportedToolInputTypeSchema>;
+export const SupportedToolInputTypeSchema = z.enum([
+  "StandardInput",
+  "Parameter"
+]);
+export type SupportedToolInputType = z.infer<
+  typeof SupportedToolInputTypeSchema
+>;
 
 export const SupportedToolOutputTypeSchema = z.enum([
   "StandardOutput",
   "File",
   "Directory"
 ]);
-export type SupportedToolOutputType = z.infer<typeof SupportedToolOutputTypeSchema>;
+export type SupportedToolOutputType = z.infer<
+  typeof SupportedToolOutputTypeSchema
+>;
 
 export const ToolSchema = z.object({
   id: z.string().optional(),
