@@ -94,7 +94,7 @@ export function JsonOutput({ tool }: JsonTypeComponentProps) {
           </Popover>
         </CardTitle>
         <CardAction
-          className="bg-sidebar-accent rounded-md"
+          className="rounded-md"
           onClick={() => {
             navigator.clipboard.writeText(jsonString!);
             toast("Copied!");

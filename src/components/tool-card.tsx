@@ -1,13 +1,16 @@
 import {
   Card,
+  CardAction,
   CardContent,
   CardFooter,
-  CardHeader
+  CardHeader,
+  CardTitle
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tool } from "@/lib/types/tool-editor";
 import { Button } from "./ui/button";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { Edit2Icon } from "lucide-react";
 
 export function ToolCard({
   tool,
@@ -17,13 +20,36 @@ export function ToolCard({
   isLocal?: boolean;
 }) {
   const supportedIO = [...tool.supportedInput!, ...tool.supportedOutput!];
+  const navigation = useNavigate();
+
+  const handleClick = () => {
+    navigation({
+      to: "/tools/$toolName",
+      params: { toolName: tool.name!! },
+      search: isLocal ? { newTool: tool.name } : {}
+    });
+  };
 
   return (
-    <Card className="hover:shadow-md cursor-pointer w-72 h-72 flex flex-col gap-0 dark:hover:shadow-gray-700">
-      <CardHeader>
-        <div className="text-lg font-semibold text-center">
+    <Card
+      className="hover:shadow-md cursor-pointer w-72 h-72 flex flex-col gap-0 py-3"
+      onClick={handleClick}
+    >
+      <CardHeader className="border-b [.border-b]:pb-0 pb-0 items-center align-top">
+        <CardTitle className="font-semibold text-center">
           {tool.displayName}
-        </div>
+        </CardTitle>
+        <CardAction className="flex items-center align-top">
+          <Button variant="link" size="icon" asChild>
+            <Link
+              to="/tools/$toolName/edit"
+              params={{ toolName: tool.name!! }}
+              {...(isLocal ? { search: { newTool: tool.name } } : {})}
+            >
+              <Edit2Icon className="size-4" />
+            </Link>
+          </Button>
+        </CardAction>
       </CardHeader>
       <CardContent className="flex flex-col items-center gap-4 flex-1 justify-between align-top mb-4">
         <p className="text-secondary-foreground">{tool.description}</p>

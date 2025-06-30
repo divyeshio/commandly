@@ -206,6 +206,7 @@ function RouteComponent() {
               <SearchIcon />
             </InputIcon>
             <Input
+              className="shadow-md"
               placeholder="Search tools..."
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}

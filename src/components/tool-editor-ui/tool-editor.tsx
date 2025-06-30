@@ -1,4 +1,4 @@
-import { Tool } from "@/lib/types/tool-editor";
+import { SavedCommand, Tool } from "@/lib/types/tool-editor";
 import { CommandTree } from "@/components/tool-editor-ui/command-tree";
 import { ParameterList } from "@/components/tool-editor-ui/parameter-list";
 import { ParameterDetailsDialog } from "@/components/tool-editor-ui/dialogs/parameter-details-dialog";
@@ -8,13 +8,17 @@ import { ToolDetailsDialog } from "@/components/tool-editor-ui/dialogs/tool-deta
 import { SavedCommandsDialog } from "@/components/tool-editor-ui/dialogs/saved-commands-dialog";
 import { Button } from "@/components/ui/button";
 import { SaveIcon, Edit2Icon, LayersIcon } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useStore } from "@tanstack/react-store";
 import {
   toolBuilderActions,
   toolBuilderStore
 } from "@/components/tool-editor-ui/tool-editor.store";
 import { toast } from "sonner";
+import {
+  getSavedCommandsFromStorage,
+  removeSavedCommandFromStorage
+} from "@/lib/utils/tool-editor";
 
 interface ToolEditorProps {
   tool: Tool;
@@ -30,6 +34,18 @@ export default function ToolEditor({
   useEffect(() => {
     toolBuilderActions.initializeTool(toolToEdit);
   }, [toolToEdit]);
+
+  const isSavedCommandsDialogOpen = useStore(
+    toolBuilderStore,
+    (state) => state.dialogs.savedCommands
+  );
+  const [savedCommands, setSavedCommands] = useState<SavedCommand[]>([]);
+
+  const handleDeleteCommand = (commandId: string) => {
+    const toolId = tool.id || tool.name;
+    removeSavedCommandFromStorage(`saved-${toolId}`, commandId);
+    setSavedCommands(savedCommands.filter((cmd) => cmd.id !== commandId));
+  };
 
   return (
     <div className="flex bg-background">
@@ -76,9 +92,12 @@ export default function ToolEditor({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() =>
-                  toolBuilderActions.setSavedCommandsDialogOpen(true)
-                }
+                onClick={() => {
+                  const toolId = tool.id || tool.name;
+                  const commands = getSavedCommandsFromStorage(toolId);
+                  setSavedCommands(commands);
+                  toolBuilderActions.setSavedCommandsDialogOpen(true);
+                }}
               >
                 <SaveIcon className="h-4 w-4 mr-2" />
                 Saved Commands
@@ -110,7 +129,14 @@ export default function ToolEditor({
 
       <ParameterDetailsDialog />
       <ToolDetailsDialog />
-      <SavedCommandsDialog />
+      <SavedCommandsDialog
+        isOpen={isSavedCommandsDialogOpen}
+        onOpenChange={(open) => {
+          toolBuilderActions.setSavedCommandsDialogOpen(open);
+        }}
+        savedCommands={savedCommands}
+        onDeleteCommand={handleDeleteCommand}
+      />
       <ExclusionGroupsDialog />
     </div>
   );

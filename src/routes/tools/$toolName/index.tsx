@@ -1,7 +1,6 @@
 import { SavedCommandsDialog } from "@/components/tool-editor-ui/dialogs/saved-commands-dialog";
 import { GeneratedCommand } from "@/components/tool-editor-ui/generated-command";
 import { RuntimePreview } from "@/components/tool-editor-ui/runtime-preview";
-import { toolBuilderActions } from "@/components/tool-editor-ui/tool-editor.store";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,7 +15,8 @@ import { SavedCommand, Tool, ToolSchema } from "@/lib/types/tool-editor";
 import {
   addSavedCommandToStorage,
   defaultTool,
-  getSavedCommandsFromStorage
+  getSavedCommandsFromStorage,
+  removeSavedCommandFromStorage
 } from "@/lib/utils/tool-editor";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
@@ -92,11 +92,17 @@ export const Route = createFileRoute("/tools/$toolName/")({
 function RouteComponent() {
   const tool = Route.useLoaderData();
   const router = useRouter();
+  const [parameterValues, setParameterValues] = useState({});
+  const [savedCommandsDialogOpen, setSavedCommandsDialogOpen] = useState(false);
+  const [savedCommands, setSavedCommands] = useState(() => {
+    if (!tool) return [];
+    const toolId = tool.id || tool.name;
+    return getSavedCommandsFromStorage(toolId);
+  });
+
   useEffect(() => {
     router.invalidate({ sync: true });
   }, []);
-
-  const [parameterValues, setParameterValues] = useState({});
 
   const handleSaveCommand = (command: string) => {
     const toolId = (tool?.id || tool?.name)!;
@@ -113,10 +119,18 @@ function RouteComponent() {
     };
 
     addSavedCommandToStorage(`saved-${toolId}`, newSavedCommand);
+    setSavedCommands(getSavedCommandsFromStorage(toolId));
 
     toast("Command Saved", {
       description: "Command has been saved successfully."
     });
+  };
+
+  const handleDeleteCommand = (commandId: string) => {
+    if (!tool) return;
+    const toolId = tool.id || tool.name;
+    removeSavedCommandFromStorage(`saved-${toolId}`, commandId);
+    setSavedCommands(getSavedCommandsFromStorage(toolId));
   };
 
   const [open, setOpen] = useState(false);
@@ -150,7 +164,7 @@ function RouteComponent() {
           className="ml-auto relative z-10"
           variant="outline"
           size="sm"
-          onClick={() => toolBuilderActions.setSavedCommandsDialogOpen(true)}
+          onClick={() => setSavedCommandsDialogOpen(true)}
         >
           <SaveIcon className="h-4 w-4 mr-2" />
           Saved Commands
@@ -251,7 +265,12 @@ function RouteComponent() {
           </CardContent>
         </Card>
       </div>
-      <SavedCommandsDialog />
+      <SavedCommandsDialog
+        isOpen={savedCommandsDialogOpen}
+        onOpenChange={() => setSavedCommandsDialogOpen(false)}
+        savedCommands={savedCommands}
+        onDeleteCommand={handleDeleteCommand}
+      />
     </div>
   );
 }

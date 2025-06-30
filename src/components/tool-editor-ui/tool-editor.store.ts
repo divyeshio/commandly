@@ -3,9 +3,9 @@ import {
   Tool,
   Command,
   Parameter,
-  SavedCommand,
   ExclusionGroup,
-  ParameterValue
+  ParameterValue,
+  SavedCommand
 } from "@/lib/types/tool-editor";
 import { toast } from "sonner";
 import {
@@ -66,11 +66,6 @@ export const toolBuilderSelectors = {
     return state.tool.exclusionGroups.filter((group: ExclusionGroup) => {
       return group.commandId === commandId;
     });
-  },
-
-  getSavedCommandsForCurrentTool: (state: ToolBuilderState): SavedCommand[] => {
-    const currentToolId = state.tool.id || state.tool.name;
-    return getSavedCommandsFromStorage(currentToolId);
   }
 };
 

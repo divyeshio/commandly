@@ -68,7 +68,6 @@ export function ThemeSwitcher() {
 
   return (
     <Button
-      variant="link"
       size="icon"
       className="rounded-full"
       onClick={() =>

@@ -19,7 +19,6 @@ vi.mock("../tool-editor.store", () => ({
   toolBuilderActions: {
     initializeTool: vi.fn(),
     setEditToolDialogOpen: vi.fn(),
-    setSavedCommandsDialogOpen: vi.fn(),
     setExclusionGroupsDialogOpen: vi.fn()
   },
   toolBuilderSelectors: {
@@ -27,6 +26,15 @@ vi.mock("../tool-editor.store", () => ({
     getParametersForCommand: () => []
   }
 }));
+
+vi.mock("@/lib/utils/tool-editor", async () => {
+  const original = await vi.importActual("@/lib/utils/tool-editor");
+  return {
+    ...original,
+    getSavedCommandsFromStorage: vi.fn(() => []),
+    removeSavedCommandFromStorage: vi.fn()
+  };
+});
 
 describe("ToolEditor", () => {
   it("renders tool name and displayName", () => {

@@ -138,8 +138,8 @@ export function HelpMenu() {
   };
 
   return (
-    <ScrollArea className="bg-muted rounded-lg p-4 max-h-[75svh] w-full">
-      <pre className="text-sm font-mono max-h-[70svh] w-full">
+    <ScrollArea className="bg-muted p-4 max-h-[75dvh] w-full">
+      <pre className="text-sm font-mono max-h-[70dvh] w-full">
         {generateToolPreview()}
       </pre>
       <ScrollBar orientation="vertical" />

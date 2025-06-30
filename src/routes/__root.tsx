@@ -74,12 +74,12 @@ function RootComponent() {
 
 function Navbar() {
   return (
-    <nav className="w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
+    <nav className="w-full bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
       <div className="flex items-center h-16 px-8 gap-2 w-full">
         <div className="flex-1 flex items-center min-w-0">
           <Link
             to="/"
-            className="font-bold text-lg tracking-tight whitespace-nowrap font-mono"
+            className="text-lg tracking-tight whitespace-nowrap font-mono"
           >
             Commandly
           </Link>
@@ -87,7 +87,7 @@ function Navbar() {
         <div className="flex-1 flex justify-center gap-8 min-w-0">
           <Link
             to="/tools"
-            className="font-medium hover:underline whitespace-nowrap"
+            className="font-serif hover:underline whitespace-nowrap"
           >
             Explore Tools
           </Link>
@@ -140,7 +140,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <script src="/spa-redirect.js"></script>
         <HeadContent />
       </head>
-      <body>
+      <body className="bg-background text-foreground antialiased">
         <NuqsAdapter>
           <Navbar />
           <main className="w-full">{children}</main>

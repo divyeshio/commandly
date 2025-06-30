@@ -82,12 +82,25 @@ export function PreviewTabs() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <GeneratedCommand tool={tool} parameterValues={{}} />
+              <GeneratedCommand
+                tool={tool}
+                parameterValues={parameterValues}
+                onSaveCommand={handleSaveCommand}
+              />
             </CardContent>
           </Card>
         </TabsContent>
         <TabsContent value="help">
-          <HelpMenu />
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                Help Menu
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <HelpMenu />
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>

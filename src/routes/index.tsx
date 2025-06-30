@@ -18,11 +18,11 @@ function RouteComponent() {
               "radial-gradient(ellipse at 60% 40%, rgba(255,255,255,0.10) 0%, transparent 70%)"
           }}
         />
-        <h1 className="text-7xl font-mono font-extrabold mb-6 z-10 drop-shadow-xl text-primary dark:drop-shadow-indigo-900 dark:drop-shadow-lg flex items-center gap-2">
+        <h1 className="text-7xl font-mono mb-6 z-10 drop-shadow-xl text-primary dark:drop-shadow-lg flex items-center gap-2">
           <TerminalIcon size={60} />
           Commandly
         </h1>
-        <p className="text-2xl text-foreground max-w-3xl mb-10 text-center z-10 drop-shadow-lg">
+        <p className="text-2xl text-foreground max-w-3xl mb-10 text-center z-10 drop-shadow-lg font-mono">
           Build, preview, and manage CLI commands visually—no syntax to
           memorize, no flags to forget. Commandly makes the terminal accessible,
           powerful, and fun for everyone.
