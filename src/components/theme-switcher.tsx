@@ -1,5 +1,12 @@
 import { MoonIcon, SunIcon } from "lucide-react";
-import { createContext, ReactNode, useContext, useEffect, useRef, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from "react";
 import { flushSync } from "react-dom";
 import { Button } from "./ui/button";
 
@@ -68,7 +75,6 @@ export function ThemeSwitcher() {
     </Button>
   );
 }
-
 
 interface ThemeProviderContextType {
   theme: Theme;
