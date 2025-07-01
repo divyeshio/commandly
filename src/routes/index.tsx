@@ -1,12 +1,8 @@
 import { useTheme } from "@/components/theme-switcher";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  ArrowRightIcon,
-  SparklesIcon,
-  StarIcon,
-  TerminalIcon
-} from "lucide-react";
+import { ArrowRightIcon, StarIcon, TerminalIcon } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent
@@ -109,16 +105,47 @@ function RouteComponent() {
             </ul>
           </div>
           <div className="flex-[2.5] flex flex-col gap-4 items-center min-w-[0]">
-            <img
-              src={
-                theme === "dark"
-                  ? "/images/tool-editor-dark.png"
-                  : "/images/tool-editor.png"
-              }
-              alt="Commandly UI Screenshot"
-              className="rounded-2xl border-2 border-muted w-full max-w-[1600px] min-h-[400px] min-w-[900px] object-contain bg-background p-4 shadow-primary shadow-2xl"
-            />
-            <span className="text-base text-muted-foreground">Tool Editor</span>
+            <Tabs
+              defaultValue="ui"
+              className="w-full flex flex-col items-center"
+            >
+              <TabsContent value="tool-editor" className="w-full">
+                <img
+                  src={
+                    theme === "dark"
+                      ? "/images/tool-editor-dark.png"
+                      : "/images/tool-editor.png"
+                  }
+                  alt="Commandly Tool Editor Screenshot"
+                  loading="eager"
+                  className="rounded-2xl border-2 border-muted w-full max-w-[1600px] min-h-[400px] min-w-[900px] object-contain bg-background p-4 shadow-primary shadow-2xl"
+                />
+              </TabsContent>
+              <TabsContent value="ui" className="w-full">
+                <img
+                  src={
+                    theme === "dark" ? "/images/ui-dark.png" : "/images/ui.png"
+                  }
+                  alt="Commandly UI Screenshot"
+                  loading="eager"
+                  className="rounded-2xl border-2 border-muted w-full max-w-[1600px] min-h-[400px] min-w-[900px] object-contain bg-background p-4 shadow-primary shadow-2xl"
+                />
+              </TabsContent>
+              <TabsList className="grid w-fit grid-cols-2 mt-4 bg-muted/50 backdrop-blur-sm border border-muted rounded-full p-1 h-auto">
+                <TabsTrigger
+                  value="ui"
+                  className="rounded-full px-4 py-1.5 text-sm font-medium transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm hover:bg-muted-foreground/10 whitespace-nowrap h-auto cursor-pointer"
+                >
+                  UI
+                </TabsTrigger>
+                <TabsTrigger
+                  value="tool-editor"
+                  className="rounded-full px-4 py-1.5 text-sm font-medium transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm hover:bg-muted-foreground/10 whitespace-nowrap h-auto cursor-pointer"
+                >
+                  Tool Editor
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
           </div>
         </div>
       </section>
@@ -238,7 +265,7 @@ function RouteComponent() {
               <div className="p-3 rounded-full bg-gradient-to-br from-secondary to-secondary/80 shadow-lg">
                 <TerminalIcon className="w-6 h-6 text-secondary-foreground" />
               </div>
-              <h3 className="text-2xl font-bold bg-gradient-to-r from-foreground to-accent bg-clip-text text-transparent">
+              <h3 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                 Integrations
               </h3>
             </div>
@@ -294,7 +321,7 @@ function RouteComponent() {
                     <span className="text-sm text-muted-foreground">
                       Team collaboration
                     </span>
-                    <span className="px-2 py-1 text-xs bg-primary/20 dark:bg-primary/30 text-primary dark:text-primary rounded-full font-medium border border-primary/30">
+                    <span className="px-2 py-1 text-xs bg-primary/10 text-foreground dark:bg-primary/30 dark:text-primary rounded-full font-medium border border-primary/30">
                       Coming Soon
                     </span>
                   </div>
