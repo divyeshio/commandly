@@ -76,11 +76,11 @@ function RouteComponent() {
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-accent/60 rounded-full animate-pulse" />
-              <span>Minimal</span>
+              <span>Minimal UI</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-accent/70 rounded-full animate-pulse" />
-              <span>Easy to use</span>
+              <span>Tool Editor</span>
             </div>
           </div>
         </div>
@@ -110,7 +110,11 @@ function RouteComponent() {
           </div>
           <div className="flex-[2.5] flex flex-col gap-4 items-center min-w-[0]">
             <img
-              src={theme === "dark" ? "/images/ui-dark.png" : "/images/ui.png"}
+              src={
+                theme === "dark"
+                  ? "/images/tool-editor-dark.png"
+                  : "/images/tool-editor.png"
+              }
               alt="Commandly UI Screenshot"
               className="rounded-2xl border-2 border-muted w-full max-w-[1600px] min-h-[400px] min-w-[900px] object-contain bg-background p-4 shadow-primary shadow-2xl"
             />
@@ -413,7 +417,7 @@ interface StepProps {
 }
 function Step({ number, title, desc }: StepProps) {
   return (
-    <div className="flex flex-col items-center gap-2 bg-muted/40 rounded-xl p-6 shadow-sm min-w-[200px]">
+    <div className="flex flex-col items-center gap-2 bg-muted/40 rounded-xl p-6 min-w-[200px] shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white/15 dark:hover:bg-white/10">
       <span className="text-2xl font-bold text-primary">{number}</span>
       <span className="font-semibold text-lg">{title}</span>
       <span className="text-sm text-muted-foreground text-center">{desc}</span>
