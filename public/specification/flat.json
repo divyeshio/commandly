@@ -17,6 +17,15 @@
     "version": {
       "type": "string"
     },
+    "category": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
     "commands": {
       "type": "array",
       "items": {
@@ -56,11 +65,20 @@
           },
           "parameterType": {
             "type": "string",
-            "enum": ["Flag", "Option", "Argument"]
+            "enum": [
+              "Flag",
+              "Option",
+              "Argument"
+            ]
           },
           "dataType": {
             "type": "string",
-            "enum": ["String", "Number", "Boolean", "Enum"]
+            "enum": [
+              "String",
+              "Number",
+              "Boolean",
+              "Enum"
+            ]
           },
           "isRequired": {
             "type": "boolean"
@@ -189,7 +207,10 @@
                 },
                 "dependencyType": {
                   "type": "string",
-                  "enum": ["requires", "conflicts_with"]
+                  "enum": [
+                    "requires",
+                    "conflicts_with"
+                  ]
                 },
                 "conditionValue": {
                   "type": "string"
@@ -236,7 +257,10 @@
           },
           "exclusionType": {
             "type": "string",
-            "enum": ["mutual_exclusive", "required_one_of"]
+            "enum": [
+              "mutual_exclusive",
+              "required_one_of"
+            ]
           },
           "parameterIds": {
             "type": "array",
@@ -245,7 +269,11 @@
             }
           }
         },
-        "required": ["name", "exclusionType", "parameterIds"],
+        "required": [
+          "name",
+          "exclusionType",
+          "parameterIds"
+        ],
         "additionalProperties": false
       }
     },
@@ -253,14 +281,21 @@
       "type": "array",
       "items": {
         "type": "string",
-        "enum": ["StandardInput", "Parameter"]
+        "enum": [
+          "StandardInput",
+          "Parameter"
+        ]
       }
     },
     "supportedOutput": {
       "type": "array",
       "items": {
         "type": "string",
-        "enum": ["StandardOutput", "File", "Directory"]
+        "enum": [
+          "StandardOutput",
+          "File",
+          "Directory"
+        ]
       }
     }
   },
@@ -307,7 +342,13 @@
           }
         }
       },
-      "required": ["id", "name", "description", "isDefault", "sortOrder"],
+      "required": [
+        "id",
+        "name",
+        "description",
+        "isDefault",
+        "sortOrder"
+      ],
       "additionalProperties": false
     }
   }

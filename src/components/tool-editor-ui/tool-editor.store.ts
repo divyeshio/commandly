@@ -268,7 +268,7 @@ export const toolBuilderActions = {
     });
   },
 
-  setEditToolDialogOpen(open: boolean) {
+  setDialogOpen(dialog: "editTool" | "savedCommands" | "exclusionGroups", open: boolean) {
     toolBuilderStore.setState((state) => ({
       ...state,
       dialogs: {
@@ -278,25 +278,6 @@ export const toolBuilderActions = {
     }));
   },
 
-  setSavedCommandsDialogOpen(open: boolean) {
-    toolBuilderStore.setState((state) => ({
-      ...state,
-      dialogs: {
-        ...state.dialogs,
-        savedCommands: open
-      }
-    }));
-  },
-
-  setExclusionGroupsDialogOpen(open: boolean) {
-    toolBuilderStore.setState((state) => ({
-      ...state,
-      dialogs: {
-        ...state.dialogs,
-        exclusionGroups: open
-      }
-    }));
-  },
 
   setSelectedCommand(command: Command) {
     toolBuilderStore.setState((state) => ({

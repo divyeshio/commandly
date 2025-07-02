@@ -1,31 +1,21 @@
 import React, { Suspense, useEffect, useState } from "react";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { queryOptions } from "@tanstack/react-query";
 import { SearchIcon } from "lucide-react";
 import { ToolCard } from "@/components/tool-card";
 import { Button } from "@/components/ui/button";
 import { SkeletonCard } from "@/components/square-card-skeleton";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from "@/components/ui/dialog";
 import { Input, InputIcon, InputRoot } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { UploadIcon } from "lucide-react";
-import { type NewTool, type Tool } from "@/lib/types/tool-editor";
+import { type Tool } from "@/lib/types/tool-editor";
 import { createServerFn } from "@tanstack/react-start";
 import { promises as fs } from "fs";
 import path from "path";
 import { ImportDialog } from "@/components/tool-editor-ui/dialogs/import-dialog";
-import { defaultTool } from "@/lib/utils/tool-editor";
 import { MultiSelect } from "@/components/ui/multi-select";
+import { NewToolDialog } from "@/components/tool-editor-ui/dialogs/new-toot";
 
 export const toolsQueryOptions = () =>
   queryOptions({
@@ -224,7 +214,7 @@ function RouteComponent() {
                 className="border-0 shadow-md dark:border-1"
               >
                 <UploadIcon className="h-4 w-4 mr-2" />
-                Import / AI
+                Import
               </Button>
             </ImportDialog>
             <NewToolDialog handleNavigation={handleNavigation}>
@@ -283,100 +273,5 @@ function ListComponent({
         );
       })}
     </React.Fragment>
-  );
-}
-
-function NewToolDialog({
-  handleNavigation,
-  children
-}: {
-  handleNavigation: (tool: Tool) => void;
-  children: React.ReactNode;
-}) {
-  const [open, setOpen] = useState(false);
-  const [newTool, setFormData] = useState<NewTool>({
-    name: "",
-    displayName: "",
-    description: "",
-    version: ""
-  });
-
-  const handleInputChange =
-    (name: keyof typeof newTool) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const value = e.target.value;
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    };
-
-  return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <div>{children}</div>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Add New Tool</DialogTitle>
-          <DialogDescription />
-        </DialogHeader>
-        <form
-          onSubmit={(e) => e.preventDefault()}
-          className="flex flex-col gap-4"
-        >
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="tool-name-full">Tool Name</Label>
-                <Input
-                  required
-                  id="tool-name-full"
-                  value={newTool.name}
-                  onChange={handleInputChange("name")}
-                />
-              </div>
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="tool-version-full">Version</Label>
-                <Input
-                  id="tool-version-full"
-                  value={newTool.version}
-                  onChange={handleInputChange("version")}
-                />
-              </div>
-            </div>
-            <div className="flex flex-col gap-3">
-              <Label htmlFor="tool-display-name">Display Name</Label>
-              <Input
-                required
-                id="tool-display-name"
-                value={newTool.displayName}
-                onChange={handleInputChange("displayName")}
-              />
-            </div>
-            <div className="flex flex-col gap-3">
-              <Label htmlFor="tool-description">Description</Label>
-              <Textarea
-                id="tool-description"
-                value={newTool.description}
-                onChange={handleInputChange("description")}
-                rows={3}
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button
-              type="submit"
-              disabled={!newTool.name || !newTool.displayName}
-              onClick={() =>
-                handleNavigation({
-                  ...defaultTool(newTool.name, newTool.displayName),
-                  ...newTool
-                })
-              }
-            >
-              Create
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
   );
 }

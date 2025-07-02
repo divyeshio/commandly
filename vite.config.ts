@@ -3,6 +3,9 @@ import tsConfigPaths from "vite-tsconfig-paths";
 import path from "path";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 export default defineConfig({
+  build: {
+    emptyOutDir: true
+  },
   plugins: [
     tsConfigPaths({
       projects: ["./tsconfig.json"]

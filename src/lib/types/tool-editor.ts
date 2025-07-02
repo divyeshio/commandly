@@ -166,4 +166,4 @@ export const newToolSchema = z.object({
   version: z.string().optional(),
   description: z.string().optional()
 });
-export type NewTool = z.infer<typeof newToolSchema>;
+export type ManualNewTool = z.infer<typeof newToolSchema>;
