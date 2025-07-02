@@ -27,7 +27,6 @@ const createComplexTool = (): Tool => {
         description: "Main CLI tool command",
         isDefault: true,
         sortOrder: 0,
-        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-6bd94d6bc515",
@@ -36,7 +35,6 @@ const createComplexTool = (): Tool => {
         description: "Configuration management",
         isDefault: false,
         sortOrder: 1,
-        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-6ced0d4d3b0b",
@@ -45,7 +43,6 @@ const createComplexTool = (): Tool => {
         description: "Get configuration values",
         isDefault: true,
         sortOrder: 0,
-        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-7012a6c8f412",
@@ -54,7 +51,6 @@ const createComplexTool = (): Tool => {
         description: "Set configuration values",
         isDefault: false,
         sortOrder: 1,
-        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-73b963d82a18",
@@ -63,7 +59,6 @@ const createComplexTool = (): Tool => {
         description: "List all configurations",
         isDefault: false,
         sortOrder: 2,
-        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-768e4c6f7653",
@@ -72,7 +67,6 @@ const createComplexTool = (): Tool => {
         description: "Data management operations",
         isDefault: false,
         sortOrder: 2,
-        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-7a8347e15b42",
@@ -81,7 +75,6 @@ const createComplexTool = (): Tool => {
         description: "Create new data entries",
         isDefault: false,
         sortOrder: 0,
-        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-7d1c24f8a9e7",
@@ -90,7 +83,6 @@ const createComplexTool = (): Tool => {
         description: "Read existing data",
         isDefault: true,
         sortOrder: 1,
-        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-7f8d9b3c6af1",
@@ -99,7 +91,6 @@ const createComplexTool = (): Tool => {
         description: "Update existing data",
         isDefault: false,
         sortOrder: 2,
-        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-8249f7b8d5c4",
@@ -108,7 +99,6 @@ const createComplexTool = (): Tool => {
         description: "Delete data entries",
         isDefault: false,
         sortOrder: 3,
-        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-85a6c1f3e291",
@@ -117,7 +107,6 @@ const createComplexTool = (): Tool => {
         description: "Utility functions",
         isDefault: false,
         sortOrder: 3,
-        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-8876d4e9c7f8",
@@ -126,7 +115,6 @@ const createComplexTool = (): Tool => {
         description: "Validate data integrity",
         isDefault: false,
         sortOrder: 0,
-        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-8b4f7a2d5e91",
@@ -135,7 +123,6 @@ const createComplexTool = (): Tool => {
         description: "Backup operations",
         isDefault: false,
         sortOrder: 1,
-        subcommands: []
       },
       {
         id: "01979f6d-f206-7716-a2f2-8e1c9f6b3a74",
@@ -144,7 +131,6 @@ const createComplexTool = (): Tool => {
         description: "Display help information",
         isDefault: false,
         sortOrder: 4,
-        subcommands: []
       }
     ],
     parameters: [],

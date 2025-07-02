@@ -35,10 +35,6 @@ export default function ToolEditor({
     toolBuilderActions.initializeTool(toolToEdit);
   }, [toolToEdit]);
 
-  const isSavedCommandsDialogOpen = useStore(
-    toolBuilderStore,
-    (state) => state.dialogs.savedCommands
-  );
   const [savedCommands, setSavedCommands] = useState<SavedCommand[]>([]);
 
   const handleDeleteCommand = (commandId: string) => {
@@ -75,7 +71,9 @@ export default function ToolEditor({
                 variant="ghost"
                 size="sm"
                 className="h-6 w-6 p-0"
-                onClick={() => toolBuilderActions.setEditToolDialogOpen(true)}
+                onClick={() =>
+                  toolBuilderActions.setDialogOpen("editTool", true)
+                }
               >
                 <Edit2Icon className="h-4 w-4" />
               </Button>
@@ -101,7 +99,7 @@ export default function ToolEditor({
                   const toolId = tool.id || tool.name;
                   const commands = getSavedCommandsFromStorage(toolId);
                   setSavedCommands(commands);
-                  toolBuilderActions.setSavedCommandsDialogOpen(true);
+                  toolBuilderActions.setDialogOpen("savedCommands", true);
                 }}
               >
                 <SaveIcon className="h-4 w-4 mr-2" />
@@ -111,7 +109,7 @@ export default function ToolEditor({
                 variant="outline"
                 size="sm"
                 onClick={() =>
-                  toolBuilderActions.setExclusionGroupsDialogOpen(true)
+                  toolBuilderActions.setDialogOpen("exclusionGroups", true)
                 }
               >
                 <LayersIcon className="h-4 w-4 mr-2" />
@@ -135,10 +133,6 @@ export default function ToolEditor({
       <ParameterDetailsDialog />
       <ToolDetailsDialog />
       <SavedCommandsDialog
-        isOpen={isSavedCommandsDialogOpen}
-        onOpenChange={(open) => {
-          toolBuilderActions.setSavedCommandsDialogOpen(open);
-        }}
         savedCommands={savedCommands}
         onDeleteCommand={handleDeleteCommand}
       />

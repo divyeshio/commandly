@@ -31,7 +31,6 @@ const createTestCommand = (overrides: Partial<Command> = {}): Command => ({
   description: "Test command description",
   isDefault: false,
   sortOrder: 0,
-  subcommands: [],
   ...overrides
 });
 

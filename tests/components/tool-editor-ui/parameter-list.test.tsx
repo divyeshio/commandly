@@ -42,7 +42,6 @@ var testState: ToolBuilderState = {
     description: "Test command",
     isDefault: false,
     sortOrder: 0,
-    subcommands: []
   },
   selectedParameter: null,
   editingCommand: null,

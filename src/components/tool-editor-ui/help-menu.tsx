@@ -1,6 +1,5 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Command } from "@/lib/types/tool-editor";
-import { buildCommandHierarchy } from "@/lib/utils/tool-editor";
 import { useStore } from "@tanstack/react-store";
 import { toolBuilderStore } from "@/components/tool-editor-ui/tool-editor.store";
 
@@ -8,7 +7,7 @@ export function HelpMenu() {
   const tool = useStore(toolBuilderStore, (state) => state.tool);
 
   const generateToolPreview = (): string => {
-    const commandHierarchy = buildCommandHierarchy(tool.commands);
+    const rootCommands = tool.commands.filter((cmd) => !cmd.parentCommandId);
     const globalParams = tool.parameters.filter((p) => p.isGlobal);
 
     let preview = `${tool.displayName}${tool.version ? ` v${tool.version}` : ""}\n`;
@@ -124,15 +123,18 @@ export function HelpMenu() {
         });
       }
 
-      if (command.subcommands && command.subcommands.length > 0) {
+      const subcommands = tool.commands.filter(
+        (cmd) => cmd.parentCommandId === command.id
+      );
+      if (subcommands.length > 0) {
         preview += `${indent}  Subcommands:\n`;
-        command.subcommands.forEach((subcmd) => {
+        subcommands.forEach((subcmd) => {
           printCommand(subcmd, level + 2);
         });
       }
     };
 
-    commandHierarchy.forEach((cmd) => printCommand(cmd));
+    rootCommands.forEach((cmd) => printCommand(cmd));
 
     return preview;
   };

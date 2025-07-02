@@ -9,17 +9,15 @@ import {
 import { SaveIcon, CopyIcon, Trash2Icon } from "lucide-react";
 import { toast } from "sonner";
 import { SavedCommand } from "@/lib/types/tool-editor";
+import { toolBuilderActions, toolBuilderStore } from "../tool-editor.store";
+import { useStore } from "@tanstack/react-store";
 
 interface SavedCommandsDialogProps {
-  isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
   savedCommands: SavedCommand[];
   onDeleteCommand: (commandId: string) => void;
 }
 
 export function SavedCommandsDialog({
-  isOpen,
-  onOpenChange,
   savedCommands,
   onDeleteCommand
 }: SavedCommandsDialogProps) {
@@ -35,8 +33,18 @@ export function SavedCommandsDialog({
     });
   };
 
+  const open = useStore(
+    toolBuilderStore,
+    (state) => state.dialogs.savedCommands
+  );
+
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+    <Dialog
+      open={open}
+      onOpenChange={() =>
+        toolBuilderActions.setDialogOpen("savedCommands", false)
+      }
+    >
       <DialogContent className="max-w-4xl max-h-[80vh]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
@@ -87,7 +95,12 @@ export function SavedCommandsDialog({
         )}
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button
+            variant="outline"
+            onClick={() =>
+              toolBuilderActions.setDialogOpen("savedCommands", false)
+            }
+          >
             Close
           </Button>
         </DialogFooter>
