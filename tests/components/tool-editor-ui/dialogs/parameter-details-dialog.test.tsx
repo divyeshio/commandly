@@ -47,7 +47,8 @@ const createTestState = (
   dialogs: {
     editTool: false,
     savedCommands: false,
-    exclusionGroups: false
+    exclusionGroups: false,
+    parameterDetails: false
   }
 });
 

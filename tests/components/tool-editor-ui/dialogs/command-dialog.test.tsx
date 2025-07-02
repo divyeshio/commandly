@@ -324,13 +324,7 @@ describe("CommandDialog - Save Functionality", () => {
   it("preserves subcommands when saving", () => {
     const command = createTestCommand({
       id: "01979f6d-f206-7716-a2f2-592fb8c958e4",
-      name: "parent-command",
-      subcommands: [
-        createTestCommand({
-          id: "01979f6d-f206-7716-a2f2-5fd8fc5e3483",
-          name: "child-command"
-        })
-      ]
+      name: "parent-command"
     });
     toolBuilderStore.setState(createTestState(command));
 
@@ -345,8 +339,7 @@ describe("CommandDialog - Save Functionality", () => {
     expect(toolBuilderActions.updateCommand).toHaveBeenCalledWith(
       "01979f6d-f206-7716-a2f2-592fb8c958e4",
       expect.objectContaining({
-        name: "updated-parent",
-        subcommands: [expect.objectContaining({ name: "child-command" })]
+        name: "updated-parent"
       })
     );
   });

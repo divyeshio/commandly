@@ -34,12 +34,25 @@ export function NewToolDialog({
     version: ""
   });
 
+  const [aiParsedTool, setAiParsedTool] = useState<Tool | null>(null);
+
   const handleInputChange =
     (name: keyof typeof manualNewTool) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const value = e.target.value;
       setManualTool((prev) => ({ ...prev, [name]: value }));
     };
+
+  const canSubmit = () => {
+    if (tab === "manual") {
+      return (
+        manualNewTool.name?.trim() !== "" &&
+        manualNewTool.displayName?.trim() !== ""
+      );
+    }
+    // For AI tab, we assume the tool is valid if it has been parsed
+    return aiParsedTool !== null;
+  };
 
   return (
     <Dialog>
@@ -62,7 +75,9 @@ export function NewToolDialog({
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col gap-3">
-                  <Label htmlFor="tool-name-full">Tool Name</Label>
+                  <Label htmlFor="tool-name-full">
+                    Tool Name<span className="text-destructive ml-1">*</span>
+                  </Label>
                   <Input
                     required
                     id="tool-name-full"
@@ -80,7 +95,9 @@ export function NewToolDialog({
                 </div>
               </div>
               <div className="flex flex-col gap-3">
-                <Label htmlFor="tool-display-name">Display Name</Label>
+                <Label htmlFor="tool-display-name">
+                  Display Name<span className="text-destructive ml-1">*</span>
+                </Label>
                 <Input
                   required
                   id="tool-display-name"
@@ -100,20 +117,23 @@ export function NewToolDialog({
             </div>
           </TabsContent>
           <TabsContent value="ai">
-            <AIParsing />
+            <AIParsing onParseCompleted={setAiParsedTool} />
           </TabsContent>
         </Tabs>
 
         <DialogFooter>
           <Button
             type="submit"
-            disabled={!manualNewTool.name || !manualNewTool.displayName}
-            onClick={() =>
-              handleNavigation({
+            disabled={!canSubmit()}
+            onClick={() => {
+              const manualTool = {
                 ...defaultTool(manualNewTool.name, manualNewTool.displayName),
                 ...manualNewTool
-              })
-            }
+              };
+              const tool =
+                tab === "ai" && aiParsedTool ? aiParsedTool : manualTool;
+              handleNavigation(tool);
+            }}
           >
             Create
           </Button>

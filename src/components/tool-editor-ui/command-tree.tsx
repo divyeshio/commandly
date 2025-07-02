@@ -1,9 +1,8 @@
-import { type JSX, useState } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Command } from "@/lib/types/tool-editor";
-import { buildCommandHierarchy } from "@/lib/utils/tool-editor";
 import {
   ChevronDownIcon,
   ChevronRightIcon,
@@ -33,6 +32,10 @@ export function CommandTree() {
     new Set([tool.commands[0]?.id])
   );
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [lastAddedCommand, setLastAddedCommand] = useState<{
+    id: string;
+    parentId?: string;
+  } | null>(null);
 
   const handleEditCommand = (command: Command | null) => {
     toolBuilderActions.setEditingCommand(command);
@@ -50,7 +53,38 @@ export function CommandTree() {
     });
   };
 
-  const renderCommandNode = (command: Command, level = 0): JSX.Element => {
+  // Patch toolBuilderActions.addSubcommand to select and expand parent after add
+  const handleAddSubcommand = (parentId?: string) => {
+    const prevIds = new Set(tool.commands.map((cmd) => cmd.id));
+    toolBuilderActions.addSubcommand(parentId);
+    setTimeout(() => {
+      const newCmd = toolBuilderStore.state.tool.commands.find(
+        (cmd) => !prevIds.has(cmd.id)
+      );
+      if (newCmd) {
+        setLastAddedCommand({ id: newCmd.id, parentId });
+      }
+    }, 0);
+  };
+
+  useEffect(() => {
+    if (!lastAddedCommand) return;
+    const { id, parentId } = lastAddedCommand;
+    const newCmd = tool.commands.find((cmd) => cmd.id === id);
+    if (newCmd) {
+      toolBuilderActions.setSelectedCommand(newCmd);
+      if (parentId) {
+        setExpandedCommands((prev) => {
+          const newSet = new Set(prev);
+          newSet.add(parentId);
+          return newSet;
+        });
+      }
+      setLastAddedCommand(null);
+    }
+  }, [tool.commands, lastAddedCommand]);
+
+  const renderCommandNode = (command: Command, level = 0): ReactNode => {
     const isExpanded = expandedCommands.has(command.id);
     const subcommands = tool.commands.filter(
       (cmd) => cmd.parentCommandId === command.id
@@ -113,7 +147,7 @@ export function CommandTree() {
             className="h-4 w-4 p-0 opacity-0 group-hover:opacity-100"
             onClick={(e) => {
               e.stopPropagation();
-              toolBuilderActions.addSubcommand(command.id);
+              handleAddSubcommand(command.id);
             }}
           >
             <PlusIcon className="h-3 w-3" />
@@ -155,10 +189,7 @@ export function CommandTree() {
           {rootCommands.map((command) => renderCommandNode(command))}
         </div>
         <div className="p-2">
-          <Button
-            className="w-full"
-            onClick={() => toolBuilderActions.addSubcommand()}
-          >
+          <Button className="w-full" onClick={() => handleAddSubcommand()}>
             <PlusIcon className="h-3 w-3 mr-1" />
             Add Command
           </Button>

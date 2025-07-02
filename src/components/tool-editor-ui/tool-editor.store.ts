@@ -20,7 +20,7 @@ import { v7 as uuidv7 } from "uuid";
 
 export interface ToolBuilderState {
   tool: Tool;
-  selectedCommand: Command | null;
+  selectedCommand: Command;
   selectedParameter: Parameter | null;
   editingCommand: Command | null;
   parameterValues: Record<string, ParameterValue>;
@@ -34,7 +34,7 @@ export interface ToolBuilderState {
 
 export const toolBuilderStore = new Store<ToolBuilderState>({
   tool: defaultTool(),
-  selectedCommand: null,
+  selectedCommand: {} as Command,
   selectedParameter: null,
   editingCommand: null,
   parameterValues: {},

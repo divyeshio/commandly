@@ -9,7 +9,7 @@ import { createOpenAI } from "@ai-sdk/openai";
 import z from "zod/v4";
 import { generateSystemPrompt } from "@/lib/prompt";
 import { generateText } from "ai";
-import { ToolSchema } from "@/lib/types/tool-editor";
+import { Tool, ToolSchema } from "@/lib/types/tool-editor";
 import {
   Select,
   SelectContent,
@@ -18,7 +18,11 @@ import {
   SelectValue
 } from "../ui/select";
 
-export function AIParsing() {
+export function AIParsing({
+  onParseCompleted
+}: {
+  onParseCompleted: (tool: Tool) => void;
+}) {
   const [helpText, setHelpText] = useState("");
   const [json, setJson] = useState("");
   const [model, setModel] = useState("");
@@ -45,8 +49,10 @@ export function AIParsing() {
         prompt: systemPrompt
       });
       setJson(text);
+      const parsedTool = z.parse(ToolSchema, JSON.parse(text));
+      onParseCompleted(parsedTool);
     } catch (error) {
-      console.error("Error parsing help text:", error);
+      console.error("Error with AI parsing:", error);
     }
     setIsParsingHelp(false);
   };
@@ -94,6 +100,7 @@ export function AIParsing() {
             className="min-h-[30dvh] min-w-2xl max-h-[30dvh]"
             id="parsed-json"
             value={json}
+            readOnly={isParsingHelp}
             onChange={(e) => setJson(e.target.value)}
             rows={30}
           />

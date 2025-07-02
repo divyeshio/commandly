@@ -291,7 +291,7 @@ export const createNewParameter = (
 ): Parameter => {
   return {
     id: uuidv7(),
-    name: "new-parameter",
+    name: "",
     commandId: isGlobal ? undefined : commandId,
     description: "",
     parameterType: "Option",
