@@ -16,7 +16,7 @@ import {
   HoverCardTrigger,
   HoverCardContent
 } from "@/components/ui/hover-card";
-import React, { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 
 export function ToolCard({
   tool,
@@ -50,9 +50,22 @@ export function ToolCard({
   };
 
   return (
-    <Card className="hover:shadow-md  w-72 h-72 flex flex-col gap-0 py-3">
+    <Card
+      className="hover:shadow-md  w-72 h-72 flex flex-col gap-0 py-3"
+      style={{
+        viewTransitionName: `tool-card-${tool.name}`
+      }}
+    >
       <CardHeader className="border-b [.border-b]:pb-1 flex items-center justify-between">
-        <CardTitle className="font-semibold">{tool.displayName}</CardTitle>
+        <CardTitle className="font-semibold">
+          <span
+            style={{
+              viewTransitionName: `tool-card-title-${tool.name}`
+            }}
+          >
+            {tool.displayName}
+          </span>
+        </CardTitle>
         <CardAction>
           <Button
             variant="link"
@@ -84,48 +97,48 @@ export function ToolCard({
           )}
         </CardAction>
       </CardHeader>
-      <CardContent
-        className="flex flex-col items-center justify-center gap-4 flex-1 align-top mb-6 cursor-pointer"
-        onClick={handleClick}
-      >
-        <div className="w-full flex-1 flex items-center justify-center py-1">
-          {tool.description ? (
-            isOverflowing ? (
-              <HoverCard openDelay={0}>
-                <HoverCardTrigger asChild>
-                  <p className="p-1 line-clamp-4 overflow-ellipsis text-justify cursor-pointer text-foreground/60">
+      <CardContent onClick={handleClick} className="px-2">
+        <div className="flex flex-col gap-4 align-top mb-6 cursor-pointer h-full">
+          <div className="w-full flex-1 flex items-center justify-center py-1">
+            {tool.description ? (
+              isOverflowing ? (
+                <HoverCard openDelay={0}>
+                  <HoverCardTrigger asChild>
+                    <p className="p-1 line-clamp-4 overflow-ellipsis text-justify cursor-pointer dark:text-foreground/60">
+                      {tool.description}
+                    </p>
+                  </HoverCardTrigger>
+                  <HoverCardContent className="max-w-xs text-sm">
                     {tool.description}
-                  </p>
-                </HoverCardTrigger>
-                <HoverCardContent className="max-w-xs text-sm">
+                  </HoverCardContent>
+                </HoverCard>
+              ) : (
+                <p
+                  ref={descRef}
+                  className="p-1 line-clamp-4 overflow-ellipsis text-center dark:text-foreground/60"
+                >
                   {tool.description}
-                </HoverCardContent>
-              </HoverCard>
+                </p>
+              )
             ) : (
-              <p
-                ref={descRef}
-                className="p-1 line-clamp-4 overflow-ellipsis text-justify"
-              >
-                {tool.description}
-              </p>
-            )
-          ) : (
-            <p className="text-muted">No description available</p>
-          )}
-        </div>
+              <p className="text-muted">No description available</p>
+            )}
+          </div>
 
-        <div className="flex flex-wrap gap-2 justify-center relative z-10 justify-self-end self-end">
-          {supportedIO &&
-            supportedIO.map((type) => (
-              <Badge key={type} variant="secondary" className="text-xs">
-                {type}
-              </Badge>
-            ))}
+          <div className="flex flex-wrap gap-2 justify-center relative z-10 mt-auto">
+            {supportedIO &&
+              supportedIO.map((type) => (
+                <Badge key={type} variant="secondary" className="text-xs">
+                  {type}
+                </Badge>
+              ))}
+          </div>
         </div>
       </CardContent>
       <CardFooter className="flex justify-center gap-2 w-full mt-auto">
         <Button className="flex-1" asChild>
           <Link
+            preload="viewport"
             to="/tools/$toolName"
             params={{ toolName: tool.name! }}
             {...(isLocal ? { search: { newTool: tool.name } } : {})}

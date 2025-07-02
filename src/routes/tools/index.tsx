@@ -49,6 +49,7 @@ const getToolsList = createServerFn({
     tools.push({
       name: tool.name,
       displayName: tool.displayName || tool.name,
+      description: tool.description,
       supportedInput: tool.supportedInput,
       supportedOutput: tool.supportedOutput
     });
@@ -87,6 +88,7 @@ function mergeTools(
 
 export const Route = createFileRoute("/tools/")({
   component: RouteComponent,
+  staleTime: Infinity,
   ssr: true,
   loader: async ({ context: { queryClient } }) => {
     const serverTools = await getToolsList();
@@ -96,7 +98,7 @@ export const Route = createFileRoute("/tools/")({
 });
 
 function RouteComponent() {
-  const navigation = useNavigate({ from: "/tools" });
+  const navigation = useNavigate();
   const loaderData = Route.useLoaderData();
   const [tools, setTools] = useState<Partial<Tool>[]>(loaderData.localTools);
   const [serverToolNames, setServerToolNames] = useState<Set<string>>(

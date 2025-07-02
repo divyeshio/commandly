@@ -50,10 +50,10 @@ function RouteComponent() {
   const tool = Route.useLoaderData();
 
   const router = useRouter();
-  useEffect(() => {
-    router.invalidate({ sync: true });
-  }, []);
-  if (!tool) return <div>Tool not found.</div>;
+  // useEffect(() => {
+  //   router.invalidate({ sync: true });
+  // }, []);
+  // if (!tool) return <div>Tool not found.</div>;
 
   return (
     <ToolEditor

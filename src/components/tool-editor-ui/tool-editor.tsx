@@ -61,7 +61,12 @@ export default function ToolEditor({
         <div className="p-4 border-b border-muted">
           <div className="flex justify-between">
             <div className="flex items-center gap-2 justify-between">
-              <span className="font-medium text-lg">
+              <span
+                className="font-medium text-lg"
+                style={{
+                  viewTransitionName: `tool-card-title-${tool.name}`
+                }}
+              >
                 {tool.displayName
                   ? `${tool.displayName} (${tool.name})`
                   : `${tool.name}`}

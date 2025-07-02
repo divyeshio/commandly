@@ -33,10 +33,6 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
     toolBuilderStore,
     (state) => state.selectedCommand
   );
-  const selectedParameter = useStore(
-    toolBuilderStore,
-    (state) => state.selectedParameter
-  );
   const globalParameters = useStore(toolBuilderStore, (state) =>
     toolBuilderSelectors.getGlobalParameters(state)
   );
@@ -99,15 +95,12 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
       <div className="space-y-2">
         {parameters.map((parameter) => {
           const validation = validateDefaultValue(parameter);
-          const isSelected = selectedParameter?.id === parameter.id;
           const paramGroups = getParameterExclusionGroups(parameter.id);
 
           return (
             <div
               key={parameter.id}
-              className={`p-3 border rounded cursor-pointer hover:bg-muted/50 ${
-                isSelected ? "bg-muted border-primary" : ""
-              }`}
+              className={"p-3 border rounded cursor-pointer hover:bg-muted/50"}
               onClick={() => toolBuilderActions.setSelectedParameter(parameter)}
             >
               <div className="flex items-center justify-between mb-2">
