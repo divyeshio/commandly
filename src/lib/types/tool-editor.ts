@@ -6,8 +6,7 @@ export const CommandSchema = z.object({
   name: z.string(),
   description: z.string(),
   isDefault: z.boolean(),
-  sortOrder: z.number(),
-  subcommands: z.lazy(() => z.array(CommandSchema).optional())
+  sortOrder: z.number()
 });
 export type Command = z.infer<typeof CommandSchema>;
 

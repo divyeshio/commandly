@@ -7,36 +7,7 @@ import type {
 import { v7 as uuidv7 } from "uuid";
 
 export const buildCommandHierarchy = (commands: Command[]): Command[] => {
-  const commandMap = new Map<string, Command>();
-  const rootCommands: Command[] = [];
-
-  commands.forEach((cmd) => {
-    commandMap.set(cmd.id, { ...cmd, subcommands: [] });
-  });
-
-  commands.forEach((cmd) => {
-    const command = commandMap.get(cmd.id)!;
-
-    if (!cmd.parentCommandId) {
-      rootCommands.push(command);
-    } else {
-      const parent = commandMap.get(cmd.parentCommandId);
-      if (parent) {
-        parent.subcommands.push(command);
-      }
-    }
-  });
-
-  const sortCommands = (commands: Command[]): Command[] => {
-    return commands
-      .sort((a, b) => a.sortOrder - b.sortOrder)
-      .map((cmd) => ({
-        ...cmd,
-        subcommands: sortCommands(cmd.subcommands)
-      }));
-  };
-
-  return sortCommands(rootCommands);
+  return commands.sort((a, b) => a.sortOrder - b.sortOrder);
 };
 
 export const getCommandPath = (command: Command, tool: Tool): string => {
@@ -46,22 +17,23 @@ export const getCommandPath = (command: Command, tool: Tool): string => {
     path: string[] = []
   ): string[] | null => {
     for (const cmd of commands) {
-      const currentPath = [...path, cmd.name];
-
       if (cmd.name === targetId) {
-        return currentPath;
+        return [...path, cmd.name];
       }
 
-      const subPath = findCommandPath(targetId, cmd.subcommands, currentPath);
-      if (subPath) {
-        return subPath;
+      const childCommands = commands.filter(c => c.parentCommandId === cmd.id);
+      if (childCommands.length > 0) {
+        const subPath = findCommandPath(targetId, childCommands, [...path, cmd.name]);
+        if (subPath) {
+          return subPath;
+        }
       }
     }
     return null;
   };
 
-  const hierarchy = buildCommandHierarchy(tool.commands);
-  const path = findCommandPath(command.name, hierarchy);
+  const rootCommands = tool.commands.filter(c => !c.parentCommandId);
+  const path = findCommandPath(command.name, rootCommands);
 
   if (!path) return command.name;
 
@@ -98,9 +70,7 @@ export const getAllSubcommands = (
 
 export const exportToStructuredJSON = (tool: Tool) => {
   const flattenCommand = (cmd: Command) => {
-    const flatCmd = { ...cmd };
-    delete (flatCmd as { subcommands?: Command[] }).subcommands;
-    return flatCmd;
+    return { ...cmd };
   };
 
   return {
@@ -188,8 +158,7 @@ export const defaultTool = (toolName?: string, displayName?: string): Tool => {
         name: toolName || "my-tool",
         description: "Main command",
         isDefault: true,
-        sortOrder: 0,
-        subcommands: []
+        sortOrder: 0
       }
     ],
     parameters: [
@@ -312,8 +281,7 @@ export const createNewCommand = (parentId?: string): Command => {
     name: randomCommandName(),
     description: "",
     isDefault: false,
-    sortOrder: 1,
-    subcommands: []
+    sortOrder: 1
   };
 };
 

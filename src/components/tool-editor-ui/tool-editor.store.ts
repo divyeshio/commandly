@@ -20,7 +20,7 @@ import { v7 as uuidv7 } from "uuid";
 
 export interface ToolBuilderState {
   tool: Tool;
-  selectedCommand: Command;
+  selectedCommand: Command | null;
   selectedParameter: Parameter | null;
   editingCommand: Command | null;
   parameterValues: Record<string, ParameterValue>;

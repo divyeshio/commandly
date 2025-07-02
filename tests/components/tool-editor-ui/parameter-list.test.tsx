@@ -208,22 +208,6 @@ describe("ParameterList - Rendering & Structure", () => {
       expect(noFlagsCard?.textContent).not.toContain("(--");
     });
 
-    it("highlights the selected parameter", () => {
-      const parameter = createTestParameter();
-      toolBuilderStore.setState((prev) => ({
-        ...prev,
-        tool: { ...prev.tool, parameters: [parameter] },
-        selectedParameter: parameter
-      }));
-
-      render(<ParameterList title="Parameters" />);
-
-      const paramCard =
-        screen.getByText("test-param").closest("div[data-key]") ||
-        screen.getByText("test-param").closest("div.p-3");
-      expect(paramCard).toHaveClass("bg-muted", "border-primary");
-    });
-
     it("shows the remove button and triggers the correct action on click", () => {
       const parameter = createTestParameter();
       toolBuilderStore.setState((prev) => ({

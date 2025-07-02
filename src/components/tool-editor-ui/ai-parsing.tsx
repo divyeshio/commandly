@@ -10,6 +10,13 @@ import z from "zod/v4";
 import { generateSystemPrompt } from "@/lib/prompt";
 import { generateText } from "ai";
 import { ToolSchema } from "@/lib/types/tool-editor";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "../ui/select";
 
 export function AIParsing() {
   const [helpText, setHelpText] = useState("");
@@ -47,11 +54,21 @@ export function AIParsing() {
     <div className="space-y-4">
       <div className="flex gap-3">
         <Label htmlFor="ai-model">Model</Label>
-        <Input
-          id="ai-model"
-          value={model}
-          onChange={(e) => setModel(e.target.value)}
-        />
+        <Select onValueChange={setModel}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select a model" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="gpt-4.5-preview-2025-02-27">
+              GPT 4.5 Preview
+            </SelectItem>
+            <SelectItem value="gpt-4.1-2025-04-14">GPT 4.1</SelectItem>
+            <SelectItem value="gpt-4.1-mini-2025-04-14">
+              GPT 4.1 Mini
+            </SelectItem>
+            <SelectItem value="o4-mini-2025-04-16">o4-mini</SelectItem>
+          </SelectContent>
+        </Select>
         <Label htmlFor="ai-key">Key</Label>
         <Input
           id="ai-key"
@@ -85,7 +102,9 @@ export function AIParsing() {
       <div className="flex gap-2">
         <Button
           onClick={parseHelpWithAI}
-          disabled={isParsingHelp}
+          disabled={
+            isParsingHelp || helpText === "" || model === "" || apiKey === ""
+          }
           className="flex-1"
         >
           {isParsingHelp ? (

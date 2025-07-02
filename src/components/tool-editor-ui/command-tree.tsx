@@ -52,7 +52,10 @@ export function CommandTree() {
 
   const renderCommandNode = (command: Command, level = 0): JSX.Element => {
     const isExpanded = expandedCommands.has(command.id);
-    const hasSubcommands = command.subcommands.length > 0;
+    const subcommands = tool.commands.filter(
+      (cmd) => cmd.parentCommandId === command.id
+    );
+    const hasSubcommands = subcommands.length > 0;
     const isSelected = selectedCommand?.id === command.id;
     const isRoot = command.name == tool.name;
 
@@ -133,7 +136,7 @@ export function CommandTree() {
         {isExpanded && hasSubcommands && (
           <>
             <div>
-              {command.subcommands.map((subcmd) =>
+              {subcommands.map((subcmd) =>
                 renderCommandNode(subcmd, level + 1)
               )}
             </div>
@@ -143,12 +146,13 @@ export function CommandTree() {
     );
   };
 
-  const commandHierarchy = buildCommandHierarchy(tool.commands);
+  const rootCommands = tool.commands.filter((cmd) => !cmd.parentCommandId);
+
   return (
     <>
       <ScrollArea className="flex-1 p-1">
         <div className="p-2">
-          {commandHierarchy.map((command) => renderCommandNode(command))}
+          {rootCommands.map((command) => renderCommandNode(command))}
         </div>
         <div className="p-2">
           <Button
