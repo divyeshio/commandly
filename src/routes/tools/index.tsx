@@ -13,9 +13,8 @@ import { type Tool } from "@/lib/types/tool-editor";
 import { createServerFn } from "@tanstack/react-start";
 import { promises as fs } from "fs";
 import path from "path";
-import { ImportDialog } from "@/components/tool-editor-ui/dialogs/import-dialog";
 import { MultiSelect } from "@/components/ui/multi-select";
-import { NewToolDialog } from "@/components/tool-editor-ui/dialogs/new-toot";
+import { NewToolDialog } from "@/components/tool-editor-ui/dialogs/new-tool";
 
 export const toolsQueryOptions = () =>
   queryOptions({
@@ -208,15 +207,6 @@ function RouteComponent() {
             />
           </InputRoot>
           <div className="flex gap-3 items-center">
-            <ImportDialog onImportData={handleNavigation}>
-              <Button
-                variant="outline"
-                className="border-0 shadow-md dark:border-1"
-              >
-                <UploadIcon className="h-4 w-4 mr-2" />
-                Import
-              </Button>
-            </ImportDialog>
             <NewToolDialog handleNavigation={handleNavigation}>
               <Button variant="default" className="shadow-sm">
                 New Tool

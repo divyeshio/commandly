@@ -26,6 +26,7 @@
     "@tailwindcss/postcss": "^4.1.11",
     "@tailwindcss/vite": "^4.1.11",
     "@tanstack/react-form": "^1.12.4",
+    "@tanstack/react-pacer": "^0.8.0",
     "@tanstack/react-query": "^5.81.5",
     "@tanstack/react-router": "^1.124.0",
     "@tanstack/react-router-with-query": "^1.124.0",

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { ScrollArea } from "../ui/scroll-area";
@@ -8,7 +8,7 @@ import { Loader2Icon, Wand2Icon } from "lucide-react";
 import { createOpenAI } from "@ai-sdk/openai";
 import z from "zod/v4";
 import { generateSystemPrompt } from "@/lib/prompt";
-import { generateText } from "ai";
+import { streamText } from "ai";
 import { Tool, ToolSchema } from "@/lib/types/tool-editor";
 import {
   Select,
@@ -17,22 +17,30 @@ import {
   SelectTrigger,
   SelectValue
 } from "../ui/select";
+import { toast } from "sonner";
+import { useDebouncedValue } from "@tanstack/react-pacer";
 
 export function AIParsing({
   onParseCompleted
 }: {
-  onParseCompleted: (tool: Tool) => void;
+  onParseCompleted: (tool: Tool | null) => void;
 }) {
   const [helpText, setHelpText] = useState("");
   const [json, setJson] = useState("");
   const [model, setModel] = useState("");
   const [isParsingHelp, setIsParsingHelp] = useState(false);
   const [apiKey, setApiKey] = useState("");
+  const scrollRef = useRef<HTMLTextAreaElement>(null);
+  const [parseCount, setParseCount] = useState(0);
+  const [isUserTouched, setIsUserTouched] = useState(false);
+
   const parseHelpWithAI = async () => {
     if (!helpText.trim()) {
       return;
     }
-
+    setJson("");
+    setParseCount((prev) => prev + 1);
+    setIsUserTouched(false);
     setIsParsingHelp(true);
     try {
       const openai = createOpenAI({ apiKey: apiKey });
@@ -44,18 +52,54 @@ export function AIParsing({
         JSON.stringify(jsonSchema, null, 2)
       );
 
-      const { text } = await generateText({
+      const { textStream } = streamText({
         model: openai(model),
-        prompt: systemPrompt
+        prompt: systemPrompt,
+        onFinish({ text, finishReason, usage, response }) {
+          validateJson(text);
+        }
       });
-      setJson(text);
-      const parsedTool = z.parse(ToolSchema, JSON.parse(text));
-      onParseCompleted(parsedTool);
+
+      for await (const text of textStream) {
+        setJson((prev) => prev + text);
+        scrollRef.current!.scrollTop = scrollRef.current!.scrollHeight;
+      }
     } catch (error) {
       console.error("Error with AI parsing:", error);
+      setJson("");
     }
     setIsParsingHelp(false);
   };
+
+  const validateJson = (jsonString: string) => {
+    try {
+      const parsedTool = ToolSchema.parse(JSON.parse(jsonString));
+      onParseCompleted(parsedTool);
+      setJson(JSON.stringify(parsedTool, null, 2));
+    } catch (error) {
+      console.error("Error parsing JSON:", error);
+      onParseCompleted(null);
+      if (error instanceof z.ZodError) {
+        toast.error(`Invalid JSON: ${error.name}. Please check the format.`, {
+          description: z.prettifyError(error),
+          duration: 5000
+        });
+      } else {
+        toast.error("Failed to parse JSON. Please check the format.");
+      }
+    }
+  };
+  const [debouncedQuery, debouncer] = useDebouncedValue(json, {
+    wait: 2000,
+    enabled: isUserTouched
+  });
+
+  useEffect(() => {
+    if (json && isUserTouched) {
+      validateJson(debouncedQuery);
+    }
+  }, [debouncedQuery, isUserTouched]);
+
   return (
     <div className="space-y-4">
       <div className="flex gap-3">
@@ -99,9 +143,13 @@ export function AIParsing({
           <Textarea
             className="min-h-[30dvh] min-w-2xl max-h-[30dvh]"
             id="parsed-json"
+            ref={scrollRef}
             value={json}
             readOnly={isParsingHelp}
-            onChange={(e) => setJson(e.target.value)}
+            onChange={(e) => {
+              setJson(e.target.value);
+              setIsUserTouched(true);
+            }}
             rows={30}
           />
         </ScrollArea>
@@ -126,6 +174,11 @@ export function AIParsing({
             </>
           )}
         </Button>
+        {parseCount > 0 && (
+          <Button disabled={isParsingHelp} onClick={() => validateJson(json)}>
+            Re-validate
+          </Button>
+        )}
       </div>
     </div>
   );

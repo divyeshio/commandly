@@ -50,13 +50,14 @@ ${jsonSchema}
 9. **No Extras:** Do **not** include any fields not in the schema or deviate from JSON (no comments, no trailing commas). 
     
 10. IMPORTANT: There needs to be at least one command in the commands list. If parsing help text does not results in any command, then create a command with same name as tool name.
-11. If there is only one command, then do not mark all parameters as global.
-    </parsing_rules>
+11. Name property of parameter should be user-friendly.  Example : longFlag "--help" should be converted to "Help"
+12. Always output formatted json, with proper indentation.
+13. If there is only one command, then do not mark all parameters as global.
 
 <output_instruction>  
 Produce **only** the final JSON object. It must be syntactically valid, conform exactly to the schema, and nothing else.  
 </output_instruction>
-
+    
 <help_text>
 ${helpText}
 </help_text>

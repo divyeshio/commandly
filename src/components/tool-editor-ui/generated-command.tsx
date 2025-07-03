@@ -38,7 +38,6 @@ export function GeneratedCommand({
 
   useEffect(() => {
     generateCommand();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tool, parameterValues, selectedCommand]);
 
   const generateCommand = () => {
@@ -60,7 +59,12 @@ export function GeneratedCommand({
 
     currentParameters.forEach((param) => {
       const value = parameterValues[param.id];
-      if (value !== undefined && value !== "" && value !== false) {
+      if (
+        value !== undefined &&
+        value !== "" &&
+        value !== false &&
+        !param.isGlobal
+      ) {
         parametersWithValues.push({ param, value });
       }
     });
