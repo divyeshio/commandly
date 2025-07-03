@@ -270,7 +270,14 @@ export const toolBuilderActions = {
     });
   },
 
-  setDialogOpen(dialog: "editTool" | "savedCommands" | "exclusionGroups" | "parameterDetails", open: boolean) {
+  setDialogOpen(
+    dialog:
+      | "editTool"
+      | "savedCommands"
+      | "exclusionGroups"
+      | "parameterDetails",
+    open: boolean
+  ) {
     toolBuilderStore.setState((state) => ({
       ...state,
       dialogs: {
@@ -279,7 +286,6 @@ export const toolBuilderActions = {
       }
     }));
   },
-
 
   setSelectedCommand(command: Command) {
     toolBuilderStore.setState((state) => ({

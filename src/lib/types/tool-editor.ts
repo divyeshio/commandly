@@ -98,7 +98,10 @@ export const ParameterSchema = z.object({
 });
 export type Parameter = z.infer<typeof ParameterSchema>;
 
-export const ExclusionTypeSchema = z.enum(["mutual_exclusive", "required_one_of"]);
+export const ExclusionTypeSchema = z.enum([
+  "mutual_exclusive",
+  "required_one_of"
+]);
 export type ExclusionType = z.infer<typeof ExclusionTypeSchema>;
 
 export const ExclusionGroupSchema = z.object({

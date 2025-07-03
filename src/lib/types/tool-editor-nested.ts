@@ -69,6 +69,7 @@ export interface NestedTool {
   displayName: string;
   description?: string;
   version?: string;
+  url: string;
   globalParameters: NestedParameter[];
   commands: NestedCommand[];
   exclusionGroups: NestedExclusionGroup[];

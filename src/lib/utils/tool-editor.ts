@@ -21,9 +21,14 @@ export const getCommandPath = (command: Command, tool: Tool): string => {
         return [...path, cmd.name];
       }
 
-      const childCommands = commands.filter(c => c.parentCommandId === cmd.id);
+      const childCommands = commands.filter(
+        (c) => c.parentCommandId === cmd.id
+      );
       if (childCommands.length > 0) {
-        const subPath = findCommandPath(targetId, childCommands, [...path, cmd.name]);
+        const subPath = findCommandPath(targetId, childCommands, [
+          ...path,
+          cmd.name
+        ]);
         if (subPath) {
           return subPath;
         }
@@ -32,7 +37,7 @@ export const getCommandPath = (command: Command, tool: Tool): string => {
     return null;
   };
 
-  const rootCommands = tool.commands.filter(c => !c.parentCommandId);
+  const rootCommands = tool.commands.filter((c) => !c.parentCommandId);
   const path = findCommandPath(command.name, rootCommands);
 
   if (!path) return command.name;

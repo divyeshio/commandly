@@ -507,10 +507,6 @@
     }
   ],
   "exclusionGroups": [],
-  "supportedInput": [
-    "Parameter"
-  ],
-  "supportedOutput": [
-    "StandardOutput"
-  ]
+  "supportedInput": ["Parameter"],
+  "supportedOutput": ["StandardOutput"]
 }
