@@ -13,7 +13,6 @@ import {
 import { defaultTool } from "@/lib/utils/tool-editor";
 import { Tool } from "@/lib/types/tool-editor";
 
-// Helper function to create a tool with complex command structure
 const createComplexTool = (): Tool => {
   return {
     name: "my-cli-tool",

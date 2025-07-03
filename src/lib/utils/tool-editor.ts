@@ -97,7 +97,6 @@ export const flattenImportedData = (importedData: any): Tool => {
     supportedOutput = []
   } = importedData;
 
-  // Flatten parameters from commands
   const allParameters: Parameter[] = [...parameters];
 
   const flattenCommandParameters = (
@@ -106,7 +105,6 @@ export const flattenImportedData = (importedData: any): Tool => {
   ): Command[] => {
     const { parameters = [], subcommands = [], ...commandData } = command;
 
-    // Add command parameters to the global parameters list
     parameters.forEach((param: any) => {
       allParameters.push({
         ...param,
@@ -122,7 +120,6 @@ export const flattenImportedData = (importedData: any): Tool => {
 
     const flatCommands = [flatCommand];
 
-    // Recursively flatten subcommands
     subcommands.forEach((subcmd: any) => {
       flatCommands.push(...flattenCommandParameters(subcmd, command.name));
     });
@@ -191,7 +188,6 @@ export const validateDefaultValue = (
 
   if (!defaultValue || !validations) return { isValid: true };
 
-  // Data type validation
   switch (dataType) {
     case "Number":
       if (!/^-?\d+$/.test(defaultValue)) {
@@ -208,7 +204,6 @@ export const validateDefaultValue = (
       break;
   }
 
-  // Custom validations
   for (const validation of validations) {
     const value = dataType === "Number" ? Number(defaultValue) : defaultValue;
 

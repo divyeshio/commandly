@@ -90,10 +90,6 @@ export const Route = createFileRoute("/tools/$toolName/")({
 
 function RouteComponent() {
   const tool = Route.useLoaderData();
-  const router = useRouter();
-  // useEffect(() => {
-  //   router.invalidate({ sync: true });
-  // }, []);
 
   if (!tool) return <div>Tool not found.</div>;
   const [parameterValues, setParameterValues] = useState({});

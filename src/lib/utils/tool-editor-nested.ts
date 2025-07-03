@@ -6,14 +6,10 @@ import type {
   NestedExclusionGroup
 } from "@/lib/types/tool-editor-nested";
 
-// Convert flat tool structure to nested structure
 export const convertToNestedStructure = (tool: Tool): NestedTool => {
-  // Separate global parameters
   const globalParameters = tool.parameters.filter((p) => p.isGlobal);
 
-  // Convert parameters to nested format
   const convertParameter = (param: Parameter): NestedParameter => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, commandId, ...rest } = param;
     return {
       ...rest,
@@ -26,7 +22,7 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
           };
         }) || [],
       metadata: param.metadata,
-      dataType: param.dataType, // Map parameterDataType to dataType
+      dataType: param.dataType,
       dependencies:
         param.dependencies?.map((dep) => {
           const dependsOnParam = tool.parameters.find(
@@ -41,7 +37,6 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
     };
   };
 
-  // Convert commands to nested structure
   const buildNestedCommands = (
     commands: Command[],
     parentId?: string
@@ -63,7 +58,6 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
       });
   };
 
-  // Convert exclusion groups
   const nestedExclusionGroups: NestedExclusionGroup[] =
     tool.exclusionGroups.map((group) => {
       return {

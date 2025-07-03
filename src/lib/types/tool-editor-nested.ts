@@ -9,7 +9,6 @@ import type {
   SupportedToolOutputType
 } from "./tool-editor";
 
-// This file contains types for nested JSON structure
 export interface NestedCommand {
   name: string;
   description: string;
