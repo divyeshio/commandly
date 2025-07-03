@@ -25,13 +25,32 @@ export function NewToolDialog({
 }) {
   const [tab, setTab] = useState("manual");
 
-  const [aiParsedTool, setAiParsedTool] = useState<Tool | null>(null);
+  const [aiParsedTool, setAIParsedTool] = useState<Tool | null>(null);
+  const [importedTool, setImportedTool] = useState<Tool | null>(null);
+  const [manualTool, setManualTool] = useState<Tool | null>(null);
 
   const canSubmit = () => {
     if (tab === "manual") {
-      return true;
+      return manualTool?.name && manualTool?.displayName ? true : false;
     }
-    return aiParsedTool !== null;
+    if (tab === "import") {
+      return importedTool ? true : false;
+    }
+    if (tab === "ai") {
+      return aiParsedTool ? true : false;
+    }
+  };
+
+  const onSubmit = () => {
+    if (tab === "manual") {
+      handleNavigation(manualTool!);
+    }
+    if (tab === "import") {
+      handleNavigation(importedTool!);
+    }
+    if (tab === "ai") {
+      handleNavigation(aiParsedTool!);
+    }
   };
 
   return (
@@ -42,7 +61,11 @@ export function NewToolDialog({
           <DialogTitle>New Tool</DialogTitle>
           <DialogDescription />
         </DialogHeader>
-        <Tabs value={tab} onValueChange={setTab} className="w-full">
+        <Tabs
+          value={tab}
+          onValueChange={(tab) => setTab(tab)}
+          className="w-full"
+        >
           <TabsList className="w-full">
             <TabsTrigger value="import">
               <UploadIcon className="h-4 w-4 mr-1" /> Import JSON
@@ -55,13 +78,13 @@ export function NewToolDialog({
             </TabsTrigger>
           </TabsList>
           <TabsContent value="import">
-            <ImportJSON onImportData={() => {}} />
+            <ImportJSON onParseCompleted={setImportedTool} />
           </TabsContent>
           <TabsContent value="manual">
-            <ManualNewToolComponent />
+            <ManualNewToolComponent onSubmit={setManualTool} />
           </TabsContent>
           <TabsContent value="ai">
-            <AIParsing onParseCompleted={setAiParsedTool} />
+            <AIParsing onParseCompleted={setAIParsedTool} />
           </TabsContent>
         </Tabs>
 
@@ -69,9 +92,7 @@ export function NewToolDialog({
           <Button
             type="submit"
             disabled={!canSubmit()}
-            onClick={() => {
-              handleNavigation(aiParsedTool!);
-            }}
+            onClick={() => onSubmit}
           >
             Create
           </Button>

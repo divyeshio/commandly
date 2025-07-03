@@ -5,16 +5,19 @@ import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
 import { ScrollArea } from "../ui/scroll-area";
 import { flattenImportedData } from "@/lib/utils/tool-editor";
-import { useState } from "react";
-import { Tool } from "@/lib/types/tool-editor";
+import { useEffect, useState } from "react";
+import { Tool, ToolSchema } from "@/lib/types/tool-editor";
+import { toast } from "sonner";
 
 export function ImportJSON({
-  onImportData
+  onParseCompleted
 }: {
-  onImportData: (tool: Tool) => void;
+  onParseCompleted: (tool: Tool | null) => void;
 }) {
   const [isImporting, setIsImporting] = useState(false);
   const [jsonInput, setJsonInput] = useState("");
+
+  useEffect(() => onParseCompleted(null), []);
 
   const importFromJSON = () => {
     if (!jsonInput.trim()) {
@@ -23,11 +26,14 @@ export function ImportJSON({
     setIsImporting(true);
     try {
       const importedData = JSON.parse(jsonInput);
-      const data = flattenImportedData(importedData);
-      onImportData(data);
+      const tool = ToolSchema.parse(importedData);
+      onParseCompleted(tool);
       setJsonInput("");
     } catch (error) {
       console.error(error);
+      toast.error(error.name, {
+        description: "Failed to parse JSON. Please check the format."
+      });
     } finally {
       setIsImporting(false);
     }
@@ -76,7 +82,7 @@ export function ImportJSON({
       <div className="flex gap-2">
         <Button
           onClick={importFromJSON}
-          disabled={isImporting}
+          disabled={isImporting || !jsonInput.trim()}
           className="flex-1"
         >
           {isImporting ? (

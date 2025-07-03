@@ -1,5 +1,5 @@
 import type {
-  DependencyType,
+  ParameterDependencyType,
   ExclusionType,
   ParameterDataType,
   ParameterMetadata,
@@ -34,7 +34,7 @@ export type NestedParameterValidation = Omit<
 
 export interface NestedParameterDependency {
   dependsOnParameter: string;
-  dependencyType: DependencyType;
+  dependencyType: ParameterDependencyType;
   conditionValue?: string;
 }
 

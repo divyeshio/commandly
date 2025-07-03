@@ -34,6 +34,10 @@ export function AIParsing({
   const [parseCount, setParseCount] = useState(0);
   const [isUserTouched, setIsUserTouched] = useState(false);
 
+  useEffect(() => {
+    onParseCompleted(null);
+  }, [onParseCompleted]);
+
   const parseHelpWithAI = async () => {
     if (!helpText.trim()) {
       return;

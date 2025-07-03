@@ -26,10 +26,46 @@
         "type": "string"
       }
     },
+    "url": {
+      "type": "string",
+      "format": "uri"
+    },
     "commands": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/__schema0"
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
+          },
+          "parentCommandId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "isDefault": {
+            "type": "boolean"
+          },
+          "sortOrder": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "description",
+          "isDefault",
+          "sortOrder"
+        ],
+        "additionalProperties": false
       }
     },
     "parameters": {
@@ -308,48 +344,5 @@
     "supportedInput",
     "supportedOutput"
   ],
-  "additionalProperties": false,
-  "$defs": {
-    "__schema0": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "uuid",
-          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
-        },
-        "parentCommandId": {
-          "type": "string",
-          "format": "uuid",
-          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "isDefault": {
-          "type": "boolean"
-        },
-        "sortOrder": {
-          "type": "number"
-        },
-        "subcommands": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/__schema0"
-          }
-        }
-      },
-      "required": [
-        "id",
-        "name",
-        "description",
-        "isDefault",
-        "sortOrder"
-      ],
-      "additionalProperties": false
-    }
-  }
+  "additionalProperties": false
 }
