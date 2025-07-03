@@ -19,6 +19,8 @@ import {
 } from "../ui/select";
 import { toast } from "sonner";
 import { useDebouncedValue } from "@tanstack/react-pacer";
+import { Checkbox } from "../ui/checkbox";
+import { defaultTool } from "@/lib/utils/tool-editor";
 
 export function AIParsing({
   onParseCompleted
@@ -33,10 +35,19 @@ export function AIParsing({
   const scrollRef = useRef<HTMLTextAreaElement>(null);
   const [parseCount, setParseCount] = useState(0);
   const [isUserTouched, setIsUserTouched] = useState(false);
+  const [savedKey, setSavedKey] = useState<boolean>(false);
 
   useEffect(() => {
     onParseCompleted(null);
   }, [onParseCompleted]);
+
+  useEffect(() => {
+    const savedApiKey = localStorage.getItem("ai-api-key");
+    if (savedApiKey) {
+      setApiKey(savedApiKey);
+      setSavedKey(true);
+    }
+  }, []);
 
   const parseHelpWithAI = async () => {
     if (!helpText.trim()) {
@@ -48,9 +59,7 @@ export function AIParsing({
     setIsParsingHelp(true);
     try {
       const openai = createOpenAI({ apiKey: apiKey });
-
       const jsonSchema = z.toJSONSchema(ToolSchema);
-
       const systemPrompt = generateSystemPrompt(
         helpText,
         JSON.stringify(jsonSchema, null, 2)
@@ -59,7 +68,7 @@ export function AIParsing({
       const { textStream } = streamText({
         model: openai(model),
         prompt: systemPrompt,
-        onFinish({ text, finishReason, usage, response }) {
+        onFinish({ text }) {
           validateJson(text);
         }
       });
@@ -78,8 +87,8 @@ export function AIParsing({
   const validateJson = (jsonString: string) => {
     try {
       const parsedTool = ToolSchema.parse(JSON.parse(jsonString));
-      onParseCompleted(parsedTool);
       setJson(JSON.stringify(parsedTool, null, 2));
+      onParseCompleted(parsedTool);
     } catch (error) {
       console.error("Error parsing JSON:", error);
       onParseCompleted(null);
@@ -93,7 +102,7 @@ export function AIParsing({
       }
     }
   };
-  const [debouncedQuery, debouncer] = useDebouncedValue(json, {
+  const [debouncedQuery] = useDebouncedValue(json, {
     wait: 2000,
     enabled: isUserTouched
   });
@@ -126,9 +135,26 @@ export function AIParsing({
         <Label htmlFor="ai-key">Key</Label>
         <Input
           id="ai-key"
+          type="password"
           value={apiKey}
           onChange={(e) => setApiKey(e.target.value)}
         />
+        <div className="flex items-center gap-2">
+          <Label htmlFor="save-ai-key">Save</Label>
+          <Checkbox
+            id="save-ai-key"
+            checked={savedKey}
+            onCheckedChange={(checked) => {
+              const save = checked == "indeterminate" ? false : checked;
+              if (save && apiKey.trim() !== "") {
+                localStorage.setItem("ai-api-key", apiKey);
+              } else {
+                localStorage.removeItem("ai-api-key");
+              }
+              setSavedKey(save);
+            }}
+          />
+        </div>
       </div>
       <div className="flex flex-col gap-3">
         <Label htmlFor="help-text">Help Text Output</Label>
@@ -179,7 +205,10 @@ export function AIParsing({
           )}
         </Button>
         {parseCount > 0 && (
-          <Button disabled={isParsingHelp} onClick={() => validateJson(json)}>
+          <Button
+            disabled={isParsingHelp || !isUserTouched}
+            onClick={() => validateJson(json)}
+          >
             Re-validate
           </Button>
         )}

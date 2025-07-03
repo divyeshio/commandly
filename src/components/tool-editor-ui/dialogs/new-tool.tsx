@@ -49,6 +49,7 @@ export function NewToolDialog({
       handleNavigation(importedTool!);
     }
     if (tab === "ai") {
+      console.log("AI Parsed Tool");
       handleNavigation(aiParsedTool!);
     }
   };
@@ -92,7 +93,7 @@ export function NewToolDialog({
           <Button
             type="submit"
             disabled={!canSubmit()}
-            onClick={() => onSubmit}
+            onClick={() => onSubmit()}
           >
             Create
           </Button>

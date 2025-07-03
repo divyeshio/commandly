@@ -77,7 +77,7 @@ export type ParameterDataType = z.infer<typeof ParameterDataTypeSchema>;
 export const ParameterSchema = z.object({
   id: z.string(),
   name: z.string(),
-  commandId: z.uuidv7().optional(),
+  commandId: z.uuidv7(),
   description: z.string(),
   metadata: ParameterMetadataSchema.optional(),
   parameterType: ParameterTypeSchema,

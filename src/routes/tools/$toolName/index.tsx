@@ -49,6 +49,7 @@ import {
 } from "@/components/ui/command";
 import { useQueryState } from "nuqs";
 import { cn } from "@/lib/utils";
+import { toolBuilderActions } from "@/components/tool-editor-ui/tool-editor.store";
 const SearchParamsSchema = z.object({
   newTool: z.string().optional()
 });
@@ -93,7 +94,6 @@ function RouteComponent() {
 
   if (!tool) return <div>Tool not found.</div>;
   const [parameterValues, setParameterValues] = useState({});
-  const [savedCommandsDialogOpen, setSavedCommandsDialogOpen] = useState(false);
   const [savedCommands, setSavedCommands] = useState(() => {
     if (!tool) return [];
     const toolId = tool.id || tool.name;
@@ -161,7 +161,9 @@ function RouteComponent() {
           className="ml-auto relative z-10"
           variant="outline"
           size="sm"
-          onClick={() => setSavedCommandsDialogOpen(true)}
+          onClick={() =>
+            toolBuilderActions.setDialogOpen("savedCommands", true)
+          }
         >
           <SaveIcon className="h-4 w-4 mr-2" />
           Saved Commands
@@ -268,8 +270,6 @@ function RouteComponent() {
         </Card>
       </div>
       <SavedCommandsDialog
-        isOpen={savedCommandsDialogOpen}
-        onOpenChange={() => setSavedCommandsDialogOpen(false)}
         savedCommands={savedCommands}
         onDeleteCommand={handleDeleteCommand}
       />
