@@ -59,6 +59,15 @@ export function RuntimePreview({
             />
             <Label className="flex-1">
               {parameter.name}
+              {(parameter.longFlag || parameter.shortFlag) && (
+                <span className="text-muted-foreground ml-1">
+                  (
+                  {[parameter.longFlag, parameter.shortFlag]
+                    .filter(Boolean)
+                    .join(", ")}
+                  )
+                </span>
+              )}
               {parameter.isRequired && (
                 <span className="text-destructive ml-1">*</span>
               )}
@@ -85,6 +94,15 @@ export function RuntimePreview({
             <div key={parameter.id} className="space-y-2">
               <Label>
                 {parameter.name}
+                {(parameter.longFlag || parameter.shortFlag) && (
+                  <span className="text-muted-foreground ml-1">
+                    (
+                    {[parameter.longFlag, parameter.shortFlag]
+                      .filter(Boolean)
+                      .join(", ")}
+                    )
+                  </span>
+                )}
                 {parameter.isRequired && (
                   <span className="text-destructive ml-1">*</span>
                 )}
@@ -132,6 +150,15 @@ export function RuntimePreview({
               />
               <Label className="flex-1">
                 {parameter.name}
+                {(parameter.longFlag || parameter.shortFlag) && (
+                  <span className="text-muted-foreground ml-1">
+                    (
+                    {[parameter.longFlag, parameter.shortFlag]
+                      .filter(Boolean)
+                      .join(", ")}
+                    )
+                  </span>
+                )}
                 {parameter.isRequired && (
                   <span className="text-destructive ml-1">*</span>
                 )}
@@ -154,25 +181,36 @@ export function RuntimePreview({
         } else {
           return (
             <div key={parameter.id} className="space-y-2">
-              <Label>
-                {parameter.name}
-                {parameter.isRequired && (
-                  <span className="text-destructive ml-1">*</span>
-                )}
-                <Tooltip>
-                  <TooltipTrigger>
-                    <InfoIcon className="h-3.5 w-3.5" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <span>{parameter.description}</span>
-                  </TooltipContent>
-                </Tooltip>
+              <div className="flex">
+                <Label className="flex-1">
+                  {parameter.name}
+                  {(parameter.longFlag || parameter.shortFlag) && (
+                    <span className="text-muted-foreground ml-1">
+                      (
+                      {[parameter.longFlag, parameter.shortFlag]
+                        .filter(Boolean)
+                        .join(", ")}
+                      )
+                    </span>
+                  )}
+                  {parameter.isRequired && (
+                    <span className="text-destructive ml-1">*</span>
+                  )}
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <InfoIcon className="h-3.5 w-3.5" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <span>{parameter.description}</span>
+                    </TooltipContent>
+                  </Tooltip>
+                </Label>
                 {parameter.isGlobal && (
                   <Badge variant="outline" className="text-xs ml-2">
                     global
                   </Badge>
                 )}
-              </Label>
+              </div>
               <Input
                 type={parameter.dataType === "Number" ? "number" : "text"}
                 value={

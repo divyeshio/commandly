@@ -386,7 +386,9 @@ function RouteComponent() {
           className="text-lg px-10 py-6 border-2 border-primary shadow-xl focus:outline-none focus:ring-4 focus:ring-primary/40 rounded-xl transition-all  hover:shadow-2xl"
           asChild
         >
-          <Link to="/tools">Get Started</Link>
+          <Link to="/tools" preload="render" viewTransition={false}>
+            Get Started
+          </Link>
         </Button>
         <div className="flex gap-8 mt-8">
           <a

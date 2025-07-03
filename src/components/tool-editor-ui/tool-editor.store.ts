@@ -25,6 +25,7 @@ export interface ToolBuilderState {
   editingCommand: Command | null;
   parameterValues: Record<string, ParameterValue>;
   dialogs: {
+    parameterDetails: boolean;
     editTool: boolean;
     savedCommands: boolean;
     exclusionGroups: boolean;
@@ -33,11 +34,12 @@ export interface ToolBuilderState {
 
 export const toolBuilderStore = new Store<ToolBuilderState>({
   tool: defaultTool(),
-  selectedCommand: null,
+  selectedCommand: {} as Command,
   selectedParameter: null,
   editingCommand: null,
   parameterValues: {},
   dialogs: {
+    parameterDetails: false,
     editTool: false,
     savedCommands: false,
     exclusionGroups: false
@@ -268,32 +270,19 @@ export const toolBuilderActions = {
     });
   },
 
-  setEditToolDialogOpen(open: boolean) {
+  setDialogOpen(
+    dialog:
+      | "editTool"
+      | "savedCommands"
+      | "exclusionGroups"
+      | "parameterDetails",
+    open: boolean
+  ) {
     toolBuilderStore.setState((state) => ({
       ...state,
       dialogs: {
         ...state.dialogs,
-        editTool: open
-      }
-    }));
-  },
-
-  setSavedCommandsDialogOpen(open: boolean) {
-    toolBuilderStore.setState((state) => ({
-      ...state,
-      dialogs: {
-        ...state.dialogs,
-        savedCommands: open
-      }
-    }));
-  },
-
-  setExclusionGroupsDialogOpen(open: boolean) {
-    toolBuilderStore.setState((state) => ({
-      ...state,
-      dialogs: {
-        ...state.dialogs,
-        exclusionGroups: open
+        [dialog]: open
       }
     }));
   },

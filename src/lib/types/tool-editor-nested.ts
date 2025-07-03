@@ -1,5 +1,5 @@
 import type {
-  DependencyType,
+  ParameterDependencyType,
   ExclusionType,
   ParameterDataType,
   ParameterMetadata,
@@ -9,7 +9,6 @@ import type {
   SupportedToolOutputType
 } from "./tool-editor";
 
-// This file contains types for nested JSON structure
 export interface NestedCommand {
   name: string;
   description: string;
@@ -34,7 +33,7 @@ export type NestedParameterValidation = Omit<
 
 export interface NestedParameterDependency {
   dependsOnParameter: string;
-  dependencyType: DependencyType;
+  dependencyType: ParameterDependencyType;
   conditionValue?: string;
 }
 
@@ -70,6 +69,7 @@ export interface NestedTool {
   displayName: string;
   description?: string;
   version?: string;
+  url: string;
   globalParameters: NestedParameter[];
   commands: NestedCommand[];
   exclusionGroups: NestedExclusionGroup[];

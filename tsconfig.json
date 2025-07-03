@@ -16,6 +16,11 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", "./tests/vitest.setup.ts"],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "./tests/vitest.setup.ts",
+    "node_modules/buffer-from/generate.ts"
+  ],
   "exclude": ["dist", "node_modules"]
 }

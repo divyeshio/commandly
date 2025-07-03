@@ -5,5 +5,5 @@ import { join } from "path";
 
 const jsonSchema = z.toJSONSchema(ToolSchema);
 
-const outputPath = join(process.cwd(), "specification", "flat.json");
+const outputPath = join(process.cwd(), "public", "specification", "flat.json");
 writeFileSync(outputPath, JSON.stringify(jsonSchema, null, 2));

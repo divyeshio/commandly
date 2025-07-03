@@ -6,8 +6,7 @@ export const CommandSchema = z.object({
   name: z.string(),
   description: z.string(),
   isDefault: z.boolean(),
-  sortOrder: z.number(),
-  subcommands: z.lazy(() => z.array(CommandSchema).optional())
+  sortOrder: z.number()
 });
 export type Command = z.infer<typeof CommandSchema>;
 
@@ -78,7 +77,7 @@ export type ParameterDataType = z.infer<typeof ParameterDataTypeSchema>;
 export const ParameterSchema = z.object({
   id: z.string(),
   name: z.string(),
-  commandId: z.uuidv7().optional(),
+  commandId: z.uuidv7(),
   description: z.string(),
   metadata: ParameterMetadataSchema.optional(),
   parameterType: ParameterTypeSchema,
@@ -99,11 +98,17 @@ export const ParameterSchema = z.object({
 });
 export type Parameter = z.infer<typeof ParameterSchema>;
 
+export const ExclusionTypeSchema = z.enum([
+  "mutual_exclusive",
+  "required_one_of"
+]);
+export type ExclusionType = z.infer<typeof ExclusionTypeSchema>;
+
 export const ExclusionGroupSchema = z.object({
   id: z.string().optional(),
   commandId: z.string().optional(),
   name: z.string(),
-  exclusionType: z.enum(["mutual_exclusive", "required_one_of"]),
+  exclusionType: ExclusionTypeSchema,
   parameterIds: z.array(z.string())
 });
 export type ExclusionGroup = z.infer<typeof ExclusionGroupSchema>;
@@ -139,6 +144,7 @@ export const ToolSchema = z.object({
   version: z.string().optional(),
   category: z.string().optional(),
   tags: z.array(z.string()).optional(),
+  url: z.url().optional(),
   commands: z.array(CommandSchema),
   parameters: z.array(ParameterSchema),
   exclusionGroups: z.array(ExclusionGroupSchema),
@@ -161,9 +167,10 @@ export const AIParseResponseSchema = z.object({
 export type AIParseResponse = z.infer<typeof AIParseResponseSchema>;
 
 export const newToolSchema = z.object({
-  displayName: z.string().optional(),
-  name: z.string().optional(),
+  displayName: z.string(),
+  name: z.string(),
   version: z.string().optional(),
-  description: z.string().optional()
+  description: z.string().optional(),
+  url: z.url().optional()
 });
-export type NewTool = z.infer<typeof newToolSchema>;
+export type ManualNewTool = z.infer<typeof newToolSchema>;

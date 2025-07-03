@@ -34,7 +34,6 @@ import { v7 as uuidv7 } from "uuid";
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger
 } from "@/components/ui/tooltip";
 import {
@@ -50,6 +49,7 @@ import {
 } from "@/components/ui/command";
 import { useQueryState } from "nuqs";
 import { cn } from "@/lib/utils";
+import { toolBuilderActions } from "@/components/tool-editor-ui/tool-editor.store";
 const SearchParamsSchema = z.object({
   newTool: z.string().optional()
 });
@@ -91,18 +91,14 @@ export const Route = createFileRoute("/tools/$toolName/")({
 
 function RouteComponent() {
   const tool = Route.useLoaderData();
-  const router = useRouter();
+
+  if (!tool) return <div>Tool not found.</div>;
   const [parameterValues, setParameterValues] = useState({});
-  const [savedCommandsDialogOpen, setSavedCommandsDialogOpen] = useState(false);
   const [savedCommands, setSavedCommands] = useState(() => {
     if (!tool) return [];
     const toolId = tool.id || tool.name;
     return getSavedCommandsFromStorage(toolId);
   });
-
-  useEffect(() => {
-    router.invalidate({ sync: true });
-  }, []);
 
   const handleSaveCommand = (command: string) => {
     const toolId = (tool?.id || tool?.name)!;
@@ -138,16 +134,17 @@ function RouteComponent() {
     defaultValue: tool?.commands[0].name!
   });
 
-  if (!tool) return <div>Tool not found.</div>;
-
   return (
     <div className="flex flex-col">
       <div className="relative flex mx-8 my-4 items-center gap-2">
         <p className="absolute left-1/2 -translate-x-1/2 flex gap-2">
-          <span className="font-medium text-lg">
-            {tool.displayName
-              ? `${tool.displayName} (${tool.name})`
-              : `${tool.name}`}
+          <span
+            className="font-medium text-lg"
+            style={{
+              viewTransitionName: `tool-card-title-${tool.name}`
+            }}
+          >
+            {tool.displayName}
           </span>
           {tool.description && (
             <Tooltip>
@@ -164,14 +161,21 @@ function RouteComponent() {
           className="ml-auto relative z-10"
           variant="outline"
           size="sm"
-          onClick={() => setSavedCommandsDialogOpen(true)}
+          onClick={() =>
+            toolBuilderActions.setDialogOpen("savedCommands", true)
+          }
         >
           <SaveIcon className="h-4 w-4 mr-2" />
           Saved Commands
         </Button>
       </div>
       <div className="flex gap-16 px-4 w-full align-center justify-center">
-        <Card className="w-2xl max-w-4xl">
+        <Card
+          className="w-2xl max-w-4xl"
+          style={{
+            viewTransitionName: `tool-card-${tool.name}`
+          }}
+        >
           <CardHeader>
             <CardDescription hidden={true}></CardDescription>
             <CardTitle className="flex items-center gap-2">
@@ -266,8 +270,6 @@ function RouteComponent() {
         </Card>
       </div>
       <SavedCommandsDialog
-        isOpen={savedCommandsDialogOpen}
-        onOpenChange={() => setSavedCommandsDialogOpen(false)}
         savedCommands={savedCommands}
         onDeleteCommand={handleDeleteCommand}
       />

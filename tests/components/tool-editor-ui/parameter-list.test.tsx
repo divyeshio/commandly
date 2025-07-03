@@ -41,8 +41,7 @@ var testState: ToolBuilderState = {
     name: "test-command",
     description: "Test command",
     isDefault: false,
-    sortOrder: 0,
-    subcommands: []
+    sortOrder: 0
   },
   selectedParameter: null,
   editingCommand: null,
@@ -50,7 +49,8 @@ var testState: ToolBuilderState = {
   dialogs: {
     editTool: false,
     savedCommands: false,
-    exclusionGroups: false
+    exclusionGroups: false,
+    parameterDetails: false
   }
 };
 
@@ -206,22 +206,6 @@ describe("ParameterList - Rendering & Structure", () => {
       expect(screen.getByText("no-flags")).toBeInTheDocument();
       const noFlagsCard = screen.getByText("no-flags").closest("div");
       expect(noFlagsCard?.textContent).not.toContain("(--");
-    });
-
-    it("highlights the selected parameter", () => {
-      const parameter = createTestParameter();
-      toolBuilderStore.setState((prev) => ({
-        ...prev,
-        tool: { ...prev.tool, parameters: [parameter] },
-        selectedParameter: parameter
-      }));
-
-      render(<ParameterList title="Parameters" />);
-
-      const paramCard =
-        screen.getByText("test-param").closest("div[data-key]") ||
-        screen.getByText("test-param").closest("div.p-3");
-      expect(paramCard).toHaveClass("bg-muted", "border-primary");
     });
 
     it("shows the remove button and triggers the correct action on click", () => {

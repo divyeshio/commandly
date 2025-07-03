@@ -17,10 +17,55 @@
     "version": {
       "type": "string"
     },
+    "category": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "url": {
+      "type": "string",
+      "format": "uri"
+    },
     "commands": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/__schema0"
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
+          },
+          "parentCommandId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "isDefault": {
+            "type": "boolean"
+          },
+          "sortOrder": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "description",
+          "isDefault",
+          "sortOrder"
+        ],
+        "additionalProperties": false
       }
     },
     "parameters": {
@@ -56,11 +101,20 @@
           },
           "parameterType": {
             "type": "string",
-            "enum": ["Flag", "Option", "Argument"]
+            "enum": [
+              "Flag",
+              "Option",
+              "Argument"
+            ]
           },
           "dataType": {
             "type": "string",
-            "enum": ["String", "Number", "Boolean", "Enum"]
+            "enum": [
+              "String",
+              "Number",
+              "Boolean",
+              "Enum"
+            ]
           },
           "isRequired": {
             "type": "boolean"
@@ -189,7 +243,10 @@
                 },
                 "dependencyType": {
                   "type": "string",
-                  "enum": ["requires", "conflicts_with"]
+                  "enum": [
+                    "requires",
+                    "conflicts_with"
+                  ]
                 },
                 "conditionValue": {
                   "type": "string"
@@ -208,6 +265,7 @@
         "required": [
           "id",
           "name",
+          "commandId",
           "description",
           "parameterType",
           "dataType",
@@ -236,7 +294,10 @@
           },
           "exclusionType": {
             "type": "string",
-            "enum": ["mutual_exclusive", "required_one_of"]
+            "enum": [
+              "mutual_exclusive",
+              "required_one_of"
+            ]
           },
           "parameterIds": {
             "type": "array",
@@ -245,7 +306,11 @@
             }
           }
         },
-        "required": ["name", "exclusionType", "parameterIds"],
+        "required": [
+          "name",
+          "exclusionType",
+          "parameterIds"
+        ],
         "additionalProperties": false
       }
     },
@@ -253,14 +318,21 @@
       "type": "array",
       "items": {
         "type": "string",
-        "enum": ["StandardInput", "Parameter"]
+        "enum": [
+          "StandardInput",
+          "Parameter"
+        ]
       }
     },
     "supportedOutput": {
       "type": "array",
       "items": {
         "type": "string",
-        "enum": ["StandardOutput", "File", "Directory"]
+        "enum": [
+          "StandardOutput",
+          "File",
+          "Directory"
+        ]
       }
     }
   },
@@ -273,42 +345,5 @@
     "supportedInput",
     "supportedOutput"
   ],
-  "additionalProperties": false,
-  "$defs": {
-    "__schema0": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "uuid",
-          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
-        },
-        "parentCommandId": {
-          "type": "string",
-          "format": "uuid",
-          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "isDefault": {
-          "type": "boolean"
-        },
-        "sortOrder": {
-          "type": "number"
-        },
-        "subcommands": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/__schema0"
-          }
-        }
-      },
-      "required": ["id", "name", "description", "isDefault", "sortOrder"],
-      "additionalProperties": false
-    }
-  }
+  "additionalProperties": false
 }

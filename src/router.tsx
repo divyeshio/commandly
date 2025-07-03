@@ -15,6 +15,7 @@ export function createRouter() {
       defaultStructuralSharing: true,
       context: { queryClient },
       defaultPreload: "intent",
+      defaultViewTransition: true,
       defaultErrorComponent: DefaultCatchBoundary,
       defaultNotFoundComponent: () => <NotFound />
     }),

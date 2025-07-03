@@ -29,7 +29,7 @@ export function ExclusionGroupsDialog() {
     toolBuilderStore,
     (state) => state.selectedCommand
   );
-  const isOpen = useStore(
+  const open = useStore(
     toolBuilderStore,
     (state) => state.dialogs.exclusionGroups
   );
@@ -75,8 +75,10 @@ export function ExclusionGroupsDialog() {
 
   return (
     <Dialog
-      open={isOpen}
-      onOpenChange={toolBuilderActions.setExclusionGroupsDialogOpen}
+      open={open}
+      onOpenChange={(open) =>
+        toolBuilderActions.setDialogOpen("exclusionGroups", open)
+      }
     >
       <DialogContent className="max-w-2xl">
         <DialogHeader>

@@ -39,7 +39,9 @@ export function ToolDetailsDialog() {
   return (
     <Dialog
       open={isOpen}
-      onOpenChange={toolBuilderActions.setEditToolDialogOpen}
+      onOpenChange={(open) =>
+        toolBuilderActions.setDialogOpen("editTool", open)
+      }
     >
       <DialogContent className="max-w-2xl">
         <DialogHeader>
@@ -159,7 +161,7 @@ export function ToolDetailsDialog() {
         <DialogFooter>
           <Button
             variant="outline"
-            onClick={() => toolBuilderActions.setEditToolDialogOpen(false)}
+            onClick={() => toolBuilderActions.setDialogOpen("editTool", false)}
           >
             Close
           </Button>

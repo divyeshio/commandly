@@ -31,7 +31,6 @@ const createTestCommand = (overrides: Partial<Command> = {}): Command => ({
   description: "Test command description",
   isDefault: false,
   sortOrder: 0,
-  subcommands: [],
   ...overrides
 });
 
@@ -48,7 +47,8 @@ const createTestState = (
   dialogs: {
     editTool: false,
     savedCommands: false,
-    exclusionGroups: false
+    exclusionGroups: false,
+    parameterDetails: false
   }
 });
 
@@ -670,14 +670,11 @@ describe("ParameterDetailsDialog - UI/UX", () => {
 
     render(<ParameterDetailsDialog />);
 
-    // Check that the dialog title contains an icon (SVG element)
     const dialogTitle = screen.getByText("test-param").closest("h2");
     expect(dialogTitle?.querySelector("svg")).toBeInTheDocument();
 
-    // Check global badge is displayed
     expect(screen.getByText("global")).toBeInTheDocument();
 
-    // Test non-global parameter
     const nonGlobalParameter = createTestParameter({ isGlobal: false });
 
     act(() => {
@@ -686,7 +683,6 @@ describe("ParameterDetailsDialog - UI/UX", () => {
 
     expect(screen.queryByText("global")).not.toBeInTheDocument();
 
-    // Assert store state
     const state = toolBuilderStore.state;
     expect(state.selectedParameter?.isGlobal).toBe(false);
   });
