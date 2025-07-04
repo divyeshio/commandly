@@ -356,6 +356,11 @@
     }
   ],
   "exclusionGroups": [],
-  "supportedInput": ["Parameter"],
-  "supportedOutput": ["StandardOutput", "File"]
+  "supportedInput": [
+    "Parameter"
+  ],
+  "supportedOutput": [
+    "StandardOutput",
+    "File"
+  ]
 }
