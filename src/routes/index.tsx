@@ -2,7 +2,12 @@ import { useTheme } from "@/components/theme-switcher";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRightIcon, StarIcon, TerminalIcon } from "lucide-react";
+import {
+  ArrowRightIcon,
+  SparklesIcon,
+  StarIcon,
+  TerminalIcon
+} from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent
@@ -30,12 +35,12 @@ function RouteComponent() {
 
         <div className="flex flex-col items-center z-10 max-w-6xl mx-auto px-8">
           {/* Badge */}
-          {/* <div className="flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2 mb-8 backdrop-blur-sm">
+          <div className="flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2 mb-8 backdrop-blur-sm">
             <SparklesIcon className="w-4 h-4 text-foreground dark:text-primary" />
             <span className="text-sm font-medium text-foreground dark:text-primary">
               Now with AI-powered parsing
             </span>
-          </div> */}
+          </div>
 
           <h1 className="text-8xl md:text-9xl font-mono mb-6 drop-shadow-xl text-primary bg-clip-text flex items-center gap-4">
             <TerminalIcon size={80} className="text-primary" />

@@ -53,6 +53,10 @@ ${jsonSchema}
 11. Name property of parameter should be user-friendly.  Example : longFlag "--help" should be converted to "Help"
 12. Always output formatted json, with proper indentation.
 13. If there is only one command, then do not mark all parameters as global.
+14. DO NOT add backticks or any other formatting to the output. The output should be pure JSON without any additional formatting.
+15. Make sure all the ids are unique and are in the format of GUIDv7.
+
+</parsing_rules>
 
 <output_instruction>  
 Produce **only** the final JSON object. It must be syntactically valid, conform exactly to the schema, and nothing else.  
