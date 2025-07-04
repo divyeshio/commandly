@@ -12,7 +12,7 @@
   <a href="#license">License</a> •
 </p>
 
-## Features
+## ✨ Features
 
 <h1 align="center">
   <img src="public/images/ui.png" alt="commandly-ui" width="720px">
@@ -30,26 +30,26 @@
 - Saved Commands - using localstorage
 - Exclusion Groups
 - Json specification
-- AI Parsing - Quickly turn help text from any CLI tool into UI
+- AI Parsing - Quickly turn help text from any CLI tool into UI.
 
-## Todos
+## 📋 Todos
 
 - ~~Implement parsing help text into json structure using AI.~~
-- Explore MCP server
+- ~~Explore MCP server~~
 - Test and Run commands from browser. Maybe using some container to securely run commands or locally using wasm.
 - More tests
 - Improve UI, validations.
 - Shadcn Registry
 
-## Motivation
+## 🎯 Motivation
 
-When there are lots of commands and options in cli tools like [ffmpeg](https://github.com/FFmpeg/FFmpeg), I often find it it confusing and I'm lazy to figure it out all by myself (or just use ChatGPT).
+When there are lots of commands and options in cli tools, I often find it it confusing and I'm lazy to figure it out all by myself (or just use ChatGPT).
 
 We also know LLMs love structured inputs, what better than a clearly defined json with listing all commands and options that go into a cli tool.
 
 And lastly, MCPs. Goal is to expose all these tools via mcp and llms would be able to get all the details of commands and options whenever and wherever required.
 
-## Contributing
+## 💪🏻 Contributing
 
 Development - Please read the [contributing guide](/CONTRIBUTING.md).
 
@@ -59,6 +59,6 @@ For adding new tools:
 2. Copy **Flat** Json Output
 3. Raise a PR, adding json file to public/tools-collection.
 
-## License
+## 📜 License
 
 Licensed under the [MIT license](https://github.com/divyeshio/Commandly/blob/main/LICENSE.md).
