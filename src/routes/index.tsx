@@ -2,7 +2,12 @@ import { useTheme } from "@/components/theme-switcher";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRightIcon, SparklesIcon, StarIcon, TerminalIcon } from "lucide-react";
+import {
+  ArrowRightIcon,
+  SparklesIcon,
+  StarIcon,
+  TerminalIcon
+} from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent
