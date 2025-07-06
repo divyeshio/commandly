@@ -1,12 +1,11 @@
 import { FileTextIcon, Loader2Icon, UploadIcon } from "lucide-react";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
-import { Label } from "../ui/label";
-import { ScrollArea } from "../ui/scroll-area";
-import { flattenImportedData } from "@/lib/utils/tool-editor";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useEffect, useState } from "react";
-import { Tool, ToolSchema } from "@/lib/types/tool-editor";
+import { Tool, ToolSchema } from "@/registry/commandly/lib/types/commandly";
 import { toast } from "sonner";
 
 export function ImportJSON({

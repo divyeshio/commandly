@@ -1,26 +1,25 @@
 import { useEffect, useRef, useState } from "react";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
-import { ScrollArea } from "../ui/scroll-area";
-import { Textarea } from "../ui/textarea";
-import { Button } from "../ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 import { Loader2Icon, Wand2Icon } from "lucide-react";
 import { createOpenAI } from "@ai-sdk/openai";
 import z from "zod/v4";
-import { generateSystemPrompt } from "@/lib/prompt";
+import { generateSystemPrompt } from "@/components/tool-editor-ui/prompt";
 import { streamText } from "ai";
-import { Tool, ToolSchema } from "@/lib/types/tool-editor";
+import { Tool, ToolSchema } from "@/registry/commandly/lib/types/commandly";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue
-} from "../ui/select";
+} from "@/components/ui/select";
 import { toast } from "sonner";
 import { useDebouncedValue } from "@tanstack/react-pacer";
-import { Checkbox } from "../ui/checkbox";
-import { defaultTool } from "@/lib/utils/tool-editor";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export function AIParsing({
   onParseCompleted

@@ -1,6 +1,4 @@
 import { SavedCommandsDialog } from "@/components/tool-editor-ui/dialogs/saved-commands-dialog";
-import { GeneratedCommand } from "@/components/tool-editor-ui/generated-command";
-import { RuntimePreview } from "@/components/tool-editor-ui/runtime-preview";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,14 +9,18 @@ import {
 } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { fetchToolDetails } from "@/lib/api/tools.api";
-import { SavedCommand, Tool, ToolSchema } from "@/lib/types/tool-editor";
+import {
+  SavedCommand,
+  Tool,
+  ToolSchema
+} from "@/registry/commandly/lib/types/commandly";
 import {
   addSavedCommandToStorage,
   defaultTool,
   getSavedCommandsFromStorage,
   removeSavedCommandFromStorage
-} from "@/lib/utils/tool-editor";
-import { createFileRoute, useRouter } from "@tanstack/react-router";
+} from "@/registry/commandly/lib/utils/commandly";
+import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
   CheckIcon,
@@ -27,7 +29,7 @@ import {
   SaveIcon,
   TerminalIcon
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import z from "zod/v4";
 import { v7 as uuidv7 } from "uuid";
@@ -49,7 +51,9 @@ import {
 } from "@/components/ui/command";
 import { useQueryState } from "nuqs";
 import { cn } from "@/lib/utils";
-import { toolBuilderActions } from "@/components/tool-editor-ui/tool-editor.store";
+import { toolBuilderActions } from "@/registry/commandly/tool-editor/tool-editor.store";
+import { RuntimePreview } from "@/registry/commandly/runtime-preview";
+import { GeneratedCommand } from "@/registry/commandly/generated-command";
 const SearchParamsSchema = z.object({
   newTool: z.string().optional()
 });
@@ -144,7 +148,9 @@ function RouteComponent() {
               viewTransitionName: `tool-card-title-${tool.name}`
             }}
           >
-            {tool.displayName}
+            {tool.displayName
+              ? `${tool.displayName} (${tool.name})`
+              : `${tool.name}`}
           </span>
           {tool.description && (
             <Tooltip>

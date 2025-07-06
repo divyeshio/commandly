@@ -42,10 +42,5 @@ export default defineConfig({
   ],
   server: {
     port: 4001
-  },
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src")
-    }
   }
 });

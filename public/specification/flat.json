@@ -247,7 +247,6 @@
         "required": [
           "id",
           "name",
-          "commandId",
           "description",
           "parameterType",
           "dataType",

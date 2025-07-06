@@ -2,16 +2,233 @@ import { useTheme } from "@/components/theme-switcher";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  ArrowRightIcon,
-  SparklesIcon,
-  StarIcon,
-  TerminalIcon
-} from "lucide-react";
+import { ArrowRightIcon, SparklesIcon, TerminalIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent
 });
+
+interface FloatingTool {
+  id: string;
+  name: string;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  scale: number;
+  opacity: number;
+  phase: "appearing" | "floating" | "disappearing";
+  createdAt: number;
+}
+
+const TOOL_NAMES = [
+  "asnmap",
+  "cdncheck",
+  "dnsx",
+  "shuffledns",
+  "subfinder",
+  "yt-dlp",
+  "git",
+  "npm",
+  "curl",
+  "grep",
+  "find",
+  "docker",
+  "bash",
+  "zsh",
+  "sh",
+  "fish",
+  "curl",
+  "wget",
+  "git",
+  "grep",
+  "sed",
+  "awk",
+  "find",
+  "xargs",
+  "ssh",
+  "scp",
+  "rsync",
+  "tar",
+  "zip",
+  "unzip",
+  "gzip",
+  "bzip2",
+  "lzma",
+  "xz",
+  "top",
+  "htop",
+  "ps",
+  "ping",
+  "traceroute",
+  "netstat",
+  "ss",
+  "ip",
+  "ifconfig",
+  "dig",
+  "nslookup",
+  "whois",
+  "nmap",
+  "tcpdump",
+  "tshark",
+  "lsof",
+  "strace",
+  "ltrace",
+  "journalctl",
+  "dmesg",
+  "systemctl",
+  "service",
+  "chmod",
+  "chown",
+  "ln",
+  "cp",
+  "mv",
+  "rm",
+  "mkdir",
+  "rmdir",
+  "touch",
+  "stat",
+  "df",
+  "du",
+  "ls",
+  "tree",
+  "echo",
+  "printf",
+  "tee",
+  "less",
+  "more",
+  "cat",
+  "head",
+  "tail",
+  "diff",
+  "patch",
+  "sort",
+  "uniq",
+  "tr",
+  "cut",
+  "split",
+  "wc",
+  "yes",
+  "sleep",
+  "time",
+  "date",
+  "cal",
+  "env",
+  "export",
+  "alias",
+  "unalias",
+  "clear",
+  "history",
+  "man",
+  "info",
+  "which",
+  "whereis",
+  "type",
+  "uname",
+  "hostname",
+  "su",
+  "sudo",
+  "docker",
+  "kubectl",
+  "terraform",
+  "ansible"
+];
+
+function FloatingToolNames() {
+  const [tools, setTools] = useState<FloatingTool[]>([]);
+
+  useEffect(() => {
+    const spawnTool = () => {
+      const newTool: FloatingTool = {
+        id: Math.random().toString(36).substr(2, 9),
+        name: TOOL_NAMES[Math.floor(Math.random() * TOOL_NAMES.length)],
+        x: 0, // Spread across wider area
+        y: -50, // Start from top
+        vx: (Math.random() - 0.5) * 2, // Random horizontal velocity
+        vy: Math.random() * 3 + 1, // Downward velocity
+        scale: 0,
+        opacity: 0,
+        phase: "appearing",
+        createdAt: Date.now()
+      };
+
+      setTools((prev) => [...prev, newTool]);
+    };
+
+    const animate = () => {
+      setTools((prev) =>
+        prev
+          .map((tool) => {
+            const age = Date.now() - tool.createdAt;
+            const newTool = { ...tool };
+
+            // Update position
+            newTool.x += newTool.vx;
+            newTool.y += newTool.vy;
+
+            // Phase transitions and animations
+            if (tool.phase === "appearing" && age < 1000) {
+              newTool.scale = Math.min(1, age / 100);
+              newTool.opacity = Math.min(0.7, age / 1000);
+            } else if (tool.phase === "appearing" && age >= 1000) {
+              newTool.phase = "floating";
+              newTool.scale = 1;
+              newTool.opacity = 0.7;
+            } else if (tool.phase === "floating" && age < 8000) {
+              // Floating behavior - gentle movement, keep scale and opacity stable
+              newTool.vx += (Math.random() - 0.5) * 0.1;
+              newTool.vy += (Math.random() - 0.5) * 0.1;
+
+              // Limit velocity
+              newTool.vx = Math.max(-2, Math.min(2, newTool.vx));
+              newTool.vy = Math.max(-2, Math.min(2, newTool.vy));
+            } else if (tool.phase === "floating" && age >= 9000) {
+              newTool.phase = "disappearing";
+            } else if (tool.phase === "disappearing") {
+              const disappearTime = age - 9000;
+              newTool.opacity = Math.max(0, 0.7 - disappearTime / 2000);
+            }
+
+            return newTool;
+          })
+          .filter((tool) => tool.opacity > 0)
+      );
+    };
+
+    // Spawn tools periodically
+    const spawnInterval = setInterval(spawnTool, 1000);
+
+    // Animation loop
+    const animationInterval = setInterval(animate, 35);
+
+    return () => {
+      clearInterval(spawnInterval);
+      clearInterval(animationInterval);
+    };
+  }, []);
+
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {tools.map((tool) => (
+        <div
+          key={tool.id}
+          className="absolute text-foreground/40 font-mono select-none"
+          style={{
+            left: `calc(50% + ${tool.x}px)`,
+            top: `calc(10% + ${tool.y}px)`,
+            transform: `scale(${tool.scale})`,
+            opacity: tool.opacity,
+            fontSize: "1rem",
+            zIndex: 1
+          }}
+        >
+          {tool.name}
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function RouteComponent() {
   const { theme } = useTheme();
@@ -22,8 +239,10 @@ function RouteComponent() {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
 
         <div className="absolute top-20 left-20 w-32 h-32 bg-primary/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-40 right-20 w-40 h-40 bg-secondary/30 rounded-full blur-3xl animate-pulse delay-1000" />
+        <div className="absolute bottom-40 right-20 w-40 h-40 bg-primary/30 rounded-full blur-3xl animate-pulse delay-1000" />
         <div className="absolute top-1/2 left-1/4 w-20 h-20 bg-accent/25 rounded-full blur-2xl animate-pulse delay-500" />
+
+        <FloatingToolNames />
 
         <div
           className="absolute inset-0 pointer-events-none z-0"
@@ -35,7 +254,7 @@ function RouteComponent() {
 
         <div className="flex flex-col items-center z-10 max-w-6xl mx-auto px-8">
           {/* Badge */}
-          <div className="flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2 mb-8 backdrop-blur-sm">
+          <div className="flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-full px-4 py-2 mb-8 backdrop-blur-xs">
             <SparklesIcon className="w-4 h-4 text-foreground dark:text-primary" />
             <span className="text-sm font-medium text-foreground dark:text-primary">
               Now with AI-powered parsing
@@ -160,185 +379,40 @@ function RouteComponent() {
         <h2 className="text-4xl font-bold mb-2">Features</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full">
           <Feature
-            icon="🧩"
-            title="Visual Command Builder"
-            desc="Drag, drop, and configure commands and subcommands with ease. Organize your CLI logic visually and see the structure instantly."
+            icon="🌳"
+            title="Visual Command Tree"
+            desc="Build hierarchical command structures with nested subcommands. Add, edit, delete, and reorganize commands through an intuitive tree interface."
           />
           <Feature
-            icon="🪄"
-            title="Parameter Wizard"
-            desc="Add, edit, and validate parameters with a friendly UI. Supports types, defaults, and advanced validation."
+            icon="⚙️"
+            title="Advanced Parameter Editor"
+            desc="Configure parameters with types, flags, default values, enums, dependencies, and validations. Supports global and per-command parameters."
           />
           <Feature
-            icon="🔮"
-            title="Runtime Preview"
-            desc="See your command output update in real time as you build. No more guessing what your command will do."
+            icon="👀"
+            title="Live Runtime Preview"
+            desc="Interactive preview with real parameter values and live validation. See exactly what your command will look like before running it."
           />
           <Feature
             icon="💾"
-            title="Saved Commands"
-            desc="Store your favorite commands in local storage for quick access. Organize by project or tag."
+            title="Command Library"
+            desc="Save, organize, and manage your favorite commands in local storage. Copy, delete, and reuse commands across sessions."
           />
-
           <Feature
-            icon="🌙"
-            title="Dark Mode"
-            desc="For night owls and terminal hackers alike. Switch themes instantly."
+            icon="📤"
+            title="JSON Export"
+            desc="Export tool definitions as structured JSON (flat or nested format) for sharing, backup, or integration with other tools."
           />
           <Feature
             icon="🤖"
-            title="AI Parsing"
-            desc="Parse entire tool using just the help text. Commandly can intelligently extract commands, parameters, and descriptions from your CLI tools."
+            title="AI-Powered Parsing"
+            desc="Parse CLI help text using OpenAI to automatically extract commands, parameters, and descriptions. Turn any tool's help into a structured definition."
           />
-        </div>
-        <div className="w-full flex flex-col lg:flex-row gap-8 mt-10 items-stretch justify-center">
-          <div className="flex-1 min-h-[450px] h-full flex flex-col bg-gradient-to-br from-primary/15 via-primary/10 to-secondary/15 rounded-3xl p-8 shadow-2xl border border-primary/20 backdrop-blur-sm hover:shadow-3xl transition-all duration-500 hover:scale-[1.02] group relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/8 to-secondary/8 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <div className="flex items-center justify-center gap-3 mb-6 relative z-10">
-              <div className="p-3 rounded-full bg-gradient-to-br from-primary to-primary/80 shadow-lg">
-                <StarIcon className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <h3 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                Why use Commandly?
-              </h3>
-            </div>
-            <ul className="list-none flex flex-col gap-4 w-full flex-1 relative z-10">
-              <li className="flex items-start gap-4 p-4 rounded-xl bg-white/20 dark:bg-white/10 backdrop-blur-sm border border-white/30 hover:bg-white/30 dark:hover:bg-white/15 transition-all duration-300 group/item">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-lg">
-                  <span className="text-primary-foreground text-sm font-bold">
-                    ✓
-                  </span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-semibold text-foreground">
-                    Reduce mistakes and speed up workflow
-                  </span>
-                  <span className="text-sm text-muted-foreground mt-1">
-                    Build commands visually with instant validation
-                  </span>
-                </div>
-              </li>
-              <li className="flex items-start gap-4 p-4 rounded-xl bg-white/20 dark:bg-white/10 backdrop-blur-sm border border-white/30 hover:bg-white/30 dark:hover:bg-white/15 transition-all duration-300 group/item">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-secondary to-secondary/80 flex items-center justify-center shadow-lg">
-                  <span className="text-secondary-foreground text-sm font-bold">
-                    ✓
-                  </span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-semibold text-foreground">
-                    Perfect for team onboarding
-                  </span>
-                  <span className="text-sm text-muted-foreground mt-1">
-                    Visual learning for new team members
-                  </span>
-                </div>
-              </li>
-              <li className="flex items-start gap-4 p-4 rounded-xl bg-white/20 dark:bg-white/10 backdrop-blur-sm border border-white/30 hover:bg-white/30 dark:hover:bg-white/15 transition-all duration-300 group/item">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-accent to-accent/80 flex items-center justify-center shadow-lg">
-                  <span className="text-accent-foreground text-sm font-bold">
-                    ✓
-                  </span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-semibold text-foreground">
-                    Document and share CLI knowledge
-                  </span>
-                  <span className="text-sm text-muted-foreground mt-1">
-                    Build a library of reusable commands
-                  </span>
-                </div>
-              </li>
-              <li className="flex items-start gap-4 p-4 rounded-xl bg-white/20 dark:bg-white/10 backdrop-blur-sm border border-white/30 hover:bg-white/30 dark:hover:bg-white/15 transition-all duration-300 group/item">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-muted-foreground to-muted-foreground/80 flex items-center justify-center shadow-lg">
-                  <span className="text-muted text-sm font-bold">✓</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-semibold text-foreground">
-                    Fun, interactive, and modern
-                  </span>
-                  <span className="text-sm text-muted-foreground mt-1">
-                    Make terminal work enjoyable again
-                  </span>
-                </div>
-              </li>
-            </ul>
-          </div>
-
-          <div className="flex-1 min-h-[450px] h-full flex flex-col bg-gradient-to-br from-secondary/15 via-primary/10 to-accent/15 rounded-3xl p-8 shadow-2xl border border-secondary/20 backdrop-blur-sm hover:shadow-3xl transition-all duration-500 hover:scale-[1.02] group relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-secondary/8 to-accent/8 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <div className="flex items-center justify-center gap-3 mb-6 relative z-10">
-              <div className="p-3 rounded-full bg-gradient-to-br from-secondary to-secondary/80 shadow-lg">
-                <TerminalIcon className="w-6 h-6 text-secondary-foreground" />
-              </div>
-              <h3 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Integrations
-              </h3>
-            </div>
-            <ul className="flex flex-col gap-4 w-full flex-1 relative z-10">
-              <li className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-white/20 to-white/10 dark:from-white/15 dark:to-white/5 backdrop-blur-sm border border-white/30 hover:from-white/30 hover:to-white/20 dark:hover:from-white/20 dark:hover:to-white/10 transition-all duration-300 group/item">
-                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-lg group-hover/item:scale-110 transition-transform duration-300">
-                  <span className="text-primary-foreground font-mono text-lg font-bold">{`{}`}</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-base font-semibold text-foreground">
-                    Export to JSON
-                  </span>
-                  <span className="text-sm text-muted-foreground">
-                    Nested or flat structure
-                  </span>
-                </div>
-              </li>
-              <li className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-white/20 to-white/10 dark:from-white/15 dark:to-white/5 backdrop-blur-sm border border-white/30 hover:from-white/30 hover:to-white/20 dark:hover:from-white/20 dark:hover:to-white/10 transition-all duration-300 group/item">
-                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-secondary to-secondary/80 flex items-center justify-center shadow-lg group-hover/item:scale-110 transition-transform duration-300">
-                  <span className="text-secondary-foreground text-xl">📋</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-base font-semibold text-foreground">
-                    Copy to clipboard
-                  </span>
-                  <span className="text-sm text-muted-foreground">
-                    One-click command copying
-                  </span>
-                </div>
-              </li>
-              <li className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-white/20 to-white/10 dark:from-white/15 dark:to-white/5 backdrop-blur-sm border border-white/30 hover:from-white/30 hover:to-white/20 dark:hover:from-white/20 dark:hover:to-white/10 transition-all duration-300 group/item">
-                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-accent to-accent/80 flex items-center justify-center shadow-lg group-hover/item:scale-110 transition-transform duration-300">
-                  <span className="text-accent-foreground text-xl">💾</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-base font-semibold text-foreground">
-                    Save to local storage
-                  </span>
-                  <span className="text-sm text-muted-foreground">
-                    Persistent command library
-                  </span>
-                </div>
-              </li>
-              <li className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-white/20 to-white/10 dark:from-white/15 dark:to-white/5 backdrop-blur-sm border border-white/30 hover:from-white/30 hover:to-white/20 dark:hover:from-white/20 dark:hover:to-white/10 transition-all duration-300 group/item opacity-75">
-                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-muted-foreground to-muted-foreground/80 flex items-center justify-center shadow-lg group-hover/item:scale-110 transition-transform duration-300">
-                  <span className="text-muted text-xl">🔗</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-base font-semibold text-foreground">
-                    Share via link
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-muted-foreground">
-                      Team collaboration
-                    </span>
-                    <span className="px-2 py-1 text-xs bg-primary/10 text-foreground dark:bg-primary/30 dark:text-primary rounded-full font-medium border border-primary/30">
-                      Coming Soon
-                    </span>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
         </div>
       </section>
 
       {/* How it Works */}
-      <section className="w-full flex flex-col items-center gap-12 px-8 min-h-screen justify-center py-20">
+      <section className="w-full flex flex-col items-center gap-12 px-8 justify-center py-40">
         <h2 className="text-4xl font-bold mb-2">How it Works</h2>
         <div className="flex flex-col md:flex-row gap-10 w-full items-center justify-center">
           <Step
@@ -356,28 +430,6 @@ function RouteComponent() {
             title="Preview & Export"
             desc="See the command, help menu, and JSON output instantly. Save, copy, or share your work."
           />
-        </div>
-        <div className="w-full flex flex-col md:flex-row gap-8 mt-10 items-center justify-center">
-          <div className="flex-1 bg-muted/40 rounded-xl p-8 shadow-md text-lg">
-            <b>Tips for Power Users</b>
-            <br />
-            <ul className="list-disc list-inside mt-2 text-muted-foreground">
-              <li>Use exclusion groups for advanced option logic</li>
-              <li>Preview runtime output before running anything</li>
-              <li>Save commands for later use</li>
-              <li>Use the AI parser to extract commands and parameters!</li>
-            </ul>
-          </div>
-          <div className="flex-1 bg-muted/40 rounded-xl p-8 shadow-md text-lg">
-            <b>Coming Soon</b>
-            <br />
-            <ul className="list-disc list-inside mt-2 text-muted-foreground">
-              <li>Team collaboration features</li>
-              <li>Cloud sync</li>
-              <li>More export formats</li>
-              <li>More tools</li>
-            </ul>
-          </div>
         </div>
       </section>
 
@@ -436,7 +488,7 @@ interface FeatureProps {
 }
 function Feature({ icon, title, desc }: FeatureProps) {
   return (
-    <div className="flex flex-col items-center gap-2 bg-white/10 dark:bg-white/5 backdrop-blur-md border border-white/20 dark:border-white/10 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white/15 dark:hover:bg-white/10">
+    <div className="flex flex-col items-center gap-2 bg-card/10 dark:bg-card-foreground/5 backdrop-blur-md border border-card/20 dark:border-card/10 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white/15 dark:hover:bg-white/10">
       <span className="text-3xl">{icon}</span>
       <span className="font-semibold text-lg">{title}</span>
       <span className="text-sm text-muted-foreground text-center">{desc}</span>
