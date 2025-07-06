@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
 
-import { defaultTool } from "@/registry/commandly/lib/utils/tool-editor";
-import { Parameter, Command } from "@/registry/commandly/lib/types/tool-editor";
+import { defaultTool } from "@/registry/commandly/lib/utils/commandly";
+import { Parameter, Command } from "@/registry/commandly/lib/types/commandly";
 import { ParameterDetailsDialog } from "@/registry/commandly/tool-editor/dialogs/parameter-details-dialog";
 import {
   ToolBuilderState,

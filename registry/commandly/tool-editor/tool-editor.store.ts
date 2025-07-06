@@ -6,7 +6,7 @@ import {
   ExclusionGroup,
   ParameterValue,
   SavedCommand
-} from "@/registry/commandly/lib/types/tool-editor";
+} from "@/registry/commandly/lib/types/commandly";
 import { toast } from "sonner";
 import {
   addSavedCommandToStorage,
@@ -15,7 +15,7 @@ import {
   getAllSubcommands,
   getSavedCommandsFromStorage,
   removeSavedCommandFromStorage
-} from "@/registry/commandly/lib/utils/tool-editor";
+} from "@/registry/commandly/lib/utils/commandly";
 import { v7 as uuidv7 } from "uuid";
 
 export interface ToolBuilderState {

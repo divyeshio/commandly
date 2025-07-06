@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { SaveIcon, CopyIcon, Trash2Icon } from "lucide-react";
 import { toast } from "sonner";
-import { SavedCommand } from "@/registry/commandly/lib/types/tool-editor";
+import { SavedCommand } from "@/registry/commandly/lib/types/commandly";
 import { toolBuilderActions, toolBuilderStore } from "../tool-editor.store";
 import { useStore } from "@tanstack/react-store";
 

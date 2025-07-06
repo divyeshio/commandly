@@ -7,7 +7,7 @@ import {
   CardTitle
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Tool } from "@/registry/commandly/lib/types/tool-editor";
+import { Tool } from "@/registry/commandly/lib/types/commandly";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Edit2Icon, Trash2Icon } from "lucide-react";

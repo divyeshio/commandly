@@ -1,13 +1,4 @@
-import type {
-  ParameterDependencyType,
-  ExclusionType,
-  ParameterDataType,
-  ParameterMetadata,
-  ParameterType,
-  ParameterValidation,
-  SupportedToolInputType,
-  SupportedToolOutputType
-} from "./tool-editor";
+import { ParameterValidation, ParameterDependencyType, ParameterType, ParameterDataType, ParameterMetadata, ExclusionType, SupportedToolInputType, SupportedToolOutputType } from "../../types";
 
 export interface NestedCommand {
   name: string;
@@ -69,7 +60,7 @@ export interface NestedTool {
   displayName: string;
   description?: string;
   version?: string;
-  url: string;
+  url?: string;
   globalParameters: NestedParameter[];
   commands: NestedCommand[];
   exclusionGroups: NestedExclusionGroup[];

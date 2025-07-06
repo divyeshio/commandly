@@ -2,7 +2,7 @@ import { useState, useEffect, ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Command } from "@/registry/commandly/lib/types/tool-editor";
+import { Command } from "@/registry/commandly/lib/types/commandly";
 import {
   ChevronDownIcon,
   ChevronRightIcon,

@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { vi } from "vitest";
-import { defaultTool } from "@/registry/commandly/lib/utils/tool-editor";
+import { defaultTool } from "@/registry/commandly/lib/utils/commandly";
 import {
   withNuqsTestingAdapter,
   type OnUrlUpdateFunction

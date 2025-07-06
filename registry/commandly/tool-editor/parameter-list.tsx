@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import {
   ExclusionGroup,
   ParameterType
-} from "@/registry/commandly/lib/types/tool-editor";
+} from "@/registry/commandly/lib/types/commandly";
 import {
   CheckCircleIcon,
   FileTextIcon,
@@ -24,7 +24,7 @@ import {
 import {
   createNewParameter,
   validateDefaultValue
-} from "@/registry/commandly/lib/utils/tool-editor";
+} from "@/registry/commandly/lib/utils/commandly";
 
 interface ParameterListProps {
   title: string;

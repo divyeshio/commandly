@@ -9,7 +9,7 @@ import {
   DialogTrigger
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Tool } from "@/registry/commandly/lib/types/tool-editor";
+import { Tool } from "@/registry/commandly/lib/types/commandly";
 import { Edit2Icon, UploadIcon, Wand2Icon } from "lucide-react";
 import { useState } from "react";
 import { AIParsing } from "../ai-parsing";

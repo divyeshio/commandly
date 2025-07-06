@@ -9,7 +9,7 @@ import { createOpenAI } from "@ai-sdk/openai";
 import z from "zod/v4";
 import { generateSystemPrompt } from "@/components/tool-editor-ui/prompt";
 import { streamText } from "ai";
-import { Tool, ToolSchema } from "@/registry/commandly/lib/types/tool-editor";
+import { Tool, ToolSchema } from "@/registry/commandly/lib/types/commandly";
 import {
   Select,
   SelectContent,

@@ -31,9 +31,9 @@ import {
   Trash2Icon
 } from "lucide-react";
 import { useStore } from "@tanstack/react-store";
-import { validateDefaultValue } from "@/registry/commandly/lib/utils/tool-editor";
+import { validateDefaultValue } from "@/registry/commandly/lib/utils/commandly";
 import { v7 as uuidv7 } from "uuid";
-import { TagsComponent } from "@/components/tags";
+import { TagsComponent } from "@/registry/commandly/ui/tags";
 import { toolBuilderActions, toolBuilderStore } from "../tool-editor.store";
 import {
   Parameter,
@@ -44,7 +44,7 @@ import {
   ParameterType,
   ParameterValidation,
   ParameterValidationType
-} from "../../lib/types/tool-editor";
+} from "@/registry/commandly/lib/types/commandly";
 
 export function ParameterDetailsDialog() {
   const selectedParameter = useStore(

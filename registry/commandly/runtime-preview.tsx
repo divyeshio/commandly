@@ -14,8 +14,8 @@ import { InfoIcon } from "lucide-react";
 import {
   Parameter,
   ParameterValue
-} from "@/registry/commandly/lib/types/tool-editor";
-import { Command, Tool } from "@/registry/commandly/lib/types/tool-editor";
+} from "@/registry/commandly/lib/types/commandly";
+import { Command, Tool } from "@/registry/commandly/lib/types/commandly";
 import {
   Tooltip,
   TooltipContent,

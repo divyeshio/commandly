@@ -1,4 +1,4 @@
-import type { Tool } from "@/registry/commandly/lib/types/tool-editor";
+import type { Tool } from "@/registry/commandly/lib/types/commandly";
 
 export async function fetchTools(): Promise<Tool[]> {
   //await new Promise((resolve) => setTimeout(resolve, 3000)); // 3 second delay

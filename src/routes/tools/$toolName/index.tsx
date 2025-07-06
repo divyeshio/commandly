@@ -13,13 +13,13 @@ import {
   SavedCommand,
   Tool,
   ToolSchema
-} from "@/registry/commandly/lib/types/tool-editor";
+} from "@/registry/commandly/lib/types/commandly";
 import {
   addSavedCommandToStorage,
   defaultTool,
   getSavedCommandsFromStorage,
   removeSavedCommandFromStorage
-} from "@/registry/commandly/lib/utils/tool-editor";
+} from "@/registry/commandly/lib/utils/commandly";
 import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
@@ -52,8 +52,8 @@ import {
 import { useQueryState } from "nuqs";
 import { cn } from "@/lib/utils";
 import { toolBuilderActions } from "@/registry/commandly/tool-editor/tool-editor.store";
-import { RuntimePreview } from "@/registry/commandly/components/runtime-preview";
-import { GeneratedCommand } from "@/registry/commandly/components/generated-command";
+import { RuntimePreview } from "@/registry/commandly/runtime-preview";
+import { GeneratedCommand } from "@/registry/commandly/generated-command";
 const SearchParamsSchema = z.object({
   newTool: z.string().optional()
 });

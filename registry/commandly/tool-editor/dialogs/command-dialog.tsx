@@ -11,7 +11,7 @@ import {
   DialogFooter,
   DialogDescription
 } from "@/components/ui/dialog";
-import { Command } from "@/registry/commandly/lib/types/tool-editor";
+import { Command } from "@/registry/commandly/lib/types/commandly";
 import { TerminalIcon } from "lucide-react";
 import { useState } from "react";
 import { useStore } from "@tanstack/react-store";

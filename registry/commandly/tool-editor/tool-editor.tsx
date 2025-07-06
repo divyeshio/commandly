@@ -1,11 +1,10 @@
-import { SavedCommand, Tool } from "@/registry/commandly/lib/types/tool-editor";
+import { SavedCommand, Tool } from "@/registry/commandly/lib/types/commandly";
 import { CommandTree } from "./command-tree";
 import { ParameterList } from "./parameter-list";
 import { ParameterDetailsDialog } from "../tool-editor/dialogs/parameter-details-dialog";
 import { ExclusionGroupsDialog } from "../tool-editor/dialogs/exclusion-groups-dialog";
 import { PreviewTabs } from "./preview-tabs";
 import { ToolDetailsDialog } from "../tool-editor/dialogs/tool-details-dialog";
-import { SavedCommandsDialog } from "@/components/tool-editor-ui/dialogs/saved-commands-dialog";
 import { Button } from "@/components/ui/button";
 import { SaveIcon, Edit2Icon, LayersIcon } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -15,7 +14,8 @@ import { toast } from "sonner";
 import {
   getSavedCommandsFromStorage,
   removeSavedCommandFromStorage
-} from "@/registry/commandly/lib/utils/tool-editor";
+} from "@/registry/commandly/lib/utils/commandly";
+import { SavedCommandsDialog } from "./dialogs/saved-commands-dialog";
 
 interface ToolEditorProps {
   tool: Tool;

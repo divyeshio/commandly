@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Tool, ToolSchema } from "@/registry/commandly/lib/types/tool-editor";
-import { defaultTool } from "@/registry/commandly/lib/utils/tool-editor";
+import { Tool, ToolSchema } from "@/registry/commandly/lib/types/commandly";
+import { defaultTool } from "@/registry/commandly/lib/utils/commandly";
 import { zodValidator } from "@tanstack/zod-adapter";
 import z from "zod/v4";
 import { fetchToolDetails } from "@/lib/api/tools.api";

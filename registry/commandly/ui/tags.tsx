@@ -13,8 +13,8 @@ import {
   CommandInput,
   CommandItem,
   CommandList
-} from "./ui/command";
-import { Badge } from "./ui/badge";
+} from "@/components/ui/command";
+import { Badge } from "@/components/ui/badge";
 
 export interface TagsProps {
   tags: string[];

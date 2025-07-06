@@ -3,9 +3,7 @@ import { HelpMenu } from "./help-menu";
 import { useQueryState } from "nuqs";
 import { useStore } from "@tanstack/react-store";
 import { toolBuilderStore, toolBuilderActions } from "./tool-editor.store";
-import { RuntimePreview } from "../components/runtime-preview";
-import { GeneratedCommand } from "../components/generated-command";
-import { JsonOutput } from "../components/json-output";
+import { RuntimePreview } from "../runtime-preview";
 import {
   Card,
   CardContent,
@@ -13,8 +11,10 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/card";
-import { ParameterValue } from "@/registry/commandly/lib/types/tool-editor";
+import { ParameterValue } from "@/registry/commandly/lib/types/commandly";
 import { TerminalIcon } from "lucide-react";
+import { JsonOutput } from "../json-output";
+import { GeneratedCommand } from "../generated-command";
 
 export function PreviewTabs() {
   const [currentTab, setActiveTab] = useQueryState("tab", {

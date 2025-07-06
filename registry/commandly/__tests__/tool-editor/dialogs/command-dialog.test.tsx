@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 
-import { defaultTool } from "@/registry/commandly/lib/utils/tool-editor";
-import { Command } from "@/registry/commandly/lib/types/tool-editor";
+import { defaultTool } from "@/registry/commandly/lib/utils/commandly";
+import { Command } from "@/registry/commandly/lib/types/commandly";
 import {
   ToolBuilderState,
   toolBuilderStore,

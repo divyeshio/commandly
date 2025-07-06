@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
-import { defaultTool } from "@/registry/commandly/lib/utils/tool-editor";
+import { defaultTool } from "@/registry/commandly/lib/utils/commandly";
 import {
   OnUrlUpdateFunction,
   withNuqsTestingAdapter
 } from "nuqs/adapters/testing";
-import { JsonOutput } from "../../components/json-output";
+import { JsonOutput } from "../../json-output";
 
 describe("JsonOutput", () => {
   it("renders output type label", () => {

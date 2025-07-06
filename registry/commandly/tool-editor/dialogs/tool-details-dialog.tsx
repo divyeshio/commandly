@@ -15,8 +15,8 @@ import { MultiSelect } from "@/components/ui/multi-select";
 import {
   SupportedToolInputType,
   SupportedToolOutputType
-} from "@/registry/commandly/lib/types/tool-editor";
-import { TagsComponent } from "@/components/tags";
+} from "@/registry/commandly/lib/types/commandly";
+import { TagsComponent } from "@/registry/commandly/ui/tags";
 import { toolBuilderActions, toolBuilderStore } from "../tool-editor.store";
 
 const supportedInputOptions = [

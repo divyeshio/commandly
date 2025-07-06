@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
-import { ExclusionGroup } from "@/registry/commandly/lib/types/tool-editor";
+import { ExclusionGroup } from "@/registry/commandly/lib/types/commandly";
 import { PlusIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
 import { useStore } from "@tanstack/react-store";

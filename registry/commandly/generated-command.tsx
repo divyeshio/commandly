@@ -2,13 +2,13 @@ import { useEffect, useState, useMemo } from "react";
 import { TerminalIcon, CopyIcon, SaveIcon } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { getCommandPath } from "@/registry/commandly/lib/utils/tool-editor";
+import { getCommandPath } from "@/registry/commandly/lib/utils/commandly";
 import {
   Parameter,
   ParameterValue,
   Tool,
   Command
-} from "@/registry/commandly/lib/types/tool-editor";
+} from "@/registry/commandly/lib/types/commandly";
 
 interface GeneratedCommandProps {
   tool: Tool;

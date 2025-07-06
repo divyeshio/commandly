@@ -2,13 +2,9 @@ import type {
   Tool,
   Command,
   Parameter
-} from "@/registry/commandly/lib/types/tool-editor";
-import type {
-  NestedTool,
-  NestedCommand,
-  NestedParameter,
-  NestedExclusionGroup
-} from "@/registry/commandly/lib/types/tool-editor-nested";
+} from "@/registry/commandly/lib/types/commandly";
+import { NestedCommand, NestedExclusionGroup, NestedParameter, NestedTool } from "../types/commandly-nested";
+
 
 export const convertToNestedStructure = (tool: Tool): NestedTool => {
   const globalParameters = tool.parameters.filter((p) => p.isGlobal);
@@ -76,6 +72,7 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
 
   return {
     name: tool.name,
+    url: tool.url,
     displayName: tool.displayName,
     description: tool.description,
     version: tool.version,

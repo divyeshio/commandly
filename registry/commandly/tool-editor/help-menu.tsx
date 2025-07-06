@@ -1,5 +1,5 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Command } from "@/registry/commandly/lib/types/tool-editor";
+import { Command } from "@/registry/commandly/lib/types/commandly";
 import { useStore } from "@tanstack/react-store";
 import { toolBuilderStore } from "./tool-editor.store";
 

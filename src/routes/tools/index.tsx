@@ -8,7 +8,7 @@ import { SkeletonCard } from "@/components/square-card-skeleton";
 import { Input, InputIcon, InputRoot } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { type Tool } from "@/registry/commandly/lib/types/tool-editor";
+import { type Tool } from "@/registry/commandly/lib/types/commandly";
 import { createServerFn } from "@tanstack/react-start";
 import { promises as fs } from "fs";
 import path from "path";

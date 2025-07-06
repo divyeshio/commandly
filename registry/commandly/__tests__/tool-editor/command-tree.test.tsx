@@ -6,8 +6,8 @@ import {
   act
 } from "@testing-library/react";
 
-import { defaultTool } from "@/registry/commandly/lib/utils/tool-editor";
-import { Tool } from "@/registry/commandly/lib/types/tool-editor";
+import { defaultTool } from "@/registry/commandly/lib/utils/commandly";
+import { Tool } from "@/registry/commandly/lib/types/commandly";
 import { CommandTree } from "../../tool-editor/command-tree";
 import {
   ToolBuilderState,

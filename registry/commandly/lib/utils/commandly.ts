@@ -3,7 +3,7 @@ import type {
   Parameter,
   SavedCommand,
   Tool
-} from "@/registry/commandly/lib/types/tool-editor";
+} from "@/registry/commandly/lib/types/commandly";
 import { v7 as uuidv7 } from "uuid";
 
 export const buildCommandHierarchy = (commands: Command[]): Command[] => {

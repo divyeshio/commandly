@@ -20,9 +20,9 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/card";
-import { exportToStructuredJSON } from "@/registry/commandly/lib/utils/tool-editor";
-import { convertToNestedStructure } from "@/registry/commandly/lib/utils/tool-editor-nested";
-import { Tool } from "@/registry/commandly/lib/types/tool-editor";
+import { exportToStructuredJSON } from "@/registry/commandly/lib/utils/commandly";
+import { convertToNestedStructure } from "@/registry/commandly/lib/utils/commandly-nested";
+import { Tool } from "@/registry/commandly/lib/types/commandly";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
 import { useQueryState } from "nuqs";

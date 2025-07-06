@@ -1,10 +1,10 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 
-import { defaultTool } from "@/registry/commandly/lib/utils/tool-editor";
+import { defaultTool } from "@/registry/commandly/lib/utils/commandly";
 import {
   Parameter,
   ExclusionGroup
-} from "@/registry/commandly/lib/types/tool-editor";
+} from "@/registry/commandly/lib/types/commandly";
 import { ParameterList } from "../../tool-editor/parameter-list";
 import {
   ToolBuilderState,

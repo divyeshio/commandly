@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useEffect, useState } from "react";
-import { Tool, ToolSchema } from "@/registry/commandly/lib/types/tool-editor";
+import { Tool, ToolSchema } from "@/registry/commandly/lib/types/commandly";
 import { toast } from "sonner";
 
 export function ImportJSON({
