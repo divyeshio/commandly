@@ -60,7 +60,7 @@ export function PreviewTabs() {
         </TabsContent>
         <TabsContent value="ui" className="flex flex-col gap-4">
           <Card>
-            <CardHeader>
+            <CardHeader hidden={true}>
               <CardDescription hidden={true}></CardDescription>
               <CardTitle>Runtime Preview</CardTitle>
             </CardHeader>
@@ -91,13 +91,13 @@ export function PreviewTabs() {
           </Card>
         </TabsContent>
         <TabsContent value="help">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                Help Menu
-              </CardTitle>
+          <Card className="p-0 rounded-xl">
+            <CardHeader hidden={true}>
+              <CardDescription hidden={true}>
+                Get help with using this tool and its features.
+              </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="p-0">
               <HelpMenu />
             </CardContent>
           </Card>

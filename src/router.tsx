@@ -11,7 +11,6 @@ export function createRouter() {
   return routerWithQueryClient(
     createTanStackRouter({
       routeTree,
-      defaultSsr: false,
       defaultStructuralSharing: true,
       context: { queryClient },
       defaultPreload: "intent",

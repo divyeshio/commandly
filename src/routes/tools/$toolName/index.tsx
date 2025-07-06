@@ -27,7 +27,7 @@ import {
   SaveIcon,
   TerminalIcon
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import z from "zod/v4";
 import { v7 as uuidv7 } from "uuid";
@@ -144,7 +144,9 @@ function RouteComponent() {
               viewTransitionName: `tool-card-title-${tool.name}`
             }}
           >
-            {tool.displayName}
+            {tool.displayName
+              ? `${tool.displayName} (${tool.name})`
+              : `${tool.name}`}
           </span>
           {tool.description && (
             <Tooltip>

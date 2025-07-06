@@ -104,8 +104,11 @@ export function JsonOutput({ tool }: JsonTypeComponentProps) {
         </CardAction>
       </CardHeader>
       <CardContent>
-        <ScrollArea className="max-h-[60svh] max-w-full" type="hover">
-          <pre className="rounded-md text-sm font-mono bg-card dark:text-gray-200 max-h-[60svh] max-w-full">
+        <ScrollArea
+          className="[&>[data-radix-scroll-area-viewport]]:max-h-[calc(100vh-320px)] max-w-full"
+          type="hover"
+        >
+          <pre className="rounded-md text-sm font-mono bg-card dark:text-gray-200 max-h max-w-full">
             {jsonString}
           </pre>
           <ScrollBar orientation="vertical" />
