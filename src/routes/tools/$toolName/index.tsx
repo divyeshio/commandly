@@ -1,6 +1,6 @@
 import { SavedCommandsDialog } from "@/components/tool-editor-ui/dialogs/saved-commands-dialog";
-import { GeneratedCommand } from "@/components/tool-editor-ui/generated-command";
-import { RuntimePreview } from "@/components/tool-editor-ui/runtime-preview";
+import { GeneratedCommand } from "../../../registry/commandly/core-components/generated-command";
+import { RuntimePreview } from "../../../registry/commandly/core-components/runtime-preview";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,13 +11,17 @@ import {
 } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { fetchToolDetails } from "@/lib/api/tools.api";
-import { SavedCommand, Tool, ToolSchema } from "@/lib/types/tool-editor";
+import {
+  SavedCommand,
+  Tool,
+  ToolSchema
+} from "@/registry/commandly/lib/types/tool-editor";
 import {
   addSavedCommandToStorage,
   defaultTool,
   getSavedCommandsFromStorage,
   removeSavedCommandFromStorage
-} from "@/lib/utils/tool-editor";
+} from "@/registry/commandly/lib/utils/tool-editor";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
@@ -49,7 +53,7 @@ import {
 } from "@/components/ui/command";
 import { useQueryState } from "nuqs";
 import { cn } from "@/lib/utils";
-import { toolBuilderActions } from "@/components/tool-editor-ui/tool-editor.store";
+import { toolBuilderActions } from "../../../registry/commandly/tool-editor/tool-editor.store";
 const SearchParamsSchema = z.object({
   newTool: z.string().optional()
 });

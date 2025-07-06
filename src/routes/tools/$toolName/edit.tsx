@@ -1,10 +1,10 @@
-import ToolEditor from "@/components/tool-editor-ui/tool-editor";
 import { createFileRoute } from "@tanstack/react-router";
-import { Tool, ToolSchema } from "@/lib/types/tool-editor";
-import { defaultTool } from "@/lib/utils/tool-editor";
+import { Tool, ToolSchema } from "@/registry/commandly/lib/types/tool-editor";
+import { defaultTool } from "@/registry/commandly/lib/utils/tool-editor";
 import { zodValidator } from "@tanstack/zod-adapter";
 import z from "zod/v4";
 import { fetchToolDetails } from "@/lib/api/tools.api";
+import ToolEditor from "@/registry/commandly/tool-editor/tool-editor";
 
 const SearchParamsSchema = z.object({
   newTool: z.string().optional()

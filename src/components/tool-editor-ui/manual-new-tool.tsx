@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
-import { Tool, ManualNewTool } from "@/lib/types/tool-editor";
+import {
+  Tool,
+  ManualNewTool
+} from "@/registry/commandly/lib/types/tool-editor";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
-import { defaultTool } from "@/lib/utils/tool-editor";
+import { defaultTool } from "@/registry/commandly/lib/utils/tool-editor";
 
 export function ManualNewToolComponent({
   onSubmit

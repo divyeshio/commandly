@@ -9,8 +9,8 @@ import {
 import { SaveIcon, CopyIcon, Trash2Icon } from "lucide-react";
 import { toast } from "sonner";
 import { SavedCommand } from "@/registry/commandly/lib/types/tool-editor";
+import { toolBuilderActions, toolBuilderStore } from "../tool-editor.store";
 import { useStore } from "@tanstack/react-store";
-import { toolBuilderActions, toolBuilderStore } from "@/registry/commandly/tool-editor/tool-editor.store";
 
 interface SavedCommandsDialogProps {
   savedCommands: SavedCommand[];

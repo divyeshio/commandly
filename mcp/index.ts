@@ -3,7 +3,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { readFileSync, readdirSync } from "fs";
 import { join } from "path";
-import { type Tool } from "src/lib/types/tool-editor";
+import { type Tool } from "@/registry/commandly/lib/types/tool-editor";
 
 const server = new McpServer({
   name: "commandly",
