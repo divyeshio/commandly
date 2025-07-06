@@ -16,8 +16,8 @@ import {
   SupportedToolInputType,
   SupportedToolOutputType
 } from "@/registry/commandly/lib/types/commandly";
-import { TagsComponent } from "@/registry/commandly/ui/tags";
 import { toolBuilderActions, toolBuilderStore } from "../tool-editor.store";
+import { TagsInput } from "@/registry/commandly/ui/tags-input";
 
 const supportedInputOptions = [
   { value: "StandardInput", label: "Standard Input" },
@@ -135,14 +135,18 @@ export function ToolDetailsDialog() {
               />
             </div>
           </div>
-          <TagsComponent
-            tags={tool.tags || []}
-            onOpenChange={(onOpen, tags) => {
-              if (!onOpen) {
+
+          <div className="flex flex-col gap-2">
+            <Label>Tags</Label>
+            <TagsInput
+              value={tool.tags || []}
+              onValueChange={(tags) => {
                 toolBuilderActions.updateTool({ tags });
-              }
-            }}
-          />
+              }}
+              placeholder="Add tags"
+            />
+          </div>
+
           <div className="flex flex-col gap-3">
             <Label htmlFor="tool-description">Description</Label>
             <Textarea

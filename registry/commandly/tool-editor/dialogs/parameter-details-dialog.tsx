@@ -33,7 +33,6 @@ import {
 import { useStore } from "@tanstack/react-store";
 import { validateDefaultValue } from "@/registry/commandly/lib/utils/commandly";
 import { v7 as uuidv7 } from "uuid";
-import { TagsComponent } from "@/registry/commandly/ui/tags";
 import { toolBuilderActions, toolBuilderStore } from "../tool-editor.store";
 import {
   Parameter,
@@ -45,6 +44,7 @@ import {
   ParameterValidation,
   ParameterValidationType
 } from "@/registry/commandly/lib/types/commandly";
+import { TagsInput } from "@/registry/commandly/ui/tags-input";
 
 export function ParameterDetailsDialog() {
   const selectedParameter = useStore(
@@ -392,14 +392,16 @@ export function ParameterDetailsDialog() {
             </div>
           </div>
 
-          <TagsComponent
-            tags={parameter.metadata?.tags || []}
-            onOpenChange={(onOpen, tags) => {
-              if (!onOpen) {
+          <div className="flex flex-col gap-2">
+            <Label>Tags</Label>
+            <TagsInput
+              value={parameter.metadata?.tags || []}
+              onValueChange={(tags) => {
                 updateParameter({ metadata: { tags } });
-              }
-            }}
-          />
+              }}
+              placeholder="Add tags"
+            />
+          </div>
 
           <Separator />
 

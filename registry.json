@@ -82,7 +82,8 @@
                 "tabs",
                 "tooltip",
                 "scroll-area",
-                "hover-card"
+                "hover-card",
+                "https://shadcn-extension.vercel.app/registry/tags-input.json"
             ],
             "files": [
                 {

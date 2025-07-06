@@ -4,7 +4,7 @@ import {
   OnUrlUpdateFunction,
   withNuqsTestingAdapter
 } from "nuqs/adapters/testing";
-import { JsonOutput } from "../../json-output";
+import { JsonOutput } from "../json-output";
 
 describe("JsonOutput", () => {
   it("renders output type label", () => {
