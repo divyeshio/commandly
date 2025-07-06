@@ -4,9 +4,7 @@
   "type": "registry:lib",
   "title": "Commandly Types",
   "description": "TypeScript type definitions for the Commandly tool editor system including schemas for tools, commands, and parameters.",
-  "dependencies": [
-    "zod"
-  ],
+  "dependencies": ["zod"],
   "files": [
     {
       "path": "registry/commandly/lib/types/commandly.ts",

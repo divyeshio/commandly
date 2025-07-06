@@ -4,12 +4,7 @@
   "type": "registry:block",
   "title": "Basic UI",
   "description": "Basic components to render previews, command generation and json output",
-  "dependencies": [
-    "react",
-    "lucide-react",
-    "sonner",
-    "zod"
-  ],
+  "dependencies": ["react", "lucide-react", "sonner", "zod"],
   "registryDependencies": [
     "button",
     "dialog",

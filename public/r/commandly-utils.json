@@ -4,9 +4,7 @@
   "type": "registry:lib",
   "title": "Commandly Utils",
   "description": "Utility functions for the Commandly tool editor system including command generation and parameter handling.",
-  "dependencies": [
-    "react"
-  ],
+  "dependencies": ["react"],
   "registryDependencies": [],
   "files": [
     {

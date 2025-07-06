@@ -4,13 +4,8 @@
   "type": "registry:component",
   "title": "JSON Output",
   "description": "A component for displaying formatted JSON output with syntax highlighting and copy functionality.",
-  "dependencies": [
-    "react"
-  ],
-  "registryDependencies": [
-    "button",
-    "scroll-area"
-  ],
+  "dependencies": ["react"],
+  "registryDependencies": ["button", "scroll-area"],
   "files": [
     {
       "path": "registry/commandly/json-output.tsx",

@@ -4,14 +4,8 @@
   "type": "registry:component",
   "title": "Generated Command",
   "description": "A component that generates CLI commands based on tool configuration and parameter values with copy and save functionality.",
-  "dependencies": [
-    "react",
-    "lucide-react",
-    "sonner"
-  ],
-  "registryDependencies": [
-    "button"
-  ],
+  "dependencies": ["react", "lucide-react", "sonner"],
+  "registryDependencies": ["button"],
   "files": [
     {
       "path": "registry/commandly/generated-command.tsx",

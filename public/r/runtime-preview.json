@@ -4,14 +4,8 @@
   "type": "registry:component",
   "title": "Runtime Preview",
   "description": "A component that provides real-time preview of CLI command execution and output.",
-  "dependencies": [
-    "react"
-  ],
-  "registryDependencies": [
-    "button",
-    "scroll-area",
-    "tabs"
-  ],
+  "dependencies": ["react"],
+  "registryDependencies": ["button", "scroll-area", "tabs"],
   "files": [
     {
       "path": "registry/commandly/runtime-preview.tsx",

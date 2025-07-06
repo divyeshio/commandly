@@ -4,12 +4,7 @@
   "type": "registry:block",
   "title": "Core",
   "description": "Basic components to render previews, command generation, and tool management.",
-  "dependencies": [
-    "react",
-    "lucide-react",
-    "sonner",
-    "zod"
-  ],
+  "dependencies": ["react", "lucide-react", "sonner", "zod"],
   "registryDependencies": [
     "button",
     "dialog",
