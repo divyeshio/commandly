@@ -1,0 +1,136 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "commandly",
+  "homepage": "https://commandly.divyeshio.in",
+  "items": [
+    {
+      "name": "tool-editor",
+      "type": "registry:block",
+      "title": "Tool Editor",
+      "description": "A comprehensive tool editor for creating and editing CLI tools with parameter management, command trees, and preview functionality.",
+      "dependencies": [
+        "react",
+        "zod",
+        "lucide-react",
+        "sonner",
+        "@tanstack/react-store"
+      ],
+      "registryDependencies": [
+        "button",
+        "dialog",
+        "input",
+        "label",
+        "select",
+        "textarea",
+        "tabs",
+        "tooltip",
+        "scroll-area",
+        "hover-card"
+      ],
+      "files": [
+        {
+          "path": "registry/commandly/tool-editor/tool-editor.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/commandly/tool-editor/tool-editor.store.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/commandly/tool-editor/command-tree.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/commandly/tool-editor/parameter-list.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/commandly/tool-editor/preview-tabs.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/commandly/tool-editor/help-menu.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/commandly/tool-editor/dialogs/parameter-details-dialog.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/commandly/tool-editor/dialogs/exclusion-groups-dialog.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/commandly/tool-editor/dialogs/tool-details-dialog.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/commandly/tool-editor/dialogs/command-dialog.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/commandly/tool-editor/dialogs/saved-commands-dialog.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/commandly/lib/types/tool-editor.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/commandly/lib/types/tool-editor-nested.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/commandly/lib/utils/tool-editor.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/commandly/lib/utils/tool-editor-nested.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "generated-command",
+      "type": "registry:component",
+      "title": "Generated Command",
+      "description": "A component that generates CLI commands based on tool configuration and parameter values with copy and save functionality.",
+      "dependencies": ["react", "lucide-react", "sonner"],
+      "registryDependencies": ["button"],
+      "files": [
+        {
+          "path": "registry/commandly/components/generated-command.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "json-output",
+      "type": "registry:component",
+      "title": "JSON Output",
+      "description": "A component for displaying formatted JSON output with syntax highlighting and copy functionality.",
+      "dependencies": ["react"],
+      "registryDependencies": ["button", "scroll-area"],
+      "files": [
+        {
+          "path": "registry/commandly/components/json-output.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "runtime-preview",
+      "type": "registry:component",
+      "title": "Runtime Preview",
+      "description": "A component that provides real-time preview of CLI command execution and output.",
+      "dependencies": ["react"],
+      "registryDependencies": ["button", "scroll-area", "tabs"],
+      "files": [
+        {
+          "path": "registry/commandly/components/runtime-preview.tsx",
+          "type": "registry:component"
+        }
+      ]
+    }
+  ]
+}

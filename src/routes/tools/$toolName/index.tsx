@@ -1,6 +1,4 @@
 import { SavedCommandsDialog } from "@/components/tool-editor-ui/dialogs/saved-commands-dialog";
-import { GeneratedCommand } from "../../../registry/commandly/core-components/generated-command";
-import { RuntimePreview } from "../../../registry/commandly/core-components/runtime-preview";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -22,7 +20,7 @@ import {
   getSavedCommandsFromStorage,
   removeSavedCommandFromStorage
 } from "@/registry/commandly/lib/utils/tool-editor";
-import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import {
   CheckIcon,
@@ -53,7 +51,9 @@ import {
 } from "@/components/ui/command";
 import { useQueryState } from "nuqs";
 import { cn } from "@/lib/utils";
-import { toolBuilderActions } from "../../../registry/commandly/tool-editor/tool-editor.store";
+import { toolBuilderActions } from "@/registry/commandly/tool-editor/tool-editor.store";
+import { RuntimePreview } from "@/registry/commandly/components/runtime-preview";
+import { GeneratedCommand } from "@/registry/commandly/components/generated-command";
 const SearchParamsSchema = z.object({
   newTool: z.string().optional()
 });

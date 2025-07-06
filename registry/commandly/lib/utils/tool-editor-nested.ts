@@ -1,4 +1,8 @@
-import type { Tool, Command, Parameter } from "@/registry/commandly/lib/types/tool-editor";
+import type {
+  Tool,
+  Command,
+  Parameter
+} from "@/registry/commandly/lib/types/tool-editor";
 import type {
   NestedTool,
   NestedCommand,

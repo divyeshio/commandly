@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { RuntimePreview } from "../../core-components/runtime-preview";
+import { RuntimePreview } from "../../components/runtime-preview";
 import { defaultTool } from "@/registry/commandly/lib/utils/tool-editor";
 
 describe("RuntimePreview", () => {

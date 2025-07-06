@@ -3,9 +3,9 @@ import { HelpMenu } from "./help-menu";
 import { useQueryState } from "nuqs";
 import { useStore } from "@tanstack/react-store";
 import { toolBuilderStore, toolBuilderActions } from "./tool-editor.store";
-import { RuntimePreview } from "../core-components/runtime-preview";
-import { GeneratedCommand } from "../core-components/generated-command";
-import { JsonOutput } from "../core-components/json-output";
+import { RuntimePreview } from "../components/runtime-preview";
+import { GeneratedCommand } from "../components/generated-command";
+import { JsonOutput } from "../components/json-output";
 import {
   Card,
   CardContent,

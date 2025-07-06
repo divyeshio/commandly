@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import { vi } from "vitest";
-import { GeneratedCommand } from "../../core-components/generated-command";
+import { GeneratedCommand } from "../../components/generated-command";
 import { toolBuilderStore } from "../../tool-editor/tool-editor.store";
 
 vi.mock("../tool-editor.store", () => ({

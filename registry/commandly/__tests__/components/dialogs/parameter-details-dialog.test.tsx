@@ -3,7 +3,11 @@ import { render, screen, fireEvent, act } from "@testing-library/react";
 import { defaultTool } from "@/registry/commandly/lib/utils/tool-editor";
 import { Parameter, Command } from "@/registry/commandly/lib/types/tool-editor";
 import { ParameterDetailsDialog } from "@/registry/commandly/tool-editor/dialogs/parameter-details-dialog";
-import { ToolBuilderState, toolBuilderStore, toolBuilderActions } from "@/registry/commandly/tool-editor/tool-editor.store";
+import {
+  ToolBuilderState,
+  toolBuilderStore,
+  toolBuilderActions
+} from "@/registry/commandly/tool-editor/tool-editor.store";
 
 const createTestParameter = (
   overrides: Partial<Parameter> = {}
