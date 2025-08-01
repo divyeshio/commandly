@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import tsConfigPaths from "vite-tsconfig-paths";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import viteReact from "@vitejs/plugin-react";
 export default defineConfig({
   build: {
     emptyOutDir: true
@@ -10,6 +11,7 @@ export default defineConfig({
       projects: ["./tsconfig.json"]
     }),
     tanstackStart({
+      customViteReactPlugin: true,
       pages: [
         {
           path: "/",
@@ -37,7 +39,8 @@ export default defineConfig({
         }
       },
       target: "github-pages"
-    })
+    }),
+    viteReact()
   ],
   server: {
     port: 4001
