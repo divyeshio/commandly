@@ -144,6 +144,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html suppressHydrationWarning={true}>
       <head>
+        <script src="/spa-redirect.js"></script>
         <HeadContent />
       </head>
       <body className="bg-background text-foreground antialiased">
