@@ -80,6 +80,7 @@ export const exportToStructuredJSON = (tool: Tool) => {
 
   return {
     name: tool.name,
+    id: tool.id,
     displayName: tool.displayName,
     description: tool.description,
     version: tool.version,

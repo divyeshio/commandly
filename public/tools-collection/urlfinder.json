@@ -1,0 +1,460 @@
+{
+    "name": "urlfinder",
+    "id": "018fa430-7235-7f1e-8000-bc89dfb5e300",
+    "displayName": "URLFinder",
+    "description": "A streamlined tool for discovering associated URLs.",
+    "exclusionGroups": [],
+    "supportedInput": [
+        "StandardInput",
+        "Parameter"
+    ],
+    "supportedOutput": [
+        "StandardOutput"
+    ],
+    "commands": [
+        {
+            "id": "018fa430-7235-7f1e-8000-bc89dfb5e301",
+            "name": "urlfinder",
+            "description": "A streamlined tool for discovering associated URLs.",
+            "isDefault": true,
+            "sortOrder": 1
+        }
+    ],
+    "parameters": [
+        {
+            "id": "018fa430-7235-7f1e-8001-bc89dfb5e302",
+            "name": "Domain",
+            "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
+            "description": "Target domain",
+            "metadata": {
+                "tags": [
+                    "target"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "",
+            "longFlag": "-d",
+            "arraySeparator": "",
+            "enumValues": [],
+            "dependencies": [],
+            "validations": []
+        },
+        {
+            "id": "018fa430-7235-7f1e-8001-bc89dfb5e303",
+            "name": "List of Domains",
+            "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
+            "description": "Target domain list",
+            "metadata": {
+                "tags": [
+                    "target-list"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "",
+            "longFlag": "-list",
+            "arraySeparator": ",",
+            "enumValues": [],
+            "dependencies": [],
+            "validations": []
+        },
+        {
+            "id": "018fa430-7235-7f1e-8002-bc89dfb5e303",
+            "name": "Sources",
+            "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
+            "description": "Specific sources for discovery (e.g., -s alienvault,commoncrawl)",
+            "metadata": {
+                "tags": []
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-s",
+            "longFlag": "-sources",
+            "arraySeparator": ",",
+            "enumValues": [],
+            "dependencies": [],
+            "validations": []
+        },
+        {
+            "id": "018fa430-7235-7f1e-8003-bc89dfb5e304",
+            "name": "Exclude-sources",
+            "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
+            "description": "Sources to exclude (e.g., -es alienvault,commoncrawl)",
+            "metadata": {
+                "tags": []
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-es",
+            "longFlag": "-exclude-sources",
+            "arraySeparator": ",",
+            "enumValues": [],
+            "dependencies": [],
+            "validations": []
+        },
+        {
+            "id": "018fa430-7235-7f1e-8004-bc89dfb5e305",
+            "name": "All",
+            "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
+            "description": "Use all sources (may be slower)",
+            "metadata": {
+                "tags": []
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "defaultValue": "true",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-all",
+            "enumValues": [],
+            "dependencies": [],
+            "validations": []
+        },
+        {
+            "id": "018fa430-7235-7f1e-8005-bc89dfb5e306",
+            "name": "Url-scope",
+            "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
+            "description": "In scope url regex to be followed by urlfinder",
+            "metadata": {
+                "tags": [
+                    "SCOPE"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-us",
+            "longFlag": "-url-scope",
+            "arraySeparator": ",",
+            "enumValues": [],
+            "dependencies": [],
+            "validations": []
+        },
+        {
+            "id": "018fa430-7235-7f1e-8006-bc89dfb5e307",
+            "name": "Url-out-scope",
+            "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
+            "description": "Out of scope url regex to be excluded by urlfinder",
+            "metadata": {
+                "tags": [
+                    "SCOPE"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-uos",
+            "longFlag": "-url-out-scope",
+            "arraySeparator": ",",
+            "enumValues": []
+        },
+        {
+            "id": "018fa430-7235-7f1e-8007-bc89dfb5e308",
+            "name": "Field-scope",
+            "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
+            "description": "Pre-defined scope field (dn,rdn,fqdn) or custom regex (e.g., '(company-staging.io|company.com)')",
+            "metadata": {
+                "tags": [
+                    "SCOPE"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "defaultValue": "",
+            "shortFlag": "-fs",
+            "longFlag": "-field-scope",
+            "enumValues": []
+        },
+        {
+            "id": "018fa430-7235-7f1e-8008-bc89dfb5e309",
+            "name": "No-scope",
+            "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
+            "description": "Disables host based default scope",
+            "metadata": {
+                "tags": [
+                    "SCOPE"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ns",
+            "longFlag": "-no-scope",
+            "enumValues": []
+        },
+        {
+            "id": "018fa430-7235-7f1e-8009-bc89dfb5e310",
+            "name": "Display-out-scope",
+            "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
+            "description": "Display external endpoint from scoped crawling",
+            "metadata": {
+                "tags": [
+                    "SCOPE"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-do",
+            "longFlag": "-display-out-scope",
+            "enumValues": []
+        },
+        {
+            "id": "018fa430-7235-7f1e-8010-bc89dfb5e311",
+            "name": "Match",
+            "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
+            "description": "URLs or list to match (file or comma-separated)",
+            "metadata": {
+                "tags": [
+                    "FILTER"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-m",
+            "longFlag": "-match",
+            "arraySeparator": ",",
+            "enumValues": []
+        },
+        {
+            "id": "018fa430-7235-7f1e-8011-bc89dfb5e312",
+            "name": "Filter",
+            "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
+            "description": "URLs or list to filter (file or comma-separated)",
+            "metadata": {
+                "tags": [
+                    "FILTER"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-f",
+            "longFlag": "-filter",
+            "arraySeparator": ",",
+            "enumValues": []
+        },
+        {
+            "id": "018fa430-7235-7f1e-8012-bc89dfb5e313",
+            "name": "Rate-limit",
+            "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
+            "description": "Max HTTP requests per second (global)",
+            "metadata": {
+                "tags": [
+                    "RATE-LIMIT"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-rl",
+            "longFlag": "-rate-limit",
+            "enumValues": []
+        },
+        {
+            "id": "018fa430-7235-7f1e-8013-bc89dfb5e314",
+            "name": "Rate-limits",
+            "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
+            "description": "Per-provider HTTP request limits (e.g., -rls waybackarchive=15/m)",
+            "metadata": {
+                "tags": [
+                    "RATE-LIMIT"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-rls",
+            "longFlag": "-rate-limits",
+            "enumValues": []
+        },
+        {
+            "id": "018fa430-7235-7f1e-8014-bc89dfb5e315",
+            "name": "Update",
+            "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
+            "description": "Update URLFinder to the latest version",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-up",
+            "longFlag": "-update",
+            "enumValues": [],
+            "dependencies": [],
+            "validations": [],
+            "defaultValue": "false"
+        },
+        {
+            "id": "018fa430-7235-7f1e-8015-bc89dfb5e316",
+            "name": "Verbose",
+            "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
+            "description": "Enable verbose output",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-v",
+            "longFlag": "-verbose",
+            "enumValues": [],
+            "dependencies": [],
+            "validations": [],
+            "defaultValue": "false"
+        },
+        {
+            "id": "018fa430-7235-7f1e-8016-bc89dfb5e317",
+            "name": "Silent",
+            "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
+            "description": "Suppress output",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-s",
+            "longFlag": "-silent",
+            "enumValues": [],
+            "dependencies": [],
+            "validations": [],
+            "defaultValue": "true"
+        },
+        {
+            "id": "018fa430-7235-7f1e-8018-bc89dfb5e319",
+            "name": "Timeout",
+            "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
+            "description": "Timeout for HTTP requests (in seconds)",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-to",
+            "longFlag": "-timeout",
+            "enumValues": [],
+            "dependencies": [],
+            "validations": [],
+            "defaultValue": "5"
+        },
+        {
+            "id": "018fa430-7235-7f1e-8020-bc89dfb5e321",
+            "name": "Json",
+            "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
+            "description": "Output in JSON format",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-j",
+            "longFlag": "-json",
+            "enumValues": [],
+            "dependencies": [],
+            "validations": [],
+            "defaultValue": "false"
+        },
+        {
+            "id": "018fa430-7235-7f1e-8021-bc89dfb5e322",
+            "name": "Csv",
+            "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
+            "description": "Output in CSV format",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-csv",
+            "longFlag": "-csv",
+            "enumValues": [],
+            "dependencies": [],
+            "validations": [],
+            "defaultValue": "false"
+        },
+        {
+            "id": "018fa430-7235-7f1e-8022-bc89dfb5e323",
+            "name": "Version",
+            "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
+            "description": "Display URLFinder version",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-vrs",
+            "longFlag": "-version",
+            "enumValues": [],
+            "dependencies": [],
+            "validations": [],
+            "defaultValue": "false"
+        }
+    ]
+}

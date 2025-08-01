@@ -1,5 +1,6 @@
 {
   "name": "subfinder",
+  "id": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
   "displayName": "Subfinder",
   "description": "Subfinder is a subdomain discovery tool that discovers subdomains for websites by using passive online sources.",
   "commands": [
@@ -25,8 +26,15 @@
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": []
+      "metadata": {
+        "tags": [
+          "target",
+          "non-configurable"
+        ]
+      },
+      "enumValues": [],
+      "dependencies": [],
+      "validations": []
     },
     {
       "id": "01978ea4-4942-7485-b7b0-1f1abfd4ce64",
@@ -71,8 +79,15 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": []
+      "metadata": {
+        "tags": [
+          "non-configurable",
+          "target-list"
+        ]
+      },
+      "enumValues": [],
+      "dependencies": [],
+      "validations": []
     },
     {
       "id": "01978ea4-4952-70b6-8986-431a315b7b62",
@@ -86,8 +101,15 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": []
+      "metadata": {
+        "tags": [
+          "output-directory",
+          "non-configurable"
+        ]
+      },
+      "enumValues": [],
+      "dependencies": [],
+      "validations": []
     },
     {
       "id": "01978ea4-4952-711b-b36a-e8f1ff6fe01e",
@@ -101,8 +123,14 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": []
+      "metadata": {
+        "tags": [
+          "non-configurable"
+        ]
+      },
+      "enumValues": [],
+      "dependencies": [],
+      "validations": []
     },
     {
       "id": "01978ea4-4952-71a0-9374-accedad21a0e",
@@ -147,8 +175,14 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": []
+      "metadata": {
+        "tags": [
+          "non-configurable"
+        ]
+      },
+      "enumValues": [],
+      "dependencies": [],
+      "validations": []
     },
     {
       "id": "01978ea4-4952-738e-b392-b4f024e5a1a0",
@@ -162,8 +196,14 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": []
+      "metadata": {
+        "tags": [
+          "non-configurable"
+        ]
+      },
+      "enumValues": [],
+      "dependencies": [],
+      "validations": []
     },
     {
       "id": "01978ea4-4952-73db-bd93-c80f5262f7a5",
@@ -204,12 +244,18 @@
       "shortFlag": "-nc",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "defaultValue": "false",
+      "defaultValue": "true",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": []
+      "metadata": {
+        "tags": [
+          "non-configurable"
+        ]
+      },
+      "enumValues": [],
+      "dependencies": [],
+      "validations": []
     },
     {
       "id": "01978ea4-4952-74c5-8ed1-86e39b868af3",
@@ -284,12 +330,18 @@
       "shortFlag": "-duc",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "defaultValue": "false",
+      "defaultValue": "true",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": []
+      "metadata": {
+        "tags": [
+          "non-configurable"
+        ]
+      },
+      "enumValues": [],
+      "dependencies": [],
+      "validations": []
     },
     {
       "id": "01978ea4-4952-77cb-a274-4ab236a4c285",
@@ -319,8 +371,14 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": []
+      "metadata": {
+        "tags": [
+          "output-file"
+        ]
+      },
+      "enumValues": [],
+      "dependencies": [],
+      "validations": []
     },
     {
       "id": "01978ea4-4952-79a7-8277-781758f4e814",
@@ -334,8 +392,14 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": []
+      "metadata": {
+        "tags": [
+          "non-configurable"
+        ]
+      },
+      "enumValues": [],
+      "dependencies": [],
+      "validations": []
     },
     {
       "id": "01978ea4-4952-7b4a-9bc9-4201f84e6176",
@@ -380,8 +444,14 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": []
+      "metadata": {
+        "tags": [
+          "configuration-file"
+        ]
+      },
+      "enumValues": [],
+      "dependencies": [],
+      "validations": []
     },
     {
       "id": "01978ea4-4952-7c4d-aa5e-3007fb2742c4",
@@ -422,12 +492,15 @@
       "longFlag": "-silent",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "defaultValue": "false",
+      "defaultValue": "true",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {},
-      "enumValues": []
+      "enumValues": [],
+      "shortFlag": "",
+      "dependencies": [],
+      "validations": []
     },
     {
       "id": "01978ea4-4952-7d31-9135-93d49d2a6968",
@@ -437,12 +510,14 @@
       "longFlag": "-all",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "defaultValue": "false",
+      "defaultValue": "true",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {},
-      "enumValues": []
+      "enumValues": [],
+      "dependencies": [],
+      "validations": []
     },
     {
       "id": "01978ea4-4952-7d73-89a9-6cadb6b004ce",
@@ -519,11 +594,22 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": []
+      "metadata": {
+        "tags": [
+          "configuration-file"
+        ]
+      },
+      "enumValues": [],
+      "dependencies": [],
+      "validations": []
     }
   ],
   "exclusionGroups": [],
-  "supportedInput": ["StandardInput"],
-  "supportedOutput": ["StandardOutput"]
+  "supportedInput": [
+    "StandardInput",
+    "Parameter"
+  ],
+  "supportedOutput": [
+    "StandardOutput"
+  ]
 }

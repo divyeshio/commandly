@@ -121,9 +121,6 @@ export function AIParsing({
             <SelectValue placeholder="Select a model" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="gpt-4.5-preview-2025-02-27">
-              GPT 4.5 Preview
-            </SelectItem>
             <SelectItem value="gpt-4.1-2025-04-14">GPT 4.1</SelectItem>
             <SelectItem value="gpt-4.1-mini-2025-04-14">
               GPT 4.1 Mini

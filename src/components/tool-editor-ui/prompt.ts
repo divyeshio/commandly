@@ -55,7 +55,16 @@ ${jsonSchema}
 13. If there is only one command, then do not mark all parameters as global.
 14. DO NOT add backticks or any other formatting to the output. The output should be pure JSON without any additional formatting.
 15. Make sure all the ids are unique and are in the format of GUIDv7.
+16. All description should be in sentence case.
 
+17. IMPORTANT: Add Tags to relevant parameters. You can add multiple tags but make sure, they are relevant to the parameter. You can follow the following guidelines for tags:
+    - If the parameter related to taking input of targets like domain, urls, add tag "target" and "non-configurable".
+    - If the parameter modifies the output in anyway then add "output". If the parameter configures output file then add "output-file", if the parameter configures output directory then add "output-directory".
+    - If the parameter is about disabling update check, or enabling/disabling color in output or verbose output or silent output or adding stats, add tag "non-configurable".
+    - If the parameter is used to pass configuration files like provider config or configuration file, add tag "configuration-file".
+
+18. IMPORTANT: If the parameter is not global then make sure to add commandId to the parameter object. If the parameter is global then do not add commandId to the parameter object.
+19. If short flag is not present then do not add it to the parameter object.
 </parsing_rules>
 
 <output_instruction>  

@@ -58,7 +58,7 @@ export function RuntimePreview({
         return (
           <div key={parameter.id} className="flex items-center space-x-2">
             <Switch
-              checked={(parameterValues[parameter.id] as boolean) || false}
+              checked={value === "true" || value === true}
               onCheckedChange={(checked) =>
                 updateParameterValue(parameter.id, checked)
               }
