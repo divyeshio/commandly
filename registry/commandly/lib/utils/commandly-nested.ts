@@ -14,7 +14,7 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
   const globalParameters = tool.parameters.filter((p) => p.isGlobal);
 
   const convertParameter = (param: Parameter): NestedParameter => {
-    const { id, commandId, ...rest } = param;
+    const { ...rest } = param;
     return {
       ...rest,
       validations:

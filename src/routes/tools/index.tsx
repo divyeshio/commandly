@@ -14,6 +14,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { NewToolDialog } from "@/components/tool-editor-ui/dialogs/new-tool";
+import { v7 as uuidv7 } from "uuid";
 
 export const toolsQueryOptions = () =>
   queryOptions({
@@ -78,7 +79,7 @@ export const Route = createFileRoute("/tools/")({
   component: RouteComponent,
   staleTime: Infinity,
   ssr: true,
-  loader: async ({ context: { queryClient } }) => {
+  loader: async () => {
     const serverTools = await getToolsList();
     const localTools = loadLocalTools();
     return { localTools, serverTools };
@@ -126,6 +127,7 @@ function RouteComponent() {
   }, [loaderData.serverTools]);
 
   const handleNavigation = (importedTool: Tool) => {
+    importedTool.id = uuidv7();
     localStorage.setItem(
       `tool-${importedTool.name}`,
       JSON.stringify(importedTool)

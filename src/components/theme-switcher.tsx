@@ -101,8 +101,6 @@ export function ThemeProvider({
     return (localStorage.getItem(storageKey) as Theme) || defaultTheme;
   });
 
-  const isDark = theme === "dark";
-
   useEffect(() => {
     if (typeof window === "undefined") return;
 
