@@ -27,10 +27,7 @@
       "isRepeatable": true,
       "isGlobal": false,
       "metadata": {
-        "tags": [
-          "target",
-          "non-configurable"
-        ]
+        "tags": ["target", "non-configurable"]
       },
       "enumValues": [],
       "dependencies": [],
@@ -80,10 +77,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {
-        "tags": [
-          "non-configurable",
-          "target-list"
-        ]
+        "tags": ["non-configurable", "target-list"]
       },
       "enumValues": [],
       "dependencies": [],
@@ -102,10 +96,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {
-        "tags": [
-          "output-directory",
-          "non-configurable"
-        ]
+        "tags": ["output-directory", "non-configurable"]
       },
       "enumValues": [],
       "dependencies": [],
@@ -124,9 +115,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
+        "tags": ["non-configurable"]
       },
       "enumValues": [],
       "dependencies": [],
@@ -176,9 +165,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
+        "tags": ["non-configurable"]
       },
       "enumValues": [],
       "dependencies": [],
@@ -197,9 +184,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
+        "tags": ["non-configurable"]
       },
       "enumValues": [],
       "dependencies": [],
@@ -249,9 +234,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
+        "tags": ["non-configurable"]
       },
       "enumValues": [],
       "dependencies": [],
@@ -335,9 +318,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
+        "tags": ["non-configurable"]
       },
       "enumValues": [],
       "dependencies": [],
@@ -372,9 +353,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {
-        "tags": [
-          "output-file"
-        ]
+        "tags": ["output-file"]
       },
       "enumValues": [],
       "dependencies": [],
@@ -393,9 +372,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
+        "tags": ["non-configurable"]
       },
       "enumValues": [],
       "dependencies": [],
@@ -445,9 +422,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {
-        "tags": [
-          "configuration-file"
-        ]
+        "tags": ["configuration-file"]
       },
       "enumValues": [],
       "dependencies": [],
@@ -595,9 +570,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {
-        "tags": [
-          "configuration-file"
-        ]
+        "tags": ["configuration-file"]
       },
       "enumValues": [],
       "dependencies": [],
@@ -605,11 +578,6 @@
     }
   ],
   "exclusionGroups": [],
-  "supportedInput": [
-    "StandardInput",
-    "Parameter"
-  ],
-  "supportedOutput": [
-    "StandardOutput"
-  ]
+  "supportedInput": ["StandardInput", "Parameter"],
+  "supportedOutput": ["StandardOutput"]
 }

@@ -4,12 +4,8 @@
   "displayName": "DNSX",
   "description": "A fast and multi-purpose DNS toolkit designed for running DNS queries.",
   "exclusionGroups": [],
-  "supportedInput": [
-    "StandardInput"
-  ],
-  "supportedOutput": [
-    "StandardOutput"
-  ],
+  "supportedInput": ["StandardInput"],
+  "supportedOutput": ["StandardOutput"],
   "commands": [
     {
       "id": "018fa24a-90f4-7b90-b58a-97b07c60b001",
