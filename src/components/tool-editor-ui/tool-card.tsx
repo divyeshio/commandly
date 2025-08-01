@@ -44,7 +44,7 @@ export function ToolCard({
   const handleClick = () => {
     navigation({
       to: "/tools/$toolName",
-      params: { toolName: tool.name!! },
+      params: { toolName: tool.name },
       search: isLocal ? { newTool: tool.name } : {}
     });
   };
@@ -75,7 +75,7 @@ export function ToolCard({
           >
             <Link
               to="/tools/$toolName/edit"
-              params={{ toolName: tool.name!! }}
+              params={{ toolName: tool.name }}
               {...(isLocal ? { search: { newTool: tool.name } } : {})}
             >
               <Edit2Icon className="size-4" />

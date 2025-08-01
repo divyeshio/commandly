@@ -79,7 +79,7 @@ export const Route = createFileRoute("/tools/")({
   component: RouteComponent,
   staleTime: Infinity,
   ssr: true,
-  loader: async ({ context: { queryClient } }) => {
+  loader: async () => {
     const serverTools = await getToolsList();
     const localTools = loadLocalTools();
     return { localTools, serverTools };
