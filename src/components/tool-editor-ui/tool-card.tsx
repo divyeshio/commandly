@@ -35,23 +35,21 @@ export function ToolCard({
   useEffect(() => {
     const el = descRef.current;
     if (el) {
-      setIsOverflowing(
-        el.scrollHeight > el.clientHeight || el.scrollWidth > el.clientWidth
-      );
+      setIsOverflowing(el.scrollHeight > el.clientHeight + 1);
     }
   }, [tool.description]);
 
   const handleClick = () => {
     navigation({
       to: "/tools/$toolName",
-      params: { toolName: tool.name },
+      params: { toolName: tool.name! },
       search: isLocal ? { newTool: tool.name } : {}
     });
   };
 
   return (
     <Card
-      className="hover:shadow-md  w-72 h-72 flex flex-col gap-0 py-3"
+      className="hover:shadow-md w-72 h-72 flex flex-col gap-0 py-3 overflow-hidden"
       style={{
         viewTransitionName: `tool-card-${tool.name}`
       }}
@@ -75,7 +73,7 @@ export function ToolCard({
           >
             <Link
               to="/tools/$toolName/edit"
-              params={{ toolName: tool.name }}
+              params={{ toolName: tool.name! }}
               {...(isLocal ? { search: { newTool: tool.name } } : {})}
             >
               <Edit2Icon className="size-4" />
@@ -97,8 +95,8 @@ export function ToolCard({
           )}
         </CardAction>
       </CardHeader>
-      <CardContent onClick={handleClick} className="px-2">
-        <div className="flex flex-col gap-4 align-top mb-6 cursor-pointer h-full">
+      <CardContent onClick={handleClick} className="px-2 flex-1 min-h-0">
+        <div className="flex flex-col gap-4 align-top mb-6 cursor-pointer h-full min-h-0">
           <div className="w-full flex-1 flex items-center justify-center py-1">
             {tool.description ? (
               isOverflowing ? (
@@ -125,7 +123,7 @@ export function ToolCard({
             )}
           </div>
 
-          <div className="flex flex-wrap gap-2 justify-center relative z-10 mt-auto">
+          <div className="flex flex-wrap gap-2 justify-center relative z-10 mt-auto mb-4 w-full">
             {supportedIO &&
               supportedIO.map((type) => (
                 <Badge key={type} variant="secondary" className="text-xs">
