@@ -20,6 +20,7 @@ import {
 import { toast } from "sonner";
 import { useDebouncedValue } from "@tanstack/react-pacer";
 import { Checkbox } from "@/components/ui/checkbox";
+import { replaceId } from "@/lib/utils";
 
 export function AIParsing({
   onParseCompleted
@@ -35,10 +36,6 @@ export function AIParsing({
   const [parseCount, setParseCount] = useState(0);
   const [isUserTouched, setIsUserTouched] = useState(false);
   const [savedKey, setSavedKey] = useState<boolean>(false);
-
-  useEffect(() => {
-    onParseCompleted(null);
-  }, [onParseCompleted]);
 
   useEffect(() => {
     const savedApiKey = localStorage.getItem("ai-api-key");
@@ -79,6 +76,7 @@ export function AIParsing({
     } catch (error) {
       console.error("Error with AI parsing:", error);
       setJson("");
+      toast.error(error);
     }
     setIsParsingHelp(false);
   };
@@ -86,8 +84,9 @@ export function AIParsing({
   const validateJson = (jsonString: string) => {
     try {
       const parsedTool = ToolSchema.parse(JSON.parse(jsonString));
-      setJson(JSON.stringify(parsedTool, null, 2));
-      onParseCompleted(parsedTool);
+      var modifiedTool = replaceId(parsedTool);
+      setJson(JSON.stringify(modifiedTool, null, 2));
+      onParseCompleted(modifiedTool);
     } catch (error) {
       console.error("Error parsing JSON:", error);
       onParseCompleted(null);
@@ -121,6 +120,9 @@ export function AIParsing({
             <SelectValue placeholder="Select a model" />
           </SelectTrigger>
           <SelectContent>
+            <SelectItem value="gpt-5">GPT 5</SelectItem>
+            <SelectItem value="gpt-5-mini">GPT 5 Mini</SelectItem>
+            <SelectItem value="gpt-5-nano">GPT 5 Nano</SelectItem>
             <SelectItem value="gpt-4.1-2025-04-14">GPT 4.1</SelectItem>
             <SelectItem value="gpt-4.1-mini-2025-04-14">
               GPT 4.1 Mini

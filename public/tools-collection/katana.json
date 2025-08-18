@@ -1,0 +1,1158 @@
+{
+    "name": "katana",
+    "id": "0198be31-d69c-71b8-9a5d-e1656a3d4e65",
+    "displayName": "Katana",
+    "description": "Katana is a fast crawler focused on execution in automation pipelines offering both headless and non-headless crawling.",
+    "commands": [
+        {
+            "id": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "name": "katana",
+            "description": "Primary command for katana crawler.",
+            "isDefault": true,
+            "sortOrder": 0
+        }
+    ],
+    "parameters": [
+        {
+            "id": "0198be1e-8e57-759d-a802-cb32aa365921",
+            "name": "List",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Target url / list to crawl.",
+            "metadata": {
+                "tags": [
+                    "target",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-u",
+            "longFlag": "-list",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a802-d0dfea4a1fb6",
+            "name": "Resume",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Resume scan using resume.cfg.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-resume",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a802-db07af103dba",
+            "name": "Exclude",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Exclude host matching specified filter ('cdn', 'private-ips', cidr, ip, regex).",
+            "metadata": {
+                "tags": [
+                    "target",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-e",
+            "longFlag": "-exclude",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a802-e336e2aeab07",
+            "name": "Resolvers",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "List of custom resolver (file or comma separated).",
+            "metadata": {
+                "tags": [
+                    "configuration-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-r",
+            "longFlag": "-resolvers",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a802-e9ca567e7c6c",
+            "name": "Depth",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Maximum depth to crawl.",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "defaultValue": "3",
+            "shortFlag": "-d",
+            "longFlag": "-depth",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a802-f2519ff8818f",
+            "name": "Js-crawl",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Enable endpoint parsing / crawling in javascript file.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-jc",
+            "longFlag": "-js-crawl",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a802-fa5b80fedba1",
+            "name": "Jsluice",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Enable jsluice parsing in javascript file.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-jsl",
+            "longFlag": "-jsluice",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-01e763788e43",
+            "name": "Crawl-duration",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Maximum duration to crawl the target for (s, m, h, d).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "defaultValue": "s",
+            "shortFlag": "-ct",
+            "longFlag": "-crawl-duration",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-095feb1a9af7",
+            "name": "Known-files",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Enable crawling of known files (all,robotstxt,sitemapxml).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-kf",
+            "longFlag": "-known-files",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-1334998d693d",
+            "name": "Max-response-size",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Maximum response size to read.",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "defaultValue": "4194304",
+            "shortFlag": "-mrs",
+            "longFlag": "-max-response-size",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-1844459cfec3",
+            "name": "Timeout",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Time to wait for request in seconds.",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "defaultValue": "10",
+            "longFlag": "-timeout",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-23eab5bd1b2e",
+            "name": "Automatic-form-fill",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Enable automatic form filling (experimental).",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-aff",
+            "longFlag": "-automatic-form-fill",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-29bf6d802165",
+            "name": "Form-extraction",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Extract form, input, textarea & select elements in jsonl output.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-fx",
+            "longFlag": "-form-extraction",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-30fb46f01b33",
+            "name": "Retry",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Number of times to retry the request.",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "defaultValue": "1",
+            "longFlag": "-retry",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-3a4a951598ec",
+            "name": "Proxy",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Http/socks5 proxy to use.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-proxy",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-4281cd2bdbea",
+            "name": "Tech-detect",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Enable technology detection.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-td",
+            "longFlag": "-tech-detect",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-487b53bbadc2",
+            "name": "Headers",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Custom header/cookie to include in all http request in header:value format (file).",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-H",
+            "longFlag": "-headers",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-50db255d0b73",
+            "name": "Config",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Path to the katana configuration file.",
+            "metadata": {
+                "tags": [
+                    "configuration-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-config",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-5858db85e0b6",
+            "name": "Form-config",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Path to custom form configuration file.",
+            "metadata": {
+                "tags": [
+                    "configuration-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-fc",
+            "longFlag": "-form-config",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-621f3ac63574",
+            "name": "Field-config",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Path to custom field configuration file.",
+            "metadata": {
+                "tags": [
+                    "configuration-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-flc",
+            "longFlag": "-field-config",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-690eec9f91d2",
+            "name": "Strategy",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Visit strategy.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "defaultValue": "depth-first",
+            "shortFlag": "-s",
+            "longFlag": "-strategy",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-72c2a820f5eb",
+            "name": "Ignore-query-params",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Ignore crawling same path with different query-param values.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-iqp",
+            "longFlag": "-ignore-query-params",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-783ba922eefe",
+            "name": "Tls-impersonate",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Enable experimental client hello tls randomization.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-tlsi",
+            "longFlag": "-tls-impersonate",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-80707bfaaaf6",
+            "name": "Disable-redirects",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Disable following redirects.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "defaultValue": "false",
+            "shortFlag": "-dr",
+            "longFlag": "-disable-redirects",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-891f804380d6",
+            "name": "Health-check",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Run diagnostic check up.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-hc",
+            "longFlag": "-health-check",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-93d5df6c69ca",
+            "name": "Error-log",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "File to write sent requests error log.",
+            "metadata": {
+                "tags": [
+                    "output-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-elog",
+            "longFlag": "-error-log",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-98b268e88f5d",
+            "name": "Pprof-server",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Enable pprof server.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-pprof-server",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-a2f288a9a0e2",
+            "name": "Headless",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Enable headless hybrid crawling (experimental).",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-hl",
+            "longFlag": "-headless",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-a89a1701516a",
+            "name": "System-chrome",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Use local installed chrome browser instead of katana installed.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-sc",
+            "longFlag": "-system-chrome",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-b0507bc45d63",
+            "name": "Show-browser",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Show the browser on the screen with headless mode.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-sb",
+            "longFlag": "-show-browser",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-bb91dd0c83ac",
+            "name": "Headless-options",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Start headless chrome with additional options.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-ho",
+            "longFlag": "-headless-options",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-c056677c5e42",
+            "name": "No-sandbox",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Start headless chrome in --no-sandbox mode.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-nos",
+            "longFlag": "-no-sandbox",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-cb0df302f415",
+            "name": "Chrome-data-dir",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Path to store chrome browser data.",
+            "metadata": {
+                "tags": [
+                    "output-directory"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-cdd",
+            "longFlag": "-chrome-data-dir",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-d1b39aa3f418",
+            "name": "System-chrome-path",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Use specified chrome browser for headless crawling.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-scp",
+            "longFlag": "-system-chrome-path",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-d924ba38a9c2",
+            "name": "No-incognito",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Start headless chrome without incognito mode.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-noi",
+            "longFlag": "-no-incognito",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-e2563382d495",
+            "name": "Chrome-ws-url",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Use chrome browser instance launched elsewhere with the debugger listening at this URL.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-cwu",
+            "longFlag": "-chrome-ws-url",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-e99178f40fc7",
+            "name": "Xhr-extraction",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Extract xhr request url,method in jsonl output.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-xhr",
+            "longFlag": "-xhr-extraction",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-f3cd115cc55f",
+            "name": "Crawl-scope",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "In scope url regex to be followed by crawler.",
+            "metadata": {
+                "tags": [
+                    "target",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-cs",
+            "longFlag": "-crawl-scope",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a803-f9979261d745",
+            "name": "Crawl-out-scope",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Out of scope url regex to be excluded by crawler.",
+            "metadata": {
+                "tags": [
+                    "target",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-cos",
+            "longFlag": "-crawl-out-scope",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-016a744762eb",
+            "name": "Field-scope",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Pre-defined scope field or custom regex.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "defaultValue": "rdn",
+            "shortFlag": "-fs",
+            "longFlag": "-field-scope",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-09ddfaf2030a",
+            "name": "No-scope",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Disable host based default scope.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ns",
+            "longFlag": "-no-scope",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-1385bda9b1f1",
+            "name": "Display-out-scope",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Display external endpoint from scoped crawling.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-do",
+            "longFlag": "-display-out-scope",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-18c719730b5c",
+            "name": "Match-regex",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Regex or list of regex to match on output url.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-mr",
+            "longFlag": "-match-regex",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-22960e599f8b",
+            "name": "Filter-regex",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Regex or list of regex to filter on output url.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-fr",
+            "longFlag": "-filter-regex",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-29e6aed947e3",
+            "name": "Field",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Field to display in output.",
+            "metadata": {
+                "tags": [
+                    "output"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-f",
+            "longFlag": "-field",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-3232f0de6b49",
+            "name": "Store-field",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Field to store in per-host output.",
+            "metadata": {
+                "tags": [
+                    "output"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-sf",
+            "longFlag": "-store-field",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-39074817c613",
+            "name": "Extension-match",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Match output for given extension.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-em",
+            "longFlag": "-extension-match",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-409ea6a84f34",
+            "name": "Extension-filter",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Filter output for given extension.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-ef",
+            "longFlag": "-extension-filter",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-499d237d1464",
+            "name": "Match-condition",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Match response with dsl based condition.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-mdc",
+            "longFlag": "-match-condition",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-5131b9d31454",
+            "name": "Filter-condition",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Filter response with dsl based condition.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-fdc",
+            "longFlag": "-filter-condition",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-5b0970a7afff",
+            "name": "Concurrency",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Number of concurrent fetchers to use.",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "defaultValue": "10",
+            "shortFlag": "-c",
+            "longFlag": "-concurrency",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-6094e6d0b5b2",
+            "name": "Parallelism",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Number of concurrent inputs to process.",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "defaultValue": "10",
+            "shortFlag": "-p",
+            "longFlag": "-parallelism",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-6b1942085b22",
+            "name": "Delay",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Request delay between each request in seconds.",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-rd",
+            "longFlag": "-delay",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-73a40b2fc026",
+            "name": "Rate-limit",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Maximum requests to send per second.",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "defaultValue": "150",
+            "shortFlag": "-rl",
+            "longFlag": "-rate-limit",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-7a1aeafad9c8",
+            "name": "Rate-limit-minute",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Maximum number of requests to send per minute.",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-rlm",
+            "longFlag": "-rate-limit-minute",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-804078ff38d4",
+            "name": "Update",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Update katana to latest version.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-up",
+            "longFlag": "-update",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-8854f63aa644",
+            "name": "Disable-update-check",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Disable automatic katana update check.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-duc",
+            "longFlag": "-disable-update-check",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-93447bfcaa36",
+            "name": "Output",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "File to write output to.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "output-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-o",
+            "longFlag": "-output",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-9a527930c2fd",
+            "name": "Output-template",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Custom output template.",
+            "metadata": {
+                "tags": [
+                    "output"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ot",
+            "longFlag": "-output-template",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-a374e261034b",
+            "name": "Store-response",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Store http requests/responses.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-sr",
+            "longFlag": "-store-response",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-aadecab7e975",
+            "name": "Store-response-dir",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Store http requests/responses to custom directory.",
+            "metadata": {
+                "tags": [
+                    "output-directory"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-srd",
+            "longFlag": "-store-response-dir",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-b3135dc46e16",
+            "name": "No-clobber",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Do not overwrite output file.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ncb",
+            "longFlag": "-no-clobber",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-b97fb0caf828",
+            "name": "Store-field-dir",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Store per-host field to custom directory.",
+            "metadata": {
+                "tags": [
+                    "output-directory"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-sfd",
+            "longFlag": "-store-field-dir",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-c331b762df69",
+            "name": "Omit-raw",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Omit raw requests/responses from jsonl output.",
+            "metadata": {
+                "tags": [
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-or",
+            "longFlag": "-omit-raw",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-c9e174f5424b",
+            "name": "Omit-body",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Omit response body from jsonl output.",
+            "metadata": {
+                "tags": [
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ob",
+            "longFlag": "-omit-body",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-d042c4706854",
+            "name": "Jsonl",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Write output in jsonl format.",
+            "metadata": {
+                "tags": [
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-j",
+            "longFlag": "-jsonl",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-da726ffb91b3",
+            "name": "No-color",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Disable output content coloring.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-nc",
+            "longFlag": "-no-color",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-e0f8cbf6d99b",
+            "name": "Silent",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Display output only.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-silent",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-e9df7f61616f",
+            "name": "Verbose",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Display verbose output.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-v",
+            "longFlag": "-verbose",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-f009d12b799a",
+            "name": "Debug",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Display debug output.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-debug",
+            "enumValues": []
+        },
+        {
+            "id": "0198be1e-8e57-759d-a804-f9dbe905f8bc",
+            "name": "Version",
+            "commandId": "0198be1e-8e57-759d-a804-fe56bd63c399",
+            "description": "Display project version.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-version",
+            "enumValues": []
+        }
+    ],
+    "exclusionGroups": [],
+    "supportedInput": [
+        "StandardInput",
+        "Parameter"
+    ],
+    "supportedOutput": [
+        "StandardOutput",
+        "File",
+        "Directory"
+    ]
+}

@@ -63,7 +63,7 @@ export function RuntimePreview({
                 updateParameterValue(parameter.id, checked)
               }
             />
-            <Label className="flex-1">
+            <Label className="flex-1 select-auto">
               {parameter.name}
               {(parameter.longFlag || parameter.shortFlag) && (
                 <span className="text-muted-foreground ml-1">
@@ -98,7 +98,7 @@ export function RuntimePreview({
         if (parameter.dataType === "Enum") {
           return (
             <div key={parameter.id} className="space-y-2">
-              <Label>
+              <Label className="select-auto">
                 {parameter.name}
                 {(parameter.longFlag || parameter.shortFlag) && (
                   <span className="text-muted-foreground ml-1">
@@ -154,7 +154,7 @@ export function RuntimePreview({
                   updateParameterValue(parameter.id, checked.toString())
                 }
               />
-              <Label className="flex-1">
+              <Label className="flex-1 select-auto">
                 {parameter.name}
                 {(parameter.longFlag || parameter.shortFlag) && (
                   <span className="text-muted-foreground ml-1">
@@ -188,7 +188,7 @@ export function RuntimePreview({
           return (
             <div key={parameter.id} className="space-y-2">
               <div className="flex">
-                <Label className="flex-1">
+                <Label className="flex-1 select-auto">
                   {parameter.name}
                   {(parameter.longFlag || parameter.shortFlag) && (
                     <span className="text-muted-foreground ml-1">
