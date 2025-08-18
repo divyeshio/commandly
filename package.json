@@ -52,6 +52,7 @@
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^11.1.0",
     "vite": "^6.3.5",
+    "vite-tsconfig-paths": "^5.1.4",
     "zod": "^3.25.76"
   },
   "devDependencies": {
@@ -71,7 +72,7 @@
     "oxlint": "^1.12.0",
     "shadcn": "^2.10.0",
     "typescript": "^5.9.2",
-    "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "vitest-browser-react": "^1.0.1"
   }
 }

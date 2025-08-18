@@ -13,9 +13,6 @@ import { Button } from "./ui/button";
 type Theme = "dark" | "light" | "system";
 
 export function ThemeSwitcher() {
-  if (typeof window === "undefined") {
-    return null;
-  }
   const { theme, setTheme } = useTheme();
   const ref = useRef<HTMLButtonElement>(null);
 
@@ -102,8 +99,6 @@ export function ThemeProvider({
   });
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
     } else {

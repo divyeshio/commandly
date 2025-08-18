@@ -8,6 +8,7 @@ export default defineConfig({
       projects: ["./tsconfig.json"]
     }),
     tanstackStart({
+      customViteReactPlugin: true,
       target: "github-pages",
       prerender: {
         enabled: true,
@@ -18,6 +19,14 @@ export default defineConfig({
           prerender: {
             outputPath: "index.html",
             autoSubfolderIndex: true,
+            enabled: true,
+            crawlLinks: true
+          }
+        },
+        {
+          path: "/tools",
+          prerender: {
+            outputPath: "tools.html",
             enabled: true,
             crawlLinks: true
           }

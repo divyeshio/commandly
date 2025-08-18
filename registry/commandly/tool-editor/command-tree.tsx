@@ -54,14 +54,12 @@ export function CommandTree() {
   const handleAddSubcommand = (parentId?: string) => {
     const prevIds = new Set(tool.commands.map((cmd) => cmd.id));
     toolBuilderActions.addSubcommand(parentId);
-    setTimeout(() => {
-      const newCmd = toolBuilderStore.state.tool.commands.find(
-        (cmd) => !prevIds.has(cmd.id)
-      );
-      if (newCmd) {
-        setLastAddedCommand({ id: newCmd.id, parentId });
-      }
-    }, 0);
+    const newCmd = toolBuilderStore.state.tool.commands.find(
+      (cmd) => !prevIds.has(cmd.id)
+    );
+    if (newCmd) {
+      setLastAddedCommand({ id: newCmd.id, parentId });
+    }
   };
 
   useEffect(() => {

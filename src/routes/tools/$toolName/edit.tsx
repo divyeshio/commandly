@@ -17,10 +17,6 @@ export const Route = createFileRoute("/tools/$toolName/edit")({
     newTool
   }),
   loader: async ({ params: { toolName }, deps: { newTool } }) => {
-    if (typeof window === "undefined") {
-      return null;
-    }
-
     if (newTool) {
       const newToolData = localStorage.getItem(`tool-${newTool}`);
       if (newToolData) {
