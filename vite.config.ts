@@ -3,42 +3,33 @@ import tsConfigPaths from "vite-tsconfig-paths";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 export default defineConfig({
-  build: {
-    emptyOutDir: true
-  },
   plugins: [
     tsConfigPaths({
       projects: ["./tsconfig.json"]
     }),
     tanstackStart({
-      customViteReactPlugin: true,
+      target: "github-pages",
+      prerender: {
+        enabled: true,
+      },
       pages: [
         {
           path: "/",
           prerender: {
+            outputPath: "index.html",
+            autoSubfolderIndex: true,
             enabled: true,
-            autoSubfolderIndex: false,
-            crawlLinks: false
+            crawlLinks: true
           }
         },
-        {
-          path: "/tools",
-          prerender: {
-            enabled: true,
-            autoSubfolderIndex: false,
-            crawlLinks: false
-          }
-        }
       ],
       spa: {
         enabled: true,
         prerender: {
           enabled: true,
-          autoSubfolderIndex: true,
           crawlLinks: true
         }
       },
-      target: "github-pages"
     }),
     viteReact()
   ],
