@@ -67,7 +67,7 @@
     "@vitejs/plugin-react": "^5.1.0",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
-    "@vitest/coverage-v8": "3.2.4",
+    "@vitest/coverage-v8": "4.0.6",
     "jsdom": "^26.1.0",
     "oxlint": "^1.24.0",
     "shadcn": "^2.10.0",
