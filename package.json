@@ -68,7 +68,7 @@
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
     "@vitest/coverage-v8": "4.0.8",
-    "jsdom": "^26.1.0",
+    "jsdom": "^27.2.0",
     "oxlint": "^1.27.0",
     "shadcn": "^2.10.0",
     "typescript": "^5.9.3",
