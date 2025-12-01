@@ -70,7 +70,7 @@
     "@vitest/coverage-v8": "4.0.13",
     "jsdom": "^27.2.0",
     "oxlint": "^1.30.0",
-    "shadcn": "^2.10.0",
+    "shadcn": "^3.5.1",
     "typescript": "^5.9.3",
     "vitest": "^3.2.4",
     "vitest-browser-react": "^1.0.1"
