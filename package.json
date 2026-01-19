@@ -73,6 +73,6 @@
     "shadcn": "^3.6.3",
     "typescript": "^5.9.3",
     "vitest": "^3.2.4",
-    "vitest-browser-react": "^1.0.1"
+    "vitest-browser-react": "^2.0.2"
   }
 }
