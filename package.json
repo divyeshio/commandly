@@ -20,7 +20,7 @@
     "mcp": "bun run mcp/index.ts"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^2.0.86",
+    "@ai-sdk/openai": "^3.0.19",
     "@hookform/resolvers": "^5.2.2",
     "@modelcontextprotocol/sdk": "^1.25.3",
     "@radix-ui/react-hover-card": "^1.1.15",
