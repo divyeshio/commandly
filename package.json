@@ -72,7 +72,7 @@
     "oxlint": "^1.43.0",
     "shadcn": "^3.8.4",
     "typescript": "^5.9.3",
-    "vitest": "^3.2.4",
+    "vitest": "^4.0.18",
     "vitest-browser-react": "^2.0.5"
   }
 }
