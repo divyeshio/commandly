@@ -63,7 +63,7 @@ describe("ParameterDetailsDialog - Dialog Lifecycle", () => {
 
     // Opens when parameter is selected
     act(() => {
-      toolBuilderStore.setState(createTestState(testParameter));
+      toolBuilderStore.setState(() => createTestState(testParameter));
     });
 
     render(<ParameterDetailsDialog />);
@@ -74,7 +74,7 @@ describe("ParameterDetailsDialog - Dialog Lifecycle", () => {
 
     // Closes when parameter is deselected
     act(() => {
-      toolBuilderStore.setState(createTestState(null));
+      toolBuilderStore.setState(() => createTestState(null));
     });
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
@@ -96,7 +96,7 @@ describe("ParameterDetailsDialog - Form Fields", () => {
     });
 
     act(() => {
-      toolBuilderStore.setState(createTestState(testParameter));
+      toolBuilderStore.setState(() => createTestState(testParameter));
     });
 
     render(<ParameterDetailsDialog />);
@@ -129,7 +129,7 @@ describe("ParameterDetailsDialog - Form Fields", () => {
     });
 
     act(() => {
-      toolBuilderStore.setState(createTestState(testParameter));
+      toolBuilderStore.setState(() => createTestState(testParameter));
     });
 
     render(<ParameterDetailsDialog />);
@@ -165,7 +165,7 @@ describe("ParameterDetailsDialog - Form Fields", () => {
     });
 
     act(() => {
-      toolBuilderStore.setState(createTestState(testParameter));
+      toolBuilderStore.setState(() => createTestState(testParameter));
     });
 
     render(<ParameterDetailsDialog />);
@@ -202,7 +202,7 @@ describe("ParameterDetailsDialog - Form Fields", () => {
     const testParameter = createTestParameter();
 
     act(() => {
-      toolBuilderStore.setState(createTestState(testParameter));
+      toolBuilderStore.setState(() => createTestState(testParameter));
     });
 
     render(<ParameterDetailsDialog />);
@@ -227,7 +227,7 @@ describe("ParameterDetailsDialog - Parameter Type Specific Fields", () => {
     const flagParameter = createTestParameter({ parameterType: "Flag" });
 
     act(() => {
-      toolBuilderStore.setState(createTestState(flagParameter));
+      toolBuilderStore.setState(() => createTestState(flagParameter));
     });
 
     render(<ParameterDetailsDialog />);
@@ -278,7 +278,7 @@ describe("ParameterDetailsDialog - Parameter Type Specific Fields", () => {
     });
 
     act(() => {
-      toolBuilderStore.setState(createTestState(testParameter));
+      toolBuilderStore.setState(() => createTestState(testParameter));
     });
 
     render(<ParameterDetailsDialog />);
@@ -305,7 +305,7 @@ describe("ParameterDetailsDialog - Dependencies Section", () => {
     testState.tool.parameters = [testParameter];
 
     act(() => {
-      toolBuilderStore.setState(testState);
+      toolBuilderStore.setState(() => testState);
     });
 
     render(<ParameterDetailsDialog />);
@@ -331,7 +331,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     const testParameter = createTestParameter();
 
     act(() => {
-      toolBuilderStore.setState(createTestState(testParameter));
+      toolBuilderStore.setState(() => createTestState(testParameter));
     });
 
     render(<ParameterDetailsDialog />);
@@ -359,7 +359,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     });
 
     act(() => {
-      toolBuilderStore.setState(createTestState(firstParameter));
+      toolBuilderStore.setState(() => createTestState(firstParameter));
     });
 
     render(<ParameterDetailsDialog />);
@@ -376,7 +376,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     expect(saveButton).not.toBeDisabled();
 
     act(() => {
-      toolBuilderStore.setState(createTestState(secondParameter));
+      toolBuilderStore.setState(() => createTestState(secondParameter));
     });
 
     expect(screen.getByDisplayValue("second-param")).toBeInTheDocument();
@@ -398,7 +398,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     testState.tool.parameters = [testParameter];
 
     act(() => {
-      toolBuilderStore.setState(testState);
+      toolBuilderStore.setState(() => testState);
     });
 
     render(<ParameterDetailsDialog />);
@@ -454,7 +454,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     testState.tool.parameters = [testParameter];
 
     act(() => {
-      toolBuilderStore.setState(testState);
+      toolBuilderStore.setState(() => testState);
     });
 
     render(<ParameterDetailsDialog />);
@@ -520,7 +520,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     testState.tool.parameters = [testParameter];
 
     act(() => {
-      toolBuilderStore.setState(testState);
+      toolBuilderStore.setState(() => testState);
     });
 
     render(<ParameterDetailsDialog />);
@@ -558,7 +558,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     const testParameter = createTestParameter();
 
     act(() => {
-      toolBuilderStore.setState(createTestState(testParameter));
+      toolBuilderStore.setState(() => createTestState(testParameter));
     });
 
     const { unmount } = render(<ParameterDetailsDialog />);
@@ -581,7 +581,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     unmount();
 
     act(() => {
-      toolBuilderStore.setState(createTestState(testParameter));
+      toolBuilderStore.setState(() => createTestState(testParameter));
     });
 
     render(<ParameterDetailsDialog />);
@@ -613,7 +613,7 @@ describe("ParameterDetailsDialog - UI/UX", () => {
     });
 
     act(() => {
-      toolBuilderStore.setState(createTestState(testParameter));
+      toolBuilderStore.setState(() => createTestState(testParameter));
     });
 
     render(<ParameterDetailsDialog />);
@@ -666,7 +666,7 @@ describe("ParameterDetailsDialog - UI/UX", () => {
     });
 
     act(() => {
-      toolBuilderStore.setState(createTestState(globalParameter));
+      toolBuilderStore.setState(() => createTestState(globalParameter));
     });
 
     render(<ParameterDetailsDialog />);
@@ -679,7 +679,7 @@ describe("ParameterDetailsDialog - UI/UX", () => {
     const nonGlobalParameter = createTestParameter({ isGlobal: false });
 
     act(() => {
-      toolBuilderStore.setState(createTestState(nonGlobalParameter));
+      toolBuilderStore.setState(() => createTestState(nonGlobalParameter));
     });
 
     expect(screen.queryByText("global")).not.toBeInTheDocument();
@@ -700,7 +700,7 @@ describe("ParameterDetailsDialog - UI/UX", () => {
     testState.tool.parameters = [testParameter];
 
     act(() => {
-      toolBuilderStore.setState(testState);
+      toolBuilderStore.setState(() => testState);
     });
 
     render(<ParameterDetailsDialog />);

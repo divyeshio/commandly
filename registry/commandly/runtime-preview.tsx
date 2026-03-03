@@ -35,6 +35,181 @@ const findDefaultCommand = (tool: Tool): Command | null => {
   return tool.commands.length > 0 ? tool.commands[0] : null;
 };
 
+interface ParameterLabelProps {
+  name: string;
+  longFlag?: string;
+  shortFlag?: string;
+  isRequired?: boolean;
+  isGlobal?: boolean;
+  description: string;
+  className?: string;
+  children?: React.ReactNode;
+}
+
+function ParameterLabel({
+  name,
+  longFlag,
+  shortFlag,
+  isRequired,
+  isGlobal,
+  description,
+  className,
+  children
+}: ParameterLabelProps) {
+  return (
+    <Label className={className}>
+      {name}
+      {(longFlag || shortFlag) && (
+        <span className="text-muted-foreground ml-1">
+          ({[longFlag, shortFlag].filter(Boolean).join(", ")})
+        </span>
+      )}
+      {isRequired && <span className="text-destructive ml-1">*</span>}
+      <Tooltip>
+        <TooltipTrigger>
+          <InfoIcon className="h-3.5 w-3.5" />
+        </TooltipTrigger>
+        <TooltipContent>
+          <span>{description}</span>
+        </TooltipContent>
+      </Tooltip>
+      {children}
+      {isGlobal && (
+        <Badge variant="outline" className="text-xs ml-2">
+          global
+        </Badge>
+      )}
+    </Label>
+  );
+}
+
+type ParameterInputProps = {
+  parameter: Parameter;
+  value: ParameterValue;
+  onUpdate: (value: ParameterValue) => void;
+};
+
+function FlagInput({ parameter, value, onUpdate }: ParameterInputProps) {
+  return (
+    <div className="flex items-center space-x-2">
+      <Switch
+        checked={value === "true" || value === true}
+        onCheckedChange={onUpdate}
+      />
+      <ParameterLabel
+        className="flex-1 select-auto"
+        name={parameter.name}
+        longFlag={parameter.longFlag}
+        shortFlag={parameter.shortFlag}
+        isRequired={parameter.isRequired}
+        isGlobal={parameter.isGlobal}
+        description={parameter.description}
+      />
+    </div>
+  );
+}
+
+function OptionEnumInput({ parameter, value, onUpdate }: ParameterInputProps) {
+  return (
+    <div className="space-y-2">
+      <ParameterLabel
+        className="select-auto"
+        name={parameter.name}
+        longFlag={parameter.longFlag}
+        shortFlag={parameter.shortFlag}
+        isRequired={parameter.isRequired}
+        isGlobal={parameter.isGlobal}
+        description={parameter.description}
+      />
+      <Select value={value as string} onValueChange={onUpdate}>
+        <SelectTrigger>
+          <SelectValue placeholder="Select an option" />
+        </SelectTrigger>
+        <SelectContent>
+          {parameter.enumValues.map((enumValue) => (
+            <SelectItem key={enumValue.id} value={enumValue.value}>
+              {enumValue.displayName || enumValue.value}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
+  );
+}
+
+function OptionBooleanInput({
+  parameter,
+  value,
+  onUpdate
+}: ParameterInputProps) {
+  return (
+    <div className="flex items-center space-x-2">
+      <Switch
+        checked={value === "true" || value === true}
+        onCheckedChange={(checked) => onUpdate(checked.toString())}
+      />
+      <ParameterLabel
+        className="flex-1 select-auto"
+        name={parameter.name}
+        longFlag={parameter.longFlag}
+        shortFlag={parameter.shortFlag}
+        isRequired={parameter.isRequired}
+        isGlobal={parameter.isGlobal}
+        description={parameter.description}
+      />
+    </div>
+  );
+}
+
+function OptionTextInput({ parameter, value, onUpdate }: ParameterInputProps) {
+  return (
+    <div className="space-y-2">
+      <ParameterLabel
+        className="flex-1 select-auto"
+        name={parameter.name}
+        longFlag={parameter.longFlag}
+        shortFlag={parameter.shortFlag}
+        isRequired={parameter.isRequired}
+        isGlobal={parameter.isGlobal}
+        description={parameter.description}
+      />
+      <Input
+        type={parameter.dataType === "Number" ? "number" : "text"}
+        value={
+          parameter.dataType === "Number" ? (value as number) : (value as string)
+        }
+        onChange={(e) => onUpdate(e.target.value)}
+        placeholder="Enter value"
+      />
+    </div>
+  );
+}
+
+function ArgumentInput({ parameter, value, onUpdate }: ParameterInputProps) {
+  return (
+    <div className="space-y-2">
+      <ParameterLabel
+        name={parameter.name}
+        isRequired={parameter.isRequired}
+        description={parameter.description}
+      >
+        <Badge variant="secondary" className="text-xs ml-2">
+          {parameter.parameterType}
+          {parameter.position !== undefined && ` (${parameter.position})`}
+        </Badge>
+      </ParameterLabel>
+      <Input
+        type={parameter.dataType === "Number" ? "number" : "text"}
+        value={
+          parameter.dataType === "Number" ? (value as number) : (value as string)
+        }
+        onChange={(e) => onUpdate(e.target.value)}
+        placeholder="Enter value"
+      />
+    </div>
+  );
+}
+
 interface RuntimePreviewProps {
   selectedCommand?: Command | null;
   tool: Tool;
@@ -50,232 +225,6 @@ export function RuntimePreview({
 }: RuntimePreviewProps) {
   const selectedCommand = providedCommand ?? findDefaultCommand(tool);
 
-  const renderParameterInput = (parameter: Parameter) => {
-    const value = parameterValues[parameter.id] || parameter.defaultValue || "";
-
-    switch (parameter.parameterType) {
-      case "Flag":
-        return (
-          <div key={parameter.id} className="flex items-center space-x-2">
-            <Switch
-              checked={value === "true" || value === true}
-              onCheckedChange={(checked) =>
-                updateParameterValue(parameter.id, checked)
-              }
-            />
-            <Label className="flex-1 select-auto">
-              {parameter.name}
-              {(parameter.longFlag || parameter.shortFlag) && (
-                <span className="text-muted-foreground ml-1">
-                  (
-                  {[parameter.longFlag, parameter.shortFlag]
-                    .filter(Boolean)
-                    .join(", ")}
-                  )
-                </span>
-              )}
-              {parameter.isRequired && (
-                <span className="text-destructive ml-1">*</span>
-              )}
-              <Tooltip>
-                <TooltipTrigger>
-                  <InfoIcon className="h-3.5 w-3.5" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <span>{parameter.description}</span>
-                </TooltipContent>
-              </Tooltip>
-            </Label>
-            {parameter.isGlobal && (
-              <Badge variant="outline" className="text-xs">
-                global
-              </Badge>
-            )}
-          </div>
-        );
-
-      case "Option":
-        if (parameter.dataType === "Enum") {
-          return (
-            <div key={parameter.id} className="space-y-2">
-              <Label className="select-auto">
-                {parameter.name}
-                {(parameter.longFlag || parameter.shortFlag) && (
-                  <span className="text-muted-foreground ml-1">
-                    (
-                    {[parameter.longFlag, parameter.shortFlag]
-                      .filter(Boolean)
-                      .join(", ")}
-                    )
-                  </span>
-                )}
-                {parameter.isRequired && (
-                  <span className="text-destructive ml-1">*</span>
-                )}
-                <Tooltip>
-                  <TooltipTrigger>
-                    <InfoIcon className="h-3.5 w-3.5" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <span>{parameter.description}</span>
-                  </TooltipContent>
-                </Tooltip>
-                {parameter.isGlobal && (
-                  <Badge variant="outline" className="text-xs ml-2">
-                    global
-                  </Badge>
-                )}
-              </Label>
-              <Select
-                value={value as string}
-                onValueChange={(newValue) =>
-                  updateParameterValue(parameter.id, newValue)
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select an option" />
-                </SelectTrigger>
-                <SelectContent>
-                  {parameter.enumValues.map((enumValue) => (
-                    <SelectItem key={enumValue.id} value={enumValue.value}>
-                      {enumValue.displayName || enumValue.value}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          );
-        } else if (parameter.dataType === "Boolean") {
-          return (
-            <div key={parameter.id} className="flex items-center space-x-2">
-              <Switch
-                checked={value === "true" || value === true}
-                onCheckedChange={(checked) =>
-                  updateParameterValue(parameter.id, checked.toString())
-                }
-              />
-              <Label className="flex-1 select-auto">
-                {parameter.name}
-                {(parameter.longFlag || parameter.shortFlag) && (
-                  <span className="text-muted-foreground ml-1">
-                    (
-                    {[parameter.longFlag, parameter.shortFlag]
-                      .filter(Boolean)
-                      .join(", ")}
-                    )
-                  </span>
-                )}
-                {parameter.isRequired && (
-                  <span className="text-destructive ml-1">*</span>
-                )}
-                <Tooltip>
-                  <TooltipTrigger>
-                    <InfoIcon className="h-3.5 w-3.5" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <span>{parameter.description}</span>
-                  </TooltipContent>
-                </Tooltip>
-              </Label>
-              {parameter.isGlobal && (
-                <Badge variant="outline" className="text-xs">
-                  global
-                </Badge>
-              )}
-            </div>
-          );
-        } else {
-          return (
-            <div key={parameter.id} className="space-y-2">
-              <div className="flex">
-                <Label className="flex-1 select-auto">
-                  {parameter.name}
-                  {(parameter.longFlag || parameter.shortFlag) && (
-                    <span className="text-muted-foreground ml-1">
-                      (
-                      {[parameter.longFlag, parameter.shortFlag]
-                        .filter(Boolean)
-                        .join(", ")}
-                      )
-                    </span>
-                  )}
-                  {parameter.isRequired && (
-                    <span className="text-destructive ml-1">*</span>
-                  )}
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <InfoIcon className="h-3.5 w-3.5" />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <span>{parameter.description}</span>
-                    </TooltipContent>
-                  </Tooltip>
-                </Label>
-                {parameter.isGlobal && (
-                  <Badge variant="outline" className="text-xs ml-2">
-                    global
-                  </Badge>
-                )}
-              </div>
-              <Input
-                type={parameter.dataType === "Number" ? "number" : "text"}
-                value={
-                  parameter.dataType == "Number"
-                    ? (value as number)
-                    : (value as string)
-                }
-                onChange={(e) =>
-                  updateParameterValue(parameter.id, e.target.value)
-                }
-                placeholder="Enter value"
-              />
-            </div>
-          );
-        }
-
-      case "Argument":
-        return (
-          <div key={parameter.id} className="space-y-2">
-            <Label>
-              {parameter.name}
-              {parameter.isRequired && (
-                <span className="text-destructive ml-1">*</span>
-              )}
-              <Tooltip>
-                <TooltipTrigger>
-                  <InfoIcon className="h-3.5 w-3.5" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <span>{parameter.description}</span>
-                </TooltipContent>
-              </Tooltip>
-              <Badge variant="secondary" className="text-xs ml-2">
-                {parameter.parameterType}
-                {parameter.parameterType === "Argument" &&
-                  parameter.position !== undefined &&
-                  ` (${parameter.position})`}
-              </Badge>
-            </Label>
-            <Input
-              type={parameter.dataType === "Number" ? "number" : "text"}
-              value={
-                parameter.dataType == "Number"
-                  ? (value as number)
-                  : (value as string)
-              }
-              onChange={(e) =>
-                updateParameterValue(parameter.id, e.target.value)
-              }
-              placeholder="Enter value"
-            />
-          </div>
-        );
-
-      default:
-        return null;
-    }
-  };
-
   return (
     <React.Fragment>
       {selectedCommand && tool.commands.length === 0 ? (
@@ -290,7 +239,64 @@ export function RuntimePreview({
                 (param) =>
                   param.commandId === selectedCommand?.id || param.isGlobal
               )
-              .map(renderParameterInput)
+              .map((parameter) => {
+                const value =
+                  parameterValues[parameter.id] || parameter.defaultValue || "";
+                const onUpdate = (val: ParameterValue) =>
+                  updateParameterValue(parameter.id, val);
+
+                if (parameter.parameterType === "Flag") {
+                  return (
+                    <FlagInput
+                      key={parameter.id}
+                      parameter={parameter}
+                      value={value}
+                      onUpdate={onUpdate}
+                    />
+                  );
+                }
+                if (parameter.parameterType === "Argument") {
+                  return (
+                    <ArgumentInput
+                      key={parameter.id}
+                      parameter={parameter}
+                      value={value}
+                      onUpdate={onUpdate}
+                    />
+                  );
+                }
+                if (parameter.parameterType === "Option") {
+                  if (parameter.dataType === "Enum") {
+                    return (
+                      <OptionEnumInput
+                        key={parameter.id}
+                        parameter={parameter}
+                        value={value}
+                        onUpdate={onUpdate}
+                      />
+                    );
+                  }
+                  if (parameter.dataType === "Boolean") {
+                    return (
+                      <OptionBooleanInput
+                        key={parameter.id}
+                        parameter={parameter}
+                        value={value}
+                        onUpdate={onUpdate}
+                      />
+                    );
+                  }
+                  return (
+                    <OptionTextInput
+                      key={parameter.id}
+                      parameter={parameter}
+                      value={value}
+                      onUpdate={onUpdate}
+                    />
+                  );
+                }
+                return null;
+              })
           ) : (
             <p className="text-muted-foreground text-sm">
               No parameters available for this command.

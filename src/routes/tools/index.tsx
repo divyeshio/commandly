@@ -35,7 +35,7 @@ function RouteComponent() {
   const loaderData = Route.useLoaderData();
   const [tools, setTools] = useState<Partial<Tool>[]>(loaderData.serverTools || []);
   const [serverToolNames] = useState<Set<string>>(
-    new Set((loaderData.serverTools || []).map((t: any) => t.name))
+    new Set((loaderData.serverTools || []).map((t) => t.name).filter((n): n is string => !!n))
   );
 
   const [searchValue, setSearchValue] = useState("");

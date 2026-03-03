@@ -1,7 +1,10 @@
 import type {
   Command,
+  ExclusionGroup,
   Parameter,
   SavedCommand,
+  SupportedToolInputType,
+  SupportedToolOutputType,
   Tool
 } from "@/registry/commandly/lib/types/commandly";
 import { v7 as uuidv7 } from "uuid";
@@ -92,7 +95,7 @@ export const exportToStructuredJSON = (tool: Tool) => {
   };
 };
 
-export const flattenImportedData = (importedData: any): Tool => {
+export const flattenImportedData = (importedData: Record<string, unknown>): Tool => {
   const {
     name,
     displayName,
@@ -101,20 +104,32 @@ export const flattenImportedData = (importedData: any): Tool => {
     exclusionGroups = [],
     supportedInput = [],
     supportedOutput = []
-  } = importedData;
+  } = importedData as {
+    name: string;
+    displayName?: string;
+    parameters?: Parameter[];
+    commands?: Record<string, unknown>[];
+    exclusionGroups?: ExclusionGroup[];
+    supportedInput?: SupportedToolInputType[];
+    supportedOutput?: SupportedToolOutputType[];
+  };
 
   const allParameters: Parameter[] = [...parameters];
 
   const flattenCommandParameters = (
-    command: any,
+    command: Record<string, unknown>,
     parentId?: string
   ): Command[] => {
-    const { parameters = [], subcommands = [], ...commandData } = command;
+    const { parameters = [], subcommands = [], ...commandData } = command as {
+      parameters?: Parameter[];
+      subcommands?: Record<string, unknown>[];
+      [key: string]: unknown;
+    };
 
-    parameters.forEach((param: any) => {
+    (parameters as Parameter[]).forEach((param: Parameter) => {
       allParameters.push({
         ...param,
-        commandId: command.id,
+        commandId: command.id as string,
         isGlobal: !command.name
       });
     });
@@ -122,19 +137,19 @@ export const flattenImportedData = (importedData: any): Tool => {
     const flatCommand: Command = {
       ...commandData,
       parentCommandId: parentId
-    };
+    } as Command;
 
     const flatCommands = [flatCommand];
 
-    subcommands.forEach((subcmd: any) => {
-      flatCommands.push(...flattenCommandParameters(subcmd, command.name));
+    (subcommands as Record<string, unknown>[]).forEach((subcmd) => {
+      flatCommands.push(...flattenCommandParameters(subcmd, command.name as string));
     });
 
     return flatCommands;
   };
 
   const flatCommands: Command[] = [];
-  commands.forEach((cmd: any) => {
+  (commands as Record<string, unknown>[]).forEach((cmd) => {
     flatCommands.push(...flattenCommandParameters(cmd));
   });
 

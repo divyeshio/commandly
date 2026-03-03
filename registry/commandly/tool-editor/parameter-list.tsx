@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { useStore } from "@tanstack/react-store";
 import {
+  ToolBuilderState,
   toolBuilderStore,
   toolBuilderActions,
   toolBuilderSelectors
@@ -31,6 +32,19 @@ interface ParameterListProps {
   isGlobal?: boolean;
 }
 
+function ParameterIcon({ type }: { type: ParameterType }) {
+  switch (type) {
+    case "Flag":
+      return <FlagIcon className="h-4 w-4" />;
+    case "Option":
+      return <HashIcon className="h-4 w-4" />;
+    case "Argument":
+      return <FileTextIcon className="h-4 w-4" />;
+    default:
+      return <HashIcon className="h-4 w-4" />;
+  }
+}
+
 export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
   const selectedCommand = useStore(
     toolBuilderStore,
@@ -39,34 +53,25 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
   const globalParameters = useStore(toolBuilderStore, (state) =>
     toolBuilderSelectors.getGlobalParameters(state)
   );
-  const commandParameters = useStore(toolBuilderStore, (state) =>
-    selectedCommand?.id
-      ? toolBuilderSelectors.getParametersForCommand(state, selectedCommand.id)
-      : []
+  const commandParameters = useStore(
+    toolBuilderStore,
+    (state: ToolBuilderState) =>
+      selectedCommand?.id
+        ? toolBuilderSelectors.getParametersForCommand(state, selectedCommand.id)
+        : []
   );
-  const exclusionGroups = useStore(toolBuilderStore, (state) =>
-    selectedCommand?.id
-      ? toolBuilderSelectors.getExclusionGroupsForCommand(
-          state,
-          selectedCommand.id
-        )
-      : []
+  const exclusionGroups = useStore(
+    toolBuilderStore,
+    (state: ToolBuilderState) =>
+      selectedCommand?.id
+        ? toolBuilderSelectors.getExclusionGroupsForCommand(
+            state,
+            selectedCommand.id
+          )
+        : []
   );
 
   const parameters = isGlobal ? globalParameters : commandParameters;
-
-  const getParameterIcon = (parameterType: ParameterType) => {
-    switch (parameterType) {
-      case "Flag":
-        return <FlagIcon className="h-4 w-4" />;
-      case "Option":
-        return <HashIcon className="h-4 w-4" />;
-      case "Argument":
-        return <FileTextIcon className="h-4 w-4" />;
-      default:
-        return <HashIcon className="h-4 w-4" />;
-    }
-  };
 
   const getParameterExclusionGroups = (
     parameterId: string
@@ -108,7 +113,7 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
-                  {getParameterIcon(parameter.parameterType)}
+                  <ParameterIcon type={parameter.parameterType} />
                   <span className="font-medium text-sm">
                     {parameter.name}
                     {(parameter.longFlag || parameter.shortFlag) && (

@@ -38,7 +38,7 @@ const createTestExclusionGroup = (
   parameterIds
 });
 
-var testState: ToolBuilderState = {
+const testState: ToolBuilderState = {
   tool: defaultTool("test-tool", "Test tool"),
   selectedCommand: {
     id: "01979f70-cc01-73fe-b638-14ec567e43be",

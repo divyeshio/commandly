@@ -18,7 +18,7 @@ export function ManualNewToolComponent({
     url: ""
   });
 
-  useEffect(() => onSubmit(null), []);
+  useEffect(() => onSubmit(null), [onSubmit]);
 
   const handleInputChange =
     (name: keyof typeof manualNewTool) =>

@@ -41,7 +41,7 @@ describe("CommandDialog - Rendering & Structure", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    toolBuilderStore.setState(createTestState(testCommand));
+    toolBuilderStore.setState(() => createTestState(testCommand));
   });
 
   it("renders the dialog when isOpen is true", () => {
@@ -92,7 +92,7 @@ describe("CommandDialog - Form Fields", () => {
 
   it("displays current command name in the input", () => {
     const command = createTestCommand({ name: "my-command" });
-    toolBuilderStore.setState(createTestState(command));
+    toolBuilderStore.setState(() => createTestState(command));
 
     render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
 
@@ -102,7 +102,7 @@ describe("CommandDialog - Form Fields", () => {
 
   it("updates command name when input changes", () => {
     const command = createTestCommand();
-    toolBuilderStore.setState(createTestState(command));
+    toolBuilderStore.setState(() => createTestState(command));
 
     render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
 
@@ -114,7 +114,7 @@ describe("CommandDialog - Form Fields", () => {
 
   it("disables command name input when command name matches tool name", () => {
     const command = createTestCommand({ name: "test-tool" });
-    toolBuilderStore.setState(createTestState(command, "test-tool"));
+    toolBuilderStore.setState(() => createTestState(command, "test-tool"));
 
     render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
 
@@ -124,7 +124,7 @@ describe("CommandDialog - Form Fields", () => {
 
   it("displays current sort order in the input", () => {
     const command = createTestCommand({ sortOrder: 5 });
-    toolBuilderStore.setState(createTestState(command));
+    toolBuilderStore.setState(() => createTestState(command));
 
     render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
 
@@ -136,7 +136,7 @@ describe("CommandDialog - Form Fields", () => {
 
   it("updates sort order when input changes", () => {
     const command = createTestCommand();
-    toolBuilderStore.setState(createTestState(command));
+    toolBuilderStore.setState(() => createTestState(command));
 
     render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
 
@@ -148,7 +148,7 @@ describe("CommandDialog - Form Fields", () => {
 
   it("defaults sort order to 0 for invalid input", () => {
     const command = createTestCommand();
-    toolBuilderStore.setState(createTestState(command));
+    toolBuilderStore.setState(() => createTestState(command));
 
     render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
 
@@ -160,7 +160,7 @@ describe("CommandDialog - Form Fields", () => {
 
   it("displays current description in the textarea", () => {
     const command = createTestCommand({ description: "My test description" });
-    toolBuilderStore.setState(createTestState(command));
+    toolBuilderStore.setState(() => createTestState(command));
 
     render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
 
@@ -172,7 +172,7 @@ describe("CommandDialog - Form Fields", () => {
 
   it("updates description when textarea changes", () => {
     const command = createTestCommand();
-    toolBuilderStore.setState(createTestState(command));
+    toolBuilderStore.setState(() => createTestState(command));
 
     render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
 
@@ -196,7 +196,7 @@ describe("CommandDialog - Default Command Switch", () => {
 
   it("reflects current isDefault state", () => {
     const command = createTestCommand({ isDefault: true });
-    toolBuilderStore.setState(createTestState(command));
+    toolBuilderStore.setState(() => createTestState(command));
 
     render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
 
@@ -206,7 +206,7 @@ describe("CommandDialog - Default Command Switch", () => {
 
   it("updates isDefault when switch is toggled", () => {
     const command = createTestCommand({ isDefault: false });
-    toolBuilderStore.setState(createTestState(command));
+    toolBuilderStore.setState(() => createTestState(command));
 
     render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
 
@@ -218,7 +218,7 @@ describe("CommandDialog - Default Command Switch", () => {
 
   it("disables switch when command is already default", () => {
     const command = createTestCommand({ isDefault: true });
-    toolBuilderStore.setState(createTestState(command));
+    toolBuilderStore.setState(() => createTestState(command));
 
     render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
 
@@ -244,7 +244,7 @@ describe("CommandDialog - Save Functionality", () => {
       id: "01979f6d-f206-7716-a2f2-4ee692f068ac",
       name: "original-command"
     });
-    toolBuilderStore.setState(createTestState(command));
+    toolBuilderStore.setState(() => createTestState(command));
 
     render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
 
@@ -271,7 +271,7 @@ describe("CommandDialog - Save Functionality", () => {
       id: "01979f6d-f206-7716-a2f2-532cbd425da4",
       name: "original-command"
     });
-    toolBuilderStore.setState(createTestState(command));
+    toolBuilderStore.setState(() => createTestState(command));
 
     render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
 
@@ -305,7 +305,7 @@ describe("CommandDialog - Save Functionality", () => {
       id: "01979f6d-f206-7716-a2f2-547182850366",
       name: "original-name"
     });
-    toolBuilderStore.setState(createTestState(command));
+    toolBuilderStore.setState(() => createTestState(command));
 
     render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
 
@@ -328,7 +328,7 @@ describe("CommandDialog - Save Functionality", () => {
       id: "01979f6d-f206-7716-a2f2-592fb8c958e4",
       name: "parent-command"
     });
-    toolBuilderStore.setState(createTestState(command));
+    toolBuilderStore.setState(() => createTestState(command));
 
     render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
 
@@ -351,7 +351,7 @@ describe("CommandDialog - Save Functionality", () => {
       id: "01979f6d-f206-7716-a2f2-61a036f2549b",
       name: "original-name"
     });
-    toolBuilderStore.setState(createTestState(originalCommand));
+    toolBuilderStore.setState(() => createTestState(originalCommand));
 
     render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
 
@@ -376,7 +376,7 @@ describe("CommandDialog - UI Elements and Layout", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     const command = createTestCommand();
-    toolBuilderStore.setState(createTestState(command));
+    toolBuilderStore.setState(() => createTestState(command));
   });
 
   it("renders all labels and inputs correctly", () => {
@@ -422,7 +422,7 @@ describe("CommandDialog - State Management", () => {
       sortOrder: 5,
       isDefault: true
     });
-    toolBuilderStore.setState(createTestState(command));
+    toolBuilderStore.setState(() => createTestState(command));
 
     render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
 
@@ -434,7 +434,7 @@ describe("CommandDialog - State Management", () => {
 
   it("does not mutate the original command in the store until save", () => {
     const originalCommand = createTestCommand({ name: "original-name" });
-    toolBuilderStore.setState(createTestState(originalCommand));
+    toolBuilderStore.setState(() => createTestState(originalCommand));
 
     render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
 
@@ -450,7 +450,7 @@ describe("CommandDialog - State Management", () => {
 
   it("maintains local state independently of store updates", () => {
     const command = createTestCommand({ name: "test-command" });
-    toolBuilderStore.setState(createTestState(command));
+    toolBuilderStore.setState(() => createTestState(command));
 
     render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
 
@@ -461,7 +461,7 @@ describe("CommandDialog - State Management", () => {
 
     // Update store with different command
     const newCommand = createTestCommand({ name: "store-change" });
-    toolBuilderStore.setState(createTestState(newCommand));
+    toolBuilderStore.setState(() => createTestState(newCommand));
 
     // Local state should be preserved
     expect(screen.getByDisplayValue("local-change")).toBeInTheDocument();
@@ -478,10 +478,10 @@ describe("CommandDialog - Edge Cases", () => {
   it("handles command being null gracefully", () => {
     // The component expects editingCommand to be non-null, so we test with minimal command
     const minimalCommand = createTestCommand({ name: "", description: "" });
-    toolBuilderStore.setState({
+    toolBuilderStore.setState(() => ({
       ...createTestState(minimalCommand),
       editingCommand: minimalCommand
-    });
+    }));
 
     expect(() => {
       render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
@@ -498,7 +498,7 @@ describe("CommandDialog - Edge Cases", () => {
 
   it("handles rapid open/close actions without errors", () => {
     const command = createTestCommand();
-    toolBuilderStore.setState(createTestState(command));
+    toolBuilderStore.setState(() => createTestState(command));
 
     const { rerender } = render(
       <CommandDialog isOpen={false} onOpenChange={mockOnOpenChange} />
@@ -514,7 +514,7 @@ describe("CommandDialog - Edge Cases", () => {
 
   it("handles empty command name input", () => {
     const command = createTestCommand({ name: "test-command" });
-    toolBuilderStore.setState(createTestState(command));
+    toolBuilderStore.setState(() => createTestState(command));
 
     render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
 
@@ -527,7 +527,7 @@ describe("CommandDialog - Edge Cases", () => {
   it("handles very long input values", () => {
     const longText = "a".repeat(1000);
     const command = createTestCommand();
-    toolBuilderStore.setState(createTestState(command));
+    toolBuilderStore.setState(() => createTestState(command));
 
     render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
 
@@ -543,7 +543,7 @@ describe("CommandDialog - Edge Cases", () => {
 
   it("handles negative sort order input", () => {
     const command = createTestCommand();
-    toolBuilderStore.setState(createTestState(command));
+    toolBuilderStore.setState(() => createTestState(command));
 
     render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
 
@@ -555,7 +555,7 @@ describe("CommandDialog - Edge Cases", () => {
 
   it("handles very large sort order numbers", () => {
     const command = createTestCommand();
-    toolBuilderStore.setState(createTestState(command));
+    toolBuilderStore.setState(() => createTestState(command));
 
     render(<CommandDialog isOpen={true} onOpenChange={mockOnOpenChange} />);
 
@@ -572,7 +572,7 @@ describe("CommandDialog - Accessibility", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     const command = createTestCommand();
-    toolBuilderStore.setState(createTestState(command));
+    toolBuilderStore.setState(() => createTestState(command));
   });
 
   it("has correct htmlFor and id attributes for form elements", () => {

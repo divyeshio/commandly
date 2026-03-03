@@ -1,13 +1,4 @@
-import {
-  ParameterValidation,
-  ParameterDependencyType,
-  ParameterType,
-  ParameterDataType,
-  ParameterMetadata,
-  ExclusionType,
-  SupportedToolInputType,
-  SupportedToolOutputType
-} from "../../types";
+import { ExclusionType, ParameterDataType, ParameterDependencyType, ParameterMetadata, ParameterType, ParameterValidation,SupportedToolInputType,SupportedToolOutputType } from "./commandly";
 
 export interface NestedCommand {
   name: string;

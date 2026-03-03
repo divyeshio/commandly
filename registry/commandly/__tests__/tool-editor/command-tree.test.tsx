@@ -7,7 +7,7 @@ import {
 } from "@testing-library/react";
 
 import { defaultTool } from "@/registry/commandly/lib/utils/commandly";
-import { Tool } from "@/registry/commandly/lib/types/commandly";
+import { Command, Tool } from "@/registry/commandly/lib/types/commandly";
 import { CommandTree } from "../../tool-editor/command-tree";
 import {
   ToolBuilderState,
@@ -140,9 +140,9 @@ const createComplexTool = (): Tool => {
   };
 };
 
-var testState: ToolBuilderState = {
+const testState: ToolBuilderState = {
   tool: defaultTool("test-tool", "Test tool"),
-  selectedCommand: {} as any,
+  selectedCommand: {} as Command,
   selectedParameter: null,
   editingCommand: null,
   parameterValues: {},

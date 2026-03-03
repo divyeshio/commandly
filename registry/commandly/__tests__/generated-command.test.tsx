@@ -3,16 +3,29 @@ import { vi } from "vitest";
 import { GeneratedCommand } from "../generated-command";
 import { toolBuilderStore } from "../tool-editor/tool-editor.store";
 
-vi.mock("../tool-editor.store", () => ({
+vi.mock("../tool-editor/tool-editor.store", () => ({
   toolBuilderStore: {
-    getState: () => ({
+    state: {
       selectedCommand: {
         name: "test",
-        id: "01979f70-cc01-73fe-b638-11efe685b4df"
+        id: "01979f70-cc01-73fe-b638-11efe685b4df",
+        isDefault: true,
+        sortOrder: 0
       },
-      tool: { name: "tool", commands: [], parameters: [] },
+      tool: {
+        name: "tool",
+        commands: [
+          {
+            name: "test",
+            id: "01979f70-cc01-73fe-b638-11efe685b4df",
+            isDefault: true,
+            sortOrder: 0
+          }
+        ],
+        parameters: []
+      },
       parameterValues: {}
-    }),
+    },
     subscribe: vi.fn()
   },
   toolBuilderActions: {

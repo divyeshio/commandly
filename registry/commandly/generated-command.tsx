@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useCallback, useEffect, useState, useMemo } from "react";
 import { TerminalIcon, CopyIcon, SaveIcon } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -36,11 +36,7 @@ export function GeneratedCommand({
     );
   }, [tool, selectedCommand]);
 
-  useEffect(() => {
-    generateCommand();
-  }, [tool, parameterValues, selectedCommand]);
-
-  const generateCommand = () => {
+  const generateCommand = useCallback(() => {
     const commandPath = getCommandPath(selectedCommand, tool);
     let command =
       tool.name == commandPath ? tool.name : `${tool.name} ${commandPath}`;
@@ -95,7 +91,11 @@ export function GeneratedCommand({
     });
 
     setGeneratedCommand(command);
-  };
+  }, [tool, parameterValues, selectedCommand, globalParameters, currentParameters]);
+
+  useEffect(() => {
+    generateCommand();
+  }, [generateCommand]);
 
   const copyCommand = () => {
     navigator.clipboard.writeText(generatedCommand);

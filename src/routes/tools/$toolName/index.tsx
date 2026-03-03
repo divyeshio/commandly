@@ -92,13 +92,18 @@ export const Route = createFileRoute("/tools/$toolName/")({
 function RouteComponent() {
   const tool = Route.useLoaderData();
 
-  if (!tool) return <div>Tool not found.</div>;
   const [parameterValues, setParameterValues] = useState({});
   const [savedCommands, setSavedCommands] = useState(() => {
     if (!tool) return [];
     const toolId = tool.id || tool.name;
     return getSavedCommandsFromStorage(toolId);
   });
+  const [open, setOpen] = useState(false);
+  const [selectedCommand, setSelectedCommand] = useQueryState("command", {
+    defaultValue: tool?.commands[0].name!
+  });
+
+  if (!tool) return <div>Tool not found.</div>;
 
   const handleSaveCommand = (command: string) => {
     const toolId = (tool?.id || tool?.name)!;
@@ -128,11 +133,6 @@ function RouteComponent() {
     removeSavedCommandFromStorage(`saved-${toolId}`, commandId);
     setSavedCommands(getSavedCommandsFromStorage(toolId));
   };
-
-  const [open, setOpen] = useState(false);
-  const [selectedCommand, setSelectedCommand] = useQueryState("command", {
-    defaultValue: tool?.commands[0].name!
-  });
 
   return (
     <div className="flex flex-col">

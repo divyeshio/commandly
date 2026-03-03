@@ -16,7 +16,7 @@ export function ImportJSON({
   const [isImporting, setIsImporting] = useState(false);
   const [jsonInput, setJsonInput] = useState("");
 
-  useEffect(() => onParseCompleted(null), []);
+  useEffect(() => onParseCompleted(null), [onParseCompleted]);
 
   const importFromJSON = () => {
     if (!jsonInput.trim()) {
@@ -30,7 +30,7 @@ export function ImportJSON({
       setJsonInput("");
     } catch (error) {
       console.error(error);
-      toast.error(error.name, {
+      toast.error(error instanceof Error ? error.name : "Error", {
         description: "Failed to parse JSON. Please check the format."
       });
     } finally {

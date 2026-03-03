@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -76,15 +76,15 @@ export function AIParsing({
     } catch (error) {
       console.error("Error with AI parsing:", error);
       setJson("");
-      toast.error(error);
+      toast.error(error instanceof Error ? error.message : String(error));
     }
     setIsParsingHelp(false);
   };
 
-  const validateJson = (jsonString: string) => {
+  const validateJson = useCallback((jsonString: string) => {
     try {
       const parsedTool = ToolSchema.parse(JSON.parse(jsonString));
-      var modifiedTool = replaceId(parsedTool);
+      const modifiedTool = replaceId(parsedTool);
       setJson(JSON.stringify(modifiedTool, null, 2));
       onParseCompleted(modifiedTool);
     } catch (error) {
@@ -99,7 +99,7 @@ export function AIParsing({
         toast.error("Failed to parse JSON. Please check the format.");
       }
     }
-  };
+  }, [onParseCompleted]);
   const [debouncedQuery] = useDebouncedValue(json, {
     wait: 2000,
     enabled: isUserTouched
@@ -109,14 +109,14 @@ export function AIParsing({
     if (json && isUserTouched) {
       validateJson(debouncedQuery);
     }
-  }, [debouncedQuery, isUserTouched]);
+  }, [debouncedQuery, isUserTouched, json, validateJson]);
 
   return (
     <div className="space-y-4">
       <div className="flex gap-3">
         <Label htmlFor="ai-model">Model</Label>
         <Select onValueChange={setModel}>
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-45">
             <SelectValue placeholder="Select a model" />
           </SelectTrigger>
           <SelectContent>
