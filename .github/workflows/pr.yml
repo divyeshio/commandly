@@ -30,7 +30,7 @@ jobs:
         run: bun install
 
       - run: bun run lint
-      - run: bunx prettier . --check
+      - run: bun run format:check
 
   build-test:
     runs-on: ubuntu-latest

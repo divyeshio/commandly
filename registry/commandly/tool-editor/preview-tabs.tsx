@@ -1,42 +1,30 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { HelpMenu } from "./help-menu";
-import { useQueryState } from "nuqs";
-import { useStore } from "@tanstack/react-store";
-import { toolBuilderStore, toolBuilderActions } from "./tool-editor.store";
-import { RuntimePreview } from "../runtime-preview";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from "@/components/ui/card";
-import { ParameterValue } from "@/registry/commandly/lib/types/commandly";
-import { TerminalIcon } from "lucide-react";
-import { JsonOutput } from "../json-output";
 import { GeneratedCommand } from "../generated-command";
+import { JsonOutput } from "../json-output";
+import { RuntimePreview } from "../runtime-preview";
+import { HelpMenu } from "./help-menu";
+import { toolBuilderStore, toolBuilderActions } from "./tool-editor.store";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ParameterValue } from "@/registry/commandly/lib/types/commandly";
+import { useStore } from "@tanstack/react-store";
+import { TerminalIcon } from "lucide-react";
+import { useQueryState } from "nuqs";
 
 export function PreviewTabs() {
   const [currentTab, setActiveTab] = useQueryState("tab", {
-    defaultValue: "ui"
+    defaultValue: "ui",
   });
 
-  const selectedCommand = useStore(
-    toolBuilderStore,
-    (state) => state.selectedCommand
-  );
+  const selectedCommand = useStore(toolBuilderStore, (state) => state.selectedCommand);
   const tool = useStore(toolBuilderStore, (state) => state.tool);
-  const parameterValues = useStore(
-    toolBuilderStore,
-    (state) => state.parameterValues
-  );
+  const parameterValues = useStore(toolBuilderStore, (state) => state.parameterValues);
   const updateParameterValue = (parameterId: string, value: ParameterValue) => {
     toolBuilderStore.setState((state) => ({
       ...state,
       parameterValues: {
         ...state.parameterValues,
-        [parameterId]: value as ParameterValue
-      }
+        [parameterId]: value as ParameterValue,
+      },
     }));
   };
 
@@ -45,9 +33,13 @@ export function PreviewTabs() {
   };
 
   return (
-    <div className="h-full rounded-xl flex justify-center max-w-full">
-      <Tabs value={currentTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="flex justify-center w-fit mx-auto">
+    <div className="flex h-full max-w-full justify-center rounded-xl">
+      <Tabs
+        value={currentTab}
+        onValueChange={setActiveTab}
+        className="w-full"
+      >
+        <TabsList className="mx-auto flex w-fit justify-center">
           <TabsTrigger value="json">Json</TabsTrigger>
           <TabsTrigger value="ui">Preview</TabsTrigger>
           <TabsTrigger value="help">Help</TabsTrigger>
@@ -55,7 +47,10 @@ export function PreviewTabs() {
         <TabsContent value="json">
           <JsonOutput tool={tool} />
         </TabsContent>
-        <TabsContent value="ui" className="flex flex-col gap-4">
+        <TabsContent
+          value="ui"
+          className="flex flex-col gap-4"
+        >
           <Card>
             <CardHeader hidden={true}>
               <CardDescription hidden={true}></CardDescription>
@@ -88,7 +83,7 @@ export function PreviewTabs() {
           </Card>
         </TabsContent>
         <TabsContent value="help">
-          <Card className="p-0 rounded-xl">
+          <Card className="rounded-xl p-0">
             <CardHeader hidden={true}>
               <CardDescription hidden={true}>
                 Get help with using this tool and its features.

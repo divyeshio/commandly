@@ -1,3 +1,6 @@
+import { AIParsing } from "../ai-parsing";
+import { ImportJSON } from "../import";
+import { ManualNewToolComponent } from "../manual-new-tool";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -6,19 +9,16 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tool } from "@/registry/commandly/lib/types/commandly";
 import { Edit2Icon, UploadIcon, Wand2Icon } from "lucide-react";
 import { useState } from "react";
-import { AIParsing } from "../ai-parsing";
-import { ManualNewToolComponent } from "../manual-new-tool";
-import { ImportJSON } from "../import";
 
 export function NewToolDialog({
   handleNavigation,
-  children
+  children,
 }: {
   handleNavigation: (tool: Tool) => void;
   children: React.ReactNode;
@@ -69,13 +69,13 @@ export function NewToolDialog({
         >
           <TabsList className="w-full">
             <TabsTrigger value="import">
-              <UploadIcon className="h-4 w-4 mr-1" /> Import JSON
+              <UploadIcon className="mr-1 h-4 w-4" /> Import JSON
             </TabsTrigger>
             <TabsTrigger value="manual">
-              <Edit2Icon className="h-4 w-4 mr-1" /> Manual
+              <Edit2Icon className="mr-1 h-4 w-4" /> Manual
             </TabsTrigger>
             <TabsTrigger value="ai">
-              <Wand2Icon className="h-4 w-4 mr-1" /> Parse Help with AI
+              <Wand2Icon className="mr-1 h-4 w-4" /> Parse Help with AI
             </TabsTrigger>
           </TabsList>
           <TabsContent value="import">

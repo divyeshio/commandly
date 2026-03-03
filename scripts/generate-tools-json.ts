@@ -1,5 +1,6 @@
 import { readdirSync, readFileSync, writeFileSync } from "fs";
 import { join } from "path";
+
 import type { Tool } from "../registry/commandly/lib/types/commandly";
 
 const collectionDir = join(process.cwd(), "public", "tools-collection");
@@ -13,7 +14,7 @@ const tools = files.map((file) => {
     displayName: tool.displayName || tool.name,
     description: tool.description,
     supportedInput: tool.supportedInput,
-    supportedOutput: tool.supportedOutput
+    supportedOutput: tool.supportedOutput,
   };
 });
 

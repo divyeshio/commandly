@@ -5,7 +5,7 @@ import type {
   SavedCommand,
   SupportedToolInputType,
   SupportedToolOutputType,
-  Tool
+  Tool,
 } from "@/registry/commandly/lib/types/commandly";
 import { v7 as uuidv7 } from "uuid";
 
@@ -17,21 +17,16 @@ export const getCommandPath = (command: Command, tool: Tool): string => {
   const findCommandPath = (
     targetId: string,
     commands: Command[],
-    path: string[] = []
+    path: string[] = [],
   ): string[] | null => {
     for (const cmd of commands) {
       if (cmd.name === targetId) {
         return [...path, cmd.name];
       }
 
-      const childCommands = commands.filter(
-        (c) => c.parentCommandId === cmd.id
-      );
+      const childCommands = commands.filter((c) => c.parentCommandId === cmd.id);
       if (childCommands.length > 0) {
-        const subPath = findCommandPath(targetId, childCommands, [
-          ...path,
-          cmd.name
-        ]);
+        const subPath = findCommandPath(targetId, childCommands, [...path, cmd.name]);
         if (subPath) {
           return subPath;
         }
@@ -57,10 +52,7 @@ export const getCommandPath = (command: Command, tool: Tool): string => {
   return path.join(" ");
 };
 
-export const getAllSubcommands = (
-  commandId: string,
-  commands: Command[]
-): Command[] => {
+export const getAllSubcommands = (commandId: string, commands: Command[]): Command[] => {
   const result: Command[] = [];
 
   const findSubcommands = (parentId: string) => {
@@ -91,7 +83,7 @@ export const exportToStructuredJSON = (tool: Tool) => {
     parameters: tool.parameters,
     exclusionGroups: tool.exclusionGroups,
     supportedInput: tool.supportedInput,
-    supportedOutput: tool.supportedOutput
+    supportedOutput: tool.supportedOutput,
   };
 };
 
@@ -103,7 +95,7 @@ export const flattenImportedData = (importedData: Record<string, unknown>): Tool
     commands = [],
     exclusionGroups = [],
     supportedInput = [],
-    supportedOutput = []
+    supportedOutput = [],
   } = importedData as {
     name: string;
     displayName?: string;
@@ -118,9 +110,13 @@ export const flattenImportedData = (importedData: Record<string, unknown>): Tool
 
   const flattenCommandParameters = (
     command: Record<string, unknown>,
-    parentId?: string
+    parentId?: string,
   ): Command[] => {
-    const { parameters = [], subcommands = [], ...commandData } = command as {
+    const {
+      parameters = [],
+      subcommands = [],
+      ...commandData
+    } = command as {
       parameters?: Parameter[];
       subcommands?: Record<string, unknown>[];
       [key: string]: unknown;
@@ -130,13 +126,13 @@ export const flattenImportedData = (importedData: Record<string, unknown>): Tool
       allParameters.push({
         ...param,
         commandId: command.id as string,
-        isGlobal: !command.name
+        isGlobal: !command.name,
       });
     });
 
     const flatCommand: Command = {
       ...commandData,
-      parentCommandId: parentId
+      parentCommandId: parentId,
     } as Command;
 
     const flatCommands = [flatCommand];
@@ -160,7 +156,7 @@ export const flattenImportedData = (importedData: Record<string, unknown>): Tool
     parameters: allParameters,
     exclusionGroups,
     supportedInput: supportedInput,
-    supportedOutput: supportedOutput
+    supportedOutput: supportedOutput,
   };
 };
 
@@ -176,8 +172,8 @@ export const defaultTool = (toolName?: string, displayName?: string): Tool => {
         name: toolName || "my-tool",
         description: "Main command",
         isDefault: true,
-        sortOrder: 0
-      }
+        sortOrder: 0,
+      },
     ],
     parameters: [
       {
@@ -193,17 +189,17 @@ export const defaultTool = (toolName?: string, displayName?: string): Tool => {
         isRepeatable: false,
         enumValues: [],
         validations: [],
-        dependencies: []
-      }
+        dependencies: [],
+      },
     ],
     exclusionGroups: [],
     supportedInput: ["StandardInput"],
-    supportedOutput: ["StandardOutput"]
+    supportedOutput: ["StandardOutput"],
   };
 };
 
 export const validateDefaultValue = (
-  parameter: Parameter
+  parameter: Parameter,
 ): { isValid: boolean; error?: string } => {
   const { defaultValue, validations, dataType } = parameter;
 
@@ -219,7 +215,7 @@ export const validateDefaultValue = (
       if (!["true", "false", "1", "0"].includes(defaultValue.toLowerCase())) {
         return {
           isValid: false,
-          error: "Default value must be true/false or 1/0"
+          error: "Default value must be true/false or 1/0",
         };
       }
       break;
@@ -230,57 +226,42 @@ export const validateDefaultValue = (
 
     switch (validation.validationType) {
       case "min_length":
-        if (
-          typeof value === "string" &&
-          value.length < Number(validation.validationValue)
-        ) {
+        if (typeof value === "string" && value.length < Number(validation.validationValue)) {
           return {
             isValid: false,
-            error: validation.errorMessage || "Value too short"
+            error: validation.errorMessage || "Value too short",
           };
         }
         break;
       case "max_length":
-        if (
-          typeof value === "string" &&
-          value.length > Number(validation.validationValue)
-        ) {
+        if (typeof value === "string" && value.length > Number(validation.validationValue)) {
           return {
             isValid: false,
-            error: validation.errorMessage || "Value too long"
+            error: validation.errorMessage || "Value too long",
           };
         }
         break;
       case "min_value":
-        if (
-          typeof value === "number" &&
-          value < Number(validation.validationValue)
-        ) {
+        if (typeof value === "number" && value < Number(validation.validationValue)) {
           return {
             isValid: false,
-            error: validation.errorMessage || "Value too small"
+            error: validation.errorMessage || "Value too small",
           };
         }
         break;
       case "max_value":
-        if (
-          typeof value === "number" &&
-          value > Number(validation.validationValue)
-        ) {
+        if (typeof value === "number" && value > Number(validation.validationValue)) {
           return {
             isValid: false,
-            error: validation.errorMessage || "Value too large"
+            error: validation.errorMessage || "Value too large",
           };
         }
         break;
       case "regex":
-        if (
-          typeof value === "string" &&
-          !new RegExp(validation.validationValue).test(value)
-        ) {
+        if (typeof value === "string" && !new RegExp(validation.validationValue).test(value)) {
           return {
             isValid: false,
-            error: validation.errorMessage || "Value doesn't match pattern"
+            error: validation.errorMessage || "Value doesn't match pattern",
           };
         }
         break;
@@ -297,14 +278,11 @@ export const createNewCommand = (parentId?: string): Command => {
     name: randomCommandName(),
     description: "",
     isDefault: false,
-    sortOrder: 1
+    sortOrder: 1,
   };
 };
 
-export const createNewParameter = (
-  isGlobal: boolean,
-  commandId?: string
-): Parameter => {
+export const createNewParameter = (isGlobal: boolean, commandId?: string): Parameter => {
   return {
     id: uuidv7(),
     name: "",
@@ -323,7 +301,7 @@ export const createNewParameter = (
     keyValueSeparator: " ",
     enumValues: [],
     validations: [],
-    dependencies: []
+    dependencies: [],
   };
 };
 
@@ -336,10 +314,7 @@ export const getSavedCommandsFromStorage = (toolId: string): SavedCommand[] => {
   }
 };
 
-export const saveSavedCommandsToStorage = (
-  toolId: string,
-  commands: SavedCommand[]
-): void => {
+export const saveSavedCommandsToStorage = (toolId: string, commands: SavedCommand[]): void => {
   try {
     localStorage.setItem(toolId, JSON.stringify(commands));
   } catch (error) {
@@ -347,23 +322,15 @@ export const saveSavedCommandsToStorage = (
   }
 };
 
-export const addSavedCommandToStorage = (
-  toolId: string,
-  command: SavedCommand
-): void => {
+export const addSavedCommandToStorage = (toolId: string, command: SavedCommand): void => {
   const existingCommands = getSavedCommandsFromStorage(toolId);
   const updatedCommands = [...existingCommands, command];
   saveSavedCommandsToStorage(toolId, updatedCommands);
 };
 
-export const removeSavedCommandFromStorage = (
-  toolId: string,
-  commandId: string
-): void => {
+export const removeSavedCommandFromStorage = (toolId: string, commandId: string): void => {
   const existingCommands = getSavedCommandsFromStorage(toolId);
-  const updatedCommands = existingCommands.filter(
-    (cmd) => cmd.id !== commandId
-  );
+  const updatedCommands = existingCommands.filter((cmd) => cmd.id !== commandId);
   saveSavedCommandsToStorage(toolId, updatedCommands);
 };
 
@@ -383,8 +350,7 @@ export const randomCommandName = () => {
 
 export function generateHashCode(s: string): string {
   let h = 0;
-  for (let i = 0; i < s.length; i++)
-    h = (Math.imul(31, h) + s.charCodeAt(i)) | 0;
+  for (let i = 0; i < s.length; i++) h = (Math.imul(31, h) + s.charCodeAt(i)) | 0;
 
   return h.toString();
 }

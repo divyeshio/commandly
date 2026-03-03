@@ -1,7 +1,8 @@
-import { ToolSchema } from "@/registry/commandly/lib/types/commandly";
-import * as z from "zod/v4";
 import { writeFileSync } from "fs";
 import { join } from "path";
+
+import { ToolSchema } from "@/registry/commandly/lib/types/commandly";
+import * as z from "zod/v4";
 
 const jsonSchema = z.toJSONSchema(ToolSchema);
 

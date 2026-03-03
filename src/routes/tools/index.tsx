@@ -1,24 +1,24 @@
-import React, { Suspense, useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { queryOptions } from "@tanstack/react-query";
-import { SearchIcon } from "lucide-react";
+import { SkeletonCard } from "@/components/square-card-skeleton";
+import { NewToolDialog } from "@/components/tool-editor-ui/dialogs/new-tool";
 import { ToolCard } from "@/components/tool-editor-ui/tool-card";
 import { Button } from "@/components/ui/button";
-import { SkeletonCard } from "@/components/square-card-skeleton";
 import { Input, InputIcon, InputRoot } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { type Tool } from "@/registry/commandly/lib/types/commandly";
 import { MultiSelect } from "@/components/ui/multi-select";
-import { NewToolDialog } from "@/components/tool-editor-ui/dialogs/new-tool";
-import { v7 as uuidv7 } from "uuid";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { fetchToolsList } from "@/lib/api/tools.api";
+import { type Tool } from "@/registry/commandly/lib/types/commandly";
+import { queryOptions } from "@tanstack/react-query";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { SearchIcon } from "lucide-react";
+import React, { Suspense, useState } from "react";
+import { v7 as uuidv7 } from "uuid";
 
 export const toolsQueryOptions = () =>
   queryOptions({
     queryKey: ["tools"],
     queryFn: () => fetchToolsList(),
-    staleTime: Infinity
+    staleTime: Infinity,
   });
 
 export const Route = createFileRoute("/tools/")({
@@ -27,7 +27,7 @@ export const Route = createFileRoute("/tools/")({
   loader: async () => {
     const serverTools = await fetchToolsList();
     return { serverTools };
-  }
+  },
 });
 
 function RouteComponent() {
@@ -35,7 +35,7 @@ function RouteComponent() {
   const loaderData = Route.useLoaderData();
   const [tools, setTools] = useState<Partial<Tool>[]>(loaderData.serverTools || []);
   const [serverToolNames] = useState<Set<string>>(
-    new Set((loaderData.serverTools || []).map((t) => t.name).filter((n): n is string => !!n))
+    new Set((loaderData.serverTools || []).map((t) => t.name).filter((n): n is string => !!n)),
   );
 
   const [searchValue, setSearchValue] = useState("");
@@ -62,14 +62,11 @@ function RouteComponent() {
 
   const handleNavigation = (importedTool: Tool) => {
     importedTool.id = uuidv7();
-    localStorage.setItem(
-      `tool-${importedTool.name}`,
-      JSON.stringify(importedTool)
-    );
+    localStorage.setItem(`tool-${importedTool.name}`, JSON.stringify(importedTool));
     navigation({
       to: "/tools/$toolName/edit",
       params: { toolName: importedTool.name },
-      search: { newTool: importedTool.name }
+      search: { newTool: importedTool.name },
     });
   };
 
@@ -84,9 +81,7 @@ function RouteComponent() {
         ? tool.name?.toLowerCase().includes(searchValue.toLowerCase()) ||
           tool.displayName?.toLowerCase().includes(searchValue.toLowerCase())
         : true;
-      const matchesCategory = filterCategory
-        ? tool.category === filterCategory
-        : true;
+      const matchesCategory = filterCategory ? tool.category === filterCategory : true;
       const matchesTag = filterTag
         ? Array.isArray(tool.tags) && tool.tags.includes(filterTag)
         : true;
@@ -96,11 +91,11 @@ function RouteComponent() {
 
   return (
     <div className="flex border-t border-muted">
-      <aside className="w-64 min-w-50 h-screen max-w-xs p-4 border-r-2 border-muted">
+      <aside className="h-screen w-64 max-w-xs min-w-50 border-r-2 border-muted p-4">
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
             <Label
-              className="block text-sm font-medium mb-1"
+              className="mb-1 block text-sm font-medium"
               htmlFor="filter-category"
             >
               Category
@@ -114,7 +109,7 @@ function RouteComponent() {
           </div>
           <div className="flex flex-col gap-2">
             <Label
-              className="block text-sm font-medium mb-1"
+              className="mb-1 block text-sm font-medium"
               htmlFor="filter-tag"
             >
               Tag
@@ -141,9 +136,12 @@ function RouteComponent() {
               onChange={(e) => setSearchValue(e.target.value)}
             />
           </InputRoot>
-          <div className="flex gap-3 items-center">
+          <div className="flex items-center gap-3">
             <NewToolDialog handleNavigation={handleNavigation}>
-              <Button variant="default" className="shadow-sm">
+              <Button
+                variant="default"
+                className="shadow-sm"
+              >
                 New Tool
               </Button>
             </NewToolDialog>
@@ -151,7 +149,7 @@ function RouteComponent() {
         </div>
         <ScrollArea className="flex *:data-radix-scroll-area-viewport:max-h-[calc(100vh-180px)]">
           <div className="container mx-auto p-6">
-            <div className="flex gap-8 flex-wrap justify-start">
+            <div className="flex flex-wrap justify-start gap-8">
               <Suspense
                 fallback={
                   <>
@@ -179,7 +177,7 @@ function RouteComponent() {
 function ListComponent({
   tools,
   serverToolNames,
-  onDelete
+  onDelete,
 }: {
   tools: Partial<Tool>[];
   serverToolNames: Set<string>;

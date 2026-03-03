@@ -1,21 +1,21 @@
+import { toolBuilderActions, toolBuilderStore } from "../tool-editor.store";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-  DialogDescription
+  DialogDescription,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 import { Command } from "@/registry/commandly/lib/types/commandly";
+import { useStore } from "@tanstack/react-store";
 import { TerminalIcon } from "lucide-react";
 import { useState } from "react";
-import { useStore } from "@tanstack/react-store";
-import { toolBuilderActions, toolBuilderStore } from "../tool-editor.store";
 
 interface CommandDialogProps {
   isOpen: boolean;
@@ -28,16 +28,17 @@ export function CommandDialog({ isOpen, onOpenChange }: CommandDialogProps) {
   const [editCommand, setCommand] = useState<Command>(command!);
 
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={onOpenChange}
+    >
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <TerminalIcon className="h-5 w-5" />
             Edit Command Settings
           </DialogTitle>
-          <DialogDescription>
-            Dialog for editing command details
-          </DialogDescription>
+          <DialogDescription>Dialog for editing command details</DialogDescription>
         </DialogHeader>
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
@@ -50,7 +51,7 @@ export function CommandDialog({ isOpen, onOpenChange }: CommandDialogProps) {
                 onChange={(e) =>
                   setCommand((prev) => ({
                     ...prev,
-                    name: e.target.value
+                    name: e.target.value,
                   }))
                 }
               />
@@ -66,7 +67,7 @@ export function CommandDialog({ isOpen, onOpenChange }: CommandDialogProps) {
                 onChange={(e) =>
                   setCommand((prev) => ({
                     ...prev,
-                    sortOrder: Number.parseInt(e.target.value) || 0
+                    sortOrder: Number.parseInt(e.target.value) || 0,
                   }))
                 }
               />
@@ -79,7 +80,7 @@ export function CommandDialog({ isOpen, onOpenChange }: CommandDialogProps) {
                 onCheckedChange={(checked) => {
                   setCommand((prev) => ({
                     ...prev,
-                    isDefault: checked
+                    isDefault: checked,
                   }));
                 }}
               />
@@ -91,9 +92,7 @@ export function CommandDialog({ isOpen, onOpenChange }: CommandDialogProps) {
             <Textarea
               id="cmd-desc"
               value={editCommand.description}
-              onChange={(e) =>
-                setCommand((prev) => ({ ...prev, description: e.target.value }))
-              }
+              onChange={(e) => setCommand((prev) => ({ ...prev, description: e.target.value }))}
               rows={3}
             />
           </div>

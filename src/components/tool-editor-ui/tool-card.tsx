@@ -1,27 +1,23 @@
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardAction,
   CardContent,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { HoverCard, HoverCardTrigger, HoverCardContent } from "@/components/ui/hover-card";
 import { Tool } from "@/registry/commandly/lib/types/commandly";
-import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
 import { Edit2Icon, Trash2Icon } from "lucide-react";
-import {
-  HoverCard,
-  HoverCardTrigger,
-  HoverCardContent
-} from "@/components/ui/hover-card";
 import { useRef, useEffect, useState } from "react";
 
 export function ToolCard({
   tool,
   isLocal = false,
-  onDelete
+  onDelete,
 }: {
   tool: Partial<Tool>;
   isLocal?: boolean;
@@ -40,16 +36,16 @@ export function ToolCard({
 
   return (
     <Card
-      className="hover:shadow-md w-72 h-72 flex flex-col gap-0 py-3 overflow-hidden"
+      className="flex h-72 w-72 flex-col gap-0 overflow-hidden py-3 hover:shadow-md"
       style={{
-        viewTransitionName: `tool-card-${tool.name}`
+        viewTransitionName: `tool-card-${tool.name}`,
       }}
     >
-      <CardHeader className="border-b [.border-b]:pb-1 flex items-center justify-between">
+      <CardHeader className="flex items-center justify-between border-b [.border-b]:pb-1">
         <CardTitle className="font-semibold">
           <span
             style={{
-              viewTransitionName: `tool-card-title-${tool.name}`
+              viewTransitionName: `tool-card-title-${tool.name}`,
             }}
           >
             {tool.displayName}
@@ -74,7 +70,7 @@ export function ToolCard({
             <Button
               size="icon"
               variant="link"
-              className="text-foreground dark:text-primary cursor-pointer"
+              className="cursor-pointer text-foreground dark:text-primary"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -86,14 +82,14 @@ export function ToolCard({
           )}
         </CardAction>
       </CardHeader>
-      <CardContent className="px-2 flex-1 min-h-0">
-        <div className="flex flex-col gap-4 align-top mb-6 cursor-pointer h-full min-h-0">
-          <div className="w-full flex-1 flex items-center justify-center py-1">
+      <CardContent className="min-h-0 flex-1 px-2">
+        <div className="mb-6 flex h-full min-h-0 cursor-pointer flex-col gap-4 align-top">
+          <div className="flex w-full flex-1 items-center justify-center py-1">
             {tool.description ? (
               isOverflowing ? (
                 <HoverCard openDelay={0}>
                   <HoverCardTrigger asChild>
-                    <p className="p-1 line-clamp-4 overflow-ellipsis text-justify cursor-pointer dark:text-foreground/60">
+                    <p className="line-clamp-4 cursor-pointer p-1 text-justify overflow-ellipsis dark:text-foreground/60">
                       {tool.description}
                     </p>
                   </HoverCardTrigger>
@@ -104,7 +100,7 @@ export function ToolCard({
               ) : (
                 <p
                   ref={descRef}
-                  className="p-1 line-clamp-4 overflow-ellipsis text-center dark:text-foreground/60"
+                  className="line-clamp-4 p-1 text-center overflow-ellipsis dark:text-foreground/60"
                 >
                   {tool.description}
                 </p>
@@ -114,18 +110,25 @@ export function ToolCard({
             )}
           </div>
 
-          <div className="flex flex-wrap gap-2 justify-center relative z-10 mt-auto mb-4 w-full">
+          <div className="relative z-10 mt-auto mb-4 flex w-full flex-wrap justify-center gap-2">
             {supportedIO &&
               supportedIO.map((type) => (
-                <Badge key={type} variant="secondary" className="text-xs">
+                <Badge
+                  key={type}
+                  variant="secondary"
+                  className="text-xs"
+                >
                   {type}
                 </Badge>
               ))}
           </div>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-center gap-2 w-full mt-auto">
-        <Button className="flex-1" asChild>
+      <CardFooter className="mt-auto flex w-full justify-center gap-2">
+        <Button
+          className="flex-1"
+          asChild
+        >
           <Link
             preload="intent"
             to="/tools/$toolName"

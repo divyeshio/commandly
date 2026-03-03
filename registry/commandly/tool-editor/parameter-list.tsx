@@ -1,9 +1,14 @@
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
-  ExclusionGroup,
-  ParameterType
-} from "@/registry/commandly/lib/types/commandly";
+  ToolBuilderState,
+  toolBuilderStore,
+  toolBuilderActions,
+  toolBuilderSelectors,
+} from "./tool-editor.store";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ExclusionGroup, ParameterType } from "@/registry/commandly/lib/types/commandly";
+import { createNewParameter, validateDefaultValue } from "@/registry/commandly/lib/utils/commandly";
+import { useStore } from "@tanstack/react-store";
 import {
   CheckCircleIcon,
   FileTextIcon,
@@ -13,19 +18,8 @@ import {
   LayersIcon,
   PlusIcon,
   Trash2Icon,
-  XCircleIcon
+  XCircleIcon,
 } from "lucide-react";
-import { useStore } from "@tanstack/react-store";
-import {
-  ToolBuilderState,
-  toolBuilderStore,
-  toolBuilderActions,
-  toolBuilderSelectors
-} from "./tool-editor.store";
-import {
-  createNewParameter,
-  validateDefaultValue
-} from "@/registry/commandly/lib/utils/commandly";
 
 interface ParameterListProps {
   title: string;
@@ -46,52 +40,38 @@ function ParameterIcon({ type }: { type: ParameterType }) {
 }
 
 export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
-  const selectedCommand = useStore(
-    toolBuilderStore,
-    (state) => state.selectedCommand
-  );
+  const selectedCommand = useStore(toolBuilderStore, (state) => state.selectedCommand);
   const globalParameters = useStore(toolBuilderStore, (state) =>
-    toolBuilderSelectors.getGlobalParameters(state)
+    toolBuilderSelectors.getGlobalParameters(state),
   );
-  const commandParameters = useStore(
-    toolBuilderStore,
-    (state: ToolBuilderState) =>
-      selectedCommand?.id
-        ? toolBuilderSelectors.getParametersForCommand(state, selectedCommand.id)
-        : []
+  const commandParameters = useStore(toolBuilderStore, (state: ToolBuilderState) =>
+    selectedCommand?.id
+      ? toolBuilderSelectors.getParametersForCommand(state, selectedCommand.id)
+      : [],
   );
-  const exclusionGroups = useStore(
-    toolBuilderStore,
-    (state: ToolBuilderState) =>
-      selectedCommand?.id
-        ? toolBuilderSelectors.getExclusionGroupsForCommand(
-            state,
-            selectedCommand.id
-          )
-        : []
+  const exclusionGroups = useStore(toolBuilderStore, (state: ToolBuilderState) =>
+    selectedCommand?.id
+      ? toolBuilderSelectors.getExclusionGroupsForCommand(state, selectedCommand.id)
+      : [],
   );
 
   const parameters = isGlobal ? globalParameters : commandParameters;
 
-  const getParameterExclusionGroups = (
-    parameterId: string
-  ): ExclusionGroup[] => {
-    return exclusionGroups.filter((group) =>
-      group.parameterIds.includes(parameterId)
-    );
+  const getParameterExclusionGroups = (parameterId: string): ExclusionGroup[] => {
+    return exclusionGroups.filter((group) => group.parameterIds.includes(parameterId));
   };
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold flex items-center gap-2">
+      <div className="mb-4 flex items-center justify-between">
+        <h3 className="flex items-center gap-2 text-lg font-semibold">
           {isGlobal && <GlobeIcon className="h-5 w-5" />}
           {title} ({parameters.length})
         </h3>
         <Button
           onClick={() =>
             toolBuilderActions.setSelectedParameter(
-              createNewParameter(isGlobal, selectedCommand?.id)
+              createNewParameter(isGlobal, selectedCommand?.id),
             )
           }
           size="sm"
@@ -108,21 +88,17 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
           return (
             <div
               key={parameter.id}
-              className={"p-3 border rounded cursor-pointer hover:bg-muted/50"}
+              className={"cursor-pointer rounded border p-3 hover:bg-muted/50"}
               onClick={() => toolBuilderActions.setSelectedParameter(parameter)}
             >
-              <div className="flex items-center justify-between mb-2">
+              <div className="mb-2 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <ParameterIcon type={parameter.parameterType} />
-                  <span className="font-medium text-sm">
+                  <span className="text-sm font-medium">
                     {parameter.name}
                     {(parameter.longFlag || parameter.shortFlag) && (
-                      <span className="text-muted-foreground ml-1">
-                        (
-                        {[parameter.longFlag, parameter.shortFlag]
-                          .filter(Boolean)
-                          .join(", ")}
-                        )
+                      <span className="ml-1 text-muted-foreground">
+                        ({[parameter.longFlag, parameter.shortFlag].filter(Boolean).join(", ")})
                       </span>
                     )}
                   </span>
@@ -139,20 +115,32 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
                   <Trash2Icon className="h-3 w-3 text-destructive" />
                 </Button>
               </div>
-              <div className="flex items-center gap-1 flex-wrap">
+              <div className="flex flex-wrap items-center gap-1">
                 {parameter.isRequired && (
-                  <Badge variant="destructive" className="text-xs">
+                  <Badge
+                    variant="destructive"
+                    className="text-xs"
+                  >
                     required
                   </Badge>
                 )}
-                <Badge variant="outline" className="text-xs">
+                <Badge
+                  variant="outline"
+                  className="text-xs"
+                >
                   {parameter.parameterType}
                 </Badge>
-                <Badge variant="secondary" className="text-xs">
+                <Badge
+                  variant="secondary"
+                  className="text-xs"
+                >
                   {parameter.dataType}
                 </Badge>
                 {isGlobal && (
-                  <Badge variant="default" className="text-xs">
+                  <Badge
+                    variant="default"
+                    className="text-xs"
+                  >
                     global
                   </Badge>
                 )}
@@ -160,15 +148,13 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
                   <Badge
                     key={group.id}
                     variant="secondary"
-                    className="text-xs bg-muted flex items-center gap-1"
+                    className="flex items-center gap-1 bg-muted text-xs"
                   >
                     <LayersIcon className="h-3 w-3" />
                     {group.name}
                   </Badge>
                 ))}
-                {!validation.isValid && (
-                  <XCircleIcon className="h-3 w-3 text-destructive" />
-                )}
+                {!validation.isValid && <XCircleIcon className="h-3 w-3 text-destructive" />}
                 {validation.isValid && parameter.defaultValue && (
                   <CheckCircleIcon className="h-3 w-3 text-green-500" />
                 )}

@@ -1,7 +1,7 @@
+import { toolBuilderStore } from "./tool-editor.store";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Command } from "@/registry/commandly/lib/types/commandly";
 import { useStore } from "@tanstack/react-store";
-import { toolBuilderStore } from "./tool-editor.store";
 
 export function HelpMenu() {
   const tool = useStore(toolBuilderStore, (state) => state.tool);
@@ -19,20 +19,13 @@ export function HelpMenu() {
     if (globalParams.length > 0) {
       preview += "GLOBAL OPTIONS:\n";
 
-      const globalFlags = globalParams.filter(
-        (p) => p.parameterType === "Flag"
-      );
-      const globalOptions = globalParams.filter(
-        (p) => p.parameterType === "Option"
-      );
+      const globalFlags = globalParams.filter((p) => p.parameterType === "Flag");
+      const globalOptions = globalParams.filter((p) => p.parameterType === "Option");
 
       globalFlags.forEach((flag) => {
         const shortFlag = flag.shortFlag ? `${flag.shortFlag}` : "";
         const longFlag = flag.longFlag ? `${flag.longFlag}` : "";
-        const flagStr =
-          shortFlag && longFlag
-            ? `${shortFlag}, ${longFlag}`
-            : shortFlag || longFlag;
+        const flagStr = shortFlag && longFlag ? `${shortFlag}, ${longFlag}` : shortFlag || longFlag;
         const required = flag.isRequired ? "Required: " : "";
         preview += `  ${flagStr.padEnd(20)} ${required}${flag.description}\n`;
       });
@@ -40,10 +33,7 @@ export function HelpMenu() {
       globalOptions.forEach((option) => {
         const shortFlag = option.shortFlag ? `${option.shortFlag}` : "";
         const longFlag = option.longFlag ? `${option.longFlag}` : "";
-        const flagStr =
-          shortFlag && longFlag
-            ? `${shortFlag}, ${longFlag}`
-            : shortFlag || longFlag;
+        const flagStr = shortFlag && longFlag ? `${shortFlag}, ${longFlag}` : shortFlag || longFlag;
         const valueType = option.dataType.includes("array")
           ? `<value1${option.arraySeparator}value2>`
           : `<${option.dataType}>`;
@@ -58,19 +48,15 @@ export function HelpMenu() {
     preview += "COMMANDS:\n";
     const printCommand = (command: Command, level = 0) => {
       const indent = "  ".repeat(level + 1);
-      preview += `${indent}${command.name.padEnd(20 - level * 2)} ${
-        command.description
-      }\n`;
+      preview += `${indent}${command.name.padEnd(20 - level * 2)} ${command.description}\n`;
 
       const commandParams = tool.parameters.filter(
-        (p) => !p.isGlobal && p.commandId === command.name
+        (p) => !p.isGlobal && p.commandId === command.name,
       );
 
       const flags = commandParams.filter((p) => p.parameterType === "Flag");
       const options = commandParams.filter((p) => p.parameterType === "Option");
-      const arguments_ = commandParams.filter(
-        (p) => p.parameterType === "Argument"
-      );
+      const arguments_ = commandParams.filter((p) => p.parameterType === "Argument");
 
       if (flags.length > 0) {
         preview += `${indent}  Flags:\n`;
@@ -78,13 +64,9 @@ export function HelpMenu() {
           const shortFlag = flag.shortFlag ? `${flag.shortFlag}` : "";
           const longFlag = flag.longFlag ? `${flag.longFlag}` : "";
           const flagStr =
-            shortFlag && longFlag
-              ? `${shortFlag}, ${longFlag}`
-              : shortFlag || longFlag;
+            shortFlag && longFlag ? `${shortFlag}, ${longFlag}` : shortFlag || longFlag;
           const required = flag.isRequired ? "Required: " : "";
-          preview += `${indent}    ${flagStr.padEnd(18)} ${required}${
-            flag.description
-          }\n`;
+          preview += `${indent}    ${flagStr.padEnd(18)} ${required}${flag.description}\n`;
         });
       }
 
@@ -94,16 +76,12 @@ export function HelpMenu() {
           const shortFlag = option.shortFlag ? `${option.shortFlag}` : "";
           const longFlag = option.longFlag ? `${option.longFlag}` : "";
           const flagStr =
-            shortFlag && longFlag
-              ? `${shortFlag}, ${longFlag}`
-              : shortFlag || longFlag;
+            shortFlag && longFlag ? `${shortFlag}, ${longFlag}` : shortFlag || longFlag;
           const valueType = option.dataType.includes("array")
             ? `<value1${option.arraySeparator}value2>`
             : `<${option.dataType}>`;
           const required = option.isRequired ? "Required: " : "";
-          preview += `${indent}    ${flagStr.padEnd(18)} ${required}${
-            option.description
-          }\n`;
+          preview += `${indent}    ${flagStr.padEnd(18)} ${required}${option.description}\n`;
           preview += `${indent}    ${" ".repeat(18)} Value: ${valueType}\n`;
         });
       }
@@ -112,9 +90,7 @@ export function HelpMenu() {
         preview += `${indent}  Arguments:\n`;
         arguments_.forEach((arg) => {
           const required = arg.isRequired ? "Required: " : "";
-          preview += `${indent}    ${arg.name.padEnd(18)} ${required}${
-            arg.description
-          }\n`;
+          preview += `${indent}    ${arg.name.padEnd(18)} ${required}${arg.description}\n`;
           if (arg.dataType === "Enum") {
             preview += `${indent}    ${" ".repeat(18)} Values: ${arg.enumValues
               .map((e) => e.value)
@@ -123,9 +99,7 @@ export function HelpMenu() {
         });
       }
 
-      const subcommands = tool.commands.filter(
-        (cmd) => cmd.parentCommandId === command.id
-      );
+      const subcommands = tool.commands.filter((cmd) => cmd.parentCommandId === command.id);
       if (subcommands.length > 0) {
         preview += `${indent}  Subcommands:\n`;
         subcommands.forEach((subcmd) => {
@@ -140,8 +114,8 @@ export function HelpMenu() {
   };
 
   return (
-    <ScrollArea className="p-4 max-h-[75dvh] w-full rounded-xl">
-      <pre className="text-sm font-mono max-h-[70dvh] w-full rounded-xl p-3">
+    <ScrollArea className="max-h-[75dvh] w-full rounded-xl p-4">
+      <pre className="max-h-[70dvh] w-full rounded-xl p-3 font-mono text-sm">
         {generateToolPreview()}
       </pre>
       <ScrollBar orientation="vertical" />

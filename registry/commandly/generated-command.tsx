@@ -1,14 +1,9 @@
-import { useCallback, useEffect, useState, useMemo } from "react";
-import { TerminalIcon, CopyIcon, SaveIcon } from "lucide-react";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Parameter, ParameterValue, Tool, Command } from "@/registry/commandly/lib/types/commandly";
 import { getCommandPath } from "@/registry/commandly/lib/utils/commandly";
-import {
-  Parameter,
-  ParameterValue,
-  Tool,
-  Command
-} from "@/registry/commandly/lib/types/commandly";
+import { TerminalIcon, CopyIcon, SaveIcon } from "lucide-react";
+import { useCallback, useEffect, useState, useMemo } from "react";
+import { toast } from "sonner";
 
 interface GeneratedCommandProps {
   tool: Tool;
@@ -21,7 +16,7 @@ export function GeneratedCommand({
   tool,
   selectedCommand,
   parameterValues,
-  onSaveCommand
+  onSaveCommand,
 }: GeneratedCommandProps) {
   selectedCommand = selectedCommand || tool.commands[0];
   const [generatedCommand, setGeneratedCommand] = useState("");
@@ -31,15 +26,12 @@ export function GeneratedCommand({
   }, [tool]);
 
   const currentParameters = useMemo(() => {
-    return (
-      tool?.parameters?.filter((p) => p.commandId === selectedCommand.id) || []
-    );
+    return tool?.parameters?.filter((p) => p.commandId === selectedCommand.id) || [];
   }, [tool, selectedCommand]);
 
   const generateCommand = useCallback(() => {
     const commandPath = getCommandPath(selectedCommand, tool);
-    let command =
-      tool.name == commandPath ? tool.name : `${tool.name} ${commandPath}`;
+    let command = tool.name == commandPath ? tool.name : `${tool.name} ${commandPath}`;
 
     const parametersWithValues: Array<{
       param: Parameter;
@@ -55,12 +47,7 @@ export function GeneratedCommand({
 
     currentParameters.forEach((param) => {
       const value = parameterValues[param.id];
-      if (
-        value !== undefined &&
-        value !== "" &&
-        value !== false &&
-        !param.isGlobal
-      ) {
+      if (value !== undefined && value !== "" && value !== false && !param.isGlobal) {
         parametersWithValues.push({ param, value });
       }
     });
@@ -105,20 +92,20 @@ export function GeneratedCommand({
   return (
     <div>
       {tool.commands.length === 0 ? (
-        <div className="text-center py-8">
-          <TerminalIcon className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-          <p className="text-muted-foreground">
-            No commands available for this tool.
-          </p>
+        <div className="py-8 text-center">
+          <TerminalIcon className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
+          <p className="text-muted-foreground">No commands available for this tool.</p>
         </div>
       ) : generatedCommand ? (
         <div className="space-y-4">
-          <div className="bg-muted p-4 rounded font-mono text-sm">
-            {generatedCommand}
-          </div>
+          <div className="rounded bg-muted p-4 font-mono text-sm">{generatedCommand}</div>
           <div className="flex gap-2">
-            <Button onClick={copyCommand} variant="outline" className="flex-1">
-              <CopyIcon className="h-4 w-4 mr-2" />
+            <Button
+              onClick={copyCommand}
+              variant="outline"
+              className="flex-1"
+            >
+              <CopyIcon className="mr-2 h-4 w-4" />
               Copy Command
             </Button>
             {onSaveCommand && (
@@ -127,18 +114,16 @@ export function GeneratedCommand({
                 variant="outline"
                 className="flex-1"
               >
-                <SaveIcon className="h-4 w-4 mr-2" />
+                <SaveIcon className="mr-2 h-4 w-4" />
                 Save Command
               </Button>
             )}
           </div>
         </div>
       ) : (
-        <div className="text-center py-8">
-          <TerminalIcon className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-          <p className="text-muted-foreground">
-            Configure parameters to generate the command.
-          </p>
+        <div className="py-8 text-center">
+          <TerminalIcon className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
+          <p className="text-muted-foreground">Configure parameters to generate the command.</p>
         </div>
       )}
     </div>

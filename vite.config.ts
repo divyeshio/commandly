@@ -1,17 +1,17 @@
-import { defineConfig } from "vite";
-import tsConfigPaths from "vite-tsconfig-paths";
+import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "vite";
+import tsConfigPaths from "vite-tsconfig-paths";
 export default defineConfig({
   plugins: [
     tsConfigPaths({
-      projects: ["./tsconfig.json"]
+      projects: ["./tsconfig.json"],
     }),
     tanstackStart({
       prerender: {
         enabled: true,
-        crawlLinks: false
+        crawlLinks: false,
       },
       pages: [
         {
@@ -19,16 +19,16 @@ export default defineConfig({
           prerender: {
             outputPath: "/index.html",
             enabled: true,
-            crawlLinks: false
-          }
+            crawlLinks: false,
+          },
         },
         {
           path: "/tools",
           prerender: {
             outputPath: "/tools.html",
             enabled: true,
-            crawlLinks: false
-          }
+            crawlLinks: false,
+          },
         },
       ],
       spa: {
@@ -37,11 +37,11 @@ export default defineConfig({
           outputPath: "/index.html",
           enabled: true,
           crawlLinks: false,
-        }
-      }
+        },
+      },
     }),
     viteReact(),
-    tailwindcss()
+    tailwindcss(),
   ],
   build: {
     outDir: "build",
@@ -49,5 +49,5 @@ export default defineConfig({
   },
   server: {
     port: 4001,
-  }
+  },
 });

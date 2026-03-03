@@ -1,14 +1,7 @@
-import { MoonIcon, SunIcon } from "lucide-react";
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useRef,
-  useState
-} from "react";
-import { flushSync } from "react-dom";
 import { Button } from "./ui/button";
+import { MoonIcon, SunIcon } from "lucide-react";
+import { createContext, ReactNode, useContext, useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 
 type Theme = "dark" | "light" | "system";
 
@@ -44,16 +37,13 @@ export function ThemeSwitcher() {
 
     document.documentElement.animate(
       {
-        clipPath: [
-          `circle(0px at ${x}px ${y}px)`,
-          `circle(${maxRadius}px at ${x}px ${y}px)`
-        ]
+        clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${maxRadius}px at ${x}px ${y}px)`],
       },
       {
         duration: 400,
         easing: "ease-in-out",
-        pseudoElement: "::view-transition-new(root)"
-      }
+        pseudoElement: "::view-transition-new(root)",
+      },
     );
   };
 
@@ -62,15 +52,13 @@ export function ThemeSwitcher() {
       size="icon"
       variant="ghost"
       className="rounded-full"
-      onClick={() =>
-        theme === "dark" ? toggleDarkMode("light") : toggleDarkMode("dark")
-      }
+      onClick={() => (theme === "dark" ? toggleDarkMode("light") : toggleDarkMode("dark"))}
       ref={ref}
     >
       {(mounted ? theme === "dark" : true) ? (
-        <MoonIcon className="rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+        <MoonIcon className="scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
       ) : (
-        <SunIcon className="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+        <SunIcon className="scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
       )}
     </Button>
   );
@@ -81,9 +69,7 @@ interface ThemeProviderContextType {
   setTheme: (theme: Theme) => void;
 }
 
-const ThemeProviderContext = createContext<
-  ThemeProviderContextType | undefined
->(undefined);
+const ThemeProviderContext = createContext<ThemeProviderContextType | undefined>(undefined);
 
 const storageKey = "ui-theme";
 
@@ -92,10 +78,7 @@ interface ThemeProviderProps {
   defaultTheme?: Theme;
 }
 
-export function ThemeProvider({
-  children,
-  defaultTheme = "dark"
-}: ThemeProviderProps) {
+export function ThemeProvider({ children, defaultTheme = "dark" }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(() => {
     if (typeof window === "undefined") return defaultTheme;
     return (localStorage.getItem(storageKey) as Theme) || defaultTheme;
@@ -112,14 +95,10 @@ export function ThemeProvider({
 
   const value = {
     theme,
-    setTheme
+    setTheme,
   };
 
-  return (
-    <ThemeProviderContext.Provider value={value}>
-      {children}
-    </ThemeProviderContext.Provider>
-  );
+  return <ThemeProviderContext.Provider value={value}>{children}</ThemeProviderContext.Provider>;
 }
 
 export const useTheme = () => {

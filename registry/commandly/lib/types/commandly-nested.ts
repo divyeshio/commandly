@@ -1,4 +1,13 @@
-import { ExclusionType, ParameterDataType, ParameterDependencyType, ParameterMetadata, ParameterType, ParameterValidation,SupportedToolInputType,SupportedToolOutputType } from "./commandly";
+import {
+  ExclusionType,
+  ParameterDataType,
+  ParameterDependencyType,
+  ParameterMetadata,
+  ParameterType,
+  ParameterValidation,
+  SupportedToolInputType,
+  SupportedToolOutputType,
+} from "./commandly";
 
 export interface NestedCommand {
   name: string;
@@ -17,10 +26,7 @@ export interface NestedParameterEnumValue {
   sortOrder: number;
 }
 
-export type NestedParameterValidation = Omit<
-  ParameterValidation,
-  "id" | "parameterId"
->;
+export type NestedParameterValidation = Omit<ParameterValidation, "id" | "parameterId">;
 
 export interface NestedParameterDependency {
   dependsOnParameter: string;

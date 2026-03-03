@@ -1,8 +1,8 @@
 {
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
-  "ignorePatterns": ["src/routeTree.gen.ts"],
+  "ignorePatterns": ["src/routeTree.gen.ts", "public"],
   "experimentalTailwindcss": {
-    "stylesheet": "./src/index.css",
+    "stylesheet": "./src/styles/app.css",
     "attributes": ["class", "className"],
     "functions": ["clsx", "cn"],
     "preserveDuplicates": false,
@@ -15,14 +15,6 @@
   "objectWrap": "preserve",
   "printWidth": 100,
   "experimentalSortImports": {
-    "groups": [
-      ["side-effect"],
-      ["builtin"],
-      ["external", "external-type"],
-      ["internal", "internal-type"],
-      ["parent", "parent-type"],
-      ["sibling", "sibling-type"],
-      ["index", "index-type"]
-    ]
+    "groups": [["builtin"]]
   }
 }

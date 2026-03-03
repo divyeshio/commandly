@@ -1,32 +1,28 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { Loader2Icon, Wand2Icon } from "lucide-react";
-import { createOpenAI } from "@ai-sdk/openai";
-import z from "zod/v4";
 import { generateSystemPrompt } from "@/components/tool-editor-ui/prompt";
-import { streamText } from "ai";
-import { Tool, ToolSchema } from "@/registry/commandly/lib/types/commandly";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@/components/ui/select";
-import { toast } from "sonner";
-import { useDebouncedValue } from "@tanstack/react-pacer";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
 import { replaceId } from "@/lib/utils";
+import { Tool, ToolSchema } from "@/registry/commandly/lib/types/commandly";
+import { createOpenAI } from "@ai-sdk/openai";
+import { useDebouncedValue } from "@tanstack/react-pacer";
+import { streamText } from "ai";
+import { Loader2Icon, Wand2Icon } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
+import z from "zod/v4";
 
-export function AIParsing({
-  onParseCompleted
-}: {
-  onParseCompleted: (tool: Tool | null) => void;
-}) {
+export function AIParsing({ onParseCompleted }: { onParseCompleted: (tool: Tool | null) => void }) {
   const [helpText, setHelpText] = useState("");
   const [json, setJson] = useState("");
   const [model, setModel] = useState("");
@@ -56,17 +52,14 @@ export function AIParsing({
     try {
       const openai = createOpenAI({ apiKey: apiKey });
       const jsonSchema = z.toJSONSchema(ToolSchema);
-      const systemPrompt = generateSystemPrompt(
-        helpText,
-        JSON.stringify(jsonSchema, null, 2)
-      );
+      const systemPrompt = generateSystemPrompt(helpText, JSON.stringify(jsonSchema, null, 2));
 
       const { textStream } = streamText({
         model: openai(model),
         prompt: systemPrompt,
         onFinish({ text }) {
           validateJson(text);
-        }
+        },
       });
 
       for await (const text of textStream) {
@@ -81,28 +74,31 @@ export function AIParsing({
     setIsParsingHelp(false);
   };
 
-  const validateJson = useCallback((jsonString: string) => {
-    try {
-      const parsedTool = ToolSchema.parse(JSON.parse(jsonString));
-      const modifiedTool = replaceId(parsedTool);
-      setJson(JSON.stringify(modifiedTool, null, 2));
-      onParseCompleted(modifiedTool);
-    } catch (error) {
-      console.error("Error parsing JSON:", error);
-      onParseCompleted(null);
-      if (error instanceof z.ZodError) {
-        toast.error(`Invalid JSON: ${error.name}. Please check the format.`, {
-          description: z.prettifyError(error),
-          duration: 5000
-        });
-      } else {
-        toast.error("Failed to parse JSON. Please check the format.");
+  const validateJson = useCallback(
+    (jsonString: string) => {
+      try {
+        const parsedTool = ToolSchema.parse(JSON.parse(jsonString));
+        const modifiedTool = replaceId(parsedTool);
+        setJson(JSON.stringify(modifiedTool, null, 2));
+        onParseCompleted(modifiedTool);
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+        onParseCompleted(null);
+        if (error instanceof z.ZodError) {
+          toast.error(`Invalid JSON: ${error.name}. Please check the format.`, {
+            description: z.prettifyError(error),
+            duration: 5000,
+          });
+        } else {
+          toast.error("Failed to parse JSON. Please check the format.");
+        }
       }
-    }
-  }, [onParseCompleted]);
+    },
+    [onParseCompleted],
+  );
   const [debouncedQuery] = useDebouncedValue(json, {
     wait: 2000,
-    enabled: isUserTouched
+    enabled: isUserTouched,
   });
 
   useEffect(() => {
@@ -124,9 +120,7 @@ export function AIParsing({
             <SelectItem value="gpt-5-mini">GPT 5 Mini</SelectItem>
             <SelectItem value="gpt-5-nano">GPT 5 Nano</SelectItem>
             <SelectItem value="gpt-4.1-2025-04-14">GPT 4.1</SelectItem>
-            <SelectItem value="gpt-4.1-mini-2025-04-14">
-              GPT 4.1 Mini
-            </SelectItem>
+            <SelectItem value="gpt-4.1-mini-2025-04-14">GPT 4.1 Mini</SelectItem>
             <SelectItem value="o4-mini-2025-04-16">o4-mini</SelectItem>
           </SelectContent>
         </Select>
@@ -156,9 +150,9 @@ export function AIParsing({
       </div>
       <div className="flex flex-col gap-3">
         <Label htmlFor="help-text">Help Text Output</Label>
-        <ScrollArea className="box-border w-full rounded-lg border border-input bg-background ring-offset-background focus-within:ring-1 focus-within:ring-ring min-h-[30dvh] min-w-2xl max-h-[35dvh]">
+        <ScrollArea className="box-border max-h-[35dvh] min-h-[30dvh] w-full min-w-2xl rounded-lg border border-input bg-background ring-offset-background focus-within:ring-1 focus-within:ring-ring">
           <Textarea
-            className="min-h-[30dvh] min-w-2xl max-h-[30dvh]"
+            className="max-h-[30dvh] min-h-[30dvh] min-w-2xl"
             id="help-text"
             value={helpText}
             onChange={(e) => setHelpText(e.target.value)}
@@ -167,9 +161,9 @@ export function AIParsing({
           />
         </ScrollArea>
         <Label htmlFor="parsed-json">Parsed JSON</Label>
-        <ScrollArea className="box-border w-full rounded-lg border border-input bg-background ring-offset-background focus-within:ring-1 focus-within:ring-ring min-h-[30dvh] min-w-2xl max-h-[35dvh]">
+        <ScrollArea className="box-border max-h-[35dvh] min-h-[30dvh] w-full min-w-2xl rounded-lg border border-input bg-background ring-offset-background focus-within:ring-1 focus-within:ring-ring">
           <Textarea
-            className="min-h-[30dvh] min-w-2xl max-h-[30dvh]"
+            className="max-h-[30dvh] min-h-[30dvh] min-w-2xl"
             id="parsed-json"
             ref={scrollRef}
             value={json}
@@ -185,19 +179,17 @@ export function AIParsing({
       <div className="flex gap-2">
         <Button
           onClick={parseHelpWithAI}
-          disabled={
-            isParsingHelp || helpText === "" || model === "" || apiKey === ""
-          }
+          disabled={isParsingHelp || helpText === "" || model === "" || apiKey === ""}
           className="flex-1"
         >
           {isParsingHelp ? (
             <>
-              <Loader2Icon className="h-4 w-4 mr-2 animate-spin" />
+              <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
               Parsing with AI...
             </>
           ) : (
             <>
-              <Wand2Icon className="h-4 w-4 mr-2" />
+              <Wand2Icon className="mr-2 h-4 w-4" />
               Parse with AI
             </>
           )}

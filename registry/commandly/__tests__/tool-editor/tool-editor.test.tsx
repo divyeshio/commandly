@@ -1,30 +1,27 @@
-import { render, screen } from "@testing-library/react";
-import { vi } from "vitest";
-import { defaultTool } from "@/registry/commandly/lib/utils/commandly";
-import {
-  withNuqsTestingAdapter,
-  type OnUrlUpdateFunction
-} from "nuqs/adapters/testing";
 import ToolEditor from "../../tool-editor/tool-editor";
+import { defaultTool } from "@/registry/commandly/lib/utils/commandly";
+import { render, screen } from "@testing-library/react";
+import { withNuqsTestingAdapter, type OnUrlUpdateFunction } from "nuqs/adapters/testing";
+import { vi } from "vitest";
 
 vi.mock("../tool-editor.store", () => ({
   toolBuilderStore: {
     getState: () => ({
       tool: { name: "tool", displayName: "Tool", commands: [], parameters: [] },
       selectedCommand: null,
-      selectedParameter: null
+      selectedParameter: null,
     }),
-    subscribe: vi.fn()
+    subscribe: vi.fn(),
   },
   toolBuilderActions: {
     initializeTool: vi.fn(),
     setEditToolDialogOpen: vi.fn(),
-    setExclusionGroupsDialogOpen: vi.fn()
+    setExclusionGroupsDialogOpen: vi.fn(),
   },
   toolBuilderSelectors: {
     getGlobalParameters: () => [],
-    getParametersForCommand: () => []
-  }
+    getParametersForCommand: () => [],
+  },
 }));
 
 vi.mock("@/lib/utils/tool-editor", async () => {
@@ -32,7 +29,7 @@ vi.mock("@/lib/utils/tool-editor", async () => {
   return {
     ...original,
     getSavedCommandsFromStorage: vi.fn(() => []),
-    removeSavedCommandFromStorage: vi.fn()
+    removeSavedCommandFromStorage: vi.fn(),
   };
 });
 
@@ -43,11 +40,9 @@ describe("ToolEditor", () => {
     render(<ToolEditor tool={defaultTool("newTool", "New Tool")} />, {
       wrapper: withNuqsTestingAdapter({
         searchParams: "?newTool=newTool",
-        onUrlUpdate
-      })
+        onUrlUpdate,
+      }),
     });
-    expect(
-      screen.getByText(/New Tool/, { selector: "span" })
-    ).toBeInTheDocument();
+    expect(screen.getByText(/New Tool/, { selector: "span" })).toBeInTheDocument();
   });
 });

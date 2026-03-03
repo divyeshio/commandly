@@ -1,7 +1,7 @@
-import { render } from "@testing-library/react";
-import { vi } from "vitest";
 import { GeneratedCommand } from "../generated-command";
 import { toolBuilderStore } from "../tool-editor/tool-editor.store";
+import { render } from "@testing-library/react";
+import { vi } from "vitest";
 
 vi.mock("../tool-editor/tool-editor.store", () => ({
   toolBuilderStore: {
@@ -10,7 +10,7 @@ vi.mock("../tool-editor/tool-editor.store", () => ({
         name: "test",
         id: "01979f70-cc01-73fe-b638-11efe685b4df",
         isDefault: true,
-        sortOrder: 0
+        sortOrder: 0,
       },
       tool: {
         name: "tool",
@@ -19,22 +19,22 @@ vi.mock("../tool-editor/tool-editor.store", () => ({
             name: "test",
             id: "01979f70-cc01-73fe-b638-11efe685b4df",
             isDefault: true,
-            sortOrder: 0
-          }
+            sortOrder: 0,
+          },
         ],
-        parameters: []
+        parameters: [],
       },
-      parameterValues: {}
+      parameterValues: {},
     },
-    subscribe: vi.fn()
+    subscribe: vi.fn(),
   },
   toolBuilderActions: {
-    addSavedCommand: vi.fn()
+    addSavedCommand: vi.fn(),
   },
   toolBuilderSelectors: {
     getGlobalParameters: () => [],
-    getParametersForCommand: () => []
-  }
+    getParametersForCommand: () => [],
+  },
 }));
 
 describe("GeneratedCommand", () => {
@@ -43,7 +43,7 @@ describe("GeneratedCommand", () => {
       <GeneratedCommand
         tool={toolBuilderStore.state.tool}
         parameterValues={{}}
-      />
+      />,
     );
     //expect(screen.getByText(/Configure parameters/)).toBeInTheDocument();
   });

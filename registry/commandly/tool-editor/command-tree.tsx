@@ -1,18 +1,12 @@
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import { CommandDialog } from "../tool-editor/dialogs/command-dialog";
+import { toolBuilderStore, toolBuilderActions } from "./tool-editor.store";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Command } from "@/registry/commandly/lib/types/commandly";
-import {
-  ChevronDownIcon,
-  ChevronRightIcon,
-  Edit2Icon,
-  PlusIcon,
-  Trash2Icon
-} from "lucide-react";
-import { CommandDialog } from "../tool-editor/dialogs/command-dialog";
 import { useStore } from "@tanstack/react-store";
-import { toolBuilderStore, toolBuilderActions } from "./tool-editor.store";
+import { ChevronDownIcon, ChevronRightIcon, Edit2Icon, PlusIcon, Trash2Icon } from "lucide-react";
+import { useState, useEffect } from "react";
 
 interface CommandNodeProps {
   command: Command;
@@ -37,12 +31,10 @@ function CommandNode({
   onToggle,
   onEdit,
   onAddSubcommand,
-  onDelete
+  onDelete,
 }: CommandNodeProps) {
   const isExpanded = expandedCommands.has(command.id);
-  const subcommands = allCommands.filter(
-    (cmd) => cmd.parentCommandId === command.id
-  );
+  const subcommands = allCommands.filter((cmd) => cmd.parentCommandId === command.id);
   const hasSubcommands = subcommands.length > 0;
   const isSelected = selectedCommandId === command.id;
   const isRoot = command.name === toolName;
@@ -50,7 +42,7 @@ function CommandNode({
   return (
     <div key={command.id}>
       <div
-        className={`flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-muted/50 group ${
+        className={`group flex cursor-pointer items-center gap-2 rounded-md p-2 hover:bg-muted/50 ${
           isSelected ? "bg-muted" : ""
         }`}
         style={{ paddingLeft: `${level * 16 + 8}px` }}
@@ -77,9 +69,12 @@ function CommandNode({
           <div className="w-4" />
         )}
 
-        <span className="text-sm font-medium flex-1">{command.name}</span>
+        <span className="flex-1 text-sm font-medium">{command.name}</span>
         {command.isDefault && (
-          <Badge variant="secondary" className="text-xs">
+          <Badge
+            variant="secondary"
+            className="text-xs"
+          >
             default
           </Badge>
         )}
@@ -145,17 +140,11 @@ function CommandNode({
 
 export function CommandTree() {
   const tool = useStore(toolBuilderStore, (state) => state.tool);
-  const selectedCommand = useStore(
-    toolBuilderStore,
-    (state) => state.selectedCommand
-  );
-  const editingCommand = useStore(
-    toolBuilderStore,
-    (state) => state.editingCommand
-  );
+  const selectedCommand = useStore(toolBuilderStore, (state) => state.selectedCommand);
+  const editingCommand = useStore(toolBuilderStore, (state) => state.editingCommand);
 
   const [expandedCommands, setExpandedCommands] = useState<Set<string>>(
-    new Set([tool.commands[0]?.id])
+    new Set([tool.commands[0]?.id]),
   );
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [lastAddedCommand, setLastAddedCommand] = useState<{
@@ -179,9 +168,7 @@ export function CommandTree() {
   const handleAddSubcommand = (parentId?: string) => {
     const prevIds = new Set(tool.commands.map((cmd) => cmd.id));
     toolBuilderActions.addSubcommand(parentId);
-    const newCmd = toolBuilderStore.state.tool.commands.find(
-      (cmd) => !prevIds.has(cmd.id)
-    );
+    const newCmd = toolBuilderStore.state.tool.commands.find((cmd) => !prevIds.has(cmd.id));
     if (newCmd) {
       setLastAddedCommand({ id: newCmd.id, parentId });
     }
@@ -231,8 +218,11 @@ export function CommandTree() {
           ))}
         </div>
         <div className="p-2">
-          <Button className="w-full" onClick={() => handleAddSubcommand()}>
-            <PlusIcon className="h-3 w-3 mr-1" />
+          <Button
+            className="w-full"
+            onClick={() => handleAddSubcommand()}
+          >
+            <PlusIcon className="mr-1 h-3 w-3" />
             Add Command
           </Button>
         </div>

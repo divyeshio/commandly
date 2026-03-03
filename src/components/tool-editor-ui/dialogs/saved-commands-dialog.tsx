@@ -4,26 +4,23 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogFooter
+  DialogFooter,
 } from "@/components/ui/dialog";
-import { SaveIcon, CopyIcon, Trash2Icon } from "lucide-react";
-import { toast } from "sonner";
 import { SavedCommand } from "@/registry/commandly/lib/types/commandly";
-import { useStore } from "@tanstack/react-store";
 import {
   toolBuilderActions,
-  toolBuilderStore
+  toolBuilderStore,
 } from "@/registry/commandly/tool-editor/tool-editor.store";
+import { useStore } from "@tanstack/react-store";
+import { SaveIcon, CopyIcon, Trash2Icon } from "lucide-react";
+import { toast } from "sonner";
 
 interface SavedCommandsDialogProps {
   savedCommands: SavedCommand[];
   onDeleteCommand: (commandId: string) => void;
 }
 
-export function SavedCommandsDialog({
-  savedCommands,
-  onDeleteCommand
-}: SavedCommandsDialogProps) {
+export function SavedCommandsDialog({ savedCommands, onDeleteCommand }: SavedCommandsDialogProps) {
   const copyCommand = (command: string) => {
     navigator.clipboard.writeText(command);
     toast("Command copied!");
@@ -32,23 +29,18 @@ export function SavedCommandsDialog({
   const deleteCommand = (commandId: string) => {
     onDeleteCommand(commandId);
     toast("Command Removed", {
-      description: "Saved command has been removed successfully."
+      description: "Saved command has been removed successfully.",
     });
   };
 
-  const open = useStore(
-    toolBuilderStore,
-    (state) => state.dialogs.savedCommands
-  );
+  const open = useStore(toolBuilderStore, (state) => state.dialogs.savedCommands);
 
   return (
     <Dialog
       open={open}
-      onOpenChange={() =>
-        toolBuilderActions.setDialogOpen("savedCommands", false)
-      }
+      onOpenChange={() => toolBuilderActions.setDialogOpen("savedCommands", false)}
     >
-      <DialogContent className="max-w-4xl max-h-[80vh]">
+      <DialogContent className="max-h-[80vh] max-w-4xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <SaveIcon className="h-5 w-5" />
@@ -57,23 +49,22 @@ export function SavedCommandsDialog({
         </DialogHeader>
 
         {savedCommands.length === 0 ? (
-          <div className="text-center py-8">
-            <SaveIcon className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+          <div className="py-8 text-center">
+            <SaveIcon className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
             <p className="text-muted-foreground">
-              No saved commands yet. Generate and save commands to see them
-              here.
+              No saved commands yet. Generate and save commands to see them here.
             </p>
           </div>
         ) : (
-          <div className="space-y-4 overflow-y-auto pr-4 max-h-[calc(80vh-8rem)]">
+          <div className="max-h-[calc(80vh-8rem)] space-y-4 overflow-y-auto pr-4">
             {savedCommands &&
               savedCommands.length > 0 &&
               savedCommands.map((savedCommand) => (
                 <div
                   key={savedCommand.id}
-                  className="p-3 border rounded-lg space-y-3"
+                  className="space-y-3 rounded-lg border p-3"
                 >
-                  <div className="flex items-center gap-2 justify-end">
+                  <div className="flex items-center justify-end gap-2">
                     <Button
                       variant="ghost"
                       size="icon"
@@ -89,7 +80,7 @@ export function SavedCommandsDialog({
                       <Trash2Icon className="h-4 w-4" />
                     </Button>
                   </div>
-                  <pre className="bg-muted p-3 rounded font-mono text-sm">
+                  <pre className="rounded bg-muted p-3 font-mono text-sm">
                     {savedCommand.command}
                   </pre>
                 </div>
@@ -100,9 +91,7 @@ export function SavedCommandsDialog({
         <DialogFooter>
           <Button
             variant="outline"
-            onClick={() =>
-              toolBuilderActions.setDialogOpen("savedCommands", false)
-            }
+            onClick={() => toolBuilderActions.setDialogOpen("savedCommands", false)}
           >
             Close
           </Button>

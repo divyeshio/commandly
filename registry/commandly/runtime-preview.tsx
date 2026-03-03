@@ -1,26 +1,18 @@
+import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
-import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@/components/ui/select";
-import { InfoIcon } from "lucide-react";
-import {
-  Parameter,
-  ParameterValue
-} from "@/registry/commandly/lib/types/commandly";
+import { Switch } from "@/components/ui/switch";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Parameter, ParameterValue } from "@/registry/commandly/lib/types/commandly";
 import { Command, Tool } from "@/registry/commandly/lib/types/commandly";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger
-} from "@/components/ui/tooltip";
+import { InfoIcon } from "lucide-react";
 import React from "react";
 
 const findDefaultCommand = (tool: Tool): Command | null => {
@@ -28,7 +20,7 @@ const findDefaultCommand = (tool: Tool): Command | null => {
   if (defaultCommand) return defaultCommand;
 
   const nameMatchCommand = tool.commands.find(
-    (command) => command.name.toLowerCase() === tool.name.toLowerCase()
+    (command) => command.name.toLowerCase() === tool.name.toLowerCase(),
   );
   if (nameMatchCommand) return nameMatchCommand;
 
@@ -54,17 +46,17 @@ function ParameterLabel({
   isGlobal,
   description,
   className,
-  children
+  children,
 }: ParameterLabelProps) {
   return (
     <Label className={className}>
       {name}
       {(longFlag || shortFlag) && (
-        <span className="text-muted-foreground ml-1">
+        <span className="ml-1 text-muted-foreground">
           ({[longFlag, shortFlag].filter(Boolean).join(", ")})
         </span>
       )}
-      {isRequired && <span className="text-destructive ml-1">*</span>}
+      {isRequired && <span className="ml-1 text-destructive">*</span>}
       <Tooltip>
         <TooltipTrigger>
           <InfoIcon className="h-3.5 w-3.5" />
@@ -75,7 +67,10 @@ function ParameterLabel({
       </Tooltip>
       {children}
       {isGlobal && (
-        <Badge variant="outline" className="text-xs ml-2">
+        <Badge
+          variant="outline"
+          className="ml-2 text-xs"
+        >
           global
         </Badge>
       )}
@@ -121,13 +116,19 @@ function OptionEnumInput({ parameter, value, onUpdate }: ParameterInputProps) {
         isGlobal={parameter.isGlobal}
         description={parameter.description}
       />
-      <Select value={value as string} onValueChange={onUpdate}>
+      <Select
+        value={value as string}
+        onValueChange={onUpdate}
+      >
         <SelectTrigger>
           <SelectValue placeholder="Select an option" />
         </SelectTrigger>
         <SelectContent>
           {parameter.enumValues.map((enumValue) => (
-            <SelectItem key={enumValue.id} value={enumValue.value}>
+            <SelectItem
+              key={enumValue.id}
+              value={enumValue.value}
+            >
               {enumValue.displayName || enumValue.value}
             </SelectItem>
           ))}
@@ -137,11 +138,7 @@ function OptionEnumInput({ parameter, value, onUpdate }: ParameterInputProps) {
   );
 }
 
-function OptionBooleanInput({
-  parameter,
-  value,
-  onUpdate
-}: ParameterInputProps) {
+function OptionBooleanInput({ parameter, value, onUpdate }: ParameterInputProps) {
   return (
     <div className="flex items-center space-x-2">
       <Switch
@@ -175,9 +172,7 @@ function OptionTextInput({ parameter, value, onUpdate }: ParameterInputProps) {
       />
       <Input
         type={parameter.dataType === "Number" ? "number" : "text"}
-        value={
-          parameter.dataType === "Number" ? (value as number) : (value as string)
-        }
+        value={parameter.dataType === "Number" ? (value as number) : (value as string)}
         onChange={(e) => onUpdate(e.target.value)}
         placeholder="Enter value"
       />
@@ -193,16 +188,17 @@ function ArgumentInput({ parameter, value, onUpdate }: ParameterInputProps) {
         isRequired={parameter.isRequired}
         description={parameter.description}
       >
-        <Badge variant="secondary" className="text-xs ml-2">
+        <Badge
+          variant="secondary"
+          className="ml-2 text-xs"
+        >
           {parameter.parameterType}
           {parameter.position !== undefined && ` (${parameter.position})`}
         </Badge>
       </ParameterLabel>
       <Input
         type={parameter.dataType === "Number" ? "number" : "text"}
-        value={
-          parameter.dataType === "Number" ? (value as number) : (value as string)
-        }
+        value={parameter.dataType === "Number" ? (value as number) : (value as string)}
         onChange={(e) => onUpdate(e.target.value)}
         placeholder="Enter value"
       />
@@ -221,29 +217,22 @@ export function RuntimePreview({
   selectedCommand: providedCommand,
   tool,
   parameterValues,
-  updateParameterValue
+  updateParameterValue,
 }: RuntimePreviewProps) {
   const selectedCommand = providedCommand ?? findDefaultCommand(tool);
 
   return (
     <React.Fragment>
       {selectedCommand && tool.commands.length === 0 ? (
-        <p className="text-muted-foreground text-sm">
-          No commands available for this tool.
-        </p>
+        <p className="text-sm text-muted-foreground">No commands available for this tool.</p>
       ) : (
         <div className="space-y-4">
           {tool.parameters.length > 0 ? (
             tool.parameters
-              .filter(
-                (param) =>
-                  param.commandId === selectedCommand?.id || param.isGlobal
-              )
+              .filter((param) => param.commandId === selectedCommand?.id || param.isGlobal)
               .map((parameter) => {
-                const value =
-                  parameterValues[parameter.id] || parameter.defaultValue || "";
-                const onUpdate = (val: ParameterValue) =>
-                  updateParameterValue(parameter.id, val);
+                const value = parameterValues[parameter.id] || parameter.defaultValue || "";
+                const onUpdate = (val: ParameterValue) => updateParameterValue(parameter.id, val);
 
                 if (parameter.parameterType === "Flag") {
                   return (
@@ -298,7 +287,7 @@ export function RuntimePreview({
                 return null;
               })
           ) : (
-            <p className="text-muted-foreground text-sm">
+            <p className="text-sm text-muted-foreground">
               No parameters available for this command.
             </p>
           )}

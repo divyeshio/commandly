@@ -7,9 +7,9 @@ export default defineConfig({
       routes: [
         {
           src: "/tools",
-          handle: "filesystem"
-        }
-      ]
-    }
-  }
+          handle: "filesystem",
+        },
+      ],
+    },
+  },
 });

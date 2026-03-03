@@ -1,17 +1,14 @@
-import { render, screen, fireEvent, act } from "@testing-library/react";
-
-import { defaultTool } from "@/registry/commandly/lib/utils/commandly";
 import { Parameter, Command } from "@/registry/commandly/lib/types/commandly";
+import { defaultTool } from "@/registry/commandly/lib/utils/commandly";
 import { ParameterDetailsDialog } from "@/registry/commandly/tool-editor/dialogs/parameter-details-dialog";
 import {
   ToolBuilderState,
   toolBuilderStore,
-  toolBuilderActions
+  toolBuilderActions,
 } from "@/registry/commandly/tool-editor/tool-editor.store";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 
-const createTestParameter = (
-  overrides: Partial<Parameter> = {}
-): Parameter => ({
+const createTestParameter = (overrides: Partial<Parameter> = {}): Parameter => ({
   id: "01979f6d-f205-73e3-a176-4456d7bf7eb3",
   name: "test-param",
   commandId: "01979f6d-f205-73e3-a176-4456d7bf7eb4",
@@ -23,7 +20,7 @@ const createTestParameter = (
   isGlobal: false,
   longFlag: "--test",
   enumValues: [],
-  ...overrides
+  ...overrides,
 });
 
 const createTestCommand = (overrides: Partial<Command> = {}): Command => ({
@@ -32,13 +29,13 @@ const createTestCommand = (overrides: Partial<Command> = {}): Command => ({
   description: "Test command description",
   isDefault: false,
   sortOrder: 0,
-  ...overrides
+  ...overrides,
 });
 
 const createTestState = (
   parameter: Parameter | null,
   toolName: string = "test-tool",
-  command?: Command
+  command?: Command,
 ): ToolBuilderState => ({
   tool: { ...defaultTool(toolName, "Test tool"), name: toolName },
   selectedCommand: command || createTestCommand(),
@@ -49,8 +46,8 @@ const createTestState = (
     editTool: false,
     savedCommands: false,
     exclusionGroups: false,
-    parameterDetails: false
-  }
+    parameterDetails: false,
+  },
 });
 
 describe("ParameterDetailsDialog - Dialog Lifecycle", () => {
@@ -92,7 +89,7 @@ describe("ParameterDetailsDialog - Form Fields", () => {
       name: "my-parameter",
       description: "Initial description",
       parameterType: "Option",
-      dataType: "String"
+      dataType: "String",
     });
 
     act(() => {
@@ -114,7 +111,7 @@ describe("ParameterDetailsDialog - Form Fields", () => {
     act(() => {
       fireEvent.change(nameInput, { target: { value: "updated-param" } });
       fireEvent.change(descriptionTextarea, {
-        target: { value: "Updated description" }
+        target: { value: "Updated description" },
       });
     });
 
@@ -125,7 +122,7 @@ describe("ParameterDetailsDialog - Form Fields", () => {
   it("handles parameter type and data type changes", () => {
     const testParameter = createTestParameter({
       parameterType: "Option",
-      dataType: "String"
+      dataType: "String",
     });
 
     act(() => {
@@ -161,7 +158,7 @@ describe("ParameterDetailsDialog - Form Fields", () => {
     const testParameter = createTestParameter({
       isRequired: false,
       isGlobal: false,
-      isRepeatable: false
+      isRepeatable: false,
     });
 
     act(() => {
@@ -172,13 +169,11 @@ describe("ParameterDetailsDialog - Form Fields", () => {
 
     const switches = screen.getAllByRole("switch");
     const requiredSwitch = switches.find((s) =>
-      s.closest("div")?.textContent?.includes("Required")
+      s.closest("div")?.textContent?.includes("Required"),
     );
-    const globalSwitch = switches.find((s) =>
-      s.closest("div")?.textContent?.includes("Global")
-    );
+    const globalSwitch = switches.find((s) => s.closest("div")?.textContent?.includes("Global"));
     const repeatableSwitch = switches.find((s) =>
-      s.closest("div")?.textContent?.includes("Repeatable")
+      s.closest("div")?.textContent?.includes("Repeatable"),
     );
 
     // Initial state
@@ -262,19 +257,15 @@ describe("ParameterDetailsDialog - Parameter Type Specific Fields", () => {
     });
 
     // Argument type hides flag fields
-    expect(
-      screen.queryByText("Short Flag (include prefix)")
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByText("Long Flag (include prefix)")
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText("Short Flag (include prefix)")).not.toBeInTheDocument();
+    expect(screen.queryByText("Long Flag (include prefix)")).not.toBeInTheDocument();
     expect(screen.queryByText("Key-Value Separator")).not.toBeInTheDocument();
   });
 
   it("updates Key-Value Separator when changed", () => {
     const testParameter = createTestParameter({
       parameterType: "Option",
-      keyValueSeparator: "="
+      keyValueSeparator: "=",
     });
 
     act(() => {
@@ -355,7 +346,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     const firstParameter = createTestParameter({ name: "first-param" });
     const secondParameter = createTestParameter({
       id: "different-id",
-      name: "second-param"
+      name: "second-param",
     });
 
     act(() => {
@@ -368,7 +359,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
 
     act(() => {
       fireEvent.change(nameInput, {
-        target: { value: "modified-first-param" }
+        target: { value: "modified-first-param" },
       });
     });
 
@@ -391,7 +382,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     const testParameter = createTestParameter({
       name: "original-param",
       description: "Original description",
-      isRequired: false
+      isRequired: false,
     });
 
     const testState = createTestState(testParameter);
@@ -404,21 +395,17 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     render(<ParameterDetailsDialog />);
 
     const nameInput = screen.getByDisplayValue("original-param");
-    const descriptionTextarea = screen.getByDisplayValue(
-      "Original description"
-    );
+    const descriptionTextarea = screen.getByDisplayValue("Original description");
 
     act(() => {
       fireEvent.change(nameInput, { target: { value: "modified-param" } });
       fireEvent.change(descriptionTextarea, {
-        target: { value: "Modified description" }
+        target: { value: "Modified description" },
       });
     });
 
     expect(screen.getByDisplayValue("modified-param")).toBeInTheDocument();
-    expect(
-      screen.getByDisplayValue("Modified description")
-    ).toBeInTheDocument();
+    expect(screen.getByDisplayValue("Modified description")).toBeInTheDocument();
 
     const cancelButton = screen.getByRole("button", { name: "Cancel" });
 
@@ -431,9 +418,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     const state = toolBuilderStore.state;
     expect(state.selectedParameter).toBeNull();
 
-    const originalParameter = state.tool.parameters.find(
-      (p) => p.id === testParameter.id
-    );
+    const originalParameter = state.tool.parameters.find((p) => p.id === testParameter.id);
     expect(originalParameter).toBeDefined();
     expect(originalParameter?.name).toBe("original-param");
     expect(originalParameter?.description).toBe("Original description");
@@ -447,7 +432,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
       isRequired: false,
       isGlobal: false,
       parameterType: "Option",
-      dataType: "String"
+      dataType: "String",
     });
 
     const testState = createTestState(testParameter);
@@ -460,16 +445,14 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     render(<ParameterDetailsDialog />);
 
     const nameInput = screen.getByDisplayValue("original-param");
-    const descriptionTextarea = screen.getByDisplayValue(
-      "Original description"
-    );
+    const descriptionTextarea = screen.getByDisplayValue("Original description");
     const requiredSwitch = screen.getByRole("switch", { name: /required/i });
     const globalSwitch = screen.getByRole("switch", { name: /global/i });
 
     act(() => {
       fireEvent.change(nameInput, { target: { value: "updated-param" } });
       fireEvent.change(descriptionTextarea, {
-        target: { value: "Updated description" }
+        target: { value: "Updated description" },
       });
       fireEvent.click(requiredSwitch);
       fireEvent.click(globalSwitch);
@@ -498,9 +481,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     state = toolBuilderStore.state;
     expect(state.selectedParameter).toBeNull();
 
-    const updatedParameter = state.tool.parameters.find(
-      (p) => p.id === testParameter.id
-    );
+    const updatedParameter = state.tool.parameters.find((p) => p.id === testParameter.id);
     expect(updatedParameter).toBeDefined();
     expect(updatedParameter?.name).toBe("updated-param");
     expect(updatedParameter?.description).toBe("Updated description");
@@ -509,10 +490,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
   });
 
   it("verifies store actions are called correctly during save and cancel operations", () => {
-    const setSelectedParameterSpy = vi.spyOn(
-      toolBuilderActions,
-      "setSelectedParameter"
-    );
+    const setSelectedParameterSpy = vi.spyOn(toolBuilderActions, "setSelectedParameter");
     const upsertParameterSpy = vi.spyOn(toolBuilderActions, "upsertParameter");
 
     const testParameter = createTestParameter();
@@ -538,16 +516,14 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     expect(upsertParameterSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         ...testParameter,
-        name: "modified-param"
-      })
+        name: "modified-param",
+      }),
     );
     expect(setSelectedParameterSpy).toHaveBeenCalledWith(null);
 
     const finalState = toolBuilderStore.state;
     expect(finalState.selectedParameter).toBeNull();
-    const updatedParameter = finalState.tool.parameters.find(
-      (p) => p.id === testParameter.id
-    );
+    const updatedParameter = finalState.tool.parameters.find((p) => p.id === testParameter.id);
     expect(updatedParameter?.name).toBe("modified-param");
 
     setSelectedParameterSpy.mockRestore();
@@ -609,7 +585,7 @@ describe("ParameterDetailsDialog - UI/UX", () => {
       isRepeatable: true,
       isGlobal: true,
       keyValueSeparator: "=",
-      metadata: { tags: ["tag1", "tag2"] }
+      metadata: { tags: ["tag1", "tag2"] },
     });
 
     act(() => {
@@ -631,14 +607,12 @@ describe("ParameterDetailsDialog - UI/UX", () => {
     // Check switches
     const switches = screen.getAllByRole("switch");
     const requiredSwitch = switches.find((s) =>
-      s.closest("div")?.textContent?.includes("Required")
+      s.closest("div")?.textContent?.includes("Required"),
     );
     const repeatableSwitch = switches.find((s) =>
-      s.closest("div")?.textContent?.includes("Repeatable")
+      s.closest("div")?.textContent?.includes("Repeatable"),
     );
-    const globalSwitch = switches.find((s) =>
-      s.closest("div")?.textContent?.includes("Global")
-    );
+    const globalSwitch = switches.find((s) => s.closest("div")?.textContent?.includes("Global"));
 
     expect(requiredSwitch).toBeChecked();
     expect(repeatableSwitch).toBeChecked();
@@ -662,7 +636,7 @@ describe("ParameterDetailsDialog - UI/UX", () => {
   it("displays correct parameter icon and global badge based on type and properties", () => {
     const globalParameter = createTestParameter({
       parameterType: "Flag",
-      isGlobal: true
+      isGlobal: true,
     });
 
     act(() => {
@@ -693,7 +667,7 @@ describe("ParameterDetailsDialog - UI/UX", () => {
       parameterType: "Option",
       keyValueSeparator: "=",
       longFlag: "--test",
-      shortFlag: "-t"
+      shortFlag: "-t",
     });
 
     const testState = createTestState(testParameter);
@@ -727,9 +701,7 @@ describe("ParameterDetailsDialog - UI/UX", () => {
     });
 
     const state = toolBuilderStore.state;
-    const updatedParameter = state.tool.parameters.find(
-      (p) => p.id === testParameter.id
-    );
+    const updatedParameter = state.tool.parameters.find((p) => p.id === testParameter.id);
     expect(updatedParameter).toBeDefined();
     expect(updatedParameter?.parameterType).toBe("Flag");
     expect(updatedParameter?.longFlag).toBe("--test");
