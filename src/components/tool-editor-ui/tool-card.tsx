@@ -9,7 +9,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Tool } from "@/registry/commandly/lib/types/commandly";
 import { Button } from "@/components/ui/button";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { Edit2Icon, Trash2Icon } from "lucide-react";
 import {
   HoverCard,
@@ -28,7 +28,6 @@ export function ToolCard({
   onDelete?: (tool: Partial<Tool>) => void;
 }) {
   const supportedIO = [...tool.supportedInput!, ...tool.supportedOutput!];
-  const navigation = useNavigate();
   const descRef = useRef<HTMLParagraphElement>(null);
   const [isOverflowing, setIsOverflowing] = useState(false);
 
@@ -38,14 +37,6 @@ export function ToolCard({
       setIsOverflowing(el.scrollHeight > el.clientHeight + 1);
     }
   }, [tool.description]);
-
-  const handleClick = () => {
-    navigation({
-      to: "/tools/$toolName",
-      params: { toolName: tool.name! },
-      search: isLocal ? { newTool: tool.name } : {}
-    });
-  };
 
   return (
     <Card
@@ -95,7 +86,7 @@ export function ToolCard({
           )}
         </CardAction>
       </CardHeader>
-      <CardContent onClick={handleClick} className="px-2 flex-1 min-h-0">
+      <CardContent className="px-2 flex-1 min-h-0">
         <div className="flex flex-col gap-4 align-top mb-6 cursor-pointer h-full min-h-0">
           <div className="w-full flex-1 flex items-center justify-center py-1">
             {tool.description ? (
@@ -136,7 +127,7 @@ export function ToolCard({
       <CardFooter className="flex justify-center gap-2 w-full mt-auto">
         <Button className="flex-1" asChild>
           <Link
-            preload="viewport"
+            preload="intent"
             to="/tools/$toolName"
             params={{ toolName: tool.name! }}
             {...(isLocal ? { search: { newTool: tool.name } } : {})}

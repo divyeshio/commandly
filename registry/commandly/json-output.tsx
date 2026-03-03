@@ -109,7 +109,7 @@ export function JsonOutput({ tool }: JsonTypeComponentProps) {
       </CardHeader>
       <CardContent>
         <ScrollArea
-          className="[&>[data-radix-scroll-area-viewport]]:max-h-[calc(100vh-320px)] max-w-full"
+          className="*:data-radix-scroll-area-viewport:max-h-[calc(100vh-320px)] max-w-full"
           type="hover"
         >
           <pre className="rounded-md text-sm font-mono bg-card dark:text-gray-200 max-h max-w-full">

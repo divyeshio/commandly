@@ -232,7 +232,7 @@ function RouteComponent() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <ScrollArea className="[&>[data-radix-scroll-area-viewport]]:max-h-[calc(100vh-260px)]">
+            <ScrollArea className="*:data-radix-scroll-area-viewport:max-h-[calc(100vh-260px)]">
               <div className="p-4">
                 <RuntimePreview
                   selectedCommand={tool.commands.find(

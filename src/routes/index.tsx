@@ -235,8 +235,8 @@ function RouteComponent() {
 
   return (
     <div className="flex flex-col w-full gap-0">
-      <section className="w-full flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-background via-primary/5 to-secondary/10 dark:from-background dark:via-primary/10 dark:to-secondary/20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+      <section className="w-full flex flex-col items-center justify-center min-h-screen bg-linear-to-br from-background via-primary/5 to-secondary/10 dark:from-background dark:via-primary/10 dark:to-secondary/20 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px] pointer-events-none" />
 
         <div className="absolute top-20 left-20 w-32 h-32 bg-primary/20 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-40 right-20 w-40 h-40 bg-primary/30 rounded-full blur-3xl animate-pulse delay-1000" />
@@ -278,11 +278,11 @@ function RouteComponent() {
           <div className="flex flex-col sm:flex-row gap-4 items-center">
             <Button
               size="lg"
-              className="text-xl px-12 py-8 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary text-primary-foreground shadow-2xl focus:outline-none focus:ring-4 focus:ring-primary/40 rounded-2xl transition-all hover:shadow-3xl hover:scale-105 group relative overflow-hidden"
+              className="text-xl px-12 py-8 bg-linear-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary text-primary-foreground shadow-2xl focus:outline-none focus:ring-4 focus:ring-primary/40 rounded-2xl transition-all hover:shadow-3xl hover:scale-105 group relative overflow-hidden"
               asChild
             >
               <Link to="/tools" className="flex items-center gap-3">
-                <span className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <span className="absolute inset-0 bg-linear-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 Get Started
                 <ArrowRightIcon className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
               </Link>
@@ -309,7 +309,7 @@ function RouteComponent() {
       {/* What is Commandly */}
       <section className="w-full flex flex-col items-center gap-8 px-8 min-h-screen justify-center p-20">
         <div className="text-center max-w-4xl">
-          <h2 className="text-5xl font-bold mb-6 bg-gradient-to-br from-primary to-primary/30 bg-clip-text text-transparent">
+          <h2 className="text-5xl font-bold mb-6 bg-linear-to-br from-primary to-primary/30 bg-clip-text text-transparent">
             What is Commandly?
           </h2>
         </div>
@@ -317,7 +317,7 @@ function RouteComponent() {
           <div className="flex-1 max-w-xl text-xl leading-relaxed md:max-w-md font-sans">
             Meet your personal command-line assistant. <b>Build</b> complex CLI
             commands visually, <b>preview</b> them instantly, and skip syntax
-            errors for good. Whether you’re a developer, sysadmin, or automation
+            errors for good. Whether you're a developer, sysadmin, or automation
             fan, Commandly makes the terminal simple and enjoyable.
             <br />
             <br />
@@ -328,33 +328,35 @@ function RouteComponent() {
               <li>Modern, intuitive UI for a classic tool</li>
             </ul>
           </div>
-          <div className="flex-[2.5] flex flex-col gap-4 items-center min-w-[0]">
+          <div className="flex-[2.5] flex flex-col gap-4 items-center min-w-0">
             <Tabs
               defaultValue="ui"
               className="w-full flex flex-col items-center"
             >
-              <TabsContent value="tool-editor" className="w-full">
-                <img
-                  src={
-                    theme === "dark"
-                      ? "/images/tool-editor-dark.png"
-                      : "/images/tool-editor.png"
-                  }
-                  alt="Commandly Tool Editor Screenshot"
-                  loading="eager"
-                  className="rounded-2xl border-2 border-muted w-full max-w-[1600px] min-h-[400px] min-w-[900px] object-contain bg-background p-4 shadow-primary shadow-2xl"
-                />
-              </TabsContent>
-              <TabsContent value="ui" className="w-full">
-                <img
-                  src={
-                    theme === "dark" ? "/images/ui-dark.png" : "/images/ui.png"
-                  }
-                  alt="Commandly UI Screenshot"
-                  loading="eager"
-                  className="rounded-2xl border-2 border-muted w-full max-w-[1600px] min-h-[400px] min-w-[900px] object-contain bg-background p-4 shadow-primary shadow-2xl"
-                />
-              </TabsContent>
+              <div className="grid w-full">
+                <TabsContent forceMount value="tool-editor" className="w-full [grid-area:1/1] transition-opacity duration-200 data-[state=inactive]:opacity-0 data-[state=inactive]:pointer-events-none">
+                  <img
+                    src={
+                      theme === "dark"
+                        ? "/images/tool-editor-dark.png"
+                        : "/images/tool-editor.png"
+                    }
+                    alt="Commandly Tool Editor Screenshot"
+                    loading="eager"
+                    className="rounded-2xl border-2 border-muted w-full max-w-400 min-h-100 min-w-225 object-contain bg-background p-4 shadow-primary shadow-2xl"
+                  />
+                </TabsContent>
+                <TabsContent forceMount value="ui" className="w-full [grid-area:1/1] transition-opacity duration-200 data-[state=inactive]:opacity-0 data-[state=inactive]:pointer-events-none">
+                  <img
+                    src={
+                      theme === "dark" ? "/images/ui-dark.png" : "/images/ui.png"
+                    }
+                    alt="Commandly UI Screenshot"
+                    loading="eager"
+                    className="rounded-2xl border-2 border-muted w-full max-w-400 min-h-100 min-w-225 object-contain bg-background p-4 shadow-primary shadow-2xl"
+                  />
+                </TabsContent>
+              </div>
               <TabsList className="grid w-fit grid-cols-2 mt-4 bg-muted/50 backdrop-blur-sm border border-muted rounded-full p-1 h-auto">
                 <TabsTrigger
                   value="ui"
@@ -434,7 +436,7 @@ function RouteComponent() {
       </section>
 
       {/* Final Call to Action */}
-      <footer className="w-full flex flex-col items-center gap-8 py-16 bg-gradient-to-t from-primary/20 to-background border-t border-muted mt-auto shadow-inner">
+      <footer className="w-full flex flex-col items-center gap-8 py-16 bg-linear-to-t from-primary/20 to-background border-t border-muted mt-auto shadow-inner">
         <h2 className="text-3xl font-bold mb-2 dark:text-primary">
           Ready to build your next command?
         </h2>
@@ -443,7 +445,7 @@ function RouteComponent() {
           className="text-lg px-10 py-6 border-2 border-primary shadow-xl focus:outline-none focus:ring-4 focus:ring-primary/40 rounded-xl transition-all  hover:shadow-2xl"
           asChild
         >
-          <Link to="/tools" preload="render" viewTransition={false}>
+          <Link to="/tools">
             Get Started
           </Link>
         </Button>
@@ -503,7 +505,7 @@ interface StepProps {
 }
 function Step({ number, title, desc }: StepProps) {
   return (
-    <div className="flex flex-col items-center gap-2 bg-muted/40 rounded-xl p-6 min-w-[200px] shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white/15 dark:hover:bg-white/10">
+    <div className="flex flex-col items-center gap-2 bg-muted/40 rounded-xl p-6 min-w-50 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white/15 dark:hover:bg-white/10">
       <span className="text-2xl font-bold text-primary">{number}</span>
       <span className="font-semibold text-lg">{title}</span>
       <span className="text-sm text-muted-foreground text-center">{desc}</span>

@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { queryOptions } from "@tanstack/react-query";
 import { SearchIcon } from "lucide-react";
@@ -9,87 +9,31 @@ import { Input, InputIcon, InputRoot } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { type Tool } from "@/registry/commandly/lib/types/commandly";
-import { createServerFn } from "@tanstack/react-start";
-import { promises as fs } from "fs";
-import path from "path";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { NewToolDialog } from "@/components/tool-editor-ui/dialogs/new-tool";
 import { v7 as uuidv7 } from "uuid";
+import { fetchToolsList } from "@/lib/api/tools.api";
 
 export const toolsQueryOptions = () =>
   queryOptions({
     queryKey: ["tools"],
-    queryFn: () => getToolsList(),
+    queryFn: () => fetchToolsList(),
     staleTime: Infinity
   });
-
-const getToolsList = createServerFn({
-  method: "GET",
-  type: "static"
-}).handler(async () => {
-  const collectionDir = path.join(process.cwd(), "public", "tools-collection");
-  const files = await fs.readdir(collectionDir);
-  let tools: Partial<Tool>[] = [];
-  files.map(async (file) => {
-    const filePath = path.join(collectionDir, file);
-    const fileContent = await fs.readFile(filePath, "utf-8").catch(() => null);
-    var json = JSON.parse(fileContent || "{}");
-    const tool = json as Tool;
-    tools.push({
-      name: tool.name,
-      displayName: tool.displayName || tool.name,
-      description: tool.description,
-      supportedInput: tool.supportedInput,
-      supportedOutput: tool.supportedOutput
-    });
-  });
-  return tools;
-});
-
-function loadLocalTools(): Partial<Tool>[] {
-  const localTools: Partial<Tool>[] = [];
-  if (typeof window !== "undefined") {
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key && key.startsWith("tool-")) {
-        try {
-          const tool = JSON.parse(localStorage.getItem(key)!);
-          if (tool && tool.name && tool.displayName) {
-            localTools.push(tool);
-          }
-        } catch {}
-      }
-    }
-  }
-  return localTools;
-}
-
-function mergeTools(
-  serverTools: Partial<Tool>[],
-  localTools: Partial<Tool>[]
-): Partial<Tool>[] {
-  const serverToolNames = new Set(serverTools.map((t) => t.name));
-  return [
-    ...serverTools,
-    ...localTools.filter((t) => !serverToolNames.has(t.name))
-  ];
-}
 
 export const Route = createFileRoute("/tools/")({
   component: RouteComponent,
   staleTime: Infinity,
-  ssr: true,
   loader: async () => {
-    const serverTools = await getToolsList();
-    const localTools = loadLocalTools();
-    return { localTools, serverTools };
+    const serverTools = await fetchToolsList();
+    return { serverTools };
   }
 });
 
 function RouteComponent() {
   const navigation = useNavigate();
   const loaderData = Route.useLoaderData();
-  const [tools, setTools] = useState<Partial<Tool>[]>(loaderData.localTools);
+  const [tools, setTools] = useState<Partial<Tool>[]>(loaderData.serverTools || []);
   const [serverToolNames, setServerToolNames] = useState<Set<string>>(
     new Set((loaderData.serverTools || []).map((t: any) => t.name))
   );
@@ -115,16 +59,6 @@ function RouteComponent() {
     });
     return Array.from(set);
   }, [tools]);
-
-  useEffect(() => {
-    const localTools = loadLocalTools();
-    const serverToolNamesSet = new Set(
-      (loaderData.serverTools || []).map((t: any) => t.name)
-    );
-    setServerToolNames(serverToolNamesSet);
-    const mergedTools = mergeTools(loaderData.serverTools || [], localTools);
-    setTools(mergedTools);
-  }, [loaderData.serverTools]);
 
   const handleNavigation = (importedTool: Tool) => {
     importedTool.id = uuidv7();
@@ -162,7 +96,7 @@ function RouteComponent() {
 
   return (
     <div className="flex border-t border-muted">
-      <aside className="w-64 min-w-[200px] h-screen max-w-xs p-4 border-r-2 border-muted">
+      <aside className="w-64 min-w-50 h-screen max-w-xs p-4 border-r-2 border-muted">
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
             <Label
@@ -215,7 +149,7 @@ function RouteComponent() {
             </NewToolDialog>
           </div>
         </div>
-        <ScrollArea className="flex [&>[data-radix-scroll-area-viewport]]:max-h-[calc(100vh-180px)]">
+        <ScrollArea className="flex *:data-radix-scroll-area-viewport:max-h-[calc(100vh-180px)]">
           <div className="container mx-auto p-6">
             <div className="flex gap-8 flex-wrap justify-start">
               <Suspense
