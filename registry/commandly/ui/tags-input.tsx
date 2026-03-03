@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { X as RemoveIcon } from "lucide-react";
+import { XIcon } from "lucide-react";
 import React from "react";
 
 /**
@@ -37,7 +37,6 @@ const TagInputContext = React.createContext<TagsInputContextProps | null>(null);
 export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
   (
     {
-      children,
       value,
       onValueChange,
       placeholder,
@@ -282,7 +281,7 @@ export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
                 className="disabled:cursor-not-allowed"
               >
                 <span className="sr-only">Remove {item} option</span>
-                <RemoveIcon className="h-4 w-4 hover:stroke-destructive" />
+                <XIcon className="h-4 w-4 hover:stroke-destructive" />
               </button>
             </Badge>
           ))}

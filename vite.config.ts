@@ -1,4 +1,3 @@
-import { ignoreOverride } from './node_modules/@ai-sdk/provider-utils/src/to-json-schema/zod3-to-json-schema/options';
 import { defineConfig } from "vite";
 import tsConfigPaths from "vite-tsconfig-paths";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";

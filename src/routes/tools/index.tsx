@@ -34,7 +34,7 @@ function RouteComponent() {
   const navigation = useNavigate();
   const loaderData = Route.useLoaderData();
   const [tools, setTools] = useState<Partial<Tool>[]>(loaderData.serverTools || []);
-  const [serverToolNames, setServerToolNames] = useState<Set<string>>(
+  const [serverToolNames] = useState<Set<string>>(
     new Set((loaderData.serverTools || []).map((t: any) => t.name))
   );
 

@@ -4,7 +4,6 @@ import {
   Outlet,
   Scripts,
   createRootRouteWithContext,
-  useLocation
 } from "@tanstack/react-router";
 import * as React from "react";
 import type { QueryClient } from "@tanstack/react-query";
