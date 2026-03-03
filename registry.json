@@ -60,13 +60,7 @@
       "type": "registry:block",
       "title": "Tool Editor",
       "description": "A comprehensive tool editor for creating and editing CLI tools with parameter management, command trees, and preview functionality.",
-      "dependencies": [
-        "react",
-        "zod",
-        "lucide-react",
-        "sonner",
-        "@tanstack/react-store"
-      ],
+      "dependencies": ["react", "zod", "lucide-react", "sonner", "@tanstack/react-store"],
       "registryDependencies": [
         "button",
         "dialog",

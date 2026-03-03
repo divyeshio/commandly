@@ -1,32 +1,32 @@
+import { toolBuilderActions, toolBuilderStore } from "../tool-editor.store";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogFooter
+  DialogFooter,
 } from "@/components/ui/dialog";
-import { SettingsIcon } from "lucide-react";
-import { useStore } from "@tanstack/react-store";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { MultiSelect } from "@/components/ui/multi-select";
+import { Textarea } from "@/components/ui/textarea";
 import {
   SupportedToolInputType,
-  SupportedToolOutputType
+  SupportedToolOutputType,
 } from "@/registry/commandly/lib/types/commandly";
-import { toolBuilderActions, toolBuilderStore } from "../tool-editor.store";
 import { TagsInput } from "@/registry/commandly/ui/tags-input";
+import { useStore } from "@tanstack/react-store";
+import { SettingsIcon } from "lucide-react";
 
 const supportedInputOptions = [
   { value: "StandardInput", label: "Standard Input" },
-  { value: "Parameter", label: "Parameter" }
+  { value: "Parameter", label: "Parameter" },
 ];
 
 const supportedOutputOptions = [
   { value: "StandardOutput", label: "Standard Output" },
-  { value: "File", label: "File" }
+  { value: "File", label: "File" },
 ];
 
 export function ToolDetailsDialog() {
@@ -36,9 +36,7 @@ export function ToolDetailsDialog() {
   return (
     <Dialog
       open={isOpen}
-      onOpenChange={(open) =>
-        toolBuilderActions.setDialogOpen("editTool", open)
-      }
+      onOpenChange={(open) => toolBuilderActions.setDialogOpen("editTool", open)}
     >
       <DialogContent className="max-w-2xl">
         <DialogHeader>
@@ -60,8 +58,8 @@ export function ToolDetailsDialog() {
                   toolBuilderActions.updateTool({
                     name: newName,
                     commands: tool.commands.map((cmd) =>
-                      cmd.name === prevName ? { ...cmd, name: newName } : cmd
-                    )
+                      cmd.name === prevName ? { ...cmd, name: newName } : cmd,
+                    ),
                   });
                 }}
               />
@@ -71,9 +69,7 @@ export function ToolDetailsDialog() {
               <Input
                 id="tool-display-name"
                 value={tool.displayName}
-                onChange={(e) =>
-                  toolBuilderActions.updateTool({ displayName: e.target.value })
-                }
+                onChange={(e) => toolBuilderActions.updateTool({ displayName: e.target.value })}
               />
             </div>
           </div>
@@ -83,9 +79,7 @@ export function ToolDetailsDialog() {
               <Input
                 id="tool-version-full"
                 value={tool.version}
-                onChange={(e) =>
-                  toolBuilderActions.updateTool({ version: e.target.value })
-                }
+                onChange={(e) => toolBuilderActions.updateTool({ version: e.target.value })}
               />
             </div>
             <div className="flex flex-col gap-3">
@@ -93,9 +87,7 @@ export function ToolDetailsDialog() {
               <Input
                 id="tool-category"
                 value={tool.category}
-                onChange={(e) =>
-                  toolBuilderActions.updateTool({ category: e.target.value })
-                }
+                onChange={(e) => toolBuilderActions.updateTool({ category: e.target.value })}
               />
             </div>
           </div>
@@ -106,9 +98,7 @@ export function ToolDetailsDialog() {
                 options={supportedInputOptions}
                 onValueChange={(value) =>
                   toolBuilderActions.updateTool({
-                    supportedInput: value.map(
-                      (v) => v as SupportedToolInputType
-                    )
+                    supportedInput: value.map((v) => v as SupportedToolInputType),
                   })
                 }
                 defaultValue={tool.supportedInput}
@@ -123,9 +113,7 @@ export function ToolDetailsDialog() {
                 options={supportedOutputOptions}
                 onValueChange={(value) =>
                   toolBuilderActions.updateTool({
-                    supportedOutput: value.map(
-                      (v) => v as SupportedToolOutputType
-                    )
+                    supportedOutput: value.map((v) => v as SupportedToolOutputType),
                   })
                 }
                 defaultValue={tool.supportedOutput}
@@ -152,9 +140,7 @@ export function ToolDetailsDialog() {
             <Textarea
               id="tool-description"
               value={tool.description}
-              onChange={(e) =>
-                toolBuilderActions.updateTool({ description: e.target.value })
-              }
+              onChange={(e) => toolBuilderActions.updateTool({ description: e.target.value })}
               rows={3}
             />
           </div>

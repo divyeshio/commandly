@@ -1,14 +1,14 @@
+import { HelpMenu } from "../../tool-editor/help-menu";
 import { render, screen } from "@testing-library/react";
 import { vi } from "vitest";
-import { HelpMenu } from "../../tool-editor/help-menu";
 
 vi.mock("../tool-editor.store", () => ({
   toolBuilderStore: {
     getState: () => ({
-      tool: { name: "tool", displayName: "Tool", commands: [], parameters: [] }
+      tool: { name: "tool", displayName: "Tool", commands: [], parameters: [] },
     }),
-    subscribe: vi.fn()
-  }
+    subscribe: vi.fn(),
+  },
 }));
 
 describe("HelpMenu", () => {

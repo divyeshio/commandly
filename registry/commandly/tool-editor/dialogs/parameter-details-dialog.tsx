@@ -1,39 +1,26 @@
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import { toolBuilderActions, toolBuilderStore } from "../tool-editor.store";
 import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-  DialogDescription
+  DialogDescription,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import {
-  FileTextIcon,
-  FlagIcon,
-  HashIcon,
-  LinkIcon,
-  PlusIcon,
-  ShieldIcon,
-  Trash2Icon
-} from "lucide-react";
-import { useStore } from "@tanstack/react-store";
-import { validateDefaultValue } from "@/registry/commandly/lib/utils/commandly";
-import { v7 as uuidv7 } from "uuid";
-import { toolBuilderActions, toolBuilderStore } from "../tool-editor.store";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Parameter,
   ParameterDataType,
@@ -42,20 +29,27 @@ import {
   ParameterEnumValue,
   ParameterType,
   ParameterValidation,
-  ParameterValidationType
+  ParameterValidationType,
 } from "@/registry/commandly/lib/types/commandly";
+import { validateDefaultValue } from "@/registry/commandly/lib/utils/commandly";
 import { TagsInput } from "@/registry/commandly/ui/tags-input";
+import { useStore } from "@tanstack/react-store";
+import {
+  FileTextIcon,
+  FlagIcon,
+  HashIcon,
+  LinkIcon,
+  PlusIcon,
+  ShieldIcon,
+  Trash2Icon,
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import { v7 as uuidv7 } from "uuid";
 
 export function ParameterDetailsDialog() {
-  const selectedParameter = useStore(
-    toolBuilderStore,
-    (state) => state.selectedParameter
-  );
+  const selectedParameter = useStore(toolBuilderStore, (state) => state.selectedParameter);
 
-  const commandId = useStore(
-    toolBuilderStore,
-    (state) => state.selectedCommand?.id
-  );
+  const commandId = useStore(toolBuilderStore, (state) => state.selectedCommand?.id);
 
   const availableParameters = useStore(toolBuilderStore, (state) => {
     if (!selectedParameter) return [];
@@ -114,30 +108,25 @@ export function ParameterDetailsDialog() {
       id: uuidv7(),
       parameterId: parameter.id,
       dependsOnParameterId: availableParameters[0].id,
-      dependencyType: "requires"
+      dependencyType: "requires",
     };
 
     updateParameter({
-      dependencies: [...(parameter.dependencies || []), newDependency]
+      dependencies: [...(parameter.dependencies || []), newDependency],
     });
   };
 
-  const updateDependency = (
-    dependencyId: string,
-    updates: Partial<ParameterDependency>
-  ) => {
+  const updateDependency = (dependencyId: string, updates: Partial<ParameterDependency>) => {
     if (!parameter) return;
     const updatedDependencies = parameter.dependencies?.map((dep) =>
-      dep.id === dependencyId ? { ...dep, ...updates } : dep
+      dep.id === dependencyId ? { ...dep, ...updates } : dep,
     );
     updateParameter({ dependencies: updatedDependencies });
   };
 
   const removeDependency = (dependencyId: string) => {
     if (!parameter) return;
-    const updatedDependencies = parameter.dependencies?.filter(
-      (dep) => dep.id !== dependencyId
-    );
+    const updatedDependencies = parameter.dependencies?.filter((dep) => dep.id !== dependencyId);
     updateParameter({ dependencies: updatedDependencies });
   };
 
@@ -148,11 +137,11 @@ export function ParameterDetailsDialog() {
       parameterId: parameter.id,
       validationType: "min_length",
       validationValue: "1",
-      errorMessage: "Value is too short"
+      errorMessage: "Value is too short",
     };
 
     updateParameter({
-      validations: [...(parameter.validations || []), newValidation]
+      validations: [...(parameter.validations || []), newValidation],
     });
   };
 
@@ -165,11 +154,11 @@ export function ParameterDetailsDialog() {
       displayName: "New Value",
       description: "",
       isDefault: false,
-      sortOrder: 0
+      sortOrder: 0,
     };
 
     updateParameter({
-      enumValues: [...parameter.enumValues, newEnumValue]
+      enumValues: [...parameter.enumValues, newEnumValue],
     });
   };
 
@@ -191,7 +180,7 @@ export function ParameterDetailsDialog() {
         (p) =>
           p.name.trim() === parameter.name.trim() ||
           parameter.longFlag == p.longFlag ||
-          (parameter.shortFlag && parameter.shortFlag == p.shortFlag)
+          (parameter.shortFlag && parameter.shortFlag == p.shortFlag),
       )
     ) {
       return false;
@@ -201,14 +190,20 @@ export function ParameterDetailsDialog() {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleClose}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={handleClose}
+    >
       <DialogContent className="max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             {getParameterIcon(parameter.parameterType)}
             {parameter.name}
             {parameter.isGlobal && (
-              <Badge variant="default" className="text-xs">
+              <Badge
+                variant="default"
+                className="text-xs"
+              >
                 global
               </Badge>
             )}
@@ -221,7 +216,7 @@ export function ParameterDetailsDialog() {
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-2">
               <Label>
-                Parameter Name<span className="text-destructive ml-1">*</span>
+                Parameter Name<span className="ml-1 text-destructive">*</span>
               </Label>
               <Input
                 value={parameter.name}
@@ -235,9 +230,7 @@ export function ParameterDetailsDialog() {
               <Label>Parameter Type</Label>
               <Select
                 value={parameter.parameterType}
-                onValueChange={(value: ParameterType) =>
-                  updateParameter({ parameterType: value })
-                }
+                onValueChange={(value: ParameterType) => updateParameter({ parameterType: value })}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue />
@@ -253,9 +246,7 @@ export function ParameterDetailsDialog() {
               <Label>Data Type</Label>
               <Select
                 value={parameter.dataType}
-                onValueChange={(value: ParameterDataType) =>
-                  updateParameter({ dataType: value })
-                }
+                onValueChange={(value: ParameterDataType) => updateParameter({ dataType: value })}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue />
@@ -272,37 +263,29 @@ export function ParameterDetailsDialog() {
               <Switch
                 id="isGlobal"
                 checked={parameter.isGlobal}
-                onCheckedChange={(checked) =>
-                  updateParameter({ isGlobal: checked })
-                }
+                onCheckedChange={(checked) => updateParameter({ isGlobal: checked })}
               />
               <Label htmlFor="isGlobal">Global</Label>
             </div>
           </div>
 
-          {(parameter.parameterType === "Flag" ||
-            parameter.parameterType === "Option") && (
+          {(parameter.parameterType === "Flag" || parameter.parameterType === "Option") && (
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-2">
                 <Label>Short Flag (include prefix)</Label>
                 <Input
                   value={parameter.shortFlag}
-                  onChange={(e) =>
-                    updateParameter({ shortFlag: e.target.value })
-                  }
+                  onChange={(e) => updateParameter({ shortFlag: e.target.value })}
                   placeholder="-v"
                 />
               </div>
               <div className="flex flex-col gap-2">
                 <Label>
-                  Long Flag (include prefix){" "}
-                  <span className="text-destructive ml-1">*</span>
+                  Long Flag (include prefix) <span className="ml-1 text-destructive">*</span>
                 </Label>
                 <Input
                   value={parameter.longFlag}
-                  onChange={(e) =>
-                    updateParameter({ longFlag: e.target.value })
-                  }
+                  onChange={(e) => updateParameter({ longFlag: e.target.value })}
                   placeholder="--verbose"
                 />
               </div>
@@ -317,9 +300,7 @@ export function ParameterDetailsDialog() {
               </Label>
               <Input
                 value={parameter.keyValueSeparator ?? " "}
-                onChange={(e) =>
-                  updateParameter({ keyValueSeparator: e.target.value })
-                }
+                onChange={(e) => updateParameter({ keyValueSeparator: e.target.value })}
                 placeholder="Default is single space"
               />
             </div>
@@ -334,7 +315,7 @@ export function ParameterDetailsDialog() {
                 value={parameter.position || 0}
                 onChange={(e) =>
                   updateParameter({
-                    position: Number.parseInt(e.target.value) || 0
+                    position: Number.parseInt(e.target.value) || 0,
                   })
                 }
                 placeholder="0"
@@ -351,21 +332,17 @@ export function ParameterDetailsDialog() {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4 items-center">
+          <div className="grid grid-cols-2 items-center gap-4">
             <div className="flex flex-col gap-2">
               <Label htmlFor="defaultValue">Default Value</Label>
               <Input
                 id="defaultValue"
                 value={parameter.defaultValue}
-                onChange={(e) =>
-                  updateParameter({ defaultValue: e.target.value })
-                }
+                onChange={(e) => updateParameter({ defaultValue: e.target.value })}
                 className={!validation.isValid ? "border-destructive" : ""}
               />
               {!validation.isValid && (
-                <p className="text-xs text-destructive mt-1">
-                  {validation.error}
-                </p>
+                <p className="mt-1 text-xs text-destructive">{validation.error}</p>
               )}
             </div>
             <div className="flex items-center space-x-4 pt-6">
@@ -373,9 +350,7 @@ export function ParameterDetailsDialog() {
                 <Switch
                   id="isRequired"
                   checked={parameter.isRequired}
-                  onCheckedChange={(checked) =>
-                    updateParameter({ isRequired: checked })
-                  }
+                  onCheckedChange={(checked) => updateParameter({ isRequired: checked })}
                 />
                 <Label htmlFor="isRequired">Required</Label>
               </div>
@@ -383,9 +358,7 @@ export function ParameterDetailsDialog() {
                 <Switch
                   id="isRepeatable"
                   checked={parameter.isRepeatable}
-                  onCheckedChange={(checked) =>
-                    updateParameter({ isRepeatable: checked })
-                  }
+                  onCheckedChange={(checked) => updateParameter({ isRepeatable: checked })}
                 />
                 <Label htmlFor="isRepeatable">Repeatable</Label>
               </div>
@@ -407,10 +380,10 @@ export function ParameterDetailsDialog() {
 
           {/* Dependencies Section */}
           <div>
-            <div className="flex items-center justify-between mb-3">
+            <div className="mb-3 flex items-center justify-between">
               <Label
                 htmlFor="dependencies"
-                className="text-base font-medium flex items-center gap-2"
+                className="flex items-center gap-2 text-base font-medium"
               >
                 <LinkIcon className="h-4 w-4" />
                 Dependencies
@@ -421,22 +394,25 @@ export function ParameterDetailsDialog() {
                 onClick={addDependency}
                 disabled={availableParameters.length === 0}
               >
-                <PlusIcon className="h-3 w-3 mr-1" />
+                <PlusIcon className="mr-1 h-3 w-3" />
                 Add
               </Button>
             </div>
-            <div className="space-y-2" id="dependencies">
+            <div
+              className="space-y-2"
+              id="dependencies"
+            >
               {parameter.dependencies &&
                 parameter.dependencies.map((dependency) => (
                   <div
                     key={dependency.id}
-                    className="flex items-center gap-2 p-2 border rounded"
+                    className="flex items-center gap-2 rounded border p-2"
                   >
                     <Select
                       value={dependency.dependencyType}
                       onValueChange={(value: ParameterDependencyType) =>
                         updateDependency(dependency.id, {
-                          dependencyType: value
+                          dependencyType: value,
                         })
                       }
                     >
@@ -445,16 +421,14 @@ export function ParameterDetailsDialog() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="requires">Requires</SelectItem>
-                        <SelectItem value="conflicts_with">
-                          Conflicts
-                        </SelectItem>
+                        <SelectItem value="conflicts_with">Conflicts</SelectItem>
                       </SelectContent>
                     </Select>
                     <Select
                       value={dependency.dependsOnParameterId}
                       onValueChange={(value) =>
                         updateDependency(dependency.id, {
-                          dependsOnParameterId: value
+                          dependsOnParameterId: value,
                         })
                       }
                     >
@@ -463,7 +437,10 @@ export function ParameterDetailsDialog() {
                       </SelectTrigger>
                       <SelectContent>
                         {availableParameters.map((param) => (
-                          <SelectItem key={param.id} value={param.id}>
+                          <SelectItem
+                            key={param.id}
+                            value={param.id}
+                          >
                             {param.name}
                             {param.isGlobal && " (global)"}
                           </SelectItem>
@@ -486,13 +463,17 @@ export function ParameterDetailsDialog() {
 
           {/* Validations Section */}
           <div>
-            <div className="flex items-center justify-between mb-3">
-              <Label className="text-base font-medium flex items-center gap-2">
+            <div className="mb-3 flex items-center justify-between">
+              <Label className="flex items-center gap-2 text-base font-medium">
                 <ShieldIcon className="h-4 w-4" />
                 Validations
               </Label>
-              <Button size="sm" variant="outline" onClick={addValidation}>
-                <PlusIcon className="h-3 w-3 mr-1" />
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={addValidation}
+              >
+                <PlusIcon className="mr-1 h-3 w-3" />
                 Add
               </Button>
             </div>
@@ -501,19 +482,16 @@ export function ParameterDetailsDialog() {
                 parameter.validations.map((validation) => (
                   <div
                     key={validation.id}
-                    className="flex items-center gap-2 p-2 border rounded"
+                    className="flex items-center gap-2 rounded border p-2"
                   >
                     <Select
                       value={validation.validationType}
                       onValueChange={(value: ParameterValidationType) => {
-                        const updatedValidations = parameter.validations?.map(
-                          (v) =>
-                            v.id === validation.id
-                              ? { ...v, validationType: value }
-                              : v
+                        const updatedValidations = parameter.validations?.map((v) =>
+                          v.id === validation.id ? { ...v, validationType: value } : v,
                         );
                         updateParameter({
-                          validations: updatedValidations
+                          validations: updatedValidations,
                         });
                       }}
                     >
@@ -531,14 +509,11 @@ export function ParameterDetailsDialog() {
                     <Input
                       value={validation.validationValue}
                       onChange={(e) => {
-                        const updatedValidations = parameter.validations?.map(
-                          (v) =>
-                            v.id === validation.id
-                              ? { ...v, validationValue: e.target.value }
-                              : v
+                        const updatedValidations = parameter.validations?.map((v) =>
+                          v.id === validation.id ? { ...v, validationValue: e.target.value } : v,
                         );
                         updateParameter({
-                          validations: updatedValidations
+                          validations: updatedValidations,
                         });
                       }}
                       placeholder="Value"
@@ -548,12 +523,11 @@ export function ParameterDetailsDialog() {
                       size="sm"
                       variant="ghost"
                       onClick={() => {
-                        const updatedValidations =
-                          parameter.validations?.filter(
-                            (v) => v.id !== validation.id
-                          );
+                        const updatedValidations = parameter.validations?.filter(
+                          (v) => v.id !== validation.id,
+                        );
                         updateParameter({
-                          validations: updatedValidations
+                          validations: updatedValidations,
                         });
                       }}
                     >
@@ -569,35 +543,39 @@ export function ParameterDetailsDialog() {
             <>
               <Separator />
               <div>
-                <div className="flex items-center justify-between mb-3">
+                <div className="mb-3 flex items-center justify-between">
                   <Label
                     htmlFor="enum-values"
                     className="text-base font-medium"
                   >
                     Enum Values
                   </Label>
-                  <Button size="sm" variant="outline" onClick={addEnumValue}>
-                    <PlusIcon className="h-3 w-3 mr-1" />
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={addEnumValue}
+                  >
+                    <PlusIcon className="mr-1 h-3 w-3" />
                     Add
                   </Button>
                 </div>
-                <div className="space-y-2" id="enum-values">
+                <div
+                  className="space-y-2"
+                  id="enum-values"
+                >
                   {parameter.enumValues.map((enumValue) => (
                     <div
                       key={enumValue.id}
-                      className="flex items-center gap-2 p-2 border rounded"
+                      className="flex items-center gap-2 rounded border p-2"
                     >
                       <Input
                         value={enumValue.value}
                         onChange={(e) => {
-                          const updatedEnumValues = parameter.enumValues.map(
-                            (ev) =>
-                              ev.id === enumValue.id
-                                ? { ...ev, value: e.target.value }
-                                : ev
+                          const updatedEnumValues = parameter.enumValues.map((ev) =>
+                            ev.id === enumValue.id ? { ...ev, value: e.target.value } : ev,
                           );
                           updateParameter({
-                            enumValues: updatedEnumValues
+                            enumValues: updatedEnumValues,
                           });
                         }}
                         placeholder="value"
@@ -606,14 +584,11 @@ export function ParameterDetailsDialog() {
                       <Input
                         value={enumValue.displayName}
                         onChange={(e) => {
-                          const updatedEnumValues = parameter.enumValues.map(
-                            (ev) =>
-                              ev.id === enumValue.id
-                                ? { ...ev, displayName: e.target.value }
-                                : ev
+                          const updatedEnumValues = parameter.enumValues.map((ev) =>
+                            ev.id === enumValue.id ? { ...ev, displayName: e.target.value } : ev,
                           );
                           updateParameter({
-                            enumValues: updatedEnumValues
+                            enumValues: updatedEnumValues,
                           });
                         }}
                         placeholder="Display Name"
@@ -622,14 +597,11 @@ export function ParameterDetailsDialog() {
                       <Switch
                         checked={enumValue.isDefault}
                         onCheckedChange={(checked) => {
-                          const updatedEnumValues = parameter.enumValues.map(
-                            (ev) =>
-                              ev.id === enumValue.id
-                                ? { ...ev, isDefault: checked }
-                                : ev
+                          const updatedEnumValues = parameter.enumValues.map((ev) =>
+                            ev.id === enumValue.id ? { ...ev, isDefault: checked } : ev,
                           );
                           updateParameter({
-                            enumValues: updatedEnumValues
+                            enumValues: updatedEnumValues,
                           });
                         }}
                       />
@@ -638,10 +610,10 @@ export function ParameterDetailsDialog() {
                         variant="ghost"
                         onClick={() => {
                           const updatedEnumValues = parameter.enumValues.filter(
-                            (ev) => ev.id !== enumValue.id
+                            (ev) => ev.id !== enumValue.id,
                           );
                           updateParameter({
-                            enumValues: updatedEnumValues
+                            enumValues: updatedEnumValues,
                           });
                         }}
                       >
@@ -656,10 +628,16 @@ export function ParameterDetailsDialog() {
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={handleClose}>
+          <Button
+            variant="outline"
+            onClick={handleClose}
+          >
             Cancel
           </Button>
-          <Button onClick={handleSave} disabled={!canSaveChanges()}>
+          <Button
+            onClick={handleSave}
+            disabled={!canSaveChanges()}
+          >
             Save Changes
           </Button>
         </DialogFooter>

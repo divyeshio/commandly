@@ -1,23 +1,20 @@
-import { render, screen } from "@testing-library/react";
-import { vi } from "vitest";
-import {
-  OnUrlUpdateFunction,
-  withNuqsTestingAdapter
-} from "nuqs/adapters/testing";
 import { PreviewTabs } from "../../tool-editor/preview-tabs";
+import { render, screen } from "@testing-library/react";
+import { OnUrlUpdateFunction, withNuqsTestingAdapter } from "nuqs/adapters/testing";
+import { vi } from "vitest";
 
 vi.mock("../tool-editor.store", () => ({
   toolBuilderStore: {
     getState: () => ({
       tool: { name: "tool", displayName: "Tool", commands: [], parameters: [] },
-      selectedCommand: null
+      selectedCommand: null,
     }),
-    subscribe: vi.fn()
+    subscribe: vi.fn(),
   },
   toolBuilderSelectors: {
     getGlobalParameters: () => [],
-    getParametersForCommand: () => []
-  }
+    getParametersForCommand: () => [],
+  },
 }));
 
 describe("PreviewTabs", () => {
@@ -27,13 +24,11 @@ describe("PreviewTabs", () => {
     render(<PreviewTabs />, {
       wrapper: withNuqsTestingAdapter({
         searchParams: "?newTool=newTool",
-        onUrlUpdate
-      })
+        onUrlUpdate,
+      }),
     });
     expect(screen.getByText(/Json/)).toBeInTheDocument();
     expect(screen.getByText(/Runtime Preview/)).toBeInTheDocument();
-    expect(
-      screen.getByText(/Help/, { selector: "button" })
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Help/, { selector: "button" })).toBeInTheDocument();
   });
 });

@@ -1,13 +1,14 @@
+import { readFileSync, readdirSync } from "fs";
+import { join } from "path";
+
+import { type Tool } from "@/registry/commandly/lib/types/commandly";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { readFileSync, readdirSync } from "fs";
-import { join } from "path";
-import { type Tool } from "@/registry/commandly/lib/types/commandly";
 
 const server = new McpServer({
   name: "commandly",
-  version: "1.0.0"
+  version: "1.0.0",
 });
 
 const TOOLS_COLLECTION_PATH = join(process.cwd(), "public", "tools-collection");
@@ -62,25 +63,25 @@ server.tool(
       category: tool.category || "",
       tags: tool.tags || [],
       supportedInput: tool.supportedInput,
-      supportedOutput: tool.supportedOutput
+      supportedOutput: tool.supportedOutput,
     }));
 
     return {
       content: [
         {
           type: "text",
-          text: JSON.stringify(toolsList, null, 2)
-        }
-      ]
+          text: JSON.stringify(toolsList, null, 2),
+        },
+      ],
     };
-  }
+  },
 );
 
 server.tool(
   "get-tool-details",
   "Get detailed information about a specific CLI tool including all commands and parameters",
   {
-    toolName: z.string().describe("Name of the tool to get details for")
+    toolName: z.string().describe("Name of the tool to get details for"),
   },
   async ({ toolName }) => {
     const tool = loadTool(toolName);
@@ -90,9 +91,9 @@ server.tool(
         content: [
           {
             type: "text",
-            text: `Tool "${toolName}" not found. Use get-tools-list to see available tools.`
-          }
-        ]
+            text: `Tool "${toolName}" not found. Use get-tools-list to see available tools.`,
+          },
+        ],
       };
     }
 
@@ -100,11 +101,11 @@ server.tool(
       content: [
         {
           type: "text",
-          text: JSON.stringify(tool, null, 2)
-        }
-      ]
+          text: JSON.stringify(tool, null, 2),
+        },
+      ],
     };
-  }
+  },
 );
 
 async function main() {

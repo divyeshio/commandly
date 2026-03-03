@@ -1,42 +1,156 @@
-import { useState, useEffect, ReactNode } from "react";
-import { Button } from "@/components/ui/button";
+import { CommandDialog } from "../tool-editor/dialogs/command-dialog";
+import { toolBuilderStore, toolBuilderActions } from "./tool-editor.store";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Command } from "@/registry/commandly/lib/types/commandly";
-import {
-  ChevronDownIcon,
-  ChevronRightIcon,
-  Edit2Icon,
-  PlusIcon,
-  Trash2Icon
-} from "lucide-react";
-import { CommandDialog } from "../tool-editor/dialogs/command-dialog";
 import { useStore } from "@tanstack/react-store";
-import { toolBuilderStore, toolBuilderActions } from "./tool-editor.store";
+import { ChevronDownIcon, ChevronRightIcon, Edit2Icon, PlusIcon, Trash2Icon } from "lucide-react";
+import { useState, useEffect } from "react";
+
+interface CommandNodeProps {
+  command: Command;
+  level?: number;
+  allCommands: Command[];
+  toolName: string;
+  selectedCommandId?: string;
+  expandedCommands: Set<string>;
+  onToggle: (commandId: string) => void;
+  onEdit: (command: Command) => void;
+  onAddSubcommand: (parentId?: string) => void;
+  onDelete: (commandId: string) => void;
+}
+
+function CommandNode({
+  command,
+  level = 0,
+  allCommands,
+  toolName,
+  selectedCommandId,
+  expandedCommands,
+  onToggle,
+  onEdit,
+  onAddSubcommand,
+  onDelete,
+}: CommandNodeProps) {
+  const isExpanded = expandedCommands.has(command.id);
+  const subcommands = allCommands.filter((cmd) => cmd.parentCommandId === command.id);
+  const hasSubcommands = subcommands.length > 0;
+  const isSelected = selectedCommandId === command.id;
+  const isRoot = command.name === toolName;
+
+  return (
+    <div key={command.id}>
+      <div
+        className={`group flex cursor-pointer items-center gap-2 rounded-md p-2 hover:bg-muted/50 ${
+          isSelected ? "bg-muted" : ""
+        }`}
+        style={{ paddingLeft: `${level * 16 + 8}px` }}
+        onClick={() => toolBuilderActions.setSelectedCommand(command)}
+      >
+        {hasSubcommands ? (
+          <Button
+            id="expand-button"
+            variant="ghost"
+            size="sm"
+            className="h-4 w-4 p-0"
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggle(command.id);
+            }}
+          >
+            {isExpanded ? (
+              <ChevronDownIcon className="h-3 w-3" />
+            ) : (
+              <ChevronRightIcon className="h-3 w-3" />
+            )}
+          </Button>
+        ) : (
+          <div className="w-4" />
+        )}
+
+        <span className="flex-1 text-sm font-medium">{command.name}</span>
+        {command.isDefault && (
+          <Badge
+            variant="secondary"
+            className="text-xs"
+          >
+            default
+          </Badge>
+        )}
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-4 w-4 p-0 opacity-0 group-hover:opacity-100"
+          onClick={(e) => {
+            e.stopPropagation();
+            onEdit(command);
+          }}
+        >
+          <Edit2Icon className="h-3 w-3" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-4 w-4 p-0 opacity-0 group-hover:opacity-100"
+          onClick={(e) => {
+            e.stopPropagation();
+            onAddSubcommand(command.id);
+          }}
+        >
+          <PlusIcon className="h-3 w-3" />
+        </Button>
+        {!isRoot && (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-4 w-4 p-0 opacity-0 group-hover:opacity-100"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(command.id);
+            }}
+          >
+            <Trash2Icon className="h-3 w-3 text-destructive" />
+          </Button>
+        )}
+      </div>
+
+      {isExpanded && hasSubcommands && (
+        <div>
+          {subcommands.map((subcmd) => (
+            <CommandNode
+              key={subcmd.id}
+              command={subcmd}
+              level={level + 1}
+              allCommands={allCommands}
+              toolName={toolName}
+              selectedCommandId={selectedCommandId}
+              expandedCommands={expandedCommands}
+              onToggle={onToggle}
+              onEdit={onEdit}
+              onAddSubcommand={onAddSubcommand}
+              onDelete={onDelete}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function CommandTree() {
   const tool = useStore(toolBuilderStore, (state) => state.tool);
-  const selectedCommand = useStore(
-    toolBuilderStore,
-    (state) => state.selectedCommand
-  );
-  const editingCommand = useStore(
-    toolBuilderStore,
-    (state) => state.editingCommand
-  );
+  const selectedCommand = useStore(toolBuilderStore, (state) => state.selectedCommand);
+  const editingCommand = useStore(toolBuilderStore, (state) => state.editingCommand);
 
   const [expandedCommands, setExpandedCommands] = useState<Set<string>>(
-    new Set([tool.commands[0]?.id])
+    new Set([tool.commands[0]?.id]),
   );
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [lastAddedCommand, setLastAddedCommand] = useState<{
     id: string;
     parentId?: string;
   } | null>(null);
-
-  const handleEditCommand = (command: Command | null) => {
-    toolBuilderActions.setEditingCommand(command);
-  };
 
   const toggleExpanded = (commandId: string) => {
     setExpandedCommands((prev) => {
@@ -54,9 +168,7 @@ export function CommandTree() {
   const handleAddSubcommand = (parentId?: string) => {
     const prevIds = new Set(tool.commands.map((cmd) => cmd.id));
     toolBuilderActions.addSubcommand(parentId);
-    const newCmd = toolBuilderStore.state.tool.commands.find(
-      (cmd) => !prevIds.has(cmd.id)
-    );
+    const newCmd = toolBuilderStore.state.tool.commands.find((cmd) => !prevIds.has(cmd.id));
     if (newCmd) {
       setLastAddedCommand({ id: newCmd.id, parentId });
     }
@@ -79,100 +191,9 @@ export function CommandTree() {
     }
   }, [tool.commands, lastAddedCommand]);
 
-  const renderCommandNode = (command: Command, level = 0): ReactNode => {
-    const isExpanded = expandedCommands.has(command.id);
-    const subcommands = tool.commands.filter(
-      (cmd) => cmd.parentCommandId === command.id
-    );
-    const hasSubcommands = subcommands.length > 0;
-    const isSelected = selectedCommand?.id === command.id;
-    const isRoot = command.name == tool.name;
-
-    return (
-      <div key={command.id}>
-        <div
-          className={`flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-muted/50 group ${
-            isSelected ? "bg-muted" : ""
-          }`}
-          style={{ paddingLeft: `${level * 16 + 8}px` }}
-          onClick={() => toolBuilderActions.setSelectedCommand(command)}
-        >
-          {hasSubcommands ? (
-            <Button
-              id="expand-button"
-              variant="ghost"
-              size="sm"
-              className="h-4 w-4 p-0"
-              onClick={(e) => {
-                e.stopPropagation();
-                toggleExpanded(command.id);
-              }}
-            >
-              {isExpanded ? (
-                <ChevronDownIcon className="h-3 w-3" />
-              ) : (
-                <ChevronRightIcon className="h-3 w-3" />
-              )}
-            </Button>
-          ) : (
-            <div className="w-4" />
-          )}
-
-          <span className="text-sm font-medium flex-1">{command.name}</span>
-          {command.isDefault && (
-            <Badge variant="secondary" className="text-xs">
-              default
-            </Badge>
-          )}
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-4 w-4 p-0 opacity-0 group-hover:opacity-100"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleEditCommand(command);
-              setIsDialogOpen(true);
-            }}
-          >
-            <Edit2Icon className="h-3 w-3" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-4 w-4 p-0 opacity-0 group-hover:opacity-100"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleAddSubcommand(command.id);
-            }}
-          >
-            <PlusIcon className="h-3 w-3" />
-          </Button>
-          {!isRoot && (
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-4 w-4 p-0 opacity-0 group-hover:opacity-100"
-              onClick={(e) => {
-                e.stopPropagation();
-                toolBuilderActions.deleteCommand(command.id);
-              }}
-            >
-              <Trash2Icon className="h-3 w-3 text-destructive" />
-            </Button>
-          )}
-        </div>
-
-        {isExpanded && hasSubcommands && (
-          <>
-            <div>
-              {subcommands.map((subcmd) =>
-                renderCommandNode(subcmd, level + 1)
-              )}
-            </div>
-          </>
-        )}
-      </div>
-    );
+  const handleEdit = (command: Command) => {
+    toolBuilderActions.setEditingCommand(command);
+    setIsDialogOpen(true);
   };
 
   const rootCommands = tool.commands.filter((cmd) => !cmd.parentCommandId);
@@ -181,11 +202,27 @@ export function CommandTree() {
     <>
       <ScrollArea className="flex-1 p-1">
         <div className="p-2">
-          {rootCommands.map((command) => renderCommandNode(command))}
+          {rootCommands.map((command) => (
+            <CommandNode
+              key={command.id}
+              command={command}
+              allCommands={tool.commands}
+              toolName={tool.name}
+              selectedCommandId={selectedCommand?.id}
+              expandedCommands={expandedCommands}
+              onToggle={toggleExpanded}
+              onEdit={handleEdit}
+              onAddSubcommand={handleAddSubcommand}
+              onDelete={toolBuilderActions.deleteCommand}
+            />
+          ))}
         </div>
         <div className="p-2">
-          <Button className="w-full" onClick={() => handleAddSubcommand()}>
-            <PlusIcon className="h-3 w-3 mr-1" />
+          <Button
+            className="w-full"
+            onClick={() => handleAddSubcommand()}
+          >
+            <PlusIcon className="mr-1 h-3 w-3" />
             Add Command
           </Button>
         </div>
@@ -195,7 +232,7 @@ export function CommandTree() {
           isOpen={isDialogOpen}
           onOpenChange={(open) => {
             setIsDialogOpen(open);
-            handleEditCommand(null);
+            toolBuilderActions.setEditingCommand(null);
           }}
         />
       )}

@@ -1,31 +1,28 @@
-import { SavedCommand, Tool } from "@/registry/commandly/lib/types/commandly";
-import { CommandTree } from "./command-tree";
-import { ParameterList } from "./parameter-list";
-import { ParameterDetailsDialog } from "../tool-editor/dialogs/parameter-details-dialog";
 import { ExclusionGroupsDialog } from "../tool-editor/dialogs/exclusion-groups-dialog";
-import { PreviewTabs } from "./preview-tabs";
+import { ParameterDetailsDialog } from "../tool-editor/dialogs/parameter-details-dialog";
 import { ToolDetailsDialog } from "../tool-editor/dialogs/tool-details-dialog";
-import { Button } from "@/components/ui/button";
-import { SaveIcon, Edit2Icon, LayersIcon } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useStore } from "@tanstack/react-store";
+import { CommandTree } from "./command-tree";
+import { SavedCommandsDialog } from "./dialogs/saved-commands-dialog";
+import { ParameterList } from "./parameter-list";
+import { PreviewTabs } from "./preview-tabs";
 import { toolBuilderActions, toolBuilderStore } from "./tool-editor.store";
-import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { SavedCommand, Tool } from "@/registry/commandly/lib/types/commandly";
 import {
   getSavedCommandsFromStorage,
-  removeSavedCommandFromStorage
+  removeSavedCommandFromStorage,
 } from "@/registry/commandly/lib/utils/commandly";
-import { SavedCommandsDialog } from "./dialogs/saved-commands-dialog";
+import { useStore } from "@tanstack/react-store";
+import { SaveIcon, Edit2Icon, LayersIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 interface ToolEditorProps {
   tool: Tool;
   onSave?: (tool: Tool) => void;
 }
 
-export default function ToolEditor({
-  tool: toolToEdit,
-  onSave
-}: ToolEditorProps) {
+export default function ToolEditor({ tool: toolToEdit, onSave }: ToolEditorProps) {
   const tool = useStore(toolBuilderStore, (state) => state.tool);
 
   useEffect(() => {
@@ -42,35 +39,31 @@ export default function ToolEditor({
 
   return (
     <div className="flex bg-background">
-      <div className="w-72 border-r border-muted overflow-hidden flex flex-col">
-        <div className="p-2 flex flex-col gap-2 border-b border-muted justify-center">
+      <div className="flex w-72 flex-col overflow-hidden border-r border-muted">
+        <div className="flex flex-col justify-center gap-2 border-b border-muted p-2">
           <p className="p-3">Commands</p>
         </div>
         <CommandTree />
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        <div className="p-4 border-b border-muted">
+      <div className="flex flex-1 flex-col">
+        <div className="border-b border-muted p-4">
           <div className="flex justify-between">
-            <div className="flex items-center gap-2 justify-between">
+            <div className="flex items-center justify-between gap-2">
               <span
-                className="font-medium text-lg"
+                className="text-lg font-medium"
                 style={{
-                  viewTransitionName: `tool-card-title-${tool.name}`
+                  viewTransitionName: `tool-card-title-${tool.name}`,
                 }}
               >
-                {tool.displayName
-                  ? `${tool.displayName} (${tool.name})`
-                  : `${tool.name}`}
+                {tool.displayName ? `${tool.displayName} (${tool.name})` : `${tool.name}`}
               </span>
               <Button
                 variant="ghost"
                 size="sm"
                 className="h-6 w-6 p-0"
-                onClick={() =>
-                  toolBuilderActions.setDialogOpen("editTool", true)
-                }
+                onClick={() => toolBuilderActions.setDialogOpen("editTool", true)}
               >
                 <Edit2Icon className="h-4 w-4" />
               </Button>
@@ -85,7 +78,7 @@ export default function ToolEditor({
                     toast("Tool saved successfully!");
                   }}
                 >
-                  <SaveIcon className="h-4 w-4 mr-2" />
+                  <SaveIcon className="mr-2 h-4 w-4" />
                   Save
                 </Button>
               )}
@@ -99,29 +92,33 @@ export default function ToolEditor({
                   toolBuilderActions.setDialogOpen("savedCommands", true);
                 }}
               >
-                <SaveIcon className="h-4 w-4 mr-2" />
+                <SaveIcon className="mr-2 h-4 w-4" />
                 Saved Commands
               </Button>
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() =>
-                  toolBuilderActions.setDialogOpen("exclusionGroups", true)
-                }
+                onClick={() => toolBuilderActions.setDialogOpen("exclusionGroups", true)}
               >
-                <LayersIcon className="h-4 w-4 mr-2" />
+                <LayersIcon className="mr-2 h-4 w-4" />
                 Exclusion Groups
               </Button>
             </div>
           </div>
         </div>
 
-        <div className="flex content-between p-4 gap-4">
-          <div className="flex flex-2/5 flex-col gap-4 min-w-80">
-            <ParameterList title="Global Parameters" isGlobal={true} />
-            <ParameterList title="Command Parameters" isGlobal={false} />
+        <div className="flex content-between gap-4 p-4">
+          <div className="flex min-w-80 flex-2/5 flex-col gap-4">
+            <ParameterList
+              title="Global Parameters"
+              isGlobal={true}
+            />
+            <ParameterList
+              title="Command Parameters"
+              isGlobal={false}
+            />
           </div>
-          <div className="flex-3/5 max-w-3xl">
+          <div className="max-w-3xl flex-3/5">
             <PreviewTabs />
           </div>
         </div>

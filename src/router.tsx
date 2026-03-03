@@ -1,11 +1,11 @@
+import { DefaultCatchBoundary } from "./components/error-component";
+import { NotFound } from "./components/not-found";
+import { routeTree } from "./routeTree.gen";
 import { QueryClient } from "@tanstack/react-query";
 import { createRouter as createTanStackRouter } from "@tanstack/react-router";
 import { routerWithQueryClient } from "@tanstack/react-router-with-query";
-import { routeTree } from "./routeTree.gen";
-import { DefaultCatchBoundary } from "./components/error-component";
-import { NotFound } from "./components/not-found";
 
-export function createRouter() {
+export function getRouter() {
   const queryClient = new QueryClient();
 
   return routerWithQueryClient(
@@ -16,14 +16,14 @@ export function createRouter() {
       defaultPreload: "intent",
       defaultViewTransition: true,
       defaultErrorComponent: DefaultCatchBoundary,
-      defaultNotFoundComponent: () => <NotFound />
+      defaultNotFoundComponent: () => <NotFound />,
     }),
-    queryClient
+    queryClient,
   );
 }
 
 declare module "@tanstack/react-router" {
   interface Register {
-    router: ReturnType<typeof createRouter>;
+    router: ReturnType<typeof getRouter>;
   }
 }

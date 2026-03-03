@@ -1,76 +1,45 @@
 import { SavedCommandsDialog } from "@/components/tool-editor-ui/dialogs/saved-commands-dialog";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Command, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { fetchToolDetails } from "@/lib/api/tools.api";
-import {
-  SavedCommand,
-  Tool,
-  ToolSchema
-} from "@/registry/commandly/lib/types/commandly";
+import { cn } from "@/lib/utils";
+import { GeneratedCommand } from "@/registry/commandly/generated-command";
+import { SavedCommand, Tool, ToolSchema } from "@/registry/commandly/lib/types/commandly";
 import {
   addSavedCommandToStorage,
   defaultTool,
   getSavedCommandsFromStorage,
-  removeSavedCommandFromStorage
+  removeSavedCommandFromStorage,
 } from "@/registry/commandly/lib/utils/commandly";
+import { RuntimePreview } from "@/registry/commandly/runtime-preview";
+import { toolBuilderActions } from "@/registry/commandly/tool-editor/tool-editor.store";
 import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
-import {
-  CheckIcon,
-  ChevronsUpDownIcon,
-  InfoIcon,
-  SaveIcon,
-  TerminalIcon
-} from "lucide-react";
+import { CheckIcon, ChevronsUpDownIcon, InfoIcon, SaveIcon, TerminalIcon } from "lucide-react";
+import { useQueryState } from "nuqs";
 import { useState } from "react";
 import { toast } from "sonner";
-import z from "zod/v4";
 import { v7 as uuidv7 } from "uuid";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger
-} from "@/components/ui/tooltip";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger
-} from "@/components/ui/popover";
-import {
-  Command,
-  CommandGroup,
-  CommandItem,
-  CommandList
-} from "@/components/ui/command";
-import { useQueryState } from "nuqs";
-import { cn } from "@/lib/utils";
-import { toolBuilderActions } from "@/registry/commandly/tool-editor/tool-editor.store";
-import { RuntimePreview } from "@/registry/commandly/runtime-preview";
-import { GeneratedCommand } from "@/registry/commandly/generated-command";
+import z from "zod/v4";
 const SearchParamsSchema = z.object({
-  newTool: z.string().optional()
+  newTool: z.string().optional(),
 });
 
 export const Route = createFileRoute("/tools/$toolName/")({
   component: RouteComponent,
   validateSearch: zodValidator(SearchParamsSchema),
   loaderDeps: ({ search: { newTool } }) => ({
-    newTool
+    newTool,
   }),
   loader: async ({ params: { toolName }, deps: { newTool } }) => {
     if (newTool) {
       const newToolData = localStorage.getItem(`tool-${newTool}`);
       if (newToolData) {
-        const validatedTool = zodValidator(ToolSchema).parse(
-          JSON.parse(newToolData)
-        );
+        const validatedTool = zodValidator(ToolSchema).parse(JSON.parse(newToolData));
         return validatedTool;
       } else {
         return defaultTool() as Tool;
@@ -83,42 +52,47 @@ export const Route = createFileRoute("/tools/$toolName/")({
   head: (context) => ({
     meta: [
       {
-        title: context.loaderData?.displayName ?? context.params.toolName
-      }
-    ]
-  })
+        title: context.loaderData?.displayName ?? context.params.toolName,
+      },
+    ],
+  }),
 });
 
 function RouteComponent() {
   const tool = Route.useLoaderData();
 
-  if (!tool) return <div>Tool not found.</div>;
   const [parameterValues, setParameterValues] = useState({});
   const [savedCommands, setSavedCommands] = useState(() => {
     if (!tool) return [];
     const toolId = tool.id || tool.name;
     return getSavedCommandsFromStorage(toolId);
   });
+  const [open, setOpen] = useState(false);
+  const [selectedCommand, setSelectedCommand] = useQueryState("command", {
+    defaultValue: tool?.commands[0].name!,
+  });
+
+  if (!tool) return <div>Tool not found.</div>;
 
   const handleSaveCommand = (command: string) => {
     const toolId = (tool?.id || tool?.name)!;
     const existingCommands = getSavedCommandsFromStorage(toolId);
     if (existingCommands.some((cmd) => cmd.command === command)) {
       toast.error("Command already exists", {
-        description: "This command has already been saved."
+        description: "This command has already been saved.",
       });
       return;
     }
     const newSavedCommand: SavedCommand = {
       id: uuidv7(),
-      command
+      command,
     };
 
     addSavedCommandToStorage(`saved-${toolId}`, newSavedCommand);
     setSavedCommands(getSavedCommandsFromStorage(toolId));
 
     toast("Command Saved", {
-      description: "Command has been saved successfully."
+      description: "Command has been saved successfully.",
     });
   };
 
@@ -129,24 +103,17 @@ function RouteComponent() {
     setSavedCommands(getSavedCommandsFromStorage(toolId));
   };
 
-  const [open, setOpen] = useState(false);
-  const [selectedCommand, setSelectedCommand] = useQueryState("command", {
-    defaultValue: tool?.commands[0].name!
-  });
-
   return (
     <div className="flex flex-col">
-      <div className="relative flex mx-8 my-4 items-center gap-2">
-        <p className="absolute left-1/2 -translate-x-1/2 flex gap-2">
+      <div className="relative mx-8 my-4 flex items-center gap-2">
+        <p className="absolute left-1/2 flex -translate-x-1/2 gap-2">
           <span
-            className="font-medium text-lg"
+            className="text-lg font-medium"
             style={{
-              viewTransitionName: `tool-card-title-${tool.name}`
+              viewTransitionName: `tool-card-title-${tool.name}`,
             }}
           >
-            {tool.displayName
-              ? `${tool.displayName} (${tool.name})`
-              : `${tool.name}`}
+            {tool.displayName ? `${tool.displayName} (${tool.name})` : `${tool.name}`}
           </span>
           {tool.description && (
             <Tooltip>
@@ -160,22 +127,20 @@ function RouteComponent() {
           )}
         </p>
         <Button
-          className="ml-auto relative z-10"
+          className="relative z-10 ml-auto"
           variant="outline"
           size="sm"
-          onClick={() =>
-            toolBuilderActions.setDialogOpen("savedCommands", true)
-          }
+          onClick={() => toolBuilderActions.setDialogOpen("savedCommands", true)}
         >
-          <SaveIcon className="h-4 w-4 mr-2" />
+          <SaveIcon className="mr-2 h-4 w-4" />
           Saved Commands
         </Button>
       </div>
-      <div className="flex gap-16 px-4 w-full align-center justify-center">
+      <div className="align-center flex w-full justify-center gap-16 px-4">
         <Card
           className="w-2xl max-w-4xl"
           style={{
-            viewTransitionName: `tool-card-${tool.name}`
+            viewTransitionName: `tool-card-${tool.name}`,
           }}
         >
           <CardHeader>
@@ -183,7 +148,10 @@ function RouteComponent() {
             <CardTitle className="flex items-center gap-2">
               <div className="flex items-center gap-4">
                 <span className="text-sm">Command</span>
-                <Popover open={open} onOpenChange={setOpen}>
+                <Popover
+                  open={open}
+                  onOpenChange={setOpen}
+                >
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
@@ -191,11 +159,7 @@ function RouteComponent() {
                       aria-expanded={open}
                       className="w-48 justify-between"
                     >
-                      {
-                        tool.commands.find(
-                          (command) => command.name === selectedCommand
-                        )?.name
-                      }
+                      {tool.commands.find((command) => command.name === selectedCommand)?.name}
                       <ChevronsUpDownIcon className="opacity-50" />
                     </Button>
                   </PopoverTrigger>
@@ -216,9 +180,7 @@ function RouteComponent() {
                               <CheckIcon
                                 className={cn(
                                   "ml-auto h-4 w-4",
-                                  selectedCommand === option.name
-                                    ? "opacity-100"
-                                    : "opacity-0"
+                                  selectedCommand === option.name ? "opacity-100" : "opacity-0",
                                 )}
                               />
                             </CommandItem>
@@ -232,18 +194,18 @@ function RouteComponent() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <ScrollArea className="[&>[data-radix-scroll-area-viewport]]:max-h-[calc(100vh-260px)]">
+            <ScrollArea className="*:data-radix-scroll-area-viewport:max-h-[calc(100vh-260px)]">
               <div className="p-4">
                 <RuntimePreview
                   selectedCommand={tool.commands.find(
-                    (command) => command.name === selectedCommand
+                    (command) => command.name === selectedCommand,
                   )}
                   tool={tool}
                   parameterValues={parameterValues}
                   updateParameterValue={(parameterId, value) =>
                     setParameterValues((prev) => ({
                       ...prev,
-                      [parameterId]: value
+                      [parameterId]: value,
                     }))
                   }
                 />
@@ -252,7 +214,7 @@ function RouteComponent() {
           </CardContent>
         </Card>
 
-        <Card className="w-3xl max-w-full h-full">
+        <Card className="h-full w-3xl max-w-full">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TerminalIcon className="h-5 w-5" />
@@ -261,9 +223,7 @@ function RouteComponent() {
           </CardHeader>
           <CardContent className="space-y-4">
             <GeneratedCommand
-              selectedCommand={tool.commands.find(
-                (command) => command.name === selectedCommand
-              )}
+              selectedCommand={tool.commands.find((command) => command.name === selectedCommand)}
               tool={tool}
               parameterValues={parameterValues}
               onSaveCommand={handleSaveCommand}

@@ -6,7 +6,7 @@ import { ArrowRightIcon, SparklesIcon, TerminalIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/")({
-  component: RouteComponent
+  component: RouteComponent,
 });
 
 interface FloatingTool {
@@ -132,7 +132,7 @@ const TOOL_NAMES = [
   "docker",
   "kubectl",
   "terraform",
-  "ansible"
+  "ansible",
 ];
 
 function FloatingToolNames() {
@@ -150,7 +150,7 @@ function FloatingToolNames() {
         scale: 0,
         opacity: 0,
         phase: "appearing",
-        createdAt: Date.now()
+        createdAt: Date.now(),
       };
 
       setTools((prev) => [...prev, newTool]);
@@ -192,7 +192,7 @@ function FloatingToolNames() {
 
             return newTool;
           })
-          .filter((tool) => tool.opacity > 0)
+          .filter((tool) => tool.opacity > 0),
       );
     };
 
@@ -209,18 +209,18 @@ function FloatingToolNames() {
   }, []);
 
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
       {tools.map((tool) => (
         <div
           key={tool.id}
-          className="absolute text-foreground/40 font-mono select-none"
+          className="absolute font-mono text-foreground/40 select-none"
           style={{
             left: `calc(50% + ${tool.x}px)`,
             top: `calc(10% + ${tool.y}px)`,
             transform: `scale(${tool.scale})`,
             opacity: tool.opacity,
             fontSize: "1rem",
-            zIndex: 1
+            zIndex: 1,
           }}
         >
           {tool.name}
@@ -234,72 +234,78 @@ function RouteComponent() {
   const { theme } = useTheme();
 
   return (
-    <div className="flex flex-col w-full gap-0">
-      <section className="w-full flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-background via-primary/5 to-secondary/10 dark:from-background dark:via-primary/10 dark:to-secondary/20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+    <div className="flex w-full flex-col gap-0">
+      <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-linear-to-br from-background via-primary/5 to-secondary/10 dark:from-background dark:via-primary/10 dark:to-secondary/20">
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]" />
 
-        <div className="absolute top-20 left-20 w-32 h-32 bg-primary/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-40 right-20 w-40 h-40 bg-primary/30 rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute top-1/2 left-1/4 w-20 h-20 bg-accent/25 rounded-full blur-2xl animate-pulse delay-500" />
+        <div className="absolute top-20 left-20 h-32 w-32 animate-pulse rounded-full bg-primary/20 blur-3xl" />
+        <div className="absolute right-20 bottom-40 h-40 w-40 animate-pulse rounded-full bg-primary/30 blur-3xl delay-1000" />
+        <div className="absolute top-1/2 left-1/4 h-20 w-20 animate-pulse rounded-full bg-accent/25 blur-2xl delay-500" />
 
         <FloatingToolNames />
 
         <div
-          className="absolute inset-0 pointer-events-none z-0"
+          className="pointer-events-none absolute inset-0 z-0"
           style={{
             background:
-              "radial-gradient(ellipse at 50% 30%, rgba(var(--primary),0.15) 0%, transparent 70%)"
+              "radial-gradient(ellipse at 50% 30%, rgba(var(--primary),0.15) 0%, transparent 70%)",
           }}
         />
 
-        <div className="flex flex-col items-center z-10 max-w-6xl mx-auto px-8">
+        <div className="z-10 mx-auto flex max-w-6xl flex-col items-center px-8">
           {/* Badge */}
-          <div className="flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-full px-4 py-2 mb-8 backdrop-blur-xs">
-            <SparklesIcon className="w-4 h-4 text-foreground dark:text-primary" />
+          <div className="mb-8 flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-2 backdrop-blur-xs">
+            <SparklesIcon className="h-4 w-4 text-foreground dark:text-primary" />
             <span className="text-sm font-medium text-foreground dark:text-primary">
               Now with AI-powered parsing
             </span>
           </div>
 
-          <h1 className="text-8xl md:text-9xl font-mono mb-6 drop-shadow-xl text-primary bg-clip-text flex items-center gap-4">
-            <TerminalIcon size={80} className="text-primary" />
+          <h1 className="mb-6 flex items-center gap-4 bg-clip-text font-mono text-8xl text-primary drop-shadow-xl md:text-9xl">
+            <TerminalIcon
+              size={80}
+              className="text-primary"
+            />
             Commandly
           </h1>
 
-          <p className="text-2xl md:text-3xl text-foreground/80 max-w-4xl mb-12 text-center font-light leading-relaxed">
-            Build, preview, and manage CLI commands visually—no syntax to
-            memorize, no flags to forget.
+          <p className="mb-12 max-w-4xl text-center text-2xl leading-relaxed font-light text-foreground/80 md:text-3xl">
+            Build, preview, and manage CLI commands visually—no syntax to memorize, no flags to
+            forget.
             <span className="font-semibold text-primary shadow-md shadow-primary">
               {" "}
               Make the terminal accessible, powerful, and fun.
             </span>
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 items-center">
+          <div className="flex flex-col items-center gap-4 sm:flex-row">
             <Button
               size="lg"
-              className="text-xl px-12 py-8 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary text-primary-foreground shadow-2xl focus:outline-none focus:ring-4 focus:ring-primary/40 rounded-2xl transition-all hover:shadow-3xl hover:scale-105 group relative overflow-hidden"
+              className="hover:shadow-3xl group relative overflow-hidden rounded-2xl bg-linear-to-r from-primary to-primary/80 px-12 py-8 text-xl text-primary-foreground shadow-2xl transition-all hover:scale-105 hover:from-primary/90 hover:to-primary focus:ring-4 focus:ring-primary/40 focus:outline-none"
               asChild
             >
-              <Link to="/tools" className="flex items-center gap-3">
-                <span className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <Link
+                to="/tools"
+                className="flex items-center gap-3"
+              >
+                <span className="absolute inset-0 bg-linear-to-r from-white/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 Get Started
-                <ArrowRightIcon className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                <ArrowRightIcon className="h-6 w-6 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>
           </div>
 
-          <div className="flex items-center gap-8 mt-16 text-sm text-muted-foreground">
+          <div className="mt-16 flex items-center gap-8 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-accent/50 rounded-full animate-pulse" />
+              <div className="h-2 w-2 animate-pulse rounded-full bg-accent/50" />
               <span>100% Free & Open Source</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-accent/60 rounded-full animate-pulse" />
+              <div className="h-2 w-2 animate-pulse rounded-full bg-accent/60" />
               <span>Minimal UI</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-accent/70 rounded-full animate-pulse" />
+              <div className="h-2 w-2 animate-pulse rounded-full bg-accent/70" />
               <span>Tool Editor</span>
             </div>
           </div>
@@ -307,64 +313,70 @@ function RouteComponent() {
       </section>
 
       {/* What is Commandly */}
-      <section className="w-full flex flex-col items-center gap-8 px-8 min-h-screen justify-center p-20">
-        <div className="text-center max-w-4xl">
-          <h2 className="text-5xl font-bold mb-6 bg-gradient-to-br from-primary to-primary/30 bg-clip-text text-transparent">
+      <section className="flex min-h-screen w-full flex-col items-center justify-center gap-8 p-20 px-8">
+        <div className="max-w-4xl text-center">
+          <h2 className="mb-6 bg-linear-to-br from-primary to-primary/30 bg-clip-text text-5xl font-bold text-transparent">
             What is Commandly?
           </h2>
         </div>
-        <div className="flex flex-col md:flex-row gap-16 w-full items-center justify-center">
-          <div className="flex-1 max-w-xl text-xl leading-relaxed md:max-w-md font-sans">
-            Meet your personal command-line assistant. <b>Build</b> complex CLI
-            commands visually, <b>preview</b> them instantly, and skip syntax
-            errors for good. Whether you’re a developer, sysadmin, or automation
-            fan, Commandly makes the terminal simple and enjoyable.
+        <div className="flex w-full flex-col items-center justify-center gap-16 md:flex-row">
+          <div className="max-w-xl flex-1 font-sans text-xl leading-relaxed md:max-w-md">
+            Meet your personal command-line assistant. <b>Build</b> complex CLI commands visually,{" "}
+            <b>preview</b> them instantly, and skip syntax errors for good. Whether you're a
+            developer, sysadmin, or automation fan, Commandly makes the terminal simple and
+            enjoyable.
             <br />
             <br />
-            <ul className="list-disc list-inside text-lg text-muted-foreground mt-4 gap-4 font-serif">
+            <ul className="mt-4 list-inside list-disc gap-4 font-serif text-lg text-muted-foreground">
               <li>Beginner-friendly and powerful for pros</li>
               <li>Share, save, and organize commands</li>
               <li>Instant feedback and error checking</li>
               <li>Modern, intuitive UI for a classic tool</li>
             </ul>
           </div>
-          <div className="flex-[2.5] flex flex-col gap-4 items-center min-w-[0]">
+          <div className="flex min-w-0 flex-[2.5] flex-col items-center gap-4">
             <Tabs
               defaultValue="ui"
-              className="w-full flex flex-col items-center"
+              className="flex w-full flex-col items-center"
             >
-              <TabsContent value="tool-editor" className="w-full">
-                <img
-                  src={
-                    theme === "dark"
-                      ? "/images/tool-editor-dark.png"
-                      : "/images/tool-editor.png"
-                  }
-                  alt="Commandly Tool Editor Screenshot"
-                  loading="eager"
-                  className="rounded-2xl border-2 border-muted w-full max-w-[1600px] min-h-[400px] min-w-[900px] object-contain bg-background p-4 shadow-primary shadow-2xl"
-                />
-              </TabsContent>
-              <TabsContent value="ui" className="w-full">
-                <img
-                  src={
-                    theme === "dark" ? "/images/ui-dark.png" : "/images/ui.png"
-                  }
-                  alt="Commandly UI Screenshot"
-                  loading="eager"
-                  className="rounded-2xl border-2 border-muted w-full max-w-[1600px] min-h-[400px] min-w-[900px] object-contain bg-background p-4 shadow-primary shadow-2xl"
-                />
-              </TabsContent>
-              <TabsList className="grid w-fit grid-cols-2 mt-4 bg-muted/50 backdrop-blur-sm border border-muted rounded-full p-1 h-auto">
+              <div className="grid w-full">
+                <TabsContent
+                  forceMount
+                  value="tool-editor"
+                  className="w-full transition-opacity duration-200 [grid-area:1/1] data-[state=inactive]:pointer-events-none data-[state=inactive]:opacity-0"
+                >
+                  <img
+                    src={
+                      theme === "dark" ? "/images/tool-editor-dark.png" : "/images/tool-editor.png"
+                    }
+                    alt="Commandly Tool Editor Screenshot"
+                    loading="eager"
+                    className="min-h-100 w-full max-w-400 min-w-225 rounded-2xl border-2 border-muted bg-background object-contain p-4 shadow-2xl shadow-primary"
+                  />
+                </TabsContent>
+                <TabsContent
+                  forceMount
+                  value="ui"
+                  className="w-full transition-opacity duration-200 [grid-area:1/1] data-[state=inactive]:pointer-events-none data-[state=inactive]:opacity-0"
+                >
+                  <img
+                    src={theme === "dark" ? "/images/ui-dark.png" : "/images/ui.png"}
+                    alt="Commandly UI Screenshot"
+                    loading="eager"
+                    className="min-h-100 w-full max-w-400 min-w-225 rounded-2xl border-2 border-muted bg-background object-contain p-4 shadow-2xl shadow-primary"
+                  />
+                </TabsContent>
+              </div>
+              <TabsList className="mt-4 grid h-auto w-fit grid-cols-2 rounded-full border border-muted bg-muted/50 p-1 backdrop-blur-sm">
                 <TabsTrigger
                   value="ui"
-                  className="rounded-full px-4 py-1.5 text-sm font-medium transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm hover:bg-muted-foreground/10 whitespace-nowrap h-auto cursor-pointer"
+                  className="h-auto cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium whitespace-nowrap transition-all hover:bg-muted-foreground/10 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm"
                 >
                   UI
                 </TabsTrigger>
                 <TabsTrigger
                   value="tool-editor"
-                  className="rounded-full px-4 py-1.5 text-sm font-medium transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm hover:bg-muted-foreground/10 whitespace-nowrap h-auto cursor-pointer"
+                  className="h-auto cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium whitespace-nowrap transition-all hover:bg-muted-foreground/10 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm"
                 >
                   Tool Editor
                 </TabsTrigger>
@@ -375,9 +387,9 @@ function RouteComponent() {
       </section>
 
       {/* Features Grid */}
-      <section className="w-full flex flex-col items-center gap-12 px-8 min-h-screen justify-center">
-        <h2 className="text-4xl font-bold mb-2">Features</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full">
+      <section className="flex min-h-screen w-full flex-col items-center justify-center gap-12 px-8">
+        <h2 className="mb-2 text-4xl font-bold">Features</h2>
+        <div className="grid w-full grid-cols-1 gap-10 md:grid-cols-3">
           <Feature
             icon="🌳"
             title="Visual Command Tree"
@@ -412,9 +424,9 @@ function RouteComponent() {
       </section>
 
       {/* How it Works */}
-      <section className="w-full flex flex-col items-center gap-12 px-8 justify-center py-40">
-        <h2 className="text-4xl font-bold mb-2">How it Works</h2>
-        <div className="flex flex-col md:flex-row gap-10 w-full items-center justify-center">
+      <section className="flex w-full flex-col items-center justify-center gap-12 px-8 py-40">
+        <h2 className="mb-2 text-4xl font-bold">How it Works</h2>
+        <div className="flex w-full flex-col items-center justify-center gap-10 md:flex-row">
           <Step
             number={1}
             title="Add Command"
@@ -434,25 +446,23 @@ function RouteComponent() {
       </section>
 
       {/* Final Call to Action */}
-      <footer className="w-full flex flex-col items-center gap-8 py-16 bg-gradient-to-t from-primary/20 to-background border-t border-muted mt-auto shadow-inner">
-        <h2 className="text-3xl font-bold mb-2 dark:text-primary">
+      <footer className="mt-auto flex w-full flex-col items-center gap-8 border-t border-muted bg-linear-to-t from-primary/20 to-background py-16 shadow-inner">
+        <h2 className="mb-2 text-3xl font-bold dark:text-primary">
           Ready to build your next command?
         </h2>
         <Button
           size="lg"
-          className="text-lg px-10 py-6 border-2 border-primary shadow-xl focus:outline-none focus:ring-4 focus:ring-primary/40 rounded-xl transition-all  hover:shadow-2xl"
+          className="rounded-xl border-2 border-primary px-10 py-6 text-lg shadow-xl transition-all hover:shadow-2xl focus:ring-4 focus:ring-primary/40 focus:outline-none"
           asChild
         >
-          <Link to="/tools" preload="render" viewTransition={false}>
-            Get Started
-          </Link>
+          <Link to="/tools">Get Started</Link>
         </Button>
-        <div className="flex gap-8 mt-8">
+        <div className="mt-8 flex gap-8">
           <a
             href="https://github.com/divyeshio/commandly"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-primary text-muted-foreground transition-colors text-lg"
+            className="text-lg text-muted-foreground transition-colors hover:text-primary"
           >
             GitHub
           </a>
@@ -460,7 +470,7 @@ function RouteComponent() {
             href="https://twitter.com/divyeshio"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-primary text-muted-foreground transition-colors text-lg"
+            className="text-lg text-muted-foreground transition-colors hover:text-primary"
           >
             Twitter
           </a>
@@ -468,12 +478,12 @@ function RouteComponent() {
             href="https://linkedin.com/in/divyeshio"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-primary text-muted-foreground transition-colors text-lg"
+            className="text-lg text-muted-foreground transition-colors hover:text-primary"
           >
             LinkedIn
           </a>
         </div>
-        <span className="text-xs text-muted-foreground mt-6">
+        <span className="mt-6 text-xs text-muted-foreground">
           © {new Date().getFullYear()} Commandly. All rights reserved.
         </span>
       </footer>
@@ -488,10 +498,10 @@ interface FeatureProps {
 }
 function Feature({ icon, title, desc }: FeatureProps) {
   return (
-    <div className="flex flex-col items-center gap-2 bg-card/10 dark:bg-card-foreground/5 backdrop-blur-md border border-card/20 dark:border-card/10 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white/15 dark:hover:bg-white/10">
+    <div className="flex flex-col items-center gap-2 rounded-xl border border-card/20 bg-card/10 p-6 shadow-lg backdrop-blur-md transition-all duration-300 hover:bg-white/15 hover:shadow-xl dark:border-card/10 dark:bg-card-foreground/5 dark:hover:bg-white/10">
       <span className="text-3xl">{icon}</span>
-      <span className="font-semibold text-lg">{title}</span>
-      <span className="text-sm text-muted-foreground text-center">{desc}</span>
+      <span className="text-lg font-semibold">{title}</span>
+      <span className="text-center text-sm text-muted-foreground">{desc}</span>
     </div>
   );
 }
@@ -503,10 +513,10 @@ interface StepProps {
 }
 function Step({ number, title, desc }: StepProps) {
   return (
-    <div className="flex flex-col items-center gap-2 bg-muted/40 rounded-xl p-6 min-w-[200px] shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white/15 dark:hover:bg-white/10">
+    <div className="flex min-w-50 flex-col items-center gap-2 rounded-xl bg-muted/40 p-6 shadow-lg transition-all duration-300 hover:bg-white/15 hover:shadow-xl dark:hover:bg-white/10">
       <span className="text-2xl font-bold text-primary">{number}</span>
-      <span className="font-semibold text-lg">{title}</span>
-      <span className="text-sm text-muted-foreground text-center">{desc}</span>
+      <span className="text-lg font-semibold">{title}</span>
+      <span className="text-center text-sm text-muted-foreground">{desc}</span>
     </div>
   );
 }

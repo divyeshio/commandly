@@ -1,17 +1,17 @@
 {
   "compilerOptions": {
     "jsx": "react-jsx",
-    "allowJs": true,
-    "target": "es2024",
+    "target": "esnext",
     // Bundler mode
     "types": ["vitest/globals", "@testing-library/jest-dom"],
     "moduleResolution": "bundler",
-    "module": "Preserve",
+    "module": "ESNext",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": false,
     "noEmit": true,
     "strictNullChecks": true,
-    "baseUrl": ".",
+    "strict": true,
+    "skipLibCheck": true,
     "paths": {
       "@/registry/*": ["./registry/*"],
       "@/*": ["./src/*"]
@@ -23,5 +23,5 @@
     "./tests/vitest.setup.ts",
     "node_modules/buffer-from/generate.ts"
   ],
-  "exclude": ["dist", "node_modules"]
+  "exclude": ["dist", "node_modules", "vitest.config.ts"]
 }

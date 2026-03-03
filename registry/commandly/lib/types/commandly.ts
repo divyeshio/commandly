@@ -6,7 +6,7 @@ export const CommandSchema = z.object({
   name: z.string(),
   description: z.string(),
   isDefault: z.boolean(),
-  sortOrder: z.number()
+  sortOrder: z.number(),
 });
 export type Command = z.infer<typeof CommandSchema>;
 
@@ -17,7 +17,7 @@ export const ParameterEnumValueSchema = z.object({
   displayName: z.string(),
   description: z.string(),
   isDefault: z.boolean(),
-  sortOrder: z.number()
+  sortOrder: z.number(),
 });
 export type ParameterEnumValue = z.infer<typeof ParameterEnumValueSchema>;
 
@@ -26,33 +26,26 @@ export const ParameterValidationTypeSchema = z.enum([
   "max_length",
   "min_value",
   "max_value",
-  "regex"
+  "regex",
 ]);
-export type ParameterValidationType = z.infer<
-  typeof ParameterValidationTypeSchema
->;
+export type ParameterValidationType = z.infer<typeof ParameterValidationTypeSchema>;
 
 export const ParameterValidationSchema = z.object({
   id: z.string(),
   parameterId: z.string(),
   validationType: ParameterValidationTypeSchema,
   validationValue: z.string(),
-  errorMessage: z.string()
+  errorMessage: z.string(),
 });
 export type ParameterValidation = z.infer<typeof ParameterValidationSchema>;
-export const ParameterDependencyTypeSchema = z.enum([
-  "requires",
-  "conflicts_with"
-]);
-export type ParameterDependencyType = z.infer<
-  typeof ParameterDependencyTypeSchema
->;
+export const ParameterDependencyTypeSchema = z.enum(["requires", "conflicts_with"]);
+export type ParameterDependencyType = z.infer<typeof ParameterDependencyTypeSchema>;
 export const ParameterDependencySchema = z.object({
   id: z.string(),
   parameterId: z.string(),
   dependsOnParameterId: z.string(),
   dependencyType: ParameterDependencyTypeSchema,
-  conditionValue: z.string().optional()
+  conditionValue: z.string().optional(),
 });
 
 export type ParameterValue = string | number | boolean;
@@ -60,18 +53,13 @@ export type ParameterValue = string | number | boolean;
 export type ParameterDependency = z.infer<typeof ParameterDependencySchema>;
 
 export const ParameterMetadataSchema = z.object({
-  tags: z.array(z.string()).optional()
+  tags: z.array(z.string()).optional(),
 });
 export type ParameterMetadata = z.infer<typeof ParameterMetadataSchema>;
 export const ParameterTypeSchema = z.enum(["Flag", "Option", "Argument"]);
 export type ParameterType = z.infer<typeof ParameterTypeSchema>;
 
-export const ParameterDataTypeSchema = z.enum([
-  "String",
-  "Number",
-  "Boolean",
-  "Enum"
-]);
+export const ParameterDataTypeSchema = z.enum(["String", "Number", "Boolean", "Enum"]);
 export type ParameterDataType = z.infer<typeof ParameterDataTypeSchema>;
 
 export const ParameterSchema = z.object({
@@ -94,14 +82,11 @@ export const ParameterSchema = z.object({
   keyValueSeparator: z.string().optional(),
   enumValues: z.array(ParameterEnumValueSchema),
   validations: z.array(ParameterValidationSchema).optional(),
-  dependencies: z.array(ParameterDependencySchema).optional()
+  dependencies: z.array(ParameterDependencySchema).optional(),
 });
 export type Parameter = z.infer<typeof ParameterSchema>;
 
-export const ExclusionTypeSchema = z.enum([
-  "mutual_exclusive",
-  "required_one_of"
-]);
+export const ExclusionTypeSchema = z.enum(["mutual_exclusive", "required_one_of"]);
 export type ExclusionType = z.infer<typeof ExclusionTypeSchema>;
 
 export const ExclusionGroupSchema = z.object({
@@ -109,32 +94,21 @@ export const ExclusionGroupSchema = z.object({
   commandId: z.string().optional(),
   name: z.string(),
   exclusionType: ExclusionTypeSchema,
-  parameterIds: z.array(z.string())
+  parameterIds: z.array(z.string()),
 });
 export type ExclusionGroup = z.infer<typeof ExclusionGroupSchema>;
 
 export const SavedCommandSchema = z.object({
   id: z.string(),
-  command: z.string()
+  command: z.string(),
 });
 export type SavedCommand = z.infer<typeof SavedCommandSchema>;
 
-export const SupportedToolInputTypeSchema = z.enum([
-  "StandardInput",
-  "Parameter"
-]);
-export type SupportedToolInputType = z.infer<
-  typeof SupportedToolInputTypeSchema
->;
+export const SupportedToolInputTypeSchema = z.enum(["StandardInput", "Parameter"]);
+export type SupportedToolInputType = z.infer<typeof SupportedToolInputTypeSchema>;
 
-export const SupportedToolOutputTypeSchema = z.enum([
-  "StandardOutput",
-  "File",
-  "Directory"
-]);
-export type SupportedToolOutputType = z.infer<
-  typeof SupportedToolOutputTypeSchema
->;
+export const SupportedToolOutputTypeSchema = z.enum(["StandardOutput", "File", "Directory"]);
+export type SupportedToolOutputType = z.infer<typeof SupportedToolOutputTypeSchema>;
 
 export const ToolSchema = z.object({
   id: z.string().optional(),
@@ -149,20 +123,20 @@ export const ToolSchema = z.object({
   parameters: z.array(ParameterSchema),
   exclusionGroups: z.array(ExclusionGroupSchema),
   supportedInput: z.array(SupportedToolInputTypeSchema),
-  supportedOutput: z.array(SupportedToolOutputTypeSchema)
+  supportedOutput: z.array(SupportedToolOutputTypeSchema),
 });
 export type Tool = z.infer<typeof ToolSchema>;
 
 export const AIParseRequestSchema = z.object({
   helpText: z.string(),
-  toolName: z.string().optional()
+  toolName: z.string().optional(),
 });
 export type AIParseRequest = z.infer<typeof AIParseRequestSchema>;
 
 export const AIParseResponseSchema = z.object({
   success: z.boolean(),
   data: ToolSchema.optional(),
-  error: z.string().optional()
+  error: z.string().optional(),
 });
 export type AIParseResponse = z.infer<typeof AIParseResponseSchema>;
 
@@ -171,6 +145,6 @@ export const newToolSchema = z.object({
   name: z.string(),
   version: z.string().optional(),
   description: z.string().optional(),
-  url: z.url().optional()
+  url: z.url().optional(),
 });
 export type ManualNewTool = z.infer<typeof newToolSchema>;

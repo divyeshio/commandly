@@ -1,35 +1,25 @@
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { CheckIcon, ChevronsUpDownIcon, CopyIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger
-} from "@/components/ui/popover";
+import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Command as UICommand,
   CommandGroup,
   CommandItem,
-  CommandList
+  CommandList,
 } from "@/components/ui/command";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardHeader,
-  CardTitle
-} from "@/components/ui/card";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
+import { Tool } from "@/registry/commandly/lib/types/commandly";
 import { exportToStructuredJSON } from "@/registry/commandly/lib/utils/commandly";
 import { convertToNestedStructure } from "@/registry/commandly/lib/utils/commandly-nested";
-import { Tool } from "@/registry/commandly/lib/types/commandly";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { toast } from "sonner";
+import { CheckIcon, ChevronsUpDownIcon, CopyIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const jsonOptions = [
   { value: "nested", label: "Nested" },
-  { value: "flat", label: "Flat" }
+  { value: "flat", label: "Flat" },
 ];
 
 interface JsonTypeComponentProps {
@@ -40,13 +30,11 @@ export function JsonOutput({ tool }: JsonTypeComponentProps) {
   const [open, setOpen] = useState(false);
   const [jsonString, setJsonString] = useState<string>();
   const [jsonType, setJsonType] = useQueryState("output", {
-    defaultValue: "flat"
+    defaultValue: "flat",
   });
   useEffect(() => {
     const config =
-      jsonType === "flat"
-        ? exportToStructuredJSON(tool)
-        : convertToNestedStructure(tool);
+      jsonType === "flat" ? exportToStructuredJSON(tool) : convertToNestedStructure(tool);
     setJsonString(JSON.stringify(config, null, 2));
   }, [jsonType, tool]);
 
@@ -55,7 +43,10 @@ export function JsonOutput({ tool }: JsonTypeComponentProps) {
       <CardHeader>
         <CardTitle>
           <span className="text-sm">Output type: </span>
-          <Popover open={open} onOpenChange={setOpen}>
+          <Popover
+            open={open}
+            onOpenChange={setOpen}
+          >
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
@@ -84,9 +75,7 @@ export function JsonOutput({ tool }: JsonTypeComponentProps) {
                         <CheckIcon
                           className={cn(
                             "ml-auto h-4 w-4",
-                            jsonType === option.value
-                              ? "opacity-100"
-                              : "opacity-0"
+                            jsonType === option.value ? "opacity-100" : "opacity-0",
                           )}
                         />
                       </CommandItem>
@@ -109,10 +98,10 @@ export function JsonOutput({ tool }: JsonTypeComponentProps) {
       </CardHeader>
       <CardContent>
         <ScrollArea
-          className="[&>[data-radix-scroll-area-viewport]]:max-h-[calc(100vh-320px)] max-w-full"
+          className="max-w-full *:data-radix-scroll-area-viewport:max-h-[calc(100vh-320px)]"
           type="hover"
         >
-          <pre className="rounded-md text-sm font-mono bg-card dark:text-gray-200 max-h max-w-full">
+          <pre className="max-h max-w-full rounded-md bg-card font-mono text-sm dark:text-gray-200">
             {jsonString}
           </pre>
           <ScrollBar orientation="vertical" />

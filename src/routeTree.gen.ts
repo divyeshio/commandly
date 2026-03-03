@@ -37,9 +37,9 @@ const ToolsToolNameEditRoute = ToolsToolNameEditRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/tools': typeof ToolsIndexRoute
+  '/tools/': typeof ToolsIndexRoute
   '/tools/$toolName/edit': typeof ToolsToolNameEditRoute
-  '/tools/$toolName': typeof ToolsToolNameIndexRoute
+  '/tools/$toolName/': typeof ToolsToolNameIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -56,7 +56,7 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/tools' | '/tools/$toolName/edit' | '/tools/$toolName'
+  fullPaths: '/' | '/tools/' | '/tools/$toolName/edit' | '/tools/$toolName/'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/tools' | '/tools/$toolName/edit' | '/tools/$toolName'
   id:
@@ -86,14 +86,14 @@ declare module '@tanstack/react-router' {
     '/tools/': {
       id: '/tools/'
       path: '/tools'
-      fullPath: '/tools'
+      fullPath: '/tools/'
       preLoaderRoute: typeof ToolsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tools/$toolName/': {
       id: '/tools/$toolName/'
       path: '/tools/$toolName'
-      fullPath: '/tools/$toolName'
+      fullPath: '/tools/$toolName/'
       preLoaderRoute: typeof ToolsToolNameIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -116,3 +116,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
