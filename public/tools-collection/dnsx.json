@@ -10,7 +10,6 @@
       "StandardOutput"
     ]
   },
-  "exclusionGroups": [],
   "commands": [
     {
       "name": "dnsx",

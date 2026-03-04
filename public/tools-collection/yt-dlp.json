@@ -472,7 +472,6 @@
       "longFlag": "--no-break-match-filters",
       "key": "no-break-match-filters"
     }
-  ],
-  "exclusionGroups": []
+  ]
 }
 

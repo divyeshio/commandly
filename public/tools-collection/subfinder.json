@@ -529,8 +529,7 @@
       "key": "provider-config",
       "commandKey": "domain"
     }
-  ],
-  "exclusionGroups": []
+  ]
 }
 
 
