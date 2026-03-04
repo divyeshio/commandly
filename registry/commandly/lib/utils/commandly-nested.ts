@@ -53,16 +53,18 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
       });
   };
 
-  const nestedExclusionGroups: NestedExclusionGroup[] = tool.exclusionGroups.map((group) => {
-    return {
-      name: group.name,
-      exclusionType: group.exclusionType,
-      parameters: group.parameterKeys.map((pk) => {
-        const param = tool.parameters.find((p) => p.key === pk);
-        return param?.longFlag || "";
-      }),
-    };
-  });
+  const nestedExclusionGroups: NestedExclusionGroup[] | undefined = tool.exclusionGroups?.map(
+    (group) => {
+      return {
+        name: group.name,
+        exclusionType: group.exclusionType,
+        parameters: group.parameterKeys.map((pk) => {
+          const param = tool.parameters.find((p) => p.key === pk);
+          return param?.longFlag || "";
+        }),
+      };
+    },
+  );
 
   return {
     name: tool.name,

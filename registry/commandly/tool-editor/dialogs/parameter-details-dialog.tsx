@@ -180,7 +180,7 @@ export function ParameterDetailsDialog() {
     };
 
     updateParameter({
-      enumValues: [...parameter.enumValues, newEnumValue],
+      enumValues: [...(parameter.enumValues ?? []), newEnumValue],
     });
   };
 
@@ -585,7 +585,7 @@ export function ParameterDetailsDialog() {
                   className="space-y-2"
                   id="enum-values"
                 >
-                  {parameter.enumValues.map((enumValue) => (
+                  {parameter.enumValues?.map((enumValue) => (
                     <div
                       key={enumValue.key}
                       className="flex items-center gap-2 rounded border p-2"
@@ -593,7 +593,7 @@ export function ParameterDetailsDialog() {
                       <Input
                         value={enumValue.value}
                         onChange={(e) => {
-                          const updatedEnumValues = parameter.enumValues.map((ev) =>
+                          const updatedEnumValues = parameter.enumValues?.map((ev) =>
                             ev.key === enumValue.key
                               ? { ...ev, value: e.target.value, key: slugify(e.target.value) }
                               : ev,
@@ -608,7 +608,7 @@ export function ParameterDetailsDialog() {
                       <Input
                         value={enumValue.displayName}
                         onChange={(e) => {
-                          const updatedEnumValues = parameter.enumValues.map((ev) =>
+                          const updatedEnumValues = parameter.enumValues?.map((ev) =>
                             ev.key === enumValue.key ? { ...ev, displayName: e.target.value } : ev,
                           );
                           updateParameter({
@@ -621,7 +621,7 @@ export function ParameterDetailsDialog() {
                       <Switch
                         checked={enumValue.isDefault}
                         onCheckedChange={(checked) => {
-                          const updatedEnumValues = parameter.enumValues.map((ev) =>
+                          const updatedEnumValues = parameter.enumValues?.map((ev) =>
                             ev.key === enumValue.key ? { ...ev, isDefault: checked } : ev,
                           );
                           updateParameter({
@@ -633,7 +633,7 @@ export function ParameterDetailsDialog() {
                         size="sm"
                         variant="ghost"
                         onClick={() => {
-                          const updatedEnumValues = parameter.enumValues.filter(
+                          const updatedEnumValues = parameter.enumValues?.filter(
                             (ev) => ev.key !== enumValue.key,
                           );
                           updateParameter({

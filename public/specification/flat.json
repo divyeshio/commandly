@@ -312,9 +312,7 @@
     "name",
     "displayName",
     "commands",
-    "parameters",
-    "exclusionGroups",
-    "metadata"
+    "parameters"
   ],
   "additionalProperties": false
 }

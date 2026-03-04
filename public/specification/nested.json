@@ -185,9 +185,7 @@
           "isRepeatable",
           "isGlobal",
           "longFlag",
-          "enumValues",
-          "validations",
-          "dependencies"
+          "enumValues"
         ],
         "additionalProperties": false
       }
@@ -240,9 +238,7 @@
     "name",
     "displayName",
     "globalParameters",
-    "commands",
-    "exclusionGroups",
-    "metadata"
+    "commands"
   ],
   "additionalProperties": false,
   "$defs": {
@@ -428,9 +424,7 @@
               "isRepeatable",
               "isGlobal",
               "longFlag",
-              "enumValues",
-              "validations",
-              "dependencies"
+              "enumValues"
             ],
             "additionalProperties": false
           }

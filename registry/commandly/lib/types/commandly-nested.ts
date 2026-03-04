@@ -45,9 +45,9 @@ export const NestedParameterSchema: z.ZodType<object> = z.lazy(() =>
     sortOrder: z.number().optional(),
     arraySeparator: z.string().optional(),
     keyValueSeparator: z.string().optional(),
-    enumValues: z.array(NestedParameterEnumValueSchema),
-    validations: z.array(NestedParameterValidationSchema),
-    dependencies: z.array(NestedParameterDependencySchema),
+    enumValues: z.array(NestedParameterEnumValueSchema).optional(),
+    validations: z.array(NestedParameterValidationSchema).optional(),
+    dependencies: z.array(NestedParameterDependencySchema).optional(),
   }),
 );
 export type NestedParameter = z.infer<typeof NestedParameterSchema>;
@@ -82,7 +82,7 @@ export const NestedToolSchema = z.object({
   url: z.url().optional(),
   globalParameters: z.array(NestedParameterSchema),
   commands: z.array(NestedCommandSchema),
-  exclusionGroups: z.array(NestedExclusionGroupSchema),
-  metadata: NestedToolMetadataSchema,
+  exclusionGroups: z.array(NestedExclusionGroupSchema).optional().nullable(),
+  metadata: NestedToolMetadataSchema.optional(),
 });
 export type NestedTool = z.infer<typeof NestedToolSchema>;

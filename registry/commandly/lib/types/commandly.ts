@@ -80,7 +80,7 @@ export const ParameterSchema = z.object({
   sortOrder: z.number().optional(),
   arraySeparator: z.string().optional(),
   keyValueSeparator: z.string().optional(),
-  enumValues: z.array(ParameterEnumValueSchema),
+  enumValues: z.array(ParameterEnumValueSchema).optional(),
   validations: z.array(ParameterValidationSchema).optional(),
   dependencies: z.array(ParameterDependencySchema).optional(),
 });
@@ -117,8 +117,8 @@ export const ToolSchema = z.object({
   url: z.url().optional(),
   commands: z.array(CommandSchema),
   parameters: z.array(ParameterSchema),
-  exclusionGroups: z.array(ExclusionGroupSchema),
-  metadata: ToolMetadataSchema,
+  exclusionGroups: z.array(ExclusionGroupSchema).optional(),
+  metadata: ToolMetadataSchema.optional(),
 });
 export type Tool = z.infer<typeof ToolSchema>;
 

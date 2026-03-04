@@ -101,7 +101,7 @@ export function ToolDetailsDialog() {
                     },
                   })
                 }
-                defaultValue={tool.metadata.supportedInput}
+                defaultValue={tool.metadata?.supportedInput}
                 placeholder="Select input types"
                 variant="default"
                 maxCount={0}
@@ -119,7 +119,7 @@ export function ToolDetailsDialog() {
                     },
                   })
                 }
-                defaultValue={tool.metadata.supportedOutput}
+                defaultValue={tool.metadata?.supportedOutput}
                 placeholder="Select output types"
                 variant="default"
                 maxCount={0}

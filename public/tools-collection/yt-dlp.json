@@ -29,10 +29,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--help",
-      "enumValues": [],
-      "key": "help",
-      "validations": [],
-      "dependencies": []
+      "key": "help"
     },
     {
       "name": "Version",
@@ -43,10 +40,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--version",
-      "enumValues": [],
-      "key": "version",
-      "validations": [],
-      "dependencies": []
+      "key": "version"
     },
     {
       "name": "Update",
@@ -57,10 +51,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--update",
-      "enumValues": [],
-      "key": "update",
-      "validations": [],
-      "dependencies": []
+      "key": "update"
     },
     {
       "name": "No Update",
@@ -71,10 +62,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--no-update",
-      "enumValues": [],
-      "key": "no-update",
-      "validations": [],
-      "dependencies": []
+      "key": "no-update"
     },
     {
       "name": "Update To Version",
@@ -85,10 +73,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--update-to",
-      "enumValues": [],
-      "key": "update-to",
-      "validations": [],
-      "dependencies": []
+      "key": "update-to"
     },
     {
       "name": "Ignore Errors",
@@ -99,10 +84,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--ignore-errors",
-      "enumValues": [],
-      "key": "ignore-errors",
-      "validations": [],
-      "dependencies": []
+      "key": "ignore-errors"
     },
     {
       "name": "No Abort On Error",
@@ -113,10 +95,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--no-abort-on-error",
-      "enumValues": [],
-      "key": "no-abort-on-error",
-      "validations": [],
-      "dependencies": []
+      "key": "no-abort-on-error"
     },
     {
       "name": "Abort On Error",
@@ -127,10 +106,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--abort-on-error",
-      "enumValues": [],
-      "key": "abort-on-error",
-      "validations": [],
-      "dependencies": []
+      "key": "abort-on-error"
     },
     {
       "name": "Dump User Agent",
@@ -141,10 +117,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--dump-user-agent",
-      "enumValues": [],
-      "key": "dump-user-agent",
-      "validations": [],
-      "dependencies": []
+      "key": "dump-user-agent"
     },
     {
       "name": "List Extractors",
@@ -155,10 +128,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--list-extractors",
-      "enumValues": [],
-      "key": "list-extractors",
-      "validations": [],
-      "dependencies": []
+      "key": "list-extractors"
     },
     {
       "name": "Extractor Descriptions",
@@ -169,10 +139,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--extractor-descriptions",
-      "enumValues": [],
-      "key": "extractor-descriptions",
-      "validations": [],
-      "dependencies": []
+      "key": "extractor-descriptions"
     },
     {
       "name": "Use Extractors",
@@ -183,10 +150,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--use-extractors",
-      "enumValues": [],
-      "key": "use-extractors",
-      "validations": [],
-      "dependencies": []
+      "key": "use-extractors"
     },
     {
       "name": "Default Search",
@@ -197,10 +161,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--default-search",
-      "enumValues": [],
-      "key": "default-search",
-      "validations": [],
-      "dependencies": []
+      "key": "default-search"
     },
     {
       "name": "Ignore Config",
@@ -211,10 +172,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--ignore-config",
-      "enumValues": [],
-      "key": "ignore-config",
-      "validations": [],
-      "dependencies": []
+      "key": "ignore-config"
     },
     {
       "name": "No Config Locations",
@@ -225,10 +183,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--no-config-locations",
-      "enumValues": [],
-      "key": "no-config-locations",
-      "validations": [],
-      "dependencies": []
+      "key": "no-config-locations"
     },
     {
       "name": "Config Locations",
@@ -239,10 +194,7 @@
       "isRepeatable": true,
       "isGlobal": true,
       "longFlag": "--config-locations",
-      "enumValues": [],
-      "key": "config-locations",
-      "validations": [],
-      "dependencies": []
+      "key": "config-locations"
     },
     {
       "name": "Plugin Dirs",
@@ -253,10 +205,7 @@
       "isRepeatable": true,
       "isGlobal": true,
       "longFlag": "--plugin-dirs",
-      "enumValues": [],
-      "key": "plugin-dirs",
-      "validations": [],
-      "dependencies": []
+      "key": "plugin-dirs"
     },
     {
       "name": "No Plugin Dirs",
@@ -267,10 +216,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--no-plugin-dirs",
-      "enumValues": [],
-      "key": "no-plugin-dirs",
-      "validations": [],
-      "dependencies": []
+      "key": "no-plugin-dirs"
     },
     {
       "name": "Flat Playlist",
@@ -281,10 +227,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--flat-playlist",
-      "enumValues": [],
-      "key": "flat-playlist",
-      "validations": [],
-      "dependencies": []
+      "key": "flat-playlist"
     },
     {
       "name": "No Flat Playlist",
@@ -295,10 +238,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--no-flat-playlist",
-      "enumValues": [],
-      "key": "no-flat-playlist",
-      "validations": [],
-      "dependencies": []
+      "key": "no-flat-playlist"
     },
     {
       "name": "Preset Alias",
@@ -309,10 +249,7 @@
       "isRepeatable": true,
       "isGlobal": true,
       "longFlag": "--preset-alias",
-      "enumValues": [],
-      "key": "preset-alias",
-      "validations": [],
-      "dependencies": []
+      "key": "preset-alias"
     },
     {
       "name": "Proxy",
@@ -323,10 +260,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--proxy",
-      "enumValues": [],
-      "key": "proxy",
-      "validations": [],
-      "dependencies": []
+      "key": "proxy"
     },
     {
       "name": "Socket Timeout",
@@ -337,10 +271,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--socket-timeout",
-      "enumValues": [],
-      "key": "socket-timeout",
-      "validations": [],
-      "dependencies": []
+      "key": "socket-timeout"
     },
     {
       "name": "Source Address",
@@ -351,10 +282,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--source-address",
-      "enumValues": [],
-      "key": "source-address",
-      "validations": [],
-      "dependencies": []
+      "key": "source-address"
     },
     {
       "name": "Impersonate",
@@ -365,10 +293,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--impersonate",
-      "enumValues": [],
-      "key": "impersonate",
-      "validations": [],
-      "dependencies": []
+      "key": "impersonate"
     },
     {
       "name": "List Impersonate Targets",
@@ -379,10 +304,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--list-impersonate-targets",
-      "enumValues": [],
-      "key": "list-impersonate-targets",
-      "validations": [],
-      "dependencies": []
+      "key": "list-impersonate-targets"
     },
     {
       "name": "Force IPv4",
@@ -393,10 +315,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--force-ipv4",
-      "enumValues": [],
-      "key": "force-ipv4",
-      "validations": [],
-      "dependencies": []
+      "key": "force-ipv4"
     },
     {
       "name": "Force IPv6",
@@ -407,10 +326,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--force-ipv6",
-      "enumValues": [],
-      "key": "force-ipv6",
-      "validations": [],
-      "dependencies": []
+      "key": "force-ipv6"
     },
     {
       "name": "Enable File URLs",
@@ -421,10 +337,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--enable-file-urls",
-      "enumValues": [],
-      "key": "enable-file-urls",
-      "validations": [],
-      "dependencies": []
+      "key": "enable-file-urls"
     },
     {
       "name": "Geo Verification Proxy",
@@ -435,10 +348,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--geo-verification-proxy",
-      "enumValues": [],
-      "key": "geo-verification-proxy",
-      "validations": [],
-      "dependencies": []
+      "key": "geo-verification-proxy"
     },
     {
       "name": "Fake X-Forwarded-For",
@@ -449,10 +359,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--xff",
-      "enumValues": [],
-      "key": "xff",
-      "validations": [],
-      "dependencies": []
+      "key": "xff"
     },
     {
       "name": "Playlist Items",
@@ -464,10 +371,7 @@
       "isGlobal": true,
       "longFlag": "--playlist-items",
       "shortFlag": "-I",
-      "enumValues": [],
-      "key": "playlist-items",
-      "validations": [],
-      "dependencies": []
+      "key": "playlist-items"
     },
     {
       "name": "Min Filesize",
@@ -478,10 +382,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--min-filesize",
-      "enumValues": [],
-      "key": "min-filesize",
-      "validations": [],
-      "dependencies": []
+      "key": "min-filesize"
     },
     {
       "name": "Max Filesize",
@@ -492,10 +393,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--max-filesize",
-      "enumValues": [],
-      "key": "max-filesize",
-      "validations": [],
-      "dependencies": []
+      "key": "max-filesize"
     },
     {
       "name": "Date",
@@ -506,10 +404,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--date",
-      "enumValues": [],
-      "key": "date",
-      "validations": [],
-      "dependencies": []
+      "key": "date"
     },
     {
       "name": "Date Before",
@@ -520,10 +415,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--datebefore",
-      "enumValues": [],
-      "key": "datebefore",
-      "validations": [],
-      "dependencies": []
+      "key": "datebefore"
     },
     {
       "name": "Date After",
@@ -534,10 +426,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--dateafter",
-      "enumValues": [],
-      "key": "dateafter",
-      "validations": [],
-      "dependencies": []
+      "key": "dateafter"
     },
     {
       "name": "Match Filters",
@@ -548,10 +437,7 @@
       "isRepeatable": true,
       "isGlobal": true,
       "longFlag": "--match-filters",
-      "enumValues": [],
-      "key": "match-filters",
-      "validations": [],
-      "dependencies": []
+      "key": "match-filters"
     },
     {
       "name": "No Match Filters",
@@ -562,10 +448,7 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--no-match-filters",
-      "enumValues": [],
-      "key": "no-match-filters",
-      "validations": [],
-      "dependencies": []
+      "key": "no-match-filters"
     },
     {
       "name": "Break Match Filters",
@@ -576,10 +459,7 @@
       "isRepeatable": true,
       "isGlobal": true,
       "longFlag": "--break-match-filters",
-      "enumValues": [],
-      "key": "break-match-filters",
-      "validations": [],
-      "dependencies": []
+      "key": "break-match-filters"
     },
     {
       "name": "No Break Match Filters",
@@ -590,11 +470,9 @@
       "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--no-break-match-filters",
-      "enumValues": [],
-      "key": "no-break-match-filters",
-      "validations": [],
-      "dependencies": []
+      "key": "no-break-match-filters"
     }
   ],
   "exclusionGroups": []
 }
+

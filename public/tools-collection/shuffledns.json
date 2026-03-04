@@ -32,11 +32,8 @@
       "shortFlag": "-d",
       "longFlag": "-domain",
       "sortOrder": 1,
-      "enumValues": [],
       "key": "domain",
-      "commandKey": "shuffledns",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "shuffledns"
     },
     {
       "name": "List",
@@ -49,11 +46,8 @@
       "shortFlag": "-l",
       "longFlag": "-list",
       "sortOrder": 2,
-      "enumValues": [],
       "key": "list",
-      "commandKey": "shuffledns",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "shuffledns"
     },
     {
       "name": "Wordlist",
@@ -66,11 +60,8 @@
       "shortFlag": "-w",
       "longFlag": "-wordlist",
       "sortOrder": 3,
-      "enumValues": [],
       "key": "wordlist",
-      "commandKey": "shuffledns",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "shuffledns"
     },
     {
       "name": "Resolver",
@@ -83,11 +74,8 @@
       "shortFlag": "-r",
       "longFlag": "-resolver",
       "sortOrder": 4,
-      "enumValues": [],
       "key": "resolver",
-      "commandKey": "shuffledns",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "shuffledns"
     },
     {
       "name": "Trusted Resolver",
@@ -100,11 +88,8 @@
       "shortFlag": "-tr",
       "longFlag": "-trusted-resolver",
       "sortOrder": 5,
-      "enumValues": [],
       "key": "trusted-resolver",
-      "commandKey": "shuffledns",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "shuffledns"
     },
     {
       "name": "Raw Input",
@@ -117,11 +102,8 @@
       "shortFlag": "-ri",
       "longFlag": "-raw-input",
       "sortOrder": 6,
-      "enumValues": [],
       "key": "raw-input",
-      "commandKey": "shuffledns",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "shuffledns"
     },
     {
       "name": "Mode",
@@ -133,11 +115,8 @@
       "isGlobal": false,
       "longFlag": "-mode",
       "sortOrder": 7,
-      "enumValues": [],
       "key": "mode",
-      "commandKey": "shuffledns",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "shuffledns"
     },
     {
       "name": "T",
@@ -151,11 +130,8 @@
       "shortFlag": "-t",
       "longFlag": "-t",
       "sortOrder": 8,
-      "enumValues": [],
       "key": "t",
-      "commandKey": "shuffledns",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "shuffledns"
     },
     {
       "name": "Update",
@@ -168,11 +144,8 @@
       "shortFlag": "-up",
       "longFlag": "-update",
       "sortOrder": 9,
-      "enumValues": [],
       "key": "update",
-      "commandKey": "shuffledns",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "shuffledns"
     },
     {
       "name": "Disable Update Check",
@@ -185,11 +158,8 @@
       "shortFlag": "-duc",
       "longFlag": "-disable-update-check",
       "sortOrder": 10,
-      "enumValues": [],
       "key": "disable-update-check",
-      "commandKey": "shuffledns",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "shuffledns"
     },
     {
       "name": "Output",
@@ -202,11 +172,8 @@
       "shortFlag": "-o",
       "longFlag": "-output",
       "sortOrder": 11,
-      "enumValues": [],
       "key": "output",
-      "commandKey": "shuffledns",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "shuffledns"
     },
     {
       "name": "Json",
@@ -219,11 +186,8 @@
       "shortFlag": "-j",
       "longFlag": "-json",
       "sortOrder": 12,
-      "enumValues": [],
       "key": "json",
-      "commandKey": "shuffledns",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "shuffledns"
     },
     {
       "name": "Wildcard Output",
@@ -236,11 +200,8 @@
       "shortFlag": "-wo",
       "longFlag": "-wildcard-output",
       "sortOrder": 13,
-      "enumValues": [],
       "key": "wildcard-output",
-      "commandKey": "shuffledns",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "shuffledns"
     },
     {
       "name": "Massdns",
@@ -253,11 +214,8 @@
       "shortFlag": "-m",
       "longFlag": "-massdns",
       "sortOrder": 14,
-      "enumValues": [],
       "key": "massdns",
-      "commandKey": "shuffledns",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "shuffledns"
     },
     {
       "name": "Massdns Cmd",
@@ -270,11 +228,8 @@
       "shortFlag": "-mcmd",
       "longFlag": "-massdns-cmd",
       "sortOrder": 15,
-      "enumValues": [],
       "key": "massdns-cmd",
-      "commandKey": "shuffledns",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "shuffledns"
     },
     {
       "name": "Directory",
@@ -286,11 +241,8 @@
       "isGlobal": false,
       "longFlag": "-directory",
       "sortOrder": 16,
-      "enumValues": [],
       "key": "directory",
-      "commandKey": "shuffledns",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "shuffledns"
     },
     {
       "name": "Retries",
@@ -303,11 +255,8 @@
       "defaultValue": "5",
       "longFlag": "-retries",
       "sortOrder": 17,
-      "enumValues": [],
       "key": "retries",
-      "commandKey": "shuffledns",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "shuffledns"
     },
     {
       "name": "Strict Wildcard",
@@ -320,11 +269,8 @@
       "shortFlag": "-sw",
       "longFlag": "-strict-wildcard",
       "sortOrder": 18,
-      "enumValues": [],
       "key": "strict-wildcard",
-      "commandKey": "shuffledns",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "shuffledns"
     },
     {
       "name": "Wt",
@@ -337,11 +283,8 @@
       "defaultValue": "250",
       "longFlag": "-wt",
       "sortOrder": 19,
-      "enumValues": [],
       "key": "wt",
-      "commandKey": "shuffledns",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "shuffledns"
     },
     {
       "name": "Silent",
@@ -353,11 +296,8 @@
       "isGlobal": false,
       "longFlag": "-silent",
       "sortOrder": 20,
-      "enumValues": [],
       "key": "silent",
-      "commandKey": "shuffledns",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "shuffledns"
     },
     {
       "name": "Version",
@@ -369,11 +309,8 @@
       "isGlobal": false,
       "longFlag": "-version",
       "sortOrder": 21,
-      "enumValues": [],
       "key": "version",
-      "commandKey": "shuffledns",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "shuffledns"
     },
     {
       "name": "Verbose",
@@ -386,11 +323,8 @@
       "shortFlag": "-v",
       "longFlag": "-v",
       "sortOrder": 22,
-      "enumValues": [],
       "key": "v",
-      "commandKey": "shuffledns",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "shuffledns"
     },
     {
       "name": "No Color",
@@ -403,12 +337,10 @@
       "shortFlag": "-nc",
       "longFlag": "-no-color",
       "sortOrder": 23,
-      "enumValues": [],
       "key": "no-color",
-      "commandKey": "shuffledns",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "shuffledns"
     }
   ],
   "exclusionGroups": []
 }
+

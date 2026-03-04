@@ -124,7 +124,7 @@ function OptionEnumInput({ parameter, value, onUpdate }: ParameterInputProps) {
           <SelectValue placeholder="Select an option" />
         </SelectTrigger>
         <SelectContent>
-          {parameter.enumValues.map((enumValue) => (
+          {parameter.enumValues?.map((enumValue) => (
             <SelectItem
               key={enumValue.key}
               value={enumValue.value}
