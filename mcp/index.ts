@@ -62,8 +62,7 @@ server.tool(
       description: tool.description || "",
       category: tool.category || "",
       tags: tool.tags || [],
-      supportedInput: tool.supportedInput,
-      supportedOutput: tool.supportedOutput,
+      metadata: tool.metadata,
     }));
 
     return {

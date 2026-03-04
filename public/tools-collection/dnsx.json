@@ -2,13 +2,15 @@
   "name": "dnsx",
   "displayName": "DNSX",
   "description": "A fast and multi-purpose DNS toolkit designed for running DNS queries.",
+  "metadata": {
+    "supportedInput": [
+      "StandardInput"
+    ],
+    "supportedOutput": [
+      "StandardOutput"
+    ]
+  },
   "exclusionGroups": [],
-  "supportedInput": [
-    "StandardInput"
-  ],
-  "supportedOutput": [
-    "StandardOutput"
-  ],
   "commands": [
     {
       "name": "dnsx",

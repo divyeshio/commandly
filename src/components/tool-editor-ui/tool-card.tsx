@@ -23,7 +23,10 @@ export function ToolCard({
   isLocal?: boolean;
   onDelete?: (tool: Partial<Tool>) => void;
 }) {
-  const supportedIO = [...tool.supportedInput!, ...tool.supportedOutput!];
+  const supportedIO = [
+    ...(tool.metadata?.supportedInput ?? []),
+    ...(tool.metadata?.supportedOutput ?? []),
+  ];
   const descRef = useRef<HTMLParagraphElement>(null);
   const [isOverflowing, setIsOverflowing] = useState(false);
 

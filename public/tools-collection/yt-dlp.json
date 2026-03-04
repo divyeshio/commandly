@@ -2,6 +2,14 @@
   "name": "yt-dlp",
   "displayName": "yt-dlp",
   "description": "yt-dlp is a command-line program to download videos from YouTube and other sites.",
+  "metadata": {
+    "supportedInput": [
+      "Parameter"
+    ],
+    "supportedOutput": [
+      "StandardOutput"
+    ]
+  },
   "commands": [
     {
       "name": "yt-dlp",
@@ -588,11 +596,5 @@
       "dependencies": []
     }
   ],
-  "exclusionGroups": [],
-  "supportedInput": [
-    "Parameter"
-  ],
-  "supportedOutput": [
-    "StandardOutput"
-  ]
+  "exclusionGroups": []
 }

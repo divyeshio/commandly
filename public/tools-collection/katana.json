@@ -2,6 +2,17 @@
   "name": "katana",
   "displayName": "Katana",
   "description": "Katana is a fast crawler focused on execution in automation pipelines offering both headless and non-headless crawling.",
+  "metadata": {
+    "supportedInput": [
+      "StandardInput",
+      "Parameter"
+    ],
+    "supportedOutput": [
+      "StandardOutput",
+      "File",
+      "Directory"
+    ]
+  },
   "commands": [
     {
       "name": "katana",
@@ -1286,14 +1297,5 @@
       "dependencies": []
     }
   ],
-  "exclusionGroups": [],
-  "supportedInput": [
-    "StandardInput",
-    "Parameter"
-  ],
-  "supportedOutput": [
-    "StandardOutput",
-    "File",
-    "Directory"
-  ]
+  "exclusionGroups": []
 }

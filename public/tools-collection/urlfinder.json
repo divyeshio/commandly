@@ -2,14 +2,16 @@
   "name": "urlfinder",
   "displayName": "URLFinder",
   "description": "A streamlined tool for discovering associated URLs.",
+  "metadata": {
+    "supportedInput": [
+      "StandardInput",
+      "Parameter"
+    ],
+    "supportedOutput": [
+      "StandardOutput"
+    ]
+  },
   "exclusionGroups": [],
-  "supportedInput": [
-    "StandardInput",
-    "Parameter"
-  ],
-  "supportedOutput": [
-    "StandardOutput"
-  ],
   "commands": [
     {
       "name": "urlfinder",

@@ -2,6 +2,15 @@
   "name": "cdncheck",
   "displayName": "CDNCheck",
   "description": "cdncheck is a tool for identifying the technology associated with dns / ip network addresses.",
+  "metadata": {
+    "supportedInput": [
+      "Parameter"
+    ],
+    "supportedOutput": [
+      "StandardOutput",
+      "File"
+    ]
+  },
   "commands": [
     {
       "name": "cdncheck",
@@ -403,12 +412,5 @@
         "filter-waf"
       ]
     }
-  ],
-  "supportedInput": [
-    "Parameter"
-  ],
-  "supportedOutput": [
-    "StandardOutput",
-    "File"
   ]
 }

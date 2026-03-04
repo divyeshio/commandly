@@ -2,6 +2,17 @@
   "name": "httpx",
   "displayName": "httpx",
   "description": "Httpx is a fast and multi-purpose HTTP toolkit that allows running multiple probes using the retryablehttp library.",
+  "metadata": {
+    "supportedInput": [
+      "StandardInput",
+      "Parameter"
+    ],
+    "supportedOutput": [
+      "StandardOutput",
+      "File",
+      "Directory"
+    ]
+  },
   "commands": [
     {
       "name": "httpx",
@@ -2882,14 +2893,5 @@
       "dependencies": []
     }
   ],
-  "exclusionGroups": [],
-  "supportedInput": [
-    "StandardInput",
-    "Parameter"
-  ],
-  "supportedOutput": [
-    "StandardOutput",
-    "File",
-    "Directory"
-  ]
+  "exclusionGroups": []
 }

@@ -300,26 +300,12 @@
         "additionalProperties": false
       }
     },
-    "supportedInput": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "enum": [
-          "StandardInput",
-          "Parameter"
-        ]
-      }
-    },
-    "supportedOutput": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "enum": [
-          "StandardOutput",
-          "File",
-          "Directory"
-        ]
-      }
+    "metadata": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {}
     }
   },
   "required": [
@@ -328,8 +314,7 @@
     "commands",
     "parameters",
     "exclusionGroups",
-    "supportedInput",
-    "supportedOutput"
+    "metadata"
   ],
   "additionalProperties": false
 }

@@ -125,8 +125,10 @@ const createComplexTool = (): Tool => {
     ],
     parameters: [],
     exclusionGroups: [],
-    supportedInput: [],
-    supportedOutput: [],
+    metadata: {
+      supportedInput: [],
+      supportedOutput: [],
+    },
   };
 };
 

@@ -3,8 +3,6 @@ import type {
   ExclusionGroup,
   Parameter,
   SavedCommand,
-  SupportedToolInputType,
-  SupportedToolOutputType,
   Tool,
 } from "@/registry/commandly/lib/types/commandly";
 
@@ -92,8 +90,7 @@ export const exportToStructuredJSON = (tool: Tool) => {
     commands: tool.commands.map(flattenCommand),
     parameters: tool.parameters,
     exclusionGroups: tool.exclusionGroups,
-    supportedInput: tool.supportedInput,
-    supportedOutput: tool.supportedOutput,
+    metadata: tool.metadata,
   };
 };
 
@@ -104,16 +101,17 @@ export const flattenImportedData = (importedData: Record<string, unknown>): Tool
     parameters = [],
     commands = [],
     exclusionGroups = [],
-    supportedInput = [],
-    supportedOutput = [],
+    metadata = {
+      supportedInput: [],
+      supportedOutput: [],
+    },
   } = importedData as {
     name: string;
     displayName?: string;
     parameters?: Parameter[];
     commands?: Record<string, unknown>[];
     exclusionGroups?: ExclusionGroup[];
-    supportedInput?: SupportedToolInputType[];
-    supportedOutput?: SupportedToolOutputType[];
+    metadata?: Tool["metadata"];
   };
 
   const allParameters: Parameter[] = [...parameters];
@@ -165,8 +163,7 @@ export const flattenImportedData = (importedData: Record<string, unknown>): Tool
     commands: flatCommands,
     parameters: allParameters,
     exclusionGroups,
-    supportedInput: supportedInput,
-    supportedOutput: supportedOutput,
+    metadata,
   };
 };
 
@@ -204,8 +201,10 @@ export const defaultTool = (toolName?: string, displayName?: string): Tool => {
       },
     ],
     exclusionGroups: [],
-    supportedInput: ["StandardInput"],
-    supportedOutput: ["StandardOutput"],
+    metadata: {
+      supportedInput: ["StandardInput"],
+      supportedOutput: ["StandardOutput"],
+    },
   };
 };
 

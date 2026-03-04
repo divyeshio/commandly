@@ -2,6 +2,15 @@
   "name": "asnmap",
   "displayName": "ASNMap",
   "description": "Go CLI and Library for quickly mapping organization network ranges using ASN information.",
+  "metadata": {
+    "supportedInput": [
+      "Parameter"
+    ],
+    "supportedOutput": [
+      "StandardOutput",
+      "File"
+    ]
+  },
   "commands": [
     {
       "name": "asnmap",
@@ -390,12 +399,5 @@
       "dependencies": []
     }
   ],
-  "exclusionGroups": [],
-  "supportedInput": [
-    "Parameter"
-  ],
-  "supportedOutput": [
-    "StandardOutput",
-    "File"
-  ]
+  "exclusionGroups": []
 }
