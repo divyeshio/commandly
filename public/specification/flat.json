@@ -2,9 +2,6 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "properties": {
-    "id": {
-      "type": "string"
-    },
     "name": {
       "type": "string"
     },
@@ -35,15 +32,11 @@
       "items": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
+          "key": {
+            "type": "string"
           },
-          "parentCommandId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
+          "parentCommandKey": {
+            "type": "string"
           },
           "name": {
             "type": "string"
@@ -58,7 +51,13 @@
             "type": "number"
           }
         },
-        "required": ["id", "name", "description", "isDefault", "sortOrder"],
+        "required": [
+          "key",
+          "name",
+          "description",
+          "isDefault",
+          "sortOrder"
+        ],
         "additionalProperties": false
       }
     },
@@ -67,16 +66,14 @@
       "items": {
         "type": "object",
         "properties": {
-          "id": {
+          "key": {
             "type": "string"
           },
           "name": {
             "type": "string"
           },
-          "commandId": {
-            "type": "string",
-            "format": "uuid",
-            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
+          "commandKey": {
+            "type": "string"
           },
           "description": {
             "type": "string"
@@ -95,11 +92,20 @@
           },
           "parameterType": {
             "type": "string",
-            "enum": ["Flag", "Option", "Argument"]
+            "enum": [
+              "Flag",
+              "Option",
+              "Argument"
+            ]
           },
           "dataType": {
             "type": "string",
-            "enum": ["String", "Number", "Boolean", "Enum"]
+            "enum": [
+              "String",
+              "Number",
+              "Boolean",
+              "Enum"
+            ]
           },
           "isRequired": {
             "type": "boolean"
@@ -136,15 +142,11 @@
             "items": {
               "type": "object",
               "properties": {
-                "id": {
-                  "type": "string",
-                  "format": "uuid",
-                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
+                "key": {
+                  "type": "string"
                 },
-                "parameterId": {
-                  "type": "string",
-                  "format": "uuid",
-                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
+                "parameterKey": {
+                  "type": "string"
                 },
                 "value": {
                   "type": "string"
@@ -163,8 +165,8 @@
                 }
               },
               "required": [
-                "id",
-                "parameterId",
+                "key",
+                "parameterKey",
                 "value",
                 "displayName",
                 "description",
@@ -179,10 +181,10 @@
             "items": {
               "type": "object",
               "properties": {
-                "id": {
+                "key": {
                   "type": "string"
                 },
-                "parameterId": {
+                "parameterKey": {
                   "type": "string"
                 },
                 "validationType": {
@@ -203,8 +205,8 @@
                 }
               },
               "required": [
-                "id",
-                "parameterId",
+                "key",
+                "parameterKey",
                 "validationType",
                 "validationValue",
                 "errorMessage"
@@ -217,27 +219,30 @@
             "items": {
               "type": "object",
               "properties": {
-                "id": {
+                "key": {
                   "type": "string"
                 },
-                "parameterId": {
+                "parameterKey": {
                   "type": "string"
                 },
-                "dependsOnParameterId": {
+                "dependsOnParameterKey": {
                   "type": "string"
                 },
                 "dependencyType": {
                   "type": "string",
-                  "enum": ["requires", "conflicts_with"]
+                  "enum": [
+                    "requires",
+                    "conflicts_with"
+                  ]
                 },
                 "conditionValue": {
                   "type": "string"
                 }
               },
               "required": [
-                "id",
-                "parameterId",
-                "dependsOnParameterId",
+                "key",
+                "parameterKey",
+                "dependsOnParameterKey",
                 "dependencyType"
               ],
               "additionalProperties": false
@@ -245,7 +250,7 @@
           }
         },
         "required": [
-          "id",
+          "key",
           "name",
           "description",
           "parameterType",
@@ -264,10 +269,10 @@
       "items": {
         "type": "object",
         "properties": {
-          "id": {
+          "key": {
             "type": "string"
           },
-          "commandId": {
+          "commandKey": {
             "type": "string"
           },
           "name": {
@@ -275,32 +280,32 @@
           },
           "exclusionType": {
             "type": "string",
-            "enum": ["mutual_exclusive", "required_one_of"]
+            "enum": [
+              "mutual_exclusive",
+              "required_one_of"
+            ]
           },
-          "parameterIds": {
+          "parameterKeys": {
             "type": "array",
             "items": {
               "type": "string"
             }
           }
         },
-        "required": ["name", "exclusionType", "parameterIds"],
+        "required": [
+          "name",
+          "exclusionType",
+          "parameterKeys"
+        ],
         "additionalProperties": false
       }
     },
-    "supportedInput": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "enum": ["StandardInput", "Parameter"]
-      }
-    },
-    "supportedOutput": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "enum": ["StandardOutput", "File", "Directory"]
-      }
+    "metadata": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {}
     }
   },
   "required": [
@@ -309,8 +314,7 @@
     "commands",
     "parameters",
     "exclusionGroups",
-    "supportedInput",
-    "supportedOutput"
+    "metadata"
   ],
   "additionalProperties": false
 }

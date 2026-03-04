@@ -31,10 +31,10 @@ export default function ToolEditor({ tool: toolToEdit, onSave }: ToolEditorProps
 
   const [savedCommands, setSavedCommands] = useState<SavedCommand[]>([]);
 
-  const handleDeleteCommand = (commandId: string) => {
-    const toolId = tool.id || tool.name;
-    removeSavedCommandFromStorage(`saved-${toolId}`, commandId);
-    setSavedCommands(savedCommands.filter((cmd) => cmd.id !== commandId));
+  const handleDeleteCommand = (commandKey: string) => {
+    const toolId = tool.name;
+    removeSavedCommandFromStorage(`saved-${toolId}`, commandKey);
+    setSavedCommands(savedCommands.filter((cmd) => cmd.key !== commandKey));
   };
 
   return (
@@ -86,7 +86,7 @@ export default function ToolEditor({ tool: toolToEdit, onSave }: ToolEditorProps
                 variant="outline"
                 size="sm"
                 onClick={() => {
-                  const toolId = tool.id || tool.name;
+                  const toolId = tool.name;
                   const commands = getSavedCommandsFromStorage(toolId);
                   setSavedCommands(commands);
                   toolBuilderActions.setDialogOpen("savedCommands", true);

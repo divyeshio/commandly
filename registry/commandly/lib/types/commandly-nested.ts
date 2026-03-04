@@ -1,75 +1,88 @@
 import {
-  ExclusionType,
-  ParameterDataType,
-  ParameterDependencyType,
-  ParameterMetadata,
-  ParameterType,
-  ParameterValidation,
-  SupportedToolInputType,
-  SupportedToolOutputType,
+  ExclusionTypeSchema,
+  ParameterDataTypeSchema,
+  ParameterDependencyTypeSchema,
+  ParameterEnumValueSchema,
+  ParameterMetadataSchema,
+  ParameterTypeSchema,
+  ParameterValidationSchema,
 } from "./commandly";
+import { z } from "zod/v4";
 
-export interface NestedCommand {
-  name: string;
-  description: string;
-  isDefault: boolean;
-  sortOrder: number;
-  parameters: NestedParameter[];
-  subcommands: NestedCommand[];
-}
+export const NestedParameterEnumValueSchema = ParameterEnumValueSchema.omit({
+  key: true,
+  parameterKey: true,
+});
+export type NestedParameterEnumValue = z.infer<typeof NestedParameterEnumValueSchema>;
 
-export interface NestedParameterEnumValue {
-  value: string;
-  displayName: string;
-  description: string;
-  isDefault: boolean;
-  sortOrder: number;
-}
+export const NestedParameterValidationSchema = ParameterValidationSchema.omit({
+  key: true,
+  parameterKey: true,
+});
+export type NestedParameterValidation = z.infer<typeof NestedParameterValidationSchema>;
 
-export type NestedParameterValidation = Omit<ParameterValidation, "id" | "parameterId">;
+export const NestedParameterDependencySchema = z.object({
+  dependsOnParameter: z.string(),
+  dependencyType: ParameterDependencyTypeSchema,
+  conditionValue: z.string().optional(),
+});
+export type NestedParameterDependency = z.infer<typeof NestedParameterDependencySchema>;
 
-export interface NestedParameterDependency {
-  dependsOnParameter: string;
-  dependencyType: ParameterDependencyType;
-  conditionValue?: string;
-}
+export const NestedParameterSchema: z.ZodType<object> = z.lazy(() =>
+  z.object({
+    name: z.string(),
+    description: z.string(),
+    parameterType: ParameterTypeSchema,
+    dataType: ParameterDataTypeSchema,
+    metadata: ParameterMetadataSchema.optional(),
+    isRequired: z.boolean(),
+    isRepeatable: z.boolean(),
+    isGlobal: z.boolean(),
+    defaultValue: z.string().optional(),
+    shortFlag: z.string().optional(),
+    longFlag: z.string(),
+    position: z.number().optional(),
+    sortOrder: z.number().optional(),
+    arraySeparator: z.string().optional(),
+    keyValueSeparator: z.string().optional(),
+    enumValues: z.array(NestedParameterEnumValueSchema),
+    validations: z.array(NestedParameterValidationSchema),
+    dependencies: z.array(NestedParameterDependencySchema),
+  }),
+);
+export type NestedParameter = z.infer<typeof NestedParameterSchema>;
 
-export interface NestedParameter {
-  name: string;
-  description: string;
-  parameterType: ParameterType;
-  dataType: ParameterDataType;
-  metadata?: ParameterMetadata;
-  isRequired: boolean;
-  isRepeatable: boolean;
-  isGlobal: boolean;
-  defaultValue?: string;
-  shortFlag?: string;
-  longFlag: string;
-  position?: number;
-  sortOrder?: number;
-  arraySeparator?: string;
-  keyValueSeparator?: string;
-  enumValues: NestedParameterEnumValue[];
-  validations: NestedParameterValidation[];
-  dependencies: NestedParameterDependency[];
-}
+export const NestedCommandSchema: z.ZodType<object> = z.lazy(() =>
+  z.object({
+    name: z.string(),
+    description: z.string(),
+    isDefault: z.boolean(),
+    sortOrder: z.number(),
+    parameters: z.array(NestedParameterSchema),
+    subcommands: z.array(NestedCommandSchema),
+  }),
+);
+export type NestedCommand = z.infer<typeof NestedCommandSchema>;
 
-export interface NestedExclusionGroup {
-  name: string;
-  exclusionType: ExclusionType;
-  parameters: string[];
-}
+export const NestedExclusionGroupSchema = z.object({
+  name: z.string(),
+  exclusionType: ExclusionTypeSchema,
+  parameters: z.array(z.string()),
+});
+export type NestedExclusionGroup = z.infer<typeof NestedExclusionGroupSchema>;
 
-export interface NestedTool {
-  name: string;
-  displayName: string;
-  description?: string;
-  version?: string;
-  url?: string;
-  globalParameters: NestedParameter[];
-  commands: NestedCommand[];
-  exclusionGroups: NestedExclusionGroup[];
-  supportedInput: SupportedToolInputType[];
-  supportedOutput: SupportedToolOutputType[];
-}
+export const NestedToolMetadataSchema = z.record(z.string(), z.any());
+export type NestedToolMetadata = z.infer<typeof NestedToolMetadataSchema>;
+
+export const NestedToolSchema = z.object({
+  name: z.string(),
+  displayName: z.string(),
+  description: z.string().optional(),
+  version: z.string().optional(),
+  url: z.url().optional(),
+  globalParameters: z.array(NestedParameterSchema),
+  commands: z.array(NestedCommandSchema),
+  exclusionGroups: z.array(NestedExclusionGroupSchema),
+  metadata: NestedToolMetadataSchema,
+});
+export type NestedTool = z.infer<typeof NestedToolSchema>;

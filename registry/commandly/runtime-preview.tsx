@@ -126,7 +126,7 @@ function OptionEnumInput({ parameter, value, onUpdate }: ParameterInputProps) {
         <SelectContent>
           {parameter.enumValues.map((enumValue) => (
             <SelectItem
-              key={enumValue.id}
+              key={enumValue.key}
               value={enumValue.value}
             >
               {enumValue.displayName || enumValue.value}
@@ -210,7 +210,7 @@ interface RuntimePreviewProps {
   selectedCommand?: Command | null;
   tool: Tool;
   parameterValues: Record<string, ParameterValue>;
-  updateParameterValue: (parameterId: string, value: ParameterValue) => void;
+  updateParameterValue: (parameterKey: string, value: ParameterValue) => void;
 }
 
 export function RuntimePreview({
@@ -229,15 +229,15 @@ export function RuntimePreview({
         <div className="space-y-4">
           {tool.parameters.length > 0 ? (
             tool.parameters
-              .filter((param) => param.commandId === selectedCommand?.id || param.isGlobal)
+              .filter((param) => param.commandKey === selectedCommand?.key || param.isGlobal)
               .map((parameter) => {
-                const value = parameterValues[parameter.id] || parameter.defaultValue || "";
-                const onUpdate = (val: ParameterValue) => updateParameterValue(parameter.id, val);
+                const value = parameterValues[parameter.key] || parameter.defaultValue || "";
+                const onUpdate = (val: ParameterValue) => updateParameterValue(parameter.key, val);
 
                 if (parameter.parameterType === "Flag") {
                   return (
                     <FlagInput
-                      key={parameter.id}
+                      key={parameter.key}
                       parameter={parameter}
                       value={value}
                       onUpdate={onUpdate}
@@ -247,7 +247,7 @@ export function RuntimePreview({
                 if (parameter.parameterType === "Argument") {
                   return (
                     <ArgumentInput
-                      key={parameter.id}
+                      key={parameter.key}
                       parameter={parameter}
                       value={value}
                       onUpdate={onUpdate}
@@ -258,7 +258,7 @@ export function RuntimePreview({
                   if (parameter.dataType === "Enum") {
                     return (
                       <OptionEnumInput
-                        key={parameter.id}
+                        key={parameter.key}
                         parameter={parameter}
                         value={value}
                         onUpdate={onUpdate}
@@ -268,7 +268,7 @@ export function RuntimePreview({
                   if (parameter.dataType === "Boolean") {
                     return (
                       <OptionBooleanInput
-                        key={parameter.id}
+                        key={parameter.key}
                         parameter={parameter}
                         value={value}
                         onUpdate={onUpdate}
@@ -277,7 +277,7 @@ export function RuntimePreview({
                   }
                   return (
                     <OptionTextInput
-                      key={parameter.id}
+                      key={parameter.key}
                       parameter={parameter}
                       value={value}
                       onUpdate={onUpdate}

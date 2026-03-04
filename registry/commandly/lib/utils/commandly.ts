@@ -3,30 +3,39 @@ import type {
   ExclusionGroup,
   Parameter,
   SavedCommand,
-  SupportedToolInputType,
-  SupportedToolOutputType,
   Tool,
 } from "@/registry/commandly/lib/types/commandly";
-import { v7 as uuidv7 } from "uuid";
 
 export const buildCommandHierarchy = (commands: Command[]): Command[] => {
   return commands.sort((a, b) => a.sortOrder - b.sortOrder);
 };
 
+export const slugify = (text: string): string => {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-") // Replace spaces with -
+    .replace(/[^\w-]+/g, "") // Remove all non-word chars
+    .replace(/--+/g, "-") // Replace multiple - with single -
+    .replace(/^-+/, "") // Trim - from start of text
+    .replace(/-+$/, ""); // Trim - from end of text
+};
+
 export const getCommandPath = (command: Command, tool: Tool): string => {
   const findCommandPath = (
-    targetId: string,
+    targetKey: string,
     commands: Command[],
     path: string[] = [],
   ): string[] | null => {
     for (const cmd of commands) {
-      if (cmd.name === targetId) {
+      if (cmd.name === targetKey) {
         return [...path, cmd.name];
       }
 
-      const childCommands = commands.filter((c) => c.parentCommandId === cmd.id);
+      const childCommands = commands.filter((c) => c.parentCommandKey === cmd.key);
       if (childCommands.length > 0) {
-        const subPath = findCommandPath(targetId, childCommands, [...path, cmd.name]);
+        const subPath = findCommandPath(targetKey, childCommands, [...path, cmd.name]);
         if (subPath) {
           return subPath;
         }
@@ -35,7 +44,7 @@ export const getCommandPath = (command: Command, tool: Tool): string => {
     return null;
   };
 
-  const rootCommands = tool.commands.filter((c) => !c.parentCommandId);
+  const rootCommands = tool.commands.filter((c) => !c.parentCommandKey);
   const path = findCommandPath(command.name, rootCommands);
 
   if (!path) return command.name;
@@ -52,19 +61,19 @@ export const getCommandPath = (command: Command, tool: Tool): string => {
   return path.join(" ");
 };
 
-export const getAllSubcommands = (commandId: string, commands: Command[]): Command[] => {
+export const getAllSubcommands = (commandKey: string, commands: Command[]): Command[] => {
   const result: Command[] = [];
 
-  const findSubcommands = (parentId: string) => {
+  const findSubcommands = (parentKey: string) => {
     commands.forEach((cmd) => {
-      if (cmd.parentCommandId === parentId) {
+      if (cmd.parentCommandKey === parentKey) {
         result.push(cmd);
-        findSubcommands(cmd.id);
+        findSubcommands(cmd.key);
       }
     });
   };
 
-  findSubcommands(commandId);
+  findSubcommands(commandKey);
   return result;
 };
 
@@ -75,15 +84,13 @@ export const exportToStructuredJSON = (tool: Tool) => {
 
   return {
     name: tool.name,
-    id: tool.id,
     displayName: tool.displayName,
     description: tool.description,
     version: tool.version,
     commands: tool.commands.map(flattenCommand),
     parameters: tool.parameters,
     exclusionGroups: tool.exclusionGroups,
-    supportedInput: tool.supportedInput,
-    supportedOutput: tool.supportedOutput,
+    metadata: tool.metadata,
   };
 };
 
@@ -94,23 +101,24 @@ export const flattenImportedData = (importedData: Record<string, unknown>): Tool
     parameters = [],
     commands = [],
     exclusionGroups = [],
-    supportedInput = [],
-    supportedOutput = [],
+    metadata = {
+      supportedInput: [],
+      supportedOutput: [],
+    },
   } = importedData as {
     name: string;
     displayName?: string;
     parameters?: Parameter[];
     commands?: Record<string, unknown>[];
     exclusionGroups?: ExclusionGroup[];
-    supportedInput?: SupportedToolInputType[];
-    supportedOutput?: SupportedToolOutputType[];
+    metadata?: Tool["metadata"];
   };
 
   const allParameters: Parameter[] = [...parameters];
 
   const flattenCommandParameters = (
     command: Record<string, unknown>,
-    parentId?: string,
+    parentKey?: string,
   ): Command[] => {
     const {
       parameters = [],
@@ -125,20 +133,20 @@ export const flattenImportedData = (importedData: Record<string, unknown>): Tool
     (parameters as Parameter[]).forEach((param: Parameter) => {
       allParameters.push({
         ...param,
-        commandId: command.id as string,
+        commandKey: command.key as string,
         isGlobal: !command.name,
       });
     });
 
     const flatCommand: Command = {
       ...commandData,
-      parentCommandId: parentId,
+      parentCommandKey: parentKey,
     } as Command;
 
     const flatCommands = [flatCommand];
 
     (subcommands as Record<string, unknown>[]).forEach((subcmd) => {
-      flatCommands.push(...flattenCommandParameters(subcmd, command.name as string));
+      flatCommands.push(...flattenCommandParameters(subcmd, command.key as string));
     });
 
     return flatCommands;
@@ -155,21 +163,21 @@ export const flattenImportedData = (importedData: Record<string, unknown>): Tool
     commands: flatCommands,
     parameters: allParameters,
     exclusionGroups,
-    supportedInput: supportedInput,
-    supportedOutput: supportedOutput,
+    metadata,
   };
 };
 
 export const defaultTool = (toolName?: string, displayName?: string): Tool => {
+  const finalToolName = toolName || "my-tool";
   return {
-    name: toolName || "my-tool",
+    name: finalToolName,
     displayName: displayName || "My Tool",
     description: undefined,
     version: "",
     commands: [
       {
-        id: uuidv7(),
-        name: toolName || "my-tool",
+        key: slugify(finalToolName),
+        name: finalToolName,
         description: "Main command",
         isDefault: true,
         sortOrder: 0,
@@ -177,7 +185,7 @@ export const defaultTool = (toolName?: string, displayName?: string): Tool => {
     ],
     parameters: [
       {
-        id: "--help",
+        key: "--help",
         name: "Help",
         description: "Displays help menu of tool",
         parameterType: "Flag",
@@ -193,8 +201,10 @@ export const defaultTool = (toolName?: string, displayName?: string): Tool => {
       },
     ],
     exclusionGroups: [],
-    supportedInput: ["StandardInput"],
-    supportedOutput: ["StandardOutput"],
+    metadata: {
+      supportedInput: ["StandardInput"],
+      supportedOutput: ["StandardOutput"],
+    },
   };
 };
 
@@ -271,22 +281,23 @@ export const validateDefaultValue = (
   return { isValid: true };
 };
 
-export const createNewCommand = (parentId?: string): Command => {
+export const createNewCommand = (parentKey?: string): Command => {
+  const name = randomCommandName();
   return {
-    id: uuidv7(),
-    parentCommandId: parentId,
-    name: randomCommandName(),
+    key: slugify(name),
+    parentCommandKey: parentKey,
+    name,
     description: "",
     isDefault: false,
     sortOrder: 1,
   };
 };
 
-export const createNewParameter = (isGlobal: boolean, commandId?: string): Parameter => {
+export const createNewParameter = (isGlobal: boolean, commandKey?: string): Parameter => {
   return {
-    id: uuidv7(),
+    key: "",
     name: "",
-    commandId: isGlobal ? undefined : commandId,
+    commandKey: isGlobal ? undefined : commandKey,
     description: "",
     parameterType: "Option",
     dataType: "String",
@@ -328,9 +339,9 @@ export const addSavedCommandToStorage = (toolId: string, command: SavedCommand):
   saveSavedCommandsToStorage(toolId, updatedCommands);
 };
 
-export const removeSavedCommandFromStorage = (toolId: string, commandId: string): void => {
+export const removeSavedCommandFromStorage = (toolId: string, commandKey: string): void => {
   const existingCommands = getSavedCommandsFromStorage(toolId);
-  const updatedCommands = existingCommands.filter((cmd) => cmd.id !== commandId);
+  const updatedCommands = existingCommands.filter((cmd) => cmd.key !== commandKey);
   saveSavedCommandsToStorage(toolId, updatedCommands);
 };
 

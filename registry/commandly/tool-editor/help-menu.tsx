@@ -7,7 +7,7 @@ export function HelpMenu() {
   const tool = useStore(toolBuilderStore, (state) => state.tool);
 
   const generateToolPreview = (): string => {
-    const rootCommands = tool.commands.filter((cmd) => !cmd.parentCommandId);
+    const rootCommands = tool.commands.filter((cmd) => !cmd.parentCommandKey);
     const globalParams = tool.parameters.filter((p) => p.isGlobal);
 
     let preview = `${tool.displayName}${tool.version ? ` v${tool.version}` : ""}\n`;
@@ -51,7 +51,7 @@ export function HelpMenu() {
       preview += `${indent}${command.name.padEnd(20 - level * 2)} ${command.description}\n`;
 
       const commandParams = tool.parameters.filter(
-        (p) => !p.isGlobal && p.commandId === command.name,
+        (p) => !p.isGlobal && p.commandKey === command.key,
       );
 
       const flags = commandParams.filter((p) => p.parameterType === "Flag");
@@ -99,7 +99,7 @@ export function HelpMenu() {
         });
       }
 
-      const subcommands = tool.commands.filter((cmd) => cmd.parentCommandId === command.id);
+      const subcommands = tool.commands.filter((cmd) => cmd.parentCommandKey === command.key);
       if (subcommands.length > 0) {
         preview += `${indent}  Subcommands:\n`;
         subcommands.forEach((subcmd) => {

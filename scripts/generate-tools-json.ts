@@ -13,8 +13,7 @@ const tools = files.map((file) => {
     name: tool.name,
     displayName: tool.displayName || tool.name,
     description: tool.description,
-    supportedInput: tool.supportedInput,
-    supportedOutput: tool.supportedOutput,
+    metadata: tool.metadata,
   };
 });
 

@@ -64,7 +64,7 @@ function RouteComponent() {
   const [parameterValues, setParameterValues] = useState({});
   const [savedCommands, setSavedCommands] = useState(() => {
     if (!tool) return [];
-    const toolId = tool.id || tool.name;
+    const toolId = tool.name;
     return getSavedCommandsFromStorage(toolId);
   });
   const [open, setOpen] = useState(false);
@@ -75,7 +75,7 @@ function RouteComponent() {
   if (!tool) return <div>Tool not found.</div>;
 
   const handleSaveCommand = (command: string) => {
-    const toolId = (tool?.id || tool?.name)!;
+    const toolId = tool.name;
     const existingCommands = getSavedCommandsFromStorage(toolId);
     if (existingCommands.some((cmd) => cmd.command === command)) {
       toast.error("Command already exists", {
@@ -84,7 +84,7 @@ function RouteComponent() {
       return;
     }
     const newSavedCommand: SavedCommand = {
-      id: uuidv7(),
+      key: uuidv7(),
       command,
     };
 
@@ -92,14 +92,14 @@ function RouteComponent() {
     setSavedCommands(getSavedCommandsFromStorage(toolId));
 
     toast("Command Saved", {
-      description: "Command has been saved successfully.",
+      description: "Command has been successfully saved.",
     });
   };
 
-  const handleDeleteCommand = (commandId: string) => {
+  const handleDeleteCommand = (commandKey: string) => {
     if (!tool) return;
-    const toolId = tool.id || tool.name;
-    removeSavedCommandFromStorage(`saved-${toolId}`, commandId);
+    const toolId = tool.name;
+    removeSavedCommandFromStorage(`saved-${toolId}`, commandKey);
     setSavedCommands(getSavedCommandsFromStorage(toolId));
   };
 
@@ -169,7 +169,7 @@ function RouteComponent() {
                         <CommandGroup>
                           {tool.commands.map((option) => (
                             <CommandItem
-                              key={option.id}
+                              key={option.key}
                               value={option.name}
                               onSelect={(currentValue) => {
                                 setSelectedCommand(currentValue);

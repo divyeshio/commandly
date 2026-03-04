@@ -12,112 +12,112 @@ const createComplexTool = (): Tool => {
     version: "1.0.0",
     commands: [
       {
-        id: "01979f6d-f206-7716-a2f2-64e1baed9686",
+        key: "my-cli-tool",
         name: "my-cli-tool",
         description: "Main CLI tool command",
         isDefault: true,
         sortOrder: 0,
       },
       {
-        id: "01979f6d-f206-7716-a2f2-6bd94d6bc515",
+        key: "config",
         name: "config",
-        parentCommandId: "01979f6d-f206-7716-a2f2-64e1baed9686",
+        parentCommandKey: "my-cli-tool",
         description: "Configuration management",
         isDefault: false,
         sortOrder: 1,
       },
       {
-        id: "01979f6d-f206-7716-a2f2-6ced0d4d3b0b",
+        key: "get",
         name: "get",
-        parentCommandId: "01979f6d-f206-7716-a2f2-6bd94d6bc515",
+        parentCommandKey: "config",
         description: "Get configuration values",
         isDefault: true,
         sortOrder: 0,
       },
       {
-        id: "01979f6d-f206-7716-a2f2-7012a6c8f412",
+        key: "set",
         name: "set",
-        parentCommandId: "01979f6d-f206-7716-a2f2-6bd94d6bc515",
+        parentCommandKey: "config",
         description: "Set configuration values",
         isDefault: false,
         sortOrder: 1,
       },
       {
-        id: "01979f6d-f206-7716-a2f2-73b963d82a18",
+        key: "list",
         name: "list",
-        parentCommandId: "01979f6d-f206-7716-a2f2-6bd94d6bc515",
+        parentCommandKey: "config",
         description: "List all configurations",
         isDefault: false,
         sortOrder: 2,
       },
       {
-        id: "01979f6d-f206-7716-a2f2-768e4c6f7653",
+        key: "data",
         name: "data",
-        parentCommandId: "01979f6d-f206-7716-a2f2-64e1baed9686",
+        parentCommandKey: "my-cli-tool",
         description: "Data management operations",
         isDefault: false,
         sortOrder: 2,
       },
       {
-        id: "01979f6d-f206-7716-a2f2-7a8347e15b42",
+        key: "create",
         name: "create",
-        parentCommandId: "01979f6d-f206-7716-a2f2-768e4c6f7653",
+        parentCommandKey: "data",
         description: "Create new data entries",
         isDefault: false,
         sortOrder: 0,
       },
       {
-        id: "01979f6d-f206-7716-a2f2-7d1c24f8a9e7",
+        key: "read",
         name: "read",
-        parentCommandId: "01979f6d-f206-7716-a2f2-768e4c6f7653",
+        parentCommandKey: "data",
         description: "Read existing data",
         isDefault: true,
         sortOrder: 1,
       },
       {
-        id: "01979f6d-f206-7716-a2f2-7f8d9b3c6af1",
+        key: "update",
         name: "update",
-        parentCommandId: "01979f6d-f206-7716-a2f2-768e4c6f7653",
+        parentCommandKey: "data",
         description: "Update existing data",
         isDefault: false,
         sortOrder: 2,
       },
       {
-        id: "01979f6d-f206-7716-a2f2-8249f7b8d5c4",
+        key: "delete",
         name: "delete",
-        parentCommandId: "01979f6d-f206-7716-a2f2-768e4c6f7653",
+        parentCommandKey: "data",
         description: "Delete data entries",
         isDefault: false,
         sortOrder: 3,
       },
       {
-        id: "01979f6d-f206-7716-a2f2-85a6c1f3e291",
+        key: "utils",
         name: "utils",
-        parentCommandId: "01979f6d-f206-7716-a2f2-64e1baed9686",
+        parentCommandKey: "my-cli-tool",
         description: "Utility functions",
         isDefault: false,
         sortOrder: 3,
       },
       {
-        id: "01979f6d-f206-7716-a2f2-8876d4e9c7f8",
+        key: "validate",
         name: "validate",
-        parentCommandId: "01979f6d-f206-7716-a2f2-85a6c1f3e291",
+        parentCommandKey: "utils",
         description: "Validate data integrity",
         isDefault: false,
         sortOrder: 0,
       },
       {
-        id: "01979f6d-f206-7716-a2f2-8b4f7a2d5e91",
+        key: "backup",
         name: "backup",
-        parentCommandId: "01979f6d-f206-7716-a2f2-85a6c1f3e291",
+        parentCommandKey: "utils",
         description: "Backup operations",
         isDefault: false,
         sortOrder: 1,
       },
       {
-        id: "01979f6d-f206-7716-a2f2-8e1c9f6b3a74",
+        key: "help",
         name: "help",
-        parentCommandId: "01979f6d-f206-7716-a2f2-64e1baed9686",
+        parentCommandKey: "my-cli-tool",
         description: "Display help information",
         isDefault: false,
         sortOrder: 4,
@@ -125,8 +125,10 @@ const createComplexTool = (): Tool => {
     ],
     parameters: [],
     exclusionGroups: [],
-    supportedInput: [],
-    supportedOutput: [],
+    metadata: {
+      supportedInput: [],
+      supportedOutput: [],
+    },
   };
 };
 
@@ -458,7 +460,7 @@ describe("CommandTree", () => {
             !createComplexTool().commands.some((originalCmd) => originalCmd.name === cmd.name),
         );
         expect(newCommands.length).toBe(1);
-        expect(newCommands[0].parentCommandId).toBe("01979f6d-f206-7716-a2f2-6bd94d6bc515");
+        expect(newCommands[0].parentCommandKey).toBe("config");
       } else {
         // If we can't find the add button, skip this test
         expect(actionButtons.length).toBeGreaterThanOrEqual(2);
@@ -587,7 +589,7 @@ describe("CommandTree", () => {
         // Verify the nested command is selected
         const selectedCommand = toolBuilderStore.state.selectedCommand;
         expect(selectedCommand.name).toBe("get");
-        expect(selectedCommand.parentCommandId).toBe("01979f6d-f206-7716-a2f2-6bd94d6bc515");
+        expect(selectedCommand.parentCommandKey).toBe("config");
       }
     });
   });
@@ -616,9 +618,7 @@ describe("CommandTree", () => {
       // Verify store was updated
       const updatedState = toolBuilderStore.state;
       expect(updatedState.selectedCommand.name).toBe("config");
-      expect(updatedState.selectedCommand.parentCommandId).toBe(
-        "01979f6d-f206-7716-a2f2-64e1baed9686",
-      );
+      expect(updatedState.selectedCommand.parentCommandKey).toBe("my-cli-tool");
     });
 
     it("updates editing command in store when clicking edit", async () => {
@@ -667,7 +667,7 @@ describe("CommandTree", () => {
         (cmd) => !initialCommands.some((initialCmd) => initialCmd.name === cmd.name),
       );
       expect(newCommand).toBeDefined();
-      expect(newCommand?.parentCommandId).toBe(undefined);
+      expect(newCommand?.parentCommandKey).toBe(undefined);
     });
 
     it("updates tool commands when adding subcommand", () => {
@@ -698,7 +698,7 @@ describe("CommandTree", () => {
           (cmd) => !initialCommands.some((initialCmd) => initialCmd.name === cmd.name),
         );
         expect(newCommand).toBeDefined();
-        expect(newCommand?.parentCommandId).toBe("01979f6d-f206-7716-a2f2-6bd94d6bc515");
+        expect(newCommand?.parentCommandKey).toBe("config");
       }
     });
 
@@ -823,14 +823,13 @@ describe("CommandTree", () => {
       const initialTool = toolBuilderStore.state.tool;
 
       // Simulate adding a new command to the hierarchy
-      const newCommand = {
-        id: "new-test-command-id",
+      const newCommand: Command = {
+        key: "new-test-command-id",
         name: "new-test-command",
-        parentCommand: "01979f6d-f206-7716-a2f2-6bd94d6bc515",
+        parentCommandKey: "config",
         description: "A new test command",
         isDefault: false,
         sortOrder: 10,
-        subcommands: [],
       };
 
       const updatedTool = {
@@ -917,27 +916,26 @@ describe("CommandTree", () => {
 
     it("handles deep nesting of commands", async () => {
       // Create a tool with deep nesting
-      const deepTool = {
-        ...createComplexTool(),
+      const complexTool = createComplexTool();
+      const deepTool: Tool = {
+        ...complexTool,
         commands: [
-          ...createComplexTool().commands,
+          ...complexTool.commands,
           {
-            id: "01979f84-addd-754c-8e0a-ef8bd967d51d",
+            key: "01979f84-addd-754c-8e0a-ef8bd967d51d",
             name: "level3",
-            parentCommand: "01979f6d-f206-7716-a2f2-6ced0d4d3b0b", // Child of get, which is child of config
+            parentCommandKey: "get", // Child of get, which is child of config
             description: "Level 3 command",
             isDefault: false,
             sortOrder: 0,
-            subcommands: [],
           },
           {
-            id: "01979f84-ade1-723b-a8c1-e442b3a14d6a",
+            key: "01979f84-ade1-723b-a8c1-e442b3a14d6a",
             name: "level4",
-            parentCommand: "01979f84-addd-754c-8e0a-ef8bd967d51d",
+            parentCommandKey: "01979f84-addd-754c-8e0a-ef8bd967d51d",
             description: "Level 4 command",
             isDefault: false,
             sortOrder: 0,
-            subcommands: [],
           },
         ],
       };
@@ -1030,16 +1028,16 @@ describe("CommandTree", () => {
 
     it("handles empty command list gracefully", () => {
       // Create a tool with minimal commands (just root)
-      const minimalTool = {
-        ...createComplexTool(),
+      const complexTool = createComplexTool();
+      const minimalTool: Tool = {
+        ...complexTool,
         commands: [
           {
-            id: "minimal-tool-id",
+            key: "minimal-tool-id",
             name: "minimal-tool",
             description: "Minimal tool with just root command",
             isDefault: true,
             sortOrder: 0,
-            subcommands: [],
           },
         ],
       };
@@ -1144,25 +1142,24 @@ describe("CommandTree", () => {
 
     it("handles invalid command hierarchies gracefully", () => {
       // Create a tool with broken hierarchy (parent doesn't exist)
-      const brokenTool = {
-        ...createComplexTool(),
+      const complexTool = createComplexTool();
+      const brokenTool: Tool = {
+        ...complexTool,
         commands: [
           {
-            id: "root-id",
+            key: "root-id",
             name: "root",
             description: "Root command",
             isDefault: true,
             sortOrder: 0,
-            subcommands: [],
           },
           {
-            id: "orphan-id",
+            key: "orphan-id",
             name: "orphan",
-            parentCommand: "non-existent-parent",
+            parentCommandKey: "non-existent-parent",
             description: "Orphaned command",
             isDefault: false,
             sortOrder: 1,
-            subcommands: [],
           },
         ],
       };

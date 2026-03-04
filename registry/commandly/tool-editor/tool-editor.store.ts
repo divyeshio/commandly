@@ -13,10 +13,10 @@ import {
   getAllSubcommands,
   getSavedCommandsFromStorage,
   removeSavedCommandFromStorage,
+  slugify,
 } from "@/registry/commandly/lib/utils/commandly";
 import { Store } from "@tanstack/react-store";
 import { toast } from "sonner";
-import { v7 as uuidv7 } from "uuid";
 
 export interface ToolBuilderState {
   tool: Tool;
@@ -47,10 +47,10 @@ export const toolBuilderStore = new Store<ToolBuilderState>({
 });
 
 export const toolBuilderSelectors = {
-  getParametersForCommand: (state: ToolBuilderState, commandId: string): Parameter[] => {
+  getParametersForCommand: (state: ToolBuilderState, commandKey: string): Parameter[] => {
     return state.tool.parameters.filter((param: Parameter) => {
       if (param.isGlobal) return false;
-      return param.commandId === commandId;
+      return param.commandKey === commandKey;
     });
   },
 
@@ -58,9 +58,9 @@ export const toolBuilderSelectors = {
     return state.tool.parameters.filter((param: Parameter) => param.isGlobal);
   },
 
-  getExclusionGroupsForCommand: (state: ToolBuilderState, commandId: string): ExclusionGroup[] => {
+  getExclusionGroupsForCommand: (state: ToolBuilderState, commandKey: string): ExclusionGroup[] => {
     return state.tool.exclusionGroups.filter((group: ExclusionGroup) => {
-      return group.commandId === commandId;
+      return group.commandKey === commandKey;
     });
   },
 };
@@ -84,8 +84,8 @@ export const toolBuilderActions = {
     }));
   },
 
-  addSubcommand(parentId?: string) {
-    const newCommand = createNewCommand(parentId);
+  addSubcommand(parentKey?: string) {
+    const newCommand = createNewCommand(parentKey);
     toolBuilderStore.setState((state) => ({
       ...state,
       tool: {
@@ -99,26 +99,26 @@ export const toolBuilderActions = {
     });
   },
 
-  deleteCommand(commandId: string) {
+  deleteCommand(commandKey: string) {
     toolBuilderStore.setState((state) => {
-      const subcommands = getAllSubcommands(commandId, state.tool.commands);
-      const commandsToDelete = [commandId, ...subcommands.map((c) => c.id)];
+      const subcommands = getAllSubcommands(commandKey, state.tool.commands);
+      const commandsToDelete = [commandKey, ...subcommands.map((c) => c.key)];
 
       const newState = {
         ...state,
         tool: {
           ...state.tool,
-          commands: state.tool.commands.filter((cmd) => !commandsToDelete.includes(cmd.id)),
+          commands: state.tool.commands.filter((cmd) => !commandsToDelete.includes(cmd.key)),
           parameters: state.tool.parameters.filter(
-            (param) => !commandsToDelete.includes(param.commandId || ""),
+            (param) => !commandsToDelete.includes(param.commandKey || ""),
           ),
           exclusionGroups: state.tool.exclusionGroups.filter(
-            (group) => !commandsToDelete.includes(group.commandId || ""),
+            (group) => !commandsToDelete.includes(group.commandKey || ""),
           ),
         },
       };
 
-      if (state.selectedCommand?.id === commandId) {
+      if (state.selectedCommand?.key === commandKey) {
         newState.selectedCommand = newState.tool.commands[0];
       }
 
@@ -130,14 +130,14 @@ export const toolBuilderActions = {
     });
   },
 
-  updateCommand(commandId: string, updates: Partial<Command>) {
+  updateCommand(commandKey: string, updates: Partial<Command>) {
     toolBuilderStore.setState((state) => ({
       ...state,
       tool: {
         ...state.tool,
         commands: state.tool.commands.map((cmd) => {
           let updatedCmd: Command;
-          if (cmd.id === commandId) {
+          if (cmd.key === commandKey) {
             updatedCmd = { ...cmd, ...updates };
           } else {
             if (!updates.isDefault) updatedCmd = cmd;
@@ -151,21 +151,21 @@ export const toolBuilderActions = {
     }));
   },
 
-  removeParameter(parameterId: string) {
+  removeParameter(parameterKey: string) {
     toolBuilderStore.setState((state) => {
       const newState = {
         ...state,
         tool: {
           ...state.tool,
-          parameters: state.tool.parameters.filter((param) => param.id !== parameterId),
+          parameters: state.tool.parameters.filter((param) => param.key !== parameterKey),
           exclusionGroups: state.tool.exclusionGroups.map((group) => ({
             ...group,
-            parameterIds: group.parameterIds.filter((id) => id !== parameterId),
+            parameterKeys: group.parameterKeys.filter((key) => key !== parameterKey),
           })),
         },
       };
 
-      if (state.selectedParameter?.id === parameterId) {
+      if (state.selectedParameter?.key === parameterKey) {
         newState.selectedParameter = null;
       }
 
@@ -177,7 +177,7 @@ export const toolBuilderActions = {
     });
   },
   addSavedCommand(command: string) {
-    const toolId = toolBuilderStore.state.tool.id || toolBuilderStore.state.tool.name;
+    const toolId = toolBuilderStore.state.tool.name; // Use tool name as id
     const existingCommands = getSavedCommandsFromStorage(toolId);
     if (existingCommands.some((cmd) => cmd.command === command)) {
       toast.error("Command already exists", {
@@ -186,7 +186,7 @@ export const toolBuilderActions = {
       return;
     }
     const newSavedCommand: SavedCommand = {
-      id: uuidv7(),
+      key: slugify(command.substring(0, 20)),
       command,
     };
 
@@ -197,20 +197,20 @@ export const toolBuilderActions = {
     });
   },
 
-  removeSavedCommand(commandId: string) {
+  removeSavedCommand(commandKey: string) {
     toolBuilderStore.setState((state) => {
-      const toolId = state.tool.id || state.tool.name;
-      removeSavedCommandFromStorage(`saved-${toolId}`, commandId);
+      const toolId = state.tool.name;
+      removeSavedCommandFromStorage(`saved-${toolId}`, commandKey);
       return { ...state };
     });
   },
 
-  addExclusionGroup(group: Omit<ExclusionGroup, "id">) {
+  addExclusionGroup(group: Omit<ExclusionGroup, "key">) {
     toolBuilderStore.setState((state) => {
       const newGroup = {
         ...group,
-        id: uuidv7(),
-        commandId: state.selectedCommand?.id,
+        key: slugify(group.name),
+        commandKey: state.selectedCommand?.key,
       };
 
       return {
@@ -233,7 +233,7 @@ export const toolBuilderActions = {
       tool: {
         ...state.tool,
         exclusionGroups: state.tool.exclusionGroups.map((group) =>
-          group.id === updatedGroup.id ? updatedGroup : group,
+          group.key === updatedGroup.key ? updatedGroup : group,
         ),
       },
     }));
@@ -243,12 +243,12 @@ export const toolBuilderActions = {
     });
   },
 
-  removeExclusionGroup(groupId: string) {
+  removeExclusionGroup(groupKey: string) {
     toolBuilderStore.setState((state) => ({
       ...state,
       tool: {
         ...state.tool,
-        exclusionGroups: state.tool.exclusionGroups.filter((group) => group.id !== groupId),
+        exclusionGroups: state.tool.exclusionGroups.filter((group) => group.key !== groupKey),
       },
     }));
 
@@ -293,11 +293,11 @@ export const toolBuilderActions = {
 
   upsertParameter(parameter: Parameter) {
     toolBuilderStore.setState((state) => {
-      const exists = state.tool.parameters.some((p) => p.id === parameter.id);
+      const exists = state.tool.parameters.some((p) => p.key === parameter.key);
       let newParameters: Parameter[];
       if (exists) {
         newParameters = state.tool.parameters.map((param) => {
-          if (param.id === parameter.id) {
+          if (param.key === parameter.key) {
             const updatedParam = {
               ...param,
               ...parameter,
@@ -306,10 +306,10 @@ export const toolBuilderActions = {
               enumValues: parameter.enumValues || [],
             };
             if (parameter.isGlobal && parameter.isGlobal !== param.isGlobal) {
-              updatedParam.commandId = undefined;
+              updatedParam.commandKey = undefined;
             }
             if (parameter.isGlobal === false && param.isGlobal) {
-              updatedParam.commandId = state.selectedCommand?.id;
+              updatedParam.commandKey = state.selectedCommand?.key;
             }
             return updatedParam;
           }

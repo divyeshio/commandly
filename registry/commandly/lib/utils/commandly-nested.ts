@@ -25,7 +25,7 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
       dataType: param.dataType,
       dependencies:
         param.dependencies?.map((dep) => {
-          const dependsOnParam = tool.parameters.find((p) => p.id === dep.dependsOnParameterId);
+          const dependsOnParam = tool.parameters.find((p) => p.key === dep.dependsOnParameterKey);
           return {
             dependsOnParameter: dependsOnParam?.longFlag || "",
             dependencyType: dep.dependencyType,
@@ -35,12 +35,12 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
     };
   };
 
-  const buildNestedCommands = (commands: Command[], parentId?: string): NestedCommand[] => {
+  const buildNestedCommands = (commands: Command[], parentKey?: string): NestedCommand[] => {
     return commands
-      .filter((cmd) => cmd.parentCommandId === parentId)
+      .filter((cmd) => cmd.parentCommandKey === parentKey)
       .map((cmd) => {
         const commandParameters = tool.parameters.filter(
-          (p) => p.commandId === cmd.id && !p.isGlobal,
+          (p) => p.commandKey === cmd.key && !p.isGlobal,
         );
         return {
           name: cmd.name,
@@ -48,7 +48,7 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
           isDefault: cmd.isDefault,
           sortOrder: cmd.sortOrder,
           parameters: commandParameters.map(convertParameter),
-          subcommands: buildNestedCommands(commands, cmd.id),
+          subcommands: buildNestedCommands(commands, cmd.key),
         };
       });
   };
@@ -57,8 +57,8 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
     return {
       name: group.name,
       exclusionType: group.exclusionType,
-      parameters: group.parameterIds.map((pid) => {
-        const param = tool.parameters.find((p) => p.id === pid);
+      parameters: group.parameterKeys.map((pk) => {
+        const param = tool.parameters.find((p) => p.key === pk);
         return param?.longFlag || "";
       }),
     };
@@ -70,8 +70,7 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
     displayName: tool.displayName,
     description: tool.description,
     version: tool.version,
-    supportedInput: tool.supportedInput,
-    supportedOutput: tool.supportedOutput,
+    metadata: tool.metadata,
     globalParameters: globalParameters.map(convertParameter),
     commands: buildNestedCommands(tool.commands),
     exclusionGroups: nestedExclusionGroups,

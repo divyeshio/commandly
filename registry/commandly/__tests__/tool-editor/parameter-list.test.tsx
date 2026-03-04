@@ -5,7 +5,7 @@ import { defaultTool } from "@/registry/commandly/lib/utils/commandly";
 import { render, screen, fireEvent } from "@testing-library/react";
 
 const createTestParameter = (overrides: Partial<Parameter> = {}): Parameter => ({
-  id: "01979f70-cc01-73fe-b638-11efe685b4df",
+  key: "test-param-key",
   name: "test-param",
   description: "Test parameter",
   parameterType: "Option",
@@ -16,21 +16,33 @@ const createTestParameter = (overrides: Partial<Parameter> = {}): Parameter => (
   longFlag: "--test",
   shortFlag: "-t",
   enumValues: [],
-  commandId: "01979f70-cc01-73fe-b638-14ec567e43be",
+  commandKey: "test-command-key",
   ...overrides,
 });
 
-const createTestExclusionGroup = (parameterIds: string[] = []): ExclusionGroup => ({
-  id: "01979f70-cc01-73fe-b638-19d9a00394e8",
+const createTestExclusionGroup = (parameterKeys: string[] = []): ExclusionGroup => ({
+  key: "test-group-key",
   name: "Test Group",
   exclusionType: "mutual_exclusive",
-  parameterIds,
+  parameterKeys,
+  commandKey: "test-command-key",
 });
 
 const testState: ToolBuilderState = {
-  tool: defaultTool("test-tool", "Test tool"),
+  tool: {
+    ...defaultTool("test-tool", "Test tool"),
+    commands: [
+      {
+        key: "test-command-key",
+        name: "test-command",
+        description: "Test command",
+        isDefault: false,
+        sortOrder: 0,
+      },
+    ],
+  },
   selectedCommand: {
-    id: "01979f70-cc01-73fe-b638-14ec567e43be",
+    key: "test-command-key",
     name: "test-command",
     description: "Test command",
     isDefault: false,
@@ -58,7 +70,7 @@ describe("ParameterList - Rendering & Structure", () => {
     const parameters = [
       createTestParameter(),
       createTestParameter({
-        id: "01979f70-cc01-73fe-b638-1e8086d40f60",
+        key: "param2-key",
         name: "param2",
       }),
     ];
@@ -103,15 +115,15 @@ describe("ParameterList - Rendering & Structure", () => {
   it("renders the correct number of parameter cards based on the parameters array", () => {
     const parameters = [
       createTestParameter({
-        id: "01979f70-cc01-73fe-b638-23765035e40b",
+        key: "param1-key",
         name: "param1",
       }),
       createTestParameter({
-        id: "01979f70-cc01-73fe-b638-25a9f6a78256",
+        key: "param2-key",
         name: "param2",
       }),
       createTestParameter({
-        id: "01979f70-cc01-73fe-b638-2ab8af3f1441",
+        key: "param3-key",
         name: "param3",
       }),
     ];
@@ -131,17 +143,17 @@ describe("ParameterList - Rendering & Structure", () => {
     it("displays the correct icon for each parameterType", () => {
       const parameters = [
         createTestParameter({
-          id: "01979f70-cc02-7448-a882-11054dbe85cb",
+          key: "flag-param-key",
           name: "flag-param",
           parameterType: "Flag",
         }),
         createTestParameter({
-          id: "01979f70-cc02-7448-a882-176b0cf062da",
+          key: "option-param-key",
           name: "option-param",
           parameterType: "Option",
         }),
         createTestParameter({
-          id: "01979f70-cc02-7448-a882-1b553df35cd8",
+          key: "argument-param-key",
           name: "argument-param",
           parameterType: "Argument",
         }),
@@ -169,13 +181,13 @@ describe("ParameterList - Rendering & Structure", () => {
         shortFlag: "-v",
       });
       const paramWithLongFlagOnly = createTestParameter({
-        id: "01979f70-cc01-73fe-b638-2de859c60304",
+        key: "long-only-key",
         name: "long-only",
         longFlag: "--long-only",
         shortFlag: "",
       });
       const paramWithNoFlags = createTestParameter({
-        id: "01979f70-cc02-7448-a882-0890d68964bd",
+        key: "no-flags-key",
         name: "no-flags",
         longFlag: "",
         shortFlag: "",
@@ -226,7 +238,7 @@ describe("ParameterList - Rendering & Structure", () => {
     it("shows the required badge if isRequired is true", () => {
       const requiredParam = createTestParameter({ isRequired: true });
       const optionalParam = createTestParameter({
-        id: "01979f70-cc02-7448-a882-0fbb2489cd74",
+        key: "optional-param-key",
         name: "optional-param",
         isRequired: false,
       });
@@ -248,17 +260,17 @@ describe("ParameterList - Rendering & Structure", () => {
     it("shows the correct badge for parameterType", () => {
       const parameters = [
         createTestParameter({
-          id: "01979f70-cc02-7448-a882-1e463f97de3f",
+          key: "flag-param-key",
           name: "flag-param",
           parameterType: "Flag",
         }),
         createTestParameter({
-          id: "01979f70-cc02-7448-a882-229dd1870f13",
+          key: "option-param-key",
           name: "option-param",
           parameterType: "Option",
         }),
         createTestParameter({
-          id: "01979f70-cc02-7448-a882-2490528ca727",
+          key: "argument-param-key",
           name: "argument-param",
           parameterType: "Argument",
         }),
@@ -279,22 +291,22 @@ describe("ParameterList - Rendering & Structure", () => {
     it("shows the correct badge for dataType", () => {
       const parameters = [
         createTestParameter({
-          id: "01979f70-cc02-7448-a882-2833166af1b2",
+          key: "string-param-key",
           name: "string-param",
           dataType: "String",
         }),
         createTestParameter({
-          id: "01979f70-cc02-7448-a882-2e30ce8b2a02",
+          key: "number-param-key",
           name: "number-param",
           dataType: "Number",
         }),
         createTestParameter({
-          id: "01979f70-cc02-7448-a882-31d6e6a82958",
+          key: "boolean-param-key",
           name: "boolean-param",
           dataType: "Boolean",
         }),
         createTestParameter({
-          id: "01979f70-cc02-7448-a882-37ea2bcbc7e7",
+          key: "enum-param-key",
           name: "enum-param",
           dataType: "Enum",
         }),
@@ -334,8 +346,8 @@ describe("ParameterList - Rendering & Structure", () => {
 
     it("shows exclusion group badges with correct group names and icons", () => {
       const parameter = createTestParameter();
-      const exclusionGroup = createTestExclusionGroup([parameter.id]);
-      exclusionGroup.commandId = "01979f70-cc01-73fe-b638-14ec567e43be";
+      const exclusionGroup = createTestExclusionGroup([parameter.key]);
+      exclusionGroup.commandKey = "test-command-key";
 
       toolBuilderStore.setState((prev) => ({
         ...prev,
@@ -359,8 +371,8 @@ describe("ParameterList - Rendering & Structure", () => {
         defaultValue: "invalid-number",
         validations: [
           {
-            id: "01979f7f-a85f-773a-a81d-19861ba0152b",
-            parameterId: "01979f70-cc01-73fe-b638-11efe685b4df",
+            key: "validation-key",
+            parameterKey: "test-param-key",
             validationType: "min_value",
             validationValue: "0",
             errorMessage: "Must be positive",
@@ -415,7 +427,7 @@ describe("ParameterList - Rendering & Structure", () => {
       fireEvent.click(paramCard!);
 
       const updatedState = toolBuilderStore.state;
-      expect(updatedState.selectedParameter?.id).toBe(parameter.id);
+      expect(updatedState.selectedParameter?.key).toBe(parameter.key);
     });
 
     it("clicking the remove button does not select the parameter", () => {
@@ -453,9 +465,7 @@ describe("ParameterList - Rendering & Structure", () => {
       const updatedState = toolBuilderStore.state;
       expect(updatedState.selectedParameter).toBeTruthy();
       expect(updatedState.selectedParameter?.isGlobal).toBe(false);
-      expect(updatedState.selectedParameter?.commandId).toBe(
-        "01979f70-cc01-73fe-b638-14ec567e43be",
-      );
+      expect(updatedState.selectedParameter?.commandKey).toBe("test-command-key");
     });
 
     it("add button creates a new parameter with correct context for global parameters", () => {
@@ -518,7 +528,7 @@ describe("ParameterList - Rendering & Structure", () => {
     it("handles exclusion groups with no matching parameters", () => {
       const parameter = createTestParameter();
       const exclusionGroupWithNoParams = createTestExclusionGroup([]);
-      exclusionGroupWithNoParams.commandId = "test-command";
+      exclusionGroupWithNoParams.commandKey = "test-command";
 
       toolBuilderStore.setState((prev) => ({
         ...prev,

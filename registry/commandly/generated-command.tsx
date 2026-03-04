@@ -26,7 +26,7 @@ export function GeneratedCommand({
   }, [tool]);
 
   const currentParameters = useMemo(() => {
-    return tool?.parameters?.filter((p) => p.commandId === selectedCommand.id) || [];
+    return tool?.parameters?.filter((p) => p.commandKey === selectedCommand.key) || [];
   }, [tool, selectedCommand]);
 
   const generateCommand = useCallback(() => {
@@ -39,14 +39,14 @@ export function GeneratedCommand({
     }> = [];
 
     globalParameters.forEach((param) => {
-      const value = parameterValues[param.id];
+      const value = parameterValues[param.key];
       if (value !== undefined && value !== "" && value !== false) {
         parametersWithValues.push({ param, value });
       }
     });
 
     currentParameters.forEach((param) => {
-      const value = parameterValues[param.id];
+      const value = parameterValues[param.key];
       if (value !== undefined && value !== "" && value !== false && !param.isGlobal) {
         parametersWithValues.push({ param, value });
       }

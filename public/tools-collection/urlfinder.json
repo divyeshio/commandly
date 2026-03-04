@@ -1,28 +1,34 @@
 {
   "name": "urlfinder",
-  "id": "018fa430-7235-7f1e-8000-bc89dfb5e300",
   "displayName": "URLFinder",
   "description": "A streamlined tool for discovering associated URLs.",
+  "metadata": {
+    "supportedInput": [
+      "StandardInput",
+      "Parameter"
+    ],
+    "supportedOutput": [
+      "StandardOutput"
+    ]
+  },
   "exclusionGroups": [],
-  "supportedInput": ["StandardInput", "Parameter"],
-  "supportedOutput": ["StandardOutput"],
   "commands": [
     {
-      "id": "018fa430-7235-7f1e-8000-bc89dfb5e301",
       "name": "urlfinder",
       "description": "A streamlined tool for discovering associated URLs.",
       "isDefault": true,
-      "sortOrder": 1
+      "sortOrder": 1,
+      "key": "urlfinder"
     }
   ],
   "parameters": [
     {
-      "id": "018fa430-7235-7f1e-8001-bc89dfb5e302",
       "name": "Domain",
-      "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
       "description": "Target domain",
       "metadata": {
-        "tags": ["target"]
+        "tags": [
+          "target"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -34,15 +40,17 @@
       "arraySeparator": "",
       "enumValues": [],
       "dependencies": [],
-      "validations": []
+      "validations": [],
+      "key": "d",
+      "commandKey": "urlfinder"
     },
     {
-      "id": "018fa430-7235-7f1e-8001-bc89dfb5e303",
       "name": "List of Domains",
-      "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
       "description": "Target domain list",
       "metadata": {
-        "tags": ["target-list"]
+        "tags": [
+          "target-list"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -54,12 +62,12 @@
       "arraySeparator": ",",
       "enumValues": [],
       "dependencies": [],
-      "validations": []
+      "validations": [],
+      "key": "list",
+      "commandKey": "urlfinder"
     },
     {
-      "id": "018fa430-7235-7f1e-8002-bc89dfb5e303",
       "name": "Sources",
-      "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
       "description": "Specific sources for discovery (e.g., -s alienvault,commoncrawl)",
       "metadata": {
         "tags": []
@@ -74,12 +82,12 @@
       "arraySeparator": ",",
       "enumValues": [],
       "dependencies": [],
-      "validations": []
+      "validations": [],
+      "key": "sources",
+      "commandKey": "urlfinder"
     },
     {
-      "id": "018fa430-7235-7f1e-8003-bc89dfb5e304",
       "name": "Exclude-sources",
-      "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
       "description": "Sources to exclude (e.g., -es alienvault,commoncrawl)",
       "metadata": {
         "tags": []
@@ -94,12 +102,12 @@
       "arraySeparator": ",",
       "enumValues": [],
       "dependencies": [],
-      "validations": []
+      "validations": [],
+      "key": "exclude-sources",
+      "commandKey": "urlfinder"
     },
     {
-      "id": "018fa430-7235-7f1e-8004-bc89dfb5e305",
       "name": "All",
-      "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
       "description": "Use all sources (may be slower)",
       "metadata": {
         "tags": []
@@ -113,15 +121,17 @@
       "longFlag": "-all",
       "enumValues": [],
       "dependencies": [],
-      "validations": []
+      "validations": [],
+      "key": "all",
+      "commandKey": "urlfinder"
     },
     {
-      "id": "018fa430-7235-7f1e-8005-bc89dfb5e306",
       "name": "Url-scope",
-      "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
       "description": "In scope url regex to be followed by urlfinder",
       "metadata": {
-        "tags": ["SCOPE"]
+        "tags": [
+          "SCOPE"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -133,15 +143,17 @@
       "arraySeparator": ",",
       "enumValues": [],
       "dependencies": [],
-      "validations": []
+      "validations": [],
+      "key": "url-scope",
+      "commandKey": "urlfinder"
     },
     {
-      "id": "018fa430-7235-7f1e-8006-bc89dfb5e307",
       "name": "Url-out-scope",
-      "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
       "description": "Out of scope url regex to be excluded by urlfinder",
       "metadata": {
-        "tags": ["SCOPE"]
+        "tags": [
+          "SCOPE"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -151,15 +163,19 @@
       "shortFlag": "-uos",
       "longFlag": "-url-out-scope",
       "arraySeparator": ",",
-      "enumValues": []
+      "enumValues": [],
+      "key": "url-out-scope",
+      "commandKey": "urlfinder",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa430-7235-7f1e-8007-bc89dfb5e308",
       "name": "Field-scope",
-      "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
       "description": "Pre-defined scope field (dn,rdn,fqdn) or custom regex (e.g., '(company-staging.io|company.com)')",
       "metadata": {
-        "tags": ["SCOPE"]
+        "tags": [
+          "SCOPE"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -169,15 +185,19 @@
       "defaultValue": "",
       "shortFlag": "-fs",
       "longFlag": "-field-scope",
-      "enumValues": []
+      "enumValues": [],
+      "key": "field-scope",
+      "commandKey": "urlfinder",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa430-7235-7f1e-8008-bc89dfb5e309",
       "name": "No-scope",
-      "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
       "description": "Disables host based default scope",
       "metadata": {
-        "tags": ["SCOPE"]
+        "tags": [
+          "SCOPE"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -186,15 +206,19 @@
       "isGlobal": false,
       "shortFlag": "-ns",
       "longFlag": "-no-scope",
-      "enumValues": []
+      "enumValues": [],
+      "key": "no-scope",
+      "commandKey": "urlfinder",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa430-7235-7f1e-8009-bc89dfb5e310",
       "name": "Display-out-scope",
-      "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
       "description": "Display external endpoint from scoped crawling",
       "metadata": {
-        "tags": ["SCOPE"]
+        "tags": [
+          "SCOPE"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -203,15 +227,19 @@
       "isGlobal": false,
       "shortFlag": "-do",
       "longFlag": "-display-out-scope",
-      "enumValues": []
+      "enumValues": [],
+      "key": "display-out-scope",
+      "commandKey": "urlfinder",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa430-7235-7f1e-8010-bc89dfb5e311",
       "name": "Match",
-      "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
       "description": "URLs or list to match (file or comma-separated)",
       "metadata": {
-        "tags": ["FILTER"]
+        "tags": [
+          "FILTER"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -221,15 +249,19 @@
       "shortFlag": "-m",
       "longFlag": "-match",
       "arraySeparator": ",",
-      "enumValues": []
+      "enumValues": [],
+      "key": "match",
+      "commandKey": "urlfinder",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa430-7235-7f1e-8011-bc89dfb5e312",
       "name": "Filter",
-      "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
       "description": "URLs or list to filter (file or comma-separated)",
       "metadata": {
-        "tags": ["FILTER"]
+        "tags": [
+          "FILTER"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -239,15 +271,19 @@
       "shortFlag": "-f",
       "longFlag": "-filter",
       "arraySeparator": ",",
-      "enumValues": []
+      "enumValues": [],
+      "key": "filter",
+      "commandKey": "urlfinder",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa430-7235-7f1e-8012-bc89dfb5e313",
       "name": "Rate-limit",
-      "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
       "description": "Max HTTP requests per second (global)",
       "metadata": {
-        "tags": ["RATE-LIMIT"]
+        "tags": [
+          "RATE-LIMIT"
+        ]
       },
       "parameterType": "Option",
       "dataType": "Number",
@@ -256,15 +292,19 @@
       "isGlobal": false,
       "shortFlag": "-rl",
       "longFlag": "-rate-limit",
-      "enumValues": []
+      "enumValues": [],
+      "key": "rate-limit",
+      "commandKey": "urlfinder",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa430-7235-7f1e-8013-bc89dfb5e314",
       "name": "Rate-limits",
-      "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
       "description": "Per-provider HTTP request limits (e.g., -rls waybackarchive=15/m)",
       "metadata": {
-        "tags": ["RATE-LIMIT"]
+        "tags": [
+          "RATE-LIMIT"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -273,15 +313,19 @@
       "isGlobal": false,
       "shortFlag": "-rls",
       "longFlag": "-rate-limits",
-      "enumValues": []
+      "enumValues": [],
+      "key": "rate-limits",
+      "commandKey": "urlfinder",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa430-7235-7f1e-8014-bc89dfb5e315",
       "name": "Update",
-      "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
       "description": "Update URLFinder to the latest version",
       "metadata": {
-        "tags": ["non-configurable"]
+        "tags": [
+          "non-configurable"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -293,15 +337,17 @@
       "enumValues": [],
       "dependencies": [],
       "validations": [],
-      "defaultValue": "false"
+      "defaultValue": "false",
+      "key": "update",
+      "commandKey": "urlfinder"
     },
     {
-      "id": "018fa430-7235-7f1e-8015-bc89dfb5e316",
       "name": "Verbose",
-      "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
       "description": "Enable verbose output",
       "metadata": {
-        "tags": ["non-configurable"]
+        "tags": [
+          "non-configurable"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -313,15 +359,17 @@
       "enumValues": [],
       "dependencies": [],
       "validations": [],
-      "defaultValue": "false"
+      "defaultValue": "false",
+      "key": "verbose",
+      "commandKey": "urlfinder"
     },
     {
-      "id": "018fa430-7235-7f1e-8016-bc89dfb5e317",
       "name": "Silent",
-      "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
       "description": "Suppress output",
       "metadata": {
-        "tags": ["non-configurable"]
+        "tags": [
+          "non-configurable"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -333,15 +381,17 @@
       "enumValues": [],
       "dependencies": [],
       "validations": [],
-      "defaultValue": "true"
+      "defaultValue": "true",
+      "key": "silent",
+      "commandKey": "urlfinder"
     },
     {
-      "id": "018fa430-7235-7f1e-8018-bc89dfb5e319",
       "name": "Timeout",
-      "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
       "description": "Timeout for HTTP requests (in seconds)",
       "metadata": {
-        "tags": ["non-configurable"]
+        "tags": [
+          "non-configurable"
+        ]
       },
       "parameterType": "Option",
       "dataType": "Number",
@@ -353,15 +403,17 @@
       "enumValues": [],
       "dependencies": [],
       "validations": [],
-      "defaultValue": "5"
+      "defaultValue": "5",
+      "key": "timeout",
+      "commandKey": "urlfinder"
     },
     {
-      "id": "018fa430-7235-7f1e-8020-bc89dfb5e321",
       "name": "Json",
-      "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
       "description": "Output in JSON format",
       "metadata": {
-        "tags": ["non-configurable"]
+        "tags": [
+          "non-configurable"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -373,15 +425,17 @@
       "enumValues": [],
       "dependencies": [],
       "validations": [],
-      "defaultValue": "false"
+      "defaultValue": "false",
+      "key": "json",
+      "commandKey": "urlfinder"
     },
     {
-      "id": "018fa430-7235-7f1e-8021-bc89dfb5e322",
       "name": "Csv",
-      "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
       "description": "Output in CSV format",
       "metadata": {
-        "tags": ["non-configurable"]
+        "tags": [
+          "non-configurable"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -393,15 +447,17 @@
       "enumValues": [],
       "dependencies": [],
       "validations": [],
-      "defaultValue": "false"
+      "defaultValue": "false",
+      "key": "csv",
+      "commandKey": "urlfinder"
     },
     {
-      "id": "018fa430-7235-7f1e-8022-bc89dfb5e323",
       "name": "Version",
-      "commandId": "018fa430-7235-7f1e-8000-bc89dfb5e301",
       "description": "Display URLFinder version",
       "metadata": {
-        "tags": ["non-configurable"]
+        "tags": [
+          "non-configurable"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -413,7 +469,9 @@
       "enumValues": [],
       "dependencies": [],
       "validations": [],
-      "defaultValue": "false"
+      "defaultValue": "false",
+      "key": "version",
+      "commandKey": "urlfinder"
     }
   ]
 }

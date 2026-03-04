@@ -11,10 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  SupportedToolInputType,
-  SupportedToolOutputType,
-} from "@/registry/commandly/lib/types/commandly";
+import { SupportedToolInputType, SupportedToolOutputType } from "@/lib/types";
 import { TagsInput } from "@/registry/commandly/ui/tags-input";
 import { useStore } from "@tanstack/react-store";
 import { SettingsIcon } from "lucide-react";
@@ -98,10 +95,13 @@ export function ToolDetailsDialog() {
                 options={supportedInputOptions}
                 onValueChange={(value) =>
                   toolBuilderActions.updateTool({
-                    supportedInput: value.map((v) => v as SupportedToolInputType),
+                    metadata: {
+                      ...tool.metadata,
+                      supportedInput: value.map((v) => v as SupportedToolInputType),
+                    },
                   })
                 }
-                defaultValue={tool.supportedInput}
+                defaultValue={tool.metadata.supportedInput}
                 placeholder="Select input types"
                 variant="default"
                 maxCount={0}
@@ -113,10 +113,13 @@ export function ToolDetailsDialog() {
                 options={supportedOutputOptions}
                 onValueChange={(value) =>
                   toolBuilderActions.updateTool({
-                    supportedOutput: value.map((v) => v as SupportedToolOutputType),
+                    metadata: {
+                      ...tool.metadata,
+                      supportedOutput: value.map((v) => v as SupportedToolOutputType),
+                    },
                   })
                 }
-                defaultValue={tool.supportedOutput}
+                defaultValue={tool.metadata.supportedOutput}
                 placeholder="Select output types"
                 variant="default"
                 maxCount={0}

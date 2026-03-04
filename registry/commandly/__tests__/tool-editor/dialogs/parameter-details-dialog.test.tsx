@@ -9,9 +9,9 @@ import {
 import { render, screen, fireEvent, act } from "@testing-library/react";
 
 const createTestParameter = (overrides: Partial<Parameter> = {}): Parameter => ({
-  id: "01979f6d-f205-73e3-a176-4456d7bf7eb3",
+  key: "test-param-key",
   name: "test-param",
-  commandId: "01979f6d-f205-73e3-a176-4456d7bf7eb4",
+  commandKey: "test-command-key",
   description: "Test parameter description",
   parameterType: "Option",
   dataType: "String",
@@ -24,7 +24,7 @@ const createTestParameter = (overrides: Partial<Parameter> = {}): Parameter => (
 });
 
 const createTestCommand = (overrides: Partial<Command> = {}): Command => ({
-  id: "01979f6d-f205-73e3-a176-4456d7bf7eb4",
+  key: "test-command-key",
   name: "test-command",
   description: "Test command description",
   isDefault: false,
@@ -345,7 +345,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
   it("resets dialog state and updates store when new parameter is selected", () => {
     const firstParameter = createTestParameter({ name: "first-param" });
     const secondParameter = createTestParameter({
-      id: "different-id",
+      key: "different-key",
       name: "second-param",
     });
 
@@ -375,7 +375,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
 
     const state = toolBuilderStore.state;
     expect(state.selectedParameter?.name).toBe("second-param");
-    expect(state.selectedParameter?.id).toBe("different-id");
+    expect(state.selectedParameter?.key).toBe("different-key");
   });
 
   it("cancels changes, closes dialog, and preserves original store state", () => {
@@ -418,7 +418,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     const state = toolBuilderStore.state;
     expect(state.selectedParameter).toBeNull();
 
-    const originalParameter = state.tool.parameters.find((p) => p.id === testParameter.id);
+    const originalParameter = state.tool.parameters.find((p) => p.key === testParameter.key);
     expect(originalParameter).toBeDefined();
     expect(originalParameter?.name).toBe("original-param");
     expect(originalParameter?.description).toBe("Original description");
@@ -481,7 +481,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     state = toolBuilderStore.state;
     expect(state.selectedParameter).toBeNull();
 
-    const updatedParameter = state.tool.parameters.find((p) => p.id === testParameter.id);
+    const updatedParameter = state.tool.parameters.find((p) => p.name === "updated-param");
     expect(updatedParameter).toBeDefined();
     expect(updatedParameter?.name).toBe("updated-param");
     expect(updatedParameter?.description).toBe("Updated description");
@@ -515,7 +515,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
 
     expect(upsertParameterSpy).toHaveBeenCalledWith(
       expect.objectContaining({
-        ...testParameter,
+        description: "Test parameter description",
         name: "modified-param",
       }),
     );
@@ -523,7 +523,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
 
     const finalState = toolBuilderStore.state;
     expect(finalState.selectedParameter).toBeNull();
-    const updatedParameter = finalState.tool.parameters.find((p) => p.id === testParameter.id);
+    const updatedParameter = finalState.tool.parameters.find((p) => p.name === "modified-param");
     expect(updatedParameter?.name).toBe("modified-param");
 
     setSelectedParameterSpy.mockRestore();
@@ -701,7 +701,7 @@ describe("ParameterDetailsDialog - UI/UX", () => {
     });
 
     const state = toolBuilderStore.state;
-    const updatedParameter = state.tool.parameters.find((p) => p.id === testParameter.id);
+    const updatedParameter = state.tool.parameters.find((p) => p.key === testParameter.key);
     expect(updatedParameter).toBeDefined();
     expect(updatedParameter?.parameterType).toBe("Flag");
     expect(updatedParameter?.longFlag).toBe("--test");

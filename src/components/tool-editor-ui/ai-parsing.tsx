@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { replaceId } from "@/lib/utils";
+import { replaceKey } from "@/lib/utils";
 import { Tool, ToolSchema } from "@/registry/commandly/lib/types/commandly";
 import { createOpenAI } from "@ai-sdk/openai";
 import { useDebouncedValue } from "@tanstack/react-pacer";
@@ -78,7 +78,7 @@ export function AIParsing({ onParseCompleted }: { onParseCompleted: (tool: Tool 
     (jsonString: string) => {
       try {
         const parsedTool = ToolSchema.parse(JSON.parse(jsonString));
-        const modifiedTool = replaceId(parsedTool);
+        const modifiedTool = replaceKey(parsedTool);
         setJson(JSON.stringify(modifiedTool, null, 2));
         onParseCompleted(modifiedTool);
       } catch (error) {

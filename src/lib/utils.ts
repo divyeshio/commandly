@@ -1,116 +1,160 @@
-import { Tool } from "@/registry/commandly/lib/types/commandly";
+import type {
+  Command,
+  ExclusionGroup,
+  Parameter,
+  ParameterDependency,
+  ParameterEnumValue,
+  ParameterValidation,
+  Tool,
+} from "@/registry/commandly/lib/types/commandly";
+import { slugify } from "@/registry/commandly/lib/utils/commandly";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { v7 as uuidv7 } from "uuid";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function replaceId(tool: Tool): Tool {
+export function replaceKey(tool: Tool): Tool {
   // Deep clone the tool to avoid mutating the original
-  const clone: Tool = JSON.parse(JSON.stringify(tool));
+  const clone = JSON.parse(JSON.stringify(tool));
 
-  // First pass: collect all old->new id mappings
-  const idMap: Record<string, string> = {};
+  // Remove the tool ID if it exists
+  if (clone.id) delete clone.id;
 
-  function mapId(oldId?: string | null): string {
-    if (!oldId) return "";
-    if (!idMap[oldId]) idMap[oldId] = uuidv7();
-    return idMap[oldId];
+  // First pass: collect all old->new key mappings
+  const keyMap: Record<string, string> = {};
+
+  function mapKey(oldKey: string, newKey: string): string {
+    if (!oldKey) return "";
+    keyMap[oldKey] = newKey;
+    return keyMap[oldKey];
   }
 
-  // Map tool id
-  if (clone.id) {
-    idMap[clone.id] = uuidv7();
+  // Map command keys (handle commandId as well during migration)
+  clone.commands.forEach((cmd: Command) => {
+    const oldKey = cmd.key;
+    mapKey(oldKey, slugify(cmd.name));
+  });
+
+  // Map parameter keys
+  clone.parameters.forEach((param: Parameter) => {
+    const oldKey = param.key;
+    mapKey(oldKey, slugify(param.longFlag || param.name));
+
+    if (param.enumValues) {
+      param.enumValues.forEach((ev: ParameterEnumValue) => {
+        const oldEvKey = ev.key;
+        mapKey(oldEvKey, slugify(ev.value));
+      });
+    }
+
+    if (param.validations) {
+      param.validations.forEach((val: ParameterValidation) => {
+        const oldValKey = val.key;
+        mapKey(oldValKey, slugify(`${val.validationType}-${val.validationValue}`));
+      });
+    }
+
+    if (param.dependencies) {
+      param.dependencies.forEach((dep: ParameterDependency) => {
+        const oldDepKey = dep.key;
+        const dependsOnKey = dep.dependsOnParameterKey;
+        mapKey(oldDepKey, slugify(`dep-${oldKey}-${dependsOnKey}`));
+      });
+    }
+  });
+
+  // Map exclusion group keys
+  if (clone.exclusionGroups) {
+    clone.exclusionGroups.forEach((group: ExclusionGroup) => {
+      const oldKey = group.key;
+      if (oldKey) mapKey(oldKey, slugify(group.name));
+    });
   }
 
-  // Map command ids
-  clone.commands.forEach((cmd) => {
-    idMap[cmd.id] = uuidv7();
-    if (cmd.parentCommandId) idMap[cmd.parentCommandId] = uuidv7();
-  });
-
-  // Map parameter ids
-  clone.parameters.forEach((param) => {
-    idMap[param.id] = uuidv7();
-    if (param.commandId) idMap[param.commandId] = uuidv7();
-    param.enumValues.forEach((ev) => {
-      idMap[ev.id] = uuidv7();
-      idMap[ev.parameterId] = uuidv7();
-    });
-    param.validations?.forEach((val) => {
-      idMap[val.id] = uuidv7();
-      idMap[val.parameterId] = uuidv7();
-    });
-    param.dependencies?.forEach((dep) => {
-      idMap[dep.id] = uuidv7();
-      idMap[dep.parameterId] = uuidv7();
-      idMap[dep.dependsOnParameterId] = uuidv7();
-    });
-  });
-
-  // Map exclusion group ids
-  clone.exclusionGroups.forEach((group) => {
-    if (group.id) idMap[group.id] = uuidv7();
-    if (group.commandId) idMap[group.commandId] = uuidv7();
-    group.parameterIds.forEach((pid) => {
-      idMap[pid] = uuidv7();
-    });
-  });
-
-  // Second pass: replace ids and references
-  if (clone.id) clone.id = mapId(clone.id);
-
-  clone.commands = clone.commands.map((cmd) => {
-    const newId = mapId(cmd.id);
-    const newParentId = cmd.parentCommandId ? mapId(cmd.parentCommandId) : undefined;
+  // Second pass: replace keys and references
+  clone.commands = clone.commands.map((cmd: Command) => {
+    const oldKey = cmd.key;
+    const parentKey = cmd.parentCommandKey;
     return {
       ...cmd,
-      id: newId as string,
-      ...(newParentId ? { parentCommandId: newParentId as string } : {}),
+      id: undefined,
+      key: keyMap[oldKey] || oldKey,
+      parentCommandKey: parentKey ? keyMap[parentKey] || parentKey : undefined,
+      parentCommandId: undefined,
     };
   });
 
-  clone.parameters = clone.parameters.map((param) => {
-    const newId = mapId(param.id);
-    const newCommandId = param.commandId ? mapId(param.commandId) : undefined;
-    return {
+  clone.parameters = clone.parameters.map((param: Parameter) => {
+    const oldKey = param.key;
+    const commandKey = param.commandKey;
+
+    const newParam = {
       ...param,
-      id: newId as string,
-      ...(newCommandId ? { commandId: newCommandId as string } : {}),
-      enumValues: param.enumValues.map((ev) => ({
-        ...ev,
-        id: mapId(ev.id) as string,
-        parameterId: mapId(ev.parameterId) as string,
-      })),
-      validations: param.validations?.map((val) => ({
-        ...val,
-        id: mapId(val.id) as string,
-        parameterId: mapId(val.parameterId) as string,
-      })),
-      dependencies: param.dependencies?.map((dep) => ({
-        ...dep,
-        id: mapId(dep.id) as string,
-        parameterId: mapId(dep.parameterId) as string,
-        dependsOnParameterId: mapId(dep.dependsOnParameterId) as string,
-      })),
+      id: undefined,
+      key: keyMap[oldKey] || oldKey,
+      commandKey: commandKey ? keyMap[commandKey] || commandKey : undefined,
+      commandId: undefined,
+      enumValues: (param.enumValues || []).map((ev: ParameterEnumValue) => {
+        const oldEvKey = ev.key;
+        const oldParamKey = ev.parameterKey;
+        return {
+          ...ev,
+          id: undefined,
+          key: keyMap[oldEvKey] || oldEvKey,
+          parameterKey: keyMap[oldParamKey] || oldParamKey,
+          parameterId: undefined,
+        };
+      }),
+      validations: (param.validations || []).map((val: ParameterValidation) => {
+        const oldValKey = val.key;
+        const oldParamKey = val.parameterKey;
+        return {
+          ...val,
+          id: undefined,
+          key: keyMap[oldValKey] || oldValKey,
+          parameterKey: keyMap[oldParamKey] || oldParamKey,
+          parameterId: undefined,
+        };
+      }),
+      dependencies: (param.dependencies || []).map((dep: ParameterDependency) => {
+        const oldDepKey = dep.key;
+        const oldParamKey = dep.parameterKey;
+        const dependsOnKey = dep.dependsOnParameterKey;
+        return {
+          ...dep,
+          id: undefined,
+          key: keyMap[oldDepKey] || oldDepKey,
+          parameterKey: keyMap[oldParamKey] || oldParamKey,
+          parameterId: undefined,
+          dependsOnParameterKey: keyMap[dependsOnKey] || dependsOnKey,
+          dependsOnParameterId: undefined,
+        };
+      }),
     };
+    return newParam;
   });
 
-  clone.exclusionGroups = clone.exclusionGroups.map((group) => {
-    const newId = group.id ? mapId(group.id) : undefined;
-    const newCommandId = group.commandId ? mapId(group.commandId) : undefined;
-    const newParameterIds = group.parameterIds
-      .map((pid) => mapId(pid) as string)
-      .filter(Boolean) as string[];
-    return {
-      ...group,
-      ...(newId ? { id: newId as string } : {}),
-      ...(newCommandId ? { commandId: newCommandId as string } : {}),
-      parameterIds: newParameterIds,
-    };
-  });
+  if (clone.exclusionGroups) {
+    clone.exclusionGroups = clone.exclusionGroups.map((group: ExclusionGroup) => {
+      const oldKey = group.key;
+      const commandKey = group.commandKey;
+      const parameterKeys = group.parameterKeys || [];
 
-  return clone;
+      return {
+        ...group,
+        id: undefined,
+        key: oldKey ? keyMap[oldKey] || oldKey : undefined,
+        commandKey: commandKey ? keyMap[commandKey] || commandKey : undefined,
+        commandId: undefined,
+        parameterKeys: parameterKeys.map((pk: string) => keyMap[pk] || pk),
+        parameterIds: undefined,
+      };
+    });
+  }
+
+  // Clean up any remaining undefined fields from the spread
+  const finalClone = JSON.parse(JSON.stringify(clone));
+  return finalClone;
 }

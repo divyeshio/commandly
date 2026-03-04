@@ -1,25 +1,28 @@
 {
   "name": "dnsx",
-  "id": "018fa24a-90f4-7b90-b58a-97b07c60b000",
   "displayName": "DNSX",
   "description": "A fast and multi-purpose DNS toolkit designed for running DNS queries.",
+  "metadata": {
+    "supportedInput": [
+      "StandardInput"
+    ],
+    "supportedOutput": [
+      "StandardOutput"
+    ]
+  },
   "exclusionGroups": [],
-  "supportedInput": ["StandardInput"],
-  "supportedOutput": ["StandardOutput"],
   "commands": [
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "name": "dnsx",
       "description": "Root command for dnsx CLI.",
       "isDefault": true,
-      "sortOrder": 1
+      "sortOrder": 1,
+      "key": "dnsx"
     }
   ],
   "parameters": [
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b002",
       "name": "List",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "List of sub(domains)/hosts to resolve (file or stdin).",
       "parameterType": "Option",
       "dataType": "String",
@@ -29,12 +32,14 @@
       "shortFlag": "-l",
       "longFlag": "-list",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "list",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b003",
       "name": "Domain",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "List of domain to bruteforce (file or comma separated or stdin).",
       "parameterType": "Option",
       "dataType": "String",
@@ -44,12 +49,14 @@
       "shortFlag": "-d",
       "longFlag": "-domain",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "domain",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b004",
       "name": "Wordlist",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "List of words to bruteforce (file or comma separated or stdin).",
       "parameterType": "Option",
       "dataType": "String",
@@ -59,12 +66,14 @@
       "shortFlag": "-w",
       "longFlag": "-wordlist",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "wordlist",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b005",
       "name": "A",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Query A record (default).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -73,12 +82,14 @@
       "isGlobal": false,
       "longFlag": "-a",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "a",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b006",
       "name": "AAAA",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Query AAAA record.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -87,12 +98,14 @@
       "isGlobal": false,
       "longFlag": "-aaaa",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "aaaa",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b007",
       "name": "CNAME",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Query CNAME record.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -101,12 +114,14 @@
       "isGlobal": false,
       "longFlag": "-cname",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "cname",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b008",
       "name": "NS",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Query NS record.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -115,12 +130,14 @@
       "isGlobal": false,
       "longFlag": "-ns",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "ns",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b009",
       "name": "TXT",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Query TXT record.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -129,12 +146,14 @@
       "isGlobal": false,
       "longFlag": "-txt",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "txt",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b00a",
       "name": "SRV",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Query SRV record.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -143,12 +162,14 @@
       "isGlobal": false,
       "longFlag": "-srv",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "srv",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b00b",
       "name": "PTR",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Query PTR record.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -157,12 +178,14 @@
       "isGlobal": false,
       "longFlag": "-ptr",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "ptr",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b00c",
       "name": "MX",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Query MX record.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -171,12 +194,14 @@
       "isGlobal": false,
       "longFlag": "-mx",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "mx",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b00d",
       "name": "SOA",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Query SOA record.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -185,12 +210,14 @@
       "isGlobal": false,
       "longFlag": "-soa",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "soa",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b00e",
       "name": "ANY",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Query ANY record.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -199,12 +226,14 @@
       "isGlobal": false,
       "longFlag": "-any",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "any",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b00f",
       "name": "AXFR",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Query AXFR.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -213,12 +242,14 @@
       "isGlobal": false,
       "longFlag": "-axfr",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "axfr",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b010",
       "name": "CAA",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Query CAA record.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -227,12 +258,14 @@
       "isGlobal": false,
       "longFlag": "-caa",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "caa",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b011",
       "name": "Recon",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Query all the DNS records (A, AAAA, CNAME, NS, TXT, SRV, PTR, MX, SOA, AXFR, CAA).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -241,12 +274,14 @@
       "isGlobal": false,
       "longFlag": "-recon",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "recon",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b012",
       "name": "ExcludeType",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "DNS query type to exclude (A, AAAA, CNAME, NS, TXT, SRV, PTR, MX, SOA, AXFR, CAA) (default none).",
       "parameterType": "Option",
       "dataType": "String",
@@ -257,12 +292,14 @@
       "shortFlag": "-e",
       "longFlag": "-exclude-type",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "exclude-type",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b013",
       "name": "Resp",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Display DNS response.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -272,12 +309,14 @@
       "shortFlag": "-re",
       "longFlag": "-resp",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "resp",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b014",
       "name": "RespOnly",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Display DNS response only.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -287,12 +326,14 @@
       "shortFlag": "-ro",
       "longFlag": "-resp-only",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "resp-only",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b015",
       "name": "Rcode",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Filter result by DNS status code (e.g. -rcode noerror, servfail, refused).",
       "parameterType": "Option",
       "dataType": "String",
@@ -302,12 +343,14 @@
       "shortFlag": "-rc",
       "longFlag": "-rcode",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "rcode",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b016",
       "name": "Cdn",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Display CDN name.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -316,12 +359,14 @@
       "isGlobal": false,
       "longFlag": "-cdn",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "cdn",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b017",
       "name": "Asn",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Display host ASN information.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -330,12 +375,14 @@
       "isGlobal": false,
       "longFlag": "-asn",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "asn",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b018",
       "name": "Threads",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Number of concurrent threads to use (default 100).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -346,12 +393,14 @@
       "shortFlag": "-t",
       "longFlag": "-threads",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "threads",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b019",
       "name": "RateLimit",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Number of DNS requests/second to make (disabled by default) (default -1).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -362,12 +411,14 @@
       "shortFlag": "-rl",
       "longFlag": "-rate-limit",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "rate-limit",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b01a",
       "name": "Update",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Update dnsx to latest version.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -377,12 +428,14 @@
       "shortFlag": "-up",
       "longFlag": "-update",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "update",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b01b",
       "name": "DisableUpdateCheck",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Disable automatic dnsx update check.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -392,12 +445,14 @@
       "shortFlag": "-duc",
       "longFlag": "-disable-update-check",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "disable-update-check",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b01c",
       "name": "Output",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "File to write output.",
       "parameterType": "Option",
       "dataType": "String",
@@ -407,12 +462,14 @@
       "shortFlag": "-o",
       "longFlag": "-output",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "output",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b01d",
       "name": "Json",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Write output in JSONL(ines) format.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -422,12 +479,14 @@
       "shortFlag": "-j",
       "longFlag": "-json",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "json",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b01e",
       "name": "OmitRaw",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Omit raw DNS response from JSONL output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -437,12 +496,14 @@
       "shortFlag": "-omit-raw",
       "longFlag": "-or",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "or",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b01f",
       "name": "HealthCheck",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Display dnsx health status.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -451,12 +512,14 @@
       "isGlobal": false,
       "longFlag": "-health-check",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "health-check",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b020",
       "name": "Verbose",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Show verbose output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -466,12 +529,14 @@
       "shortFlag": "-v",
       "longFlag": "-verbose",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "verbose",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b021",
       "name": "NoColor",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Disable colors in CLI output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -480,12 +545,14 @@
       "isGlobal": false,
       "longFlag": "-no-color",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "no-color",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b022",
       "name": "Silent",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Show only results in CLI output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -495,12 +562,14 @@
       "isGlobal": false,
       "longFlag": "-silent",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "silent",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b023",
       "name": "Version",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Show version of dnsx.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -510,12 +579,14 @@
       "shortFlag": "-version",
       "longFlag": "-v",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "v",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018fa24a-90f4-7b90-b58a-97b07c60b024",
       "name": "ShowConfig",
-      "commandId": "018fa24a-90f4-7b90-b58a-97b07c60b001",
       "description": "Show configuration file location.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -524,7 +595,11 @@
       "isGlobal": false,
       "longFlag": "-sc",
       "enumValues": [],
-      "metadata": {}
+      "metadata": {},
+      "key": "sc",
+      "commandKey": "dnsx",
+      "validations": [],
+      "dependencies": []
     }
   ]
 }

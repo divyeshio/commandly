@@ -1,25 +1,36 @@
 {
   "name": "httpx",
-  "id": "01978ea4-4941-7b16-a838-0f9579f8aa5c",
   "displayName": "httpx",
   "description": "Httpx is a fast and multi-purpose HTTP toolkit that allows running multiple probes using the retryablehttp library.",
+  "metadata": {
+    "supportedInput": [
+      "StandardInput",
+      "Parameter"
+    ],
+    "supportedOutput": [
+      "StandardOutput",
+      "File",
+      "Directory"
+    ]
+  },
   "commands": [
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "name": "httpx",
       "description": "Run httpx with the specified parameters.",
       "isDefault": true,
-      "sortOrder": 1
+      "sortOrder": 1,
+      "key": "httpx"
     }
   ],
   "parameters": [
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2f",
       "name": "List",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Input file containing list of hosts to process.",
       "metadata": {
-        "tags": ["target", "non-configurable"]
+        "tags": [
+          "target",
+          "non-configurable"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -29,15 +40,20 @@
       "shortFlag": "-l",
       "longFlag": "--list",
       "sortOrder": 1,
-      "enumValues": []
+      "enumValues": [],
+      "key": "list",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b30",
       "name": "Request",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "File containing raw request.",
       "metadata": {
-        "tags": ["target", "non-configurable"]
+        "tags": [
+          "target",
+          "non-configurable"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -47,15 +63,20 @@
       "shortFlag": "-rr",
       "longFlag": "--request",
       "sortOrder": 2,
-      "enumValues": []
+      "enumValues": [],
+      "key": "request",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b31",
       "name": "Target",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Input target host(s) to probe.",
       "metadata": {
-        "tags": ["target", "non-configurable"]
+        "tags": [
+          "target",
+          "non-configurable"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -65,15 +86,19 @@
       "shortFlag": "-u",
       "longFlag": "--target",
       "sortOrder": 3,
-      "enumValues": []
+      "enumValues": [],
+      "key": "target",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b32",
       "name": "Status code",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display response status-code.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -83,15 +108,19 @@
       "shortFlag": "-sc",
       "longFlag": "--status-code",
       "sortOrder": 4,
-      "enumValues": []
+      "enumValues": [],
+      "key": "status-code",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b33",
       "name": "Content length",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display response content-length.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -101,15 +130,19 @@
       "shortFlag": "-cl",
       "longFlag": "--content-length",
       "sortOrder": 5,
-      "enumValues": []
+      "enumValues": [],
+      "key": "content-length",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b34",
       "name": "Content type",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display response content-type.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -119,15 +152,19 @@
       "shortFlag": "-ct",
       "longFlag": "--content-type",
       "sortOrder": 6,
-      "enumValues": []
+      "enumValues": [],
+      "key": "content-type",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b35",
       "name": "Location",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display response redirect location.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -136,15 +173,19 @@
       "isGlobal": false,
       "longFlag": "--location",
       "sortOrder": 7,
-      "enumValues": []
+      "enumValues": [],
+      "key": "location",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b36",
       "name": "Favicon",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display mmh3 hash for '/favicon.ico' file.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -153,15 +194,19 @@
       "isGlobal": false,
       "longFlag": "--favicon",
       "sortOrder": 8,
-      "enumValues": []
+      "enumValues": [],
+      "key": "favicon",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b37",
       "name": "Hash",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display response body hash (supported: md5,mmh3,simhash,sha1,sha256,sha512).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -170,15 +215,19 @@
       "isGlobal": false,
       "longFlag": "--hash",
       "sortOrder": 9,
-      "enumValues": []
+      "enumValues": [],
+      "key": "hash",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b38",
       "name": "Jarm",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display jarm fingerprint hash.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -187,15 +236,19 @@
       "isGlobal": false,
       "longFlag": "--jarm",
       "sortOrder": 10,
-      "enumValues": []
+      "enumValues": [],
+      "key": "jarm",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b39",
       "name": "Response time",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display response time.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -205,15 +258,19 @@
       "shortFlag": "-rt",
       "longFlag": "--response-time",
       "sortOrder": 11,
-      "enumValues": []
+      "enumValues": [],
+      "key": "response-time",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b3a",
       "name": "Line count",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display response body line count.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -223,15 +280,19 @@
       "shortFlag": "-lc",
       "longFlag": "--line-count",
       "sortOrder": 12,
-      "enumValues": []
+      "enumValues": [],
+      "key": "line-count",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b3b",
       "name": "Word count",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display response body word count.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -241,15 +302,19 @@
       "shortFlag": "-wc",
       "longFlag": "--word-count",
       "sortOrder": 13,
-      "enumValues": []
+      "enumValues": [],
+      "key": "word-count",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b3c",
       "name": "Title",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display page title.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -258,15 +323,19 @@
       "isGlobal": false,
       "longFlag": "--title",
       "sortOrder": 14,
-      "enumValues": []
+      "enumValues": [],
+      "key": "title",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b3d",
       "name": "Body preview",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display first N characters of response body (default 100).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -276,15 +345,19 @@
       "shortFlag": "-bp",
       "longFlag": "--body-preview",
       "sortOrder": 15,
-      "enumValues": []
+      "enumValues": [],
+      "key": "body-preview",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b3e",
       "name": "Server",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display server name.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -294,15 +367,19 @@
       "shortFlag": "-server",
       "longFlag": "--server",
       "sortOrder": 16,
-      "enumValues": []
+      "enumValues": [],
+      "key": "server",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b3f",
       "name": "Tech detect",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display technology in use based on wappalyzer dataset.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -312,15 +389,19 @@
       "shortFlag": "-td",
       "longFlag": "--tech-detect",
       "sortOrder": 17,
-      "enumValues": []
+      "enumValues": [],
+      "key": "tech-detect",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b40",
       "name": "Method",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display http request method.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -329,15 +410,19 @@
       "isGlobal": false,
       "longFlag": "--method",
       "sortOrder": 18,
-      "enumValues": []
+      "enumValues": [],
+      "key": "method",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b41",
       "name": "Websocket",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display server using websocket.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -346,15 +431,19 @@
       "isGlobal": false,
       "longFlag": "--websocket",
       "sortOrder": 19,
-      "enumValues": []
+      "enumValues": [],
+      "key": "websocket",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b42",
       "name": "Ip",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display host ip.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -363,15 +452,19 @@
       "isGlobal": false,
       "longFlag": "--ip",
       "sortOrder": 20,
-      "enumValues": []
+      "enumValues": [],
+      "key": "ip",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b43",
       "name": "Cname",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display host cname.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -380,15 +473,19 @@
       "isGlobal": false,
       "longFlag": "--cname",
       "sortOrder": 21,
-      "enumValues": []
+      "enumValues": [],
+      "key": "cname",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b44",
       "name": "Extract fqdn",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Get domain and subdomains from response body and header in jsonl/csv output.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -398,15 +495,19 @@
       "shortFlag": "-efqdn",
       "longFlag": "--extract-fqdn",
       "sortOrder": 22,
-      "enumValues": []
+      "enumValues": [],
+      "key": "extract-fqdn",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b45",
       "name": "Asn",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display host asn information.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -415,15 +516,19 @@
       "isGlobal": false,
       "longFlag": "--asn",
       "sortOrder": 23,
-      "enumValues": []
+      "enumValues": [],
+      "key": "asn",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b46",
       "name": "Cdn",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display cdn/waf in use (default true).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -432,15 +537,19 @@
       "isGlobal": false,
       "longFlag": "--cdn",
       "sortOrder": 24,
-      "enumValues": []
+      "enumValues": [],
+      "key": "cdn",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b47",
       "name": "Probe",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display probe status.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -449,15 +558,19 @@
       "isGlobal": false,
       "longFlag": "--probe",
       "sortOrder": 25,
-      "enumValues": []
+      "enumValues": [],
+      "key": "probe",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b48",
       "name": "Screenshot",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Enable saving screenshot of the page using headless browser.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -467,15 +580,19 @@
       "shortFlag": "-ss",
       "longFlag": "--screenshot",
       "sortOrder": 26,
-      "enumValues": []
+      "enumValues": [],
+      "key": "screenshot",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b49",
       "name": "System chrome",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Enable using local installed chrome for screenshot.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -484,15 +601,19 @@
       "isGlobal": false,
       "longFlag": "--system-chrome",
       "sortOrder": 27,
-      "enumValues": []
+      "enumValues": [],
+      "key": "system-chrome",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b4a",
       "name": "Headless options",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Start headless chrome with additional options.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -502,15 +623,19 @@
       "shortFlag": "-ho",
       "longFlag": "--headless-options",
       "sortOrder": 28,
-      "enumValues": []
+      "enumValues": [],
+      "key": "headless-options",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b4b",
       "name": "Exclude screenshot bytes",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Enable excluding screenshot bytes from json output.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -520,15 +645,19 @@
       "shortFlag": "-esb",
       "longFlag": "--exclude-screenshot-bytes",
       "sortOrder": 29,
-      "enumValues": []
+      "enumValues": [],
+      "key": "exclude-screenshot-bytes",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b4c",
       "name": "No screenshot full page",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Disable saving full page screenshot.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -537,15 +666,19 @@
       "isGlobal": false,
       "longFlag": "--no-screenshot-full-page",
       "sortOrder": 30,
-      "enumValues": []
+      "enumValues": [],
+      "key": "no-screenshot-full-page",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b4d",
       "name": "Exclude headless body",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Enable excluding headless header from json output.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -555,15 +688,19 @@
       "shortFlag": "-ehb",
       "longFlag": "--exclude-headless-body",
       "sortOrder": 31,
-      "enumValues": []
+      "enumValues": [],
+      "key": "exclude-headless-body",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b4e",
       "name": "Screenshot timeout",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Set timeout for screenshot in seconds (default 10s).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -573,15 +710,19 @@
       "shortFlag": "-st",
       "longFlag": "--screenshot-timeout",
       "sortOrder": 32,
-      "enumValues": []
+      "enumValues": [],
+      "key": "screenshot-timeout",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b4f",
       "name": "Screenshot idle",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Set idle time before taking screenshot in seconds (default 1s).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -591,15 +732,19 @@
       "shortFlag": "-sid",
       "longFlag": "--screenshot-idle",
       "sortOrder": 33,
-      "enumValues": []
+      "enumValues": [],
+      "key": "screenshot-idle",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b50",
       "name": "Match code",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Match response with specified status code (-mc 200,302).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -609,15 +754,19 @@
       "shortFlag": "-mc",
       "longFlag": "--match-code",
       "sortOrder": 34,
-      "enumValues": []
+      "enumValues": [],
+      "key": "match-code",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b51",
       "name": "Match length",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Match response with specified content length (-ml 100,102).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -627,15 +776,19 @@
       "shortFlag": "-ml",
       "longFlag": "--match-length",
       "sortOrder": 35,
-      "enumValues": []
+      "enumValues": [],
+      "key": "match-length",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b52",
       "name": "Match line count",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Match response body with specified line count (-mlc 423,532).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -645,15 +798,19 @@
       "shortFlag": "-mlc",
       "longFlag": "--match-line-count",
       "sortOrder": 36,
-      "enumValues": []
+      "enumValues": [],
+      "key": "match-line-count",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b53",
       "name": "Match word count",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Match response body with specified word count (-mwc 43,55).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -663,15 +820,19 @@
       "shortFlag": "-mwc",
       "longFlag": "--match-word-count",
       "sortOrder": 37,
-      "enumValues": []
+      "enumValues": [],
+      "key": "match-word-count",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b54",
       "name": "Match favicon",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Match response with specified favicon hash (-mfc 1494302000).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -681,15 +842,19 @@
       "shortFlag": "-mfc",
       "longFlag": "--match-favicon",
       "sortOrder": 38,
-      "enumValues": []
+      "enumValues": [],
+      "key": "match-favicon",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b55",
       "name": "Match string",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Match response with specified string (-ms admin).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -699,15 +864,19 @@
       "shortFlag": "-ms",
       "longFlag": "--match-string",
       "sortOrder": 39,
-      "enumValues": []
+      "enumValues": [],
+      "key": "match-string",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b56",
       "name": "Match regex",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Match response with specified regex (-mr admin).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -717,15 +886,19 @@
       "shortFlag": "-mr",
       "longFlag": "--match-regex",
       "sortOrder": 40,
-      "enumValues": []
+      "enumValues": [],
+      "key": "match-regex",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b57",
       "name": "Match cdn",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Match host with specified cdn provider (cloudfront, fastly, google).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -735,15 +908,19 @@
       "shortFlag": "-mcdn",
       "longFlag": "--match-cdn",
       "sortOrder": 41,
-      "enumValues": []
+      "enumValues": [],
+      "key": "match-cdn",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b58",
       "name": "Match response time",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Match response with specified response time in seconds (-mrt '< 1').",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -753,15 +930,19 @@
       "shortFlag": "-mrt",
       "longFlag": "--match-response-time",
       "sortOrder": 42,
-      "enumValues": []
+      "enumValues": [],
+      "key": "match-response-time",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b59",
       "name": "Match condition",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Match response with dsl expression condition.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -771,15 +952,19 @@
       "shortFlag": "-mdc",
       "longFlag": "--match-condition",
       "sortOrder": 43,
-      "enumValues": []
+      "enumValues": [],
+      "key": "match-condition",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b5a",
       "name": "Extract regex",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display response content with matched regex.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -789,15 +974,19 @@
       "shortFlag": "-er",
       "longFlag": "--extract-regex",
       "sortOrder": 44,
-      "enumValues": []
+      "enumValues": [],
+      "key": "extract-regex",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b5b",
       "name": "Extract preset",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display response content matched by a pre-defined regex (url,ipv4,mail).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -807,15 +996,19 @@
       "shortFlag": "-ep",
       "longFlag": "--extract-preset",
       "sortOrder": 45,
-      "enumValues": []
+      "enumValues": [],
+      "key": "extract-preset",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b5c",
       "name": "Filter code",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Filter response with specified status code (-fc 403,401).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -825,15 +1018,19 @@
       "shortFlag": "-fc",
       "longFlag": "--filter-code",
       "sortOrder": 46,
-      "enumValues": []
+      "enumValues": [],
+      "key": "filter-code",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b5d",
       "name": "Filter error page",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Filter response with ML based error page detection.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -843,15 +1040,19 @@
       "shortFlag": "-fep",
       "longFlag": "--filter-error-page",
       "sortOrder": 47,
-      "enumValues": []
+      "enumValues": [],
+      "key": "filter-error-page",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b5e",
       "name": "Filter duplicates",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Filter out near-duplicate responses (only first response is retained).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -861,15 +1062,19 @@
       "shortFlag": "-fd",
       "longFlag": "--filter-duplicates",
       "sortOrder": 48,
-      "enumValues": []
+      "enumValues": [],
+      "key": "filter-duplicates",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b5f",
       "name": "Filter length",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Filter response with specified content length (-fl 23,33).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -879,15 +1084,19 @@
       "shortFlag": "-fl",
       "longFlag": "--filter-length",
       "sortOrder": 49,
-      "enumValues": []
+      "enumValues": [],
+      "key": "filter-length",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b60",
       "name": "Filter line count",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Filter response body with specified line count (-flc 423,532).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -897,15 +1106,19 @@
       "shortFlag": "-flc",
       "longFlag": "--filter-line-count",
       "sortOrder": 50,
-      "enumValues": []
+      "enumValues": [],
+      "key": "filter-line-count",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b61",
       "name": "Filter word count",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Filter response body with specified word count (-fwc 423,532).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -915,15 +1128,19 @@
       "shortFlag": "-fwc",
       "longFlag": "--filter-word-count",
       "sortOrder": 51,
-      "enumValues": []
+      "enumValues": [],
+      "key": "filter-word-count",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b62",
       "name": "Filter favicon",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Filter response with specified favicon hash (-ffc 1494302000).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -933,15 +1150,19 @@
       "shortFlag": "-ffc",
       "longFlag": "--filter-favicon",
       "sortOrder": 52,
-      "enumValues": []
+      "enumValues": [],
+      "key": "filter-favicon",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b63",
       "name": "Filter string",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Filter response with specified string (-fs admin).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -951,15 +1172,19 @@
       "shortFlag": "-fs",
       "longFlag": "--filter-string",
       "sortOrder": 53,
-      "enumValues": []
+      "enumValues": [],
+      "key": "filter-string",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b64",
       "name": "Filter regex",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Filter response with specified regex (-fe admin).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -969,15 +1194,19 @@
       "shortFlag": "-fe",
       "longFlag": "--filter-regex",
       "sortOrder": 54,
-      "enumValues": []
+      "enumValues": [],
+      "key": "filter-regex",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b65",
       "name": "Filter cdn",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Filter host with specified cdn provider (cloudfront, fastly, google).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -987,15 +1216,19 @@
       "shortFlag": "-fcdn",
       "longFlag": "--filter-cdn",
       "sortOrder": 55,
-      "enumValues": []
+      "enumValues": [],
+      "key": "filter-cdn",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b66",
       "name": "Filter response time",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Filter response with specified response time in seconds (-frt '> 1').",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -1005,15 +1238,19 @@
       "shortFlag": "-frt",
       "longFlag": "--filter-response-time",
       "sortOrder": 56,
-      "enumValues": []
+      "enumValues": [],
+      "key": "filter-response-time",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b67",
       "name": "Filter condition",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Filter response with dsl expression condition.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -1023,15 +1260,19 @@
       "shortFlag": "-fdc",
       "longFlag": "--filter-condition",
       "sortOrder": 57,
-      "enumValues": []
+      "enumValues": [],
+      "key": "filter-condition",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b68",
       "name": "Strip",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Strips all tags in response. Supported formats: html,xml (default html).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1040,12 +1281,14 @@
       "isGlobal": false,
       "longFlag": "--strip",
       "sortOrder": 58,
-      "enumValues": []
+      "enumValues": [],
+      "key": "strip",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b69",
       "name": "Threads",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Number of threads to use (default 50).",
       "metadata": {},
       "parameterType": "Option",
@@ -1056,12 +1299,14 @@
       "shortFlag": "-t",
       "longFlag": "--threads",
       "sortOrder": 59,
-      "enumValues": []
+      "enumValues": [],
+      "key": "threads",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b6a",
       "name": "Rate limit",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Maximum requests to send per second (default 150).",
       "metadata": {},
       "parameterType": "Option",
@@ -1072,12 +1317,14 @@
       "shortFlag": "-rl",
       "longFlag": "--rate-limit",
       "sortOrder": 60,
-      "enumValues": []
+      "enumValues": [],
+      "key": "rate-limit",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b6b",
       "name": "Rate limit minute",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Maximum number of requests to send per minute.",
       "metadata": {},
       "parameterType": "Option",
@@ -1088,12 +1335,14 @@
       "shortFlag": "-rlm",
       "longFlag": "--rate-limit-minute",
       "sortOrder": 61,
-      "enumValues": []
+      "enumValues": [],
+      "key": "rate-limit-minute",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b6c",
       "name": "Probe all ips",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Probe all the ips associated with same host.",
       "metadata": {},
       "parameterType": "Flag",
@@ -1104,12 +1353,14 @@
       "shortFlag": "-pa",
       "longFlag": "--probe-all-ips",
       "sortOrder": 62,
-      "enumValues": []
+      "enumValues": [],
+      "key": "probe-all-ips",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b6d",
       "name": "Ports",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Ports to probe (nmap syntax: eg http:1,2-10,11,https:80).",
       "metadata": {},
       "parameterType": "Option",
@@ -1120,12 +1371,14 @@
       "shortFlag": "-p",
       "longFlag": "--ports",
       "sortOrder": 63,
-      "enumValues": []
+      "enumValues": [],
+      "key": "ports",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b6e",
       "name": "Path",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Path or list of paths to probe (comma-separated, file).",
       "metadata": {},
       "parameterType": "Option",
@@ -1135,12 +1388,14 @@
       "isGlobal": false,
       "longFlag": "--path",
       "sortOrder": 64,
-      "enumValues": []
+      "enumValues": [],
+      "key": "path",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b6f",
       "name": "Tls probe",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Send http probes on the extracted TLS domains (dns_name).",
       "metadata": {},
       "parameterType": "Flag",
@@ -1150,12 +1405,14 @@
       "isGlobal": false,
       "longFlag": "--tls-probe",
       "sortOrder": 65,
-      "enumValues": []
+      "enumValues": [],
+      "key": "tls-probe",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b70",
       "name": "Csp probe",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Send http probes on the extracted CSP domains.",
       "metadata": {},
       "parameterType": "Flag",
@@ -1165,12 +1422,14 @@
       "isGlobal": false,
       "longFlag": "--csp-probe",
       "sortOrder": 66,
-      "enumValues": []
+      "enumValues": [],
+      "key": "csp-probe",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b71",
       "name": "Tls grab",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Perform TLS(SSL) data grabbing.",
       "metadata": {},
       "parameterType": "Flag",
@@ -1180,12 +1439,14 @@
       "isGlobal": false,
       "longFlag": "--tls-grab",
       "sortOrder": 67,
-      "enumValues": []
+      "enumValues": [],
+      "key": "tls-grab",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b72",
       "name": "Pipeline",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Probe and display server supporting HTTP1.1 pipeline.",
       "metadata": {},
       "parameterType": "Flag",
@@ -1195,12 +1456,14 @@
       "isGlobal": false,
       "longFlag": "--pipeline",
       "sortOrder": 68,
-      "enumValues": []
+      "enumValues": [],
+      "key": "pipeline",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b73",
       "name": "Http2",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Probe and display server supporting HTTP2.",
       "metadata": {},
       "parameterType": "Flag",
@@ -1210,12 +1473,14 @@
       "isGlobal": false,
       "longFlag": "--http2",
       "sortOrder": 69,
-      "enumValues": []
+      "enumValues": [],
+      "key": "http2",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b74",
       "name": "Vhost",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Probe and display server supporting VHOST.",
       "metadata": {},
       "parameterType": "Flag",
@@ -1225,12 +1490,14 @@
       "isGlobal": false,
       "longFlag": "--vhost",
       "sortOrder": 70,
-      "enumValues": []
+      "enumValues": [],
+      "key": "vhost",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b75",
       "name": "List dsl variables",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "List json output field keys name that support dsl matcher/filter.",
       "metadata": {},
       "parameterType": "Flag",
@@ -1241,15 +1508,19 @@
       "shortFlag": "-ldv",
       "longFlag": "--list-dsl-variables",
       "sortOrder": 71,
-      "enumValues": []
+      "enumValues": [],
+      "key": "list-dsl-variables",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b76",
       "name": "Update",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Update httpx to latest version.",
       "metadata": {
-        "tags": ["non-configurable"]
+        "tags": [
+          "non-configurable"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1259,15 +1530,19 @@
       "shortFlag": "-up",
       "longFlag": "--update",
       "sortOrder": 72,
-      "enumValues": []
+      "enumValues": [],
+      "key": "update",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b77",
       "name": "Disable update check",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Disable automatic httpx update check.",
       "metadata": {
-        "tags": ["non-configurable"]
+        "tags": [
+          "non-configurable"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1277,15 +1552,20 @@
       "shortFlag": "-duc",
       "longFlag": "--disable-update-check",
       "sortOrder": 73,
-      "enumValues": []
+      "enumValues": [],
+      "key": "disable-update-check",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b78",
       "name": "Output",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "File to write output results.",
       "metadata": {
-        "tags": ["output", "output-file"]
+        "tags": [
+          "output",
+          "output-file"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -1295,15 +1575,20 @@
       "shortFlag": "-o",
       "longFlag": "--output",
       "sortOrder": 74,
-      "enumValues": []
+      "enumValues": [],
+      "key": "output",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b79",
       "name": "Output all",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Filename to write output results in all formats.",
       "metadata": {
-        "tags": ["output", "output-file"]
+        "tags": [
+          "output",
+          "output-file"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1313,15 +1598,20 @@
       "shortFlag": "-oa",
       "longFlag": "--output-all",
       "sortOrder": 75,
-      "enumValues": []
+      "enumValues": [],
+      "key": "output-all",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b7a",
       "name": "Store response",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Store http response to output directory.",
       "metadata": {
-        "tags": ["output", "output-directory"]
+        "tags": [
+          "output",
+          "output-directory"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1331,15 +1621,20 @@
       "shortFlag": "-sr",
       "longFlag": "--store-response",
       "sortOrder": 76,
-      "enumValues": []
+      "enumValues": [],
+      "key": "store-response",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b7b",
       "name": "Store response dir",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Store http response to custom directory.",
       "metadata": {
-        "tags": ["output", "output-directory"]
+        "tags": [
+          "output",
+          "output-directory"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -1349,15 +1644,19 @@
       "shortFlag": "-srd",
       "longFlag": "--store-response-dir",
       "sortOrder": 77,
-      "enumValues": []
+      "enumValues": [],
+      "key": "store-response-dir",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b7c",
       "name": "Omit body",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Omit response body in output.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1367,15 +1666,19 @@
       "shortFlag": "-ob",
       "longFlag": "--omit-body",
       "sortOrder": 78,
-      "enumValues": []
+      "enumValues": [],
+      "key": "omit-body",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b7d",
       "name": "Csv",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Store output in csv format.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1384,15 +1687,19 @@
       "isGlobal": false,
       "longFlag": "--csv",
       "sortOrder": 79,
-      "enumValues": []
+      "enumValues": [],
+      "key": "csv",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b7e",
       "name": "Csv output encoding",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Define output encoding.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -1402,15 +1709,19 @@
       "shortFlag": "-csvo",
       "longFlag": "--csv-output-encoding",
       "sortOrder": 80,
-      "enumValues": []
+      "enumValues": [],
+      "key": "csv-output-encoding",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b7f",
       "name": "Json",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Store output in JSONL(ines) format.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1420,15 +1731,19 @@
       "shortFlag": "-j",
       "longFlag": "--json",
       "sortOrder": 81,
-      "enumValues": []
+      "enumValues": [],
+      "key": "json",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b80",
       "name": "Include response header",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Include http response (headers) in JSON output (-json only).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1438,15 +1753,19 @@
       "shortFlag": "-irh",
       "longFlag": "--include-response-header",
       "sortOrder": 82,
-      "enumValues": []
+      "enumValues": [],
+      "key": "include-response-header",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b81",
       "name": "Include response",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Include http request/response (headers + body) in JSON output (-json only).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1456,15 +1775,19 @@
       "shortFlag": "-irr",
       "longFlag": "--include-response",
       "sortOrder": 83,
-      "enumValues": []
+      "enumValues": [],
+      "key": "include-response",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b82",
       "name": "Include response base64",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Include base64 encoded http request/response in JSON output (-json only).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1474,15 +1797,19 @@
       "shortFlag": "-irrb",
       "longFlag": "--include-response-base64",
       "sortOrder": 84,
-      "enumValues": []
+      "enumValues": [],
+      "key": "include-response-base64",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b83",
       "name": "Include chain",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Include redirect http chain in JSON output (-json only).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1491,15 +1818,19 @@
       "isGlobal": false,
       "longFlag": "--include-chain",
       "sortOrder": 85,
-      "enumValues": []
+      "enumValues": [],
+      "key": "include-chain",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b84",
       "name": "Store chain",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Include http redirect chain in responses (-sr only).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1508,15 +1839,19 @@
       "isGlobal": false,
       "longFlag": "--store-chain",
       "sortOrder": 86,
-      "enumValues": []
+      "enumValues": [],
+      "key": "store-chain",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b85",
       "name": "Store vision recon cluster",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Include visual recon clusters (-ss and -sr only).",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1526,12 +1861,14 @@
       "shortFlag": "-svrc",
       "longFlag": "--store-vision-recon-cluster",
       "sortOrder": 87,
-      "enumValues": []
+      "enumValues": [],
+      "key": "store-vision-recon-cluster",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b86",
       "name": "Protocol",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Protocol to use (unknown, http11).",
       "metadata": {},
       "parameterType": "Option",
@@ -1542,15 +1879,20 @@
       "shortFlag": "-pr",
       "longFlag": "--protocol",
       "sortOrder": 88,
-      "enumValues": []
+      "enumValues": [],
+      "key": "protocol",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b87",
       "name": "Filter error page path",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Path to store filtered error pages (default \"filtered_error_page.json\").",
       "metadata": {
-        "tags": ["output", "output-file"]
+        "tags": [
+          "output",
+          "output-file"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -1560,15 +1902,19 @@
       "shortFlag": "-fepp",
       "longFlag": "--filter-error-page-path",
       "sortOrder": 89,
-      "enumValues": []
+      "enumValues": [],
+      "key": "filter-error-page-path",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b88",
       "name": "Config",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Path to the httpx configuration file (default $HOME/.config/httpx/config.yaml).",
       "metadata": {
-        "tags": ["configuration-file"]
+        "tags": [
+          "configuration-file"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -1577,12 +1923,14 @@
       "isGlobal": false,
       "longFlag": "--config",
       "sortOrder": 90,
-      "enumValues": []
+      "enumValues": [],
+      "key": "config",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b89",
       "name": "Resolvers",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "List of custom resolver (file or comma separated).",
       "metadata": {},
       "parameterType": "Option",
@@ -1593,12 +1941,14 @@
       "shortFlag": "-r",
       "longFlag": "--resolvers",
       "sortOrder": 91,
-      "enumValues": []
+      "enumValues": [],
+      "key": "resolvers",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b8a",
       "name": "Allow",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Allowed list of IP/CIDR's to process (file or comma separated).",
       "metadata": {},
       "parameterType": "Option",
@@ -1608,12 +1958,14 @@
       "isGlobal": false,
       "longFlag": "--allow",
       "sortOrder": 92,
-      "enumValues": []
+      "enumValues": [],
+      "key": "allow",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b8b",
       "name": "Deny",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Denied list of IP/CIDR's to process (file or comma separated).",
       "metadata": {},
       "parameterType": "Option",
@@ -1623,12 +1975,14 @@
       "isGlobal": false,
       "longFlag": "--deny",
       "sortOrder": 93,
-      "enumValues": []
+      "enumValues": [],
+      "key": "deny",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b8c",
       "name": "Sni name",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Custom TLS SNI name.",
       "metadata": {},
       "parameterType": "Option",
@@ -1639,12 +1993,14 @@
       "shortFlag": "-sni",
       "longFlag": "--sni-name",
       "sortOrder": 94,
-      "enumValues": []
+      "enumValues": [],
+      "key": "sni-name",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b8d",
       "name": "Random agent",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Enable Random User-Agent to use (default true).",
       "metadata": {},
       "parameterType": "Flag",
@@ -1654,12 +2010,14 @@
       "isGlobal": false,
       "longFlag": "--random-agent",
       "sortOrder": 95,
-      "enumValues": []
+      "enumValues": [],
+      "key": "random-agent",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b8e",
       "name": "Header",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Custom http headers to send with request.",
       "metadata": {},
       "parameterType": "Option",
@@ -1670,12 +2028,14 @@
       "shortFlag": "-H",
       "longFlag": "--header",
       "sortOrder": 96,
-      "enumValues": []
+      "enumValues": [],
+      "key": "header",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b8f",
       "name": "Http proxy",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Http proxy to use (eg http://127.0.0.1:8080).",
       "metadata": {},
       "parameterType": "Option",
@@ -1685,12 +2045,14 @@
       "isGlobal": false,
       "longFlag": "--http-proxy",
       "sortOrder": 97,
-      "enumValues": []
+      "enumValues": [],
+      "key": "http-proxy",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b90",
       "name": "Proxy",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Http proxy to use (eg http://127.0.0.1:8080).",
       "metadata": {},
       "parameterType": "Option",
@@ -1700,12 +2062,14 @@
       "isGlobal": false,
       "longFlag": "--proxy",
       "sortOrder": 98,
-      "enumValues": []
+      "enumValues": [],
+      "key": "proxy",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b91",
       "name": "Unsafe",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Send raw requests skipping golang normalization.",
       "metadata": {},
       "parameterType": "Flag",
@@ -1715,12 +2079,14 @@
       "isGlobal": false,
       "longFlag": "--unsafe",
       "sortOrder": 99,
-      "enumValues": []
+      "enumValues": [],
+      "key": "unsafe",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b92",
       "name": "Resume",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Resume scan using resume.cfg.",
       "metadata": {},
       "parameterType": "Flag",
@@ -1730,12 +2096,14 @@
       "isGlobal": false,
       "longFlag": "--resume",
       "sortOrder": 100,
-      "enumValues": []
+      "enumValues": [],
+      "key": "resume",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b93",
       "name": "Follow redirects",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Follow http redirects.",
       "metadata": {},
       "parameterType": "Flag",
@@ -1746,12 +2114,14 @@
       "shortFlag": "-fr",
       "longFlag": "--follow-redirects",
       "sortOrder": 101,
-      "enumValues": []
+      "enumValues": [],
+      "key": "follow-redirects",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b94",
       "name": "Max redirects",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Max number of redirects to follow per host (default 10).",
       "metadata": {},
       "parameterType": "Option",
@@ -1762,12 +2132,14 @@
       "shortFlag": "-maxr",
       "longFlag": "--max-redirects",
       "sortOrder": 102,
-      "enumValues": []
+      "enumValues": [],
+      "key": "max-redirects",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b95",
       "name": "Follow host redirects",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Follow redirects on the same host.",
       "metadata": {},
       "parameterType": "Flag",
@@ -1778,12 +2150,14 @@
       "shortFlag": "-fhr",
       "longFlag": "--follow-host-redirects",
       "sortOrder": 103,
-      "enumValues": []
+      "enumValues": [],
+      "key": "follow-host-redirects",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b96",
       "name": "Respect hsts",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Respect HSTS response headers for redirect requests.",
       "metadata": {},
       "parameterType": "Flag",
@@ -1794,12 +2168,14 @@
       "shortFlag": "-rhsts",
       "longFlag": "--respect-hsts",
       "sortOrder": 104,
-      "enumValues": []
+      "enumValues": [],
+      "key": "respect-hsts",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b97",
       "name": "Vhost input",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Get a list of vhosts as input.",
       "metadata": {},
       "parameterType": "Flag",
@@ -1809,12 +2185,14 @@
       "isGlobal": false,
       "longFlag": "--vhost-input",
       "sortOrder": 105,
-      "enumValues": []
+      "enumValues": [],
+      "key": "vhost-input",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b98",
       "name": "X",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Request methods to probe, use 'all' to probe all HTTP methods.",
       "metadata": {},
       "parameterType": "Option",
@@ -1824,12 +2202,14 @@
       "isGlobal": false,
       "longFlag": "--x",
       "sortOrder": 106,
-      "enumValues": []
+      "enumValues": [],
+      "key": "x",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b99",
       "name": "Body",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Post body to include in http request.",
       "metadata": {},
       "parameterType": "Option",
@@ -1839,12 +2219,14 @@
       "isGlobal": false,
       "longFlag": "--body",
       "sortOrder": 107,
-      "enumValues": []
+      "enumValues": [],
+      "key": "body",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b9a",
       "name": "Stream",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Stream mode - start elaborating input targets without sorting.",
       "metadata": {},
       "parameterType": "Flag",
@@ -1855,12 +2237,14 @@
       "shortFlag": "-s",
       "longFlag": "--stream",
       "sortOrder": 108,
-      "enumValues": []
+      "enumValues": [],
+      "key": "stream",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b9b",
       "name": "Skip dedupe",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Disable dedupe input items (only used with stream mode).",
       "metadata": {},
       "parameterType": "Flag",
@@ -1871,12 +2255,14 @@
       "shortFlag": "-sd",
       "longFlag": "--skip-dedupe",
       "sortOrder": 109,
-      "enumValues": []
+      "enumValues": [],
+      "key": "skip-dedupe",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b9c",
       "name": "Leave default ports",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Leave default http/https ports in host header (eg. http://host:80 - https://host:443).",
       "metadata": {},
       "parameterType": "Flag",
@@ -1887,12 +2273,14 @@
       "shortFlag": "-ldp",
       "longFlag": "--leave-default-ports",
       "sortOrder": 110,
-      "enumValues": []
+      "enumValues": [],
+      "key": "leave-default-ports",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b9d",
       "name": "Ztls",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Use ztls library with autofallback to standard one for tls13.",
       "metadata": {},
       "parameterType": "Flag",
@@ -1902,12 +2290,14 @@
       "isGlobal": false,
       "longFlag": "--ztls",
       "sortOrder": 111,
-      "enumValues": []
+      "enumValues": [],
+      "key": "ztls",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b9e",
       "name": "No decode",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Avoid decoding body.",
       "metadata": {},
       "parameterType": "Flag",
@@ -1917,12 +2307,14 @@
       "isGlobal": false,
       "longFlag": "--no-decode",
       "sortOrder": 112,
-      "enumValues": []
+      "enumValues": [],
+      "key": "no-decode",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b9f",
       "name": "Tls impersonate",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Enable experimental client hello (ja3) tls randomization.",
       "metadata": {},
       "parameterType": "Flag",
@@ -1933,12 +2325,14 @@
       "shortFlag": "-tlsi",
       "longFlag": "--tls-impersonate",
       "sortOrder": 113,
-      "enumValues": []
+      "enumValues": [],
+      "key": "tls-impersonate",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7ba0",
       "name": "No stdin",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Disable Stdin processing.",
       "metadata": {},
       "parameterType": "Flag",
@@ -1948,12 +2342,14 @@
       "isGlobal": false,
       "longFlag": "--no-stdin",
       "sortOrder": 114,
-      "enumValues": []
+      "enumValues": [],
+      "key": "no-stdin",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7ba1",
       "name": "Http api endpoint",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Experimental http api endpoint.",
       "metadata": {},
       "parameterType": "Option",
@@ -1964,12 +2360,14 @@
       "shortFlag": "-hae",
       "longFlag": "--http-api-endpoint",
       "sortOrder": 115,
-      "enumValues": []
+      "enumValues": [],
+      "key": "http-api-endpoint",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7ba2",
       "name": "Health check",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Run diagnostic check up.",
       "metadata": {},
       "parameterType": "Flag",
@@ -1980,12 +2378,14 @@
       "shortFlag": "-hc",
       "longFlag": "--health-check",
       "sortOrder": 116,
-      "enumValues": []
+      "enumValues": [],
+      "key": "health-check",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7ba3",
       "name": "Debug",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display request/response content in cli.",
       "metadata": {},
       "parameterType": "Flag",
@@ -1995,12 +2395,14 @@
       "isGlobal": false,
       "longFlag": "--debug",
       "sortOrder": 117,
-      "enumValues": []
+      "enumValues": [],
+      "key": "debug",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7ba4",
       "name": "Debug req",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display request content in cli.",
       "metadata": {},
       "parameterType": "Flag",
@@ -2010,12 +2412,14 @@
       "isGlobal": false,
       "longFlag": "--debug-req",
       "sortOrder": 118,
-      "enumValues": []
+      "enumValues": [],
+      "key": "debug-req",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7ba5",
       "name": "Debug resp",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display response content in cli.",
       "metadata": {},
       "parameterType": "Flag",
@@ -2025,12 +2429,14 @@
       "isGlobal": false,
       "longFlag": "--debug-resp",
       "sortOrder": 119,
-      "enumValues": []
+      "enumValues": [],
+      "key": "debug-resp",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7ba6",
       "name": "Version",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display httpx version.",
       "metadata": {},
       "parameterType": "Flag",
@@ -2040,15 +2446,19 @@
       "isGlobal": false,
       "longFlag": "--version",
       "sortOrder": 120,
-      "enumValues": []
+      "enumValues": [],
+      "key": "version",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7ba7",
       "name": "Stats",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display scan statistic.",
       "metadata": {
-        "tags": ["non-configurable"]
+        "tags": [
+          "non-configurable"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2057,12 +2467,14 @@
       "isGlobal": false,
       "longFlag": "--stats",
       "sortOrder": 121,
-      "enumValues": []
+      "enumValues": [],
+      "key": "stats",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7ba8",
       "name": "Profile mem",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Optional httpx memory profile dump file.",
       "metadata": {},
       "parameterType": "Option",
@@ -2072,15 +2484,19 @@
       "isGlobal": false,
       "longFlag": "--profile-mem",
       "sortOrder": 122,
-      "enumValues": []
+      "enumValues": [],
+      "key": "profile-mem",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7ba9",
       "name": "Silent",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Silent mode.",
       "metadata": {
-        "tags": ["non-configurable"]
+        "tags": [
+          "non-configurable"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2089,15 +2505,19 @@
       "isGlobal": false,
       "longFlag": "--silent",
       "sortOrder": 123,
-      "enumValues": []
+      "enumValues": [],
+      "key": "silent",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7baa",
       "name": "Verbose",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Verbose mode.",
       "metadata": {
-        "tags": ["non-configurable"]
+        "tags": [
+          "non-configurable"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2107,15 +2527,19 @@
       "shortFlag": "-v",
       "longFlag": "--verbose",
       "sortOrder": 124,
-      "enumValues": []
+      "enumValues": [],
+      "key": "verbose",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7bab",
       "name": "Stats interval",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Number of seconds to wait between showing a statistics update (default: 5).",
       "metadata": {
-        "tags": ["non-configurable"]
+        "tags": [
+          "non-configurable"
+        ]
       },
       "parameterType": "Option",
       "dataType": "Number",
@@ -2125,15 +2549,19 @@
       "shortFlag": "-si",
       "longFlag": "--stats-interval",
       "sortOrder": 125,
-      "enumValues": []
+      "enumValues": [],
+      "key": "stats-interval",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7bac",
       "name": "No color",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Disable colors in cli output.",
       "metadata": {
-        "tags": ["non-configurable"]
+        "tags": [
+          "non-configurable"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2143,12 +2571,14 @@
       "shortFlag": "-nc",
       "longFlag": "--no-color",
       "sortOrder": 126,
-      "enumValues": []
+      "enumValues": [],
+      "key": "no-color",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7bad",
       "name": "Trace",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Trace.",
       "metadata": {},
       "parameterType": "Flag",
@@ -2159,12 +2589,14 @@
       "shortFlag": "-tr",
       "longFlag": "--trace",
       "sortOrder": 127,
-      "enumValues": []
+      "enumValues": [],
+      "key": "trace",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7bae",
       "name": "No fallback",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Display both probed protocol (HTTPS and HTTP).",
       "metadata": {},
       "parameterType": "Flag",
@@ -2175,12 +2607,14 @@
       "shortFlag": "-nf",
       "longFlag": "--no-fallback",
       "sortOrder": 128,
-      "enumValues": []
+      "enumValues": [],
+      "key": "no-fallback",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7baf",
       "name": "No fallback scheme",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Probe with protocol scheme specified in input.",
       "metadata": {},
       "parameterType": "Flag",
@@ -2191,12 +2625,14 @@
       "shortFlag": "-nfs",
       "longFlag": "--no-fallback-scheme",
       "sortOrder": 129,
-      "enumValues": []
+      "enumValues": [],
+      "key": "no-fallback-scheme",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7bb0",
       "name": "Max host error",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Max error count per host before skipping remaining path/s (default 30).",
       "metadata": {},
       "parameterType": "Option",
@@ -2207,12 +2643,14 @@
       "shortFlag": "-maxhr",
       "longFlag": "--max-host-error",
       "sortOrder": 130,
-      "enumValues": []
+      "enumValues": [],
+      "key": "max-host-error",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7bb1",
       "name": "Exclude",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Exclude host matching specified filter ('cdn', 'private-ips', cidr, ip, regex).",
       "metadata": {},
       "parameterType": "Option",
@@ -2223,12 +2661,14 @@
       "shortFlag": "-e",
       "longFlag": "--exclude",
       "sortOrder": 131,
-      "enumValues": []
+      "enumValues": [],
+      "key": "exclude",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7bb2",
       "name": "Retries",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Number of retries.",
       "metadata": {},
       "parameterType": "Option",
@@ -2238,12 +2678,14 @@
       "isGlobal": false,
       "longFlag": "--retries",
       "sortOrder": 132,
-      "enumValues": []
+      "enumValues": [],
+      "key": "retries",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7bb3",
       "name": "Timeout",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Timeout in seconds (default 10).",
       "metadata": {},
       "parameterType": "Option",
@@ -2253,12 +2695,14 @@
       "isGlobal": false,
       "longFlag": "--timeout",
       "sortOrder": 133,
-      "enumValues": []
+      "enumValues": [],
+      "key": "timeout",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7bb4",
       "name": "Delay",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Duration between each http request (eg: 200ms, 1s) (default -1ns).",
       "metadata": {},
       "parameterType": "Option",
@@ -2268,12 +2712,14 @@
       "isGlobal": false,
       "longFlag": "--delay",
       "sortOrder": 134,
-      "enumValues": []
+      "enumValues": [],
+      "key": "delay",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7bb5",
       "name": "Response size to save",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Max response size to save in bytes (default 2147483647).",
       "metadata": {},
       "parameterType": "Option",
@@ -2284,12 +2730,14 @@
       "shortFlag": "-rsts",
       "longFlag": "--response-size-to-save",
       "sortOrder": 135,
-      "enumValues": []
+      "enumValues": [],
+      "key": "response-size-to-save",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7bb6",
       "name": "Response size to read",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Max response size to read in bytes (default 2147483647).",
       "metadata": {},
       "parameterType": "Option",
@@ -2300,12 +2748,14 @@
       "shortFlag": "-rstr",
       "longFlag": "--response-size-to-read",
       "sortOrder": 136,
-      "enumValues": []
+      "enumValues": [],
+      "key": "response-size-to-read",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7bb7",
       "name": "Auth",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Configure projectdiscovery cloud (pdcp) api key (default true).",
       "metadata": {},
       "parameterType": "Flag",
@@ -2315,15 +2765,19 @@
       "isGlobal": false,
       "longFlag": "--auth",
       "sortOrder": 137,
-      "enumValues": []
+      "enumValues": [],
+      "key": "auth",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7bb8",
       "name": "Auth config",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Configure projectdiscovery cloud (pdcp) api key credential file.",
       "metadata": {
-        "tags": ["configuration-file"]
+        "tags": [
+          "configuration-file"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -2333,15 +2787,19 @@
       "shortFlag": "-ac",
       "longFlag": "--auth-config",
       "sortOrder": 138,
-      "enumValues": []
+      "enumValues": [],
+      "key": "auth-config",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7bb9",
       "name": "Dashboard",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Upload / view output in projectdiscovery cloud (pdcp) UI dashboard.",
       "metadata": {
-        "tags": ["output"]
+        "tags": [
+          "output"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2351,12 +2809,14 @@
       "shortFlag": "-pd",
       "longFlag": "--dashboard",
       "sortOrder": 139,
-      "enumValues": []
+      "enumValues": [],
+      "key": "dashboard",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7bba",
       "name": "Team id",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Upload asset results to given team id (optional).",
       "metadata": {},
       "parameterType": "Option",
@@ -2367,12 +2827,14 @@
       "shortFlag": "-tid",
       "longFlag": "--team-id",
       "sortOrder": 140,
-      "enumValues": []
+      "enumValues": [],
+      "key": "team-id",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7bbb",
       "name": "Asset id",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Upload new assets to existing asset id (optional).",
       "metadata": {},
       "parameterType": "Option",
@@ -2383,12 +2845,14 @@
       "shortFlag": "-aid",
       "longFlag": "--asset-id",
       "sortOrder": 141,
-      "enumValues": []
+      "enumValues": [],
+      "key": "asset-id",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7bbc",
       "name": "Asset name",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Assets group name to set (optional).",
       "metadata": {},
       "parameterType": "Option",
@@ -2399,15 +2863,20 @@
       "shortFlag": "-aname",
       "longFlag": "--asset-name",
       "sortOrder": 142,
-      "enumValues": []
+      "enumValues": [],
+      "key": "asset-name",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7bbd",
       "name": "Dashboard upload",
-      "commandId": "018e6e2e-7b2e-7b2e-8b2e-7b2e7b2e7b2e",
       "description": "Upload httpx output file (jsonl) in projectdiscovery cloud (pdcp) UI dashboard.",
       "metadata": {
-        "tags": ["output", "output-file"]
+        "tags": [
+          "output",
+          "output-file"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -2417,10 +2886,12 @@
       "shortFlag": "-pdu",
       "longFlag": "--dashboard-upload",
       "sortOrder": 143,
-      "enumValues": []
+      "enumValues": [],
+      "key": "dashboard-upload",
+      "commandKey": "httpx",
+      "validations": [],
+      "dependencies": []
     }
   ],
-  "exclusionGroups": [],
-  "supportedInput": ["StandardInput", "Parameter"],
-  "supportedOutput": ["StandardOutput", "File", "Directory"]
+  "exclusionGroups": []
 }

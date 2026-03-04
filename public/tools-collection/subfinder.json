@@ -1,21 +1,27 @@
 {
   "name": "subfinder",
-  "id": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
   "displayName": "Subfinder",
   "description": "Subfinder is a subdomain discovery tool that discovers subdomains for websites by using passive online sources.",
+  "metadata": {
+    "supportedInput": [
+      "StandardInput",
+      "Parameter"
+    ],
+    "supportedOutput": [
+      "StandardOutput"
+    ]
+  },
   "commands": [
     {
-      "id": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "subfinder",
       "description": "Subfinder is a subdomain discovery tool that discovers subdomains for websites by using passive online sources.",
       "isDefault": true,
-      "sortOrder": 1
+      "sortOrder": 1,
+      "key": "domain"
     }
   ],
   "parameters": [
     {
-      "id": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Target Domain",
       "description": "Domains to find subdomains for",
       "longFlag": "-domain",
@@ -27,15 +33,18 @@
       "isRepeatable": true,
       "isGlobal": false,
       "metadata": {
-        "tags": ["target", "non-configurable"]
+        "tags": [
+          "target",
+          "non-configurable"
+        ]
       },
       "enumValues": [],
       "dependencies": [],
-      "validations": []
+      "validations": [],
+      "key": "domain",
+      "commandKey": "domain"
     },
     {
-      "id": "01978ea4-4942-7485-b7b0-1f1abfd4ce64",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Sources",
       "description": "Specific sources to use for discovery (-s crtsh,github). Use -ls to display all available sources.",
       "longFlag": "-sources",
@@ -47,11 +56,13 @@
       "isRepeatable": true,
       "isGlobal": false,
       "metadata": {},
-      "enumValues": []
+      "enumValues": [],
+      "key": "sources",
+      "commandKey": "domain",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "01978ea4-4942-7b34-9189-3ca9d9967655",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Recursive",
       "description": "Use only sources that can handle subdomains recursively rather than both recursive and non-recursive sources",
       "longFlag": "-recursive",
@@ -62,11 +73,13 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {},
-      "enumValues": []
+      "enumValues": [],
+      "key": "recursive",
+      "commandKey": "domain",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "01978ea4-4942-7c46-8324-8150fd11db8a",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Target Domains List",
       "description": "File containing list of domains for subdomain discovery",
       "longFlag": "-list",
@@ -77,15 +90,18 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {
-        "tags": ["non-configurable", "target-list"]
+        "tags": [
+          "non-configurable",
+          "target-list"
+        ]
       },
       "enumValues": [],
       "dependencies": [],
-      "validations": []
+      "validations": [],
+      "key": "list",
+      "commandKey": "domain"
     },
     {
-      "id": "01978ea4-4952-70b6-8986-431a315b7b62",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Output Directory",
       "description": "Directory to write output (-dL only)",
       "longFlag": "-output-dir",
@@ -96,15 +112,18 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {
-        "tags": ["output-directory", "non-configurable"]
+        "tags": [
+          "output-directory",
+          "non-configurable"
+        ]
       },
       "enumValues": [],
       "dependencies": [],
-      "validations": []
+      "validations": [],
+      "key": "output-dir",
+      "commandKey": "domain"
     },
     {
-      "id": "01978ea4-4952-711b-b36a-e8f1ff6fe01e",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Report Statistics",
       "description": "Report source statistics",
       "longFlag": "-stats",
@@ -115,15 +134,17 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {
-        "tags": ["non-configurable"]
+        "tags": [
+          "non-configurable"
+        ]
       },
       "enumValues": [],
       "dependencies": [],
-      "validations": []
+      "validations": [],
+      "key": "stats",
+      "commandKey": "domain"
     },
     {
-      "id": "01978ea4-4952-71a0-9374-accedad21a0e",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Timeout in seconds",
       "description": "Seconds to wait before timing out (default 30)",
       "longFlag": "-timeout",
@@ -134,11 +155,13 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {},
-      "enumValues": []
+      "enumValues": [],
+      "key": "timeout",
+      "commandKey": "domain",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "01978ea4-4952-71bd-9ce6-3dd28b74cef6",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Resolvers File",
       "description": "File containing list of resolvers to use",
       "longFlag": "-rlist",
@@ -149,11 +172,13 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {},
-      "enumValues": []
+      "enumValues": [],
+      "key": "rlist",
+      "commandKey": "domain",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "01978ea4-4952-72d7-8bf9-8da9064a9603",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Update",
       "description": "Update subfinder to latest version",
       "longFlag": "-update",
@@ -165,15 +190,17 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {
-        "tags": ["non-configurable"]
+        "tags": [
+          "non-configurable"
+        ]
       },
       "enumValues": [],
       "dependencies": [],
-      "validations": []
+      "validations": [],
+      "key": "update",
+      "commandKey": "domain"
     },
     {
-      "id": "01978ea4-4952-738e-b392-b4f024e5a1a0",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Version",
       "description": "Show version of subfinder",
       "longFlag": "-version",
@@ -184,15 +211,17 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {
-        "tags": ["non-configurable"]
+        "tags": [
+          "non-configurable"
+        ]
       },
       "enumValues": [],
       "dependencies": [],
-      "validations": []
+      "validations": [],
+      "key": "version",
+      "commandKey": "domain"
     },
     {
-      "id": "01978ea4-4952-73db-bd93-c80f5262f7a5",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Exclude IPs",
       "description": "Exclude IPs from the list of domains",
       "longFlag": "-exclude-ip",
@@ -204,11 +233,13 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {},
-      "enumValues": []
+      "enumValues": [],
+      "key": "exclude-ip",
+      "commandKey": "domain",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "01978ea4-4952-7467-a4e8-2c6296409968",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Proxy",
       "description": "Http proxy to use with subfinder",
       "longFlag": "-proxy",
@@ -218,11 +249,13 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {},
-      "enumValues": []
+      "enumValues": [],
+      "key": "proxy",
+      "commandKey": "domain",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "01978ea4-4952-7477-b26c-1dc6df7e3e6b",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "No Colour in Output",
       "description": "Disable color in output",
       "longFlag": "-no-color",
@@ -234,15 +267,17 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {
-        "tags": ["non-configurable"]
+        "tags": [
+          "non-configurable"
+        ]
       },
       "enumValues": [],
       "dependencies": [],
-      "validations": []
+      "validations": [],
+      "key": "no-color",
+      "commandKey": "domain"
     },
     {
-      "id": "01978ea4-4952-74c5-8ed1-86e39b868af3",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Match",
       "description": "Subdomain or list of subdomain to match (file or comma separated)",
       "longFlag": "-match",
@@ -254,11 +289,13 @@
       "isRepeatable": true,
       "isGlobal": false,
       "metadata": {},
-      "enumValues": []
+      "enumValues": [],
+      "key": "match",
+      "commandKey": "domain",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "01978ea4-4952-75e4-9716-e40f90a6701e",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Include IP",
       "description": "Include host IP in output (-active only)",
       "longFlag": "-ip",
@@ -270,11 +307,13 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {},
-      "enumValues": []
+      "enumValues": [],
+      "key": "ip",
+      "commandKey": "domain",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "01978ea4-4952-76a2-884a-392d6de2f087",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Active Domains Only",
       "description": "Display active subdomains only",
       "longFlag": "-active",
@@ -286,11 +325,13 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {},
-      "enumValues": []
+      "enumValues": [],
+      "key": "active",
+      "commandKey": "domain",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "01978ea4-4952-76ee-979f-26be2eb99723",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Rate Limits",
       "description": "Maximum number of http requests to send per second for providers in key=value format (-rls hackertarget=10/m)",
       "longFlag": "-rate-limits",
@@ -302,11 +343,13 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {},
-      "enumValues": []
+      "enumValues": [],
+      "key": "rate-limits",
+      "commandKey": "domain",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "01978ea4-4952-774c-8599-fc04dc5c933a",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Disable Update Check",
       "description": "Disable automatic subfinder update check",
       "longFlag": "-disable-update-check",
@@ -318,15 +361,17 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {
-        "tags": ["non-configurable"]
+        "tags": [
+          "non-configurable"
+        ]
       },
       "enumValues": [],
       "dependencies": [],
-      "validations": []
+      "validations": [],
+      "key": "disable-update-check",
+      "commandKey": "domain"
     },
     {
-      "id": "01978ea4-4952-77cb-a274-4ab236a4c285",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Collect Sources",
       "description": "Include all sources in the output (-json only)",
       "longFlag": "-collect-sources",
@@ -338,11 +383,13 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {},
-      "enumValues": []
+      "enumValues": [],
+      "key": "collect-sources",
+      "commandKey": "domain",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "01978ea4-4952-7922-85e9-23cf941184e9",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Output File",
       "description": "File to write output to",
       "longFlag": "-output",
@@ -353,15 +400,17 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {
-        "tags": ["output-file"]
+        "tags": [
+          "output-file"
+        ]
       },
       "enumValues": [],
       "dependencies": [],
-      "validations": []
+      "validations": [],
+      "key": "output",
+      "commandKey": "domain"
     },
     {
-      "id": "01978ea4-4952-79a7-8277-781758f4e814",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Verbose Output",
       "description": "Show verbose output",
       "longFlag": "-v",
@@ -372,15 +421,17 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {
-        "tags": ["non-configurable"]
+        "tags": [
+          "non-configurable"
+        ]
       },
       "enumValues": [],
       "dependencies": [],
-      "validations": []
+      "validations": [],
+      "key": "v",
+      "commandKey": "domain"
     },
     {
-      "id": "01978ea4-4952-7b4a-9bc9-4201f84e6176",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Resolvers to use",
       "description": "Comma separated list of resolvers to use",
       "longFlag": "-r",
@@ -391,11 +442,13 @@
       "isRepeatable": true,
       "isGlobal": false,
       "metadata": {},
-      "enumValues": []
+      "enumValues": [],
+      "key": "r",
+      "commandKey": "domain",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "01978ea4-4952-7c05-a6a6-5c15e5228bfc",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Json",
       "description": "Write output in JSONL(ines) format",
       "longFlag": "-json",
@@ -407,11 +460,13 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {},
-      "enumValues": []
+      "enumValues": [],
+      "key": "json",
+      "commandKey": "domain",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "01978ea4-4952-7c14-b83b-5c04f065eecb",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Configuration file",
       "description": "Subfinder config file",
       "longFlag": "-config",
@@ -422,15 +477,17 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {
-        "tags": ["configuration-file"]
+        "tags": [
+          "configuration-file"
+        ]
       },
       "enumValues": [],
       "dependencies": [],
-      "validations": []
+      "validations": [],
+      "key": "config",
+      "commandKey": "domain"
     },
     {
-      "id": "01978ea4-4952-7c4d-aa5e-3007fb2742c4",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Rate Limit",
       "description": "Maximum number of http requests to send per second (global)",
       "longFlag": "-rate-limit",
@@ -441,11 +498,13 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {},
-      "enumValues": []
+      "enumValues": [],
+      "key": "rate-limit",
+      "commandKey": "domain",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "01978ea4-4952-7ca0-9dce-9ed92ed8e39f",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Filter",
       "description": "Subdomain or list of subdomain to filter (file or comma separated)",
       "longFlag": "-filter",
@@ -457,11 +516,13 @@
       "isRepeatable": true,
       "isGlobal": false,
       "metadata": {},
-      "enumValues": []
+      "enumValues": [],
+      "key": "filter",
+      "commandKey": "domain",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "01978ea4-4952-7d09-ba36-641ba3d7d574",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Silent",
       "description": "Show only subdomains in output",
       "longFlag": "-silent",
@@ -475,11 +536,11 @@
       "enumValues": [],
       "shortFlag": "",
       "dependencies": [],
-      "validations": []
+      "validations": [],
+      "key": "silent",
+      "commandKey": "domain"
     },
     {
-      "id": "01978ea4-4952-7d31-9135-93d49d2a6968",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "All Sources",
       "description": "Use all sources for enumeration (slow)",
       "longFlag": "-all",
@@ -492,11 +553,11 @@
       "metadata": {},
       "enumValues": [],
       "dependencies": [],
-      "validations": []
+      "validations": [],
+      "key": "all",
+      "commandKey": "domain"
     },
     {
-      "id": "01978ea4-4952-7d73-89a9-6cadb6b004ce",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "List Sources",
       "description": "List all available sources",
       "longFlag": "-list-sources",
@@ -508,11 +569,13 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {},
-      "enumValues": []
+      "enumValues": [],
+      "key": "list-sources",
+      "commandKey": "domain",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "01978ea4-4952-7dec-9727-0e32e82dd687",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Exclude Sources",
       "description": "Sources to exclude from enumeration (-es alienvault,zoomeyeapi)",
       "longFlag": "-exclude-sources",
@@ -524,11 +587,13 @@
       "isRepeatable": true,
       "isGlobal": false,
       "metadata": {},
-      "enumValues": []
+      "enumValues": [],
+      "key": "exclude-sources",
+      "commandKey": "domain",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "01978ea4-4952-7df5-9ff4-9715707ced01",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Max time",
       "description": "Minutes to wait for enumeration results (default 10)",
       "longFlag": "-max-time",
@@ -539,11 +604,13 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {},
-      "enumValues": []
+      "enumValues": [],
+      "key": "max-time",
+      "commandKey": "domain",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "01978ea4-4952-7e84-9fa1-3aef9abcb01c",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Threads",
       "description": "Number of concurrent goroutines for resolving (-active only) (default 10)",
       "longFlag": "-t",
@@ -554,11 +621,13 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {},
-      "enumValues": []
+      "enumValues": [],
+      "key": "t",
+      "commandKey": "domain",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "01978ea4-4952-7ede-9179-9a37bd10f67c",
-      "commandId": "01978ea4-4941-7b16-a838-0f9579f8aa5f",
       "name": "Provider Configuration file",
       "description": "Provider config file",
       "longFlag": "-provider-config",
@@ -570,14 +639,16 @@
       "isRepeatable": false,
       "isGlobal": false,
       "metadata": {
-        "tags": ["configuration-file"]
+        "tags": [
+          "configuration-file"
+        ]
       },
       "enumValues": [],
       "dependencies": [],
-      "validations": []
+      "validations": [],
+      "key": "provider-config",
+      "commandKey": "domain"
     }
   ],
-  "exclusionGroups": [],
-  "supportedInput": ["StandardInput", "Parameter"],
-  "supportedOutput": ["StandardOutput"]
+  "exclusionGroups": []
 }

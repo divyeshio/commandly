@@ -12,7 +12,6 @@ import { queryOptions } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { SearchIcon } from "lucide-react";
 import React, { Suspense, useState } from "react";
-import { v7 as uuidv7 } from "uuid";
 
 export const toolsQueryOptions = () =>
   queryOptions({
@@ -61,7 +60,6 @@ function RouteComponent() {
   }, [tools]);
 
   const handleNavigation = (importedTool: Tool) => {
-    importedTool.id = uuidv7();
     localStorage.setItem(`tool-${importedTool.name}`, JSON.stringify(importedTool));
     navigation({
       to: "/tools/$toolName/edit",
