@@ -13,16 +13,20 @@ import {
   removeSavedCommandFromStorage,
 } from "@/registry/commandly/lib/utils/commandly";
 import { useStore } from "@tanstack/react-store";
-import { SaveIcon, Edit2Icon, LayersIcon } from "lucide-react";
+import { SaveIcon, Edit2Icon, LayersIcon, GitPullRequestIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+
+const GITHUB_REPO = "divyeshio/commandly";
+const MAX_URL_JSON_LENGTH = 4000;
 
 interface ToolEditorProps {
   tool: Tool;
   onSave?: (tool: Tool) => void;
+  isNewTool?: boolean;
 }
 
-export default function ToolEditor({ tool: toolToEdit, onSave }: ToolEditorProps) {
+export default function ToolEditor({ tool: toolToEdit, onSave, isNewTool = false }: ToolEditorProps) {
   const tool = useStore(toolBuilderStore, (state) => state.tool);
 
   useEffect(() => {
@@ -30,6 +34,24 @@ export default function ToolEditor({ tool: toolToEdit, onSave }: ToolEditorProps
   }, [toolToEdit]);
 
   const [savedCommands, setSavedCommands] = useState<SavedCommand[]>([]);
+
+  const handleContribute = async () => {
+    const currentTool = toolBuilderStore.state.tool;
+    const json = JSON.stringify(currentTool, null, 2);
+    const template = isNewTool ? "new-tool.yml" : "edit-tool.yml";
+    const titlePrefix = isNewTool ? "tool(new)%3A+" : "tool(edit)%3A+";
+    const baseUrl = `https://github.com/${GITHUB_REPO}/issues/new?template=${template}&title=${titlePrefix}${encodeURIComponent(currentTool.name)}&tool_name=${encodeURIComponent(currentTool.name)}`;
+
+    if (json.length <= MAX_URL_JSON_LENGTH) {
+      window.open(`${baseUrl}&tool_json=${encodeURIComponent(json)}`, "_blank");
+    } else {
+      await navigator.clipboard.writeText(json);
+      toast("JSON copied to clipboard", {
+        description: "Paste it into the 'Tool JSON' field in the GitHub form that will open.",
+      });
+      window.open(baseUrl, "_blank");
+    }
+  };
 
   const handleDeleteCommand = (commandKey: string) => {
     const toolId = tool.name;
@@ -102,6 +124,14 @@ export default function ToolEditor({ tool: toolToEdit, onSave }: ToolEditorProps
               >
                 <LayersIcon className="mr-2 h-4 w-4" />
                 Exclusion Groups
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleContribute}
+              >
+                <GitPullRequestIcon className="mr-2 h-4 w-4" />
+                Contribute
               </Button>
             </div>
           </div>

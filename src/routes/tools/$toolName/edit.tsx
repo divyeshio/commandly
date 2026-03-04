@@ -41,10 +41,12 @@ export const Route = createFileRoute("/tools/$toolName/edit")({
 
 function RouteComponent() {
   const tool = Route.useLoaderData();
+  const { newTool } = Route.useSearch();
 
   return (
     <ToolEditor
       tool={tool!}
+      isNewTool={!!newTool}
       onSave={(tool) => {
         localStorage.setItem(`tool-${tool.name}`, JSON.stringify(tool));
       }}
