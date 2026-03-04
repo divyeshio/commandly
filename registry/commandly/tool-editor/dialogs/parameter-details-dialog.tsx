@@ -174,7 +174,6 @@ export function ParameterDetailsDialog() {
       parameterKey: parameter.key,
       value,
       displayName: "New Value",
-      description: "",
       isDefault: false,
       sortOrder: 0,
     };

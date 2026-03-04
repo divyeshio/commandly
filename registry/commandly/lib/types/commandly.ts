@@ -4,9 +4,9 @@ export const CommandSchema = z.object({
   key: z.string(),
   parentCommandKey: z.string().optional(),
   name: z.string(),
-  description: z.string(),
-  isDefault: z.boolean(),
-  sortOrder: z.number(),
+  description: z.string().optional(),
+  isDefault: z.boolean().optional(),
+  sortOrder: z.number().optional(),
 });
 export type Command = z.infer<typeof CommandSchema>;
 
@@ -15,9 +15,9 @@ export const ParameterEnumValueSchema = z.object({
   parameterKey: z.string(),
   value: z.string(),
   displayName: z.string(),
-  description: z.string(),
-  isDefault: z.boolean(),
-  sortOrder: z.number(),
+  description: z.string().optional(),
+  isDefault: z.boolean().optional(),
+  sortOrder: z.number().optional(),
 });
 export type ParameterEnumValue = z.infer<typeof ParameterEnumValueSchema>;
 
@@ -66,7 +66,7 @@ export const ParameterSchema = z.object({
   key: z.string(),
   name: z.string(),
   commandKey: z.string().optional(),
-  description: z.string(),
+  description: z.string().optional(),
   metadata: ParameterMetadataSchema.optional(),
   parameterType: ParameterTypeSchema,
   dataType: ParameterDataTypeSchema,

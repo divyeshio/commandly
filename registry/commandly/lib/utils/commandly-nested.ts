@@ -20,7 +20,7 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
             validationValue: v.validationValue,
             errorMessage: v.errorMessage,
           };
-        }) || [],
+        }),
       metadata: param.metadata,
       dataType: param.dataType,
       dependencies:
@@ -31,7 +31,7 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
             dependencyType: dep.dependencyType,
             conditionValue: dep.conditionValue,
           };
-        }) || [],
+        }),
     };
   };
 

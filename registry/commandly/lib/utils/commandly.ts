@@ -7,7 +7,7 @@ import type {
 } from "@/registry/commandly/lib/types/commandly";
 
 export const buildCommandHierarchy = (commands: Command[]): Command[] => {
-  return commands.sort((a, b) => a.sortOrder - b.sortOrder);
+  return commands.sort((a, b) => (a.sortOrder ?? commands.indexOf(a)) - (b.sortOrder ?? commands.indexOf(b)));
 };
 
 export const slugify = (text: string): string => {
@@ -98,7 +98,6 @@ export const flattenImportedData = (importedData: Record<string, unknown>): Tool
   const {
     name,
     displayName,
-    parameters = [],
     commands = [],
     exclusionGroups = [],
     metadata = {
@@ -114,7 +113,7 @@ export const flattenImportedData = (importedData: Record<string, unknown>): Tool
     metadata?: Tool["metadata"];
   };
 
-  const allParameters: Parameter[] = [...parameters];
+  const allParameters: Parameter[] = [];
 
   const flattenCommandParameters = (
     command: Record<string, unknown>,
@@ -172,8 +171,6 @@ export const defaultTool = (toolName?: string, displayName?: string): Tool => {
   return {
     name: finalToolName,
     displayName: displayName || "My Tool",
-    description: undefined,
-    version: "",
     commands: [
       {
         key: slugify(finalToolName),
@@ -195,16 +192,8 @@ export const defaultTool = (toolName?: string, displayName?: string): Tool => {
         shortFlag: "-h",
         longFlag: "--help",
         isRepeatable: false,
-        enumValues: [],
-        validations: [],
-        dependencies: [],
       },
     ],
-    exclusionGroups: [],
-    metadata: {
-      supportedInput: ["StandardInput"],
-      supportedOutput: ["StandardOutput"],
-    },
   };
 };
 
@@ -287,7 +276,6 @@ export const createNewCommand = (parentKey?: string): Command => {
     key: slugify(name),
     parentCommandKey: parentKey,
     name,
-    description: "",
     isDefault: false,
     sortOrder: 1,
   };
@@ -298,21 +286,12 @@ export const createNewParameter = (isGlobal: boolean, commandKey?: string): Para
     key: "",
     name: "",
     commandKey: isGlobal ? undefined : commandKey,
-    description: "",
     parameterType: "Option",
     dataType: "String",
     isRequired: false,
     isRepeatable: false,
     isGlobal,
-    defaultValue: "",
-    shortFlag: "",
     longFlag: "",
-    sortOrder: 0,
-    arraySeparator: ",",
-    keyValueSeparator: " ",
-    enumValues: [],
-    validations: [],
-    dependencies: [],
   };
 };
 

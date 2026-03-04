@@ -111,10 +111,7 @@
               },
               "required": [
                 "value",
-                "displayName",
-                "description",
-                "isDefault",
-                "sortOrder"
+                "displayName"
               ],
               "additionalProperties": false
             }
@@ -184,8 +181,7 @@
           "isRequired",
           "isRepeatable",
           "isGlobal",
-          "longFlag",
-          "enumValues"
+          "longFlag"
         ],
         "additionalProperties": false
       }
@@ -197,34 +193,41 @@
       }
     },
     "exclusionGroups": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "exclusionType": {
-            "type": "string",
-            "enum": [
-              "mutual_exclusive",
-              "required_one_of"
-            ]
-          },
-          "parameters": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+      "anyOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "exclusionType": {
+                "type": "string",
+                "enum": [
+                  "mutual_exclusive",
+                  "required_one_of"
+                ]
+              },
+              "parameters": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "name",
+              "exclusionType",
+              "parameters"
+            ],
+            "additionalProperties": false
           }
         },
-        "required": [
-          "name",
-          "exclusionType",
-          "parameters"
-        ],
-        "additionalProperties": false
-      }
+        {
+          "type": "null"
+        }
+      ]
     },
     "metadata": {
       "type": "object",
@@ -350,10 +353,7 @@
                   },
                   "required": [
                     "value",
-                    "displayName",
-                    "description",
-                    "isDefault",
-                    "sortOrder"
+                    "displayName"
                   ],
                   "additionalProperties": false
                 }
@@ -423,8 +423,7 @@
               "isRequired",
               "isRepeatable",
               "isGlobal",
-              "longFlag",
-              "enumValues"
+              "longFlag"
             ],
             "additionalProperties": false
           }
