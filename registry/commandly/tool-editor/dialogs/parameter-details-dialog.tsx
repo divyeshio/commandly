@@ -99,7 +99,20 @@ export function ParameterDetailsDialog() {
     setParameter((prev) => {
       const next = { ...prev, ...updates };
       if (updates.name || updates.longFlag) {
-        next.key = slugify(next.longFlag || next.name);
+        let generatedKey = slugify(next.longFlag || next.name);
+        
+        // Get current tool state to check for duplicate keys
+        const toolState = toolBuilderStore.state;
+        const existingParam = toolState.tool.parameters.find(
+          (p) => p.key === generatedKey && p.key !== prev.key
+        );
+        
+        // If duplicate exists and parameter is not global, prefix with command key
+        if (existingParam && !next.isGlobal && commandKey) {
+          generatedKey = `${commandKey}-${generatedKey}`;
+        }
+        
+        next.key = generatedKey;
       }
       return next;
     });
