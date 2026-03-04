@@ -167,21 +167,28 @@ jobs:
               `- [ ] Tested in the Commandly editor`,
             ].join("\n");
 
-            const { data: pr } = await github.rest.pulls.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: prTitle,
-              body: prBody,
-              head: branchName,
-              base: "main",
-            });
+            const compareUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/compare/main...${branchName}?expand=1&title=${encodeURIComponent(prTitle)}&body=${encodeURIComponent(prBody)}`;
 
-            // Comment on the issue with the PR link
+            let commentBody;
+            try {
+              const { data: pr } = await github.rest.pulls.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: prTitle,
+                body: prBody,
+                head: branchName,
+                base: "main",
+              });
+              commentBody = `✅ Thank you for your contribution! A pull request has been automatically created: ${pr.html_url}\n\nA maintainer will review it shortly.`;
+            } catch (prError) {
+              commentBody = `✅ Thank you for your contribution! The branch \`${branchName}\` has been created with your changes.\n\n**[Click here to open a pull request](${compareUrl})**\n\n> Note: Automatic PR creation is disabled for this repository. A maintainer can also open the PR on your behalf.`;
+            }
+
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: issueNumber,
-              body: `✅ Thank you for your contribution! A pull request has been automatically created: ${pr.html_url}\n\nA maintainer will review it shortly.`,
+              body: commentBody,
             });
 
             core.info(`Created PR #${pr.number}: ${pr.html_url}`);
