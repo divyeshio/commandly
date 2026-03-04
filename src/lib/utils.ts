@@ -1,13 +1,15 @@
+import type {
+  Command,
+  ExclusionGroup,
+  Parameter,
+  ParameterDependency,
+  ParameterEnumValue,
+  ParameterValidation,
+  Tool,
+} from "@/registry/commandly/lib/types/commandly";
+import { slugify } from "@/registry/commandly/lib/utils/commandly";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { slugify } from "@/registry/commandly/lib/utils/commandly";
-import type { Command,
-ExclusionGroup,
-Parameter,
-ParameterDependency,
-ParameterEnumValue,
-ParameterValidation,
-Tool } from "@/registry/commandly/lib/types/commandly";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -15,7 +17,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export function replaceKey(tool: Tool): Tool {
   // Deep clone the tool to avoid mutating the original
-  const clone = JSON.parse(JSON.stringify(tool))
+  const clone = JSON.parse(JSON.stringify(tool));
 
   // Remove the tool ID if it exists
   if (clone.id) delete clone.id;
@@ -39,21 +41,21 @@ export function replaceKey(tool: Tool): Tool {
   clone.parameters.forEach((param: Parameter) => {
     const oldKey = param.key;
     mapKey(oldKey, slugify(param.longFlag || param.name));
-    
+
     if (param.enumValues) {
       param.enumValues.forEach((ev: ParameterEnumValue) => {
         const oldEvKey = ev.key;
         mapKey(oldEvKey, slugify(ev.value));
       });
     }
-    
+
     if (param.validations) {
       param.validations.forEach((val: ParameterValidation) => {
         const oldValKey = val.key;
         mapKey(oldValKey, slugify(`${val.validationType}-${val.validationValue}`));
       });
     }
-    
+
     if (param.dependencies) {
       param.dependencies.forEach((dep: ParameterDependency) => {
         const oldDepKey = dep.key;
@@ -87,7 +89,7 @@ export function replaceKey(tool: Tool): Tool {
   clone.parameters = clone.parameters.map((param: Parameter) => {
     const oldKey = param.key;
     const commandKey = param.commandKey;
-    
+
     const newParam = {
       ...param,
       id: undefined,
@@ -139,7 +141,7 @@ export function replaceKey(tool: Tool): Tool {
       const oldKey = group.key;
       const commandKey = group.commandKey;
       const parameterKeys = group.parameterKeys || [];
-      
+
       return {
         ...group,
         id: undefined,

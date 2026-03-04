@@ -14,4 +14,3 @@ writeFileSync(flatOutputPath, JSON.stringify(flatJsonSchema, null, 2));
 const nestedJsonSchema = z.toJSONSchema(NestedToolSchema);
 const nestedOutputPath = join(process.cwd(), "public", "specification", "nested.json");
 writeFileSync(nestedOutputPath, JSON.stringify(nestedJsonSchema, null, 2));
-

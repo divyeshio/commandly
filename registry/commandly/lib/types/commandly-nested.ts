@@ -1,4 +1,3 @@
-import { z } from "zod/v4";
 import {
   ExclusionTypeSchema,
   ParameterDataTypeSchema,
@@ -8,6 +7,7 @@ import {
   ParameterTypeSchema,
   ParameterValidationSchema,
 } from "./commandly";
+import { z } from "zod/v4";
 
 export const NestedParameterEnumValueSchema = ParameterEnumValueSchema.omit({
   key: true,

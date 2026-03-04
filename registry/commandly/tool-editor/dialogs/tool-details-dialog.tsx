@@ -11,10 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  SupportedToolInputType,
-  SupportedToolOutputType,
-} from "@/lib/types";
+import { SupportedToolInputType, SupportedToolOutputType } from "@/lib/types";
 import { TagsInput } from "@/registry/commandly/ui/tags-input";
 import { useStore } from "@tanstack/react-store";
 import { SettingsIcon } from "lucide-react";
