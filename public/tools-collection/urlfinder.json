@@ -11,7 +11,6 @@
       "StandardOutput"
     ]
   },
-  "exclusionGroups": [],
   "commands": [
     {
       "name": "urlfinder",
@@ -63,9 +62,6 @@
     {
       "name": "Sources",
       "description": "Specific sources for discovery (e.g., -s alienvault,commoncrawl)",
-      "metadata": {
-        "tags": []
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -80,9 +76,6 @@
     {
       "name": "Exclude-sources",
       "description": "Sources to exclude (e.g., -es alienvault,commoncrawl)",
-      "metadata": {
-        "tags": []
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -97,9 +90,6 @@
     {
       "name": "All",
       "description": "Use all sources (may be slower)",
-      "metadata": {
-        "tags": []
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "defaultValue": "true",
