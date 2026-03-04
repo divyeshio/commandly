@@ -33,7 +33,7 @@ interface ParameterLabelProps {
   shortFlag?: string;
   isRequired?: boolean;
   isGlobal?: boolean;
-  description: string;
+  description?: string;
   className?: string;
   children?: React.ReactNode;
 }

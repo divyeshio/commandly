@@ -7,7 +7,9 @@ import type {
 } from "@/registry/commandly/lib/types/commandly";
 
 export const buildCommandHierarchy = (commands: Command[]): Command[] => {
-  return commands.sort((a, b) => (a.sortOrder ?? commands.indexOf(a)) - (b.sortOrder ?? commands.indexOf(b)));
+  return commands.sort(
+    (a, b) => (a.sortOrder ?? commands.indexOf(a)) - (b.sortOrder ?? commands.indexOf(b)),
+  );
 };
 
 export const slugify = (text: string): string => {
