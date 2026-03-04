@@ -101,7 +101,7 @@ export function CommandDialog({ isOpen, onOpenChange }: CommandDialogProps) {
           <Button
             variant="outline"
             onClick={() => {
-              toolBuilderActions.updateCommand(editCommand.id, editCommand);
+              toolBuilderActions.updateCommand(editCommand.key, editCommand);
               onOpenChange(false);
             }}
           >

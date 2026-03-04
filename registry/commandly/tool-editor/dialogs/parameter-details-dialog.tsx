@@ -31,7 +31,7 @@ import {
   ParameterValidation,
   ParameterValidationType,
 } from "@/registry/commandly/lib/types/commandly";
-import { validateDefaultValue } from "@/registry/commandly/lib/utils/commandly";
+import { slugify, validateDefaultValue } from "@/registry/commandly/lib/utils/commandly";
 import { TagsInput } from "@/registry/commandly/ui/tags-input";
 import { useStore } from "@tanstack/react-store";
 import {
@@ -44,19 +44,18 @@ import {
   Trash2Icon,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { v7 as uuidv7 } from "uuid";
 
 export function ParameterDetailsDialog() {
   const selectedParameter = useStore(toolBuilderStore, (state) => state.selectedParameter);
 
-  const commandId = useStore(toolBuilderStore, (state) => state.selectedCommand?.id);
+  const commandKey = useStore(toolBuilderStore, (state) => state.selectedCommand?.key);
 
   const availableParameters = useStore(toolBuilderStore, (state) => {
     if (!selectedParameter) return [];
     return state.tool.parameters.filter((p) => {
-      if (p.id === selectedParameter.id) return false;
+      if (p.key === selectedParameter.key) return false;
       if (selectedParameter.isGlobal) return p.isGlobal;
-      return p.isGlobal || p.commandId === commandId;
+      return p.isGlobal || p.commandKey === commandKey;
     });
   });
 
@@ -97,17 +96,24 @@ export function ParameterDetailsDialog() {
   };
 
   const updateParameter = (updates: Partial<Parameter>) => {
-    setParameter((prev) => ({ ...prev, ...updates }));
+    setParameter((prev) => {
+      const next = { ...prev, ...updates };
+      if (updates.name || updates.longFlag) {
+        next.key = slugify(next.longFlag || next.name);
+      }
+      return next;
+    });
     setHasChanges(true);
   };
 
   const addDependency = () => {
     if (!parameter || availableParameters.length === 0) return;
 
+    const dependsOnParameterKey = availableParameters[0].key;
     const newDependency: ParameterDependency = {
-      id: uuidv7(),
-      parameterId: parameter.id,
-      dependsOnParameterId: availableParameters[0].id,
+      key: slugify(`${parameter.key}-${dependsOnParameterKey}`),
+      parameterKey: parameter.key,
+      dependsOnParameterKey,
       dependencyType: "requires",
     };
 
@@ -116,27 +122,29 @@ export function ParameterDetailsDialog() {
     });
   };
 
-  const updateDependency = (dependencyId: string, updates: Partial<ParameterDependency>) => {
+  const updateDependency = (dependencyKey: string, updates: Partial<ParameterDependency>) => {
     if (!parameter) return;
     const updatedDependencies = parameter.dependencies?.map((dep) =>
-      dep.id === dependencyId ? { ...dep, ...updates } : dep,
+      dep.key === dependencyKey ? { ...dep, ...updates } : dep,
     );
     updateParameter({ dependencies: updatedDependencies });
   };
 
-  const removeDependency = (dependencyId: string) => {
+  const removeDependency = (dependencyKey: string) => {
     if (!parameter) return;
-    const updatedDependencies = parameter.dependencies?.filter((dep) => dep.id !== dependencyId);
+    const updatedDependencies = parameter.dependencies?.filter((dep) => dep.key !== dependencyKey);
     updateParameter({ dependencies: updatedDependencies });
   };
 
   const addValidation = () => {
     if (!parameter) return;
+    const validationType = "min_length";
+    const validationValue = "1";
     const newValidation: ParameterValidation = {
-      id: uuidv7(),
-      parameterId: parameter.id,
-      validationType: "min_length",
-      validationValue: "1",
+      key: slugify(`${parameter.key}-${validationType}-${validationValue}`),
+      parameterKey: parameter.key,
+      validationType,
+      validationValue,
       errorMessage: "Value is too short",
     };
 
@@ -147,10 +155,11 @@ export function ParameterDetailsDialog() {
 
   const addEnumValue = () => {
     if (!parameter) return;
+    const value = "new-value";
     const newEnumValue: ParameterEnumValue = {
-      id: uuidv7(),
-      parameterId: parameter.id,
-      value: "new-value",
+      key: slugify(value),
+      parameterKey: parameter.key,
+      value,
       displayName: "New Value",
       description: "",
       isDefault: false,
@@ -405,13 +414,13 @@ export function ParameterDetailsDialog() {
               {parameter.dependencies &&
                 parameter.dependencies.map((dependency) => (
                   <div
-                    key={dependency.id}
+                    key={dependency.key}
                     className="flex items-center gap-2 rounded border p-2"
                   >
                     <Select
                       value={dependency.dependencyType}
                       onValueChange={(value: ParameterDependencyType) =>
-                        updateDependency(dependency.id, {
+                        updateDependency(dependency.key, {
                           dependencyType: value,
                         })
                       }
@@ -425,10 +434,10 @@ export function ParameterDetailsDialog() {
                       </SelectContent>
                     </Select>
                     <Select
-                      value={dependency.dependsOnParameterId}
+                      value={dependency.dependsOnParameterKey}
                       onValueChange={(value) =>
-                        updateDependency(dependency.id, {
-                          dependsOnParameterId: value,
+                        updateDependency(dependency.key, {
+                          dependsOnParameterKey: value,
                         })
                       }
                     >
@@ -438,8 +447,8 @@ export function ParameterDetailsDialog() {
                       <SelectContent>
                         {availableParameters.map((param) => (
                           <SelectItem
-                            key={param.id}
-                            value={param.id}
+                            key={param.key}
+                            value={param.key}
                           >
                             {param.name}
                             {param.isGlobal && " (global)"}
@@ -450,7 +459,7 @@ export function ParameterDetailsDialog() {
                     <Button
                       size="sm"
                       variant="ghost"
-                      onClick={() => removeDependency(dependency.id)}
+                      onClick={() => removeDependency(dependency.key)}
                     >
                       <Trash2Icon className="h-3 w-3" />
                     </Button>
@@ -481,14 +490,14 @@ export function ParameterDetailsDialog() {
               {parameter.validations &&
                 parameter.validations.map((validation) => (
                   <div
-                    key={validation.id}
+                    key={validation.key}
                     className="flex items-center gap-2 rounded border p-2"
                   >
                     <Select
                       value={validation.validationType}
                       onValueChange={(value: ParameterValidationType) => {
                         const updatedValidations = parameter.validations?.map((v) =>
-                          v.id === validation.id ? { ...v, validationType: value } : v,
+                          v.key === validation.key ? { ...v, validationType: value } : v,
                         );
                         updateParameter({
                           validations: updatedValidations,
@@ -510,7 +519,7 @@ export function ParameterDetailsDialog() {
                       value={validation.validationValue}
                       onChange={(e) => {
                         const updatedValidations = parameter.validations?.map((v) =>
-                          v.id === validation.id ? { ...v, validationValue: e.target.value } : v,
+                          v.key === validation.key ? { ...v, validationValue: e.target.value } : v,
                         );
                         updateParameter({
                           validations: updatedValidations,
@@ -524,7 +533,7 @@ export function ParameterDetailsDialog() {
                       variant="ghost"
                       onClick={() => {
                         const updatedValidations = parameter.validations?.filter(
-                          (v) => v.id !== validation.id,
+                          (v) => v.key !== validation.key,
                         );
                         updateParameter({
                           validations: updatedValidations,
@@ -565,14 +574,16 @@ export function ParameterDetailsDialog() {
                 >
                   {parameter.enumValues.map((enumValue) => (
                     <div
-                      key={enumValue.id}
+                      key={enumValue.key}
                       className="flex items-center gap-2 rounded border p-2"
                     >
                       <Input
                         value={enumValue.value}
                         onChange={(e) => {
                           const updatedEnumValues = parameter.enumValues.map((ev) =>
-                            ev.id === enumValue.id ? { ...ev, value: e.target.value } : ev,
+                            ev.key === enumValue.key
+                              ? { ...ev, value: e.target.value, key: slugify(e.target.value) }
+                              : ev,
                           );
                           updateParameter({
                             enumValues: updatedEnumValues,
@@ -585,7 +596,7 @@ export function ParameterDetailsDialog() {
                         value={enumValue.displayName}
                         onChange={(e) => {
                           const updatedEnumValues = parameter.enumValues.map((ev) =>
-                            ev.id === enumValue.id ? { ...ev, displayName: e.target.value } : ev,
+                            ev.key === enumValue.key ? { ...ev, displayName: e.target.value } : ev,
                           );
                           updateParameter({
                             enumValues: updatedEnumValues,
@@ -598,7 +609,7 @@ export function ParameterDetailsDialog() {
                         checked={enumValue.isDefault}
                         onCheckedChange={(checked) => {
                           const updatedEnumValues = parameter.enumValues.map((ev) =>
-                            ev.id === enumValue.id ? { ...ev, isDefault: checked } : ev,
+                            ev.key === enumValue.key ? { ...ev, isDefault: checked } : ev,
                           );
                           updateParameter({
                             enumValues: updatedEnumValues,
@@ -610,7 +621,7 @@ export function ParameterDetailsDialog() {
                         variant="ghost"
                         onClick={() => {
                           const updatedEnumValues = parameter.enumValues.filter(
-                            (ev) => ev.id !== enumValue.id,
+                            (ev) => ev.key !== enumValue.key,
                           );
                           updateParameter({
                             enumValues: updatedEnumValues,

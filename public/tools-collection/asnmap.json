@@ -4,21 +4,21 @@
   "description": "Go CLI and Library for quickly mapping organization network ranges using ASN information.",
   "commands": [
     {
-      "id": "123e4567-89ab-7cd1-8ef0-1234567890ab",
       "name": "asnmap",
       "description": "This will display help for the tool. Here are all the flag it supports.",
       "isDefault": true,
-      "sortOrder": 1
+      "sortOrder": 1,
+      "key": "asnmap"
     }
   ],
   "parameters": [
     {
-      "id": "223e4567-89ab-7cd1-8ef0-1234567890ac",
       "name": "Asn",
-      "commandId": "123e4567-89ab-7cd1-8ef0-1234567890ab",
       "description": "target asn to lookup, example: -a AS5650",
       "metadata": {
-        "tags": ["INPUT"]
+        "tags": [
+          "INPUT"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -31,15 +31,19 @@
       "sortOrder": 1,
       "arraySeparator": ",",
       "keyValueSeparator": " ",
-      "enumValues": []
+      "enumValues": [],
+      "key": "asn",
+      "commandKey": "asnmap",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "323e4567-89ab-7cd1-8ef0-1234567890ad",
       "name": "Ip",
-      "commandId": "123e4567-89ab-7cd1-8ef0-1234567890ab",
       "description": "target ip to lookup, example: -i 100.19.12.21, -i 2a10:ad40::",
       "metadata": {
-        "tags": ["INPUT"]
+        "tags": [
+          "INPUT"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -52,15 +56,19 @@
       "sortOrder": 2,
       "arraySeparator": ",",
       "keyValueSeparator": " ",
-      "enumValues": []
+      "enumValues": [],
+      "key": "ip",
+      "commandKey": "asnmap",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "423e4567-89ab-7cd1-8ef0-1234567890ae",
       "name": "Domain",
-      "commandId": "123e4567-89ab-7cd1-8ef0-1234567890ab",
       "description": "target domain to lookup, example: -d google.com, -d facebook.com",
       "metadata": {
-        "tags": ["INPUT"]
+        "tags": [
+          "INPUT"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -73,15 +81,19 @@
       "sortOrder": 3,
       "arraySeparator": ",",
       "keyValueSeparator": " ",
-      "enumValues": []
+      "enumValues": [],
+      "key": "domain",
+      "commandKey": "asnmap",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "523e4567-89ab-7cd1-8ef0-1234567890af",
       "name": "Org",
-      "commandId": "123e4567-89ab-7cd1-8ef0-1234567890ab",
       "description": "target organization to lookup, example: -org GOOGLE",
       "metadata": {
-        "tags": ["INPUT"]
+        "tags": [
+          "INPUT"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -93,15 +105,19 @@
       "sortOrder": 4,
       "arraySeparator": ",",
       "keyValueSeparator": " ",
-      "enumValues": []
+      "enumValues": [],
+      "key": "org",
+      "commandKey": "asnmap",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "623e4567-89ab-7cd1-8ef0-1234567890b0",
       "name": "File",
-      "commandId": "123e4567-89ab-7cd1-8ef0-1234567890ab",
       "description": "targets to lookup from file",
       "metadata": {
-        "tags": ["INPUT"]
+        "tags": [
+          "INPUT"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -114,15 +130,19 @@
       "sortOrder": 5,
       "arraySeparator": ",",
       "keyValueSeparator": " ",
-      "enumValues": []
+      "enumValues": [],
+      "key": "file",
+      "commandKey": "asnmap",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "723e4567-89ab-7cd1-8ef0-1234567890b1",
       "name": "Config",
-      "commandId": "123e4567-89ab-7cd1-8ef0-1234567890ab",
       "description": "path to the asnmap configuration file",
       "metadata": {
-        "tags": ["CONFIGURATIONS"]
+        "tags": [
+          "CONFIGURATIONS"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -133,15 +153,19 @@
       "longFlag": "-config",
       "sortOrder": 6,
       "keyValueSeparator": " ",
-      "enumValues": []
+      "enumValues": [],
+      "key": "config",
+      "commandKey": "asnmap",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "823e4567-89ab-7cd1-8ef0-1234567890b2",
       "name": "Resolvers",
-      "commandId": "123e4567-89ab-7cd1-8ef0-1234567890ab",
       "description": "list of resolvers to use",
       "metadata": {
-        "tags": ["CONFIGURATIONS"]
+        "tags": [
+          "CONFIGURATIONS"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -154,15 +178,19 @@
       "sortOrder": 7,
       "arraySeparator": ",",
       "keyValueSeparator": " ",
-      "enumValues": []
+      "enumValues": [],
+      "key": "resolvers",
+      "commandKey": "asnmap",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "923e4567-89ab-7cd1-8ef0-1234567890b3",
       "name": "Up",
-      "commandId": "123e4567-89ab-7cd1-8ef0-1234567890ab",
       "description": "update asnmap to latest version",
       "metadata": {
-        "tags": ["UPDATE"]
+        "tags": [
+          "UPDATE"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -173,15 +201,19 @@
       "shortFlag": "-up",
       "longFlag": "-update",
       "sortOrder": 8,
-      "enumValues": []
+      "enumValues": [],
+      "key": "update",
+      "commandKey": "asnmap",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "a23e4567-89ab-7cd1-8ef0-1234567890b4",
       "name": "Duc",
-      "commandId": "123e4567-89ab-7cd1-8ef0-1234567890ab",
       "description": "disable automatic asnmap update check",
       "metadata": {
-        "tags": ["UPDATE"]
+        "tags": [
+          "UPDATE"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -192,15 +224,19 @@
       "shortFlag": "-duc",
       "longFlag": "-disable-update-check",
       "sortOrder": 9,
-      "enumValues": []
+      "enumValues": [],
+      "key": "disable-update-check",
+      "commandKey": "asnmap",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "b23e4567-89ab-7cd1-8ef0-1234567890b5",
       "name": "Output File",
-      "commandId": "123e4567-89ab-7cd1-8ef0-1234567890ab",
       "description": "file to write output to",
       "metadata": {
-        "tags": ["OUTPUT"]
+        "tags": [
+          "OUTPUT"
+        ]
       },
       "parameterType": "Option",
       "dataType": "String",
@@ -214,15 +250,17 @@
       "keyValueSeparator": " ",
       "enumValues": [],
       "validations": [],
-      "dependencies": []
+      "dependencies": [],
+      "key": "output",
+      "commandKey": "asnmap"
     },
     {
-      "id": "c23e4567-89ab-7cd1-8ef0-1234567890b6",
       "name": "Json Output",
-      "commandId": "123e4567-89ab-7cd1-8ef0-1234567890ab",
       "description": "display json format output",
       "metadata": {
-        "tags": ["OUTPUT"]
+        "tags": [
+          "OUTPUT"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -235,15 +273,17 @@
       "sortOrder": 11,
       "enumValues": [],
       "validations": [],
-      "dependencies": []
+      "dependencies": [],
+      "key": "json",
+      "commandKey": "asnmap"
     },
     {
-      "id": "d23e4567-89ab-7cd1-8ef0-1234567890b7",
       "name": "CSV Output",
-      "commandId": "123e4567-89ab-7cd1-8ef0-1234567890ab",
       "description": "display csv format output",
       "metadata": {
-        "tags": ["OUTPUT"]
+        "tags": [
+          "OUTPUT"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -256,15 +296,17 @@
       "sortOrder": 12,
       "enumValues": [],
       "validations": [],
-      "dependencies": []
+      "dependencies": [],
+      "key": "csv",
+      "commandKey": "asnmap"
     },
     {
-      "id": "e23e4567-89ab-7cd1-8ef0-1234567890b8",
       "name": "V6",
-      "commandId": "123e4567-89ab-7cd1-8ef0-1234567890ab",
       "description": "display ipv6 cidr ranges in cli output",
       "metadata": {
-        "tags": ["OUTPUT"]
+        "tags": [
+          "OUTPUT"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -274,15 +316,19 @@
       "defaultValue": "",
       "longFlag": "-v6",
       "sortOrder": 13,
-      "enumValues": []
+      "enumValues": [],
+      "key": "v6",
+      "commandKey": "asnmap",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "f23e4567-89ab-7cd1-8ef0-1234567890b9",
       "name": "Verbose Output",
-      "commandId": "123e4567-89ab-7cd1-8ef0-1234567890ab",
       "description": "display verbose output",
       "metadata": {
-        "tags": ["OUTPUT"]
+        "tags": [
+          "OUTPUT"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -295,15 +341,17 @@
       "sortOrder": 14,
       "enumValues": [],
       "validations": [],
-      "dependencies": []
+      "dependencies": [],
+      "key": "verbose",
+      "commandKey": "asnmap"
     },
     {
-      "id": "a33e4567-89ab-7cd1-8ef0-1234567890ba",
       "name": "Silent",
-      "commandId": "123e4567-89ab-7cd1-8ef0-1234567890ab",
       "description": "display silent output",
       "metadata": {
-        "tags": ["OUTPUT"]
+        "tags": [
+          "OUTPUT"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -313,15 +361,19 @@
       "defaultValue": "",
       "longFlag": "-silent",
       "sortOrder": 15,
-      "enumValues": []
+      "enumValues": [],
+      "key": "silent",
+      "commandKey": "asnmap",
+      "validations": [],
+      "dependencies": []
     },
     {
-      "id": "e33e4567-89ab-7cd1-8ef0-1234567890bb",
       "name": "Version",
-      "commandId": "123e4567-89ab-7cd1-8ef0-1234567890ab",
       "description": "show version of the project",
       "metadata": {
-        "tags": ["OUTPUT"]
+        "tags": [
+          "OUTPUT"
+        ]
       },
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -331,10 +383,19 @@
       "defaultValue": "",
       "longFlag": "-version",
       "sortOrder": 16,
-      "enumValues": []
+      "enumValues": [],
+      "key": "version",
+      "commandKey": "asnmap",
+      "validations": [],
+      "dependencies": []
     }
   ],
   "exclusionGroups": [],
-  "supportedInput": ["Parameter"],
-  "supportedOutput": ["StandardOutput", "File"]
+  "supportedInput": [
+    "Parameter"
+  ],
+  "supportedOutput": [
+    "StandardOutput",
+    "File"
+  ]
 }

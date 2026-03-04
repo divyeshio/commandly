@@ -20,12 +20,12 @@ export function ExclusionGroupsDialog() {
   const open = useStore(toolBuilderStore, (state) => state.dialogs.exclusionGroups);
 
   const exclusionGroups = useStore(toolBuilderStore, (state) => {
-    const commandId = state.selectedCommand?.id;
-    return commandId ? toolBuilderSelectors.getExclusionGroupsForCommand(state, commandId) : [];
+    const commandKey = state.selectedCommand?.key;
+    return commandKey ? toolBuilderSelectors.getExclusionGroupsForCommand(state, commandKey) : [];
   });
   const parameters = useStore(toolBuilderStore, (state) => {
-    const commandId = state.selectedCommand?.id;
-    return commandId ? toolBuilderSelectors.getParametersForCommand(state, commandId) : [];
+    const commandKey = state.selectedCommand?.key;
+    return commandKey ? toolBuilderSelectors.getParametersForCommand(state, commandKey) : [];
   });
 
   const [editingGroup, setEditingGroup] = useState<Partial<ExclusionGroup> | undefined>();
@@ -34,18 +34,18 @@ export function ExclusionGroupsDialog() {
     setEditingGroup({
       name: "",
       exclusionType: "mutual_exclusive",
-      parameterIds: [],
-      commandId: selectedCommand?.id,
+      parameterKeys: [],
+      commandKey: selectedCommand?.key,
     });
   };
 
   const handleSaveGroup = () => {
     if (!editingGroup?.name || !editingGroup.exclusionType) return;
 
-    if (editingGroup.id) {
+    if (editingGroup.key) {
       toolBuilderActions.updateExclusionGroup(editingGroup as ExclusionGroup);
     } else {
-      toolBuilderActions.addExclusionGroup(editingGroup as Omit<ExclusionGroup, "id">);
+      toolBuilderActions.addExclusionGroup(editingGroup as Omit<ExclusionGroup, "key">);
     }
     setEditingGroup(undefined);
   };
@@ -63,18 +63,18 @@ export function ExclusionGroupsDialog() {
         <div className="mt-4 space-y-4">
           {exclusionGroups.map((group) => (
             <div
-              key={group.id}
+              key={group.key}
               className="flex items-center justify-between rounded border p-3"
             >
               <div>
                 <h4 className="font-medium">{group.name}</h4>
                 <div className="mt-1 flex gap-1">
-                  {group.parameterIds.map((id) => {
-                    const param = parameters.find((p) => p.id === id);
+                  {group.parameterKeys.map((key) => {
+                    const param = parameters.find((p) => p.key === key);
                     return (
                       param && (
                         <span
-                          key={id}
+                          key={key}
                           className="rounded bg-muted px-1.5 py-0.5 text-xs"
                         >
                           {param.name}
@@ -95,7 +95,7 @@ export function ExclusionGroupsDialog() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => toolBuilderActions.removeExclusionGroup(group.id!)}
+                  onClick={() => toolBuilderActions.removeExclusionGroup(group.key!)}
                 >
                   <TrashIcon className="h-4 w-4" />
                 </Button>
@@ -152,7 +152,7 @@ export function ExclusionGroupsDialog() {
                   onValueChange={(value) =>
                     setEditingGroup({
                       ...editingGroup,
-                      parameterIds: [...(editingGroup.parameterIds || []), value],
+                      parameterKeys: [...(editingGroup.parameterKeys || []), value],
                     })
                   }
                 >
@@ -161,11 +161,11 @@ export function ExclusionGroupsDialog() {
                   </SelectTrigger>
                   <SelectContent>
                     {parameters
-                      .filter((p) => !editingGroup.parameterIds?.includes(p.id))
+                      .filter((p) => !editingGroup.parameterKeys?.includes(p.key))
                       .map((param) => (
                         <SelectItem
-                          key={param.id}
-                          value={param.id}
+                          key={param.key}
+                          value={param.key}
                         >
                           {param.name}
                         </SelectItem>
@@ -174,12 +174,12 @@ export function ExclusionGroupsDialog() {
                 </Select>
 
                 <div className="mt-2 flex flex-wrap gap-1">
-                  {editingGroup.parameterIds?.map((id) => {
-                    const param = parameters.find((p) => p.id === id);
+                  {editingGroup.parameterKeys?.map((key) => {
+                    const param = parameters.find((p) => p.key === key);
                     return (
                       param && (
                         <span
-                          key={id}
+                          key={key}
                           className="flex items-center gap-1 rounded bg-muted px-2 py-1 text-sm"
                         >
                           {param.name}
@@ -190,8 +190,8 @@ export function ExclusionGroupsDialog() {
                             onClick={() =>
                               setEditingGroup({
                                 ...editingGroup,
-                                parameterIds: editingGroup.parameterIds?.filter(
-                                  (pid) => pid !== id,
+                                parameterKeys: editingGroup.parameterKeys?.filter(
+                                  (pk) => pk !== key,
                                 ),
                               })
                             }

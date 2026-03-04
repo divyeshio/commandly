@@ -45,20 +45,20 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
     toolBuilderSelectors.getGlobalParameters(state),
   );
   const commandParameters = useStore(toolBuilderStore, (state: ToolBuilderState) =>
-    selectedCommand?.id
-      ? toolBuilderSelectors.getParametersForCommand(state, selectedCommand.id)
+    selectedCommand?.key
+      ? toolBuilderSelectors.getParametersForCommand(state, selectedCommand.key)
       : [],
   );
   const exclusionGroups = useStore(toolBuilderStore, (state: ToolBuilderState) =>
-    selectedCommand?.id
-      ? toolBuilderSelectors.getExclusionGroupsForCommand(state, selectedCommand.id)
+    selectedCommand?.key
+      ? toolBuilderSelectors.getExclusionGroupsForCommand(state, selectedCommand.key)
       : [],
   );
 
   const parameters = isGlobal ? globalParameters : commandParameters;
 
-  const getParameterExclusionGroups = (parameterId: string): ExclusionGroup[] => {
-    return exclusionGroups.filter((group) => group.parameterIds.includes(parameterId));
+  const getParameterExclusionGroups = (parameterKey: string): ExclusionGroup[] => {
+    return exclusionGroups.filter((group) => group.parameterKeys.includes(parameterKey));
   };
 
   return (
@@ -71,7 +71,7 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
         <Button
           onClick={() =>
             toolBuilderActions.setSelectedParameter(
-              createNewParameter(isGlobal, selectedCommand?.id),
+              createNewParameter(isGlobal, selectedCommand?.key),
             )
           }
           size="sm"
@@ -83,11 +83,11 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
       <div className="space-y-2">
         {parameters.map((parameter) => {
           const validation = validateDefaultValue(parameter);
-          const paramGroups = getParameterExclusionGroups(parameter.id);
+          const paramGroups = getParameterExclusionGroups(parameter.key);
 
           return (
             <div
-              key={parameter.id}
+              key={parameter.key}
               className={"cursor-pointer rounded border p-3 hover:bg-muted/50"}
               onClick={() => toolBuilderActions.setSelectedParameter(parameter)}
             >
@@ -109,7 +109,7 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
                   className="h-6 w-6 p-0"
                   onClick={(e) => {
                     e.stopPropagation();
-                    toolBuilderActions.removeParameter(parameter.id);
+                    toolBuilderActions.removeParameter(parameter.key);
                   }}
                 >
                   <Trash2Icon className="h-3 w-3 text-destructive" />
@@ -146,7 +146,7 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
                 )}
                 {paramGroups.map((group) => (
                   <Badge
-                    key={group.id}
+                    key={group.key}
                     variant="secondary"
                     className="flex items-center gap-1 bg-muted text-xs"
                   >

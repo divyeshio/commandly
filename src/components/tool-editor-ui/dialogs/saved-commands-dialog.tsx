@@ -61,7 +61,7 @@ export function SavedCommandsDialog({ savedCommands, onDeleteCommand }: SavedCom
               savedCommands.length > 0 &&
               savedCommands.map((savedCommand) => (
                 <div
-                  key={savedCommand.id}
+                  key={savedCommand.key}
                   className="space-y-3 rounded-lg border p-3"
                 >
                   <div className="flex items-center justify-end gap-2">
@@ -75,7 +75,7 @@ export function SavedCommandsDialog({ savedCommands, onDeleteCommand }: SavedCom
                     <Button
                       variant="ghost"
                       size="icon"
-                      onClick={() => deleteCommand(savedCommand.id)}
+                      onClick={() => deleteCommand(savedCommand.key)}
                     >
                       <Trash2Icon className="h-4 w-4" />
                     </Button>

@@ -1,8 +1,8 @@
 import { z } from "zod/v4";
 
 export const CommandSchema = z.object({
-  id: z.uuidv7(),
-  parentCommandId: z.uuidv7().optional(),
+  key: z.string(),
+  parentCommandKey: z.string().optional(),
   name: z.string(),
   description: z.string(),
   isDefault: z.boolean(),
@@ -11,8 +11,8 @@ export const CommandSchema = z.object({
 export type Command = z.infer<typeof CommandSchema>;
 
 export const ParameterEnumValueSchema = z.object({
-  id: z.uuidv7(),
-  parameterId: z.uuidv7(),
+  key: z.string(),
+  parameterKey: z.string(),
   value: z.string(),
   displayName: z.string(),
   description: z.string(),
@@ -31,8 +31,8 @@ export const ParameterValidationTypeSchema = z.enum([
 export type ParameterValidationType = z.infer<typeof ParameterValidationTypeSchema>;
 
 export const ParameterValidationSchema = z.object({
-  id: z.string(),
-  parameterId: z.string(),
+  key: z.string(),
+  parameterKey: z.string(),
   validationType: ParameterValidationTypeSchema,
   validationValue: z.string(),
   errorMessage: z.string(),
@@ -41,9 +41,9 @@ export type ParameterValidation = z.infer<typeof ParameterValidationSchema>;
 export const ParameterDependencyTypeSchema = z.enum(["requires", "conflicts_with"]);
 export type ParameterDependencyType = z.infer<typeof ParameterDependencyTypeSchema>;
 export const ParameterDependencySchema = z.object({
-  id: z.string(),
-  parameterId: z.string(),
-  dependsOnParameterId: z.string(),
+  key: z.string(),
+  parameterKey: z.string(),
+  dependsOnParameterKey: z.string(),
   dependencyType: ParameterDependencyTypeSchema,
   conditionValue: z.string().optional(),
 });
@@ -63,9 +63,9 @@ export const ParameterDataTypeSchema = z.enum(["String", "Number", "Boolean", "E
 export type ParameterDataType = z.infer<typeof ParameterDataTypeSchema>;
 
 export const ParameterSchema = z.object({
-  id: z.string(),
+  key: z.string(),
   name: z.string(),
-  commandId: z.uuidv7().optional(),
+  commandKey: z.string().optional(),
   description: z.string(),
   metadata: ParameterMetadataSchema.optional(),
   parameterType: ParameterTypeSchema,
@@ -90,16 +90,16 @@ export const ExclusionTypeSchema = z.enum(["mutual_exclusive", "required_one_of"
 export type ExclusionType = z.infer<typeof ExclusionTypeSchema>;
 
 export const ExclusionGroupSchema = z.object({
-  id: z.string().optional(),
-  commandId: z.string().optional(),
+  key: z.string().optional(),
+  commandKey: z.string().optional(),
   name: z.string(),
   exclusionType: ExclusionTypeSchema,
-  parameterIds: z.array(z.string()),
+  parameterKeys: z.array(z.string()),
 });
 export type ExclusionGroup = z.infer<typeof ExclusionGroupSchema>;
 
 export const SavedCommandSchema = z.object({
-  id: z.string(),
+  key: z.string(),
   command: z.string(),
 });
 export type SavedCommand = z.infer<typeof SavedCommandSchema>;
@@ -111,7 +111,6 @@ export const SupportedToolOutputTypeSchema = z.enum(["StandardOutput", "File", "
 export type SupportedToolOutputType = z.infer<typeof SupportedToolOutputTypeSchema>;
 
 export const ToolSchema = z.object({
-  id: z.string().optional(),
   name: z.string(),
   displayName: z.string(),
   description: z.string().optional(),

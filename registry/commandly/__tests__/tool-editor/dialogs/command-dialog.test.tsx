@@ -9,7 +9,7 @@ import {
 import { render, screen, fireEvent } from "@testing-library/react";
 
 const createTestCommand = (overrides: Partial<Command> = {}): Command => ({
-  id: "01979f6d-f205-73e3-a176-4456d7bf7eb3",
+  key: "test-command-key",
   name: "test-command",
   description: "Test command description",
   isDefault: false,
@@ -307,7 +307,7 @@ describe("CommandDialog - Save Functionality", () => {
 
   it("calls updateCommand and closes dialog when Save & Close is clicked", () => {
     const command = createTestCommand({
-      id: "01979f6d-f206-7716-a2f2-4ee692f068ac",
+      key: "original-command-key",
       name: "original-command",
     });
     toolBuilderStore.setState(() => createTestState(command));
@@ -326,7 +326,7 @@ describe("CommandDialog - Save Functionality", () => {
     fireEvent.click(saveButton);
 
     expect(toolBuilderActions.updateCommand).toHaveBeenCalledWith(
-      "01979f6d-f206-7716-a2f2-4ee692f068ac",
+      "original-command-key",
       expect.objectContaining({
         name: "updated-command",
         description: "Test command description",
@@ -339,7 +339,7 @@ describe("CommandDialog - Save Functionality", () => {
 
   it("saves all modified fields correctly", () => {
     const command = createTestCommand({
-      id: "01979f6d-f206-7716-a2f2-532cbd425da4",
+      key: "original-command-key",
       name: "original-command",
     });
     toolBuilderStore.setState(() => createTestState(command));
@@ -366,7 +366,7 @@ describe("CommandDialog - Save Functionality", () => {
     fireEvent.click(saveButton);
 
     expect(toolBuilderActions.updateCommand).toHaveBeenCalledWith(
-      "01979f6d-f206-7716-a2f2-532cbd425da4",
+      "original-command-key",
       expect.objectContaining({
         name: "new-name",
         description: "New description",
@@ -378,7 +378,7 @@ describe("CommandDialog - Save Functionality", () => {
 
   it("handles save with empty command name", () => {
     const command = createTestCommand({
-      id: "01979f6d-f206-7716-a2f2-547182850366",
+      key: "original-name-key",
       name: "original-name",
     });
     toolBuilderStore.setState(() => createTestState(command));
@@ -397,7 +397,7 @@ describe("CommandDialog - Save Functionality", () => {
     fireEvent.click(saveButton);
 
     expect(toolBuilderActions.updateCommand).toHaveBeenCalledWith(
-      "01979f6d-f206-7716-a2f2-547182850366",
+      "original-name-key",
       expect.objectContaining({
         name: "",
       }),
@@ -406,7 +406,7 @@ describe("CommandDialog - Save Functionality", () => {
 
   it("preserves subcommands when saving", () => {
     const command = createTestCommand({
-      id: "01979f6d-f206-7716-a2f2-592fb8c958e4",
+      key: "parent-command-key",
       name: "parent-command",
     });
     toolBuilderStore.setState(() => createTestState(command));
@@ -425,7 +425,7 @@ describe("CommandDialog - Save Functionality", () => {
     fireEvent.click(saveButton);
 
     expect(toolBuilderActions.updateCommand).toHaveBeenCalledWith(
-      "01979f6d-f206-7716-a2f2-592fb8c958e4",
+      "parent-command-key",
       expect.objectContaining({
         name: "updated-parent",
       }),
@@ -434,7 +434,7 @@ describe("CommandDialog - Save Functionality", () => {
 
   it("correctly updates command name using original name as identifier", () => {
     const originalCommand = createTestCommand({
-      id: "01979f6d-f206-7716-a2f2-61a036f2549b",
+      key: "original-name-key",
       name: "original-name",
     });
     toolBuilderStore.setState(() => createTestState(originalCommand));
@@ -453,7 +453,7 @@ describe("CommandDialog - Save Functionality", () => {
     fireEvent.click(saveButton);
 
     expect(toolBuilderActions.updateCommand).toHaveBeenCalledWith(
-      "01979f6d-f206-7716-a2f2-61a036f2549b",
+      "original-name-key",
       expect.objectContaining({
         name: "completely-new-name",
       }),

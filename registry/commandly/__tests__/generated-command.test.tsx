@@ -7,8 +7,8 @@ vi.mock("../tool-editor/tool-editor.store", () => ({
   toolBuilderStore: {
     state: {
       selectedCommand: {
+        key: "test-key",
         name: "test",
-        id: "01979f70-cc01-73fe-b638-11efe685b4df",
         isDefault: true,
         sortOrder: 0,
       },
@@ -16,8 +16,8 @@ vi.mock("../tool-editor/tool-editor.store", () => ({
         name: "tool",
         commands: [
           {
+            key: "test-key",
             name: "test",
-            id: "01979f70-cc01-73fe-b638-11efe685b4df",
             isDefault: true,
             sortOrder: 0,
           },

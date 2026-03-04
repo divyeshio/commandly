@@ -2,6 +2,7 @@ import {
   ExclusionType,
   ParameterDataType,
   ParameterDependencyType,
+  ParameterEnumValue,
   ParameterMetadata,
   ParameterType,
   ParameterValidation,
@@ -18,15 +19,9 @@ export interface NestedCommand {
   subcommands: NestedCommand[];
 }
 
-export interface NestedParameterEnumValue {
-  value: string;
-  displayName: string;
-  description: string;
-  isDefault: boolean;
-  sortOrder: number;
-}
+export type NestedParameterEnumValue = Omit<ParameterEnumValue, "key" | "parameterKey">;
 
-export type NestedParameterValidation = Omit<ParameterValidation, "id" | "parameterId">;
+export type NestedParameterValidation = Omit<ParameterValidation, "key" | "parameterKey">;
 
 export interface NestedParameterDependency {
   dependsOnParameter: string;
