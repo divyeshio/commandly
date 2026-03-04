@@ -32,11 +32,8 @@
       "shortFlag": "-i",
       "longFlag": "-input",
       "sortOrder": 1,
-      "enumValues": [],
       "key": "input",
-      "commandKey": "cdncheck",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "cdncheck"
     },
     {
       "name": "Cdn",
@@ -48,11 +45,8 @@
       "isGlobal": false,
       "longFlag": "-cdn",
       "sortOrder": 2,
-      "enumValues": [],
       "key": "cdn",
-      "commandKey": "cdncheck",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "cdncheck"
     },
     {
       "name": "Cloud",
@@ -64,11 +58,8 @@
       "isGlobal": false,
       "longFlag": "-cloud",
       "sortOrder": 3,
-      "enumValues": [],
       "key": "cloud",
-      "commandKey": "cdncheck",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "cdncheck"
     },
     {
       "name": "Waf",
@@ -80,11 +71,8 @@
       "isGlobal": false,
       "longFlag": "-waf",
       "sortOrder": 4,
-      "enumValues": [],
       "key": "waf",
-      "commandKey": "cdncheck",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "cdncheck"
     },
     {
       "name": "Match Cdn",
@@ -97,11 +85,8 @@
       "shortFlag": "-mcdn",
       "longFlag": "-match-cdn",
       "sortOrder": 5,
-      "enumValues": [],
       "key": "match-cdn",
-      "commandKey": "cdncheck",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "cdncheck"
     },
     {
       "name": "Match Cloud",
@@ -114,11 +99,8 @@
       "shortFlag": "-mcloud",
       "longFlag": "-match-cloud",
       "sortOrder": 6,
-      "enumValues": [],
       "key": "match-cloud",
-      "commandKey": "cdncheck",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "cdncheck"
     },
     {
       "name": "Match Waf",
@@ -131,11 +113,8 @@
       "shortFlag": "-mwaf",
       "longFlag": "-match-waf",
       "sortOrder": 7,
-      "enumValues": [],
       "key": "match-waf",
-      "commandKey": "cdncheck",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "cdncheck"
     },
     {
       "name": "Filter Cdn",
@@ -148,11 +127,8 @@
       "shortFlag": "-fcdn",
       "longFlag": "-filter-cdn",
       "sortOrder": 8,
-      "enumValues": [],
       "key": "filter-cdn",
-      "commandKey": "cdncheck",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "cdncheck"
     },
     {
       "name": "Filter Cloud",
@@ -165,11 +141,8 @@
       "shortFlag": "-fcloud",
       "longFlag": "-filter-cloud",
       "sortOrder": 9,
-      "enumValues": [],
       "key": "filter-cloud",
-      "commandKey": "cdncheck",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "cdncheck"
     },
     {
       "name": "Filter Waf",
@@ -182,11 +155,8 @@
       "shortFlag": "-fwaf",
       "longFlag": "-filter-waf",
       "sortOrder": 10,
-      "enumValues": [],
       "key": "filter-waf",
-      "commandKey": "cdncheck",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "cdncheck"
     },
     {
       "name": "Resp",
@@ -198,11 +168,8 @@
       "isGlobal": false,
       "longFlag": "-resp",
       "sortOrder": 11,
-      "enumValues": [],
       "key": "resp",
-      "commandKey": "cdncheck",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "cdncheck"
     },
     {
       "name": "Output",
@@ -215,11 +182,8 @@
       "shortFlag": "-o",
       "longFlag": "-output",
       "sortOrder": 12,
-      "enumValues": [],
       "key": "output",
-      "commandKey": "cdncheck",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "cdncheck"
     },
     {
       "name": "Verbose",
@@ -232,11 +196,8 @@
       "shortFlag": "-v",
       "longFlag": "-verbose",
       "sortOrder": 13,
-      "enumValues": [],
       "key": "verbose",
-      "commandKey": "cdncheck",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "cdncheck"
     },
     {
       "name": "Jsonl",
@@ -248,11 +209,8 @@
       "isGlobal": false,
       "longFlag": "-jsonl",
       "sortOrder": 14,
-      "enumValues": [],
       "key": "jsonl",
-      "commandKey": "cdncheck",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "cdncheck"
     },
     {
       "name": "No Color",
@@ -265,11 +223,8 @@
       "shortFlag": "-nc",
       "longFlag": "-no-color",
       "sortOrder": 15,
-      "enumValues": [],
       "key": "no-color",
-      "commandKey": "cdncheck",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "cdncheck"
     },
     {
       "name": "Version",
@@ -281,11 +236,8 @@
       "isGlobal": false,
       "longFlag": "-version",
       "sortOrder": 16,
-      "enumValues": [],
       "key": "version",
-      "commandKey": "cdncheck",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "cdncheck"
     },
     {
       "name": "Silent",
@@ -297,11 +249,8 @@
       "isGlobal": false,
       "longFlag": "-silent",
       "sortOrder": 17,
-      "enumValues": [],
       "key": "silent",
-      "commandKey": "cdncheck",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "cdncheck"
     },
     {
       "name": "Resolver",
@@ -314,11 +263,8 @@
       "shortFlag": "-r",
       "longFlag": "-resolver",
       "sortOrder": 18,
-      "enumValues": [],
       "key": "resolver",
-      "commandKey": "cdncheck",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "cdncheck"
     },
     {
       "name": "Exclude",
@@ -331,11 +277,8 @@
       "shortFlag": "-e",
       "longFlag": "-exclude",
       "sortOrder": 19,
-      "enumValues": [],
       "key": "exclude",
-      "commandKey": "cdncheck",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "cdncheck"
     },
     {
       "name": "Retry",
@@ -348,11 +291,8 @@
       "defaultValue": "2",
       "longFlag": "-retry",
       "sortOrder": 20,
-      "enumValues": [],
       "key": "retry",
-      "commandKey": "cdncheck",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "cdncheck"
     },
     {
       "name": "Update",
@@ -365,11 +305,8 @@
       "shortFlag": "-up",
       "longFlag": "-update",
       "sortOrder": 21,
-      "enumValues": [],
       "key": "update",
-      "commandKey": "cdncheck",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "cdncheck"
     },
     {
       "name": "Disable Update Check",
@@ -382,11 +319,8 @@
       "shortFlag": "-duc",
       "longFlag": "-disable-update-check",
       "sortOrder": 22,
-      "enumValues": [],
       "key": "disable-update-check",
-      "commandKey": "cdncheck",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "cdncheck"
     }
   ],
   "exclusionGroups": [
@@ -414,3 +348,4 @@
     }
   ]
 }
+

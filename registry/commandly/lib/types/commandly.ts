@@ -4,9 +4,9 @@ export const CommandSchema = z.object({
   key: z.string(),
   parentCommandKey: z.string().optional(),
   name: z.string(),
-  description: z.string(),
-  isDefault: z.boolean(),
-  sortOrder: z.number(),
+  description: z.string().optional(),
+  isDefault: z.boolean().optional(),
+  sortOrder: z.number().optional(),
 });
 export type Command = z.infer<typeof CommandSchema>;
 
@@ -15,9 +15,9 @@ export const ParameterEnumValueSchema = z.object({
   parameterKey: z.string(),
   value: z.string(),
   displayName: z.string(),
-  description: z.string(),
-  isDefault: z.boolean(),
-  sortOrder: z.number(),
+  description: z.string().optional(),
+  isDefault: z.boolean().optional(),
+  sortOrder: z.number().optional(),
 });
 export type ParameterEnumValue = z.infer<typeof ParameterEnumValueSchema>;
 
@@ -66,7 +66,7 @@ export const ParameterSchema = z.object({
   key: z.string(),
   name: z.string(),
   commandKey: z.string().optional(),
-  description: z.string(),
+  description: z.string().optional(),
   metadata: ParameterMetadataSchema.optional(),
   parameterType: ParameterTypeSchema,
   dataType: ParameterDataTypeSchema,
@@ -80,7 +80,7 @@ export const ParameterSchema = z.object({
   sortOrder: z.number().optional(),
   arraySeparator: z.string().optional(),
   keyValueSeparator: z.string().optional(),
-  enumValues: z.array(ParameterEnumValueSchema),
+  enumValues: z.array(ParameterEnumValueSchema).optional(),
   validations: z.array(ParameterValidationSchema).optional(),
   dependencies: z.array(ParameterDependencySchema).optional(),
 });
@@ -117,8 +117,8 @@ export const ToolSchema = z.object({
   url: z.url().optional(),
   commands: z.array(CommandSchema),
   parameters: z.array(ParameterSchema),
-  exclusionGroups: z.array(ExclusionGroupSchema),
-  metadata: ToolMetadataSchema,
+  exclusionGroups: z.array(ExclusionGroupSchema).optional(),
+  metadata: ToolMetadataSchema.optional(),
 });
 export type Tool = z.infer<typeof ToolSchema>;
 

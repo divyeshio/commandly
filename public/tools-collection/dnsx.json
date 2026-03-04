@@ -31,12 +31,8 @@
       "isGlobal": false,
       "shortFlag": "-l",
       "longFlag": "-list",
-      "enumValues": [],
-      "metadata": {},
       "key": "list",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "Domain",
@@ -48,12 +44,8 @@
       "isGlobal": false,
       "shortFlag": "-d",
       "longFlag": "-domain",
-      "enumValues": [],
-      "metadata": {},
       "key": "domain",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "Wordlist",
@@ -65,12 +57,8 @@
       "isGlobal": false,
       "shortFlag": "-w",
       "longFlag": "-wordlist",
-      "enumValues": [],
-      "metadata": {},
       "key": "wordlist",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "A",
@@ -81,12 +69,8 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-a",
-      "enumValues": [],
-      "metadata": {},
       "key": "a",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "AAAA",
@@ -97,12 +81,8 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-aaaa",
-      "enumValues": [],
-      "metadata": {},
       "key": "aaaa",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "CNAME",
@@ -113,12 +93,8 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-cname",
-      "enumValues": [],
-      "metadata": {},
       "key": "cname",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "NS",
@@ -129,12 +105,8 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-ns",
-      "enumValues": [],
-      "metadata": {},
       "key": "ns",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "TXT",
@@ -145,12 +117,8 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-txt",
-      "enumValues": [],
-      "metadata": {},
       "key": "txt",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "SRV",
@@ -161,12 +129,8 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-srv",
-      "enumValues": [],
-      "metadata": {},
       "key": "srv",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "PTR",
@@ -177,12 +141,8 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-ptr",
-      "enumValues": [],
-      "metadata": {},
       "key": "ptr",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "MX",
@@ -193,12 +153,8 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-mx",
-      "enumValues": [],
-      "metadata": {},
       "key": "mx",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "SOA",
@@ -209,12 +165,8 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-soa",
-      "enumValues": [],
-      "metadata": {},
       "key": "soa",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "ANY",
@@ -225,12 +177,8 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-any",
-      "enumValues": [],
-      "metadata": {},
       "key": "any",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "AXFR",
@@ -241,12 +189,8 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-axfr",
-      "enumValues": [],
-      "metadata": {},
       "key": "axfr",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "CAA",
@@ -257,12 +201,8 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-caa",
-      "enumValues": [],
-      "metadata": {},
       "key": "caa",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "Recon",
@@ -273,12 +213,8 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-recon",
-      "enumValues": [],
-      "metadata": {},
       "key": "recon",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "ExcludeType",
@@ -291,12 +227,8 @@
       "defaultValue": "none",
       "shortFlag": "-e",
       "longFlag": "-exclude-type",
-      "enumValues": [],
-      "metadata": {},
       "key": "exclude-type",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "Resp",
@@ -308,12 +240,8 @@
       "isGlobal": false,
       "shortFlag": "-re",
       "longFlag": "-resp",
-      "enumValues": [],
-      "metadata": {},
       "key": "resp",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "RespOnly",
@@ -325,12 +253,8 @@
       "isGlobal": false,
       "shortFlag": "-ro",
       "longFlag": "-resp-only",
-      "enumValues": [],
-      "metadata": {},
       "key": "resp-only",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "Rcode",
@@ -342,12 +266,8 @@
       "isGlobal": false,
       "shortFlag": "-rc",
       "longFlag": "-rcode",
-      "enumValues": [],
-      "metadata": {},
       "key": "rcode",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "Cdn",
@@ -358,12 +278,8 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-cdn",
-      "enumValues": [],
-      "metadata": {},
       "key": "cdn",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "Asn",
@@ -374,12 +290,8 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-asn",
-      "enumValues": [],
-      "metadata": {},
       "key": "asn",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "Threads",
@@ -392,12 +304,8 @@
       "defaultValue": "100",
       "shortFlag": "-t",
       "longFlag": "-threads",
-      "enumValues": [],
-      "metadata": {},
       "key": "threads",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "RateLimit",
@@ -410,12 +318,8 @@
       "defaultValue": "-1",
       "shortFlag": "-rl",
       "longFlag": "-rate-limit",
-      "enumValues": [],
-      "metadata": {},
       "key": "rate-limit",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "Update",
@@ -427,12 +331,8 @@
       "isGlobal": false,
       "shortFlag": "-up",
       "longFlag": "-update",
-      "enumValues": [],
-      "metadata": {},
       "key": "update",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "DisableUpdateCheck",
@@ -444,12 +344,8 @@
       "isGlobal": false,
       "shortFlag": "-duc",
       "longFlag": "-disable-update-check",
-      "enumValues": [],
-      "metadata": {},
       "key": "disable-update-check",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "Output",
@@ -461,12 +357,8 @@
       "isGlobal": false,
       "shortFlag": "-o",
       "longFlag": "-output",
-      "enumValues": [],
-      "metadata": {},
       "key": "output",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "Json",
@@ -478,12 +370,8 @@
       "isGlobal": false,
       "shortFlag": "-j",
       "longFlag": "-json",
-      "enumValues": [],
-      "metadata": {},
       "key": "json",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "OmitRaw",
@@ -495,12 +383,8 @@
       "isGlobal": false,
       "shortFlag": "-omit-raw",
       "longFlag": "-or",
-      "enumValues": [],
-      "metadata": {},
       "key": "or",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "HealthCheck",
@@ -511,12 +395,8 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-health-check",
-      "enumValues": [],
-      "metadata": {},
       "key": "health-check",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "Verbose",
@@ -528,12 +408,8 @@
       "isGlobal": false,
       "shortFlag": "-v",
       "longFlag": "-verbose",
-      "enumValues": [],
-      "metadata": {},
       "key": "verbose",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "NoColor",
@@ -544,12 +420,8 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-no-color",
-      "enumValues": [],
-      "metadata": {},
       "key": "no-color",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "Silent",
@@ -561,12 +433,8 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-silent",
-      "enumValues": [],
-      "metadata": {},
       "key": "silent",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "Version",
@@ -578,12 +446,8 @@
       "isGlobal": false,
       "shortFlag": "-version",
       "longFlag": "-v",
-      "enumValues": [],
-      "metadata": {},
       "key": "v",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     },
     {
       "name": "ShowConfig",
@@ -594,12 +458,10 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-sc",
-      "enumValues": [],
-      "metadata": {},
       "key": "sc",
-      "commandKey": "dnsx",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "dnsx"
     }
   ]
 }
+
+

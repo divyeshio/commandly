@@ -92,9 +92,7 @@ export function HelpMenu() {
           const required = arg.isRequired ? "Required: " : "";
           preview += `${indent}    ${arg.name.padEnd(18)} ${required}${arg.description}\n`;
           if (arg.dataType === "Enum") {
-            preview += `${indent}    ${" ".repeat(18)} Values: ${arg.enumValues
-              .map((e) => e.value)
-              .join(", ")}\n`;
+            preview += `${indent}    ${" ".repeat(18)} Values: ${arg.enumValues?.map((e) => e.value).join(", ")}\n`;
           }
         });
       }

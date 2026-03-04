@@ -38,9 +38,6 @@
           "non-configurable"
         ]
       },
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "key": "domain",
       "commandKey": "domain"
     },
@@ -55,12 +52,8 @@
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": [],
       "key": "sources",
-      "commandKey": "domain",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "domain"
     },
     {
       "name": "Recursive",
@@ -72,12 +65,8 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": [],
       "key": "recursive",
-      "commandKey": "domain",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "domain"
     },
     {
       "name": "Target Domains List",
@@ -95,9 +84,6 @@
           "target-list"
         ]
       },
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "key": "list",
       "commandKey": "domain"
     },
@@ -117,9 +103,6 @@
           "non-configurable"
         ]
       },
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "key": "output-dir",
       "commandKey": "domain"
     },
@@ -138,9 +121,6 @@
           "non-configurable"
         ]
       },
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "key": "stats",
       "commandKey": "domain"
     },
@@ -154,12 +134,8 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": [],
       "key": "timeout",
-      "commandKey": "domain",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "domain"
     },
     {
       "name": "Resolvers File",
@@ -171,12 +147,8 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": [],
       "key": "rlist",
-      "commandKey": "domain",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "domain"
     },
     {
       "name": "Update",
@@ -194,9 +166,6 @@
           "non-configurable"
         ]
       },
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "key": "update",
       "commandKey": "domain"
     },
@@ -215,9 +184,6 @@
           "non-configurable"
         ]
       },
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "key": "version",
       "commandKey": "domain"
     },
@@ -232,12 +198,8 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": [],
       "key": "exclude-ip",
-      "commandKey": "domain",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "domain"
     },
     {
       "name": "Proxy",
@@ -248,12 +210,8 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": [],
       "key": "proxy",
-      "commandKey": "domain",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "domain"
     },
     {
       "name": "No Colour in Output",
@@ -271,9 +229,6 @@
           "non-configurable"
         ]
       },
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "key": "no-color",
       "commandKey": "domain"
     },
@@ -288,12 +243,8 @@
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": [],
       "key": "match",
-      "commandKey": "domain",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "domain"
     },
     {
       "name": "Include IP",
@@ -306,12 +257,8 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": [],
       "key": "ip",
-      "commandKey": "domain",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "domain"
     },
     {
       "name": "Active Domains Only",
@@ -324,12 +271,8 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": [],
       "key": "active",
-      "commandKey": "domain",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "domain"
     },
     {
       "name": "Rate Limits",
@@ -342,12 +285,8 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": [],
       "key": "rate-limits",
-      "commandKey": "domain",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "domain"
     },
     {
       "name": "Disable Update Check",
@@ -365,9 +304,6 @@
           "non-configurable"
         ]
       },
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "key": "disable-update-check",
       "commandKey": "domain"
     },
@@ -382,12 +318,8 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": [],
       "key": "collect-sources",
-      "commandKey": "domain",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "domain"
     },
     {
       "name": "Output File",
@@ -404,9 +336,6 @@
           "output-file"
         ]
       },
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "key": "output",
       "commandKey": "domain"
     },
@@ -425,9 +354,6 @@
           "non-configurable"
         ]
       },
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "key": "v",
       "commandKey": "domain"
     },
@@ -441,12 +367,8 @@
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": [],
       "key": "r",
-      "commandKey": "domain",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "domain"
     },
     {
       "name": "Json",
@@ -459,12 +381,8 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": [],
       "key": "json",
-      "commandKey": "domain",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "domain"
     },
     {
       "name": "Configuration file",
@@ -481,9 +399,6 @@
           "configuration-file"
         ]
       },
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "key": "config",
       "commandKey": "domain"
     },
@@ -497,12 +412,8 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": [],
       "key": "rate-limit",
-      "commandKey": "domain",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "domain"
     },
     {
       "name": "Filter",
@@ -515,12 +426,8 @@
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": [],
       "key": "filter",
-      "commandKey": "domain",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "domain"
     },
     {
       "name": "Silent",
@@ -532,11 +439,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": [],
       "shortFlag": "",
-      "dependencies": [],
-      "validations": [],
       "key": "silent",
       "commandKey": "domain"
     },
@@ -550,10 +453,6 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "key": "all",
       "commandKey": "domain"
     },
@@ -568,12 +467,8 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": [],
       "key": "list-sources",
-      "commandKey": "domain",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "domain"
     },
     {
       "name": "Exclude Sources",
@@ -586,12 +481,8 @@
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": [],
       "key": "exclude-sources",
-      "commandKey": "domain",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "domain"
     },
     {
       "name": "Max time",
@@ -603,12 +494,8 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": [],
       "key": "max-time",
-      "commandKey": "domain",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "domain"
     },
     {
       "name": "Threads",
@@ -620,12 +507,8 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {},
-      "enumValues": [],
       "key": "t",
-      "commandKey": "domain",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "domain"
     },
     {
       "name": "Provider Configuration file",
@@ -643,12 +526,11 @@
           "configuration-file"
         ]
       },
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "key": "provider-config",
       "commandKey": "domain"
     }
   ],
   "exclusionGroups": []
 }
+
+

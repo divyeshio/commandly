@@ -38,9 +38,6 @@
       "shortFlag": "",
       "longFlag": "-d",
       "arraySeparator": "",
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "key": "d",
       "commandKey": "urlfinder"
     },
@@ -60,9 +57,6 @@
       "shortFlag": "",
       "longFlag": "-list",
       "arraySeparator": ",",
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "key": "list",
       "commandKey": "urlfinder"
     },
@@ -80,9 +74,6 @@
       "shortFlag": "-s",
       "longFlag": "-sources",
       "arraySeparator": ",",
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "key": "sources",
       "commandKey": "urlfinder"
     },
@@ -100,9 +91,6 @@
       "shortFlag": "-es",
       "longFlag": "-exclude-sources",
       "arraySeparator": ",",
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "key": "exclude-sources",
       "commandKey": "urlfinder"
     },
@@ -119,9 +107,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-all",
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "key": "all",
       "commandKey": "urlfinder"
     },
@@ -141,9 +126,6 @@
       "shortFlag": "-us",
       "longFlag": "-url-scope",
       "arraySeparator": ",",
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "key": "url-scope",
       "commandKey": "urlfinder"
     },
@@ -163,11 +145,8 @@
       "shortFlag": "-uos",
       "longFlag": "-url-out-scope",
       "arraySeparator": ",",
-      "enumValues": [],
       "key": "url-out-scope",
-      "commandKey": "urlfinder",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "urlfinder"
     },
     {
       "name": "Field-scope",
@@ -185,11 +164,8 @@
       "defaultValue": "",
       "shortFlag": "-fs",
       "longFlag": "-field-scope",
-      "enumValues": [],
       "key": "field-scope",
-      "commandKey": "urlfinder",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "urlfinder"
     },
     {
       "name": "No-scope",
@@ -206,11 +182,8 @@
       "isGlobal": false,
       "shortFlag": "-ns",
       "longFlag": "-no-scope",
-      "enumValues": [],
       "key": "no-scope",
-      "commandKey": "urlfinder",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "urlfinder"
     },
     {
       "name": "Display-out-scope",
@@ -227,11 +200,8 @@
       "isGlobal": false,
       "shortFlag": "-do",
       "longFlag": "-display-out-scope",
-      "enumValues": [],
       "key": "display-out-scope",
-      "commandKey": "urlfinder",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "urlfinder"
     },
     {
       "name": "Match",
@@ -249,11 +219,8 @@
       "shortFlag": "-m",
       "longFlag": "-match",
       "arraySeparator": ",",
-      "enumValues": [],
       "key": "match",
-      "commandKey": "urlfinder",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "urlfinder"
     },
     {
       "name": "Filter",
@@ -271,11 +238,8 @@
       "shortFlag": "-f",
       "longFlag": "-filter",
       "arraySeparator": ",",
-      "enumValues": [],
       "key": "filter",
-      "commandKey": "urlfinder",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "urlfinder"
     },
     {
       "name": "Rate-limit",
@@ -292,11 +256,8 @@
       "isGlobal": false,
       "shortFlag": "-rl",
       "longFlag": "-rate-limit",
-      "enumValues": [],
       "key": "rate-limit",
-      "commandKey": "urlfinder",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "urlfinder"
     },
     {
       "name": "Rate-limits",
@@ -313,11 +274,8 @@
       "isGlobal": false,
       "shortFlag": "-rls",
       "longFlag": "-rate-limits",
-      "enumValues": [],
       "key": "rate-limits",
-      "commandKey": "urlfinder",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "urlfinder"
     },
     {
       "name": "Update",
@@ -334,9 +292,6 @@
       "isGlobal": false,
       "shortFlag": "-up",
       "longFlag": "-update",
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "defaultValue": "false",
       "key": "update",
       "commandKey": "urlfinder"
@@ -356,9 +311,6 @@
       "isGlobal": false,
       "shortFlag": "-v",
       "longFlag": "-verbose",
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "defaultValue": "false",
       "key": "verbose",
       "commandKey": "urlfinder"
@@ -378,9 +330,6 @@
       "isGlobal": false,
       "shortFlag": "-s",
       "longFlag": "-silent",
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "defaultValue": "true",
       "key": "silent",
       "commandKey": "urlfinder"
@@ -400,9 +349,6 @@
       "isGlobal": false,
       "shortFlag": "-to",
       "longFlag": "-timeout",
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "defaultValue": "5",
       "key": "timeout",
       "commandKey": "urlfinder"
@@ -422,9 +368,6 @@
       "isGlobal": false,
       "shortFlag": "-j",
       "longFlag": "-json",
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "defaultValue": "false",
       "key": "json",
       "commandKey": "urlfinder"
@@ -444,9 +387,6 @@
       "isGlobal": false,
       "shortFlag": "-csv",
       "longFlag": "-csv",
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "defaultValue": "false",
       "key": "csv",
       "commandKey": "urlfinder"
@@ -466,12 +406,10 @@
       "isGlobal": false,
       "shortFlag": "-vrs",
       "longFlag": "-version",
-      "enumValues": [],
-      "dependencies": [],
-      "validations": [],
       "defaultValue": "false",
       "key": "version",
       "commandKey": "urlfinder"
     }
   ]
 }
+

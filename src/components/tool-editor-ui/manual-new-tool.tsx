@@ -9,9 +9,6 @@ export function ManualNewToolComponent({ onSubmit }: { onSubmit: (tool: Tool | n
   const [manualNewTool, setManualTool] = useState<ManualNewTool>({
     name: "",
     displayName: "",
-    description: "",
-    version: "",
-    url: "",
   });
 
   useEffect(() => onSubmit(null), [onSubmit]);

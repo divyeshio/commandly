@@ -40,11 +40,8 @@
       "sortOrder": 1,
       "arraySeparator": ",",
       "keyValueSeparator": " ",
-      "enumValues": [],
       "key": "asn",
-      "commandKey": "asnmap",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "asnmap"
     },
     {
       "name": "Ip",
@@ -65,11 +62,8 @@
       "sortOrder": 2,
       "arraySeparator": ",",
       "keyValueSeparator": " ",
-      "enumValues": [],
       "key": "ip",
-      "commandKey": "asnmap",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "asnmap"
     },
     {
       "name": "Domain",
@@ -90,11 +84,8 @@
       "sortOrder": 3,
       "arraySeparator": ",",
       "keyValueSeparator": " ",
-      "enumValues": [],
       "key": "domain",
-      "commandKey": "asnmap",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "asnmap"
     },
     {
       "name": "Org",
@@ -114,11 +105,8 @@
       "sortOrder": 4,
       "arraySeparator": ",",
       "keyValueSeparator": " ",
-      "enumValues": [],
       "key": "org",
-      "commandKey": "asnmap",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "asnmap"
     },
     {
       "name": "File",
@@ -139,11 +127,8 @@
       "sortOrder": 5,
       "arraySeparator": ",",
       "keyValueSeparator": " ",
-      "enumValues": [],
       "key": "file",
-      "commandKey": "asnmap",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "asnmap"
     },
     {
       "name": "Config",
@@ -162,11 +147,8 @@
       "longFlag": "-config",
       "sortOrder": 6,
       "keyValueSeparator": " ",
-      "enumValues": [],
       "key": "config",
-      "commandKey": "asnmap",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "asnmap"
     },
     {
       "name": "Resolvers",
@@ -187,11 +169,8 @@
       "sortOrder": 7,
       "arraySeparator": ",",
       "keyValueSeparator": " ",
-      "enumValues": [],
       "key": "resolvers",
-      "commandKey": "asnmap",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "asnmap"
     },
     {
       "name": "Up",
@@ -210,11 +189,8 @@
       "shortFlag": "-up",
       "longFlag": "-update",
       "sortOrder": 8,
-      "enumValues": [],
       "key": "update",
-      "commandKey": "asnmap",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "asnmap"
     },
     {
       "name": "Duc",
@@ -233,11 +209,8 @@
       "shortFlag": "-duc",
       "longFlag": "-disable-update-check",
       "sortOrder": 9,
-      "enumValues": [],
       "key": "disable-update-check",
-      "commandKey": "asnmap",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "asnmap"
     },
     {
       "name": "Output File",
@@ -257,9 +230,6 @@
       "longFlag": "-output",
       "sortOrder": 10,
       "keyValueSeparator": " ",
-      "enumValues": [],
-      "validations": [],
-      "dependencies": [],
       "key": "output",
       "commandKey": "asnmap"
     },
@@ -280,9 +250,6 @@
       "shortFlag": "-j",
       "longFlag": "-json",
       "sortOrder": 11,
-      "enumValues": [],
-      "validations": [],
-      "dependencies": [],
       "key": "json",
       "commandKey": "asnmap"
     },
@@ -303,9 +270,6 @@
       "shortFlag": "-c",
       "longFlag": "-csv",
       "sortOrder": 12,
-      "enumValues": [],
-      "validations": [],
-      "dependencies": [],
       "key": "csv",
       "commandKey": "asnmap"
     },
@@ -325,11 +289,8 @@
       "defaultValue": "",
       "longFlag": "-v6",
       "sortOrder": 13,
-      "enumValues": [],
       "key": "v6",
-      "commandKey": "asnmap",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "asnmap"
     },
     {
       "name": "Verbose Output",
@@ -348,9 +309,6 @@
       "shortFlag": "-v",
       "longFlag": "-verbose",
       "sortOrder": 14,
-      "enumValues": [],
-      "validations": [],
-      "dependencies": [],
       "key": "verbose",
       "commandKey": "asnmap"
     },
@@ -370,11 +328,8 @@
       "defaultValue": "",
       "longFlag": "-silent",
       "sortOrder": 15,
-      "enumValues": [],
       "key": "silent",
-      "commandKey": "asnmap",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "asnmap"
     },
     {
       "name": "Version",
@@ -392,12 +347,10 @@
       "defaultValue": "",
       "longFlag": "-version",
       "sortOrder": 16,
-      "enumValues": [],
       "key": "version",
-      "commandKey": "asnmap",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "asnmap"
     }
   ],
   "exclusionGroups": []
 }
+

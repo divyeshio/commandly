@@ -13,25 +13,23 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
     const { ...rest } = param;
     return {
       ...rest,
-      validations:
-        param.validations?.map((v) => {
-          return {
-            validationType: v.validationType,
-            validationValue: v.validationValue,
-            errorMessage: v.errorMessage,
-          };
-        }) || [],
+      validations: param.validations?.map((v) => {
+        return {
+          validationType: v.validationType,
+          validationValue: v.validationValue,
+          errorMessage: v.errorMessage,
+        };
+      }),
       metadata: param.metadata,
       dataType: param.dataType,
-      dependencies:
-        param.dependencies?.map((dep) => {
-          const dependsOnParam = tool.parameters.find((p) => p.key === dep.dependsOnParameterKey);
-          return {
-            dependsOnParameter: dependsOnParam?.longFlag || "",
-            dependencyType: dep.dependencyType,
-            conditionValue: dep.conditionValue,
-          };
-        }) || [],
+      dependencies: param.dependencies?.map((dep) => {
+        const dependsOnParam = tool.parameters.find((p) => p.key === dep.dependsOnParameterKey);
+        return {
+          dependsOnParameter: dependsOnParam?.longFlag || "",
+          dependencyType: dep.dependencyType,
+          conditionValue: dep.conditionValue,
+        };
+      }),
     };
   };
 
@@ -53,16 +51,18 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
       });
   };
 
-  const nestedExclusionGroups: NestedExclusionGroup[] = tool.exclusionGroups.map((group) => {
-    return {
-      name: group.name,
-      exclusionType: group.exclusionType,
-      parameters: group.parameterKeys.map((pk) => {
-        const param = tool.parameters.find((p) => p.key === pk);
-        return param?.longFlag || "";
-      }),
-    };
-  });
+  const nestedExclusionGroups: NestedExclusionGroup[] | undefined = tool.exclusionGroups?.map(
+    (group) => {
+      return {
+        name: group.name,
+        exclusionType: group.exclusionType,
+        parameters: group.parameterKeys.map((pk) => {
+          const param = tool.parameters.find((p) => p.key === pk);
+          return param?.longFlag || "";
+        }),
+      };
+    },
+  );
 
   return {
     name: tool.name,

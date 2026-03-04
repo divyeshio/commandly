@@ -39,11 +39,8 @@
       "isGlobal": false,
       "shortFlag": "-u",
       "longFlag": "-list",
-      "enumValues": [],
       "key": "list",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Resume",
@@ -54,11 +51,8 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-resume",
-      "enumValues": [],
       "key": "resume",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Exclude",
@@ -76,11 +70,8 @@
       "isGlobal": false,
       "shortFlag": "-e",
       "longFlag": "-exclude",
-      "enumValues": [],
       "key": "exclude",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Resolvers",
@@ -97,11 +88,8 @@
       "isGlobal": false,
       "shortFlag": "-r",
       "longFlag": "-resolvers",
-      "enumValues": [],
       "key": "resolvers",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Depth",
@@ -114,11 +102,8 @@
       "defaultValue": "3",
       "shortFlag": "-d",
       "longFlag": "-depth",
-      "enumValues": [],
       "key": "depth",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Js-crawl",
@@ -130,11 +115,8 @@
       "isGlobal": false,
       "shortFlag": "-jc",
       "longFlag": "-js-crawl",
-      "enumValues": [],
       "key": "js-crawl",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Jsluice",
@@ -146,11 +128,8 @@
       "isGlobal": false,
       "shortFlag": "-jsl",
       "longFlag": "-jsluice",
-      "enumValues": [],
       "key": "jsluice",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Crawl-duration",
@@ -163,11 +142,8 @@
       "defaultValue": "s",
       "shortFlag": "-ct",
       "longFlag": "-crawl-duration",
-      "enumValues": [],
       "key": "crawl-duration",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Known-files",
@@ -179,11 +155,8 @@
       "isGlobal": false,
       "shortFlag": "-kf",
       "longFlag": "-known-files",
-      "enumValues": [],
       "key": "known-files",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Max-response-size",
@@ -196,11 +169,8 @@
       "defaultValue": "4194304",
       "shortFlag": "-mrs",
       "longFlag": "-max-response-size",
-      "enumValues": [],
       "key": "max-response-size",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Timeout",
@@ -212,11 +182,8 @@
       "isGlobal": false,
       "defaultValue": "10",
       "longFlag": "-timeout",
-      "enumValues": [],
       "key": "timeout",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Automatic-form-fill",
@@ -228,11 +195,8 @@
       "isGlobal": false,
       "shortFlag": "-aff",
       "longFlag": "-automatic-form-fill",
-      "enumValues": [],
       "key": "automatic-form-fill",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Form-extraction",
@@ -244,11 +208,8 @@
       "isGlobal": false,
       "shortFlag": "-fx",
       "longFlag": "-form-extraction",
-      "enumValues": [],
       "key": "form-extraction",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Retry",
@@ -260,11 +221,8 @@
       "isGlobal": false,
       "defaultValue": "1",
       "longFlag": "-retry",
-      "enumValues": [],
       "key": "retry",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Proxy",
@@ -275,11 +233,8 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-proxy",
-      "enumValues": [],
       "key": "proxy",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Tech-detect",
@@ -291,11 +246,8 @@
       "isGlobal": false,
       "shortFlag": "-td",
       "longFlag": "-tech-detect",
-      "enumValues": [],
       "key": "tech-detect",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Headers",
@@ -312,11 +264,8 @@
       "isGlobal": false,
       "shortFlag": "-H",
       "longFlag": "-headers",
-      "enumValues": [],
       "key": "headers",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Config",
@@ -332,11 +281,8 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-config",
-      "enumValues": [],
       "key": "config",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Form-config",
@@ -353,11 +299,8 @@
       "isGlobal": false,
       "shortFlag": "-fc",
       "longFlag": "-form-config",
-      "enumValues": [],
       "key": "form-config",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Field-config",
@@ -374,11 +317,8 @@
       "isGlobal": false,
       "shortFlag": "-flc",
       "longFlag": "-field-config",
-      "enumValues": [],
       "key": "field-config",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Strategy",
@@ -391,11 +331,8 @@
       "defaultValue": "depth-first",
       "shortFlag": "-s",
       "longFlag": "-strategy",
-      "enumValues": [],
       "key": "strategy",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Ignore-query-params",
@@ -407,11 +344,8 @@
       "isGlobal": false,
       "shortFlag": "-iqp",
       "longFlag": "-ignore-query-params",
-      "enumValues": [],
       "key": "ignore-query-params",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Tls-impersonate",
@@ -423,11 +357,8 @@
       "isGlobal": false,
       "shortFlag": "-tlsi",
       "longFlag": "-tls-impersonate",
-      "enumValues": [],
       "key": "tls-impersonate",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Disable-redirects",
@@ -440,11 +371,8 @@
       "defaultValue": "false",
       "shortFlag": "-dr",
       "longFlag": "-disable-redirects",
-      "enumValues": [],
       "key": "disable-redirects",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Health-check",
@@ -456,11 +384,8 @@
       "isGlobal": false,
       "shortFlag": "-hc",
       "longFlag": "-health-check",
-      "enumValues": [],
       "key": "health-check",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Error-log",
@@ -477,11 +402,8 @@
       "isGlobal": false,
       "shortFlag": "-elog",
       "longFlag": "-error-log",
-      "enumValues": [],
       "key": "error-log",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Pprof-server",
@@ -492,11 +414,8 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-pprof-server",
-      "enumValues": [],
       "key": "pprof-server",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Headless",
@@ -508,11 +427,8 @@
       "isGlobal": false,
       "shortFlag": "-hl",
       "longFlag": "-headless",
-      "enumValues": [],
       "key": "headless",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "System-chrome",
@@ -524,11 +440,8 @@
       "isGlobal": false,
       "shortFlag": "-sc",
       "longFlag": "-system-chrome",
-      "enumValues": [],
       "key": "system-chrome",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Show-browser",
@@ -540,11 +453,8 @@
       "isGlobal": false,
       "shortFlag": "-sb",
       "longFlag": "-show-browser",
-      "enumValues": [],
       "key": "show-browser",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Headless-options",
@@ -556,11 +466,8 @@
       "isGlobal": false,
       "shortFlag": "-ho",
       "longFlag": "-headless-options",
-      "enumValues": [],
       "key": "headless-options",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "No-sandbox",
@@ -572,11 +479,8 @@
       "isGlobal": false,
       "shortFlag": "-nos",
       "longFlag": "-no-sandbox",
-      "enumValues": [],
       "key": "no-sandbox",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Chrome-data-dir",
@@ -593,11 +497,8 @@
       "isGlobal": false,
       "shortFlag": "-cdd",
       "longFlag": "-chrome-data-dir",
-      "enumValues": [],
       "key": "chrome-data-dir",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "System-chrome-path",
@@ -609,11 +510,8 @@
       "isGlobal": false,
       "shortFlag": "-scp",
       "longFlag": "-system-chrome-path",
-      "enumValues": [],
       "key": "system-chrome-path",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "No-incognito",
@@ -625,11 +523,8 @@
       "isGlobal": false,
       "shortFlag": "-noi",
       "longFlag": "-no-incognito",
-      "enumValues": [],
       "key": "no-incognito",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Chrome-ws-url",
@@ -641,11 +536,8 @@
       "isGlobal": false,
       "shortFlag": "-cwu",
       "longFlag": "-chrome-ws-url",
-      "enumValues": [],
       "key": "chrome-ws-url",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Xhr-extraction",
@@ -657,11 +549,8 @@
       "isGlobal": false,
       "shortFlag": "-xhr",
       "longFlag": "-xhr-extraction",
-      "enumValues": [],
       "key": "xhr-extraction",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Crawl-scope",
@@ -679,11 +568,8 @@
       "isGlobal": false,
       "shortFlag": "-cs",
       "longFlag": "-crawl-scope",
-      "enumValues": [],
       "key": "crawl-scope",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Crawl-out-scope",
@@ -701,11 +587,8 @@
       "isGlobal": false,
       "shortFlag": "-cos",
       "longFlag": "-crawl-out-scope",
-      "enumValues": [],
       "key": "crawl-out-scope",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Field-scope",
@@ -718,11 +601,8 @@
       "defaultValue": "rdn",
       "shortFlag": "-fs",
       "longFlag": "-field-scope",
-      "enumValues": [],
       "key": "field-scope",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "No-scope",
@@ -734,11 +614,8 @@
       "isGlobal": false,
       "shortFlag": "-ns",
       "longFlag": "-no-scope",
-      "enumValues": [],
       "key": "no-scope",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Display-out-scope",
@@ -750,11 +627,8 @@
       "isGlobal": false,
       "shortFlag": "-do",
       "longFlag": "-display-out-scope",
-      "enumValues": [],
       "key": "display-out-scope",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Match-regex",
@@ -766,11 +640,8 @@
       "isGlobal": false,
       "shortFlag": "-mr",
       "longFlag": "-match-regex",
-      "enumValues": [],
       "key": "match-regex",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Filter-regex",
@@ -782,11 +653,8 @@
       "isGlobal": false,
       "shortFlag": "-fr",
       "longFlag": "-filter-regex",
-      "enumValues": [],
       "key": "filter-regex",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Field",
@@ -803,11 +671,8 @@
       "isGlobal": false,
       "shortFlag": "-f",
       "longFlag": "-field",
-      "enumValues": [],
       "key": "field",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Store-field",
@@ -824,11 +689,8 @@
       "isGlobal": false,
       "shortFlag": "-sf",
       "longFlag": "-store-field",
-      "enumValues": [],
       "key": "store-field",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Extension-match",
@@ -840,11 +702,8 @@
       "isGlobal": false,
       "shortFlag": "-em",
       "longFlag": "-extension-match",
-      "enumValues": [],
       "key": "extension-match",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Extension-filter",
@@ -856,11 +715,8 @@
       "isGlobal": false,
       "shortFlag": "-ef",
       "longFlag": "-extension-filter",
-      "enumValues": [],
       "key": "extension-filter",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Match-condition",
@@ -872,11 +728,8 @@
       "isGlobal": false,
       "shortFlag": "-mdc",
       "longFlag": "-match-condition",
-      "enumValues": [],
       "key": "match-condition",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Filter-condition",
@@ -888,11 +741,8 @@
       "isGlobal": false,
       "shortFlag": "-fdc",
       "longFlag": "-filter-condition",
-      "enumValues": [],
       "key": "filter-condition",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Concurrency",
@@ -905,11 +755,8 @@
       "defaultValue": "10",
       "shortFlag": "-c",
       "longFlag": "-concurrency",
-      "enumValues": [],
       "key": "concurrency",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Parallelism",
@@ -922,11 +769,8 @@
       "defaultValue": "10",
       "shortFlag": "-p",
       "longFlag": "-parallelism",
-      "enumValues": [],
       "key": "parallelism",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Delay",
@@ -938,11 +782,8 @@
       "isGlobal": false,
       "shortFlag": "-rd",
       "longFlag": "-delay",
-      "enumValues": [],
       "key": "delay",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Rate-limit",
@@ -955,11 +796,8 @@
       "defaultValue": "150",
       "shortFlag": "-rl",
       "longFlag": "-rate-limit",
-      "enumValues": [],
       "key": "rate-limit",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Rate-limit-minute",
@@ -971,11 +809,8 @@
       "isGlobal": false,
       "shortFlag": "-rlm",
       "longFlag": "-rate-limit-minute",
-      "enumValues": [],
       "key": "rate-limit-minute",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Update",
@@ -987,11 +822,8 @@
       "isGlobal": false,
       "shortFlag": "-up",
       "longFlag": "-update",
-      "enumValues": [],
       "key": "update",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Disable-update-check",
@@ -1008,11 +840,8 @@
       "isGlobal": false,
       "shortFlag": "-duc",
       "longFlag": "-disable-update-check",
-      "enumValues": [],
       "key": "disable-update-check",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Output",
@@ -1030,11 +859,8 @@
       "isGlobal": false,
       "shortFlag": "-o",
       "longFlag": "-output",
-      "enumValues": [],
       "key": "output",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Output-template",
@@ -1051,11 +877,8 @@
       "isGlobal": false,
       "shortFlag": "-ot",
       "longFlag": "-output-template",
-      "enumValues": [],
       "key": "output-template",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Store-response",
@@ -1067,11 +890,8 @@
       "isGlobal": false,
       "shortFlag": "-sr",
       "longFlag": "-store-response",
-      "enumValues": [],
       "key": "store-response",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Store-response-dir",
@@ -1088,11 +908,8 @@
       "isGlobal": false,
       "shortFlag": "-srd",
       "longFlag": "-store-response-dir",
-      "enumValues": [],
       "key": "store-response-dir",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "No-clobber",
@@ -1104,11 +921,8 @@
       "isGlobal": false,
       "shortFlag": "-ncb",
       "longFlag": "-no-clobber",
-      "enumValues": [],
       "key": "no-clobber",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Store-field-dir",
@@ -1125,11 +939,8 @@
       "isGlobal": false,
       "shortFlag": "-sfd",
       "longFlag": "-store-field-dir",
-      "enumValues": [],
       "key": "store-field-dir",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Omit-raw",
@@ -1146,11 +957,8 @@
       "isGlobal": false,
       "shortFlag": "-or",
       "longFlag": "-omit-raw",
-      "enumValues": [],
       "key": "omit-raw",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Omit-body",
@@ -1167,11 +975,8 @@
       "isGlobal": false,
       "shortFlag": "-ob",
       "longFlag": "-omit-body",
-      "enumValues": [],
       "key": "omit-body",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Jsonl",
@@ -1188,11 +993,8 @@
       "isGlobal": false,
       "shortFlag": "-j",
       "longFlag": "-jsonl",
-      "enumValues": [],
       "key": "jsonl",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "No-color",
@@ -1209,11 +1011,8 @@
       "isGlobal": false,
       "shortFlag": "-nc",
       "longFlag": "-no-color",
-      "enumValues": [],
       "key": "no-color",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Silent",
@@ -1229,11 +1028,8 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-silent",
-      "enumValues": [],
       "key": "silent",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Verbose",
@@ -1250,11 +1046,8 @@
       "isGlobal": false,
       "shortFlag": "-v",
       "longFlag": "-verbose",
-      "enumValues": [],
       "key": "verbose",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Debug",
@@ -1270,11 +1063,8 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-debug",
-      "enumValues": [],
       "key": "debug",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     },
     {
       "name": "Version",
@@ -1290,12 +1080,10 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-version",
-      "enumValues": [],
       "key": "version",
-      "commandKey": "katana",
-      "validations": [],
-      "dependencies": []
+      "commandKey": "katana"
     }
   ],
   "exclusionGroups": []
 }
+

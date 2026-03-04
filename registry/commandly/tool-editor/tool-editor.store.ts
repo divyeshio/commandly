@@ -59,9 +59,11 @@ export const toolBuilderSelectors = {
   },
 
   getExclusionGroupsForCommand: (state: ToolBuilderState, commandKey: string): ExclusionGroup[] => {
-    return state.tool.exclusionGroups.filter((group: ExclusionGroup) => {
-      return group.commandKey === commandKey;
-    });
+    return (
+      state.tool.exclusionGroups?.filter((group: ExclusionGroup) => {
+        return group.commandKey === commandKey;
+      }) ?? []
+    );
   },
 };
 
@@ -112,7 +114,7 @@ export const toolBuilderActions = {
           parameters: state.tool.parameters.filter(
             (param) => !commandsToDelete.includes(param.commandKey || ""),
           ),
-          exclusionGroups: state.tool.exclusionGroups.filter(
+          exclusionGroups: state.tool.exclusionGroups?.filter(
             (group) => !commandsToDelete.includes(group.commandKey || ""),
           ),
         },
@@ -158,7 +160,7 @@ export const toolBuilderActions = {
         tool: {
           ...state.tool,
           parameters: state.tool.parameters.filter((param) => param.key !== parameterKey),
-          exclusionGroups: state.tool.exclusionGroups.map((group) => ({
+          exclusionGroups: state.tool.exclusionGroups?.map((group) => ({
             ...group,
             parameterKeys: group.parameterKeys.filter((key) => key !== parameterKey),
           })),
@@ -217,7 +219,7 @@ export const toolBuilderActions = {
         ...state,
         tool: {
           ...state.tool,
-          exclusionGroups: [...state.tool.exclusionGroups, newGroup],
+          exclusionGroups: [...(state.tool.exclusionGroups ?? []), newGroup],
         },
       };
     });
@@ -232,7 +234,7 @@ export const toolBuilderActions = {
       ...state,
       tool: {
         ...state.tool,
-        exclusionGroups: state.tool.exclusionGroups.map((group) =>
+        exclusionGroups: state.tool.exclusionGroups?.map((group) =>
           group.key === updatedGroup.key ? updatedGroup : group,
         ),
       },
@@ -248,7 +250,7 @@ export const toolBuilderActions = {
       ...state,
       tool: {
         ...state.tool,
-        exclusionGroups: state.tool.exclusionGroups.filter((group) => group.key !== groupKey),
+        exclusionGroups: state.tool.exclusionGroups?.filter((group) => group.key !== groupKey),
       },
     }));
 

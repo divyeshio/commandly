@@ -53,10 +53,7 @@
         },
         "required": [
           "key",
-          "name",
-          "description",
-          "isDefault",
-          "sortOrder"
+          "name"
         ],
         "additionalProperties": false
       }
@@ -168,10 +165,7 @@
                 "key",
                 "parameterKey",
                 "value",
-                "displayName",
-                "description",
-                "isDefault",
-                "sortOrder"
+                "displayName"
               ],
               "additionalProperties": false
             }
@@ -252,14 +246,12 @@
         "required": [
           "key",
           "name",
-          "description",
           "parameterType",
           "dataType",
           "isRequired",
           "isRepeatable",
           "isGlobal",
-          "longFlag",
-          "enumValues"
+          "longFlag"
         ],
         "additionalProperties": false
       }
@@ -312,9 +304,7 @@
     "name",
     "displayName",
     "commands",
-    "parameters",
-    "exclusionGroups",
-    "metadata"
+    "parameters"
   ],
   "additionalProperties": false
 }
