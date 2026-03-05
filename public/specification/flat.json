@@ -44,7 +44,7 @@
       }
     },
     "metadata": {
-      "$ref": "#/definitions/Record%3Cstring%2Cunknown%3E"
+      "$ref": "#/definitions/ToolMetadata"
     }
   },
   "required": [
@@ -97,15 +97,7 @@
           "type": "string"
         },
         "metadata": {
-          "type": "object",
-          "properties": {
-            "tags": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          }
+          "$ref": "#/definitions/ParameterMetadata"
         },
         "parameterType": {
           "$ref": "#/definitions/ParameterType"
@@ -171,6 +163,17 @@
         "name",
         "parameterType"
       ]
+    },
+    "ParameterMetadata": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
     },
     "ParameterType": {
       "enum": [
@@ -326,7 +329,7 @@
       ],
       "type": "string"
     },
-    "Record<string,unknown>": {
+    "ToolMetadata": {
       "type": "object"
     }
   },

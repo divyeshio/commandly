@@ -42,7 +42,7 @@
       ]
     },
     "metadata": {
-      "$ref": "#/definitions/NestedToolMetadata"
+      "$ref": "#/definitions/ToolMetadata"
     }
   },
   "required": [
@@ -68,15 +68,7 @@
           "$ref": "#/definitions/ParameterDataType"
         },
         "metadata": {
-          "type": "object",
-          "properties": {
-            "tags": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          }
+          "$ref": "#/definitions/ParameterMetadata"
         },
         "isRequired": {
           "type": "boolean"
@@ -152,6 +144,17 @@
         "String"
       ],
       "type": "string"
+    },
+    "ParameterMetadata": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
     },
     "NestedParameterEnumValue": {
       "type": "object",
@@ -296,7 +299,7 @@
       ],
       "type": "string"
     },
-    "NestedToolMetadata": {
+    "ToolMetadata": {
       "type": "object"
     }
   },
