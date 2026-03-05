@@ -87,7 +87,13 @@ function Navbar() {
             to="/tools"
             className="font-serif whitespace-nowrap hover:underline"
           >
-            Explore Tools
+            Playground
+          </Link>
+          <Link
+            to="/docs"
+            className="font-serif whitespace-nowrap hover:underline"
+          >
+            Docs
           </Link>
         </div>
         <div className="flex min-w-0 flex-1 items-center justify-end gap-4">
@@ -148,7 +154,7 @@ function Navbar() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html suppressHydrationWarning={true}>
+    <html>
       <head>
         <script src="/spa-redirect.js"></script>
         <HeadContent />

@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolsIndexRouteImport } from './routes/tools/index'
+import { Route as DocsIndexRouteImport } from './routes/docs/index'
+import { Route as DocsComponentNameRouteImport } from './routes/docs/$componentName'
 import { Route as ToolsToolNameIndexRouteImport } from './routes/tools/$toolName/index'
 import { Route as ToolsToolNameEditRouteImport } from './routes/tools/$toolName/edit'
 
@@ -22,6 +24,16 @@ const IndexRoute = IndexRouteImport.update({
 const ToolsIndexRoute = ToolsIndexRouteImport.update({
   id: '/tools/',
   path: '/tools/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocsIndexRoute = DocsIndexRouteImport.update({
+  id: '/docs/',
+  path: '/docs/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocsComponentNameRoute = DocsComponentNameRouteImport.update({
+  id: '/docs/$componentName',
+  path: '/docs/$componentName',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ToolsToolNameIndexRoute = ToolsToolNameIndexRouteImport.update({
@@ -37,12 +49,16 @@ const ToolsToolNameEditRoute = ToolsToolNameEditRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/docs/$componentName': typeof DocsComponentNameRoute
+  '/docs/': typeof DocsIndexRoute
   '/tools/': typeof ToolsIndexRoute
   '/tools/$toolName/edit': typeof ToolsToolNameEditRoute
   '/tools/$toolName/': typeof ToolsToolNameIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/docs/$componentName': typeof DocsComponentNameRoute
+  '/docs': typeof DocsIndexRoute
   '/tools': typeof ToolsIndexRoute
   '/tools/$toolName/edit': typeof ToolsToolNameEditRoute
   '/tools/$toolName': typeof ToolsToolNameIndexRoute
@@ -50,18 +66,34 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/docs/$componentName': typeof DocsComponentNameRoute
+  '/docs/': typeof DocsIndexRoute
   '/tools/': typeof ToolsIndexRoute
   '/tools/$toolName/edit': typeof ToolsToolNameEditRoute
   '/tools/$toolName/': typeof ToolsToolNameIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/tools/' | '/tools/$toolName/edit' | '/tools/$toolName/'
+  fullPaths:
+    | '/'
+    | '/docs/$componentName'
+    | '/docs/'
+    | '/tools/'
+    | '/tools/$toolName/edit'
+    | '/tools/$toolName/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/tools' | '/tools/$toolName/edit' | '/tools/$toolName'
+  to:
+    | '/'
+    | '/docs/$componentName'
+    | '/docs'
+    | '/tools'
+    | '/tools/$toolName/edit'
+    | '/tools/$toolName'
   id:
     | '__root__'
     | '/'
+    | '/docs/$componentName'
+    | '/docs/'
     | '/tools/'
     | '/tools/$toolName/edit'
     | '/tools/$toolName/'
@@ -69,6 +101,8 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DocsComponentNameRoute: typeof DocsComponentNameRoute
+  DocsIndexRoute: typeof DocsIndexRoute
   ToolsIndexRoute: typeof ToolsIndexRoute
   ToolsToolNameEditRoute: typeof ToolsToolNameEditRoute
   ToolsToolNameIndexRoute: typeof ToolsToolNameIndexRoute
@@ -90,6 +124,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/docs/': {
+      id: '/docs/'
+      path: '/docs'
+      fullPath: '/docs/'
+      preLoaderRoute: typeof DocsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/docs/$componentName': {
+      id: '/docs/$componentName'
+      path: '/docs/$componentName'
+      fullPath: '/docs/$componentName'
+      preLoaderRoute: typeof DocsComponentNameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tools/$toolName/': {
       id: '/tools/$toolName/'
       path: '/tools/$toolName'
@@ -109,6 +157,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DocsComponentNameRoute: DocsComponentNameRoute,
+  DocsIndexRoute: DocsIndexRoute,
   ToolsIndexRoute: ToolsIndexRoute,
   ToolsToolNameEditRoute: ToolsToolNameEditRoute,
   ToolsToolNameIndexRoute: ToolsToolNameIndexRoute,

@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
-import { Tool, ToolSchema } from "@/registry/commandly/lib/types/commandly";
+import { Tool } from "@/registry/commandly/lib/types/commandly";
 import { FileTextIcon, Loader2Icon, UploadIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -25,7 +25,7 @@ export function ImportJSON({
     setIsImporting(true);
     try {
       const importedData = JSON.parse(jsonInput);
-      const tool = ToolSchema.parse(importedData);
+      const tool = importedData as Tool;
       onParseCompleted(tool);
       setJsonInput("");
     } catch (error) {

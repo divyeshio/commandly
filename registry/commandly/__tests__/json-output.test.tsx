@@ -104,7 +104,9 @@ describe("convertToNestedStructure", () => {
       },
     ];
     const result = convertToNestedStructure(tool);
-    expect((result.globalParameters[0] as Record<string, unknown>).validations).toHaveLength(1);
+    expect(
+      (result.globalParameters[0] as unknown as Record<string, unknown>).validations,
+    ).toHaveLength(1);
   });
 
   it("includes exclusionGroups when non-empty", () => {

@@ -2,7 +2,7 @@ import { useTheme } from "@/components/theme-switcher";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRightIcon, SparklesIcon, TerminalIcon } from "lucide-react";
+import { ArrowRightIcon, GitMergeIcon, SparklesIcon, TerminalIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/")({
@@ -483,9 +483,25 @@ function RouteComponent() {
             LinkedIn
           </a>
         </div>
-        <span className="mt-6 text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Commandly. All rights reserved.
-        </span>
+        <div className="mt-6 flex items-center gap-3 text-xs text-muted-foreground">
+          <span>© {new Date().getFullYear()} Commandly. All rights reserved.</span>
+          {COMMIT_SHA && (
+            <>
+              <a
+                href={`https://github.com/divyeshio/commandly/commit/${COMMIT_SHA}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex gap-1 font-mono transition-colors hover:text-primary"
+              >
+                <GitMergeIcon
+                  size={12}
+                  className="text-muted-foreground"
+                />
+                {COMMIT_SHA.slice(0, 7)}
+              </a>
+            </>
+          )}
+        </div>
       </footer>
     </div>
   );

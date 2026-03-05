@@ -1,0 +1,84 @@
+name: Validate Tool PR
+
+on:
+  pull_request:
+    paths:
+      - "public/tools-collection/**"
+
+permissions:
+  pull-requests: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    name: Validate Tool JSON
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate changed tool files
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { execSync } = require("child_process");
+
+            const changedFiles = execSync(
+              `git diff --name-only origin/${context.payload.pull_request.base.ref}...HEAD -- "public/tools-collection/"`,
+              { encoding: "utf-8" }
+            ).trim().split("\n").filter(Boolean);
+
+            const errors = [];
+
+            for (const file of changedFiles) {
+              if (!file.endsWith(".json")) continue;
+
+              const fs = require("fs");
+              const path = require("path");
+              const fileName = path.basename(file, ".json");
+
+              let content;
+              try {
+                content = fs.readFileSync(file, "utf-8");
+              } catch {
+                errors.push(`❌ \`${file}\`: Could not read file.`);
+                continue;
+              }
+
+              let tool;
+              try {
+                tool = JSON.parse(content);
+              } catch (e) {
+                errors.push(`❌ \`${file}\`: Invalid JSON — ${e.message}`);
+                continue;
+              }
+
+              if (!tool.name) {
+                errors.push(`❌ \`${file}\`: Missing required \`name\` field.`);
+              } else if (tool.name !== fileName) {
+                errors.push(`❌ \`${file}\`: \`name\` field (\`${tool.name}\`) does not match filename (\`${fileName}\`).`);
+              }
+
+              if (!tool.displayName) {
+                errors.push(`❌ \`${file}\`: Missing required \`displayName\` field.`);
+              }
+
+              if (!Array.isArray(tool.commands) || tool.commands.length === 0) {
+                errors.push(`❌ \`${file}\`: \`commands\` must be a non-empty array.`);
+              }
+
+              if (!Array.isArray(tool.parameters)) {
+                errors.push(`❌ \`${file}\`: \`parameters\` must be an array.`);
+              }
+            }
+
+            if (errors.length > 0) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                body: `## Tool Validation Failed\n\n${errors.join("\n")}\n\nPlease fix the above issues and push again.`,
+              });
+              core.setFailed(`Validation failed with ${errors.length} error(s).`);
+            }
