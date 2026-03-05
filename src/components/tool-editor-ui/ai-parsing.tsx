@@ -13,14 +13,13 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { replaceKey } from "@/lib/utils";
-import { Tool, ToolSchema } from "@/registry/commandly/lib/types/commandly";
+import { Tool } from "@/registry/commandly/lib/types/commandly";
 import { createOpenAI } from "@ai-sdk/openai";
 import { useDebouncedValue } from "@tanstack/react-pacer";
 import { streamText } from "ai";
 import { Loader2Icon, Wand2Icon } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import z from "zod/v4";
 
 export function AIParsing({ onParseCompleted }: { onParseCompleted: (tool: Tool | null) => void }) {
   const [helpText, setHelpText] = useState("");
@@ -51,7 +50,7 @@ export function AIParsing({ onParseCompleted }: { onParseCompleted: (tool: Tool 
     setIsParsingHelp(true);
     try {
       const openai = createOpenAI({ apiKey: apiKey });
-      const jsonSchema = z.toJSONSchema(ToolSchema);
+      const jsonSchema = await fetch("/specification/flat.json").then((r) => r.json());
       const systemPrompt = generateSystemPrompt(helpText, JSON.stringify(jsonSchema, null, 2));
 
       const { textStream } = streamText({
@@ -77,21 +76,14 @@ export function AIParsing({ onParseCompleted }: { onParseCompleted: (tool: Tool 
   const validateJson = useCallback(
     (jsonString: string) => {
       try {
-        const parsedTool = ToolSchema.parse(JSON.parse(jsonString));
+        const parsedTool = JSON.parse(jsonString) as Tool;
         const modifiedTool = replaceKey(parsedTool);
         setJson(JSON.stringify(modifiedTool, null, 2));
         onParseCompleted(modifiedTool);
       } catch (error) {
         console.error("Error parsing JSON:", error);
         onParseCompleted(null);
-        if (error instanceof z.ZodError) {
-          toast.error(`Invalid JSON: ${error.name}. Please check the format.`, {
-            description: z.prettifyError(error),
-            duration: 5000,
-          });
-        } else {
-          toast.error("Failed to parse JSON. Please check the format.");
-        }
+        toast.error("Failed to parse JSON. Please check the format.");
       }
     },
     [onParseCompleted],

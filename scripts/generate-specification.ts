@@ -1,16 +1,25 @@
 import { writeFileSync } from "fs";
 import { join } from "path";
 
-import { ToolSchema } from "@/registry/commandly/lib/types/commandly";
-import { NestedToolSchema } from "@/registry/commandly/lib/types/commandly-nested";
-import * as z from "zod/v4";
+import * as TJS from "typescript-json-schema";
 
-// Generate Flat Specification
-const flatJsonSchema = z.toJSONSchema(ToolSchema);
+const settings: TJS.PartialArgs = {
+  required: true,
+  ref: true,
+};
+
+const tsConfigPath = join(process.cwd(), "tsconfig.json");
+
+const flatProgram = TJS.programFromConfig(tsConfigPath, [
+  join(process.cwd(), "registry/commandly/lib/types/commandly.ts"),
+]);
+const flatSchema = TJS.generateSchema(flatProgram, "Tool", settings);
 const flatOutputPath = join(process.cwd(), "public", "specification", "flat.json");
-writeFileSync(flatOutputPath, JSON.stringify(flatJsonSchema, null, 2));
+writeFileSync(flatOutputPath, JSON.stringify(flatSchema, null, 2));
 
-// Generate Nested Specification
-const nestedJsonSchema = z.toJSONSchema(NestedToolSchema);
+const nestedProgram = TJS.programFromConfig(tsConfigPath, [
+  join(process.cwd(), "registry/commandly/lib/types/commandly-nested.ts"),
+]);
+const nestedSchema = TJS.generateSchema(nestedProgram, "NestedTool", settings);
 const nestedOutputPath = join(process.cwd(), "public", "specification", "nested.json");
-writeFileSync(nestedOutputPath, JSON.stringify(nestedJsonSchema, null, 2));
+writeFileSync(nestedOutputPath, JSON.stringify(nestedSchema, null, 2));

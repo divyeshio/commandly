@@ -64,7 +64,7 @@ export function ToolCard({
             <Link
               to="/tools/$toolName/edit"
               params={{ toolName: tool.name! }}
-              {...(isLocal ? { search: { newTool: tool.name } } : {})}
+              search={{ newTool: isLocal ? tool.name : undefined }}
             >
               <Edit2Icon className="size-4" />
             </Link>
@@ -136,7 +136,7 @@ export function ToolCard({
             preload="intent"
             to="/tools/$toolName"
             params={{ toolName: tool.name! }}
-            {...(isLocal ? { search: { newTool: tool.name } } : {})}
+            search={{ newTool: isLocal ? tool.name : undefined }}
           >
             Go
           </Link>

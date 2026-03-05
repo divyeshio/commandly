@@ -193,7 +193,7 @@ export function ParameterDetailsDialog() {
       return false;
     }
 
-    if (!parameter.name.trim() || !parameter.longFlag.trim()) {
+    if (!parameter.name.trim() || !parameter.longFlag?.trim()) {
       return false;
     }
     if (
