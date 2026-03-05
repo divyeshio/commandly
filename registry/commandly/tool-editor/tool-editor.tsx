@@ -26,7 +26,11 @@ interface ToolEditorProps {
   isNewTool?: boolean;
 }
 
-export default function ToolEditor({ tool: toolToEdit, onSave, isNewTool = false }: ToolEditorProps) {
+export default function ToolEditor({
+  tool: toolToEdit,
+  onSave,
+  isNewTool = false,
+}: ToolEditorProps) {
   const tool = useStore(toolBuilderStore, (state) => state.tool);
 
   useEffect(() => {

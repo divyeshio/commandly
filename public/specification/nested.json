@@ -175,13 +175,11 @@
         },
         "required": [
           "name",
-          "description",
           "parameterType",
           "dataType",
           "isRequired",
           "isRepeatable",
-          "isGlobal",
-          "longFlag"
+          "isGlobal"
         ],
         "additionalProperties": false
       }
@@ -417,13 +415,11 @@
             },
             "required": [
               "name",
-              "description",
               "parameterType",
               "dataType",
               "isRequired",
               "isRepeatable",
-              "isGlobal",
-              "longFlag"
+              "isGlobal"
             ],
             "additionalProperties": false
           }
@@ -437,7 +433,6 @@
       },
       "required": [
         "name",
-        "description",
         "isDefault",
         "sortOrder",
         "parameters",

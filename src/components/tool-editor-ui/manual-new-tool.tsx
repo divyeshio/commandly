@@ -1,7 +1,8 @@
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
-import { Tool, ManualNewTool } from "@/registry/commandly/lib/types/commandly";
+import { ManualNewTool } from "@/lib/types";
+import { Tool } from "@/registry/commandly/lib/types/commandly";
 import { defaultTool } from "@/registry/commandly/lib/utils/commandly";
 import { useEffect, useState } from "react";
 

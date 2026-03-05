@@ -75,7 +75,7 @@ export const ParameterSchema = z.object({
   isGlobal: z.boolean(),
   defaultValue: z.string().optional(),
   shortFlag: z.string().optional(),
-  longFlag: z.string(),
+  longFlag: z.string().optional(),
   position: z.number().optional(),
   sortOrder: z.number().optional(),
   arraySeparator: z.string().optional(),
@@ -121,25 +121,3 @@ export const ToolSchema = z.object({
   metadata: ToolMetadataSchema.optional(),
 });
 export type Tool = z.infer<typeof ToolSchema>;
-
-export const AIParseRequestSchema = z.object({
-  helpText: z.string(),
-  toolName: z.string().optional(),
-});
-export type AIParseRequest = z.infer<typeof AIParseRequestSchema>;
-
-export const AIParseResponseSchema = z.object({
-  success: z.boolean(),
-  data: ToolSchema.optional(),
-  error: z.string().optional(),
-});
-export type AIParseResponse = z.infer<typeof AIParseResponseSchema>;
-
-export const newToolSchema = z.object({
-  displayName: z.string(),
-  name: z.string(),
-  version: z.string().optional(),
-  description: z.string().optional(),
-  url: z.url().optional(),
-});
-export type ManualNewTool = z.infer<typeof newToolSchema>;

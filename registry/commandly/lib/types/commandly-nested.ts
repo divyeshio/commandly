@@ -31,7 +31,7 @@ export type NestedParameterDependency = z.infer<typeof NestedParameterDependency
 export const NestedParameterSchema: z.ZodType<object> = z.lazy(() =>
   z.object({
     name: z.string(),
-    description: z.string(),
+    description: z.string().optional(),
     parameterType: ParameterTypeSchema,
     dataType: ParameterDataTypeSchema,
     metadata: ParameterMetadataSchema.optional(),
@@ -40,7 +40,7 @@ export const NestedParameterSchema: z.ZodType<object> = z.lazy(() =>
     isGlobal: z.boolean(),
     defaultValue: z.string().optional(),
     shortFlag: z.string().optional(),
-    longFlag: z.string(),
+    longFlag: z.string().optional(),
     position: z.number().optional(),
     sortOrder: z.number().optional(),
     arraySeparator: z.string().optional(),
@@ -55,7 +55,7 @@ export type NestedParameter = z.infer<typeof NestedParameterSchema>;
 export const NestedCommandSchema: z.ZodType<object> = z.lazy(() =>
   z.object({
     name: z.string(),
-    description: z.string(),
+    description: z.string().optional(),
     isDefault: z.boolean(),
     sortOrder: z.number(),
     parameters: z.array(NestedParameterSchema),

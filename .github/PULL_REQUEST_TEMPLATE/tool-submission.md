@@ -4,11 +4,11 @@ Closes #
 
 ### Details
 
-| Field | Value |
-|---|---|
-| Tool Name | `` |
-| Type | New Tool / Tool Edit |
-| File | `public/tools-collection/` |
+| Field     | Value                      |
+| --------- | -------------------------- |
+| Tool Name | ``                         |
+| Type      | New Tool / Tool Edit       |
+| File      | `public/tools-collection/` |
 
 ### Checklist
 
