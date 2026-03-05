@@ -74,7 +74,7 @@ jobs:
           else
             git add .
             git commit -m "chore: update generated specifications and registry"
-            git push
+            git push origin HEAD:${{ github.head_ref }}
           fi
 
       - run: bun run build

@@ -48,7 +48,7 @@ jobs:
           else
             git add .
             git commit -m "chore: update generated specifications and registry"
-            git push
+            git push origin HEAD:main
           fi
 
       - run: bun run build
