@@ -30,6 +30,14 @@ export default defineConfig({
             crawlLinks: false,
           },
         },
+        {
+          path: "/docs",
+          prerender: {
+            outputPath: "/docs.html",
+            enabled: true,
+            crawlLinks: false,
+          },
+        },
       ],
       spa: {
         enabled: true,
@@ -45,5 +53,8 @@ export default defineConfig({
   ],
   server: {
     port: 4001,
+  },
+  define: {
+    COMMIT_SHA: `"${process.env.GITHUB_SHA?.slice(0, 7).toString()}"`,
   },
 });

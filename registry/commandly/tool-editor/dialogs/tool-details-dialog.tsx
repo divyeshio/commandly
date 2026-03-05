@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { Textarea } from "@/components/ui/textarea";
 import { SupportedToolInputType, SupportedToolOutputType } from "@/lib/types";
+import { ToolMetadata } from "@/registry/commandly/lib/types/commandly";
 import { TagsInput } from "@/registry/commandly/ui/tags-input";
 import { useStore } from "@tanstack/react-store";
 import { SettingsIcon } from "lucide-react";
@@ -98,7 +99,7 @@ export function ToolDetailsDialog() {
                     metadata: {
                       ...tool.metadata,
                       supportedInput: value.map((v) => v as SupportedToolInputType),
-                    },
+                    } as ToolMetadata,
                   })
                 }
                 defaultValue={tool.metadata?.supportedInput}
@@ -116,7 +117,7 @@ export function ToolDetailsDialog() {
                     metadata: {
                       ...tool.metadata,
                       supportedOutput: value.map((v) => v as SupportedToolOutputType),
-                    },
+                    } as ToolMetadata,
                   })
                 }
                 defaultValue={tool.metadata?.supportedOutput}

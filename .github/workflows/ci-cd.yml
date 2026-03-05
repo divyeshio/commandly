@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and Test
     permissions:
-      contents: read
+      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -31,6 +31,25 @@ jobs:
 
       - name: Install dependencies
         run: bun install
+
+      - name: Generate specifications
+        run: bun run specification:build
+
+      - name: Build registry
+        run: bun run registry:build
+
+      - name: Commit changes if any
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+          if git diff --quiet; then
+            echo "No changes to commit"
+          else
+            git add .
+            git commit -m "chore: update generated specifications and registry"
+            git push
+          fi
 
       - run: bun run build
       # - run: bun run test

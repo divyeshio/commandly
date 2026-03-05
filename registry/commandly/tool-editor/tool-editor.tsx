@@ -42,18 +42,32 @@ export default function ToolEditor({
   const handleContribute = async () => {
     const currentTool = toolBuilderStore.state.tool;
     const json = JSON.stringify(currentTool, null, 2);
-    const template = isNewTool ? "new-tool.yml" : "edit-tool.yml";
-    const titlePrefix = isNewTool ? "tool(new)%3A+" : "tool(edit)%3A+";
-    const baseUrl = `https://github.com/${GITHUB_REPO}/issues/new?template=${template}&title=${titlePrefix}${encodeURIComponent(currentTool.name)}&tool_name=${encodeURIComponent(currentTool.name)}`;
+    const filePath = `public/tools-collection/${currentTool.name}.json`;
 
-    if (json.length <= MAX_URL_JSON_LENGTH) {
-      window.open(`${baseUrl}&tool_json=${encodeURIComponent(json)}`, "_blank");
+    if (isNewTool) {
+      const message = encodeURIComponent(`feat(tools): add ${currentTool.name}`);
+      const filename = encodeURIComponent(filePath);
+      if (json.length <= MAX_URL_JSON_LENGTH) {
+        window.open(
+          `https://github.com/${GITHUB_REPO}/new/main?filename=${filename}&value=${encodeURIComponent(json)}&message=${message}`,
+          "_blank",
+        );
+      } else {
+        await navigator.clipboard.writeText(json);
+        toast("JSON copied to clipboard", {
+          description: "Paste it into the file editor that will open.",
+        });
+        window.open(
+          `https://github.com/${GITHUB_REPO}/new/main?filename=${filename}&message=${message}`,
+          "_blank",
+        );
+      }
     } else {
       await navigator.clipboard.writeText(json);
       toast("JSON copied to clipboard", {
-        description: "Paste it into the 'Tool JSON' field in the GitHub form that will open.",
+        description: "Paste it into the file editor that will open to create a PR.",
       });
-      window.open(baseUrl, "_blank");
+      window.open(`https://github.com/${GITHUB_REPO}/edit/main/${filePath}`, "_blank");
     }
   };
 

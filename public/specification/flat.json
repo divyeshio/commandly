@@ -1,5 +1,4 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "properties": {
     "name": {
@@ -24,286 +23,312 @@
       }
     },
     "url": {
-      "type": "string",
-      "format": "uri"
+      "type": "string"
     },
     "commands": {
       "type": "array",
       "items": {
-        "type": "object",
-        "properties": {
-          "key": {
-            "type": "string"
-          },
-          "parentCommandKey": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "isDefault": {
-            "type": "boolean"
-          },
-          "sortOrder": {
-            "type": "number"
-          }
-        },
-        "required": [
-          "key",
-          "name"
-        ],
-        "additionalProperties": false
+        "$ref": "#/definitions/Command"
       }
     },
     "parameters": {
       "type": "array",
       "items": {
-        "type": "object",
-        "properties": {
-          "key": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "commandKey": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "metadata": {
-            "type": "object",
-            "properties": {
-              "tags": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            },
-            "additionalProperties": false
-          },
-          "parameterType": {
-            "type": "string",
-            "enum": [
-              "Flag",
-              "Option",
-              "Argument"
-            ]
-          },
-          "dataType": {
-            "type": "string",
-            "enum": [
-              "String",
-              "Number",
-              "Boolean",
-              "Enum"
-            ]
-          },
-          "isRequired": {
-            "type": "boolean"
-          },
-          "isRepeatable": {
-            "type": "boolean"
-          },
-          "isGlobal": {
-            "type": "boolean"
-          },
-          "defaultValue": {
-            "type": "string"
-          },
-          "shortFlag": {
-            "type": "string"
-          },
-          "longFlag": {
-            "type": "string"
-          },
-          "position": {
-            "type": "number"
-          },
-          "sortOrder": {
-            "type": "number"
-          },
-          "arraySeparator": {
-            "type": "string"
-          },
-          "keyValueSeparator": {
-            "type": "string"
-          },
-          "enumValues": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "key": {
-                  "type": "string"
-                },
-                "parameterKey": {
-                  "type": "string"
-                },
-                "value": {
-                  "type": "string"
-                },
-                "displayName": {
-                  "type": "string"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "isDefault": {
-                  "type": "boolean"
-                },
-                "sortOrder": {
-                  "type": "number"
-                }
-              },
-              "required": [
-                "key",
-                "parameterKey",
-                "value",
-                "displayName"
-              ],
-              "additionalProperties": false
-            }
-          },
-          "validations": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "key": {
-                  "type": "string"
-                },
-                "parameterKey": {
-                  "type": "string"
-                },
-                "validationType": {
-                  "type": "string",
-                  "enum": [
-                    "min_length",
-                    "max_length",
-                    "min_value",
-                    "max_value",
-                    "regex"
-                  ]
-                },
-                "validationValue": {
-                  "type": "string"
-                },
-                "errorMessage": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "key",
-                "parameterKey",
-                "validationType",
-                "validationValue",
-                "errorMessage"
-              ],
-              "additionalProperties": false
-            }
-          },
-          "dependencies": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "key": {
-                  "type": "string"
-                },
-                "parameterKey": {
-                  "type": "string"
-                },
-                "dependsOnParameterKey": {
-                  "type": "string"
-                },
-                "dependencyType": {
-                  "type": "string",
-                  "enum": [
-                    "requires",
-                    "conflicts_with"
-                  ]
-                },
-                "conditionValue": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "key",
-                "parameterKey",
-                "dependsOnParameterKey",
-                "dependencyType"
-              ],
-              "additionalProperties": false
-            }
-          }
-        },
-        "required": [
-          "key",
-          "name",
-          "parameterType",
-          "dataType",
-          "isRequired",
-          "isRepeatable",
-          "isGlobal"
-        ],
-        "additionalProperties": false
+        "$ref": "#/definitions/Parameter"
       }
     },
     "exclusionGroups": {
       "type": "array",
       "items": {
-        "type": "object",
-        "properties": {
-          "key": {
-            "type": "string"
-          },
-          "commandKey": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "exclusionType": {
-            "type": "string",
-            "enum": [
-              "mutual_exclusive",
-              "required_one_of"
-            ]
-          },
-          "parameterKeys": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "required": [
-          "name",
-          "exclusionType",
-          "parameterKeys"
-        ],
-        "additionalProperties": false
+        "$ref": "#/definitions/ExclusionGroup"
       }
     },
     "metadata": {
-      "type": "object",
-      "propertyNames": {
-        "type": "string"
-      },
-      "additionalProperties": {}
+      "$ref": "#/definitions/Record%3Cstring%2Cunknown%3E"
     }
   },
   "required": [
-    "name",
-    "displayName",
     "commands",
+    "displayName",
+    "name",
     "parameters"
   ],
-  "additionalProperties": false
+  "definitions": {
+    "Command": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "parentCommandKey": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "isDefault": {
+          "type": "boolean"
+        },
+        "sortOrder": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "key",
+        "name"
+      ]
+    },
+    "Parameter": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "commandKey": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "parameterType": {
+          "$ref": "#/definitions/ParameterType"
+        },
+        "dataType": {
+          "$ref": "#/definitions/ParameterDataType"
+        },
+        "isRequired": {
+          "type": "boolean"
+        },
+        "isRepeatable": {
+          "type": "boolean"
+        },
+        "isGlobal": {
+          "type": "boolean"
+        },
+        "defaultValue": {
+          "type": "string"
+        },
+        "shortFlag": {
+          "type": "string"
+        },
+        "longFlag": {
+          "type": "string"
+        },
+        "position": {
+          "type": "number"
+        },
+        "sortOrder": {
+          "type": "number"
+        },
+        "arraySeparator": {
+          "type": "string"
+        },
+        "keyValueSeparator": {
+          "type": "string"
+        },
+        "enumValues": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParameterEnumValue"
+          }
+        },
+        "validations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParameterValidation"
+          }
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParameterDependency"
+          }
+        }
+      },
+      "required": [
+        "dataType",
+        "isGlobal",
+        "isRepeatable",
+        "isRequired",
+        "key",
+        "name",
+        "parameterType"
+      ]
+    },
+    "ParameterType": {
+      "enum": [
+        "Argument",
+        "Flag",
+        "Option"
+      ],
+      "type": "string"
+    },
+    "ParameterDataType": {
+      "enum": [
+        "Boolean",
+        "Enum",
+        "Number",
+        "String"
+      ],
+      "type": "string"
+    },
+    "ParameterEnumValue": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "parameterKey": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "isDefault": {
+          "type": "boolean"
+        },
+        "sortOrder": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "displayName",
+        "key",
+        "parameterKey",
+        "value"
+      ]
+    },
+    "ParameterValidation": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "parameterKey": {
+          "type": "string"
+        },
+        "validationType": {
+          "$ref": "#/definitions/ParameterValidationType"
+        },
+        "validationValue": {
+          "type": "string"
+        },
+        "errorMessage": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "errorMessage",
+        "key",
+        "parameterKey",
+        "validationType",
+        "validationValue"
+      ]
+    },
+    "ParameterValidationType": {
+      "enum": [
+        "max_length",
+        "max_value",
+        "min_length",
+        "min_value",
+        "regex"
+      ],
+      "type": "string"
+    },
+    "ParameterDependency": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "parameterKey": {
+          "type": "string"
+        },
+        "dependsOnParameterKey": {
+          "type": "string"
+        },
+        "dependencyType": {
+          "$ref": "#/definitions/ParameterDependencyType"
+        },
+        "conditionValue": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "dependencyType",
+        "dependsOnParameterKey",
+        "key",
+        "parameterKey"
+      ]
+    },
+    "ParameterDependencyType": {
+      "enum": [
+        "conflicts_with",
+        "requires"
+      ],
+      "type": "string"
+    },
+    "ExclusionGroup": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "commandKey": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "exclusionType": {
+          "$ref": "#/definitions/ExclusionType"
+        },
+        "parameterKeys": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "exclusionType",
+        "name",
+        "parameterKeys"
+      ]
+    },
+    "ExclusionType": {
+      "enum": [
+        "mutual_exclusive",
+        "required_one_of"
+      ],
+      "type": "string"
+    },
+    "Record<string,unknown>": {
+      "type": "object"
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
 }

@@ -1,5 +1,4 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "properties": {
     "name": {
@@ -15,179 +14,18 @@
       "type": "string"
     },
     "url": {
-      "type": "string",
-      "format": "uri"
+      "type": "string"
     },
     "globalParameters": {
       "type": "array",
       "items": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "parameterType": {
-            "type": "string",
-            "enum": [
-              "Flag",
-              "Option",
-              "Argument"
-            ]
-          },
-          "dataType": {
-            "type": "string",
-            "enum": [
-              "String",
-              "Number",
-              "Boolean",
-              "Enum"
-            ]
-          },
-          "metadata": {
-            "type": "object",
-            "properties": {
-              "tags": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            },
-            "additionalProperties": false
-          },
-          "isRequired": {
-            "type": "boolean"
-          },
-          "isRepeatable": {
-            "type": "boolean"
-          },
-          "isGlobal": {
-            "type": "boolean"
-          },
-          "defaultValue": {
-            "type": "string"
-          },
-          "shortFlag": {
-            "type": "string"
-          },
-          "longFlag": {
-            "type": "string"
-          },
-          "position": {
-            "type": "number"
-          },
-          "sortOrder": {
-            "type": "number"
-          },
-          "arraySeparator": {
-            "type": "string"
-          },
-          "keyValueSeparator": {
-            "type": "string"
-          },
-          "enumValues": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "value": {
-                  "type": "string"
-                },
-                "displayName": {
-                  "type": "string"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "isDefault": {
-                  "type": "boolean"
-                },
-                "sortOrder": {
-                  "type": "number"
-                }
-              },
-              "required": [
-                "value",
-                "displayName"
-              ],
-              "additionalProperties": false
-            }
-          },
-          "validations": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "validationType": {
-                  "type": "string",
-                  "enum": [
-                    "min_length",
-                    "max_length",
-                    "min_value",
-                    "max_value",
-                    "regex"
-                  ]
-                },
-                "validationValue": {
-                  "type": "string"
-                },
-                "errorMessage": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "validationType",
-                "validationValue",
-                "errorMessage"
-              ],
-              "additionalProperties": false
-            }
-          },
-          "dependencies": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "dependsOnParameter": {
-                  "type": "string"
-                },
-                "dependencyType": {
-                  "type": "string",
-                  "enum": [
-                    "requires",
-                    "conflicts_with"
-                  ]
-                },
-                "conditionValue": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "dependsOnParameter",
-                "dependencyType"
-              ],
-              "additionalProperties": false
-            }
-          }
-        },
-        "required": [
-          "name",
-          "parameterType",
-          "dataType",
-          "isRequired",
-          "isRepeatable",
-          "isGlobal"
-        ],
-        "additionalProperties": false
+        "$ref": "#/definitions/NestedParameter"
       }
     },
     "commands": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/__schema0"
+        "$ref": "#/definitions/NestedCommand"
       }
     },
     "exclusionGroups": {
@@ -195,31 +33,7 @@
         {
           "type": "array",
           "items": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "exclusionType": {
-                "type": "string",
-                "enum": [
-                  "mutual_exclusive",
-                  "required_one_of"
-                ]
-              },
-              "parameters": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            },
-            "required": [
-              "name",
-              "exclusionType",
-              "parameters"
-            ],
-            "additionalProperties": false
+            "$ref": "#/definitions/NestedExclusionGroup"
           }
         },
         {
@@ -228,22 +42,196 @@
       ]
     },
     "metadata": {
-      "type": "object",
-      "propertyNames": {
-        "type": "string"
-      },
-      "additionalProperties": {}
+      "$ref": "#/definitions/NestedToolMetadata"
     }
   },
   "required": [
-    "name",
+    "commands",
     "displayName",
     "globalParameters",
-    "commands"
+    "name"
   ],
-  "additionalProperties": false,
-  "$defs": {
-    "__schema0": {
+  "definitions": {
+    "NestedParameter": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "parameterType": {
+          "$ref": "#/definitions/ParameterType"
+        },
+        "dataType": {
+          "$ref": "#/definitions/ParameterDataType"
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "isRequired": {
+          "type": "boolean"
+        },
+        "isRepeatable": {
+          "type": "boolean"
+        },
+        "isGlobal": {
+          "type": "boolean"
+        },
+        "defaultValue": {
+          "type": "string"
+        },
+        "shortFlag": {
+          "type": "string"
+        },
+        "longFlag": {
+          "type": "string"
+        },
+        "position": {
+          "type": "number"
+        },
+        "sortOrder": {
+          "type": "number"
+        },
+        "arraySeparator": {
+          "type": "string"
+        },
+        "keyValueSeparator": {
+          "type": "string"
+        },
+        "enumValues": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NestedParameterEnumValue"
+          }
+        },
+        "validations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NestedParameterValidation"
+          }
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NestedParameterDependency"
+          }
+        }
+      },
+      "required": [
+        "dataType",
+        "isGlobal",
+        "isRepeatable",
+        "isRequired",
+        "name",
+        "parameterType"
+      ]
+    },
+    "ParameterType": {
+      "enum": [
+        "Argument",
+        "Flag",
+        "Option"
+      ],
+      "type": "string"
+    },
+    "ParameterDataType": {
+      "enum": [
+        "Boolean",
+        "Enum",
+        "Number",
+        "String"
+      ],
+      "type": "string"
+    },
+    "NestedParameterEnumValue": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "isDefault": {
+          "type": "boolean"
+        },
+        "sortOrder": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "displayName",
+        "value"
+      ]
+    },
+    "NestedParameterValidation": {
+      "type": "object",
+      "properties": {
+        "validationType": {
+          "$ref": "#/definitions/ParameterValidationType"
+        },
+        "validationValue": {
+          "type": "string"
+        },
+        "errorMessage": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "errorMessage",
+        "validationType",
+        "validationValue"
+      ]
+    },
+    "ParameterValidationType": {
+      "enum": [
+        "max_length",
+        "max_value",
+        "min_length",
+        "min_value",
+        "regex"
+      ],
+      "type": "string"
+    },
+    "NestedParameterDependency": {
+      "type": "object",
+      "properties": {
+        "dependsOnParameter": {
+          "type": "string"
+        },
+        "dependencyType": {
+          "$ref": "#/definitions/ParameterDependencyType"
+        },
+        "conditionValue": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "dependencyType",
+        "dependsOnParameter"
+      ]
+    },
+    "ParameterDependencyType": {
+      "enum": [
+        "conflicts_with",
+        "requires"
+      ],
+      "type": "string"
+    },
+    "NestedCommand": {
       "type": "object",
       "properties": {
         "name": {
@@ -261,184 +249,56 @@
         "parameters": {
           "type": "array",
           "items": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "description": {
-                "type": "string"
-              },
-              "parameterType": {
-                "type": "string",
-                "enum": [
-                  "Flag",
-                  "Option",
-                  "Argument"
-                ]
-              },
-              "dataType": {
-                "type": "string",
-                "enum": [
-                  "String",
-                  "Number",
-                  "Boolean",
-                  "Enum"
-                ]
-              },
-              "metadata": {
-                "type": "object",
-                "properties": {
-                  "tags": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "additionalProperties": false
-              },
-              "isRequired": {
-                "type": "boolean"
-              },
-              "isRepeatable": {
-                "type": "boolean"
-              },
-              "isGlobal": {
-                "type": "boolean"
-              },
-              "defaultValue": {
-                "type": "string"
-              },
-              "shortFlag": {
-                "type": "string"
-              },
-              "longFlag": {
-                "type": "string"
-              },
-              "position": {
-                "type": "number"
-              },
-              "sortOrder": {
-                "type": "number"
-              },
-              "arraySeparator": {
-                "type": "string"
-              },
-              "keyValueSeparator": {
-                "type": "string"
-              },
-              "enumValues": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "value": {
-                      "type": "string"
-                    },
-                    "displayName": {
-                      "type": "string"
-                    },
-                    "description": {
-                      "type": "string"
-                    },
-                    "isDefault": {
-                      "type": "boolean"
-                    },
-                    "sortOrder": {
-                      "type": "number"
-                    }
-                  },
-                  "required": [
-                    "value",
-                    "displayName"
-                  ],
-                  "additionalProperties": false
-                }
-              },
-              "validations": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "validationType": {
-                      "type": "string",
-                      "enum": [
-                        "min_length",
-                        "max_length",
-                        "min_value",
-                        "max_value",
-                        "regex"
-                      ]
-                    },
-                    "validationValue": {
-                      "type": "string"
-                    },
-                    "errorMessage": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "validationType",
-                    "validationValue",
-                    "errorMessage"
-                  ],
-                  "additionalProperties": false
-                }
-              },
-              "dependencies": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "dependsOnParameter": {
-                      "type": "string"
-                    },
-                    "dependencyType": {
-                      "type": "string",
-                      "enum": [
-                        "requires",
-                        "conflicts_with"
-                      ]
-                    },
-                    "conditionValue": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "dependsOnParameter",
-                    "dependencyType"
-                  ],
-                  "additionalProperties": false
-                }
-              }
-            },
-            "required": [
-              "name",
-              "parameterType",
-              "dataType",
-              "isRequired",
-              "isRepeatable",
-              "isGlobal"
-            ],
-            "additionalProperties": false
+            "$ref": "#/definitions/NestedParameter"
           }
         },
         "subcommands": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/__schema0"
+            "$ref": "#/definitions/NestedCommand"
           }
         }
       },
       "required": [
-        "name",
         "isDefault",
-        "sortOrder",
+        "name",
         "parameters",
+        "sortOrder",
         "subcommands"
+      ]
+    },
+    "NestedExclusionGroup": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "exclusionType": {
+          "$ref": "#/definitions/ExclusionType"
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "exclusionType",
+        "name",
+        "parameters"
+      ]
+    },
+    "ExclusionType": {
+      "enum": [
+        "mutual_exclusive",
+        "required_one_of"
       ],
-      "additionalProperties": false
+      "type": "string"
+    },
+    "NestedToolMetadata": {
+      "type": "object"
     }
-  }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
 }

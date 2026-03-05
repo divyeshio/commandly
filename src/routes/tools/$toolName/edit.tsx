@@ -1,18 +1,14 @@
 import { fetchToolDetails } from "@/lib/api/tools.api";
-import { Tool, ToolSchema } from "@/registry/commandly/lib/types/commandly";
+import { Tool } from "@/registry/commandly/lib/types/commandly";
 import { defaultTool } from "@/registry/commandly/lib/utils/commandly";
 import ToolEditor from "@/registry/commandly/tool-editor/tool-editor";
 import { createFileRoute } from "@tanstack/react-router";
-import { zodValidator } from "@tanstack/zod-adapter";
-import z from "zod/v4";
-
-const SearchParamsSchema = z.object({
-  newTool: z.string().optional(),
-});
 
 export const Route = createFileRoute("/tools/$toolName/edit")({
   component: RouteComponent,
-  validateSearch: zodValidator(SearchParamsSchema),
+  validateSearch: (search) => ({
+    newTool: typeof search.newTool === "string" ? search.newTool : undefined,
+  }),
   loaderDeps: ({ search: { newTool } }) => ({
     newTool,
   }),
@@ -20,8 +16,7 @@ export const Route = createFileRoute("/tools/$toolName/edit")({
     if (newTool) {
       const newToolData = localStorage.getItem(`tool-${newTool}`);
       if (newToolData) {
-        const validatedTool = zodValidator(ToolSchema).parse(JSON.parse(newToolData));
-        return validatedTool;
+        return JSON.parse(newToolData) as Tool;
       } else {
         return defaultTool() as Tool;
       }
