@@ -10,8 +10,12 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { Parameter, ParameterValue } from "@/registry/commandly/lib/types/commandly";
+import { ParameterValue } from "@/registry/commandly/lib/types/commandly";
 import { Command, Tool } from "@/registry/commandly/lib/types/commandly";
+import {
+  ParameterRenderContext,
+  ParameterRendererEntry,
+} from "@/registry/commandly/lib/types/renderer";
 import { InfoIcon } from "lucide-react";
 import React from "react";
 
@@ -78,13 +82,7 @@ function ParameterLabel({
   );
 }
 
-type ParameterInputProps = {
-  parameter: Parameter;
-  value: ParameterValue;
-  onUpdate: (value: ParameterValue) => void;
-};
-
-function FlagInput({ parameter, value, onUpdate }: ParameterInputProps) {
+function FlagInput({ parameter, value, onUpdate }: ParameterRenderContext) {
   return (
     <div className="flex items-center space-x-2">
       <Switch
@@ -104,7 +102,7 @@ function FlagInput({ parameter, value, onUpdate }: ParameterInputProps) {
   );
 }
 
-function OptionEnumInput({ parameter, value, onUpdate }: ParameterInputProps) {
+function OptionEnumInput({ parameter, value, onUpdate }: ParameterRenderContext) {
   return (
     <div className="space-y-2">
       <ParameterLabel
@@ -138,7 +136,7 @@ function OptionEnumInput({ parameter, value, onUpdate }: ParameterInputProps) {
   );
 }
 
-function OptionBooleanInput({ parameter, value, onUpdate }: ParameterInputProps) {
+function OptionBooleanInput({ parameter, value, onUpdate }: ParameterRenderContext) {
   return (
     <div className="flex items-center space-x-2">
       <Switch
@@ -158,7 +156,7 @@ function OptionBooleanInput({ parameter, value, onUpdate }: ParameterInputProps)
   );
 }
 
-function OptionTextInput({ parameter, value, onUpdate }: ParameterInputProps) {
+function OptionTextInput({ parameter, value, onUpdate }: ParameterRenderContext) {
   return (
     <div className="space-y-2">
       <ParameterLabel
@@ -180,7 +178,7 @@ function OptionTextInput({ parameter, value, onUpdate }: ParameterInputProps) {
   );
 }
 
-function ArgumentInput({ parameter, value, onUpdate }: ParameterInputProps) {
+function ArgumentInput({ parameter, value, onUpdate }: ParameterRenderContext) {
   return (
     <div className="space-y-2">
       <ParameterLabel
@@ -206,19 +204,43 @@ function ArgumentInput({ parameter, value, onUpdate }: ParameterInputProps) {
   );
 }
 
-interface RuntimePreviewProps {
+export function defaultComponents(): ParameterRendererEntry[] {
+  return [
+    { condition: (p) => p.parameterType === "Flag", component: (ctx) => <FlagInput {...ctx} /> },
+    {
+      condition: (p) => p.parameterType === "Argument",
+      component: (ctx) => <ArgumentInput {...ctx} />,
+    },
+    {
+      condition: (p) => p.parameterType === "Option" && p.dataType === "Enum",
+      component: (ctx) => <OptionEnumInput {...ctx} />,
+    },
+    {
+      condition: (p) => p.parameterType === "Option" && p.dataType === "Boolean",
+      component: (ctx) => <OptionBooleanInput {...ctx} />,
+    },
+    {
+      condition: (p) => p.parameterType === "Option",
+      component: (ctx) => <OptionTextInput {...ctx} />,
+    },
+  ];
+}
+
+interface ToolRendererProps {
   selectedCommand?: Command | null;
   tool: Tool;
+  catalog?: ParameterRendererEntry[];
   parameterValues: Record<string, ParameterValue>;
   updateParameterValue: (parameterKey: string, value: ParameterValue) => void;
 }
 
-export function RuntimePreview({
+export function ToolRenderer({
   selectedCommand: providedCommand,
   tool,
+  catalog = defaultComponents(),
   parameterValues,
   updateParameterValue,
-}: RuntimePreviewProps) {
+}: ToolRendererProps) {
   const selectedCommand = providedCommand ?? findDefaultCommand(tool);
 
   return (
@@ -233,58 +255,12 @@ export function RuntimePreview({
               .map((parameter) => {
                 const value = parameterValues[parameter.key] || parameter.defaultValue || "";
                 const onUpdate = (val: ParameterValue) => updateParameterValue(parameter.key, val);
-
-                if (parameter.parameterType === "Flag") {
-                  return (
-                    <FlagInput
-                      key={parameter.key}
-                      parameter={parameter}
-                      value={value}
-                      onUpdate={onUpdate}
-                    />
-                  );
-                }
-                if (parameter.parameterType === "Argument") {
-                  return (
-                    <ArgumentInput
-                      key={parameter.key}
-                      parameter={parameter}
-                      value={value}
-                      onUpdate={onUpdate}
-                    />
-                  );
-                }
-                if (parameter.parameterType === "Option") {
-                  if (parameter.dataType === "Enum") {
-                    return (
-                      <OptionEnumInput
-                        key={parameter.key}
-                        parameter={parameter}
-                        value={value}
-                        onUpdate={onUpdate}
-                      />
-                    );
-                  }
-                  if (parameter.dataType === "Boolean") {
-                    return (
-                      <OptionBooleanInput
-                        key={parameter.key}
-                        parameter={parameter}
-                        value={value}
-                        onUpdate={onUpdate}
-                      />
-                    );
-                  }
-                  return (
-                    <OptionTextInput
-                      key={parameter.key}
-                      parameter={parameter}
-                      value={value}
-                      onUpdate={onUpdate}
-                    />
-                  );
-                }
-                return null;
+                const entry = catalog.find((e) => e.condition(parameter));
+                return entry ? (
+                  <React.Fragment key={parameter.key}>
+                    {entry.component({ parameter, value, onUpdate })}
+                  </React.Fragment>
+                ) : null;
               })
           ) : (
             <p className="text-sm text-muted-foreground">

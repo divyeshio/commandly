@@ -1,7 +1,9 @@
 {
+  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
   "name": "yt-dlp",
   "displayName": "yt-dlp",
   "description": "yt-dlp is a command-line program to download videos from YouTube and other sites.",
+  "url": "https://github.com/yt-dlp/yt-dlp",
   "metadata": {
     "supportedInput": [
       "Parameter"

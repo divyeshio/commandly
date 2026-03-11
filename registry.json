@@ -33,9 +33,13 @@
           "target": "components/commandly/json-output.tsx"
         },
         {
-          "path": "registry/commandly/runtime-preview.tsx",
+          "path": "registry/commandly/tool-renderer.tsx",
           "type": "registry:component",
-          "target": "components/commandly/runtime-preview.tsx"
+          "target": "components/commandly/tool-renderer.tsx"
+        },
+        {
+          "path": "registry/commandly/lib/types/renderer.ts",
+          "type": "registry:lib"
         },
         {
           "path": "registry/commandly/lib/types/commandly.ts",
@@ -136,9 +140,13 @@
           "target": "components/commandly/generated-command.tsx"
         },
         {
-          "path": "registry/commandly/runtime-preview.tsx",
+          "path": "registry/commandly/tool-renderer.tsx",
           "type": "registry:component",
-          "target": "components/commandly/runtime-preview.tsx"
+          "target": "components/commandly/tool-renderer.tsx"
+        },
+        {
+          "path": "registry/commandly/lib/types/renderer.ts",
+          "type": "registry:lib"
         },
         {
           "path": "registry/commandly/json-output.tsx",
@@ -218,17 +226,21 @@
       ]
     },
     {
-      "name": "runtime-preview",
+      "name": "tool-renderer",
       "type": "registry:component",
-      "title": "Runtime Preview",
+      "title": "Tool Renderer",
       "description": "A component that provides real-time preview of CLI command execution and output.",
       "dependencies": ["react"],
       "registryDependencies": ["button", "scroll-area", "tabs"],
       "files": [
         {
-          "path": "registry/commandly/runtime-preview.tsx",
+          "path": "registry/commandly/tool-renderer.tsx",
           "type": "registry:component",
-          "target": "components/commandly/runtime-preview.tsx"
+          "target": "components/commandly/tool-renderer.tsx"
+        },
+        {
+          "path": "registry/commandly/lib/types/renderer.ts",
+          "type": "registry:lib"
         },
         {
           "path": "registry/commandly/lib/types/commandly.ts",
@@ -236,40 +248,6 @@
         },
         {
           "path": "registry/commandly/lib/types/commandly-nested.ts",
-          "type": "registry:lib"
-        }
-      ]
-    },
-    {
-      "name": "commandly-types",
-      "type": "registry:lib",
-      "title": "Commandly Types",
-      "description": "TypeScript type definitions for the Commandly tool editor system including schemas for tools, commands, and parameters.",
-      "files": [
-        {
-          "path": "registry/commandly/lib/types/commandly.ts",
-          "type": "registry:lib"
-        },
-        {
-          "path": "registry/commandly/lib/types/commandly-nested.ts",
-          "type": "registry:lib"
-        }
-      ]
-    },
-    {
-      "name": "commandly-utils",
-      "type": "registry:lib",
-      "title": "Commandly Utils",
-      "description": "Utility functions for the Commandly tool editor system including command generation and parameter handling.",
-      "dependencies": ["react"],
-      "registryDependencies": [],
-      "files": [
-        {
-          "path": "registry/commandly/lib/utils/commandly.ts",
-          "type": "registry:lib"
-        },
-        {
-          "path": "registry/commandly/lib/utils/commandly-nested.ts",
           "type": "registry:lib"
         }
       ]
