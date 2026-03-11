@@ -81,7 +81,8 @@ server.registerTool(
 server.registerTool(
   "get-tool-details",
   {
-    description: "Get detailed information about a specific CLI tool including all commands and parameters",
+    description:
+      "Get detailed information about a specific CLI tool including all commands and parameters",
     inputSchema: z.object({
       toolName: z.string().describe("The name of the tool to retrieve details for"),
     }),
