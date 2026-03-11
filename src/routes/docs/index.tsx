@@ -21,7 +21,7 @@ function typeLabel(type: string): string {
 }
 
 function ItemCard({ item }: { item: RegistryItem }) {
-  const installCmd = `npx shadcn@latest add https://commandly.divyeshio.in/r/${item.name}`;
+  const installCmd = `npx shadcn@latest add https://commandly.divyeshio.in/r/${item.name}.json`;
 
   return (
     <div className="flex flex-col gap-3 rounded-lg border bg-card p-5">

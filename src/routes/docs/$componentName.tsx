@@ -53,7 +53,7 @@ function fileTabLabel(path: string): string {
 }
 
 function ComponentDetail({ item }: { item: RegistryItem }) {
-  const installCmd = `npx shadcn@latest add https://commandly.divyeshio.in/r/${item.name}`;
+  const installCmd = `npx shadcn@latest add https://commandly.divyeshio.in/r/${item.name}.json`;
   const filesWithContent = item.files.filter((f) => f.content);
 
   return (
