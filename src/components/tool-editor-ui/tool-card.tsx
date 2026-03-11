@@ -39,7 +39,6 @@ export function ToolCard({
         viewTransitionName: `tool-card-${tool.name}`,
       }}
     >
-      
       <CardHeader className="flex items-center justify-between border-b [.border-b]:pb-1">
         <CardTitle className="font-semibold">
           <span

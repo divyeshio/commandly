@@ -14,6 +14,7 @@ import {
   defaultTool,
   getSavedCommandsFromStorage,
   removeSavedCommandFromStorage,
+  slugify,
 } from "@/registry/commandly/lib/utils/commandly";
 import { defaultComponents, ToolRenderer } from "@/registry/commandly/tool-renderer";
 import { createFileRoute } from "@tanstack/react-router";
@@ -21,7 +22,6 @@ import { CheckIcon, ChevronsUpDownIcon, InfoIcon, SaveIcon, TerminalIcon } from 
 import { useQueryState } from "nuqs";
 import { useState } from "react";
 import { toast } from "sonner";
-import { v7 as uuidv7 } from "uuid";
 
 export const Route = createFileRoute("/tools/$toolName/")({
   component: RouteComponent,
@@ -80,7 +80,7 @@ function RouteComponent() {
       return;
     }
     const newSavedCommand: SavedCommand = {
-      key: uuidv7(),
+      key: slugify(command.substring(0, 20)),
       command,
     };
 

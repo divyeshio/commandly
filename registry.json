@@ -64,7 +64,7 @@
       "type": "registry:block",
       "title": "Tool Editor",
       "description": "A comprehensive tool editor for creating and editing CLI tools with parameter management, command trees, and preview functionality.",
-      "dependencies": ["react", "lucide-react", "sonner", "@tanstack/react-store"],
+      "dependencies": ["react", "lucide-react", "sonner"],
       "registryDependencies": [
         "button",
         "dialog",
@@ -85,9 +85,9 @@
           "target": "components/commandly/tool-editor/tool-editor.tsx"
         },
         {
-          "path": "registry/commandly/tool-editor/tool-editor.store.ts",
+          "path": "registry/commandly/tool-editor/tool-editor.context.tsx",
           "type": "registry:component",
-          "target": "components/commandly/tool-editor/tool-editor.store.tsx"
+          "target": "components/commandly/tool-editor/tool-editor.context.tsx"
         },
         {
           "path": "registry/commandly/tool-editor/command-tree.tsx",

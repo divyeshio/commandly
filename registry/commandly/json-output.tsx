@@ -13,7 +13,6 @@ import { Tool } from "@/registry/commandly/lib/types/commandly";
 import { exportToStructuredJSON } from "@/registry/commandly/lib/utils/commandly";
 import { convertToNestedStructure } from "@/registry/commandly/lib/utils/commandly-nested";
 import { CheckIcon, ChevronsUpDownIcon, CopyIcon } from "lucide-react";
-import { useQueryState } from "nuqs";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -29,9 +28,7 @@ interface JsonTypeComponentProps {
 export function JsonOutput({ tool }: JsonTypeComponentProps) {
   const [open, setOpen] = useState(false);
   const [jsonString, setJsonString] = useState<string>();
-  const [jsonType, setJsonType] = useQueryState("output", {
-    defaultValue: "flat",
-  });
+  const [jsonType, setJsonType] = useState<"nested" | "flat">("flat");
   useEffect(() => {
     const config =
       jsonType === "flat" ? exportToStructuredJSON(tool) : convertToNestedStructure(tool);
@@ -67,7 +64,7 @@ export function JsonOutput({ tool }: JsonTypeComponentProps) {
                         key={option.value}
                         value={option.value}
                         onSelect={(currentValue) => {
-                          setJsonType(currentValue);
+                          setJsonType(currentValue as "nested" | "flat");
                           setOpen(false);
                         }}
                       >
