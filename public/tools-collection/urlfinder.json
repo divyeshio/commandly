@@ -1,7 +1,9 @@
 {
+  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
   "name": "urlfinder",
   "displayName": "URLFinder",
   "description": "A streamlined tool for discovering associated URLs.",
+  "url": "https://github.com/projectdiscovery/urlfinder",
   "metadata": {
     "supportedInput": [
       "StandardInput",

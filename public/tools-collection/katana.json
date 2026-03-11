@@ -1,7 +1,9 @@
 {
+  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
   "name": "katana",
   "displayName": "Katana",
   "description": "Katana is a fast crawler focused on execution in automation pipelines offering both headless and non-headless crawling.",
+  "url": "https://github.com/projectdiscovery/katana",
   "metadata": {
     "supportedInput": [
       "StandardInput",

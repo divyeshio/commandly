@@ -1,0 +1,107 @@
+# Tool Editor
+
+A full-featured editor for creating and managing CLI tool definitions with command trees, parameter management, and live preview.
+
+## Installation
+
+<CodeTabs defaultValue="cli">
+  <TabsList>
+    <TabsTrigger value="cli">CLI</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+  <TabsContent value="cli">
+    <CodeBlockCommand
+      __pnpm__="pnpm dlx shadcn@latest add https://commandly.divyeshio.in/r/tool-editor.json"
+      __npm__="npx shadcn@latest add https://commandly.divyeshio.in/r/tool-editor.json"
+      __yarn__="yarn dlx shadcn@latest add https://commandly.divyeshio.in/r/tool-editor.json"
+      __bun__="bunx --bun shadcn@latest add https://commandly.divyeshio.in/r/tool-editor.json"
+    />
+  </TabsContent>
+  <TabsContent value="manual">
+    <Steps>
+      <Step>Install the required dependencies:</Step>
+      <CodeBlockCommand
+        __pnpm__="pnpm add lucide-react sonner @tanstack/react-store"
+        __npm__="npm install lucide-react sonner @tanstack/react-store"
+        __yarn__="yarn add lucide-react sonner @tanstack/react-store"
+        __bun__="bun add lucide-react sonner @tanstack/react-store"
+      />
+      <Step>
+        Copy the `tool-editor/` directory into `components/commandly/tool-editor/` in your project.
+      </Step>
+      <Step>Update import paths to match your project setup.</Step>
+    </Steps>
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ToolEditor } from "@/components/commandly/tool-editor/tool-editor";
+```
+
+### Basic Usage
+
+```tsx
+<ToolEditor />
+```
+
+The editor initialises with an empty tool. Users can add commands and parameters interactively via the UI.
+
+### With an Existing Tool
+
+```tsx
+import { toolEditorStore } from "@/components/commandly/tool-editor/tool-editor.store"
+
+// Load a tool into the store before rendering
+toolEditorStore.setState((s) => ({ ...s, tool: myExistingTool }))
+
+<ToolEditor />
+```
+
+### Listening to Changes
+
+The editor's state is managed via a `@tanstack/react-store` store. Subscribe to it for programmatic access:
+
+```tsx
+import { useStore } from "@tanstack/react-store";
+import { toolEditorStore } from "@/components/commandly/tool-editor/tool-editor.store";
+
+function ToolConsumer() {
+  const tool = useStore(toolEditorStore, (s) => s.tool);
+  return <pre>{JSON.stringify(tool, null, 2)}</pre>;
+}
+```
+
+## API Reference
+
+### ToolEditor
+
+The root component. Takes no props — all state is managed internally via the store.
+
+### toolEditorStore
+
+A `@tanstack/react-store` store instance.
+
+| State Key              | Type             | Description                     |
+| ---------------------- | ---------------- | ------------------------------- |
+| `tool`                 | `Tool`           | The current tool definition     |
+| `selectedCommandKey`   | `string \| null` | The currently focused command   |
+| `selectedParameterKey` | `string \| null` | The currently focused parameter |
+
+### Sub-components
+
+| Component       | Description                                                                     |
+| --------------- | ------------------------------------------------------------------------------- |
+| `CommandTree`   | Displays commands in a hierarchical tree; click to select                       |
+| `ParameterList` | Lists parameters for the selected command with add/edit/delete actions          |
+| `PreviewTabs`   | Live preview tabs showing the rendered form, generated command, and JSON output |
+| `HelpMenu`      | Reference panel for parameter types and flags                                   |
+
+## Notes
+
+- The editor uses `@tanstack/react-store` for shared state — no context providers needed
+- Commands support unlimited nesting via `parentCommandKey`
+- The exclusion groups dialog lets you define mutually exclusive parameter sets
+- Saved commands are persisted to `localStorage` via the store
+- The block includes all dialogs (`CommandDialog`, `ParameterDetailsDialog`, `ToolDetailsDialog`, `ExclusionGroupsDialog`, `SavedCommandsDialog`)

@@ -75,6 +75,7 @@ function RouteComponent() {
   };
 
   return (
+    <div className="mt-16">
     <ToolEditor
       tool={tool!}
       isNewTool={!!newTool}
@@ -85,5 +86,6 @@ function RouteComponent() {
       onSaveCommand={handleSaveCommand}
       onDeleteSavedCommand={handleDeleteSavedCommand}
     />
+    </div>
   );
 }

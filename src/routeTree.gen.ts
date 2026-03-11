@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as DocsRouteRouteImport } from './routes/docs/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolsIndexRouteImport } from './routes/tools/index'
 import { Route as DocsIndexRouteImport } from './routes/docs/index'
@@ -16,6 +17,11 @@ import { Route as DocsComponentNameRouteImport } from './routes/docs/$componentN
 import { Route as ToolsToolNameIndexRouteImport } from './routes/tools/$toolName/index'
 import { Route as ToolsToolNameEditRouteImport } from './routes/tools/$toolName/edit'
 
+const DocsRouteRoute = DocsRouteRouteImport.update({
+  id: '/docs',
+  path: '/docs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -27,14 +33,14 @@ const ToolsIndexRoute = ToolsIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const DocsIndexRoute = DocsIndexRouteImport.update({
-  id: '/docs/',
-  path: '/docs/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => DocsRouteRoute,
 } as any)
 const DocsComponentNameRoute = DocsComponentNameRouteImport.update({
-  id: '/docs/$componentName',
-  path: '/docs/$componentName',
-  getParentRoute: () => rootRouteImport,
+  id: '/$componentName',
+  path: '/$componentName',
+  getParentRoute: () => DocsRouteRoute,
 } as any)
 const ToolsToolNameIndexRoute = ToolsToolNameIndexRouteImport.update({
   id: '/tools/$toolName/',
@@ -49,6 +55,7 @@ const ToolsToolNameEditRoute = ToolsToolNameEditRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/docs': typeof DocsRouteRouteWithChildren
   '/docs/$componentName': typeof DocsComponentNameRoute
   '/docs/': typeof DocsIndexRoute
   '/tools/': typeof ToolsIndexRoute
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/docs': typeof DocsRouteRouteWithChildren
   '/docs/$componentName': typeof DocsComponentNameRoute
   '/docs/': typeof DocsIndexRoute
   '/tools/': typeof ToolsIndexRoute
@@ -76,6 +84,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/docs'
     | '/docs/$componentName'
     | '/docs/'
     | '/tools/'
@@ -92,6 +101,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/docs'
     | '/docs/$componentName'
     | '/docs/'
     | '/tools/'
@@ -101,8 +111,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DocsComponentNameRoute: typeof DocsComponentNameRoute
-  DocsIndexRoute: typeof DocsIndexRoute
+  DocsRouteRoute: typeof DocsRouteRouteWithChildren
   ToolsIndexRoute: typeof ToolsIndexRoute
   ToolsToolNameEditRoute: typeof ToolsToolNameEditRoute
   ToolsToolNameIndexRoute: typeof ToolsToolNameIndexRoute
@@ -110,6 +119,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/docs': {
+      id: '/docs'
+      path: '/docs'
+      fullPath: '/docs'
+      preLoaderRoute: typeof DocsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -126,17 +142,17 @@ declare module '@tanstack/react-router' {
     }
     '/docs/': {
       id: '/docs/'
-      path: '/docs'
+      path: '/'
       fullPath: '/docs/'
       preLoaderRoute: typeof DocsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof DocsRouteRoute
     }
     '/docs/$componentName': {
       id: '/docs/$componentName'
-      path: '/docs/$componentName'
+      path: '/$componentName'
       fullPath: '/docs/$componentName'
       preLoaderRoute: typeof DocsComponentNameRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof DocsRouteRoute
     }
     '/tools/$toolName/': {
       id: '/tools/$toolName/'
@@ -155,10 +171,23 @@ declare module '@tanstack/react-router' {
   }
 }
 
-const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+interface DocsRouteRouteChildren {
+  DocsComponentNameRoute: typeof DocsComponentNameRoute
+  DocsIndexRoute: typeof DocsIndexRoute
+}
+
+const DocsRouteRouteChildren: DocsRouteRouteChildren = {
   DocsComponentNameRoute: DocsComponentNameRoute,
   DocsIndexRoute: DocsIndexRoute,
+}
+
+const DocsRouteRouteWithChildren = DocsRouteRoute._addFileChildren(
+  DocsRouteRouteChildren,
+)
+
+const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  DocsRouteRoute: DocsRouteRouteWithChildren,
   ToolsIndexRoute: ToolsIndexRoute,
   ToolsToolNameEditRoute: ToolsToolNameEditRoute,
   ToolsToolNameIndexRoute: ToolsToolNameIndexRoute,

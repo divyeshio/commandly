@@ -9,8 +9,8 @@ import {
 } from "@/components/ui/card";
 import { HoverCard, HoverCardTrigger, HoverCardContent } from "@/components/ui/hover-card";
 import { Tool } from "@/registry/commandly/lib/types/commandly";
-import { Link } from "@tanstack/react-router";
-import { Edit2Icon, Trash2Icon } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { Edit2Icon, ExternalLinkIcon, Trash2Icon } from "lucide-react";
 import { useRef, useEffect, useState } from "react";
 
 export function ToolCard({
@@ -32,12 +32,23 @@ export function ToolCard({
     }
   }, [tool.description]);
 
+  const navigation = useNavigate();
+
+  const handleCardClick = () => {
+    navigation({
+      to: "/tools/$toolName",
+      params: { toolName: tool.name! },
+      search: { newTool: isLocal ? tool.name : undefined },
+    });
+  };
+
   return (
     <Card
       className="flex h-72 w-72 flex-col gap-0 overflow-hidden py-3 hover:shadow-md"
       style={{
         viewTransitionName: `tool-card-${tool.name}`,
       }}
+      onClick={handleCardClick}
     >
       <CardHeader className="flex items-center justify-between border-b [.border-b]:pb-1">
         <CardTitle className="font-semibold">
@@ -50,36 +61,58 @@ export function ToolCard({
             {tool.displayName}
           </span>
         </CardTitle>
-        <CardAction>
-          <Button
-            variant="link"
-            size="icon"
-            className="text-foreground dark:text-primary"
-            asChild
-          >
-            <Link
-              to="/tools/$toolName/edit"
-              params={{ toolName: tool.name! }}
-              search={{ newTool: isLocal ? tool.name : undefined }}
-            >
-              <Edit2Icon className="size-4" />
-            </Link>
-          </Button>
-          {isLocal && (
-            <Button
-              size="icon"
-              variant="link"
-              className="cursor-pointer text-foreground dark:text-primary"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                onDelete?.(tool);
-              }}
-            >
-              <Trash2Icon className="size-4" />
-            </Button>
+        <div className="flex gap-1">
+          {tool.url && (
+            <CardAction>
+              <Button
+                asChild
+                className="text-foreground"
+                size="icon"
+                variant="link"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <a
+                  href={tool.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ExternalLinkIcon />
+                </a>
+              </Button>
+            </CardAction>
           )}
-        </CardAction>
+          <CardAction>
+            <Button
+              variant="link"
+              size="icon"
+              asChild
+            >
+              <Link
+                to="/tools/$toolName/edit"
+                params={{ toolName: tool.name! }}
+                search={{ newTool: isLocal ? tool.name : undefined }}
+              >
+                <Edit2Icon className="size-4" />
+              </Link>
+            </Button>
+            {isLocal && (
+              <Button
+                size="icon"
+                variant="link"
+                className="cursor-pointer text-foreground dark:text-primary"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onDelete?.(tool);
+                }}
+              >
+                <Trash2Icon className="size-4" />
+              </Button>
+            )}
+          </CardAction>
+        </div>
       </CardHeader>
       <Link
         to="/tools/$toolName"

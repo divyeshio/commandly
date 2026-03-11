@@ -1,6 +1,6 @@
 import { GeneratedCommand } from "../generated-command";
 import { JsonOutput } from "../json-output";
-import { RuntimePreview } from "../runtime-preview";
+import { ToolRenderer } from "../tool-renderer";
 import { HelpMenu } from "./help-menu";
 import { useToolBuilder } from "./tool-editor.context";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -42,7 +42,7 @@ export function PreviewTabs({ onSaveCommand }: PreviewTabsProps) {
               <CardTitle>Runtime Preview</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <RuntimePreview
+              <ToolRenderer
                 selectedCommand={selectedCommand}
                 tool={tool}
                 parameterValues={parameterValues}

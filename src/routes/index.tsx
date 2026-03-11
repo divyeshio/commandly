@@ -281,7 +281,7 @@ function RouteComponent() {
           <div className="flex flex-col items-center gap-4 sm:flex-row">
             <Button
               size="lg"
-              className="hover:shadow-3xl group relative overflow-hidden rounded-2xl bg-linear-to-r from-primary to-primary/80 px-12 py-8 text-xl text-primary-foreground shadow-2xl transition-all hover:scale-105 hover:from-primary/90 hover:to-primary focus:ring-4 focus:ring-primary/40 focus:outline-none"
+              className="hover:shadow-3xl group relative overflow-hidden rounded-2xl bg-linear-to-r from-primary to-primary/80 px-12 py-6 text-xl text-primary-foreground shadow-2xl transition-all hover:scale-105 hover:from-primary/90 hover:to-primary focus:ring-4 focus:ring-primary/40 focus:outline-none"
               asChild
             >
               <Link

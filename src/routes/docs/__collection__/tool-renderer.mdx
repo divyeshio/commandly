@@ -1,0 +1,119 @@
+# Tool Renderer
+
+Renders a CLI tool's parameters as interactive form inputs for real-time preview.
+
+<ComponentPreview name="tool-renderer" />
+
+## Installation
+
+<CodeTabs defaultValue="cli">
+  <TabsList>
+    <TabsTrigger value="cli">CLI</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+  <TabsContent value="cli">
+    <CodeBlockCommand
+      __pnpm__="pnpm dlx shadcn@latest add https://commandly.divyeshio.in/r/tool-renderer.json"
+      __npm__="npx shadcn@latest add https://commandly.divyeshio.in/r/tool-renderer.json"
+      __yarn__="yarn dlx shadcn@latest add https://commandly.divyeshio.in/r/tool-renderer.json"
+      __bun__="bunx --bun shadcn@latest add https://commandly.divyeshio.in/r/tool-renderer.json"
+    />
+  </TabsContent>
+  <TabsContent value="manual">
+    <Steps>
+      <Step>
+        Copy `tool-renderer.tsx` into `components/commandly/tool-renderer.tsx` in your project.
+      </Step>
+      <Step>Update import paths to match your project setup.</Step>
+    </Steps>
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ToolRenderer } from "@/components/commandly/tool-renderer";
+```
+
+### Basic Usage
+
+```tsx
+const [values, setValues] = useState<Record<string, ParameterValue>>({})
+
+<ToolRenderer
+  tool={tool}
+  parameterValues={values}
+  updateParameterValue={(key, val) =>
+    setValues((prev) => ({ ...prev, [key]: val }))
+  }
+/>
+```
+
+### With a Specific Command
+
+```tsx
+<ToolRenderer
+  tool={tool}
+  selectedCommand={tool.commands[1]}
+  parameterValues={values}
+  updateParameterValue={(key, val) => setValues((prev) => ({ ...prev, [key]: val }))}
+/>
+```
+
+### Custom Parameter Renderers
+
+You can override how specific parameters are rendered by providing a custom `catalog`:
+
+```tsx
+import { defaultComponents } from "@/components/commandly/tool-renderer"
+import type { ParameterRendererEntry } from "@/components/commandly/lib/types/renderer"
+
+const customCatalog: ParameterRendererEntry[] = [
+  {
+    condition: (p) => p.dataType === "String" && p.name === "format",
+    component: ({ parameter, value, onUpdate }) => (
+      <select value={String(value)} onChange={(e) => onUpdate(e.target.value)}>
+        <option value="json">JSON</option>
+        <option value="csv">CSV</option>
+      </select>
+    ),
+  },
+  ...defaultComponents(),
+]
+
+<ToolRenderer tool={tool} parameterValues={values} updateParameterValue={...} catalog={customCatalog} />
+```
+
+## API Reference
+
+### ToolRenderer
+
+| Prop                   | Type                                           | Default               | Description                                                     |
+| ---------------------- | ---------------------------------------------- | --------------------- | --------------------------------------------------------------- |
+| `tool`                 | `Tool`                                         | —                     | The tool definition to render inputs for                        |
+| `selectedCommand`      | `Command`                                      | Auto-detected default | The command whose parameters should be shown                    |
+| `parameterValues`      | `Record<string, ParameterValue>`               | —                     | Current values keyed by parameter key                           |
+| `updateParameterValue` | `(key: string, value: ParameterValue) => void` | —                     | Callback to update a parameter's value                          |
+| `catalog`              | `ParameterRendererEntry[]`                     | `defaultComponents()` | Ordered list of renderer entries; first matching condition wins |
+
+### ParameterRendererEntry
+
+| Field       | Type                                                        | Description                                     |
+| ----------- | ----------------------------------------------------------- | ----------------------------------------------- |
+| `condition` | `(parameter: Parameter) => boolean`                         | Predicate to match a parameter to this renderer |
+| `component` | `(context: ParameterRenderContext) => ReactElement \| null` | Component that renders the input                |
+
+### ParameterRenderContext
+
+| Field       | Type                              | Description                  |
+| ----------- | --------------------------------- | ---------------------------- |
+| `parameter` | `Parameter`                       | The parameter definition     |
+| `value`     | `ParameterValue`                  | The current value            |
+| `onUpdate`  | `(value: ParameterValue) => void` | Callback to push a new value |
+
+## Notes
+
+- The default catalog renders `Flag` → checkbox, `Option` → text/number/select input, `Argument` → text input
+- Global parameters are shown regardless of the selected command
+- If no command is selected, the component auto-detects the default command by `isDefault` flag, then by name match, then falls back to the first command
+- Provide a custom `catalog` to render domain-specific parameter types differently
