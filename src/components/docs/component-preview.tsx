@@ -2,8 +2,14 @@ import { ComponentPreviewTabs } from "./component-preview-tabs";
 import type { DemoEntry } from "./demos";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import githubdark from "@shikijs/themes/github-dark";
+import githublight from "@shikijs/themes/github-light";
 import { CheckIcon, ClipboardIcon } from "lucide-react";
-import { use, Suspense, useState } from "react";
+import { Suspense, useState } from "react";
+import { createHighlighterCore } from "shiki/core";
+import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
+
+const jsEngine = createJavaScriptRegexEngine();
 
 interface ComponentPreviewProps {
   name: string;
@@ -11,30 +17,25 @@ interface ComponentPreviewProps {
   demos: Record<string, DemoEntry>;
 }
 
-const htmlCache = new Map<string, Promise<string>>();
-
-function getHtmlPromise(code: string): Promise<string> {
-  if (!htmlCache.has(code)) {
-    htmlCache.set(
-      code,
-      import("shiki").then(({ codeToHtml }) =>
-        codeToHtml(code, {
-          lang: "tsx",
-          themes: { light: "github-light", dark: "github-dark-dimmed" },
-        }),
-      ),
-    );
-  }
-  return htmlCache.get(code)!;
-}
+const highlighter = await createHighlighterCore({
+  themes: [githubdark, githublight],
+  langs: [import("@shikijs/langs/tsx")],
+  engine: jsEngine,
+});
 
 function SyntaxHighlightedCodeInner({ code }: { code: string }) {
-  const html = use(getHtmlPromise(code));
+  const html = highlighter.codeToHtml(code, {
+    lang: "tsx",
+    themes: {
+      light: "github-light",
+      dark: "github-dark",
+    },
+  });
   return (
     <div
       className="text-sm [&_pre]:overflow-x-auto [&_pre]:p-4"
       dangerouslySetInnerHTML={{ __html: html }}
-    />
+    ></div>
   );
 }
 
