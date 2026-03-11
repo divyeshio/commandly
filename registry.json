@@ -33,9 +33,9 @@
           "target": "components/commandly/json-output.tsx"
         },
         {
-          "path": "registry/commandly/runtime-preview.tsx",
+          "path": "registry/commandly/tool-renderer.tsx",
           "type": "registry:component",
-          "target": "components/commandly/runtime-preview.tsx"
+          "target": "components/commandly/tool-renderer.tsx"
         },
         {
           "path": "registry/commandly/lib/types/commandly.ts",
@@ -136,9 +136,9 @@
           "target": "components/commandly/generated-command.tsx"
         },
         {
-          "path": "registry/commandly/runtime-preview.tsx",
+          "path": "registry/commandly/tool-renderer.tsx",
           "type": "registry:component",
-          "target": "components/commandly/runtime-preview.tsx"
+          "target": "components/commandly/tool-renderer.tsx"
         },
         {
           "path": "registry/commandly/json-output.tsx",
@@ -218,7 +218,7 @@
       ]
     },
     {
-      "name": "runtime-preview",
+      "name": "tool-renderer",
       "type": "registry:component",
       "title": "Runtime Preview",
       "description": "A component that provides real-time preview of CLI command execution and output.",
@@ -226,9 +226,9 @@
       "registryDependencies": ["button", "scroll-area", "tabs"],
       "files": [
         {
-          "path": "registry/commandly/runtime-preview.tsx",
+          "path": "registry/commandly/tool-renderer.tsx",
           "type": "registry:component",
-          "target": "components/commandly/runtime-preview.tsx"
+          "target": "components/commandly/tool-renderer.tsx"
         },
         {
           "path": "registry/commandly/lib/types/commandly.ts",

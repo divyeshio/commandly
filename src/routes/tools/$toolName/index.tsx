@@ -15,8 +15,8 @@ import {
   getSavedCommandsFromStorage,
   removeSavedCommandFromStorage,
 } from "@/registry/commandly/lib/utils/commandly";
-import { RuntimePreview } from "@/registry/commandly/runtime-preview";
 import { toolBuilderActions } from "@/registry/commandly/tool-editor/tool-editor.store";
+import { ToolRenderer, defaultComponents } from "@/registry/commandly/tool-renderer";
 import { createFileRoute } from "@tanstack/react-router";
 import { CheckIcon, ChevronsUpDownIcon, InfoIcon, SaveIcon, TerminalIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
@@ -192,11 +192,12 @@ function RouteComponent() {
           <CardContent className="space-y-4">
             <ScrollArea className="*:data-radix-scroll-area-viewport:max-h-[calc(100vh-260px)]">
               <div className="p-4">
-                <RuntimePreview
+                <ToolRenderer
                   selectedCommand={tool.commands.find(
                     (command) => command.name === selectedCommand,
                   )}
                   tool={tool}
+                  catalog={defaultComponents()}
                   parameterValues={parameterValues}
                   updateParameterValue={(parameterId, value) =>
                     setParameterValues((prev) => ({
