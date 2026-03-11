@@ -49,10 +49,12 @@ function loadTool(toolName: string): Tool | null {
   }
 }
 
-server.tool(
+server.registerTool(
   "get-tools-list",
-  "Get a list of all available CLI tools with basic information",
-  {},
+  {
+    description: "Get a list of all available CLI tools with basic information",
+    inputSchema: z.object({}),
+  },
   async () => {
     const tools = loadToolsFromCollection();
 
@@ -76,11 +78,13 @@ server.tool(
   },
 );
 
-server.tool(
+server.registerTool(
   "get-tool-details",
-  "Get detailed information about a specific CLI tool including all commands and parameters",
   {
-    toolName: z.string().describe("Name of the tool to get details for"),
+    description: "Get detailed information about a specific CLI tool including all commands and parameters",
+    inputSchema: z.object({
+      toolName: z.string().describe("The name of the tool to retrieve details for"),
+    }),
   },
   async ({ toolName }) => {
     const tool = loadTool(toolName);
