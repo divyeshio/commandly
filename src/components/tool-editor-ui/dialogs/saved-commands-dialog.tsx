@@ -17,7 +17,12 @@ interface SavedCommandsDialogProps {
   onDeleteCommand: (commandId: string) => void;
 }
 
-export function SavedCommandsDialog({ open, onOpenChange, savedCommands, onDeleteCommand }: SavedCommandsDialogProps) {
+export function SavedCommandsDialog({
+  open,
+  onOpenChange,
+  savedCommands,
+  onDeleteCommand,
+}: SavedCommandsDialogProps) {
   const copyCommand = (command: string) => {
     navigator.clipboard.writeText(command);
     toast("Command copied!");

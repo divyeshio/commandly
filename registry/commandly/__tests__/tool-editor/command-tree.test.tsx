@@ -15,20 +15,117 @@ const createComplexTool = (): Tool => ({
   description: "A sample CLI tool with nested commands",
   version: "1.0.0",
   commands: [
-    { key: "my-cli-tool", name: "my-cli-tool", description: "Main CLI tool command", isDefault: true, sortOrder: 0 },
-    { key: "config", name: "config", parentCommandKey: "my-cli-tool", description: "Configuration management", isDefault: false, sortOrder: 1 },
-    { key: "get", name: "get", parentCommandKey: "config", description: "Get configuration values", isDefault: true, sortOrder: 0 },
-    { key: "set", name: "set", parentCommandKey: "config", description: "Set configuration values", isDefault: false, sortOrder: 1 },
-    { key: "list", name: "list", parentCommandKey: "config", description: "List all configurations", isDefault: false, sortOrder: 2 },
-    { key: "data", name: "data", parentCommandKey: "my-cli-tool", description: "Data management operations", isDefault: false, sortOrder: 2 },
-    { key: "create", name: "create", parentCommandKey: "data", description: "Create new data entries", isDefault: false, sortOrder: 0 },
-    { key: "read", name: "read", parentCommandKey: "data", description: "Read existing data", isDefault: true, sortOrder: 1 },
-    { key: "update", name: "update", parentCommandKey: "data", description: "Update existing data", isDefault: false, sortOrder: 2 },
-    { key: "delete", name: "delete", parentCommandKey: "data", description: "Delete data entries", isDefault: false, sortOrder: 3 },
-    { key: "utils", name: "utils", parentCommandKey: "my-cli-tool", description: "Utility functions", isDefault: false, sortOrder: 3 },
-    { key: "validate", name: "validate", parentCommandKey: "utils", description: "Validate data integrity", isDefault: false, sortOrder: 0 },
-    { key: "backup", name: "backup", parentCommandKey: "utils", description: "Backup operations", isDefault: false, sortOrder: 1 },
-    { key: "help", name: "help", parentCommandKey: "my-cli-tool", description: "Display help information", isDefault: false, sortOrder: 4 },
+    {
+      key: "my-cli-tool",
+      name: "my-cli-tool",
+      description: "Main CLI tool command",
+      isDefault: true,
+      sortOrder: 0,
+    },
+    {
+      key: "config",
+      name: "config",
+      parentCommandKey: "my-cli-tool",
+      description: "Configuration management",
+      isDefault: false,
+      sortOrder: 1,
+    },
+    {
+      key: "get",
+      name: "get",
+      parentCommandKey: "config",
+      description: "Get configuration values",
+      isDefault: true,
+      sortOrder: 0,
+    },
+    {
+      key: "set",
+      name: "set",
+      parentCommandKey: "config",
+      description: "Set configuration values",
+      isDefault: false,
+      sortOrder: 1,
+    },
+    {
+      key: "list",
+      name: "list",
+      parentCommandKey: "config",
+      description: "List all configurations",
+      isDefault: false,
+      sortOrder: 2,
+    },
+    {
+      key: "data",
+      name: "data",
+      parentCommandKey: "my-cli-tool",
+      description: "Data management operations",
+      isDefault: false,
+      sortOrder: 2,
+    },
+    {
+      key: "create",
+      name: "create",
+      parentCommandKey: "data",
+      description: "Create new data entries",
+      isDefault: false,
+      sortOrder: 0,
+    },
+    {
+      key: "read",
+      name: "read",
+      parentCommandKey: "data",
+      description: "Read existing data",
+      isDefault: true,
+      sortOrder: 1,
+    },
+    {
+      key: "update",
+      name: "update",
+      parentCommandKey: "data",
+      description: "Update existing data",
+      isDefault: false,
+      sortOrder: 2,
+    },
+    {
+      key: "delete",
+      name: "delete",
+      parentCommandKey: "data",
+      description: "Delete data entries",
+      isDefault: false,
+      sortOrder: 3,
+    },
+    {
+      key: "utils",
+      name: "utils",
+      parentCommandKey: "my-cli-tool",
+      description: "Utility functions",
+      isDefault: false,
+      sortOrder: 3,
+    },
+    {
+      key: "validate",
+      name: "validate",
+      parentCommandKey: "utils",
+      description: "Validate data integrity",
+      isDefault: false,
+      sortOrder: 0,
+    },
+    {
+      key: "backup",
+      name: "backup",
+      parentCommandKey: "utils",
+      description: "Backup operations",
+      isDefault: false,
+      sortOrder: 1,
+    },
+    {
+      key: "help",
+      name: "help",
+      parentCommandKey: "my-cli-tool",
+      description: "Display help information",
+      isDefault: false,
+      sortOrder: 4,
+    },
   ],
   parameters: [],
   exclusionGroups: [],
@@ -97,7 +194,8 @@ describe("CommandTree", () => {
       const actionButtons = editButtons.filter(
         (btn) =>
           btn.querySelector("svg") &&
-          (btn.className.includes("opacity-0") || btn.className.includes("group-hover:opacity-100")),
+          (btn.className.includes("opacity-0") ||
+            btn.className.includes("group-hover:opacity-100")),
       );
       expect(actionButtons.length).toBeGreaterThan(0);
     });
@@ -128,7 +226,9 @@ describe("CommandTree", () => {
 
       if (expandButton) {
         fireEvent.click(expandButton);
-        await waitFor(() => { expect(screen.getByText("create")).toBeInTheDocument(); });
+        await waitFor(() => {
+          expect(screen.getByText("create")).toBeInTheDocument();
+        });
 
         fireEvent.click(expandButton);
         await waitFor(() => {
@@ -173,7 +273,9 @@ describe("CommandTree", () => {
       const deleteButtons = Array.from(buttons).filter((btn) => {
         const svg = btn.querySelector("svg");
         if (!svg) return false;
-        return svg.classList.contains("text-destructive") || btn.classList.contains("text-destructive");
+        return (
+          svg.classList.contains("text-destructive") || btn.classList.contains("text-destructive")
+        );
       });
       expect(deleteButtons.length).toBe(0);
     });
@@ -219,7 +321,8 @@ describe("CommandTree", () => {
       const configElement = screen.getByText("config").closest("div");
       const buttons = Array.from(configElement?.querySelectorAll("button") || []);
       const editButton = buttons.find(
-        (btn) => btn.classList.contains("opacity-0") && btn.classList.contains("group-hover:opacity-100"),
+        (btn) =>
+          btn.classList.contains("opacity-0") && btn.classList.contains("group-hover:opacity-100"),
       );
 
       if (editButton) {
@@ -240,7 +343,8 @@ describe("CommandTree", () => {
       const configElement = screen.getByText("config").closest("div");
       const buttons = Array.from(configElement?.querySelectorAll("button") || []);
       const actionButtons = buttons.filter(
-        (btn) => btn.classList.contains("opacity-0") && btn.classList.contains("group-hover:opacity-100"),
+        (btn) =>
+          btn.classList.contains("opacity-0") && btn.classList.contains("group-hover:opacity-100"),
       );
       const addButton = actionButtons[1];
 
@@ -311,7 +415,9 @@ describe("CommandTree", () => {
 
       if (expandButton) {
         fireEvent.click(expandButton);
-        await waitFor(() => { expect(screen.getByText("get")).toBeInTheDocument(); });
+        await waitFor(() => {
+          expect(screen.getByText("get")).toBeInTheDocument();
+        });
 
         const addCommandButton = screen.getByText(/Add Command/);
         fireEvent.click(addCommandButton);
@@ -329,7 +435,9 @@ describe("CommandTree", () => {
 
       if (configExpandButton) {
         fireEvent.click(configExpandButton);
-        await waitFor(() => { expect(screen.getByText("get")).toBeInTheDocument(); });
+        await waitFor(() => {
+          expect(screen.getByText("get")).toBeInTheDocument();
+        });
 
         const getElement = screen.getByText("get");
         fireEvent.click(getElement);
@@ -359,7 +467,8 @@ describe("CommandTree", () => {
       const configElement = screen.getByText("config").closest("div");
       const buttons = Array.from(configElement?.querySelectorAll("button") || []);
       const editButton = buttons.find(
-        (btn) => btn.classList.contains("opacity-0") && btn.classList.contains("group-hover:opacity-100"),
+        (btn) =>
+          btn.classList.contains("opacity-0") && btn.classList.contains("group-hover:opacity-100"),
       );
 
       if (editButton) {
@@ -395,7 +504,8 @@ describe("CommandTree", () => {
       const configElement = screen.getByText("config").closest("div");
       const buttons = Array.from(configElement?.querySelectorAll("button") || []);
       const actionButtons = buttons.filter(
-        (btn) => btn.classList.contains("opacity-0") && btn.classList.contains("group-hover:opacity-100"),
+        (btn) =>
+          btn.classList.contains("opacity-0") && btn.classList.contains("group-hover:opacity-100"),
       );
       const addButton = actionButtons[1];
 
@@ -458,7 +568,9 @@ describe("CommandTree", () => {
 
       if (expandButton) {
         fireEvent.click(expandButton);
-        await waitFor(() => { expect(screen.getByText("get")).toBeInTheDocument(); });
+        await waitFor(() => {
+          expect(screen.getByText("get")).toBeInTheDocument();
+        });
 
         const addCommandButton = screen.getByText(/Add Command/);
         fireEvent.click(addCommandButton);
@@ -519,11 +631,15 @@ describe("CommandTree", () => {
 
       if (expandButton) {
         fireEvent.click(expandButton);
-        await waitFor(() => { expect(screen.getByText("get")).toBeInTheDocument(); });
+        await waitFor(() => {
+          expect(screen.getByText("get")).toBeInTheDocument();
+        });
 
         const dataCommand = capturedCtx.tool.commands.find((cmd) => cmd.name === "data");
         if (dataCommand) {
-          act(() => { capturedCtx.setSelectedCommand(dataCommand); });
+          act(() => {
+            capturedCtx.setSelectedCommand(dataCommand);
+          });
         }
 
         // Config should still be expanded
@@ -593,28 +709,37 @@ describe("CommandTree", () => {
         ],
       };
 
-      renderWithProvider(<CommandTree />, { tool: deepTool, selectedCommand: deepTool.commands[0] });
+      renderWithProvider(<CommandTree />, {
+        tool: deepTool,
+        selectedCommand: deepTool.commands[0],
+      });
 
       const configElement = screen.getByText("config").closest("div");
       const configExpandButton = configElement?.querySelector("button");
 
       if (configExpandButton) {
         fireEvent.click(configExpandButton);
-        await waitFor(() => { expect(screen.getByText("get")).toBeInTheDocument(); });
+        await waitFor(() => {
+          expect(screen.getByText("get")).toBeInTheDocument();
+        });
 
         const getElement = screen.getByText("get").closest("div");
         const getExpandButton = getElement?.querySelector("button");
 
         if (getExpandButton) {
           fireEvent.click(getExpandButton);
-          await waitFor(() => { expect(screen.getByText("level3")).toBeInTheDocument(); });
+          await waitFor(() => {
+            expect(screen.getByText("level3")).toBeInTheDocument();
+          });
 
           const level3Element = screen.getByText("level3").closest("div");
           const level3ExpandButton = level3Element?.querySelector("button");
 
           if (level3ExpandButton) {
             fireEvent.click(level3ExpandButton);
-            await waitFor(() => { expect(screen.getByText("level4")).toBeInTheDocument(); });
+            await waitFor(() => {
+              expect(screen.getByText("level4")).toBeInTheDocument();
+            });
             const level4Element = screen.getByText("level4").closest("div");
             expect(level4Element).toBeInTheDocument();
           }
@@ -647,16 +772,21 @@ describe("CommandTree", () => {
       const complexTool = createComplexTool();
       const minimalTool: Tool = {
         ...complexTool,
-        commands: [{
-          key: "minimal-tool-id",
-          name: "minimal-tool",
-          description: "Minimal tool with just root command",
-          isDefault: true,
-          sortOrder: 0,
-        }],
+        commands: [
+          {
+            key: "minimal-tool-id",
+            name: "minimal-tool",
+            description: "Minimal tool with just root command",
+            isDefault: true,
+            sortOrder: 0,
+          },
+        ],
       };
 
-      renderWithProvider(<CommandTree />, { tool: minimalTool, selectedCommand: minimalTool.commands[0] });
+      renderWithProvider(<CommandTree />, {
+        tool: minimalTool,
+        selectedCommand: minimalTool.commands[0],
+      });
 
       expect(screen.getByText("minimal-tool")).toBeInTheDocument();
       expect(screen.getByText(/Add Command/)).toBeInTheDocument();
@@ -674,11 +804,15 @@ describe("CommandTree", () => {
 
       if (expandButton) {
         fireEvent.click(expandButton);
-        await waitFor(() => { expect(screen.getByText("get")).toBeInTheDocument(); });
+        await waitFor(() => {
+          expect(screen.getByText("get")).toBeInTheDocument();
+        });
 
         const buttons = Array.from(configElement?.querySelectorAll("button") || []);
         const actionButtons = buttons.filter(
-          (btn) => btn.classList.contains("opacity-0") && btn.classList.contains("group-hover:opacity-100"),
+          (btn) =>
+            btn.classList.contains("opacity-0") &&
+            btn.classList.contains("group-hover:opacity-100"),
         );
         const addButton = actionButtons[1];
 
@@ -700,13 +834,29 @@ describe("CommandTree", () => {
       const brokenTool: Tool = {
         ...complexTool,
         commands: [
-          { key: "root-id", name: "root", description: "Root command", isDefault: true, sortOrder: 0 },
-          { key: "orphan-id", name: "orphan", parentCommandKey: "non-existent-parent", description: "Orphaned command", isDefault: false, sortOrder: 1 },
+          {
+            key: "root-id",
+            name: "root",
+            description: "Root command",
+            isDefault: true,
+            sortOrder: 0,
+          },
+          {
+            key: "orphan-id",
+            name: "orphan",
+            parentCommandKey: "non-existent-parent",
+            description: "Orphaned command",
+            isDefault: false,
+            sortOrder: 1,
+          },
         ],
       };
 
       expect(() =>
-        renderWithProvider(<CommandTree />, { tool: brokenTool, selectedCommand: brokenTool.commands[0] }),
+        renderWithProvider(<CommandTree />, {
+          tool: brokenTool,
+          selectedCommand: brokenTool.commands[0],
+        }),
       ).not.toThrow();
 
       expect(screen.getByText("root")).toBeInTheDocument();

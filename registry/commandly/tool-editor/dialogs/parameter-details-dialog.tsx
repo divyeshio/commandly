@@ -45,7 +45,8 @@ import {
 import { useEffect, useState } from "react";
 
 export function ParameterDetailsDialog() {
-  const { selectedParameter, selectedCommand, tool, setSelectedParameter, upsertParameter } = useToolBuilder();
+  const { selectedParameter, selectedCommand, tool, setSelectedParameter, upsertParameter } =
+    useToolBuilder();
 
   const commandKey = selectedCommand?.key;
 

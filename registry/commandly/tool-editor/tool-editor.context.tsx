@@ -11,7 +11,15 @@ import {
   getAllSubcommands,
   slugify,
 } from "@/registry/commandly/lib/utils/commandly";
-import { createContext, useContext, useReducer, useEffect, useMemo, useRef, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useReducer,
+  useEffect,
+  useMemo,
+  useRef,
+  ReactNode,
+} from "react";
 import { toast } from "sonner";
 
 export interface ToolBuilderState {
@@ -238,11 +246,10 @@ interface ToolBuilderProviderProps {
 }
 
 export function ToolBuilderProvider({ tool, children, initialState }: ToolBuilderProviderProps) {
-  const [state, dispatch] = useReducer(
-    toolBuilderReducer,
-    undefined,
-    () => ({ ...getDefaultState(tool), ...initialState }),
-  );
+  const [state, dispatch] = useReducer(toolBuilderReducer, undefined, () => ({
+    ...getDefaultState(tool),
+    ...initialState,
+  }));
 
   const isFirstRender = useRef(true);
   useEffect(() => {

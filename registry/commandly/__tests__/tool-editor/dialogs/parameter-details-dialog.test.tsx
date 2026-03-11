@@ -50,10 +50,7 @@ function ContextCapture() {
   return null;
 }
 
-function renderWithProvider(
-  ui: ReactNode,
-  initialState: Partial<ToolBuilderState>,
-) {
+function renderWithProvider(ui: ReactNode, initialState: Partial<ToolBuilderState>) {
   return render(
     <ToolBuilderProvider
       tool={initialState.tool ?? defaultTool("test-tool", "Test tool")}
@@ -136,13 +133,21 @@ describe("ParameterDetailsDialog - Form Fields", () => {
     const dataTypeSelect = selectElements[1];
 
     // Change parameter type
-    act(() => { fireEvent.click(parameterTypeSelect); });
-    act(() => { fireEvent.click(screen.getByRole("option", { name: "Flag" })); });
+    act(() => {
+      fireEvent.click(parameterTypeSelect);
+    });
+    act(() => {
+      fireEvent.click(screen.getByRole("option", { name: "Flag" }));
+    });
     expect(screen.getByText("Flag")).toBeInTheDocument();
 
     // Change data type
-    act(() => { fireEvent.click(dataTypeSelect); });
-    act(() => { fireEvent.click(screen.getByRole("option", { name: "Boolean" })); });
+    act(() => {
+      fireEvent.click(dataTypeSelect);
+    });
+    act(() => {
+      fireEvent.click(screen.getByRole("option", { name: "Boolean" }));
+    });
     expect(screen.getByText("Boolean")).toBeInTheDocument();
   });
 
@@ -214,8 +219,12 @@ describe("ParameterDetailsDialog - Parameter Type Specific Fields", () => {
     const selectElements = screen.getAllByRole("combobox");
     const parameterTypeSelect = selectElements[0];
 
-    act(() => { fireEvent.click(parameterTypeSelect); });
-    act(() => { fireEvent.click(screen.getByRole("option", { name: "Option" })); });
+    act(() => {
+      fireEvent.click(parameterTypeSelect);
+    });
+    act(() => {
+      fireEvent.click(screen.getByRole("option", { name: "Option" }));
+    });
 
     // Option type shows all fields including key-value separator
     expect(screen.getByText("Short Flag (include prefix)")).toBeInTheDocument();
@@ -223,8 +232,12 @@ describe("ParameterDetailsDialog - Parameter Type Specific Fields", () => {
     expect(screen.getByText("Key-Value Separator")).toBeInTheDocument();
 
     // Switch to Argument type
-    act(() => { fireEvent.click(parameterTypeSelect); });
-    act(() => { fireEvent.click(screen.getByRole("option", { name: "Argument" })); });
+    act(() => {
+      fireEvent.click(parameterTypeSelect);
+    });
+    act(() => {
+      fireEvent.click(screen.getByRole("option", { name: "Argument" }));
+    });
 
     // Argument type hides flag fields
     expect(screen.queryByText("Short Flag (include prefix)")).not.toBeInTheDocument();
@@ -360,9 +373,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(capturedCtx.selectedParameter).toBeNull();
 
-    const originalParameter = capturedCtx.tool.parameters.find(
-      (p) => p.key === testParameter.key,
-    );
+    const originalParameter = capturedCtx.tool.parameters.find((p) => p.key === testParameter.key);
     expect(originalParameter?.name).toBe("original-param");
     expect(originalParameter?.description).toBe("Original description");
     expect(originalParameter?.isRequired).toBe(false);
@@ -446,9 +457,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(capturedCtx.selectedParameter).toBeNull();
 
-    const updatedParameter = capturedCtx.tool.parameters.find(
-      (p) => p.name === "modified-param",
-    );
+    const updatedParameter = capturedCtx.tool.parameters.find((p) => p.name === "modified-param");
     expect(updatedParameter?.name).toBe("modified-param");
     expect(updatedParameter?.description).toBe("Test parameter description");
   });
@@ -577,9 +586,13 @@ describe("ParameterDetailsDialog - UI/UX", () => {
     const selectElements = screen.getAllByRole("combobox");
     const parameterTypeSelect = selectElements[0];
 
-    act(() => { fireEvent.click(parameterTypeSelect); });
+    act(() => {
+      fireEvent.click(parameterTypeSelect);
+    });
     const flagOption = screen.getByRole("option", { name: "Flag" });
-    act(() => { fireEvent.click(flagOption); });
+    act(() => {
+      fireEvent.click(flagOption);
+    });
 
     expect(screen.queryByText("Key-Value Separator")).not.toBeInTheDocument();
 
@@ -588,9 +601,7 @@ describe("ParameterDetailsDialog - UI/UX", () => {
       fireEvent.click(saveButton);
     });
 
-    const updatedParameter = capturedCtx.tool.parameters.find(
-      (p) => p.key === testParameter.key,
-    );
+    const updatedParameter = capturedCtx.tool.parameters.find((p) => p.key === testParameter.key);
     expect(updatedParameter).toBeDefined();
     expect(updatedParameter?.parameterType).toBe("Flag");
     expect(updatedParameter?.longFlag).toBe("--test");

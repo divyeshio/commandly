@@ -4,9 +4,7 @@ import { render } from "@testing-library/react";
 const testTool = {
   name: "tool",
   displayName: "Tool",
-  commands: [
-    { key: "test-key", name: "test", isDefault: true, sortOrder: 0 },
-  ],
+  commands: [{ key: "test-key", name: "test", isDefault: true, sortOrder: 0 }],
   parameters: [],
 };
 

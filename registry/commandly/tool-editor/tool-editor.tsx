@@ -23,7 +23,14 @@ interface ToolEditorProps {
   onDeleteSavedCommand?: (commandKey: string) => void;
 }
 
-export default function ToolEditor({ tool: toolToEdit, onSave, isNewTool = false, savedCommands, onSaveCommand, onDeleteSavedCommand }: ToolEditorProps) {
+export default function ToolEditor({
+  tool: toolToEdit,
+  onSave,
+  isNewTool = false,
+  savedCommands,
+  onSaveCommand,
+  onDeleteSavedCommand,
+}: ToolEditorProps) {
   return (
     <ToolBuilderProvider tool={toolToEdit}>
       <ToolEditorContent
@@ -45,7 +52,13 @@ interface ToolEditorContentProps {
   onDeleteSavedCommand?: (commandKey: string) => void;
 }
 
-function ToolEditorContent({ onSave, isNewTool = false, savedCommands, onSaveCommand, onDeleteSavedCommand }: ToolEditorContentProps) {
+function ToolEditorContent({
+  onSave,
+  isNewTool = false,
+  savedCommands,
+  onSaveCommand,
+  onDeleteSavedCommand,
+}: ToolEditorContentProps) {
   const { tool, setDialogOpen } = useToolBuilder();
 
   const handleContribute = async () => {

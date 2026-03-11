@@ -15,8 +15,7 @@ import {
   getSavedCommandsFromStorage,
   removeSavedCommandFromStorage,
 } from "@/registry/commandly/lib/utils/commandly";
-import { defaultComponents,
-ToolRenderer } from "@/registry/commandly/tool-renderer";
+import { defaultComponents, ToolRenderer } from "@/registry/commandly/tool-renderer";
 import { createFileRoute } from "@tanstack/react-router";
 import { CheckIcon, ChevronsUpDownIcon, InfoIcon, SaveIcon, TerminalIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
@@ -105,7 +104,7 @@ function RouteComponent() {
       <div className="relative mx-8 my-4 flex items-center gap-2">
         <p className="absolute left-1/2 flex -translate-x-1/2 gap-2">
           <span
-            className="text-lg font-mono font-medium"
+            className="font-mono text-lg font-medium"
             style={{
               viewTransitionName: `tool-card-title-${tool.name}`,
             }}

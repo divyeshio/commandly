@@ -76,16 +76,16 @@ function RouteComponent() {
 
   return (
     <div className="mt-16">
-    <ToolEditor
-      tool={tool!}
-      isNewTool={!!newTool}
-      onSave={(tool) => {
-        localStorage.setItem(`tool-${tool.name}`, JSON.stringify(tool));
-      }}
-      savedCommands={savedCommands}
-      onSaveCommand={handleSaveCommand}
-      onDeleteSavedCommand={handleDeleteSavedCommand}
-    />
+      <ToolEditor
+        tool={tool!}
+        isNewTool={!!newTool}
+        onSave={(tool) => {
+          localStorage.setItem(`tool-${tool.name}`, JSON.stringify(tool));
+        }}
+        savedCommands={savedCommands}
+        onSaveCommand={handleSaveCommand}
+        onDeleteSavedCommand={handleDeleteSavedCommand}
+      />
     </div>
   );
 }

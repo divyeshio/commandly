@@ -36,13 +36,15 @@ const createTestExclusionGroup = (parameterKeys: string[] = []): ExclusionGroup 
 const baseTestState = (): Partial<ToolBuilderState> => ({
   tool: {
     ...defaultTool("test-tool", "Test tool"),
-    commands: [{
-      key: "test-command-key",
-      name: "test-command",
-      description: "Test command",
-      isDefault: false,
-      sortOrder: 0,
-    }],
+    commands: [
+      {
+        key: "test-command-key",
+        name: "test-command",
+        description: "Test command",
+        isDefault: false,
+        sortOrder: 0,
+      },
+    ],
   },
   selectedCommand: {
     key: "test-command-key",
@@ -88,7 +90,13 @@ describe("ParameterList - Rendering & Structure", () => {
     const globalParam = createTestParameter({ isGlobal: true });
     const state = baseTestState();
     state.tool = { ...state.tool!, parameters: [globalParam] };
-    renderWithProvider(<ParameterList title="Global Parameters" isGlobal />, state);
+    renderWithProvider(
+      <ParameterList
+        title="Global Parameters"
+        isGlobal
+      />,
+      state,
+    );
     expect(screen.getByText("Global Parameters (1)")).toBeInTheDocument();
     const heading = screen.getByRole("heading", { level: 3 });
     expect(heading.querySelector("svg")).toBeInTheDocument();
@@ -120,8 +128,16 @@ describe("ParameterList - Rendering & Structure", () => {
     it("displays the correct icon for each parameterType", () => {
       const parameters = [
         createTestParameter({ key: "flag-param-key", name: "flag-param", parameterType: "Flag" }),
-        createTestParameter({ key: "option-param-key", name: "option-param", parameterType: "Option" }),
-        createTestParameter({ key: "argument-param-key", name: "argument-param", parameterType: "Argument" }),
+        createTestParameter({
+          key: "option-param-key",
+          name: "option-param",
+          parameterType: "Option",
+        }),
+        createTestParameter({
+          key: "argument-param-key",
+          name: "argument-param",
+          parameterType: "Argument",
+        }),
       ];
       const state = baseTestState();
       state.tool = { ...state.tool!, parameters };
@@ -137,11 +153,24 @@ describe("ParameterList - Rendering & Structure", () => {
 
     it("shows parameter name and flags if present", () => {
       const paramWithBothFlags = createTestParameter({ longFlag: "--verbose", shortFlag: "-v" });
-      const paramWithLongFlagOnly = createTestParameter({ key: "long-only-key", name: "long-only", longFlag: "--long-only", shortFlag: "" });
-      const paramWithNoFlags = createTestParameter({ key: "no-flags-key", name: "no-flags", longFlag: "", shortFlag: "" });
+      const paramWithLongFlagOnly = createTestParameter({
+        key: "long-only-key",
+        name: "long-only",
+        longFlag: "--long-only",
+        shortFlag: "",
+      });
+      const paramWithNoFlags = createTestParameter({
+        key: "no-flags-key",
+        name: "no-flags",
+        longFlag: "",
+        shortFlag: "",
+      });
 
       const state = baseTestState();
-      state.tool = { ...state.tool!, parameters: [paramWithBothFlags, paramWithLongFlagOnly, paramWithNoFlags] };
+      state.tool = {
+        ...state.tool!,
+        parameters: [paramWithBothFlags, paramWithLongFlagOnly, paramWithNoFlags],
+      };
       renderWithProvider(<ParameterList title="Parameters" />, state);
 
       expect(screen.getByText("test-param")).toBeInTheDocument();
@@ -171,7 +200,11 @@ describe("ParameterList - Rendering & Structure", () => {
   describe("Badges & Validation", () => {
     it("shows the required badge if isRequired is true", () => {
       const requiredParam = createTestParameter({ isRequired: true });
-      const optionalParam = createTestParameter({ key: "optional-param-key", name: "optional-param", isRequired: false });
+      const optionalParam = createTestParameter({
+        key: "optional-param-key",
+        name: "optional-param",
+        isRequired: false,
+      });
       const state = baseTestState();
       state.tool = { ...state.tool!, parameters: [requiredParam, optionalParam] };
       renderWithProvider(<ParameterList title="Parameters" />, state);
@@ -185,8 +218,16 @@ describe("ParameterList - Rendering & Structure", () => {
     it("shows the correct badge for parameterType", () => {
       const parameters = [
         createTestParameter({ key: "flag-param-key", name: "flag-param", parameterType: "Flag" }),
-        createTestParameter({ key: "option-param-key", name: "option-param", parameterType: "Option" }),
-        createTestParameter({ key: "argument-param-key", name: "argument-param", parameterType: "Argument" }),
+        createTestParameter({
+          key: "option-param-key",
+          name: "option-param",
+          parameterType: "Option",
+        }),
+        createTestParameter({
+          key: "argument-param-key",
+          name: "argument-param",
+          parameterType: "Argument",
+        }),
       ];
       const state = baseTestState();
       state.tool = { ...state.tool!, parameters };
@@ -201,7 +242,11 @@ describe("ParameterList - Rendering & Structure", () => {
       const parameters = [
         createTestParameter({ key: "string-param-key", name: "string-param", dataType: "String" }),
         createTestParameter({ key: "number-param-key", name: "number-param", dataType: "Number" }),
-        createTestParameter({ key: "boolean-param-key", name: "boolean-param", dataType: "Boolean" }),
+        createTestParameter({
+          key: "boolean-param-key",
+          name: "boolean-param",
+          dataType: "Boolean",
+        }),
         createTestParameter({ key: "enum-param-key", name: "enum-param", dataType: "Enum" }),
       ];
       const state = baseTestState();
@@ -218,7 +263,13 @@ describe("ParameterList - Rendering & Structure", () => {
       const globalParam = createTestParameter({ isGlobal: true });
       const state = baseTestState();
       state.tool = { ...state.tool!, parameters: [globalParam] };
-      renderWithProvider(<ParameterList title="Global Parameters" isGlobal />, state);
+      renderWithProvider(
+        <ParameterList
+          title="Global Parameters"
+          isGlobal
+        />,
+        state,
+      );
 
       const globalCard = screen.getByText("test-param").closest("div.p-3");
       expect(globalCard).toHaveTextContent("global");
@@ -242,13 +293,15 @@ describe("ParameterList - Rendering & Structure", () => {
       const invalidParam = createTestParameter({
         dataType: "Number",
         defaultValue: "invalid-number",
-        validations: [{
-          key: "validation-key",
-          parameterKey: "test-param-key",
-          validationType: "min_value",
-          validationValue: "0",
-          errorMessage: "Must be positive",
-        }],
+        validations: [
+          {
+            key: "validation-key",
+            parameterKey: "test-param-key",
+            validationType: "min_value",
+            validationValue: "0",
+            errorMessage: "Must be positive",
+          },
+        ],
       });
       const state = baseTestState();
       state.tool = { ...state.tool!, parameters: [invalidParam] };
@@ -317,7 +370,13 @@ describe("ParameterList - Rendering & Structure", () => {
       const state = baseTestState();
       state.selectedParameter = null;
       state.tool = { ...state.tool!, parameters: [] };
-      renderWithProvider(<ParameterList title="Global Parameters" isGlobal />, state);
+      renderWithProvider(
+        <ParameterList
+          title="Global Parameters"
+          isGlobal
+        />,
+        state,
+      );
 
       const addButton = screen.getByRole("button");
       fireEvent.click(addButton);
@@ -339,7 +398,12 @@ describe("ParameterList - Rendering & Structure", () => {
     });
 
     it("handles parameters with missing or undefined fields gracefully", () => {
-      const paramWithMissingFields = createTestParameter({ longFlag: "", shortFlag: "", defaultValue: undefined, validations: undefined });
+      const paramWithMissingFields = createTestParameter({
+        longFlag: "",
+        shortFlag: "",
+        defaultValue: undefined,
+        validations: undefined,
+      });
       const state = baseTestState();
       state.tool = { ...state.tool!, parameters: [paramWithMissingFields] };
       renderWithProvider(<ParameterList title="Parameters" />, state);
@@ -355,7 +419,11 @@ describe("ParameterList - Rendering & Structure", () => {
       exclusionGroupWithNoParams.commandKey = "test-command";
 
       const state = baseTestState();
-      state.tool = { ...state.tool!, parameters: [parameter], exclusionGroups: [exclusionGroupWithNoParams] };
+      state.tool = {
+        ...state.tool!,
+        parameters: [parameter],
+        exclusionGroups: [exclusionGroupWithNoParams],
+      };
       renderWithProvider(<ParameterList title="Parameters" />, state);
 
       expect(screen.getByText("test-param")).toBeInTheDocument();
