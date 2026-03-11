@@ -1,0 +1,92 @@
+# JSON Output
+
+Displays a tool definition as formatted JSON in flat or nested structure with copy functionality.
+
+<ComponentPreview name="json-output" />
+
+## Installation
+
+<CodeTabs defaultValue="cli">
+  <TabsList>
+    <TabsTrigger value="cli">CLI</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+  <TabsContent value="cli">
+    <CodeBlockCommand
+      __pnpm__="pnpm dlx shadcn@latest add https://commandly.divyeshio.in/r/json-output.json"
+      __npm__="npx shadcn@latest add https://commandly.divyeshio.in/r/json-output.json"
+      __yarn__="yarn dlx shadcn@latest add https://commandly.divyeshio.in/r/json-output.json"
+      __bun__="bunx --bun shadcn@latest add https://commandly.divyeshio.in/r/json-output.json"
+    />
+  </TabsContent>
+  <TabsContent value="manual">
+    <Steps>
+      <Step>Install the required dependencies:</Step>
+      <CodeBlockCommand
+        __pnpm__="pnpm add nuqs"
+        __npm__="npm install nuqs"
+        __yarn__="yarn add nuqs"
+        __bun__="bun add nuqs"
+      />
+      <Step>
+        Copy `json-output.tsx` into `components/commandly/json-output.tsx` in your project.
+      </Step>
+      <Step>Update import paths to match your project setup.</Step>
+    </Steps>
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { JsonOutput } from "@/components/commandly/json-output";
+```
+
+### Basic Usage
+
+```tsx
+const tool: Tool = {
+  name: "subfinder",
+  displayName: "Subfinder",
+  commands: [{ key: "subfinder", name: "subfinder", isDefault: true }],
+  parameters: [
+    {
+      key: "domain",
+      name: "domain",
+      parameterType: "Option",
+      dataType: "String",
+      longFlag: "-d",
+      isRequired: true,
+      isRepeatable: false,
+      isGlobal: false,
+      commandKey: "subfinder",
+    },
+  ],
+}
+
+<JsonOutput tool={tool} />
+```
+
+### Output Format
+
+The output format (flat or nested) is synced to the URL query string via the `output` parameter using `nuqs`. You can link directly to a specific format:
+
+```tsx
+// defaults to flat; navigate to ?output=nested for nested structure
+<JsonOutput tool={tool} />
+```
+
+## API Reference
+
+### JsonOutput
+
+| Prop   | Type   | Default | Description                              |
+| ------ | ------ | ------- | ---------------------------------------- |
+| `tool` | `Tool` | —       | The tool definition to serialize as JSON |
+
+## Notes
+
+- The selected output format (`flat` or `nested`) is persisted in the URL query string (`?output=`)
+- `flat` format is the native Commandly storage format with all parameters in a flat array
+- `nested` format converts the structure so parameters are nested under their parent commands
+- The copy button copies the current JSON string to the clipboard

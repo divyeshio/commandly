@@ -11,6 +11,7 @@
       "File"
     ]
   },
+  "url": "https://github.com/projectdiscovery/asnmap",
   "commands": [
     {
       "name": "asnmap",

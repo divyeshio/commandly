@@ -3,128 +3,46 @@
     "name": "asnmap",
     "displayName": "ASNMap",
     "description": "Go CLI and Library for quickly mapping organization network ranges using ASN information.",
-    "metadata": {
-      "supportedInput": [
-        "Parameter"
-      ],
-      "supportedOutput": [
-        "StandardOutput",
-        "File"
-      ]
-    }
+    "url": "https://github.com/projectdiscovery/asnmap"
   },
   {
     "name": "cdncheck",
     "displayName": "CDNCheck",
-    "description": "cdncheck is a tool for identifying the technology associated with dns / ip network addresses.",
-    "metadata": {
-      "supportedInput": [
-        "Parameter"
-      ],
-      "supportedOutput": [
-        "StandardOutput",
-        "File"
-      ]
-    }
+    "description": "cdncheck is a tool for identifying the technology associated with dns / ip network addresses."
   },
   {
     "name": "dnsx",
     "displayName": "DNSX",
-    "description": "A fast and multi-purpose DNS toolkit designed for running DNS queries.",
-    "metadata": {
-      "supportedInput": [
-        "StandardInput"
-      ],
-      "supportedOutput": [
-        "StandardOutput"
-      ]
-    }
+    "description": "A fast and multi-purpose DNS toolkit designed for running DNS queries."
   },
   {
     "name": "httpx",
     "displayName": "httpx",
-    "description": "Httpx is a fast and multi-purpose HTTP toolkit that allows running multiple probes using the retryablehttp library.",
-    "metadata": {
-      "supportedInput": [
-        "StandardInput",
-        "Parameter"
-      ],
-      "supportedOutput": [
-        "StandardOutput",
-        "File",
-        "Directory"
-      ]
-    }
+    "description": "Httpx is a fast and multi-purpose HTTP toolkit that allows running multiple probes using the retryablehttp library."
   },
   {
     "name": "katana",
     "displayName": "Katana",
-    "description": "Katana is a fast crawler focused on execution in automation pipelines offering both headless and non-headless crawling.",
-    "metadata": {
-      "supportedInput": [
-        "StandardInput",
-        "Parameter"
-      ],
-      "supportedOutput": [
-        "StandardOutput",
-        "File",
-        "Directory"
-      ]
-    }
+    "description": "Katana is a fast crawler focused on execution in automation pipelines offering both headless and non-headless crawling."
   },
   {
     "name": "shuffledns",
     "displayName": "ShuffleDNS",
-    "description": "MassDNS wrapper written in go to enumerate valid subdomains using active bruteforce as well as resolve subdomains with wildcard filtering and easy input-output support.",
-    "metadata": {
-      "supportedInput": [
-        "Parameter"
-      ],
-      "supportedOutput": [
-        "StandardOutput",
-        "File"
-      ]
-    }
+    "description": "MassDNS wrapper written in go to enumerate valid subdomains using active bruteforce as well as resolve subdomains with wildcard filtering and easy input-output support."
   },
   {
     "name": "subfinder",
     "displayName": "Subfinder",
-    "description": "Subfinder is a subdomain discovery tool that discovers subdomains for websites by using passive online sources.",
-    "metadata": {
-      "supportedInput": [
-        "StandardInput",
-        "Parameter"
-      ],
-      "supportedOutput": [
-        "StandardOutput"
-      ]
-    }
+    "description": "Subfinder is a subdomain discovery tool that discovers subdomains for websites by using passive online sources."
   },
   {
     "name": "urlfinder",
     "displayName": "URLFinder",
-    "description": "A streamlined tool for discovering associated URLs.",
-    "metadata": {
-      "supportedInput": [
-        "StandardInput",
-        "Parameter"
-      ],
-      "supportedOutput": [
-        "StandardOutput"
-      ]
-    }
+    "description": "A streamlined tool for discovering associated URLs."
   },
   {
     "name": "yt-dlp",
     "displayName": "yt-dlp",
-    "description": "yt-dlp is a command-line program to download videos from YouTube and other sites.",
-    "metadata": {
-      "supportedInput": [
-        "Parameter"
-      ],
-      "supportedOutput": [
-        "StandardOutput"
-      ]
-    }
+    "description": "yt-dlp is a command-line program to download videos from YouTube and other sites."
   }
 ]

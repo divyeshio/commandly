@@ -1,0 +1,108 @@
+# Generated Command
+
+Displays a real-time generated CLI command string with copy and save functionality.
+
+<ComponentPreview name="generated-command" />
+
+## Installation
+
+<CodeTabs defaultValue="cli">
+  <TabsList>
+    <TabsTrigger value="cli">CLI</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+  <TabsContent value="cli">
+    <CodeBlockCommand
+      __pnpm__="pnpm dlx shadcn@latest add https://commandly.divyeshio.in/r/generated-command.json"
+      __npm__="npx shadcn@latest add https://commandly.divyeshio.in/r/generated-command.json"
+      __yarn__="yarn dlx shadcn@latest add https://commandly.divyeshio.in/r/generated-command.json"
+      __bun__="bunx --bun shadcn@latest add https://commandly.divyeshio.in/r/generated-command.json"
+    />
+  </TabsContent>
+  <TabsContent value="manual">
+    <Steps>
+      <Step>Install the required dependencies:</Step>
+      <CodeBlockCommand
+        __pnpm__="pnpm add lucide-react sonner"
+        __npm__="npm install lucide-react sonner"
+        __yarn__="yarn add lucide-react sonner"
+        __bun__="bun add lucide-react sonner"
+      />
+      <Step>
+        Copy `generated-command.tsx` into `components/commandly/generated-command.tsx` in your
+        project.
+      </Step>
+      <Step>Update import paths to match your project setup.</Step>
+    </Steps>
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { GeneratedCommand } from "@/components/commandly/generated-command";
+```
+
+### Basic Usage
+
+```tsx
+const tool: Tool = {
+  name: "subfinder",
+  displayName: "Subfinder",
+  commands: [{ key: "subfinder", name: "subfinder", isDefault: true }],
+  parameters: [
+    {
+      key: "domain",
+      name: "domain",
+      parameterType: "Option",
+      dataType: "String",
+      longFlag: "-d",
+      isRequired: true,
+      isRepeatable: false,
+      isGlobal: false,
+      commandKey: "subfinder",
+    },
+  ],
+}
+
+const [values, setValues] = useState({})
+
+<GeneratedCommand
+  tool={tool}
+  selectedCommand={tool.commands[0]}
+  parameterValues={values}
+  onSaveCommand={(cmd) => console.log(cmd)}
+/>
+```
+
+### With Save Handler
+
+```tsx
+<GeneratedCommand
+  tool={tool}
+  parameterValues={values}
+  onSaveCommand={(cmd) => {
+    navigator.clipboard.writeText(cmd);
+    toast.success("Command saved!");
+  }}
+/>
+```
+
+## API Reference
+
+### GeneratedCommand
+
+| Prop              | Type                             | Default            | Description                                                  |
+| ----------------- | -------------------------------- | ------------------ | ------------------------------------------------------------ |
+| `tool`            | `Tool`                           | —                  | The tool definition including name, commands, and parameters |
+| `selectedCommand` | `Command`                        | `tool.commands[0]` | The currently selected command to generate the string for    |
+| `parameterValues` | `Record<string, ParameterValue>` | —                  | Map of parameter key to current value                        |
+| `onSaveCommand`   | `(command: string) => void`      | —                  | Optional callback fired when the save button is clicked      |
+
+## Notes
+
+- The generated command updates reactively whenever `parameterValues` changes
+- Flag parameters are only included when their value is `true`
+- Option parameters are joined using `keyValueSeparator` (defaults to a space)
+- Argument parameters are appended in order of their `position` field
+- Global parameters are included regardless of the selected command
