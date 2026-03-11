@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { HoverCard, HoverCardTrigger, HoverCardContent } from "@/components/ui/hover-card";
 import { Tool } from "@/registry/commandly/lib/types/commandly";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { Edit2Icon, ExternalLinkIcon, Trash2Icon } from "lucide-react";
 import { useRef, useEffect, useState } from "react";
 
@@ -32,24 +32,14 @@ export function ToolCard({
     }
   }, [tool.description]);
 
-  const navigation = useNavigate();
-
-  const handleCardClick = () => {
-    navigation({
-      to: "/tools/$toolName",
-      params: { toolName: tool.name! },
-      search: { newTool: isLocal ? tool.name : undefined },
-    });
-  };
-
   return (
     <Card
       className="flex h-72 w-72 flex-col gap-0 overflow-hidden py-3 hover:shadow-md"
       style={{
         viewTransitionName: `tool-card-${tool.name}`,
       }}
-      onClick={handleCardClick}
     >
+      
       <CardHeader className="flex items-center justify-between border-b [.border-b]:pb-1">
         <CardTitle className="font-semibold">
           <span
