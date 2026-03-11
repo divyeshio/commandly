@@ -47,20 +47,20 @@ import { GeneratedCommand } from "@/components/commandly/generated-command";
 
 ```tsx
 const tool: Tool = {
-  name: "subfinder",
-  displayName: "Subfinder",
-  commands: [{ key: "subfinder", name: "subfinder", isDefault: true }],
+  name: "curl",
+  displayName: "curl",
+  commands: [{ key: "curl", name: "curl", isDefault: true }],
   parameters: [
     {
-      key: "domain",
-      name: "domain",
+      key: "url",
+      name: "url",
       parameterType: "Option",
       dataType: "String",
-      longFlag: "-d",
+      longFlag: "-X",
       isRequired: true,
       isRepeatable: false,
       isGlobal: false,
-      commandKey: "subfinder",
+      commandKey: "curl",
     },
   ],
 }

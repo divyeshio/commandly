@@ -2,8 +2,11 @@ import { CodeBlockCommand } from "./code-block-command";
 import { ComponentPreview } from "./component-preview";
 import { demos } from "./demos";
 import { Step, Steps } from "./steps";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CheckIcon, ClipboardIcon } from "lucide-react";
 import type { MDXComponents } from "mdx/types";
+import { useRef, useState } from "react";
 
 function BoundComponentPreview(props: { name: string; description?: string }) {
   return (
@@ -11,6 +14,40 @@ function BoundComponentPreview(props: { name: string; description?: string }) {
       {...props}
       demos={demos}
     />
+  );
+}
+
+function CopyableCodeBlock({ children, ...props }: React.ComponentProps<"pre">) {
+  const [copied, setCopied] = useState(false);
+  const preRef = useRef<HTMLPreElement>(null);
+
+  function copy() {
+    const text = preRef.current?.textContent;
+    if (text) {
+      navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  }
+
+  return (
+    <div className="relative mb-4 overflow-hidden rounded-lg border bg-transparent">
+      <Button
+        size="icon"
+        variant="ghost"
+        onClick={copy}
+        className="absolute top-2 right-2 z-10 h-7 w-7"
+      >
+        {copied ? <CheckIcon className="h-3.5 w-3.5" /> : <ClipboardIcon className="h-3.5 w-3.5" />}
+      </Button>
+      <pre
+        ref={preRef}
+        className="overflow-x-auto p-4 text-sm"
+        {...props}
+      >
+        {children}
+      </pre>
+    </div>
   );
 }
 
@@ -62,14 +99,5 @@ export const mdxComponents: MDXComponents = {
     }
     return <code {...props}>{children}</code>;
   },
-  pre: ({ children, ...props }) => (
-    <div className="relative mb-4 overflow-hidden rounded-lg border">
-      <pre
-        className="overflow-x-auto"
-        {...props}
-      >
-        {children}
-      </pre>
-    </div>
-  ),
+  pre: CopyableCodeBlock,
 };

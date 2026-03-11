@@ -100,7 +100,7 @@ function RouteComponent() {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="mt-16 flex flex-col">
       <div className="relative mx-8 my-4 flex items-center gap-2">
         <p className="absolute left-1/2 flex -translate-x-1/2 gap-2">
           <span

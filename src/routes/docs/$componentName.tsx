@@ -1,5 +1,4 @@
 import { mdxComponents } from "@/components/docs/mdx-components";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { fetchDocComponent } from "@/lib/api/docs.api";
 import { createFileRoute } from "@tanstack/react-router";
 import React from "react";
@@ -25,10 +24,8 @@ function RouteComponent() {
   }
 
   return (
-    <ScrollArea className="h-[80vh]">
-      <div className="mx-auto max-w-3xl px-6 py-12">
-        <Component components={mdxComponents} />
-      </div>
-    </ScrollArea>
+    <div className="mx-auto max-w-3xl px-6 py-12">
+      <Component components={mdxComponents} />
+    </div>
   );
 }

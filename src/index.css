@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
 @plugin "tailwindcss-animate";
 
 :root {
@@ -67,7 +69,7 @@
   --secondary-foreground: oklch(1 0 0);
   --muted: oklch(0.3867 0 0);
   --muted-foreground: oklch(0.7155 0 0);
-  --accent: oklch(0.8664 0.2948 142.4953);
+  --accent: oklch(66.404% 0.20782 142.802);
   --accent-foreground: oklch(0 0 0);
   --destructive: oklch(0.6602 0.2294 35.4025);
   --destructive-foreground: oklch(0 0 0);
@@ -81,9 +83,9 @@
   --chart-5: oklch(0.8664 0.2948 142.4953);
   --sidebar: oklch(0.2645 0 0);
   --sidebar-foreground: oklch(1 0 0);
-  --sidebar-primary: oklch(0.8664 0.2948 142.4953);
+  --sidebar-primary: oklch(66.404% 0.20782 142.802);
   --sidebar-primary-foreground: oklch(0 0 0);
-  --sidebar-accent: oklch(0.8664 0.2948 142.4953);
+  --sidebar-accent: oklch(66.404% 0.20782 142.802);
   --sidebar-accent-foreground: oklch(0 0 0);
   --sidebar-border: oklch(0.3211 0 0);
   --sidebar-ring: oklch(0.8664 0.2948 142.4953);
@@ -177,4 +179,27 @@ body {
 ::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
+}
+
+.shiki,
+pre[data-theme] {
+  background-color: transparent !important;
+}
+
+.shiki span,
+pre[data-theme] span {
+  color: var(--shiki-light) !important;
+}
+
+.dark .shiki span,
+.dark pre[data-theme] span {
+  color: var(--shiki-dark) !important;
+}
+
+html {
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
 }

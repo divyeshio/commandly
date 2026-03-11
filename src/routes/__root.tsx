@@ -1,8 +1,7 @@
-import appCss from "../styles/app.css?url";
+import appCss from "../index.css?url";
 import { DefaultCatchBoundary } from "@/components/error-component";
 import { NotFound } from "@/components/not-found";
 import { ThemeProvider, ThemeSwitcher } from "@/components/theme-switcher";
-import { cn } from "@/lib/utils";
 import type { QueryClient } from "@tanstack/react-query";
 /// <reference types="vite/client" />
 import { HeadContent, Outlet, Scripts, createRootRouteWithContext } from "@tanstack/react-router";
@@ -161,8 +160,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body className="bg-background text-foreground antialiased">
         <NuqsAdapter>
-          <Navbar />
-          <main className={cn("w-full", "mt-16")}>{children}</main>
+          <header className="sticky top-0 z-50 w-full">
+            <Navbar />
+          </header>
+          <main className="w-full">{children}</main>
           <Toaster />
         </NuqsAdapter>
         {/* <TanStackRouterDevtools position="bottom-right" />

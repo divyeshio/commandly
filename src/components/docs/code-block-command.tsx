@@ -32,7 +32,7 @@ export function CodeBlockCommand({ __pnpm__, __npm__, __yarn__, __bun__ }: CodeB
   }
 
   return (
-    <div className="relative overflow-hidden rounded-lg border bg-muted/80">
+    <div className="relative overflow-hidden rounded-lg border bg-transparent">
       <Tabs
         value={pm}
         onValueChange={(v) => setPm(v as PackageManager)}
@@ -56,7 +56,7 @@ export function CodeBlockCommand({ __pnpm__, __npm__, __yarn__, __bun__ }: CodeB
             value={key}
             className="mt-0 px-4 py-3"
           >
-            <pre>
+            <pre className="bg-transparent">
               <code className="font-mono text-sm">{cmd}</code>
             </pre>
           </TabsContent>

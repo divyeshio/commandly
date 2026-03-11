@@ -1,5 +1,17 @@
 import { docsNav } from "@/components/docs/nav";
-import { cn } from "@/lib/utils";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+} from "@/components/ui/sidebar";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/docs")({
@@ -8,42 +20,46 @@ export const Route = createFileRoute("/docs")({
 
 function DocsLayout() {
   return (
-    <div className="flex border-t border-muted">
-      <aside className="h-screen w-64 max-w-xs min-w-50 overflow-y-auto border-r-2 border-muted p-4">
-        {docsNav.map((section) => (
-          <div
-            key={section.section}
-            className="mb-6"
-          >
-            <p className="mb-2 text-xs font-semibold tracking-wider text-muted-foreground uppercase">
-              {section.section}
-            </p>
-            <ul className="space-y-0.5">
-              {section.items.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    to="/docs/$componentName"
-                    params={{ componentName: item.name }}
-                    className={cn(
-                      "block rounded-md px-2 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
-                    )}
-                    activeProps={{
-                      className:
-                        "block rounded-md px-2 py-1.5 text-sm text-accent-foreground! bg-accent font-medium",
-                    }}
-                    activeOptions={{ exact: true }}
-                  >
-                    {item.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </aside>
-      <main className="flex-1">
-        <Outlet />
-      </main>
-    </div>
+    <SidebarProvider
+      className="mt-16 overflow-hidden border-t border-muted"
+      style={{ height: "calc(100svh - 4rem)", minHeight: "calc(100svh - 4rem)" }}
+    >
+      <Sidebar collapsible="none">
+        <SidebarContent>
+          {docsNav.map((section, i) => (
+            <SidebarGroup key={i}>
+              {section.section && <SidebarGroupLabel>{section.section}</SidebarGroupLabel>}
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {section.items.map((item) => (
+                    <SidebarMenuItem key={item.name}>
+                      <SidebarMenuButton asChild>
+                        <Link
+                          resetScroll={true}
+                          preload="intent"
+                          to="/docs/$componentName"
+                          params={{ componentName: item.name }}
+                          activeProps={{
+                            className: "bg-sidebar-accent font-medium",
+                          }}
+                          activeOptions={{ exact: true }}
+                        >
+                          {item.title}
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          ))}
+        </SidebarContent>
+      </Sidebar>
+      <SidebarInset>
+        <ScrollArea className="h-full">
+          <Outlet />
+        </ScrollArea>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

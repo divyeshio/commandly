@@ -1,3 +1,4 @@
+import { ScrollArea } from "../ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
@@ -21,7 +22,7 @@ export function ComponentPreviewTabs({ preview, code, className }: ComponentPrev
           </div>
         </TabsContent>
         <TabsContent value="code">
-          <div className="max-h-[400px] overflow-y-auto rounded-lg border bg-muted/30">{code}</div>
+          <ScrollArea className="rounded-lg border">{code}</ScrollArea>
         </TabsContent>
       </Tabs>
     </div>
