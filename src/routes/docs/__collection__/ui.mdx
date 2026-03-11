@@ -1,0 +1,84 @@
+# Basic UI
+
+The foundational block containing GeneratedCommand, JsonOutput, and ToolRenderer along with shared types and utilities.
+
+## Installation
+
+<CodeTabs defaultValue="cli">
+  <TabsList>
+    <TabsTrigger value="cli">CLI</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+  <TabsContent value="cli">
+    <CodeBlockCommand
+      __pnpm__="pnpm dlx shadcn@latest add https://commandly.divyeshio.in/r/ui.json"
+      __npm__="npx shadcn@latest add https://commandly.divyeshio.in/r/ui.json"
+      __yarn__="yarn dlx shadcn@latest add https://commandly.divyeshio.in/r/ui.json"
+      __bun__="bunx --bun shadcn@latest add https://commandly.divyeshio.in/r/ui.json"
+    />
+  </TabsContent>
+  <TabsContent value="manual">
+    <Steps>
+      <Step>Install the required dependencies:</Step>
+      <CodeBlockCommand
+        __pnpm__="pnpm add lucide-react sonner nuqs"
+        __npm__="npm install lucide-react sonner nuqs"
+        __yarn__="yarn add lucide-react sonner nuqs"
+        __bun__="bun add lucide-react sonner nuqs"
+      />
+      <Step>Copy the files listed below into your project under `components/commandly/`:</Step>
+      <Step>Update import paths to match your project setup.</Step>
+    </Steps>
+  </TabsContent>
+</CodeTabs>
+
+## Included Files
+
+Installing this block copies the following into your project:
+
+| File                            | Target                                               |
+| ------------------------------- | ---------------------------------------------------- |
+| `generated-command.tsx`         | `components/commandly/generated-command.tsx`         |
+| `json-output.tsx`               | `components/commandly/json-output.tsx`               |
+| `tool-renderer.tsx`             | `components/commandly/tool-renderer.tsx`             |
+| `lib/types/commandly.ts`        | `components/commandly/lib/types/commandly.ts`        |
+| `lib/types/commandly-nested.ts` | `components/commandly/lib/types/commandly-nested.ts` |
+| `lib/types/renderer.ts`         | `components/commandly/lib/types/renderer.ts`         |
+| `lib/utils/commandly.ts`        | `components/commandly/lib/utils/commandly.ts`        |
+| `lib/utils/commandly-nested.ts` | `components/commandly/lib/utils/commandly-nested.ts` |
+
+## Usage
+
+```tsx
+import { GeneratedCommand } from "@/components/commandly/generated-command";
+import { JsonOutput } from "@/components/commandly/json-output";
+import { ToolRenderer } from "@/components/commandly/tool-renderer";
+import type { Tool, Parameter, ParameterValue } from "@/components/commandly/lib/types/commandly";
+```
+
+### Using All Three Together
+
+```tsx
+const [values, setValues] = useState<Record<string, ParameterValue>>({})
+
+<div className="grid grid-cols-2 gap-4">
+  <ToolRenderer
+    tool={tool}
+    parameterValues={values}
+    updateParameterValue={(key, val) =>
+      setValues((prev) => ({ ...prev, [key]: val }))
+    }
+  />
+  <div className="flex flex-col gap-4">
+    <GeneratedCommand tool={tool} parameterValues={values} />
+    <JsonOutput tool={tool} />
+  </div>
+</div>
+```
+
+## Notes
+
+- This block is a prerequisite for the `tool-editor` block — install this first if you want both
+- All three components share the same `Tool` type from `lib/types/commandly.ts`
+- The `lib/utils/` helpers handle conversion between flat and nested structures
+- Individual components (`generated-command`, `json-output`, `tool-renderer`) can also be installed separately

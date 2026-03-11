@@ -39,12 +39,14 @@ function RouteComponent() {
   const { newTool } = Route.useSearch();
 
   return (
-    <ToolEditor
-      tool={tool!}
-      isNewTool={!!newTool}
-      onSave={(tool) => {
-        localStorage.setItem(`tool-${tool.name}`, JSON.stringify(tool));
-      }}
-    />
+    <div className="mt-16">
+      <ToolEditor
+        tool={tool!}
+        isNewTool={!!newTool}
+        onSave={(tool) => {
+          localStorage.setItem(`tool-${tool.name}`, JSON.stringify(tool));
+        }}
+      />
+    </div>
   );
 }
