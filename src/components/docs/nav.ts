@@ -4,11 +4,14 @@ export interface DocNavItem {
 }
 
 export interface DocNavSection {
-  section: string;
+  section?: string;
   items: DocNavItem[];
 }
 
 export const docsNav: DocNavSection[] = [
+  {
+    items: [{ name: "", title: "Overview" }],
+  },
   {
     section: "Components",
     items: [

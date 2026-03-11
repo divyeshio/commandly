@@ -1,7 +1,9 @@
 {
+  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
   "name": "httpx",
-  "displayName": "httpx",
+  "displayName": "Httpx",
   "description": "Httpx is a fast and multi-purpose HTTP toolkit that allows running multiple probes using the retryablehttp library.",
+  "url": "https://github.com/projectdiscovery/httpx",
   "metadata": {
     "supportedInput": [
       "StandardInput",

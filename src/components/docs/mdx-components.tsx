@@ -1,8 +1,8 @@
 import { CodeBlockCommand } from "./code-block-command";
 import { ComponentPreview } from "./component-preview";
+import { demos } from "./demos";
 import { Step, Steps } from "./steps";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { demos } from "@/docs/demos";
 import type { MDXComponents } from "mdx/types";
 
 function BoundComponentPreview(props: { name: string; description?: string }) {

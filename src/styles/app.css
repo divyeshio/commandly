@@ -2,28 +2,6 @@
 
 @plugin "tailwindcss-animate";
 
-@custom-variant dark (&:is(.dark *));
-
-code[data-theme*=" "],
-code[data-theme*=" "] span {
-  color: var(--shiki-light);
-  background-color: var(--shiki-light-bg);
-}
-
-.dark code[data-theme*=" "],
-.dark code[data-theme*=" "] span {
-  color: var(--shiki-dark);
-  background-color: var(--shiki-dark-bg);
-}
-
-[data-rehype-pretty-code-figure] pre {
-  overflow-x: auto;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  font-size: 0.8125rem;
-  line-height: 1.6;
-}
-
 :root {
   --background: oklch(0.9702 0 0);
   --foreground: oklch(0 0 0);

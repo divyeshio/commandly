@@ -1,7 +1,9 @@
 {
+  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
   "name": "dnsx",
   "displayName": "DNSX",
   "description": "A fast and multi-purpose DNS toolkit designed for running DNS queries.",
+  "url": "https://github.com/projectdiscovery/dnsx",
   "metadata": {
     "supportedInput": [
       "StandardInput"

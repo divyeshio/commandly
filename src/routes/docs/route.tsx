@@ -1,4 +1,4 @@
-import { docsNav } from "@/docs/nav";
+import { docsNav } from "@/components/docs/nav";
 import { cn } from "@/lib/utils";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 
@@ -8,8 +8,8 @@ export const Route = createFileRoute("/docs")({
 
 function DocsLayout() {
   return (
-    <div className="flex min-h-screen pt-16">
-      <aside className="fixed top-16 left-0 z-30 hidden h-[calc(100vh-4rem)] w-56 flex-col overflow-y-auto border-r bg-background py-8 pr-4 pl-6 lg:flex">
+    <div className="flex border-t border-muted">
+      <aside className="h-screen w-64 max-w-xs min-w-50 overflow-y-auto border-r-2 border-muted p-4">
         {docsNav.map((section) => (
           <div
             key={section.section}
@@ -31,6 +31,7 @@ function DocsLayout() {
                       className:
                         "block rounded-md px-2 py-1.5 text-sm text-accent-foreground! bg-accent font-medium",
                     }}
+                    activeOptions={{ exact: true }}
                   >
                     {item.title}
                   </Link>
@@ -40,7 +41,7 @@ function DocsLayout() {
           </div>
         ))}
       </aside>
-      <main className="min-w-0 flex-1 lg:pl-56">
+      <main className="flex-1">
         <Outlet />
       </main>
     </div>

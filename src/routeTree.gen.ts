@@ -9,7 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as DocsRouteImport } from './routes/docs'
+import { Route as DocsRouteRouteImport } from './routes/docs/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolsIndexRouteImport } from './routes/tools/index'
 import { Route as DocsIndexRouteImport } from './routes/docs/index'
@@ -17,7 +17,7 @@ import { Route as DocsComponentNameRouteImport } from './routes/docs/$componentN
 import { Route as ToolsToolNameIndexRouteImport } from './routes/tools/$toolName/index'
 import { Route as ToolsToolNameEditRouteImport } from './routes/tools/$toolName/edit'
 
-const DocsRoute = DocsRouteImport.update({
+const DocsRouteRoute = DocsRouteRouteImport.update({
   id: '/docs',
   path: '/docs',
   getParentRoute: () => rootRouteImport,
@@ -35,12 +35,12 @@ const ToolsIndexRoute = ToolsIndexRouteImport.update({
 const DocsIndexRoute = DocsIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => DocsRoute,
+  getParentRoute: () => DocsRouteRoute,
 } as any)
 const DocsComponentNameRoute = DocsComponentNameRouteImport.update({
   id: '/$componentName',
   path: '/$componentName',
-  getParentRoute: () => DocsRoute,
+  getParentRoute: () => DocsRouteRoute,
 } as any)
 const ToolsToolNameIndexRoute = ToolsToolNameIndexRouteImport.update({
   id: '/tools/$toolName/',
@@ -55,7 +55,7 @@ const ToolsToolNameEditRoute = ToolsToolNameEditRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/docs': typeof DocsRouteWithChildren
+  '/docs': typeof DocsRouteRouteWithChildren
   '/docs/$componentName': typeof DocsComponentNameRoute
   '/docs/': typeof DocsIndexRoute
   '/tools/': typeof ToolsIndexRoute
@@ -73,7 +73,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/docs': typeof DocsRouteWithChildren
+  '/docs': typeof DocsRouteRouteWithChildren
   '/docs/$componentName': typeof DocsComponentNameRoute
   '/docs/': typeof DocsIndexRoute
   '/tools/': typeof ToolsIndexRoute
@@ -111,7 +111,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DocsRoute: typeof DocsRouteWithChildren
+  DocsRouteRoute: typeof DocsRouteRouteWithChildren
   ToolsIndexRoute: typeof ToolsIndexRoute
   ToolsToolNameEditRoute: typeof ToolsToolNameEditRoute
   ToolsToolNameIndexRoute: typeof ToolsToolNameIndexRoute
@@ -123,7 +123,7 @@ declare module '@tanstack/react-router' {
       id: '/docs'
       path: '/docs'
       fullPath: '/docs'
-      preLoaderRoute: typeof DocsRouteImport
+      preLoaderRoute: typeof DocsRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -145,14 +145,14 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/docs/'
       preLoaderRoute: typeof DocsIndexRouteImport
-      parentRoute: typeof DocsRoute
+      parentRoute: typeof DocsRouteRoute
     }
     '/docs/$componentName': {
       id: '/docs/$componentName'
       path: '/$componentName'
       fullPath: '/docs/$componentName'
       preLoaderRoute: typeof DocsComponentNameRouteImport
-      parentRoute: typeof DocsRoute
+      parentRoute: typeof DocsRouteRoute
     }
     '/tools/$toolName/': {
       id: '/tools/$toolName/'
@@ -171,21 +171,23 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface DocsRouteChildren {
+interface DocsRouteRouteChildren {
   DocsComponentNameRoute: typeof DocsComponentNameRoute
   DocsIndexRoute: typeof DocsIndexRoute
 }
 
-const DocsRouteChildren: DocsRouteChildren = {
+const DocsRouteRouteChildren: DocsRouteRouteChildren = {
   DocsComponentNameRoute: DocsComponentNameRoute,
   DocsIndexRoute: DocsIndexRoute,
 }
 
-const DocsRouteWithChildren = DocsRoute._addFileChildren(DocsRouteChildren)
+const DocsRouteRouteWithChildren = DocsRouteRoute._addFileChildren(
+  DocsRouteRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DocsRoute: DocsRouteWithChildren,
+  DocsRouteRoute: DocsRouteRouteWithChildren,
   ToolsIndexRoute: ToolsIndexRoute,
   ToolsToolNameEditRoute: ToolsToolNameEditRoute,
   ToolsToolNameIndexRoute: ToolsToolNameIndexRoute,

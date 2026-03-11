@@ -3,14 +3,14 @@ import React from "react";
 
 const clientMdxModules = import.meta.glob<{
   default: React.ComponentType<{ components?: object }>;
-}>("../../docs/*.mdx");
+}>("../../routes/docs/__collection__/*.mdx");
 
 export const fetchDocComponent = createIsomorphicFn()
   .server(async (componentName: string) => {
     const mdxModules = import.meta.glob<{ default: React.ComponentType<{ components?: object }> }>(
-      "../../docs/*.mdx",
+      "../../routes/docs/__collection__/*.mdx",
     );
-    const mdxKey = `../../docs/${componentName}.mdx`;
+    const mdxKey = `../../routes/docs/__collection__/${componentName}.mdx`;
     if (!mdxModules[mdxKey]) {
       throw new Error(`Documentation not found for "${componentName}"`);
     }
@@ -18,7 +18,7 @@ export const fetchDocComponent = createIsomorphicFn()
     return { component: module.default, componentName };
   })
   .client(async (componentName: string) => {
-    const mdxKey = `../../docs/${componentName}.mdx`;
+    const mdxKey = `../../routes/docs/__collection__/${componentName}.mdx`;
     if (!clientMdxModules[mdxKey]) {
       throw new Error(`Documentation not found for "${componentName}"`);
     }

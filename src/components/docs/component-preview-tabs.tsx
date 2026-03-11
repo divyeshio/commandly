@@ -21,7 +21,7 @@ export function ComponentPreviewTabs({ preview, code, className }: ComponentPrev
           </div>
         </TabsContent>
         <TabsContent value="code">
-          <div className="overflow-hidden rounded-lg border bg-muted/30">{code}</div>
+          <div className="max-h-[400px] overflow-y-auto rounded-lg border bg-muted/30">{code}</div>
         </TabsContent>
       </Tabs>
     </div>
