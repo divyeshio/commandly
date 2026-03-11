@@ -25,7 +25,7 @@ function DocsLayout() {
       style={{ height: "calc(100svh - 4rem)", minHeight: "calc(100svh - 4rem)" }}
     >
       <Sidebar collapsible="none">
-        <SidebarContent>
+        <SidebarContent className="p-2">
           {docsNav.map((section, i) => (
             <SidebarGroup key={i}>
               {section.section && <SidebarGroupLabel>{section.section}</SidebarGroupLabel>}

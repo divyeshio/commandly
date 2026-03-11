@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { HoverCard, HoverCardTrigger, HoverCardContent } from "@/components/ui/hover-card";
 import { Tool } from "@/registry/commandly/lib/types/commandly";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { Edit2Icon, ExternalLinkIcon, Trash2Icon } from "lucide-react";
 import { useRef, useEffect, useState } from "react";
 
@@ -32,27 +32,17 @@ export function ToolCard({
     }
   }, [tool.description]);
 
-  const navigation = useNavigate();
-
-  const handleCardClick = () => {
-    navigation({
-      to: "/tools/$toolName",
-      params: { toolName: tool.name! },
-      search: { newTool: isLocal ? tool.name : undefined },
-    });
-  };
-
   return (
     <Card
       className="flex h-72 w-72 flex-col gap-0 overflow-hidden py-3 hover:shadow-md"
       style={{
         viewTransitionName: `tool-card-${tool.name}`,
       }}
-      onClick={handleCardClick}
     >
       <CardHeader className="flex items-center justify-between border-b [.border-b]:pb-1">
         <CardTitle className="font-semibold">
           <span
+            className="font-mono"
             style={{
               viewTransitionName: `tool-card-title-${tool.name}`,
             }}
@@ -113,38 +103,46 @@ export function ToolCard({
           </CardAction>
         </div>
       </CardHeader>
-      <CardContent className="min-h-0 flex-1 px-2">
-        <div className="mb-6 flex h-full min-h-0 cursor-pointer flex-col gap-4 align-top">
-          <div className="flex w-full flex-1 items-center justify-center py-1">
-            {tool.description ? (
-              isOverflowing ? (
-                <HoverCard openDelay={0}>
-                  <HoverCardTrigger asChild>
-                    <p className="line-clamp-4 cursor-pointer p-1 text-justify overflow-ellipsis dark:text-foreground/60">
+      <Link
+        to="/tools/$toolName"
+        params={{ toolName: tool.name! }}
+        search={{ newTool: isLocal ? tool.name : undefined }}
+        preload="intent"
+        className="flex h-72 w-72 flex-col gap-0 overflow-hidden py-3"
+      >
+        <CardContent className="min-h-0 flex-1 px-2">
+          <div className="mb-6 flex h-full min-h-0 cursor-pointer flex-col gap-4 align-top">
+            <div className="flex w-full flex-1 items-center justify-center py-1">
+              {tool.description ? (
+                isOverflowing ? (
+                  <HoverCard openDelay={0}>
+                    <HoverCardTrigger asChild>
+                      <p className="line-clamp-4 cursor-pointer p-1 text-justify overflow-ellipsis dark:text-foreground/60">
+                        {tool.description}
+                      </p>
+                    </HoverCardTrigger>
+                    <HoverCardContent className="max-w-xs text-sm">
                       {tool.description}
-                    </p>
-                  </HoverCardTrigger>
-                  <HoverCardContent className="max-w-xs text-sm">
+                    </HoverCardContent>
+                  </HoverCard>
+                ) : (
+                  <p
+                    ref={descRef}
+                    className="line-clamp-4 p-1 text-center overflow-ellipsis dark:text-foreground/60"
+                  >
                     {tool.description}
-                  </HoverCardContent>
-                </HoverCard>
+                  </p>
+                )
               ) : (
-                <p
-                  ref={descRef}
-                  className="line-clamp-4 p-1 text-center overflow-ellipsis dark:text-foreground/60"
-                >
-                  {tool.description}
-                </p>
-              )
-            ) : (
-              <p className="text-muted">No description available</p>
-            )}
+                <p className="text-muted">No description available</p>
+              )}
+            </div>
           </div>
-        </div>
-      </CardContent>
-      <CardFooter className="mt-auto flex w-full justify-center gap-2">
-        <Button className="flex-1 hover:cursor-pointer">Go</Button>
-      </CardFooter>
+        </CardContent>
+        <CardFooter className="mt-auto flex w-full justify-center gap-2">
+          <Button className="flex-1 hover:cursor-pointer">Go</Button>
+        </CardFooter>
+      </Link>
     </Card>
   );
 }

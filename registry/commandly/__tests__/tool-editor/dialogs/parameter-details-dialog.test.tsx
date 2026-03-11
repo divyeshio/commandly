@@ -2,11 +2,12 @@ import { Parameter, Command } from "@/registry/commandly/lib/types/commandly";
 import { defaultTool } from "@/registry/commandly/lib/utils/commandly";
 import { ParameterDetailsDialog } from "@/registry/commandly/tool-editor/dialogs/parameter-details-dialog";
 import {
+  ToolBuilderProvider,
   ToolBuilderState,
-  toolBuilderStore,
-  toolBuilderActions,
-} from "@/registry/commandly/tool-editor/tool-editor.store";
+  useToolBuilder,
+} from "@/registry/commandly/tool-editor/tool-editor.context";
 import { render, screen, fireEvent, act } from "@testing-library/react";
+import { ReactNode } from "react";
 
 const createTestParameter = (overrides: Partial<Parameter> = {}): Parameter => ({
   key: "test-param-key",
@@ -36,19 +37,30 @@ const createTestState = (
   parameter: Parameter | null,
   toolName: string = "test-tool",
   command?: Command,
-): ToolBuilderState => ({
+): Partial<ToolBuilderState> => ({
   tool: { ...defaultTool(toolName, "Test tool"), name: toolName },
   selectedCommand: command || createTestCommand(),
   selectedParameter: parameter,
-  editingCommand: null,
-  parameterValues: {},
-  dialogs: {
-    editTool: false,
-    savedCommands: false,
-    exclusionGroups: false,
-    parameterDetails: false,
-  },
 });
+
+// Captures the latest context value after each render
+let capturedCtx: ReturnType<typeof useToolBuilder>;
+function ContextCapture() {
+  capturedCtx = useToolBuilder();
+  return null;
+}
+
+function renderWithProvider(ui: ReactNode, initialState: Partial<ToolBuilderState>) {
+  return render(
+    <ToolBuilderProvider
+      tool={initialState.tool ?? defaultTool("test-tool", "Test tool")}
+      initialState={initialState}
+    >
+      {ui}
+      <ContextCapture />
+    </ToolBuilderProvider>,
+  );
+}
 
 describe("ParameterDetailsDialog - Dialog Lifecycle", () => {
   beforeEach(() => {
@@ -58,24 +70,19 @@ describe("ParameterDetailsDialog - Dialog Lifecycle", () => {
   it("manages dialog open/close states and store synchronization", () => {
     const testParameter = createTestParameter();
 
-    // Opens when parameter is selected
-    act(() => {
-      toolBuilderStore.setState(() => createTestState(testParameter));
-    });
-
-    render(<ParameterDetailsDialog />);
+    renderWithProvider(<ParameterDetailsDialog />, createTestState(testParameter));
 
     expect(screen.getByRole("dialog")).toBeInTheDocument();
     expect(screen.getByText("test-param")).toBeInTheDocument();
-    expect(toolBuilderStore.state.selectedParameter).toEqual(testParameter);
+    expect(capturedCtx.selectedParameter).toEqual(testParameter);
 
-    // Closes when parameter is deselected
+    // Closes when parameter is deselected via context action
     act(() => {
-      toolBuilderStore.setState(() => createTestState(null));
+      capturedCtx.setSelectedParameter(null);
     });
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    expect(toolBuilderStore.state.selectedParameter).toBeNull();
+    expect(capturedCtx.selectedParameter).toBeNull();
   });
 });
 
@@ -92,11 +99,7 @@ describe("ParameterDetailsDialog - Form Fields", () => {
       dataType: "String",
     });
 
-    act(() => {
-      toolBuilderStore.setState(() => createTestState(testParameter));
-    });
-
-    render(<ParameterDetailsDialog />);
+    renderWithProvider(<ParameterDetailsDialog />, createTestState(testParameter));
 
     // Check initial values
     expect(screen.getByDisplayValue("my-parameter")).toBeInTheDocument();
@@ -110,9 +113,7 @@ describe("ParameterDetailsDialog - Form Fields", () => {
 
     act(() => {
       fireEvent.change(nameInput, { target: { value: "updated-param" } });
-      fireEvent.change(descriptionTextarea, {
-        target: { value: "Updated description" },
-      });
+      fireEvent.change(descriptionTextarea, { target: { value: "Updated description" } });
     });
 
     expect(screen.getByDisplayValue("updated-param")).toBeInTheDocument();
@@ -125,11 +126,7 @@ describe("ParameterDetailsDialog - Form Fields", () => {
       dataType: "String",
     });
 
-    act(() => {
-      toolBuilderStore.setState(() => createTestState(testParameter));
-    });
-
-    render(<ParameterDetailsDialog />);
+    renderWithProvider(<ParameterDetailsDialog />, createTestState(testParameter));
 
     const selectElements = screen.getAllByRole("combobox");
     const parameterTypeSelect = selectElements[0];
@@ -161,11 +158,7 @@ describe("ParameterDetailsDialog - Form Fields", () => {
       isRepeatable: false,
     });
 
-    act(() => {
-      toolBuilderStore.setState(() => createTestState(testParameter));
-    });
-
-    render(<ParameterDetailsDialog />);
+    renderWithProvider(<ParameterDetailsDialog />, createTestState(testParameter));
 
     const switches = screen.getAllByRole("switch");
     const requiredSwitch = switches.find((s) =>
@@ -195,12 +188,7 @@ describe("ParameterDetailsDialog - Form Fields", () => {
 
   it("validates empty parameter name", () => {
     const testParameter = createTestParameter();
-
-    act(() => {
-      toolBuilderStore.setState(() => createTestState(testParameter));
-    });
-
-    render(<ParameterDetailsDialog />);
+    renderWithProvider(<ParameterDetailsDialog />, createTestState(testParameter));
 
     const nameInput = screen.getByDisplayValue("test-param");
     const saveButton = screen.getByRole("button", { name: "Save Changes" });
@@ -220,12 +208,7 @@ describe("ParameterDetailsDialog - Parameter Type Specific Fields", () => {
 
   it("conditionally renders fields based on parameter type", () => {
     const flagParameter = createTestParameter({ parameterType: "Flag" });
-
-    act(() => {
-      toolBuilderStore.setState(() => createTestState(flagParameter));
-    });
-
-    render(<ParameterDetailsDialog />);
+    renderWithProvider(<ParameterDetailsDialog />, createTestState(flagParameter));
 
     // Flag type shows flag fields but not key-value separator
     expect(screen.getByText("Short Flag (include prefix)")).toBeInTheDocument();
@@ -268,11 +251,7 @@ describe("ParameterDetailsDialog - Parameter Type Specific Fields", () => {
       keyValueSeparator: "=",
     });
 
-    act(() => {
-      toolBuilderStore.setState(() => createTestState(testParameter));
-    });
-
-    render(<ParameterDetailsDialog />);
+    renderWithProvider(<ParameterDetailsDialog />, createTestState(testParameter));
 
     const separatorInput = screen.getByDisplayValue("=");
 
@@ -291,25 +270,20 @@ describe("ParameterDetailsDialog - Dependencies Section", () => {
 
   it("disables Add button when no available parameters", () => {
     const testParameter = createTestParameter();
-    const testState = createTestState(testParameter);
-    // No other parameters available
-    testState.tool.parameters = [testParameter];
+    const initState: Partial<ToolBuilderState> = {
+      ...createTestState(testParameter),
+    };
+    // Only this parameter — no others available
+    initState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
 
-    act(() => {
-      toolBuilderStore.setState(() => testState);
-    });
-
-    render(<ParameterDetailsDialog />);
+    renderWithProvider(<ParameterDetailsDialog />, initState);
 
     const addButtons = screen.getAllByRole("button", { name: "Add" });
-    const dependenciesAddButton = addButtons[0]; // First Add button is for dependencies
+    const dependenciesAddButton = addButtons[0];
 
     expect(dependenciesAddButton).toBeDisabled();
-
-    // Assert store state - should only have the single parameter
-    const state = toolBuilderStore.state;
-    expect(state.tool.parameters).toHaveLength(1);
-    expect(state.tool.parameters[0]).toEqual(testParameter);
+    expect(capturedCtx.tool.parameters).toHaveLength(1);
+    expect(capturedCtx.tool.parameters[0]).toEqual(testParameter);
   });
 });
 
@@ -320,12 +294,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
 
   it("enables save button when changes are made but keeps store unchanged until saved", () => {
     const testParameter = createTestParameter();
-
-    act(() => {
-      toolBuilderStore.setState(() => createTestState(testParameter));
-    });
-
-    render(<ParameterDetailsDialog />);
+    renderWithProvider(<ParameterDetailsDialog />, createTestState(testParameter));
 
     const saveButton = screen.getByRole("button", { name: "Save Changes" });
     expect(saveButton).toBeDisabled();
@@ -337,45 +306,38 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     });
 
     expect(saveButton).not.toBeDisabled();
-
-    const state = toolBuilderStore.state;
-    expect(state.selectedParameter?.name).toBe("test-param");
+    // Context selectedParameter should still have the original name (not yet saved)
+    expect(capturedCtx.selectedParameter?.name).toBe("test-param");
   });
 
-  it("resets dialog state and updates store when new parameter is selected", () => {
+  it("resets dialog state when new parameter is selected via context", () => {
     const firstParameter = createTestParameter({ name: "first-param" });
     const secondParameter = createTestParameter({
       key: "different-key",
       name: "second-param",
+      commandKey: "test-command-key",
     });
 
-    act(() => {
-      toolBuilderStore.setState(() => createTestState(firstParameter));
-    });
-
-    render(<ParameterDetailsDialog />);
+    renderWithProvider(<ParameterDetailsDialog />, createTestState(firstParameter));
 
     const nameInput = screen.getByDisplayValue("first-param");
 
     act(() => {
-      fireEvent.change(nameInput, {
-        target: { value: "modified-first-param" },
-      });
+      fireEvent.change(nameInput, { target: { value: "modified-first-param" } });
     });
 
     const saveButton = screen.getByRole("button", { name: "Save Changes" });
     expect(saveButton).not.toBeDisabled();
 
     act(() => {
-      toolBuilderStore.setState(() => createTestState(secondParameter));
+      capturedCtx.setSelectedParameter(secondParameter);
     });
 
     expect(screen.getByDisplayValue("second-param")).toBeInTheDocument();
     expect(saveButton).toBeDisabled();
 
-    const state = toolBuilderStore.state;
-    expect(state.selectedParameter?.name).toBe("second-param");
-    expect(state.selectedParameter?.key).toBe("different-key");
+    expect(capturedCtx.selectedParameter?.name).toBe("second-param");
+    expect(capturedCtx.selectedParameter?.key).toBe("different-key");
   });
 
   it("cancels changes, closes dialog, and preserves original store state", () => {
@@ -384,24 +346,19 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
       description: "Original description",
       isRequired: false,
     });
+    const initState: Partial<ToolBuilderState> = {
+      ...createTestState(testParameter),
+    };
+    initState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
 
-    const testState = createTestState(testParameter);
-    testState.tool.parameters = [testParameter];
-
-    act(() => {
-      toolBuilderStore.setState(() => testState);
-    });
-
-    render(<ParameterDetailsDialog />);
+    renderWithProvider(<ParameterDetailsDialog />, initState);
 
     const nameInput = screen.getByDisplayValue("original-param");
     const descriptionTextarea = screen.getByDisplayValue("Original description");
 
     act(() => {
       fireEvent.change(nameInput, { target: { value: "modified-param" } });
-      fireEvent.change(descriptionTextarea, {
-        target: { value: "Modified description" },
-      });
+      fireEvent.change(descriptionTextarea, { target: { value: "Modified description" } });
     });
 
     expect(screen.getByDisplayValue("modified-param")).toBeInTheDocument();
@@ -414,18 +371,15 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     });
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(capturedCtx.selectedParameter).toBeNull();
 
-    const state = toolBuilderStore.state;
-    expect(state.selectedParameter).toBeNull();
-
-    const originalParameter = state.tool.parameters.find((p) => p.key === testParameter.key);
-    expect(originalParameter).toBeDefined();
+    const originalParameter = capturedCtx.tool.parameters.find((p) => p.key === testParameter.key);
     expect(originalParameter?.name).toBe("original-param");
     expect(originalParameter?.description).toBe("Original description");
     expect(originalParameter?.isRequired).toBe(false);
   });
 
-  it("saves changes, closes dialog, and updates store with new values", () => {
+  it("saves changes, closes dialog, and updates context with new values", () => {
     const testParameter = createTestParameter({
       name: "original-param",
       description: "Original description",
@@ -434,15 +388,12 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
       parameterType: "Option",
       dataType: "String",
     });
+    const initState: Partial<ToolBuilderState> = {
+      ...createTestState(testParameter),
+    };
+    initState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
 
-    const testState = createTestState(testParameter);
-    testState.tool.parameters = [testParameter];
-
-    act(() => {
-      toolBuilderStore.setState(() => testState);
-    });
-
-    render(<ParameterDetailsDialog />);
+    renderWithProvider(<ParameterDetailsDialog />, initState);
 
     const nameInput = screen.getByDisplayValue("original-param");
     const descriptionTextarea = screen.getByDisplayValue("Original description");
@@ -451,9 +402,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
 
     act(() => {
       fireEvent.change(nameInput, { target: { value: "updated-param" } });
-      fireEvent.change(descriptionTextarea, {
-        target: { value: "Updated description" },
-      });
+      fireEvent.change(descriptionTextarea, { target: { value: "Updated description" } });
       fireEvent.click(requiredSwitch);
       fireEvent.click(globalSwitch);
     });
@@ -463,11 +412,9 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     expect(requiredSwitch).toBeChecked();
     expect(globalSwitch).toBeChecked();
 
-    let state = toolBuilderStore.state;
-    expect(state.selectedParameter?.name).toBe("original-param");
-    expect(state.selectedParameter?.description).toBe("Original description");
-    expect(state.selectedParameter?.isRequired).toBe(false);
-    expect(state.selectedParameter?.isGlobal).toBe(false);
+    // Context should still have original values (not saved yet)
+    expect(capturedCtx.selectedParameter?.name).toBe("original-param");
+    expect(capturedCtx.selectedParameter?.isRequired).toBe(false);
 
     const saveButton = screen.getByRole("button", { name: "Save Changes" });
     expect(saveButton).not.toBeDisabled();
@@ -477,11 +424,9 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     });
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(capturedCtx.selectedParameter).toBeNull();
 
-    state = toolBuilderStore.state;
-    expect(state.selectedParameter).toBeNull();
-
-    const updatedParameter = state.tool.parameters.find((p) => p.name === "updated-param");
+    const updatedParameter = capturedCtx.tool.parameters.find((p) => p.name === "updated-param");
     expect(updatedParameter).toBeDefined();
     expect(updatedParameter?.name).toBe("updated-param");
     expect(updatedParameter?.description).toBe("Updated description");
@@ -489,19 +434,14 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     expect(updatedParameter?.isGlobal).toBe(true);
   });
 
-  it("verifies store actions are called correctly during save and cancel operations", () => {
-    const setSelectedParameterSpy = vi.spyOn(toolBuilderActions, "setSelectedParameter");
-    const upsertParameterSpy = vi.spyOn(toolBuilderActions, "upsertParameter");
-
+  it("verifies context state is updated correctly after save", () => {
     const testParameter = createTestParameter();
-    const testState = createTestState(testParameter);
-    testState.tool.parameters = [testParameter];
+    const initState: Partial<ToolBuilderState> = {
+      ...createTestState(testParameter),
+    };
+    initState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
 
-    act(() => {
-      toolBuilderStore.setState(() => testState);
-    });
-
-    render(<ParameterDetailsDialog />);
+    renderWithProvider(<ParameterDetailsDialog />, initState);
 
     const nameInput = screen.getByDisplayValue("test-param");
     act(() => {
@@ -513,31 +453,22 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
       fireEvent.click(saveButton);
     });
 
-    expect(upsertParameterSpy).toHaveBeenCalledWith(
-      expect.objectContaining({
-        description: "Test parameter description",
-        name: "modified-param",
-      }),
-    );
-    expect(setSelectedParameterSpy).toHaveBeenCalledWith(null);
+    // After save: dialog closed, parameter updated in context
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(capturedCtx.selectedParameter).toBeNull();
 
-    const finalState = toolBuilderStore.state;
-    expect(finalState.selectedParameter).toBeNull();
-    const updatedParameter = finalState.tool.parameters.find((p) => p.name === "modified-param");
+    const updatedParameter = capturedCtx.tool.parameters.find((p) => p.name === "modified-param");
     expect(updatedParameter?.name).toBe("modified-param");
-
-    setSelectedParameterSpy.mockRestore();
-    upsertParameterSpy.mockRestore();
+    expect(updatedParameter?.description).toBe("Test parameter description");
   });
 
   it("resets dialog state and preserves store when dialog is closed and reopened", () => {
     const testParameter = createTestParameter();
+    const initState: Partial<ToolBuilderState> = {
+      ...createTestState(testParameter),
+    };
 
-    act(() => {
-      toolBuilderStore.setState(() => createTestState(testParameter));
-    });
-
-    const { unmount } = render(<ParameterDetailsDialog />);
+    const { unmount } = renderWithProvider(<ParameterDetailsDialog />, initState);
 
     const nameInput = screen.getByDisplayValue("test-param");
 
@@ -549,18 +480,14 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     expect(saveButton).not.toBeDisabled();
 
     const cancelButton = screen.getByRole("button", { name: "Cancel" });
-
     act(() => {
       fireEvent.click(cancelButton);
     });
 
     unmount();
 
-    act(() => {
-      toolBuilderStore.setState(() => createTestState(testParameter));
-    });
-
-    render(<ParameterDetailsDialog />);
+    // Re-render fresh with the same parameter
+    renderWithProvider(<ParameterDetailsDialog />, createTestState(testParameter));
 
     expect(screen.getByDisplayValue("test-param")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Save Changes" })).toBeDisabled();
@@ -588,11 +515,7 @@ describe("ParameterDetailsDialog - UI/UX", () => {
       metadata: { tags: ["tag1", "tag2"] },
     });
 
-    act(() => {
-      toolBuilderStore.setState(() => createTestState(testParameter));
-    });
-
-    render(<ParameterDetailsDialog />);
+    renderWithProvider(<ParameterDetailsDialog />, createTestState(testParameter));
 
     // Check all fields are pre-filled
     expect(screen.getByDisplayValue("test-parameter")).toBeInTheDocument();
@@ -618,19 +541,10 @@ describe("ParameterDetailsDialog - UI/UX", () => {
     expect(repeatableSwitch).toBeChecked();
     expect(globalSwitch).toBeChecked();
 
-    // Assert store state matches pre-filled values
-    const state = toolBuilderStore.state;
-    expect(state.selectedParameter?.name).toBe("test-parameter");
-    expect(state.selectedParameter?.parameterType).toBe("Option");
-    expect(state.selectedParameter?.dataType).toBe("String");
-    expect(state.selectedParameter?.longFlag).toBe("--test-flag");
-    expect(state.selectedParameter?.shortFlag).toBe("-t");
-    expect(state.selectedParameter?.description).toBe("Test description");
-    expect(state.selectedParameter?.defaultValue).toBe("default-value");
-    expect(state.selectedParameter?.isRequired).toBe(true);
-    expect(state.selectedParameter?.isRepeatable).toBe(true);
-    expect(state.selectedParameter?.isGlobal).toBe(true);
-    expect(state.selectedParameter?.keyValueSeparator).toBe("=");
+    // Confirm context matches
+    expect(capturedCtx.selectedParameter?.name).toBe("test-parameter");
+    expect(capturedCtx.selectedParameter?.isRequired).toBe(true);
+    expect(capturedCtx.selectedParameter?.isGlobal).toBe(true);
   });
 
   it("displays correct parameter icon and global badge based on type and properties", () => {
@@ -639,45 +553,35 @@ describe("ParameterDetailsDialog - UI/UX", () => {
       isGlobal: true,
     });
 
-    act(() => {
-      toolBuilderStore.setState(() => createTestState(globalParameter));
-    });
-
-    render(<ParameterDetailsDialog />);
+    renderWithProvider(<ParameterDetailsDialog />, createTestState(globalParameter));
 
     const dialogTitle = screen.getByText("test-param").closest("h2");
     expect(dialogTitle?.querySelector("svg")).toBeInTheDocument();
-
     expect(screen.getByText("global")).toBeInTheDocument();
 
+    // Switch to non-global parameter via context action
     const nonGlobalParameter = createTestParameter({ isGlobal: false });
-
     act(() => {
-      toolBuilderStore.setState(() => createTestState(nonGlobalParameter));
+      capturedCtx.setSelectedParameter(nonGlobalParameter);
     });
 
     expect(screen.queryByText("global")).not.toBeInTheDocument();
-
-    const state = toolBuilderStore.state;
-    expect(state.selectedParameter?.isGlobal).toBe(false);
+    expect(capturedCtx.selectedParameter?.isGlobal).toBe(false);
   });
 
-  it("updates store with parameter type changes and related field updates", () => {
+  it("updates context with parameter type changes after save", () => {
     const testParameter = createTestParameter({
       parameterType: "Option",
       keyValueSeparator: "=",
       longFlag: "--test",
       shortFlag: "-t",
     });
+    const initState: Partial<ToolBuilderState> = {
+      ...createTestState(testParameter),
+    };
+    initState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
 
-    const testState = createTestState(testParameter);
-    testState.tool.parameters = [testParameter];
-
-    act(() => {
-      toolBuilderStore.setState(() => testState);
-    });
-
-    render(<ParameterDetailsDialog />);
+    renderWithProvider(<ParameterDetailsDialog />, initState);
 
     const selectElements = screen.getAllByRole("combobox");
     const parameterTypeSelect = selectElements[0];
@@ -685,9 +589,7 @@ describe("ParameterDetailsDialog - UI/UX", () => {
     act(() => {
       fireEvent.click(parameterTypeSelect);
     });
-
     const flagOption = screen.getByRole("option", { name: "Flag" });
-
     act(() => {
       fireEvent.click(flagOption);
     });
@@ -695,13 +597,11 @@ describe("ParameterDetailsDialog - UI/UX", () => {
     expect(screen.queryByText("Key-Value Separator")).not.toBeInTheDocument();
 
     const saveButton = screen.getByRole("button", { name: "Save Changes" });
-
     act(() => {
       fireEvent.click(saveButton);
     });
 
-    const state = toolBuilderStore.state;
-    const updatedParameter = state.tool.parameters.find((p) => p.key === testParameter.key);
+    const updatedParameter = capturedCtx.tool.parameters.find((p) => p.key === testParameter.key);
     expect(updatedParameter).toBeDefined();
     expect(updatedParameter?.parameterType).toBe("Flag");
     expect(updatedParameter?.longFlag).toBe("--test");

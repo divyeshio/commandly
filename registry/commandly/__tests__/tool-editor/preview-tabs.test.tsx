@@ -1,32 +1,15 @@
 import { PreviewTabs } from "../../tool-editor/preview-tabs";
+import { ToolBuilderProvider } from "../../tool-editor/tool-editor.context";
+import { defaultTool } from "@/registry/commandly/lib/utils/commandly";
 import { render, screen } from "@testing-library/react";
-import { OnUrlUpdateFunction, withNuqsTestingAdapter } from "nuqs/adapters/testing";
-import { vi } from "vitest";
-
-vi.mock("../tool-editor.store", () => ({
-  toolBuilderStore: {
-    getState: () => ({
-      tool: { name: "tool", displayName: "Tool", commands: [], parameters: [] },
-      selectedCommand: null,
-    }),
-    subscribe: vi.fn(),
-  },
-  toolBuilderSelectors: {
-    getGlobalParameters: () => [],
-    getParametersForCommand: () => [],
-  },
-}));
 
 describe("PreviewTabs", () => {
   it("renders tabs", () => {
-    const onUrlUpdate = vi.fn<OnUrlUpdateFunction>();
-
-    render(<PreviewTabs />, {
-      wrapper: withNuqsTestingAdapter({
-        searchParams: "?newTool=newTool",
-        onUrlUpdate,
-      }),
-    });
+    render(
+      <ToolBuilderProvider tool={defaultTool("tool", "Tool")}>
+        <PreviewTabs />
+      </ToolBuilderProvider>,
+    );
     expect(screen.getByText(/Json/)).toBeInTheDocument();
     expect(screen.getByText(/Runtime Preview/)).toBeInTheDocument();
     expect(screen.getByText(/Help/, { selector: "button" })).toBeInTheDocument();

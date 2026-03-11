@@ -1,4 +1,4 @@
-import { toolBuilderActions, toolBuilderStore } from "../tool-editor.store";
+import { useToolBuilder } from "../tool-editor.context";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -33,10 +33,9 @@ import {
 } from "@/registry/commandly/lib/types/commandly";
 import { slugify, validateDefaultValue } from "@/registry/commandly/lib/utils/commandly";
 import { TagsInput } from "@/registry/commandly/ui/tags-input";
-import { useStore } from "@tanstack/react-store";
 import {
-  FileTextIcon,
   FlagIcon,
+  FileTextIcon,
   HashIcon,
   LinkIcon,
   PlusIcon,
@@ -46,18 +45,18 @@ import {
 import { useEffect, useState } from "react";
 
 export function ParameterDetailsDialog() {
-  const selectedParameter = useStore(toolBuilderStore, (state) => state.selectedParameter);
+  const { selectedParameter, selectedCommand, tool, setSelectedParameter, upsertParameter } =
+    useToolBuilder();
 
-  const commandKey = useStore(toolBuilderStore, (state) => state.selectedCommand?.key);
+  const commandKey = selectedCommand?.key;
 
-  const availableParameters = useStore(toolBuilderStore, (state) => {
-    if (!selectedParameter) return [];
-    return state.tool.parameters.filter((p) => {
-      if (p.key === selectedParameter.key) return false;
-      if (selectedParameter.isGlobal) return p.isGlobal;
-      return p.isGlobal || p.commandKey === commandKey;
-    });
-  });
+  const availableParameters = selectedParameter
+    ? tool.parameters.filter((p) => {
+        if (p.key === selectedParameter.key) return false;
+        if (selectedParameter.isGlobal) return p.isGlobal;
+        return p.isGlobal || p.commandKey === commandKey;
+      })
+    : [];
 
   const [parameter, setParameter] = useState<Parameter>(selectedParameter!);
   const [hasChanges, setHasChanges] = useState(false);
@@ -83,13 +82,13 @@ export function ParameterDetailsDialog() {
   const isOpen = !!selectedParameter;
 
   const handleClose = () => {
-    toolBuilderActions.setSelectedParameter(null);
+    setSelectedParameter(null);
     setHasChanges(false);
   };
 
   const handleSave = () => {
     if (parameter) {
-      toolBuilderActions.upsertParameter(parameter);
+      upsertParameter(parameter);
       setHasChanges(false);
       handleClose();
     }
@@ -101,12 +100,9 @@ export function ParameterDetailsDialog() {
       if (updates.name || updates.longFlag) {
         let generatedKey = slugify(next.longFlag || next.name);
 
-        // Get current tool state to check for duplicate keys
-        const toolState = toolBuilderStore.state;
-        const existingParam = toolState.tool.parameters.find(
-          (p) => p.key === generatedKey && p.key !== prev.key,
+        const existingParam = tool.parameters.find(
+          (p) => p.key === generatedKey && p.key !== selectedParameter?.key,
         );
-
         // If duplicate exists and parameter is not global, prefix with command key
         if (existingParam && !next.isGlobal && commandKey) {
           generatedKey = `${commandKey}-${generatedKey}`;

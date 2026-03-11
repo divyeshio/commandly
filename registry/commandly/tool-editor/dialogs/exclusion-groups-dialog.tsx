@@ -1,4 +1,4 @@
-import { toolBuilderStore, toolBuilderActions, toolBuilderSelectors } from "../tool-editor.store";
+import { useToolBuilder } from "../tool-editor.context";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -11,22 +11,25 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ExclusionGroup } from "@/registry/commandly/lib/types/commandly";
-import { useStore } from "@tanstack/react-store";
 import { PlusIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
 
 export function ExclusionGroupsDialog() {
-  const selectedCommand = useStore(toolBuilderStore, (state) => state.selectedCommand);
-  const open = useStore(toolBuilderStore, (state) => state.dialogs.exclusionGroups);
+  const {
+    selectedCommand,
+    dialogs,
+    getExclusionGroupsForCommand,
+    getParametersForCommand,
+    setDialogOpen,
+    addExclusionGroup,
+    updateExclusionGroup,
+    removeExclusionGroup,
+  } = useToolBuilder();
 
-  const exclusionGroups = useStore(toolBuilderStore, (state) => {
-    const commandKey = state.selectedCommand?.key;
-    return commandKey ? toolBuilderSelectors.getExclusionGroupsForCommand(state, commandKey) : [];
-  });
-  const parameters = useStore(toolBuilderStore, (state) => {
-    const commandKey = state.selectedCommand?.key;
-    return commandKey ? toolBuilderSelectors.getParametersForCommand(state, commandKey) : [];
-  });
+  const open = dialogs.exclusionGroups;
+  const commandKey = selectedCommand?.key;
+  const exclusionGroups = commandKey ? getExclusionGroupsForCommand(commandKey) : [];
+  const parameters = commandKey ? getParametersForCommand(commandKey) : [];
 
   const [editingGroup, setEditingGroup] = useState<Partial<ExclusionGroup> | undefined>();
 
@@ -43,9 +46,9 @@ export function ExclusionGroupsDialog() {
     if (!editingGroup?.name || !editingGroup.exclusionType) return;
 
     if (editingGroup.key) {
-      toolBuilderActions.updateExclusionGroup(editingGroup as ExclusionGroup);
+      updateExclusionGroup(editingGroup as ExclusionGroup);
     } else {
-      toolBuilderActions.addExclusionGroup(editingGroup as Omit<ExclusionGroup, "key">);
+      addExclusionGroup(editingGroup as Omit<ExclusionGroup, "key">);
     }
     setEditingGroup(undefined);
   };
@@ -53,7 +56,7 @@ export function ExclusionGroupsDialog() {
   return (
     <Dialog
       open={open}
-      onOpenChange={(open) => toolBuilderActions.setDialogOpen("exclusionGroups", open)}
+      onOpenChange={(open) => setDialogOpen("exclusionGroups", open)}
     >
       <DialogContent className="max-w-2xl">
         <DialogHeader>
@@ -95,7 +98,7 @@ export function ExclusionGroupsDialog() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => toolBuilderActions.removeExclusionGroup(group.key!)}
+                  onClick={() => removeExclusionGroup(group.key!)}
                 >
                   <TrashIcon className="h-4 w-4" />
                 </Button>

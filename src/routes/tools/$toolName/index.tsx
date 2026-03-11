@@ -14,15 +14,14 @@ import {
   defaultTool,
   getSavedCommandsFromStorage,
   removeSavedCommandFromStorage,
+  slugify,
 } from "@/registry/commandly/lib/utils/commandly";
-import { toolBuilderActions } from "@/registry/commandly/tool-editor/tool-editor.store";
-import { ToolRenderer, defaultComponents } from "@/registry/commandly/tool-renderer";
+import { defaultComponents, ToolRenderer } from "@/registry/commandly/tool-renderer";
 import { createFileRoute } from "@tanstack/react-router";
 import { CheckIcon, ChevronsUpDownIcon, InfoIcon, SaveIcon, TerminalIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
 import { toast } from "sonner";
-import { v7 as uuidv7 } from "uuid";
 
 export const Route = createFileRoute("/tools/$toolName/")({
   component: RouteComponent,
@@ -64,6 +63,7 @@ function RouteComponent() {
     return getSavedCommandsFromStorage(toolId);
   });
   const [open, setOpen] = useState(false);
+  const [savedCommandsOpen, setSavedCommandsOpen] = useState(false);
   const [selectedCommand, setSelectedCommand] = useQueryState("command", {
     defaultValue: tool?.commands[0].name!,
   });
@@ -80,7 +80,7 @@ function RouteComponent() {
       return;
     }
     const newSavedCommand: SavedCommand = {
-      key: uuidv7(),
+      key: slugify(command.substring(0, 20)),
       command,
     };
 
@@ -104,7 +104,7 @@ function RouteComponent() {
       <div className="relative mx-8 my-4 flex items-center gap-2">
         <p className="absolute left-1/2 flex -translate-x-1/2 gap-2">
           <span
-            className="text-lg font-medium"
+            className="font-mono text-lg font-medium"
             style={{
               viewTransitionName: `tool-card-title-${tool.name}`,
             }}
@@ -126,7 +126,7 @@ function RouteComponent() {
           className="relative z-10 ml-auto"
           variant="outline"
           size="sm"
-          onClick={() => toolBuilderActions.setDialogOpen("savedCommands", true)}
+          onClick={() => setSavedCommandsOpen(true)}
         >
           <SaveIcon className="mr-2 h-4 w-4" />
           Saved Commands
@@ -229,6 +229,8 @@ function RouteComponent() {
         </Card>
       </div>
       <SavedCommandsDialog
+        open={savedCommandsOpen}
+        onOpenChange={setSavedCommandsOpen}
         savedCommands={savedCommands}
         onDeleteCommand={handleDeleteCommand}
       />

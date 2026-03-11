@@ -1,10 +1,9 @@
-import { toolBuilderStore } from "./tool-editor.store";
+import { useToolBuilder } from "./tool-editor.context";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Command } from "@/registry/commandly/lib/types/commandly";
-import { useStore } from "@tanstack/react-store";
 
 export function HelpMenu() {
-  const tool = useStore(toolBuilderStore, (state) => state.tool);
+  const { tool } = useToolBuilder();
 
   const generateToolPreview = (): string => {
     const rootCommands = tool.commands.filter((cmd) => !cmd.parentCommandKey);

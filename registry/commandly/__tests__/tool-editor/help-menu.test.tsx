@@ -1,19 +1,15 @@
 import { HelpMenu } from "../../tool-editor/help-menu";
+import { ToolBuilderProvider } from "../../tool-editor/tool-editor.context";
+import { defaultTool } from "@/registry/commandly/lib/utils/commandly";
 import { render, screen } from "@testing-library/react";
-import { vi } from "vitest";
-
-vi.mock("../tool-editor.store", () => ({
-  toolBuilderStore: {
-    getState: () => ({
-      tool: { name: "tool", displayName: "Tool", commands: [], parameters: [] },
-    }),
-    subscribe: vi.fn(),
-  },
-}));
 
 describe("HelpMenu", () => {
   it("renders tool name and description", () => {
-    render(<HelpMenu />);
+    render(
+      <ToolBuilderProvider tool={defaultTool("tool", "Tool")}>
+        <HelpMenu />
+      </ToolBuilderProvider>,
+    );
     expect(screen.getByText(/Tool/)).toBeInTheDocument();
   });
 });
