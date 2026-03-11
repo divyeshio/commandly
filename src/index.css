@@ -200,7 +200,6 @@ code[data-theme*=" "] span {
 }
 
 @media (prefers-color-scheme: dark) {
-
   code[data-theme*=" "],
   code[data-theme*=" "] span {
     color: var(--shiki-dark);

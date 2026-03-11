@@ -18,7 +18,7 @@ const options = {
       langs: [import("@shikijs/langs/tsx")],
       engine: createJavaScriptRegexEngine(),
     }),
-  
+
   theme: {
     light: "github-light",
     dark: "github-dark",
@@ -31,12 +31,7 @@ export default defineConfig({
       enforce: "pre",
       ...mdx({
         remarkPlugins: [remarkGfm],
-        rehypePlugins: [
-          [
-            rehypePrettyCode,
-            options,
-          ],
-        ],
+        rehypePlugins: [[rehypePrettyCode, options]],
       }),
     },
     tsConfigPaths({
