@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "tool-renderer",
-  "title": "Runtime Preview",
+  "title": "Tool Renderer",
   "description": "A component that provides real-time preview of CLI command execution and output.",
   "dependencies": [
     "react"

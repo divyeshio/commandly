@@ -22,7 +22,7 @@
 
 - Commands and Subcommands
 - Parameters
-- Runtime Preview
+- Tool Renderer
 - Specify Dependencies and Validations
 - JSON Output - Nested, Flat.
 - Generate Help Menu
