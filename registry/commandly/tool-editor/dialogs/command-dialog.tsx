@@ -1,4 +1,4 @@
-import { toolBuilderActions, toolBuilderStore } from "../tool-editor.store";
+import { useToolBuilder } from "../tool-editor.context";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,7 +13,6 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { Command } from "@/registry/commandly/lib/types/commandly";
-import { useStore } from "@tanstack/react-store";
 import { TerminalIcon } from "lucide-react";
 import { useState } from "react";
 
@@ -23,8 +22,9 @@ interface CommandDialogProps {
 }
 
 export function CommandDialog({ isOpen, onOpenChange }: CommandDialogProps) {
-  const command = useStore(toolBuilderStore, (state) => state.editingCommand);
-  const toolName = useStore(toolBuilderStore, (state) => state.tool.name);
+  const { editingCommand, tool, updateCommand } = useToolBuilder();
+  const command = editingCommand;
+  const toolName = tool.name;
   const [editCommand, setCommand] = useState<Command>(command!);
 
   return (
@@ -101,7 +101,7 @@ export function CommandDialog({ isOpen, onOpenChange }: CommandDialogProps) {
           <Button
             variant="outline"
             onClick={() => {
-              toolBuilderActions.updateCommand(editCommand.key, editCommand);
+              updateCommand(editCommand.key, editCommand);
               onOpenChange(false);
             }}
           >

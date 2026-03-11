@@ -16,7 +16,6 @@ import {
   removeSavedCommandFromStorage,
 } from "@/registry/commandly/lib/utils/commandly";
 import { RuntimePreview } from "@/registry/commandly/runtime-preview";
-import { toolBuilderActions } from "@/registry/commandly/tool-editor/tool-editor.store";
 import { createFileRoute } from "@tanstack/react-router";
 import { CheckIcon, ChevronsUpDownIcon, InfoIcon, SaveIcon, TerminalIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
@@ -64,6 +63,7 @@ function RouteComponent() {
     return getSavedCommandsFromStorage(toolId);
   });
   const [open, setOpen] = useState(false);
+  const [savedCommandsOpen, setSavedCommandsOpen] = useState(false);
   const [selectedCommand, setSelectedCommand] = useQueryState("command", {
     defaultValue: tool?.commands[0].name!,
   });
@@ -126,7 +126,7 @@ function RouteComponent() {
           className="relative z-10 ml-auto"
           variant="outline"
           size="sm"
-          onClick={() => toolBuilderActions.setDialogOpen("savedCommands", true)}
+          onClick={() => setSavedCommandsOpen(true)}
         >
           <SaveIcon className="mr-2 h-4 w-4" />
           Saved Commands
@@ -228,6 +228,8 @@ function RouteComponent() {
         </Card>
       </div>
       <SavedCommandsDialog
+        open={savedCommandsOpen}
+        onOpenChange={setSavedCommandsOpen}
         savedCommands={savedCommands}
         onDeleteCommand={handleDeleteCommand}
       />

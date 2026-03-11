@@ -7,20 +7,17 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { SavedCommand } from "@/registry/commandly/lib/types/commandly";
-import {
-  toolBuilderActions,
-  toolBuilderStore,
-} from "@/registry/commandly/tool-editor/tool-editor.store";
-import { useStore } from "@tanstack/react-store";
 import { SaveIcon, CopyIcon, Trash2Icon } from "lucide-react";
 import { toast } from "sonner";
 
 interface SavedCommandsDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
   savedCommands: SavedCommand[];
   onDeleteCommand: (commandId: string) => void;
 }
 
-export function SavedCommandsDialog({ savedCommands, onDeleteCommand }: SavedCommandsDialogProps) {
+export function SavedCommandsDialog({ open, onOpenChange, savedCommands, onDeleteCommand }: SavedCommandsDialogProps) {
   const copyCommand = (command: string) => {
     navigator.clipboard.writeText(command);
     toast("Command copied!");
@@ -33,12 +30,10 @@ export function SavedCommandsDialog({ savedCommands, onDeleteCommand }: SavedCom
     });
   };
 
-  const open = useStore(toolBuilderStore, (state) => state.dialogs.savedCommands);
-
   return (
     <Dialog
       open={open}
-      onOpenChange={() => toolBuilderActions.setDialogOpen("savedCommands", false)}
+      onOpenChange={onOpenChange}
     >
       <DialogContent className="max-h-[80vh] max-w-4xl">
         <DialogHeader>
@@ -91,7 +86,7 @@ export function SavedCommandsDialog({ savedCommands, onDeleteCommand }: SavedCom
         <DialogFooter>
           <Button
             variant="outline"
-            onClick={() => toolBuilderActions.setDialogOpen("savedCommands", false)}
+            onClick={() => onOpenChange(false)}
           >
             Close
           </Button>

@@ -5,16 +5,10 @@ import { CommandTree } from "./command-tree";
 import { SavedCommandsDialog } from "./dialogs/saved-commands-dialog";
 import { ParameterList } from "./parameter-list";
 import { PreviewTabs } from "./preview-tabs";
-import { toolBuilderActions, toolBuilderStore } from "./tool-editor.store";
+import { ToolBuilderProvider, useToolBuilder } from "./tool-editor.context";
 import { Button } from "@/components/ui/button";
 import { SavedCommand, Tool } from "@/registry/commandly/lib/types/commandly";
-import {
-  getSavedCommandsFromStorage,
-  removeSavedCommandFromStorage,
-} from "@/registry/commandly/lib/utils/commandly";
-import { useStore } from "@tanstack/react-store";
 import { SaveIcon, Edit2Icon, LayersIcon, GitPullRequestIcon } from "lucide-react";
-import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const GITHUB_REPO = "divyeshio/commandly";
@@ -24,28 +18,42 @@ interface ToolEditorProps {
   tool: Tool;
   onSave?: (tool: Tool) => void;
   isNewTool?: boolean;
+  savedCommands?: SavedCommand[];
+  onSaveCommand?: (command: string) => void;
+  onDeleteSavedCommand?: (commandKey: string) => void;
 }
 
-export default function ToolEditor({
-  tool: toolToEdit,
-  onSave,
-  isNewTool = false,
-}: ToolEditorProps) {
-  const tool = useStore(toolBuilderStore, (state) => state.tool);
+export default function ToolEditor({ tool: toolToEdit, onSave, isNewTool = false, savedCommands, onSaveCommand, onDeleteSavedCommand }: ToolEditorProps) {
+  return (
+    <ToolBuilderProvider tool={toolToEdit}>
+      <ToolEditorContent
+        onSave={onSave}
+        isNewTool={isNewTool}
+        savedCommands={savedCommands ?? []}
+        onSaveCommand={onSaveCommand}
+        onDeleteSavedCommand={onDeleteSavedCommand}
+      />
+    </ToolBuilderProvider>
+  );
+}
 
-  useEffect(() => {
-    toolBuilderActions.initializeTool(toolToEdit);
-  }, [toolToEdit]);
+interface ToolEditorContentProps {
+  onSave?: (tool: Tool) => void;
+  isNewTool?: boolean;
+  savedCommands: SavedCommand[];
+  onSaveCommand?: (command: string) => void;
+  onDeleteSavedCommand?: (commandKey: string) => void;
+}
 
-  const [savedCommands, setSavedCommands] = useState<SavedCommand[]>([]);
+function ToolEditorContent({ onSave, isNewTool = false, savedCommands, onSaveCommand, onDeleteSavedCommand }: ToolEditorContentProps) {
+  const { tool, setDialogOpen } = useToolBuilder();
 
   const handleContribute = async () => {
-    const currentTool = toolBuilderStore.state.tool;
-    const json = JSON.stringify(currentTool, null, 2);
-    const filePath = `public/tools-collection/${currentTool.name}.json`;
+    const json = JSON.stringify(tool, null, 2);
+    const filePath = `public/tools-collection/${tool.name}.json`;
 
     if (isNewTool) {
-      const message = encodeURIComponent(`feat(tools): add ${currentTool.name}`);
+      const message = encodeURIComponent(`feat(tools): add ${tool.name}`);
       const filename = encodeURIComponent(filePath);
       if (json.length <= MAX_URL_JSON_LENGTH) {
         window.open(
@@ -71,12 +79,6 @@ export default function ToolEditor({
     }
   };
 
-  const handleDeleteCommand = (commandKey: string) => {
-    const toolId = tool.name;
-    removeSavedCommandFromStorage(`saved-${toolId}`, commandKey);
-    setSavedCommands(savedCommands.filter((cmd) => cmd.key !== commandKey));
-  };
-
   return (
     <div className="flex bg-background">
       <div className="flex w-72 flex-col overflow-hidden border-r border-muted">
@@ -86,7 +88,6 @@ export default function ToolEditor({
         <CommandTree />
       </div>
 
-      {/* Main Content */}
       <div className="flex flex-1 flex-col">
         <div className="border-b border-muted p-4">
           <div className="flex justify-between">
@@ -103,7 +104,7 @@ export default function ToolEditor({
                 variant="ghost"
                 size="sm"
                 className="h-6 w-6 p-0"
-                onClick={() => toolBuilderActions.setDialogOpen("editTool", true)}
+                onClick={() => setDialogOpen("editTool", true)}
               >
                 <Edit2Icon className="h-4 w-4" />
               </Button>
@@ -114,7 +115,7 @@ export default function ToolEditor({
                   variant="default"
                   size="sm"
                   onClick={() => {
-                    onSave(toolBuilderStore.state.tool);
+                    onSave(tool);
                     toast("Tool saved successfully!");
                   }}
                 >
@@ -125,12 +126,7 @@ export default function ToolEditor({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => {
-                  const toolId = tool.name;
-                  const commands = getSavedCommandsFromStorage(toolId);
-                  setSavedCommands(commands);
-                  toolBuilderActions.setDialogOpen("savedCommands", true);
-                }}
+                onClick={() => setDialogOpen("savedCommands", true)}
               >
                 <SaveIcon className="mr-2 h-4 w-4" />
                 Saved Commands
@@ -138,7 +134,7 @@ export default function ToolEditor({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => toolBuilderActions.setDialogOpen("exclusionGroups", true)}
+                onClick={() => setDialogOpen("exclusionGroups", true)}
               >
                 <LayersIcon className="mr-2 h-4 w-4" />
                 Exclusion Groups
@@ -167,7 +163,7 @@ export default function ToolEditor({
             />
           </div>
           <div className="max-w-3xl flex-3/5">
-            <PreviewTabs />
+            <PreviewTabs onSaveCommand={onSaveCommand} />
           </div>
         </div>
       </div>
@@ -176,7 +172,7 @@ export default function ToolEditor({
       <ToolDetailsDialog />
       <SavedCommandsDialog
         savedCommands={savedCommands}
-        onDeleteCommand={handleDeleteCommand}
+        onDeleteCommand={onDeleteSavedCommand ?? (() => {})}
       />
       <ExclusionGroupsDialog />
     </div>

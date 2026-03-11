@@ -1,10 +1,9 @@
 import { CommandDialog } from "../tool-editor/dialogs/command-dialog";
-import { toolBuilderStore, toolBuilderActions } from "./tool-editor.store";
+import { useToolBuilder } from "./tool-editor.context";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Command } from "@/registry/commandly/lib/types/commandly";
-import { useStore } from "@tanstack/react-store";
 import { ChevronDownIcon, ChevronRightIcon, Edit2Icon, PlusIcon, Trash2Icon } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -16,6 +15,7 @@ interface CommandNodeProps {
   selectedCommandKey?: string;
   expandedCommands: Set<string>;
   onToggle: (commandKey: string) => void;
+  onSelect: (command: Command) => void;
   onEdit: (command: Command) => void;
   onAddSubcommand: (parentKey?: string) => void;
   onDelete: (commandKey: string) => void;
@@ -29,6 +29,7 @@ function CommandNode({
   selectedCommandKey,
   expandedCommands,
   onToggle,
+  onSelect,
   onEdit,
   onAddSubcommand,
   onDelete,
@@ -46,7 +47,7 @@ function CommandNode({
           isSelected ? "bg-muted" : ""
         }`}
         style={{ paddingLeft: `${level * 16 + 8}px` }}
-        onClick={() => toolBuilderActions.setSelectedCommand(command)}
+        onClick={() => onSelect(command)}
       >
         {hasSubcommands ? (
           <Button
@@ -127,6 +128,7 @@ function CommandNode({
               selectedCommandKey={selectedCommandKey}
               expandedCommands={expandedCommands}
               onToggle={onToggle}
+              onSelect={onSelect}
               onEdit={onEdit}
               onAddSubcommand={onAddSubcommand}
               onDelete={onDelete}
@@ -139,9 +141,7 @@ function CommandNode({
 }
 
 export function CommandTree() {
-  const tool = useStore(toolBuilderStore, (state) => state.tool);
-  const selectedCommand = useStore(toolBuilderStore, (state) => state.selectedCommand);
-  const editingCommand = useStore(toolBuilderStore, (state) => state.editingCommand);
+  const { tool, selectedCommand, editingCommand, addSubcommand, setSelectedCommand, setEditingCommand, deleteCommand } = useToolBuilder();
 
   const [expandedCommands, setExpandedCommands] = useState<Set<string>>(
     new Set([tool.commands[0]?.key]),
@@ -164,14 +164,9 @@ export function CommandTree() {
     });
   };
 
-  // Patch toolBuilderActions.addSubcommand to select and expand parent after add
   const handleAddSubcommand = (parentKey?: string) => {
-    const prevKeys = new Set(tool.commands.map((cmd) => cmd.key));
-    toolBuilderActions.addSubcommand(parentKey);
-    const newCmd = toolBuilderStore.state.tool.commands.find((cmd) => !prevKeys.has(cmd.key));
-    if (newCmd) {
-      setLastAddedCommand({ key: newCmd.key, parentKey });
-    }
+    const newKey = addSubcommand(parentKey);
+    setLastAddedCommand({ key: newKey, parentKey });
   };
 
   useEffect(() => {
@@ -179,7 +174,7 @@ export function CommandTree() {
     const { key, parentKey } = lastAddedCommand;
     const newCmd = tool.commands.find((cmd) => cmd.key === key);
     if (newCmd) {
-      toolBuilderActions.setSelectedCommand(newCmd);
+      setSelectedCommand(newCmd);
       if (parentKey) {
         setExpandedCommands((prev) => {
           const newSet = new Set(prev);
@@ -192,7 +187,7 @@ export function CommandTree() {
   }, [tool.commands, lastAddedCommand]);
 
   const handleEdit = (command: Command) => {
-    toolBuilderActions.setEditingCommand(command);
+    setEditingCommand(command);
     setIsDialogOpen(true);
   };
 
@@ -211,9 +206,10 @@ export function CommandTree() {
               selectedCommandKey={selectedCommand?.key}
               expandedCommands={expandedCommands}
               onToggle={toggleExpanded}
+              onSelect={setSelectedCommand}
               onEdit={handleEdit}
               onAddSubcommand={handleAddSubcommand}
-              onDelete={toolBuilderActions.deleteCommand}
+              onDelete={deleteCommand}
             />
           ))}
         </div>
@@ -232,7 +228,7 @@ export function CommandTree() {
           isOpen={isDialogOpen}
           onOpenChange={(open) => {
             setIsDialogOpen(open);
-            toolBuilderActions.setEditingCommand(null);
+            setEditingCommand(null);
           }}
         />
       )}

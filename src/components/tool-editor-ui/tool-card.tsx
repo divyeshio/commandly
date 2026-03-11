@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -23,10 +22,6 @@ export function ToolCard({
   isLocal?: boolean;
   onDelete?: (tool: Partial<Tool>) => void;
 }) {
-  const supportedIO = [
-    ...(tool.metadata?.supportedInput ?? []),
-    ...(tool.metadata?.supportedOutput ?? []),
-  ];
   const descRef = useRef<HTMLParagraphElement>(null);
   const [isOverflowing, setIsOverflowing] = useState(false);
 

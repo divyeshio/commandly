@@ -1,14 +1,8 @@
-import {
-  ToolBuilderState,
-  toolBuilderStore,
-  toolBuilderActions,
-  toolBuilderSelectors,
-} from "./tool-editor.store";
+import { useToolBuilder } from "./tool-editor.context";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ExclusionGroup, ParameterType } from "@/registry/commandly/lib/types/commandly";
 import { createNewParameter, validateDefaultValue } from "@/registry/commandly/lib/utils/commandly";
-import { useStore } from "@tanstack/react-store";
 import {
   CheckCircleIcon,
   FileTextIcon,
@@ -40,20 +34,22 @@ function ParameterIcon({ type }: { type: ParameterType }) {
 }
 
 export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
-  const selectedCommand = useStore(toolBuilderStore, (state) => state.selectedCommand);
-  const globalParameters = useStore(toolBuilderStore, (state) =>
-    toolBuilderSelectors.getGlobalParameters(state),
-  );
-  const commandParameters = useStore(toolBuilderStore, (state: ToolBuilderState) =>
-    selectedCommand?.key
-      ? toolBuilderSelectors.getParametersForCommand(state, selectedCommand.key)
-      : [],
-  );
-  const exclusionGroups = useStore(toolBuilderStore, (state: ToolBuilderState) =>
-    selectedCommand?.key
-      ? toolBuilderSelectors.getExclusionGroupsForCommand(state, selectedCommand.key)
-      : [],
-  );
+  const {
+    selectedCommand,
+    getGlobalParameters,
+    getParametersForCommand,
+    getExclusionGroupsForCommand,
+    setSelectedParameter,
+    removeParameter,
+  } = useToolBuilder();
+
+  const globalParameters = getGlobalParameters();
+  const commandParameters = selectedCommand?.key
+    ? getParametersForCommand(selectedCommand.key)
+    : [];
+  const exclusionGroups = selectedCommand?.key
+    ? getExclusionGroupsForCommand(selectedCommand.key)
+    : [];
 
   const parameters = isGlobal ? globalParameters : commandParameters;
 
@@ -69,11 +65,7 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
           {title} ({parameters.length})
         </h3>
         <Button
-          onClick={() =>
-            toolBuilderActions.setSelectedParameter(
-              createNewParameter(isGlobal, selectedCommand?.key),
-            )
-          }
+          onClick={() => setSelectedParameter(createNewParameter(isGlobal, selectedCommand?.key))}
           size="sm"
         >
           <PlusIcon className="h-4 w-4" />
@@ -89,7 +81,7 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
             <div
               key={parameter.key}
               className={"cursor-pointer rounded border p-3 hover:bg-muted/50"}
-              onClick={() => toolBuilderActions.setSelectedParameter(parameter)}
+              onClick={() => setSelectedParameter(parameter)}
             >
               <div className="mb-2 flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -109,7 +101,7 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
                   className="h-6 w-6 p-0"
                   onClick={(e) => {
                     e.stopPropagation();
-                    toolBuilderActions.removeParameter(parameter.key);
+                    removeParameter(parameter.key);
                   }}
                 >
                   <Trash2Icon className="h-3 w-3 text-destructive" />
