@@ -66,7 +66,10 @@ function ToolPreview() {
 
   return (
     <>
-      <ToolEditor tool={myTool} onSave={(tool) => setSavedTool(tool)} />
+      <ToolEditor
+        tool={myTool}
+        onSave={(tool) => setSavedTool(tool)}
+      />
       {savedTool && <pre>{JSON.stringify(savedTool, null, 2)}</pre>}
     </>
   );
@@ -79,14 +82,14 @@ function ToolPreview() {
 
 The root component.
 
-| Prop                  | Type                           | Default | Description                                                  |
-| --------------------- | ------------------------------ | ------- | ------------------------------------------------------------ |
-| `tool`                | `Tool`                         | —       | The tool definition to initialise the editor with            |
-| `onSave`              | `(tool: Tool) => void`         | —       | Called when the user saves the tool                          |
-| `isNewTool`           | `boolean`                      | `false` | Indicates the tool has not been persisted yet                |
-| `savedCommands`       | `SavedCommand[]`               | `[]`    | Previously saved commands to display in the saved commands panel |
-| `onSaveCommand`       | `(command: string) => void`    | —       | Called when the user saves a new command                     |
-| `onDeleteSavedCommand`| `(commandKey: string) => void` | —       | Called when the user deletes a saved command                 |
+| Prop                   | Type                           | Default | Description                                                      |
+| ---------------------- | ------------------------------ | ------- | ---------------------------------------------------------------- |
+| `tool`                 | `Tool`                         | —       | The tool definition to initialise the editor with                |
+| `onSave`               | `(tool: Tool) => void`         | —       | Called when the user saves the tool                              |
+| `isNewTool`            | `boolean`                      | `false` | Indicates the tool has not been persisted yet                    |
+| `savedCommands`        | `SavedCommand[]`               | `[]`    | Previously saved commands to display in the saved commands panel |
+| `onSaveCommand`        | `(command: string) => void`    | —       | Called when the user saves a new command                         |
+| `onDeleteSavedCommand` | `(commandKey: string) => void` | —       | Called when the user deletes a saved command                     |
 
 ### useToolBuilder
 
@@ -101,20 +104,20 @@ function ToolStats() {
 }
 ```
 
-| Value                         | Type                                         | Description                                     |
-| ----------------------------- | -------------------------------------------- | ----------------------------------------------- |
-| `tool`                        | `Tool`                                       | The current tool definition                     |
-| `selectedCommand`             | `Command`                                    | The currently focused command                   |
-| `selectedParameter`           | `Parameter \| null`                          | The currently focused parameter                 |
-| `parameterValues`             | `Record<string, ParameterValue>`             | Current parameter input values                  |
-| `updateTool`                  | `(updates: Partial<Tool>) => void`           | Update top-level tool fields                    |
-| `addSubcommand`               | `(parentKey?: string) => string`             | Add a new subcommand; returns its key           |
-| `deleteCommand`               | `(commandKey: string) => void`               | Delete a command and all its subcommands        |
-| `upsertParameter`             | `(parameter: Parameter) => void`             | Add or update a parameter                       |
-| `removeParameter`             | `(parameterKey: string) => void`             | Remove a parameter                              |
-| `getParametersForCommand`     | `(commandKey: string) => Parameter[]`        | Get non-global parameters for a command         |
-| `getGlobalParameters`         | `() => Parameter[]`                          | Get all global parameters                       |
-| `getExclusionGroupsForCommand`| `(commandKey: string) => ExclusionGroup[]`   | Get exclusion groups for a command              |
+| Value                          | Type                                       | Description                              |
+| ------------------------------ | ------------------------------------------ | ---------------------------------------- |
+| `tool`                         | `Tool`                                     | The current tool definition              |
+| `selectedCommand`              | `Command`                                  | The currently focused command            |
+| `selectedParameter`            | `Parameter \| null`                        | The currently focused parameter          |
+| `parameterValues`              | `Record<string, ParameterValue>`           | Current parameter input values           |
+| `updateTool`                   | `(updates: Partial<Tool>) => void`         | Update top-level tool fields             |
+| `addSubcommand`                | `(parentKey?: string) => string`           | Add a new subcommand; returns its key    |
+| `deleteCommand`                | `(commandKey: string) => void`             | Delete a command and all its subcommands |
+| `upsertParameter`              | `(parameter: Parameter) => void`           | Add or update a parameter                |
+| `removeParameter`              | `(parameterKey: string) => void`           | Remove a parameter                       |
+| `getParametersForCommand`      | `(commandKey: string) => Parameter[]`      | Get non-global parameters for a command  |
+| `getGlobalParameters`          | `() => Parameter[]`                        | Get all global parameters                |
+| `getExclusionGroupsForCommand` | `(commandKey: string) => ExclusionGroup[]` | Get exclusion groups for a command       |
 
 ### Sub-components
 
