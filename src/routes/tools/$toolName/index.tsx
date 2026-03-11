@@ -104,7 +104,7 @@ function RouteComponent() {
       <div className="relative mx-8 my-4 flex items-center gap-2">
         <p className="absolute left-1/2 flex -translate-x-1/2 gap-2">
           <span
-            className="text-lg font-medium"
+            className="text-lg font-mono font-medium"
             style={{
               viewTransitionName: `tool-card-title-${tool.name}`,
             }}
