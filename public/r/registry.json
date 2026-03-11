@@ -228,7 +228,7 @@
     {
       "name": "tool-renderer",
       "type": "registry:component",
-      "title": "Runtime Preview",
+      "title": "Tool Renderer",
       "description": "A component that provides real-time preview of CLI command execution and output.",
       "dependencies": ["react"],
       "registryDependencies": ["button", "scroll-area", "tabs"],
