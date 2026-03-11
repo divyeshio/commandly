@@ -1,10 +1,30 @@
+import mdx from "@mdx-js/rollup";
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
+import rehypePrettyCode from "rehype-pretty-code";
+import remarkGfm from "remark-gfm";
 import { defineConfig } from "vite";
 import tsConfigPaths from "vite-tsconfig-paths";
 export default defineConfig({
   plugins: [
+    {
+      enforce: "pre",
+      ...mdx({
+        remarkPlugins: [remarkGfm],
+        rehypePlugins: [
+          [
+            rehypePrettyCode,
+            {
+              theme: {
+                light: "github-light",
+                dark: "github-dark-dimmed",
+              },
+            },
+          ],
+        ],
+      }),
+    },
     tsConfigPaths({
       projects: ["./tsconfig.json"],
     }),
@@ -31,11 +51,11 @@ export default defineConfig({
           },
         },
         {
-          path: "/docs",
+          path: "/docs/",
           prerender: {
             outputPath: "/docs.html",
             enabled: true,
-            crawlLinks: false,
+            crawlLinks: true,
           },
         },
       ],
@@ -48,7 +68,7 @@ export default defineConfig({
         },
       },
     }),
-    viteReact(),
+    viteReact({ include: /\.(mdx|jsx|tsx)$/ }),
     tailwindcss(),
   ],
   server: {

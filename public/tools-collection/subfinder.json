@@ -1,7 +1,9 @@
 {
+  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
   "name": "subfinder",
   "displayName": "Subfinder",
   "description": "Subfinder is a subdomain discovery tool that discovers subdomains for websites by using passive online sources.",
+  "url": "https://github.com/projectdiscovery/subfinder",
   "metadata": {
     "supportedInput": [
       "StandardInput",

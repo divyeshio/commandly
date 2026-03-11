@@ -1,7 +1,9 @@
 {
+  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
   "name": "cdncheck",
   "displayName": "CDNCheck",
   "description": "cdncheck is a tool for identifying the technology associated with dns / ip network addresses.",
+  "url": "https://github.com/projectdiscovery/cdncheck",
   "metadata": {
     "supportedInput": [
       "Parameter"
