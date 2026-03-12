@@ -2,7 +2,6 @@ import { fetchToolDetails } from "@/lib/api/tools.api";
 import { SavedCommand, Tool } from "@/registry/commandly/lib/types/commandly";
 import {
   addSavedCommandToStorage,
-  defaultTool,
   getSavedCommandsFromStorage,
   removeSavedCommandFromStorage,
   slugify,
@@ -15,20 +14,17 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/tools/$toolName/edit")({
   component: RouteComponent,
   validateSearch: (search) => ({
-    newTool: typeof search.newTool === "string" ? search.newTool : undefined,
+    isNew: search.isNew === true,
   }),
-  loaderDeps: ({ search: { newTool } }) => ({
-    newTool,
+  loaderDeps: ({ search: { isNew } }) => ({
+    isNew,
   }),
-  loader: async ({ params: { toolName }, deps: { newTool } }) => {
-    if (newTool) {
-      const newToolData = localStorage.getItem(`tool-${newTool}`);
-      if (newToolData) {
-        return JSON.parse(newToolData) as Tool;
-      } else {
-        return defaultTool() as Tool;
-      }
+  loader: async ({ params: { toolName }, deps: { isNew } }) => {
+    if (isNew) {
+      return { name: "", displayName: "", commands: [], parameters: [] } as Tool;
     } else {
+      const local = localStorage.getItem(`tool-${toolName}`);
+      if (local) return JSON.parse(local) as Tool;
       return await fetchToolDetails(toolName);
     }
   },
@@ -44,7 +40,7 @@ export const Route = createFileRoute("/tools/$toolName/edit")({
 
 function RouteComponent() {
   const tool = Route.useLoaderData();
-  const { newTool } = Route.useSearch();
+  const { isNew } = Route.useSearch();
 
   const [savedCommands, setSavedCommands] = useState<SavedCommand[]>(() =>
     tool ? getSavedCommandsFromStorage(tool.name) : [],
@@ -78,7 +74,7 @@ function RouteComponent() {
     <div className="mt-16">
       <ToolEditor
         tool={tool!}
-        isNewTool={!!newTool}
+        isNewTool={!!isNew}
         onSave={(tool) => {
           localStorage.setItem(`tool-${tool.name}`, JSON.stringify(tool));
         }}

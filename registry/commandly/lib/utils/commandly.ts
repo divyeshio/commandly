@@ -85,10 +85,12 @@ export const exportToStructuredJSON = (tool: Tool) => {
   };
 
   return {
+    $schema: "https://commandly.divyeshio.in/specification/flat.json",
     name: tool.name,
     displayName: tool.displayName,
     description: tool.description,
     version: tool.version,
+    url: tool.url,
     commands: tool.commands.map(flattenCommand),
     parameters: tool.parameters,
     exclusionGroups: tool.exclusionGroups,

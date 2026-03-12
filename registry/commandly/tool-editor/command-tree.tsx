@@ -203,7 +203,7 @@ export function CommandTree() {
 
   return (
     <>
-      <ScrollArea className="flex-1 p-1">
+      <ScrollArea className="flex-1 border-r border-muted p-1">
         <div className="p-2">
           {rootCommands.map((command) => (
             <CommandNode

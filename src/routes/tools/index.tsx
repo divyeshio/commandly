@@ -1,5 +1,4 @@
 import { SkeletonCard } from "@/components/square-card-skeleton";
-import { NewToolDialog } from "@/components/tool-editor-ui/dialogs/new-tool";
 import { ToolCard } from "@/components/tool-editor-ui/tool-card";
 import { Button } from "@/components/ui/button";
 import { Input, InputIcon, InputRoot } from "@/components/ui/input";
@@ -20,7 +19,7 @@ import { type Tool } from "@/registry/commandly/lib/types/commandly";
 import { queryOptions } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { SearchIcon } from "lucide-react";
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 
 export const toolsQueryOptions = () =>
   queryOptions({
@@ -46,6 +45,30 @@ function RouteComponent() {
     new Set((loaderData.serverTools || []).map((t) => t.name).filter((n): n is string => !!n)),
   );
 
+  useEffect(() => {
+    const localTools: Partial<Tool>[] = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key?.startsWith("tool-")) {
+        try {
+          const tool = JSON.parse(localStorage.getItem(key)!) as Partial<Tool>;
+          if (tool?.name && !serverToolNames.has(tool.name)) {
+            localTools.push(tool);
+          }
+        } catch {
+          // ignore malformed localStorage entries
+        }
+      }
+    }
+    if (localTools.length > 0) {
+      setTools((prev) => {
+        const existingNames = new Set(prev.map((t) => t.name));
+        const newTools = localTools.filter((t) => !existingNames.has(t.name));
+        return [...newTools, ...prev];
+      });
+    }
+  }, [serverToolNames]);
+
   const [searchValue, setSearchValue] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
   const [filterTag, setFilterTag] = useState("");
@@ -68,12 +91,11 @@ function RouteComponent() {
     return Array.from(set);
   }, [tools]);
 
-  const handleNavigation = (importedTool: Tool) => {
-    localStorage.setItem(`tool-${importedTool.name}`, JSON.stringify(importedTool));
+  const handleNewTool = () => {
     navigation({
       to: "/tools/$toolName/edit",
-      params: { toolName: importedTool.name },
-      search: { newTool: importedTool.name },
+      params: { toolName: "new" },
+      search: { isNew: true },
     });
   };
 
@@ -154,14 +176,13 @@ function RouteComponent() {
             />
           </InputRoot>
           <div className="flex items-center gap-3">
-            <NewToolDialog handleNavigation={handleNavigation}>
-              <Button
-                variant="default"
-                className="shadow-sm"
-              >
-                New Tool
-              </Button>
-            </NewToolDialog>
+            <Button
+              variant="default"
+              className="shadow-sm"
+              onClick={handleNewTool}
+            >
+              New Tool
+            </Button>
           </div>
         </div>
         <ScrollArea className="flex *:data-radix-scroll-area-viewport:max-h-[calc(100vh-180px)]">

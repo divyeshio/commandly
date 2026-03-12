@@ -81,7 +81,7 @@ export function ToolCard({
               <Link
                 to="/tools/$toolName/edit"
                 params={{ toolName: tool.name! }}
-                search={{ newTool: isLocal ? tool.name : undefined }}
+                search={{ isNew: false }}
               >
                 <Edit2Icon className="size-4" />
               </Link>

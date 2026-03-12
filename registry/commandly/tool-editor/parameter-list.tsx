@@ -80,7 +80,7 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
           return (
             <div
               key={parameter.key}
-              className={"cursor-pointer rounded border p-3 hover:bg-muted/50"}
+              className={"cursor-pointer rounded border border-muted p-3 hover:bg-muted/50"}
               onClick={() => setSelectedParameter(parameter)}
             >
               <div className="mb-2 flex items-center justify-between">
