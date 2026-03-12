@@ -1,9 +1,16 @@
 import { mdxComponents } from "@/components/docs/mdx-components";
 import { fetchDocComponent } from "@/lib/api/docs.api";
 import { createFileRoute } from "@tanstack/react-router";
-import React from "react";
+import { ComponentType, lazy } from "react";
 
-const componentCache = new Map<string, React.ComponentType<{ components?: object }>>();
+const componentCache = new Map<string, ComponentType<{ components?: object }>>();
+const docModules = import.meta.glob<{
+  default: ComponentType<{ components?: object }>;
+}>("./__collection__/*.mdx");
+
+const MissingDocumentation: ComponentType<{ components?: object }> = () => {
+  return <div>Documentation not found</div>;
+};
 
 export const Route = createFileRoute("/docs/$componentName")({
   component: RouteComponent,
@@ -17,10 +24,18 @@ export const Route = createFileRoute("/docs/$componentName")({
 
 function RouteComponent() {
   const { componentName } = Route.useLoaderData();
-  const Component = componentCache.get(componentName);
+  let Component = componentCache.get(componentName);
 
   if (!Component) {
-    return <div>Documentation not found</div>;
+    Component = lazy(async () => {
+      const moduleLoader = docModules[`./__collection__/${componentName}.mdx`];
+
+      if (!moduleLoader) {
+        return { default: MissingDocumentation };
+      }
+
+      return moduleLoader();
+    });
   }
 
   return (

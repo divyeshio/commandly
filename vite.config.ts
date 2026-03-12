@@ -60,7 +60,7 @@ export default defineConfig({
           },
         },
         {
-          path: "/docs/",
+          path: "/docs",
           prerender: {
             outputPath: "/docs.html",
             enabled: true,

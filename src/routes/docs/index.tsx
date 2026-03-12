@@ -15,18 +15,18 @@ function RouteComponent() {
           Reusable components for building CLI tool UIs. Install with the shadcn CLI.
         </p>
       </div>
-      {docsNav.map((section) => (
+      {docsNav.map((section, idx) => (
         <div
-          key={section.section}
+          key={`${section.section}-${idx}`}
           className="mb-12"
         >
           <h2 className="mb-6 text-xl font-semibold">{section.section}</h2>
           <div className="flex flex-col gap-10">
-            {section.items.map((item) => {
+            {section.items.map((item, itemIdx) => {
               const demo = demos[item.name];
               const DemoComponent = demo?.component;
               return (
-                <div key={item.name}>
+                <div key={`${item.name}-${itemIdx}`}>
                   <Link
                     to="/docs/$componentName"
                     params={{ componentName: item.name }}
