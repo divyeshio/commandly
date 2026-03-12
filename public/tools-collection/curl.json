@@ -1,0 +1,102 @@
+{
+  "name": "curl",
+  "displayName": "Curl",
+  "description": "curl is a command line tool and library for transferring data with URLs.",
+  "url": "https://curl.se/",
+  "commands": [
+    {
+      "name": "curl",
+      "description": "Run curl to download files.",
+      "isDefault": true,
+      "sortOrder": 1,
+      "key": "curl"
+    }
+  ],
+  "parameters": [
+    {
+      "name": "Target",
+      "description": "URL to download.",
+      "metadata": {
+        "tags": [
+          "target",
+          "non-configurable"
+        ]
+      },
+      "parameterType": "Argument",
+      "dataType": "String",
+      "isRequired": true,
+      "isRepeatable": false,
+      "isGlobal": false,
+      "sortOrder": 5,
+      "position": 1,
+      "key": "target",
+      "commandKey": "curl"
+    },
+    {
+      "name": "Output",
+      "description": "Write to file instead of stdout.",
+      "metadata": {
+        "tags": [
+          "output",
+          "output-file"
+        ]
+      },
+      "parameterType": "Option",
+      "dataType": "String",
+      "isRequired": false,
+      "isRepeatable": false,
+      "isGlobal": false,
+      "shortFlag": "-o",
+      "longFlag": "--output",
+      "keyValueSeparator": " ",
+      "sortOrder": 4,
+      "key": "output",
+      "commandKey": "curl"
+    },
+    {
+      "name": "Location",
+      "description": "Follow redirects.",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "isRequired": false,
+      "isRepeatable": false,
+      "isGlobal": false,
+      "shortFlag": "-L",
+      "longFlag": "--location",
+      "defaultValue": "true",
+      "sortOrder": 1,
+      "key": "location",
+      "commandKey": "curl"
+    },
+    {
+      "name": "Silent",
+      "description": "Silent or quiet mode.",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "isRequired": false,
+      "isRepeatable": false,
+      "isGlobal": false,
+      "shortFlag": "-s",
+      "longFlag": "--silent",
+      "defaultValue": "true",
+      "sortOrder": 2,
+      "key": "silent",
+      "commandKey": "curl"
+    },
+    {
+      "name": "Insecure",
+      "description": "Allow insecure server connections when using SSL.",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "isRequired": false,
+      "isRepeatable": false,
+      "isGlobal": false,
+      "shortFlag": "-k",
+      "longFlag": "--insecure",
+      "defaultValue": "true",
+      "sortOrder": 3,
+      "key": "insecure",
+      "commandKey": "curl"
+    }
+  ]
+}
