@@ -5,6 +5,13 @@ import {
   ConversationEmptyState,
   ConversationScrollButton,
 } from "@/components/ai-elements/conversation";
+import {
+  Message,
+  MessageAction,
+  MessageActions,
+  MessageContent,
+  MessageResponse,
+} from "@/components/ai-elements/message";
 import { Shimmer } from "@/components/ai-elements/shimmer";
 import { Suggestion, Suggestions } from "@/components/ai-elements/suggestion";
 import {
@@ -14,7 +21,7 @@ import {
   ToolInput,
   ToolOutput,
 } from "@/components/ai-elements/tool";
-import { generateChatSystemPrompt } from "@/components/tool-editor-ui/prompt";
+import { generatePrompt } from "@/components/tool-editor-ui/prompt";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -36,12 +43,16 @@ import { stepCountIs, streamText, tool } from "ai";
 import {
   CheckIcon,
   ChevronsUpDownIcon,
+  CopyIcon,
   GlobeIcon,
-  Loader2Icon,
+  PencilIcon,
+  RefreshCcwIcon,
   SendIcon,
   Settings2Icon,
   SparklesIcon,
+  SquareIcon,
   SquarePenIcon,
+  XIcon,
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -263,6 +274,9 @@ function useAIChat(
   const [isStreaming, setIsStreaming] = useState(false);
   const [model, setModel] = useState(MODEL_GROUPS[0].models[0].value);
   const schemaRef = useRef<object | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const toolSnapshotRef = useRef<Tool | null>(null);
+  const isToolAppliedRef = useRef(false);
 
   const provider = providerForModel(model);
   const openAIKeys = useAIKeys("openai");
@@ -292,31 +306,24 @@ function useAIChat(
       .catch(() => {});
   }, []);
 
-  const sendMessage = useCallback(
-    async (textOverride?: string) => {
-      const userText = (textOverride ?? input).trim();
-      if (!userText || isStreaming || !model) return;
-
-      if (!currentKeys.key) {
-        toast.error("API key not configured", {
-          description: "Open settings to add your API key.",
-        });
-        return;
-      }
-
-      if (!textOverride) setInput("");
-      const userMessage: ChatMessage = { role: "user", content: userText };
-      setMessages((prev) => [...prev, userMessage, { role: "assistant", content: "" }]);
-      setIsStreaming(true);
+  const runStream = useCallback(
+    async (userText: string, history: ChatMessage[]) => {
+      abortControllerRef.current = new AbortController();
+      toolSnapshotRef.current = currentTool;
+      isToolAppliedRef.current = false;
 
       try {
         const toolJson = JSON.stringify(exportToStructuredJSON(currentTool), null, 2);
         const schema = schemaRef.current ? JSON.stringify(schemaRef.current, null, 2) : "{}";
-        const systemPrompt = generateChatSystemPrompt(toolJson, schema, {
-          selectedCommand: context.selectedCommandName,
-          selectedParameter: context.selectedParameterName,
+        const systemPrompt = generatePrompt(schema, {
+          currentToolJson: toolJson,
+          context: {
+            selectedCommand: context.selectedCommandName,
+            selectedParameter: context.selectedParameterName,
+          },
         });
         const aiModel = createModelInstance(provider, currentKeys.key, model);
+        const userMessage: ChatMessage = { role: "user", content: userText };
 
         const editToolDef = tool({
           description: "Apply the updated CLI tool definition to the editor.",
@@ -333,6 +340,7 @@ function useAIChat(
           }),
           execute: async (input) => {
             try {
+              isToolAppliedRef.current = true;
               onApply(replaceKey(input as unknown as Tool) as Tool);
               return { success: true };
             } catch {
@@ -376,12 +384,13 @@ function useAIChat(
         const { fullStream } = streamText({
           model: aiModel,
           system: systemPrompt,
-          messages: [...messages, userMessage].map((m) => ({ role: m.role, content: m.content })),
+          messages: [...history, userMessage].map((m) => ({ role: m.role, content: m.content })),
           tools: {
             editTool: editToolDef,
             ...(webSearchTool ? { webSearch: webSearchTool } : {}),
           },
           stopWhen: stepCountIs(5),
+          abortSignal: abortControllerRef.current.signal,
         });
 
         let fullText = "";
@@ -466,7 +475,7 @@ function useAIChat(
               const last = updated[updated.length - 1];
               const toolCalls = (last.toolCalls ?? []).map((tc) =>
                 tc.toolCallId === editToolCallId
-                  ? { ...tc, state: "output-available" as const }
+                  ? { ...tc, state: "output-available" as const, output: part.output }
                   : tc,
               );
               updated[updated.length - 1] = { ...last, toolCalls, toolApplied: true };
@@ -480,26 +489,74 @@ function useAIChat(
       } catch (error) {
         onGeneratingChange?.(false);
         onStreamingTool?.(null);
-        toast.error(error instanceof Error ? error.message : "AI request failed");
+        const isAbort = error instanceof Error && error.name === "AbortError";
+        if (isAbort) {
+          if (isToolAppliedRef.current && toolSnapshotRef.current) {
+            onApply(toolSnapshotRef.current);
+          }
+        } else {
+          toast.error(error instanceof Error ? error.message : "AI request failed");
+        }
         setMessages((prev) => prev.slice(0, -2));
       } finally {
         setIsStreaming(false);
       }
     },
     [
-      input,
-      isStreaming,
+      currentTool,
+      context,
+      provider,
       currentKeys.key,
       model,
-      provider,
-      currentTool,
-      messages,
-      context,
       tavilyKeys,
       onApply,
       onGeneratingChange,
       onStreamingTool,
     ],
+  );
+
+  const sendMessage = useCallback(
+    async (textOverride?: string) => {
+      const userText = (textOverride ?? input).trim();
+      if (!userText || isStreaming || !model) return;
+
+      if (!currentKeys.key) {
+        toast.error("API key not configured", {
+          description: "Open settings to add your API key.",
+        });
+        return;
+      }
+
+      if (!textOverride) setInput("");
+      const history = messages;
+      setMessages((prev) => [
+        ...prev,
+        { role: "user", content: userText },
+        { role: "assistant", content: "" },
+      ]);
+      setIsStreaming(true);
+      await runStream(userText, history);
+    },
+    [input, isStreaming, model, currentKeys.key, messages, runStream],
+  );
+
+  const stopStreaming = useCallback(() => {
+    abortControllerRef.current?.abort();
+  }, []);
+
+  const resendFromIndex = useCallback(
+    async (index: number, newContent: string) => {
+      if (isStreaming || !newContent.trim() || !model || !currentKeys.key) return;
+      const history = messages.slice(0, index);
+      setMessages([
+        ...history,
+        { role: "user", content: newContent },
+        { role: "assistant", content: "" },
+      ]);
+      setIsStreaming(true);
+      await runStream(newContent, history);
+    },
+    [isStreaming, model, currentKeys.key, messages, runStream],
   );
 
   const clearMessages = useCallback(() => {
@@ -516,10 +573,160 @@ function useAIChat(
     setModel,
     provider,
     sendMessage,
+    stopStreaming,
+    resendFromIndex,
     clearMessages,
     allProviderKeys,
     tavilyKeys,
   };
+}
+
+interface MessagePartProps {
+  msg: ChatMessage;
+  index: number;
+  isLast: boolean;
+  isStreaming: boolean;
+  editingIndex: number | null;
+  editingValue: string;
+  setEditingIndex: (i: number | null) => void;
+  setEditingValue: (v: string) => void;
+  onResend: (index: number, content: string) => void;
+  onRetry: () => void;
+}
+
+function MessagePart({
+  msg,
+  index,
+  isLast,
+  isStreaming,
+  editingIndex,
+  editingValue,
+  setEditingIndex,
+  setEditingValue,
+  onResend,
+  onRetry,
+}: MessagePartProps) {
+  return (
+    <Message from={msg.role}>
+      {msg.toolCalls?.map((tc) => (
+        <ToolCard
+          key={tc.toolCallId}
+          className="w-full"
+        >
+          <ToolHeader
+            type="dynamic-tool"
+            toolName={tc.toolName}
+            title={tc.title}
+            state={tc.state}
+          />
+          {tc.toolName !== "editTool" && (
+            <ToolContent>
+              <ToolInput input={tc.input} />
+              {tc.state === "output-available" && (
+                <ToolOutput
+                  output={tc.output}
+                  errorText={tc.errorText}
+                />
+              )}
+            </ToolContent>
+          )}
+        </ToolCard>
+      ))}
+      {msg.role === "user" ? (
+        editingIndex === index ? (
+          <div className="flex w-full flex-col gap-1.5">
+            <Textarea
+              className="field-sizing-fixed min-h-16 resize-none text-sm"
+              value={editingValue}
+              autoFocus
+              onChange={(e) => setEditingValue(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  onResend(index, editingValue);
+                  setEditingIndex(null);
+                } else if (e.key === "Escape") {
+                  setEditingIndex(null);
+                }
+              }}
+            />
+            <div className="flex justify-end gap-1.5">
+              <Button
+                size="sm"
+                variant="ghost"
+                className="h-7 px-2"
+                onClick={() => setEditingIndex(null)}
+              >
+                <XIcon className="h-3.5 w-3.5" />
+              </Button>
+              <Button
+                size="sm"
+                className="h-7 px-2"
+                disabled={!editingValue.trim()}
+                onClick={() => {
+                  onResend(index, editingValue);
+                  setEditingIndex(null);
+                }}
+              >
+                <CheckIcon className="h-3.5 w-3.5" />
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <MessageContent>{msg.content}</MessageContent>
+            {!isStreaming && (
+              <MessageActions>
+                <MessageAction
+                  tooltip="Edit message"
+                  onClick={() => {
+                    setEditingIndex(index);
+                    setEditingValue(msg.content);
+                  }}
+                >
+                  <PencilIcon className="h-3 w-3" />
+                </MessageAction>
+              </MessageActions>
+            )}
+          </>
+        )
+      ) : (
+        <>
+          <MessageContent>
+            {msg.content ? (
+              <MessageResponse>{msg.content}</MessageResponse>
+            ) : (
+              <div className="space-y-1.5 py-0.5">
+                <Shimmer className="text-sm">Generating response...</Shimmer>
+              </div>
+            )}
+          </MessageContent>
+          {msg.content && !isStreaming && isLast && (
+            <MessageActions>
+              <MessageAction
+                tooltip="Retry"
+                onClick={onRetry}
+              >
+                <RefreshCcwIcon className="h-3 w-3" />
+              </MessageAction>
+              <MessageAction
+                tooltip="Copy"
+                onClick={() => navigator.clipboard.writeText(msg.content)}
+              >
+                <CopyIcon className="h-3 w-3" />
+              </MessageAction>
+            </MessageActions>
+          )}
+        </>
+      )}
+      {msg.toolApplied && (
+        <div className="flex items-center gap-1 text-xs text-green-600 dark:text-green-400">
+          <CheckIcon className="h-3 w-3" />
+          <span>Applied</span>
+        </div>
+      )}
+    </Message>
+  );
 }
 
 interface AIChatPanelProps {
@@ -550,6 +757,8 @@ export function AIChatPanel({
   );
   const [modelOpen, setModelOpen] = useState(false);
   const [selectedProvider, setSelectedProvider] = useState<AIProvider>(chat.provider);
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [editingValue, setEditingValue] = useState("");
 
   const currentGroup = MODEL_GROUPS.find((g) => g.provider === chat.provider);
   const currentModelLabel =
@@ -703,60 +912,19 @@ export function AIChatPanel({
             </ConversationEmptyState>
           ) : (
             chat.messages.map((msg, i) => (
-              <div
+              <MessagePart
                 key={i}
-                className={cn(
-                  "flex flex-col gap-1",
-                  msg.role === "user" ? "items-end" : "items-start",
-                )}
-              >
-                {msg.toolCalls?.map((tc) => (
-                  <ToolCard
-                    key={tc.toolCallId}
-                    className="w-full"
-                  >
-                    <ToolHeader
-                      type="dynamic-tool"
-                      toolName={tc.toolName}
-                      title={tc.title}
-                      state={tc.state}
-                    />
-                    {tc.toolName !== "editTool" && (
-                      <ToolContent>
-                        <ToolInput input={tc.input} />
-                        {tc.state === "output-available" && (
-                          <ToolOutput
-                            output={tc.output}
-                            errorText={tc.errorText}
-                          />
-                        )}
-                      </ToolContent>
-                    )}
-                  </ToolCard>
-                ))}
-                <div
-                  className={cn(
-                    "max-w-[85%] rounded-lg px-3 py-2 text-sm wrap-break-word whitespace-pre-wrap",
-                    msg.role === "user"
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted text-foreground",
-                  )}
-                >
-                  {msg.content ? (
-                    msg.content
-                  ) : (
-                    <div className="space-y-1.5 py-0.5">
-                      <Shimmer className="text-sm">Generating response...</Shimmer>
-                    </div>
-                  )}
-                </div>
-                {msg.toolApplied && (
-                  <div className="mt-1 flex items-center gap-1 text-xs text-green-600 dark:text-green-400">
-                    <CheckIcon className="h-3 w-3" />
-                    <span>Applied</span>
-                  </div>
-                )}
-              </div>
+                msg={msg}
+                index={i}
+                isLast={i === chat.messages.length - 1}
+                isStreaming={chat.isStreaming}
+                editingIndex={editingIndex}
+                editingValue={editingValue}
+                setEditingIndex={setEditingIndex}
+                setEditingValue={setEditingValue}
+                onResend={chat.resendFromIndex}
+                onRetry={() => chat.resendFromIndex(i - 1, chat.messages[i - 1]?.content ?? "")}
+              />
             ))
           )}
         </ConversationContent>
@@ -780,16 +948,16 @@ export function AIChatPanel({
           <Button
             size="sm"
             disabled={
-              chat.isStreaming ||
-              !chat.input.trim() ||
-              !chat.allProviderKeys[chat.provider as Exclude<AIProvider, "tavily">]?.key ||
-              !chat.model
+              !chat.isStreaming &&
+              (!chat.input.trim() ||
+                !chat.allProviderKeys[chat.provider as Exclude<AIProvider, "tavily">]?.key ||
+                !chat.model)
             }
-            onClick={() => chat.sendMessage()}
+            onClick={() => (chat.isStreaming ? chat.stopStreaming() : chat.sendMessage())}
             className="self-end"
           >
             {chat.isStreaming ? (
-              <Loader2Icon className="h-4 w-4 animate-spin" />
+              <SquareIcon className="h-4 w-4" />
             ) : (
               <SendIcon className="h-4 w-4" />
             )}

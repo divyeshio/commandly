@@ -95,7 +95,7 @@ function RouteComponent() {
     navigation({
       to: "/tools/$toolName/edit",
       params: { toolName: "new" },
-      search: { isNew: true },
+      search: { isNew: true, isLocal: true },
     });
   };
 

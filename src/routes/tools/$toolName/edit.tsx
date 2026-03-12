@@ -15,9 +15,11 @@ export const Route = createFileRoute("/tools/$toolName/edit")({
   component: RouteComponent,
   validateSearch: (search) => ({
     isNew: search.isNew === true,
+    isLocal: search.isLocal === true,
   }),
-  loaderDeps: ({ search: { isNew } }) => ({
+  loaderDeps: ({ search: { isNew, isLocal } }) => ({
     isNew,
+    isLocal,
   }),
   loader: async ({ params: { toolName }, deps: { isNew } }) => {
     if (isNew) {
@@ -40,7 +42,7 @@ export const Route = createFileRoute("/tools/$toolName/edit")({
 
 function RouteComponent() {
   const tool = Route.useLoaderData();
-  const { isNew } = Route.useSearch();
+  const { isNew, isLocal } = Route.useSearch();
 
   const [savedCommands, setSavedCommands] = useState<SavedCommand[]>(() =>
     tool ? getSavedCommandsFromStorage(tool.name) : [],
@@ -74,7 +76,7 @@ function RouteComponent() {
     <div className="mt-16">
       <ToolEditor
         tool={tool!}
-        isNewTool={!!isNew}
+        isNewTool={!!isNew || !!isLocal}
         onSave={(tool) => {
           localStorage.setItem(`tool-${tool.name}`, JSON.stringify(tool));
         }}
