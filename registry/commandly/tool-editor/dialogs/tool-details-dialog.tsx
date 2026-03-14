@@ -127,6 +127,16 @@ export function ToolDetailsDialog() {
             </div>
           </div>
 
+          <div className="flex flex-col gap-3">
+            <Label htmlFor="tool-url">URL</Label>
+            <Input
+              id="tool-url"
+              value={tool.url ?? ""}
+              onChange={(e) => updateTool({ url: e.target.value || undefined })}
+              placeholder="https://example.com"
+            />
+          </div>
+
           <div className="flex flex-col gap-2">
             <Label>Tags</Label>
             <TagsInput

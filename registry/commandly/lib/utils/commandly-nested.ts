@@ -65,6 +65,7 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
   );
 
   return {
+    $schema: "https://commandly.divyeshio.in/specification/nested.json",
     name: tool.name,
     url: tool.url,
     displayName: tool.displayName,
