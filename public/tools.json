@@ -12,6 +12,12 @@
     "url": "https://github.com/projectdiscovery/cdncheck"
   },
   {
+    "name": "curl",
+    "displayName": "Curl",
+    "description": "curl is a command line tool and library for transferring data with URLs.",
+    "url": "https://curl.se/"
+  },
+  {
     "name": "dnsx",
     "displayName": "DNSX",
     "description": "A fast and multi-purpose DNS toolkit designed for running DNS queries.",
