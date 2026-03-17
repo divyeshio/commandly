@@ -26,10 +26,11 @@ export function GeneratedCommand({
   }, [tool]);
 
   const currentParameters = useMemo(() => {
-    return tool?.parameters?.filter((p) => p.commandKey === selectedCommand.key) || [];
+    return tool?.parameters?.filter((p) => p.commandKey === selectedCommand?.key) || [];
   }, [tool, selectedCommand]);
 
   const generateCommand = useCallback(() => {
+    if (!selectedCommand) return;
     const commandPath = getCommandPath(selectedCommand, tool);
     let command = tool.name == commandPath ? tool.name : `${tool.name} ${commandPath}`;
 

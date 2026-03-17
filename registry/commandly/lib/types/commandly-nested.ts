@@ -65,6 +65,7 @@ export interface NestedExclusionGroup {
 }
 
 export interface NestedTool {
+  $schema?: string;
   name: string;
   displayName: string;
   description?: string;
