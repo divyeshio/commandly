@@ -85,10 +85,12 @@ export const exportToStructuredJSON = (tool: Tool) => {
   };
 
   return {
+    $schema: "https://commandly.divyeshio.in/specification/flat.json",
     name: tool.name,
     displayName: tool.displayName,
     description: tool.description,
     version: tool.version,
+    url: tool.url,
     commands: tool.commands.map(flattenCommand),
     parameters: tool.parameters,
     exclusionGroups: tool.exclusionGroups,
@@ -346,3 +348,42 @@ export function generateHashCode(s: string): string {
 
   return h.toString();
 }
+
+const isEmpty = (value: unknown[] | Record<string, unknown> | null | undefined): boolean => {
+  if (value == null) return true;
+  if (Array.isArray(value)) return value.length === 0;
+  return Object.keys(value).length === 0;
+};
+
+const cleanParameter = (param: Parameter): Parameter => {
+  const cleaned = { ...param };
+
+  if (isEmpty(cleaned.enumValues)) delete cleaned.enumValues;
+  if (isEmpty(cleaned.validations)) delete cleaned.validations;
+  if (isEmpty(cleaned.dependencies)) delete cleaned.dependencies;
+
+  if (cleaned.metadata) {
+    const meta = { ...cleaned.metadata };
+    if (isEmpty(meta.tags)) delete meta.tags;
+    if (isEmpty(meta as Record<string, unknown>)) {
+      delete cleaned.metadata;
+    } else {
+      cleaned.metadata = meta;
+    }
+  }
+
+  return cleaned;
+};
+
+export const cleanupTool = (tool: Tool): Tool => {
+  const cleaned = { ...tool };
+
+  if (isEmpty(cleaned.tags)) delete cleaned.tags;
+  if (isEmpty(cleaned.exclusionGroups)) delete cleaned.exclusionGroups;
+  if (isEmpty(cleaned.metadata as Record<string, unknown> | null | undefined))
+    delete cleaned.metadata;
+
+  cleaned.parameters = cleaned.parameters.map(cleanParameter);
+
+  return cleaned;
+};

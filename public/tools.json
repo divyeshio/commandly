@@ -12,10 +12,22 @@
     "url": "https://github.com/projectdiscovery/cdncheck"
   },
   {
+    "name": "curl",
+    "displayName": "Curl",
+    "description": "curl is a command line tool and library for transferring data with URLs.",
+    "url": "https://curl.se/"
+  },
+  {
     "name": "dnsx",
     "displayName": "DNSX",
     "description": "A fast and multi-purpose DNS toolkit designed for running DNS queries.",
     "url": "https://github.com/projectdiscovery/dnsx"
+  },
+  {
+    "name": "gospider",
+    "displayName": "GoSpider",
+    "description": "Fast web spider written in Go.",
+    "url": "https://github.com/jaeles-project/gospider"
   },
   {
     "name": "httpx",
@@ -28,6 +40,18 @@
     "displayName": "Katana",
     "description": "Katana is a fast crawler focused on execution in automation pipelines offering both headless and non-headless crawling.",
     "url": "https://github.com/projectdiscovery/katana"
+  },
+  {
+    "name": "naabu",
+    "displayName": "Naabu",
+    "description": "Fast port scanner for discovering open ports on hosts.",
+    "url": "https://github.com/projectdiscovery/naabu"
+  },
+  {
+    "name": "nuclei",
+    "displayName": "Nuclei",
+    "description": "Nuclei is a fast, template based vulnerability scanner focusing on extensive configurability, massive extensibility and ease of use.",
+    "url": "https://github.com/projectdiscovery/nuclei"
   },
   {
     "name": "shuffledns",

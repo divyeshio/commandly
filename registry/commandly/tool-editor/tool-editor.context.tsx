@@ -6,6 +6,7 @@ import {
   ParameterValue,
 } from "@/registry/commandly/lib/types/commandly";
 import {
+  cleanupTool,
   createNewCommand,
   defaultTool,
   getAllSubcommands,
@@ -74,10 +75,10 @@ function getDefaultState(tool: Tool): ToolBuilderState {
 function toolBuilderReducer(state: ToolBuilderState, action: Action): ToolBuilderState {
   switch (action.type) {
     case "INITIALIZE_TOOL":
-      return getDefaultState(action.payload);
+      return getDefaultState(cleanupTool(action.payload));
 
     case "UPDATE_TOOL":
-      return { ...state, tool: { ...state.tool, ...action.payload } };
+      return { ...state, tool: cleanupTool({ ...state.tool, ...action.payload }) };
 
     case "ADD_SUBCOMMAND":
       return {

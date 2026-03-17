@@ -8,11 +8,12 @@ import {
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { Tool } from "@/registry/commandly/lib/types/commandly";
 import { exportToStructuredJSON } from "@/registry/commandly/lib/utils/commandly";
 import { convertToNestedStructure } from "@/registry/commandly/lib/utils/commandly-nested";
-import { CheckIcon, ChevronsUpDownIcon, CopyIcon } from "lucide-react";
+import { CheckIcon, ChevronsUpDownIcon, CopyIcon, Edit2Icon, XIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -23,17 +24,41 @@ const jsonOptions = [
 
 interface JsonTypeComponentProps {
   tool: Tool;
+  onApply?: (tool: Tool) => void;
 }
 
-export function JsonOutput({ tool }: JsonTypeComponentProps) {
+export function JsonOutput({ tool, onApply }: JsonTypeComponentProps) {
   const [open, setOpen] = useState(false);
   const [jsonString, setJsonString] = useState<string>();
   const [jsonType, setJsonType] = useState<"nested" | "flat">("flat");
+  const [isEditing, setIsEditing] = useState(false);
+  const [editValue, setEditValue] = useState("");
+
   useEffect(() => {
     const config =
       jsonType === "flat" ? exportToStructuredJSON(tool) : convertToNestedStructure(tool);
     setJsonString(JSON.stringify(config, null, 2));
   }, [jsonType, tool]);
+
+  const handleEditToggle = () => {
+    setEditValue(jsonString ?? "");
+    setIsEditing(true);
+  };
+
+  const handleApply = () => {
+    try {
+      const parsed = JSON.parse(editValue) as Tool;
+      onApply!(parsed);
+      setIsEditing(false);
+    } catch {
+      toast.error("Invalid JSON", { description: "Please fix the JSON before applying." });
+    }
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    setEditValue("");
+  };
 
   return (
     <Card>
@@ -83,27 +108,78 @@ export function JsonOutput({ tool }: JsonTypeComponentProps) {
             </PopoverContent>
           </Popover>
         </CardTitle>
-        <CardAction
-          className="rounded-md"
-          onClick={() => {
-            navigator.clipboard.writeText(jsonString!);
-            toast("Copied!");
-          }}
-        >
-          <CopyIcon className="h-4 w-4 dark:stroke-primary" />
-        </CardAction>
+        <div className="flex gap-3">
+          {onApply && !isEditing && (
+            <CardAction
+              className="rounded-md"
+              onClick={handleEditToggle}
+            >
+              <Edit2Icon className="h-4 w-4 dark:stroke-primary" />
+            </CardAction>
+          )}
+          {onApply && isEditing && (
+            <CardAction
+              className="rounded-md"
+              onClick={handleCancel}
+            >
+              <XIcon className="h-4 w-4 dark:stroke-primary" />
+            </CardAction>
+          )}
+          <CardAction
+            className="rounded-md"
+            onClick={() => {
+              navigator.clipboard.writeText(jsonString!);
+              toast("Copied!");
+            }}
+          >
+            <CopyIcon className="h-4 w-4 dark:stroke-primary" />
+          </CardAction>
+        </div>
       </CardHeader>
       <CardContent>
-        <ScrollArea
-          className="max-w-full *:data-radix-scroll-area-viewport:max-h-[calc(100vh-320px)]"
-          type="hover"
-        >
-          <pre className="max-h max-w-full rounded-md bg-card font-mono text-sm dark:text-gray-200">
-            {jsonString}
-          </pre>
-          <ScrollBar orientation="vertical" />
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
+        {isEditing ? (
+          <div className="flex flex-col gap-2">
+            <ScrollArea
+              className="max-w-full *:data-radix-scroll-area-viewport:max-h-[calc(100vh-360px)]"
+              type="hover"
+            >
+              <Textarea
+                className="min-h-[calc(100vh-400px)] font-mono text-sm"
+                value={editValue}
+                onChange={(e) => setEditValue(e.target.value)}
+                spellCheck={false}
+              />
+              <ScrollBar orientation="vertical" />
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+            <div className="flex justify-end gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleCancel}
+              >
+                Cancel
+              </Button>
+              <Button
+                size="sm"
+                onClick={handleApply}
+              >
+                Apply
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <ScrollArea
+            className="max-w-full *:data-radix-scroll-area-viewport:max-h-[calc(100vh-320px)]"
+            type="hover"
+          >
+            <pre className="max-h max-w-full rounded-md bg-card font-mono text-sm dark:text-gray-200">
+              {jsonString}
+            </pre>
+            <ScrollBar orientation="vertical" />
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+        )}
       </CardContent>
     </Card>
   );

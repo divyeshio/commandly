@@ -1,14 +1,17 @@
 import { ExclusionGroupsDialog } from "../tool-editor/dialogs/exclusion-groups-dialog";
 import { ParameterDetailsDialog } from "../tool-editor/dialogs/parameter-details-dialog";
 import { ToolDetailsDialog } from "../tool-editor/dialogs/tool-details-dialog";
+import { AIChatPanel } from "./ai-chat";
 import { CommandTree } from "./command-tree";
 import { SavedCommandsDialog } from "./dialogs/saved-commands-dialog";
 import { ParameterList } from "./parameter-list";
 import { PreviewTabs } from "./preview-tabs";
 import { ToolBuilderProvider, useToolBuilder } from "./tool-editor.context";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { SavedCommand, Tool } from "@/registry/commandly/lib/types/commandly";
-import { SaveIcon, Edit2Icon, LayersIcon, GitPullRequestIcon } from "lucide-react";
+import { SaveIcon, Edit2Icon, LayersIcon, GitPullRequestIcon, SparklesIcon } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 const GITHUB_REPO = "divyeshio/commandly";
@@ -59,7 +62,14 @@ function ToolEditorContent({
   onSaveCommand,
   onDeleteSavedCommand,
 }: ToolEditorContentProps) {
-  const { tool, setDialogOpen } = useToolBuilder();
+  const { tool, setDialogOpen, initializeTool } = useToolBuilder();
+  const [chatOpen, setChatOpen] = useState(false);
+  const [streamingTool, setStreamingTool] = useState<Tool | null>(null);
+  const [isAIGenerating, setIsAIGenerating] = useState(false);
+
+  const [initialToolJson, setInitialToolJson] = useState(() => JSON.stringify(tool));
+  const isDirty = JSON.stringify(tool) !== initialToolJson;
+  const isValid = tool.name.trim() !== "" && tool.displayName.trim() !== "";
 
   const handleContribute = async () => {
     const json = JSON.stringify(tool, null, 2);
@@ -93,20 +103,20 @@ function ToolEditorContent({
   };
 
   return (
-    <div className="flex bg-background">
-      <div className="flex w-72 flex-col overflow-hidden border-r border-muted">
-        <div className="flex flex-col justify-center gap-2 border-b border-muted p-2">
-          <p className="p-3">Commands</p>
+    <div className="flex h-[calc(100svh-4rem)] bg-background">
+      <div className="flex h-full w-72 flex-col overflow-hidden">
+        <div className="flex flex-col justify-center gap-2 border-t border-r border-b border-muted p-1">
+          <p className="p-2">Commands</p>
         </div>
         <CommandTree />
       </div>
 
-      <div className="flex flex-1 flex-col">
-        <div className="border-b border-muted p-4">
+      <div className="flex h-full flex-1 flex-col overflow-hidden">
+        <div className="border-t border-b border-muted p-2">
           <div className="flex justify-between">
             <div className="flex items-center justify-between gap-2">
               <span
-                className="text-lg font-medium"
+                className="ml-3 text-lg font-medium"
                 style={{
                   viewTransitionName: `tool-card-title-${tool.name}`,
                 }}
@@ -124,17 +134,26 @@ function ToolEditorContent({
             </div>
             <div className="flex items-center gap-2">
               {onSave && (
-                <Button
-                  variant="default"
-                  size="sm"
-                  onClick={() => {
-                    onSave(tool);
-                    toast("Tool saved successfully!");
-                  }}
-                >
-                  <SaveIcon className="mr-2 h-4 w-4" />
-                  Save
-                </Button>
+                <>
+                  {isDirty && !isValid && (
+                    <span className="text-xs text-destructive">
+                      Name and display name are required
+                    </span>
+                  )}
+                  <Button
+                    variant="default"
+                    size="sm"
+                    disabled={!isDirty || !isValid}
+                    onClick={() => {
+                      onSave(tool);
+                      setInitialToolJson(JSON.stringify(tool));
+                      toast("Tool saved successfully!");
+                    }}
+                  >
+                    <SaveIcon className="mr-2 h-4 w-4" />
+                    Save
+                  </Button>
+                </>
               )}
               <Button
                 variant="outline"
@@ -160,24 +179,49 @@ function ToolEditorContent({
                 <GitPullRequestIcon className="mr-2 h-4 w-4" />
                 Contribute
               </Button>
+              <Button
+                variant={chatOpen ? "default" : "outline"}
+                size="sm"
+                onClick={() => setChatOpen((o) => !o)}
+              >
+                <SparklesIcon className="mr-2 h-4 w-4" />
+                Generate
+              </Button>
             </div>
           </div>
         </div>
 
-        <div className="flex content-between gap-4 p-4">
-          <div className="flex min-w-80 flex-2/5 flex-col gap-4">
-            <ParameterList
-              title="Global Parameters"
-              isGlobal={true}
-            />
-            <ParameterList
-              title="Command Parameters"
-              isGlobal={false}
-            />
+        <div className="flex min-h-0 flex-1 overflow-hidden">
+          <div className="flex min-h-0 flex-1 gap-4 overflow-hidden p-4">
+            <div className="flex min-w-80 flex-2/5 flex-col overflow-hidden">
+              <ScrollArea className="h-full">
+                <div className="flex flex-col gap-4 pr-3 pb-4">
+                  <ParameterList
+                    title="Global Parameters"
+                    isGlobal={true}
+                  />
+                  <ParameterList
+                    title="Command Parameters"
+                    isGlobal={false}
+                  />
+                </div>
+              </ScrollArea>
+            </div>
+            <div className="h-full max-w-3xl flex-3/5 overflow-hidden">
+              <PreviewTabs
+                onSaveCommand={onSaveCommand}
+                streamingTool={streamingTool}
+                isAIGenerating={isAIGenerating}
+              />
+            </div>
           </div>
-          <div className="max-w-3xl flex-3/5">
-            <PreviewTabs onSaveCommand={onSaveCommand} />
-          </div>
+          <AIChatPanel
+            tool={tool}
+            onApply={initializeTool}
+            isOpen={chatOpen}
+            onStreamingTool={setStreamingTool}
+            onGeneratingChange={setIsAIGenerating}
+          />
         </div>
       </div>
 
