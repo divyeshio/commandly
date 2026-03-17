@@ -1,0 +1,1119 @@
+{
+    "$schema": "https://commandly.divyeshio.in/specification/flat.json",
+    "name": "naabu",
+    "displayName": "Naabu",
+    "description": "Fast port scanner for discovering open ports on hosts.",
+    "url": "https://github.com/projectdiscovery/naabu",
+    "version": "2.5.0",
+    "commands": [
+        {
+            "name": "naabu",
+            "description": "Run naabu with flags.",
+            "isDefault": true,
+            "sortOrder": 1,
+            "key": "naabu"
+        }
+    ],
+    "parameters": [
+        {
+            "name": "Host",
+            "description": "Hosts to scan ports for (comma-separated).",
+            "metadata": {
+                "tags": [
+                    "target"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-host",
+            "sortOrder": 1,
+            "key": "host",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "List",
+            "description": "List of hosts to scan ports (file).",
+            "metadata": {
+                "tags": [
+                    "target-list"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-l",
+            "longFlag": "-list",
+            "sortOrder": 2,
+            "key": "list",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Exclude Hosts",
+            "description": "Hosts to exclude from the scan (comma-separated).",
+            "metadata": {
+                "tags": [
+                    "target"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-eh",
+            "longFlag": "-exclude-hosts",
+            "sortOrder": 3,
+            "key": "exclude-hosts",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Exclude File",
+            "description": "List of hosts to exclude from scan (file).",
+            "metadata": {
+                "tags": [
+                    "target"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ef",
+            "longFlag": "-exclude-file",
+            "sortOrder": 4,
+            "key": "exclude-file",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Port",
+            "description": "Ports to scan (80,443, 100-200).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-p",
+            "longFlag": "-port",
+            "sortOrder": 5,
+            "key": "port",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Top Ports",
+            "description": "Top ports to scan.",
+            "parameterType": "Option",
+            "dataType": "Enum",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-tp",
+            "longFlag": "-top-ports",
+            "sortOrder": 6,
+            "enumValues": [
+                {
+                    "key": "full",
+                    "parameterKey": "top-ports",
+                    "value": "full",
+                    "displayName": "full",
+                    "description": "Scan full set of top ports.",
+                    "isDefault": false,
+                    "sortOrder": 1
+                },
+                {
+                    "key": "100",
+                    "parameterKey": "top-ports",
+                    "value": "100",
+                    "displayName": "100",
+                    "description": "Scan top 100 ports.",
+                    "isDefault": true,
+                    "sortOrder": 2
+                },
+                {
+                    "key": "1000",
+                    "parameterKey": "top-ports",
+                    "value": "1000",
+                    "displayName": "1000",
+                    "description": "Scan top 1000 ports.",
+                    "isDefault": false,
+                    "sortOrder": 3
+                }
+            ],
+            "defaultValue": "1000",
+            "key": "top-ports",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Exclude Ports",
+            "description": "Ports to exclude from scan (comma-separated).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ep",
+            "longFlag": "-exclude-ports",
+            "sortOrder": 7,
+            "key": "exclude-ports",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Ports File",
+            "description": "List of ports to scan (file).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-pf",
+            "longFlag": "-ports-file",
+            "sortOrder": 8,
+            "key": "ports-file",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Port Threshold",
+            "description": "Port threshold to skip port scan for the host.",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-pts",
+            "longFlag": "-port-threshold",
+            "sortOrder": 9,
+            "key": "port-threshold",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Exclude CDN",
+            "description": "Skip full port scans for CDN/WAF and only scan ports 80 and 443.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ec",
+            "longFlag": "-exclude-cdn",
+            "sortOrder": 10,
+            "key": "exclude-cdn",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Display CDN",
+            "description": "Display CDN in use.",
+            "metadata": {
+                "tags": [
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-cdn",
+            "longFlag": "-display-cdn",
+            "sortOrder": 11,
+            "defaultValue": "true",
+            "key": "display-cdn",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Threads",
+            "description": "General internal worker threads.",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-c",
+            "sortOrder": 12,
+            "key": "threads",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Rate",
+            "description": "Packets to send per second.",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-rate",
+            "sortOrder": 13,
+            "key": "rate",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Update",
+            "description": "Update naabu to latest version.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-update",
+            "longFlag": "-up",
+            "sortOrder": 14,
+            "key": "update",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Disable Update Check",
+            "description": "Disable automatic naabu update check.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-disable-update-check",
+            "longFlag": "-duc",
+            "sortOrder": 15,
+            "defaultValue": "true",
+            "key": "disable-update-check",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Output",
+            "description": "File to write output to.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "output-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-output",
+            "longFlag": "-o",
+            "sortOrder": 16,
+            "key": "output",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "JSON",
+            "description": "Write output in JSON lines format.",
+            "metadata": {
+                "tags": [
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-j",
+            "longFlag": "-json",
+            "sortOrder": 17,
+            "defaultValue": "true",
+            "key": "json",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "CSV",
+            "description": "Write output in CSV format.",
+            "metadata": {
+                "tags": [
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-csv",
+            "sortOrder": 18,
+            "key": "csv",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Config",
+            "description": "Path to the naabu configuration file.",
+            "metadata": {
+                "tags": [
+                    "configuration-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-config",
+            "sortOrder": 19,
+            "key": "config",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Scan All IPs",
+            "description": "Scan all the IPs associated with DNS record.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-sa",
+            "longFlag": "-scan-all-ips",
+            "sortOrder": 20,
+            "defaultValue": "true",
+            "key": "scan-all-ips",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "IP Version",
+            "description": "IP version to scan of hostname.",
+            "parameterType": "Option",
+            "dataType": "Enum",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-iv",
+            "longFlag": "-ip-version",
+            "sortOrder": 21,
+            "enumValues": [
+                {
+                    "key": "4",
+                    "parameterKey": "ip-version",
+                    "value": "4",
+                    "displayName": "4",
+                    "description": "IPv4.",
+                    "isDefault": true,
+                    "sortOrder": 1
+                },
+                {
+                    "key": "6",
+                    "parameterKey": "ip-version",
+                    "value": "6",
+                    "displayName": "6",
+                    "description": "IPv6.",
+                    "isDefault": false,
+                    "sortOrder": 2
+                }
+            ],
+            "key": "ip-version",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Scan Type",
+            "description": "Type of port scan.",
+            "parameterType": "Option",
+            "dataType": "Enum",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-s",
+            "longFlag": "-scan-type",
+            "sortOrder": 22,
+            "enumValues": [
+                {
+                    "key": "SYN",
+                    "parameterKey": "scan-type",
+                    "value": "SYN",
+                    "displayName": "SYN",
+                    "description": "TCP SYN scan.",
+                    "isDefault": false,
+                    "sortOrder": 1
+                },
+                {
+                    "key": "CONNECT",
+                    "parameterKey": "scan-type",
+                    "value": "CONNECT",
+                    "displayName": "CONNECT",
+                    "description": "TCP connect scan.",
+                    "isDefault": true,
+                    "sortOrder": 2
+                }
+            ],
+            "key": "scan-type",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Source IP",
+            "description": "Source IP and port (x.x.x.x:yyy).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-source-ip",
+            "sortOrder": 23,
+            "key": "source-ip",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Interface List",
+            "description": "List available interfaces and public IP.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-il",
+            "longFlag": "-interface-list",
+            "sortOrder": 24,
+            "key": "interface-list",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Interface",
+            "description": "Network interface to use for port scan.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-i",
+            "longFlag": "-interface",
+            "sortOrder": 25,
+            "key": "interface",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Nmap",
+            "description": "Invoke nmap scan on targets (deprecated).",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-nmap",
+            "sortOrder": 26,
+            "key": "nmap",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Nmap CLI",
+            "description": "Nmap command to run on found results.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-nmap-cli",
+            "sortOrder": 27,
+            "key": "nmap-cli",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Resolvers",
+            "description": "List of custom resolver DNS resolution (comma separated or from file).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-r",
+            "sortOrder": 28,
+            "key": "resolvers",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Proxy",
+            "description": "Socks5 proxy (ip[:port] or fqdn[:port]).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-proxy",
+            "sortOrder": 29,
+            "key": "proxy",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Proxy Auth",
+            "description": "Socks5 proxy authentication (username:password).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-proxy-auth",
+            "sortOrder": 30,
+            "key": "proxy-auth",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Resume",
+            "description": "Resume scan using resume.cfg.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-resume",
+            "sortOrder": 31,
+            "key": "resume",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Stream",
+            "description": "Stream mode (disables resume, nmap, verify, retries, shuffling, and more).",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-stream",
+            "sortOrder": 32,
+            "key": "stream",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Passive",
+            "description": "Display passive open ports using Shodan InternetDB API.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-passive",
+            "sortOrder": 33,
+            "key": "passive",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Input Read Timeout",
+            "description": "Timeout on input read.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-input-read-timeout",
+            "longFlag": "-irt",
+            "sortOrder": 34,
+            "key": "input-read-timeout",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "No Stdin",
+            "description": "Disable stdin processing.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-no-stdin",
+            "sortOrder": 35,
+            "key": "no-stdin",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Host Discovery Only",
+            "description": "Perform only host discovery.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-host-discovery",
+            "longFlag": "-sn",
+            "sortOrder": 36,
+            "key": "host-discovery-only",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Skip Host Discovery",
+            "description": "Skip host discovery (deprecated, use -wn/-with-host-discovery instead).",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-skip-host-discovery",
+            "longFlag": "-Pn",
+            "sortOrder": 37,
+            "key": "skip-host-discovery",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "With Host Discovery",
+            "description": "Enable host discovery.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-with-host-discovery",
+            "longFlag": "-wn",
+            "sortOrder": 38,
+            "key": "with-host-discovery",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Probe TCP SYN",
+            "description": "TCP SYN ping (host discovery needs to be enabled).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-probe-tcp-syn",
+            "longFlag": "-ps",
+            "sortOrder": 39,
+            "key": "probe-tcp-syn",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Probe TCP ACK",
+            "description": "TCP ACK ping (host discovery needs to be enabled).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-probe-tcp-ack",
+            "longFlag": "-pa",
+            "sortOrder": 40,
+            "key": "probe-tcp-ack",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Probe ICMP Echo",
+            "description": "ICMP echo request ping (host discovery needs to be enabled).",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-probe-icmp-echo",
+            "longFlag": "-pe",
+            "sortOrder": 41,
+            "key": "probe-icmp-echo",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Probe ICMP Timestamp",
+            "description": "ICMP timestamp request ping (host discovery needs to be enabled).",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-probe-icmp-timestamp",
+            "longFlag": "-pp",
+            "sortOrder": 42,
+            "key": "probe-icmp-timestamp",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Probe ICMP Address Mask",
+            "description": "ICMP address mask request ping (host discovery needs to be enabled).",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-probe-icmp-address-mask",
+            "longFlag": "-pm",
+            "sortOrder": 43,
+            "key": "probe-icmp-address-mask",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "ARP Ping",
+            "description": "ARP ping (host discovery needs to be enabled).",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-arp-ping",
+            "longFlag": "-arp",
+            "sortOrder": 44,
+            "key": "arp-ping",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "ND Ping",
+            "description": "IPv6 neighbor discovery ping (host discovery needs to be enabled).",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-nd-ping",
+            "longFlag": "-nd",
+            "sortOrder": 45,
+            "key": "nd-ping",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Rev PTR",
+            "description": "Reverse PTR lookup for input IPs.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-rev-ptr",
+            "sortOrder": 46,
+            "key": "rev-ptr",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Retries",
+            "description": "Number of retries for the port scan.",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-retries",
+            "sortOrder": 47,
+            "key": "retries",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Timeout",
+            "description": "Milliseconds to wait before timing out.",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-timeout",
+            "sortOrder": 48,
+            "key": "timeout",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Warm Up Time",
+            "description": "Time in seconds between scan phases.",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-warm-up-time",
+            "sortOrder": 49,
+            "key": "warm-up-time",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Ping",
+            "description": "Ping probes for verification of host.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-ping",
+            "sortOrder": 50,
+            "key": "ping",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Verify",
+            "description": "Validate the ports again with TCP verification.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-verify",
+            "sortOrder": 51,
+            "key": "verify",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Health Check",
+            "description": "Run diagnostic check up.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-hc",
+            "longFlag": "-health-check",
+            "sortOrder": 52,
+            "key": "health-check",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Debug",
+            "description": "Display debugging information.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-debug",
+            "sortOrder": 53,
+            "key": "debug",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Verbose",
+            "description": "Display verbose output.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-v",
+            "longFlag": "-verbose",
+            "sortOrder": 54,
+            "key": "verbose",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "No Color",
+            "description": "Disable colors in CLI output.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-nc",
+            "longFlag": "-no-color",
+            "sortOrder": 55,
+            "defaultValue": "true",
+            "key": "no-color",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Silent",
+            "description": "Display only results in output.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-silent",
+            "sortOrder": 56,
+            "defaultValue": "true",
+            "key": "silent",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Version",
+            "description": "Display version of naabu.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-version",
+            "sortOrder": 57,
+            "key": "version",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Stats",
+            "description": "Display stats of the running scan (deprecated).",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-stats",
+            "sortOrder": 58,
+            "key": "stats",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Stats Interval",
+            "description": "Number of seconds to wait between showing a statistics update (deprecated).",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-stats-interval",
+            "longFlag": "-si",
+            "sortOrder": 59,
+            "key": "stats-interval",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Metrics Port",
+            "description": "Port to expose naabu metrics on.",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-metrics-port",
+            "longFlag": "-mp",
+            "sortOrder": 60,
+            "key": "metrics-port",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Auth",
+            "description": "Configure ProjectDiscovery Cloud (PDCP) API key.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-auth",
+            "sortOrder": 61,
+            "key": "auth",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Auth Config",
+            "description": "Configure ProjectDiscovery Cloud (PDCP) API key credential file.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-auth-config",
+            "longFlag": "-ac",
+            "sortOrder": 62,
+            "key": "auth-config",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Dashboard",
+            "description": "Upload or view output in ProjectDiscovery Cloud (PDCP) UI dashboard.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-dashboard",
+            "longFlag": "-pd",
+            "sortOrder": 63,
+            "key": "dashboard",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Team ID",
+            "description": "Upload asset results to given team ID (optional).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-team-id",
+            "longFlag": "-tid",
+            "sortOrder": 64,
+            "key": "team-id",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Asset ID",
+            "description": "Upload new assets to existing asset ID (optional).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-asset-id",
+            "longFlag": "-aid",
+            "sortOrder": 65,
+            "key": "asset-id",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Asset Name",
+            "description": "Assets group name to set (optional).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-asset-name",
+            "longFlag": "-aname",
+            "sortOrder": 66,
+            "key": "asset-name",
+            "commandKey": "naabu"
+        },
+        {
+            "name": "Dashboard Upload",
+            "description": "Upload naabu output file (jsonl) in ProjectDiscovery Cloud (PDCP) UI dashboard.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-dashboard-upload",
+            "longFlag": "-pdu",
+            "sortOrder": 67,
+            "key": "dashboard-upload",
+            "commandKey": "naabu"
+        }
+    ],
+    "metadata": {
+        "supportedInput": [
+            "BatchStandardInput",
+            "StandardInput",
+            "Parameter"
+        ],
+        "supportedOutput": [
+            "StandardOutput",
+            "File"
+        ]
+    }
+}
