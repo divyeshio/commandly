@@ -1,4 +1,5 @@
 {
+  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
   "name": "curl",
   "displayName": "Curl",
   "description": "curl is a command line tool and library for transferring data with URLs.",

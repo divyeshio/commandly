@@ -1,0 +1,3556 @@
+{
+    "$schema": "https://commandly.divyeshio.in/specification/flat.json",
+    "name": "nuclei",
+    "displayName": "Nuclei",
+    "description": "Nuclei is a fast, template based vulnerability scanner focusing on extensive configurability, massive extensibility and ease of use.",
+    "url": "https://github.com/projectdiscovery/nuclei",
+    "version": "3.7.1",
+    "commands": [
+        {
+            "name": "nuclei",
+            "description": "Run nuclei vulnerability scanner.",
+            "isDefault": true,
+            "sortOrder": 1,
+            "key": "nuclei"
+        }
+    ],
+    "parameters": [
+        {
+            "name": "Target",
+            "description": "Target URLs/hosts to scan.",
+            "metadata": {
+                "tags": [
+                    "target",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-u",
+            "longFlag": "-target",
+            "key": "target",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "List",
+            "description": "Path to file containing a list of target URLs/hosts to scan (one per line).",
+            "metadata": {
+                "tags": [
+                    "target-list"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-l",
+            "longFlag": "-list",
+            "key": "list",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Exclude Hosts",
+            "description": "Hosts to exclude to scan from the input list (ip, cidr, hostname).",
+            "metadata": {
+                "tags": [
+                    "target"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-eh",
+            "longFlag": "-exclude-hosts",
+            "key": "exclude-hosts",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Resume",
+            "description": "Resume scan using resume.cfg (clustering will be disabled).",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-resume",
+            "key": "resume",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Scan All Ips",
+            "description": "Scan all the IP's associated with dns record.",
+            "metadata": {
+                "tags": [
+                    "target"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-sa",
+            "longFlag": "-scan-all-ips",
+            "key": "scan-all-ips",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Ip Version",
+            "description": "IP version to scan of hostname (4,6) - (default 4).",
+            "metadata": {
+                "tags": [
+                    "target"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "Enum",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-iv",
+            "longFlag": "-ip-version",
+            "enumValues": [
+                {
+                    "key": "4",
+                    "parameterKey": "ip-version",
+                    "value": "4",
+                    "displayName": "4",
+                    "description": "Use IPv4.",
+                    "isDefault": true,
+                    "sortOrder": 1
+                },
+                {
+                    "key": "6",
+                    "parameterKey": "ip-version",
+                    "value": "6",
+                    "displayName": "6",
+                    "description": "Use IPv6.",
+                    "isDefault": false,
+                    "sortOrder": 2
+                }
+            ],
+            "key": "ip-version",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Input Mode",
+            "description": "Mode of input file (list, burp, jsonl, yaml, openapi, swagger) (default \"list\").",
+            "parameterType": "Option",
+            "dataType": "Enum",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-im",
+            "longFlag": "-input-mode",
+            "enumValues": [
+                {
+                    "key": "list",
+                    "parameterKey": "input-mode",
+                    "value": "list",
+                    "displayName": "list",
+                    "description": "Use list input mode.",
+                    "isDefault": true,
+                    "sortOrder": 1
+                },
+                {
+                    "key": "burp",
+                    "parameterKey": "input-mode",
+                    "value": "burp",
+                    "displayName": "burp",
+                    "description": "Use burp input mode.",
+                    "isDefault": false,
+                    "sortOrder": 2
+                },
+                {
+                    "key": "jsonl",
+                    "parameterKey": "input-mode",
+                    "value": "jsonl",
+                    "displayName": "jsonl",
+                    "description": "Use jsonl input mode.",
+                    "isDefault": false,
+                    "sortOrder": 3
+                },
+                {
+                    "key": "yaml",
+                    "parameterKey": "input-mode",
+                    "value": "yaml",
+                    "displayName": "yaml",
+                    "description": "Use yaml input mode.",
+                    "isDefault": false,
+                    "sortOrder": 4
+                },
+                {
+                    "key": "openapi",
+                    "parameterKey": "input-mode",
+                    "value": "openapi",
+                    "displayName": "openapi",
+                    "description": "Use openapi input mode.",
+                    "isDefault": false,
+                    "sortOrder": 5
+                },
+                {
+                    "key": "swagger",
+                    "parameterKey": "input-mode",
+                    "value": "swagger",
+                    "displayName": "swagger",
+                    "description": "Use swagger input mode.",
+                    "isDefault": false,
+                    "sortOrder": 6
+                }
+            ],
+            "key": "input-mode",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Required Only",
+            "description": "Use only required fields in input format when generating requests.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ro",
+            "longFlag": "-required-only",
+            "key": "required-only",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Skip Format Validation",
+            "description": "Skip format validation (like missing vars) when parsing input file.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-sfv",
+            "longFlag": "-skip-format-validation",
+            "key": "skip-format-validation",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "New Templates",
+            "description": "Run only new templates added in latest nuclei-templates release.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-nt",
+            "longFlag": "-new-templates",
+            "key": "new-templates",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "New Templates Version",
+            "description": "Run new templates added in specific version.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-ntv",
+            "longFlag": "-new-templates-version",
+            "key": "new-templates-version",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Automatic Scan",
+            "description": "Automatic web scan using wappalyzer technology detection to tags mapping.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-as",
+            "longFlag": "-automatic-scan",
+            "key": "automatic-scan",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Templates",
+            "description": "List of template or template directory to run (comma-separated, file).",
+            "metadata": {
+                "tags": [
+                    "configuration-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-t",
+            "longFlag": "-templates",
+            "key": "templates",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Template Url",
+            "description": "Template url or list containing template urls to run (comma-separated, file).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-turl",
+            "longFlag": "-template-url",
+            "key": "template-url",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Prompt",
+            "description": "Generate and run template using ai prompt.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ai",
+            "longFlag": "-prompt",
+            "key": "prompt",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Workflows",
+            "description": "List of workflow or workflow directory to run (comma-separated, file).",
+            "metadata": {
+                "tags": [
+                    "configuration-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-w",
+            "longFlag": "-workflows",
+            "key": "workflows",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Workflow Url",
+            "description": "Workflow url or list containing workflow urls to run (comma-separated, file).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-wurl",
+            "longFlag": "-workflow-url",
+            "key": "workflow-url",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Validate",
+            "description": "Validate the passed templates to nuclei.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-validate",
+            "key": "validate",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "No Strict Syntax",
+            "description": "Disable strict syntax check on templates.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-nss",
+            "longFlag": "-no-strict-syntax",
+            "key": "no-strict-syntax",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Template Display",
+            "description": "Displays the templates content.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-td",
+            "longFlag": "-template-display",
+            "key": "template-display",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "List Templates",
+            "description": "List all available templates.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-tl",
+            "key": "list-templates",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "List Tags",
+            "description": "List all available tags.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-tgl",
+            "key": "list-tags",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Sign",
+            "description": "Signs the templates with the private key defined in NUCLEI_SIGNATURE_PRIVATE_KEY env variable.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-sign",
+            "key": "sign",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Code",
+            "description": "Enable loading code protocol-based templates.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-code",
+            "key": "code",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Disable Unsigned Templates",
+            "description": "Disable running unsigned templates or templates with mismatched signature.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-dut",
+            "longFlag": "-disable-unsigned-templates",
+            "key": "disable-unsigned-templates",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Enable Self Contained",
+            "description": "Enable loading self-contained templates.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-esc",
+            "longFlag": "-enable-self-contained",
+            "key": "enable-self-contained",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Enable Global Matchers",
+            "description": "Enable loading global matchers templates.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-egm",
+            "longFlag": "-enable-global-matchers",
+            "key": "enable-global-matchers",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "File",
+            "description": "Enable loading file templates.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-file",
+            "key": "file",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Author",
+            "description": "Templates to run based on authors (comma-separated, file).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-a",
+            "longFlag": "-author",
+            "key": "author",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Tags",
+            "description": "Templates to run based on tags (comma-separated, file).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "longFlag": "-tags",
+            "key": "tags",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Exclude Tags",
+            "description": "Templates to exclude based on tags (comma-separated, file).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-etags",
+            "longFlag": "-exclude-tags",
+            "key": "exclude-tags",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Include Tags",
+            "description": "Tags to be executed even if they are excluded either by default or configuration.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-itags",
+            "longFlag": "-include-tags",
+            "key": "include-tags",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Template Id",
+            "description": "Templates to run based on template ids (comma-separated, file, allow-wildcard).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-id",
+            "longFlag": "-template-id",
+            "key": "template-id",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Exclude Id",
+            "description": "Templates to exclude based on template ids (comma-separated, file).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-eid",
+            "longFlag": "-exclude-id",
+            "key": "exclude-id",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Include Templates",
+            "description": "Path to template file or directory to be executed even if they are excluded either by default or configuration.",
+            "metadata": {
+                "tags": [
+                    "configuration-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-it",
+            "longFlag": "-include-templates",
+            "key": "include-templates",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Exclude Templates",
+            "description": "Path to template file or directory to exclude (comma-separated, file).",
+            "metadata": {
+                "tags": [
+                    "configuration-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-et",
+            "longFlag": "-exclude-templates",
+            "key": "exclude-templates",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Exclude Matchers",
+            "description": "Template matchers to exclude in result.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-em",
+            "longFlag": "-exclude-matchers",
+            "key": "exclude-matchers",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Severity",
+            "description": "Templates to run based on severity.",
+            "parameterType": "Option",
+            "dataType": "Enum",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-s",
+            "longFlag": "-severity",
+            "enumValues": [
+                {
+                    "key": "info",
+                    "parameterKey": "severity",
+                    "value": "info",
+                    "displayName": "info",
+                    "description": "Information severity.",
+                    "isDefault": false,
+                    "sortOrder": 1
+                },
+                {
+                    "key": "low",
+                    "parameterKey": "severity",
+                    "value": "low",
+                    "displayName": "low",
+                    "description": "Low severity.",
+                    "isDefault": false,
+                    "sortOrder": 2
+                },
+                {
+                    "key": "medium",
+                    "parameterKey": "severity",
+                    "value": "medium",
+                    "displayName": "medium",
+                    "description": "Medium severity.",
+                    "isDefault": false,
+                    "sortOrder": 3
+                },
+                {
+                    "key": "high",
+                    "parameterKey": "severity",
+                    "value": "high",
+                    "displayName": "high",
+                    "description": "High severity.",
+                    "isDefault": false,
+                    "sortOrder": 4
+                },
+                {
+                    "key": "critical",
+                    "parameterKey": "severity",
+                    "value": "critical",
+                    "displayName": "critical",
+                    "description": "Critical severity.",
+                    "isDefault": false,
+                    "sortOrder": 5
+                },
+                {
+                    "key": "unknown",
+                    "parameterKey": "severity",
+                    "value": "unknown",
+                    "displayName": "unknown",
+                    "description": "Unknown severity.",
+                    "isDefault": false,
+                    "sortOrder": 6
+                }
+            ],
+            "key": "severity",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Exclude Severity",
+            "description": "Templates to exclude based on severity.",
+            "parameterType": "Option",
+            "dataType": "Enum",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-es",
+            "longFlag": "-exclude-severity",
+            "enumValues": [
+                {
+                    "key": "info",
+                    "parameterKey": "exclude-severity",
+                    "value": "info",
+                    "displayName": "info",
+                    "description": "Exclude information severity.",
+                    "isDefault": false,
+                    "sortOrder": 1
+                },
+                {
+                    "key": "low",
+                    "parameterKey": "exclude-severity",
+                    "value": "low",
+                    "displayName": "low",
+                    "description": "Exclude low severity.",
+                    "isDefault": false,
+                    "sortOrder": 2
+                },
+                {
+                    "key": "medium",
+                    "parameterKey": "exclude-severity",
+                    "value": "medium",
+                    "displayName": "medium",
+                    "description": "Exclude medium severity.",
+                    "isDefault": false,
+                    "sortOrder": 3
+                },
+                {
+                    "key": "high",
+                    "parameterKey": "exclude-severity",
+                    "value": "high",
+                    "displayName": "high",
+                    "description": "Exclude high severity.",
+                    "isDefault": false,
+                    "sortOrder": 4
+                },
+                {
+                    "key": "critical",
+                    "parameterKey": "exclude-severity",
+                    "value": "critical",
+                    "displayName": "critical",
+                    "description": "Exclude critical severity.",
+                    "isDefault": false,
+                    "sortOrder": 5
+                },
+                {
+                    "key": "unknown",
+                    "parameterKey": "exclude-severity",
+                    "value": "unknown",
+                    "displayName": "unknown",
+                    "description": "Exclude unknown severity.",
+                    "isDefault": false,
+                    "sortOrder": 6
+                }
+            ],
+            "key": "exclude-severity",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Type",
+            "description": "Templates to run based on protocol type.",
+            "parameterType": "Option",
+            "dataType": "Enum",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-pt",
+            "longFlag": "-type",
+            "enumValues": [
+                {
+                    "key": "dns",
+                    "parameterKey": "type",
+                    "value": "dns",
+                    "displayName": "dns",
+                    "description": "DNS templates.",
+                    "isDefault": false,
+                    "sortOrder": 1
+                },
+                {
+                    "key": "file",
+                    "parameterKey": "type",
+                    "value": "file",
+                    "displayName": "file",
+                    "description": "File templates.",
+                    "isDefault": false,
+                    "sortOrder": 2
+                },
+                {
+                    "key": "http",
+                    "parameterKey": "type",
+                    "value": "http",
+                    "displayName": "http",
+                    "description": "HTTP templates.",
+                    "isDefault": false,
+                    "sortOrder": 3
+                },
+                {
+                    "key": "headless",
+                    "parameterKey": "type",
+                    "value": "headless",
+                    "displayName": "headless",
+                    "description": "Headless templates.",
+                    "isDefault": false,
+                    "sortOrder": 4
+                },
+                {
+                    "key": "tcp",
+                    "parameterKey": "type",
+                    "value": "tcp",
+                    "displayName": "tcp",
+                    "description": "TCP templates.",
+                    "isDefault": false,
+                    "sortOrder": 5
+                },
+                {
+                    "key": "workflow",
+                    "parameterKey": "type",
+                    "value": "workflow",
+                    "displayName": "workflow",
+                    "description": "Workflow templates.",
+                    "isDefault": false,
+                    "sortOrder": 6
+                },
+                {
+                    "key": "ssl",
+                    "parameterKey": "type",
+                    "value": "ssl",
+                    "displayName": "ssl",
+                    "description": "SSL templates.",
+                    "isDefault": false,
+                    "sortOrder": 7
+                },
+                {
+                    "key": "websocket",
+                    "parameterKey": "type",
+                    "value": "websocket",
+                    "displayName": "websocket",
+                    "description": "Websocket templates.",
+                    "isDefault": false,
+                    "sortOrder": 8
+                },
+                {
+                    "key": "whois",
+                    "parameterKey": "type",
+                    "value": "whois",
+                    "displayName": "whois",
+                    "description": "WHOIS templates.",
+                    "isDefault": false,
+                    "sortOrder": 9
+                },
+                {
+                    "key": "code",
+                    "parameterKey": "type",
+                    "value": "code",
+                    "displayName": "code",
+                    "description": "Code templates.",
+                    "isDefault": false,
+                    "sortOrder": 10
+                },
+                {
+                    "key": "javascript",
+                    "parameterKey": "type",
+                    "value": "javascript",
+                    "displayName": "javascript",
+                    "description": "JavaScript templates.",
+                    "isDefault": false,
+                    "sortOrder": 11
+                }
+            ],
+            "key": "type",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Exclude Type",
+            "description": "Templates to exclude based on protocol type.",
+            "parameterType": "Option",
+            "dataType": "Enum",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-ept",
+            "longFlag": "-exclude-type",
+            "enumValues": [
+                {
+                    "key": "dns",
+                    "parameterKey": "exclude-type",
+                    "value": "dns",
+                    "displayName": "dns",
+                    "description": "Exclude DNS templates.",
+                    "isDefault": false,
+                    "sortOrder": 1
+                },
+                {
+                    "key": "file",
+                    "parameterKey": "exclude-type",
+                    "value": "file",
+                    "displayName": "file",
+                    "description": "Exclude file templates.",
+                    "isDefault": false,
+                    "sortOrder": 2
+                },
+                {
+                    "key": "http",
+                    "parameterKey": "exclude-type",
+                    "value": "http",
+                    "displayName": "http",
+                    "description": "Exclude HTTP templates.",
+                    "isDefault": false,
+                    "sortOrder": 3
+                },
+                {
+                    "key": "headless",
+                    "parameterKey": "exclude-type",
+                    "value": "headless",
+                    "displayName": "headless",
+                    "description": "Exclude headless templates.",
+                    "isDefault": false,
+                    "sortOrder": 4
+                },
+                {
+                    "key": "tcp",
+                    "parameterKey": "exclude-type",
+                    "value": "tcp",
+                    "displayName": "tcp",
+                    "description": "Exclude TCP templates.",
+                    "isDefault": false,
+                    "sortOrder": 5
+                },
+                {
+                    "key": "workflow",
+                    "parameterKey": "exclude-type",
+                    "value": "workflow",
+                    "displayName": "workflow",
+                    "description": "Exclude workflow templates.",
+                    "isDefault": false,
+                    "sortOrder": 6
+                },
+                {
+                    "key": "ssl",
+                    "parameterKey": "exclude-type",
+                    "value": "ssl",
+                    "displayName": "ssl",
+                    "description": "Exclude SSL templates.",
+                    "isDefault": false,
+                    "sortOrder": 7
+                },
+                {
+                    "key": "websocket",
+                    "parameterKey": "exclude-type",
+                    "value": "websocket",
+                    "displayName": "websocket",
+                    "description": "Exclude websocket templates.",
+                    "isDefault": false,
+                    "sortOrder": 8
+                },
+                {
+                    "key": "whois",
+                    "parameterKey": "exclude-type",
+                    "value": "whois",
+                    "displayName": "whois",
+                    "description": "Exclude WHOIS templates.",
+                    "isDefault": false,
+                    "sortOrder": 9
+                },
+                {
+                    "key": "code",
+                    "parameterKey": "exclude-type",
+                    "value": "code",
+                    "displayName": "code",
+                    "description": "Exclude code templates.",
+                    "isDefault": false,
+                    "sortOrder": 10
+                },
+                {
+                    "key": "javascript",
+                    "parameterKey": "exclude-type",
+                    "value": "javascript",
+                    "displayName": "javascript",
+                    "description": "Exclude JavaScript templates.",
+                    "isDefault": false,
+                    "sortOrder": 11
+                }
+            ],
+            "key": "exclude-type",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Template condition",
+            "description": "Templates to run based on expression condition.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-tc",
+            "longFlag": "-template-condition",
+            "key": "template-condition",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Output",
+            "description": "Output file to write found issues/vulnerabilities.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "output-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-o",
+            "longFlag": "-output",
+            "key": "output",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Store resp",
+            "description": "Store all request/response passed through nuclei to output directory.",
+            "metadata": {
+                "tags": [
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-sresp",
+            "longFlag": "-store-resp",
+            "key": "store-resp",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Store resp dir",
+            "description": "Store all request/response passed through nuclei to custom directory (default \"output\").",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "output-directory"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-srd",
+            "longFlag": "-store-resp-dir",
+            "key": "store-resp-dir",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Silent",
+            "description": "Display findings only.",
+            "metadata": {
+                "tags": [
+                    "non-configurable",
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-silent",
+            "defaultValue": "true",
+            "key": "silent",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "No color",
+            "description": "Disable output content coloring (ANSI escape codes).",
+            "metadata": {
+                "tags": [
+                    "non-configurable",
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-nc",
+            "longFlag": "-no-color",
+            "key": "no-color",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Jsonl",
+            "description": "Write output in JSONL(ines) format.",
+            "metadata": {
+                "tags": [
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-j",
+            "longFlag": "-jsonl",
+            "defaultValue": "true",
+            "key": "jsonl",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Include Rr",
+            "description": "Include request/response pairs in the JSON, JSONL, and Markdown outputs (for findings only) [deprecated use -omit-raw] (default true).",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-irr",
+            "longFlag": "-include-rr",
+            "key": "include-rr",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Omit Raw",
+            "description": "Omit request/response pairs in the JSON, JSONL, and Markdown outputs (for findings only).",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-or",
+            "longFlag": "-omit-raw",
+            "key": "omit-raw",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Omit Template",
+            "description": "Omit encoded template in the JSON, JSONL output.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ot",
+            "longFlag": "-omit-template",
+            "key": "omit-template",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "No Meta",
+            "description": "Disable printing result metadata in cli output.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-nm",
+            "longFlag": "-no-meta",
+            "key": "no-meta",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Timestamp",
+            "description": "Enables printing timestamp in cli output.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ts",
+            "longFlag": "-timestamp",
+            "key": "timestamp",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Report Db",
+            "description": "Nuclei reporting database (always use this to persist report data).",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "output-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-rdb",
+            "longFlag": "-report-db",
+            "key": "report-db",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Matcher Status",
+            "description": "Display match failure status.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ms",
+            "longFlag": "-matcher-status",
+            "key": "matcher-status",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Markdown Export",
+            "description": "Directory to export results in markdown format.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "output-directory"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-me",
+            "longFlag": "-markdown-export",
+            "key": "markdown-export",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Sarif Export",
+            "description": "File to export results in SARIF format.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "output-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-se",
+            "longFlag": "-sarif-export",
+            "key": "sarif-export",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Json Export",
+            "description": "File to export results in JSON format.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "output-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-je",
+            "longFlag": "-json-export",
+            "key": "json-export",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Jsonl Export",
+            "description": "File to export results in JSONL(ine) format.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "output-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-jle",
+            "longFlag": "-jsonl-export",
+            "key": "jsonl-export",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Redact",
+            "description": "Redact given list of keys from query parameter, request header and body.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-rd",
+            "longFlag": "-redact",
+            "key": "redact",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Config",
+            "description": "Path to the nuclei configuration file.",
+            "metadata": {
+                "tags": [
+                    "configuration-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-config",
+            "key": "config",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Profile",
+            "description": "Template profile config file to run.",
+            "metadata": {
+                "tags": [
+                    "configuration-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-tp",
+            "longFlag": "-profile",
+            "key": "profile",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Profile List",
+            "description": "List community template profiles.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-tpl",
+            "longFlag": "-profile-list",
+            "key": "profile-list",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Follow Redirects",
+            "description": "Enable following redirects for http templates.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-fr",
+            "longFlag": "-follow-redirects",
+            "key": "follow-redirects",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Follow host redirects",
+            "description": "Follow redirects on the same host.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-fhr",
+            "longFlag": "-follow-host-redirects",
+            "key": "follow-host-redirects",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Max redirects",
+            "description": "Max number of redirects to follow for http templates (default 10).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-mr",
+            "longFlag": "-max-redirects",
+            "key": "max-redirects",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Disable redirects",
+            "description": "Disable redirects for http templates.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-dr",
+            "longFlag": "-disable-redirects",
+            "key": "disable-redirects",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Report config",
+            "description": "Nuclei reporting module configuration file.",
+            "metadata": {
+                "tags": [
+                    "configuration-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-rc",
+            "longFlag": "-report-config",
+            "key": "report-config",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Header",
+            "description": "Custom header/cookie to include in all http request in header:value format (cli, file).",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-H",
+            "longFlag": "-header",
+            "key": "header",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Var",
+            "description": "Custom vars in key=value format.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-V",
+            "longFlag": "-var",
+            "key": "var",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Resolvers",
+            "description": "File containing resolver list for nuclei.",
+            "metadata": {
+                "tags": [
+                    "configuration-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-r",
+            "longFlag": "-resolvers",
+            "key": "resolvers",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "System Resolvers",
+            "description": "Use system DNS resolving as error fallback.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-sr",
+            "longFlag": "-system-resolvers",
+            "key": "system-resolvers",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Disable Clustering",
+            "description": "Disable clustering of requests.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-dc",
+            "longFlag": "-disable-clustering",
+            "key": "disable-clustering",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Passive",
+            "description": "Enable passive HTTP response processing mode.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-passive",
+            "key": "passive",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Force http2",
+            "description": "Force http2 connection on requests.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-fh2",
+            "longFlag": "-force-http2",
+            "key": "force-http2",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Env Vars",
+            "description": "Enable environment variables to be used in template.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ev",
+            "longFlag": "-env-vars",
+            "key": "env-vars",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Client Cert",
+            "description": "Client certificate file (PEM-encoded) used for authenticating against scanned hosts.",
+            "metadata": {
+                "tags": [
+                    "configuration-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-cc",
+            "longFlag": "-client-cert",
+            "key": "client-cert",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Client Key",
+            "description": "Client key file (PEM-encoded) used for authenticating against scanned hosts.",
+            "metadata": {
+                "tags": [
+                    "configuration-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ck",
+            "longFlag": "-client-key",
+            "key": "client-key",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Client Ca",
+            "description": "Client certificate authority file (PEM-encoded) used for authenticating against scanned hosts.",
+            "metadata": {
+                "tags": [
+                    "configuration-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ca",
+            "longFlag": "-client-ca",
+            "key": "client-ca",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Show Match Line",
+            "description": "Show match lines for file templates, works with extractors only.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-sml",
+            "longFlag": "-show-match-line",
+            "key": "show-match-line",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Ztls",
+            "description": "Use ztls library with autofallback to standard one for tls13 [deprecated] autofallback to ztls is enabled by default.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-ztls",
+            "key": "ztls",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Sni",
+            "description": "Tls sni hostname to use (default: input domain name).",
+            "metadata": {
+                "tags": [
+                    "target",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-sni",
+            "key": "sni",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Dialer keep alive",
+            "description": "Keep-alive duration for network requests.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-dka",
+            "longFlag": "-dialer-keep-alive",
+            "key": "dialer-keep-alive",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Allow local file access",
+            "description": "Allows file (payload) access anywhere on the system.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-lfa",
+            "longFlag": "-allow-local-file-access",
+            "key": "allow-local-file-access",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Restrict local network access",
+            "description": "Blocks connections to the local / private network.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-lna",
+            "longFlag": "-restrict-local-network-access",
+            "key": "restrict-local-network-access",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Interface",
+            "description": "Network interface to use for network scan.",
+            "metadata": {
+                "tags": [
+                    "target",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-i",
+            "longFlag": "-interface",
+            "key": "interface",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Attack type",
+            "description": "Type of payload combinations to perform (batteringram,pitchfork,clusterbomb).",
+            "parameterType": "Option",
+            "dataType": "Enum",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-at",
+            "longFlag": "-attack-type",
+            "enumValues": [
+                {
+                    "key": "batteringram",
+                    "parameterKey": "attack-type",
+                    "value": "batteringram",
+                    "displayName": "batteringram",
+                    "description": "Use battering ram attack type.",
+                    "isDefault": false,
+                    "sortOrder": 1
+                },
+                {
+                    "key": "pitchfork",
+                    "parameterKey": "attack-type",
+                    "value": "pitchfork",
+                    "displayName": "pitchfork",
+                    "description": "Use pitchfork attack type.",
+                    "isDefault": false,
+                    "sortOrder": 2
+                },
+                {
+                    "key": "clusterbomb",
+                    "parameterKey": "attack-type",
+                    "value": "clusterbomb",
+                    "displayName": "clusterbomb",
+                    "description": "Use cluster bomb attack type.",
+                    "isDefault": false,
+                    "sortOrder": 3
+                }
+            ],
+            "key": "attack-type",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Source ip",
+            "description": "Source ip address to use for network scan.",
+            "metadata": {
+                "tags": [
+                    "target",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-sip",
+            "longFlag": "-source-ip",
+            "key": "source-ip",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Response size read",
+            "description": "Max response size to read in bytes.",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-rsr",
+            "longFlag": "-response-size-read",
+            "key": "response-size-read",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Response size save",
+            "description": "Max response size to read in bytes (default 1048576).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-rss",
+            "longFlag": "-response-size-save",
+            "key": "response-size-save",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Reset",
+            "description": "Reset removes all nuclei configuration and data files (including nuclei-templates).",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-reset",
+            "key": "reset",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Tls impersonate",
+            "description": "Enable experimental client hello (ja3) tls randomization.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-tlsi",
+            "longFlag": "-tls-impersonate",
+            "key": "tls-impersonate",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Http api endpoint",
+            "description": "Experimental http api endpoint.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-hae",
+            "longFlag": "-http-api-endpoint",
+            "key": "http-api-endpoint",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Interactsh server",
+            "description": "Interactsh server url for self-hosted instance (default: oast.pro,oast.live,oast.site,oast.online,oast.fun,oast.me).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-iserver",
+            "longFlag": "-interactsh-server",
+            "key": "interactsh-server",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Interactsh token",
+            "description": "Authentication token for self-hosted interactsh server.",
+            "metadata": {
+                "tags": [
+                    "configuration-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-itoken",
+            "longFlag": "-interactsh-token",
+            "key": "interactsh-token",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Interactions cache size",
+            "description": "Number of requests to keep in the interactions cache (default 5000).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-interactions-cache-size",
+            "key": "interactions-cache-size",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Interactions eviction",
+            "description": "Number of seconds to wait before evicting requests from cache (default 60).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-interactions-eviction",
+            "key": "interactions-eviction",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Interactions poll duration",
+            "description": "Number of seconds to wait before each interaction poll request (default 5).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-interactions-poll-duration",
+            "key": "interactions-poll-duration",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Interactions cooldown period",
+            "description": "Extra time for interaction polling before exiting (default 5).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-interactions-cooldown-period",
+            "key": "interactions-cooldown-period",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "No interactsh",
+            "description": "Disable interactsh server for OAST testing, exclude OAST based templates.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ni",
+            "longFlag": "-no-interactsh",
+            "key": "no-interactsh",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Fuzzing type",
+            "description": "Overrides fuzzing type set in template (replace, prefix, postfix, infix).",
+            "parameterType": "Option",
+            "dataType": "Enum",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ft",
+            "longFlag": "-fuzzing-type",
+            "enumValues": [
+                {
+                    "key": "replace",
+                    "parameterKey": "fuzzing-type",
+                    "value": "replace",
+                    "displayName": "replace",
+                    "description": "Replace fuzzing type.",
+                    "isDefault": false,
+                    "sortOrder": 1
+                },
+                {
+                    "key": "prefix",
+                    "parameterKey": "fuzzing-type",
+                    "value": "prefix",
+                    "displayName": "prefix",
+                    "description": "Prefix fuzzing type.",
+                    "isDefault": false,
+                    "sortOrder": 2
+                },
+                {
+                    "key": "postfix",
+                    "parameterKey": "fuzzing-type",
+                    "value": "postfix",
+                    "displayName": "postfix",
+                    "description": "Postfix fuzzing type.",
+                    "isDefault": false,
+                    "sortOrder": 3
+                },
+                {
+                    "key": "infix",
+                    "parameterKey": "fuzzing-type",
+                    "value": "infix",
+                    "displayName": "infix",
+                    "description": "Infix fuzzing type.",
+                    "isDefault": false,
+                    "sortOrder": 4
+                }
+            ],
+            "key": "fuzzing-type",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Fuzzing mode",
+            "description": "Overrides fuzzing mode set in template (multiple, single).",
+            "parameterType": "Option",
+            "dataType": "Enum",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-fm",
+            "longFlag": "-fuzzing-mode",
+            "enumValues": [
+                {
+                    "key": "multiple",
+                    "parameterKey": "fuzzing-mode",
+                    "value": "multiple",
+                    "displayName": "multiple",
+                    "description": "Multiple fuzzing mode.",
+                    "isDefault": false,
+                    "sortOrder": 1
+                },
+                {
+                    "key": "single",
+                    "parameterKey": "fuzzing-mode",
+                    "value": "single",
+                    "displayName": "single",
+                    "description": "Single fuzzing mode.",
+                    "isDefault": false,
+                    "sortOrder": 2
+                }
+            ],
+            "key": "fuzzing-mode",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Fuzz",
+            "description": "Enable loading fuzzing templates (deprecated: use -dast instead).",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-fuzz",
+            "key": "fuzz",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Dast",
+            "description": "Enable / run dast (fuzz) nuclei templates.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-dast",
+            "key": "dast",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Dast server",
+            "description": "Enable dast server mode (live fuzzing).",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-dts",
+            "longFlag": "-dast-server",
+            "key": "dast-server",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Dast report",
+            "description": "Write dast scan report to file.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "output-file"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-dtr",
+            "longFlag": "-dast-report",
+            "key": "dast-report",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Dast server token",
+            "description": "Dast server token (optional).",
+            "metadata": {
+                "tags": [
+                    "configuration-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-dtst",
+            "longFlag": "-dast-server-token",
+            "key": "dast-server-token",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Dast server address",
+            "description": "Dast server address (default \"localhost:9055\").",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-dtsa",
+            "longFlag": "-dast-server-address",
+            "key": "dast-server-address",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Display fuzz points",
+            "description": "Display fuzz points in the output for debugging.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-dfp",
+            "key": "display-fuzz-points",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Fuzz param frequency",
+            "description": "Frequency of uninteresting parameters for fuzzing before skipping (default 10).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-fuzz-param-frequency",
+            "key": "fuzz-param-frequency",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Fuzz aggression",
+            "description": "Fuzzing aggression level controls payload count for fuzz (low, medium, high) (default \"low\").",
+            "parameterType": "Option",
+            "dataType": "Enum",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-fa",
+            "longFlag": "-fuzz-aggression",
+            "enumValues": [
+                {
+                    "key": "low",
+                    "parameterKey": "fuzz-aggression",
+                    "value": "low",
+                    "displayName": "low",
+                    "description": "Low fuzzing aggression.",
+                    "isDefault": true,
+                    "sortOrder": 1
+                },
+                {
+                    "key": "medium",
+                    "parameterKey": "fuzz-aggression",
+                    "value": "medium",
+                    "displayName": "medium",
+                    "description": "Medium fuzzing aggression.",
+                    "isDefault": false,
+                    "sortOrder": 2
+                },
+                {
+                    "key": "high",
+                    "parameterKey": "fuzz-aggression",
+                    "value": "high",
+                    "displayName": "high",
+                    "description": "High fuzzing aggression.",
+                    "isDefault": false,
+                    "sortOrder": 3
+                }
+            ],
+            "key": "fuzz-aggression",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Fuzz scope",
+            "description": "In scope url regex to be followed by fuzzer.",
+            "metadata": {
+                "tags": [
+                    "target",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-cs",
+            "longFlag": "-fuzz-scope",
+            "key": "fuzz-scope",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Fuzz out scope",
+            "description": "Out of scope url regex to be excluded by fuzzer.",
+            "metadata": {
+                "tags": [
+                    "target",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-cos",
+            "longFlag": "-fuzz-out-scope",
+            "key": "fuzz-out-scope",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Uncover",
+            "description": "Enable uncover engine.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-uc",
+            "longFlag": "-uncover",
+            "key": "uncover",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Uncover query",
+            "description": "Uncover search query.",
+            "metadata": {
+                "tags": [
+                    "target"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-uq",
+            "longFlag": "-uncover-query",
+            "key": "uncover-query",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Uncover engine",
+            "description": "Uncover search engine.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-ue",
+            "longFlag": "-uncover-engine",
+            "key": "uncover-engine",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Uncover field",
+            "description": "Uncover fields to return (ip,port,host) (default \"ip:port\").",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-uf",
+            "longFlag": "-uncover-field",
+            "key": "uncover-field",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Uncover limit",
+            "description": "Uncover results to return (default 100).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ul",
+            "longFlag": "-uncover-limit",
+            "key": "uncover-limit",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Uncover ratelimit",
+            "description": "Override ratelimit of engines with unknown ratelimit (default 60 req/min) (default 60).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ur",
+            "longFlag": "-uncover-ratelimit",
+            "key": "uncover-ratelimit",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Rate limit",
+            "description": "Maximum number of requests to send per second (default 150).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-rl",
+            "longFlag": "-rate-limit",
+            "key": "rate-limit",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Rate limit duration",
+            "description": "Maximum number of requests to send per second (default 1s).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-rld",
+            "longFlag": "-rate-limit-duration",
+            "key": "rate-limit-duration",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Rate limit minute",
+            "description": "Maximum number of requests to send per minute (deprecated).",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-rlm",
+            "longFlag": "-rate-limit-minute",
+            "key": "rate-limit-minute",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Bulk size",
+            "description": "Maximum number of hosts to be analyzed in parallel per template (default 25).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-bs",
+            "longFlag": "-bulk-size",
+            "key": "bulk-size",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Concurrency",
+            "description": "Maximum number of templates to be executed in parallel (default 25).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-c",
+            "longFlag": "-concurrency",
+            "key": "concurrency",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Headless bulk size",
+            "description": "Maximum number of headless hosts to be analyzed in parallel per template (default 10).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-hbs",
+            "longFlag": "-headless-bulk-size",
+            "key": "headless-bulk-size",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Headless concurrency",
+            "description": "Maximum number of headless templates to be executed in parallel (default 10).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-headless-concurrency",
+            "key": "headless-concurrency",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Js concurrency",
+            "description": "Maximum number of javascript runtimes to be executed in parallel (default 120).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-jsc",
+            "longFlag": "-js-concurrency",
+            "key": "js-concurrency",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Payload concurrency",
+            "description": "Max payload concurrency for each template (default 25).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-pc",
+            "longFlag": "-payload-concurrency",
+            "key": "payload-concurrency",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Probe concurrency",
+            "description": "Http probe concurrency with httpx (default 50).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-prc",
+            "longFlag": "-probe-concurrency",
+            "key": "probe-concurrency",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Timeout",
+            "description": "Time to wait in seconds before timeout (default 10).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-timeout",
+            "key": "timeout",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Retries",
+            "description": "Number of times to retry a failed request (default 1).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-retries",
+            "key": "retries",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Leave default ports",
+            "description": "Leave default HTTP/HTTPS ports (eg. host:80,host:443).",
+            "metadata": {
+                "tags": [
+                    "target",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ldp",
+            "longFlag": "-leave-default-ports",
+            "key": "leave-default-ports",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Max host error",
+            "description": "Max errors for a host before skipping from scan (default 30).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-mhe",
+            "longFlag": "-max-host-error",
+            "key": "max-host-error",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Track error",
+            "description": "Adds given error to max-host-error watchlist (standard, file).",
+            "metadata": {
+                "tags": [
+                    "non-configurable",
+                    "configuration-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-te",
+            "longFlag": "-track-error",
+            "key": "track-error",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "No mhe",
+            "description": "Disable skipping host from scan based on errors.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-nmhe",
+            "longFlag": "-no-mhe",
+            "key": "no-mhe",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Project",
+            "description": "Use a project folder to avoid sending same request multiple times.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-project",
+            "key": "project",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Project path",
+            "description": "Set a specific project path (default \"/var/folders/56/klbhqyh52zj8s4rrlh_mlcgh0000gn/T/\").",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "output-directory"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-project-path",
+            "key": "project-path",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Stop at first match",
+            "description": "Stop processing HTTP requests after the first match (may break template/workflow logic).",
+            "metadata": {
+                "tags": [
+                    "non-configurable",
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-spm",
+            "longFlag": "-stop-at-first-match",
+            "key": "stop-at-first-match",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Stream",
+            "description": "Stream mode - start elaborating without sorting the input.",
+            "metadata": {
+                "tags": [
+                    "non-configurable",
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-stream",
+            "key": "stream",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Scan strategy",
+            "description": "Strategy to use while scanning(auto/host-spray/template-spray) (default auto).",
+            "parameterType": "Option",
+            "dataType": "Enum",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ss",
+            "longFlag": "-scan-strategy",
+            "enumValues": [
+                {
+                    "key": "auto",
+                    "parameterKey": "scan-strategy",
+                    "value": "auto",
+                    "displayName": "auto",
+                    "description": "Automatic scan strategy.",
+                    "isDefault": true,
+                    "sortOrder": 1
+                },
+                {
+                    "key": "host-spray",
+                    "parameterKey": "scan-strategy",
+                    "value": "host-spray",
+                    "displayName": "host-spray",
+                    "description": "Host spray scan strategy.",
+                    "isDefault": false,
+                    "sortOrder": 2
+                },
+                {
+                    "key": "template-spray",
+                    "parameterKey": "scan-strategy",
+                    "value": "template-spray",
+                    "displayName": "template-spray",
+                    "description": "Template spray scan strategy.",
+                    "isDefault": false,
+                    "sortOrder": 3
+                }
+            ],
+            "key": "scan-strategy",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Input read timeout",
+            "description": "Timeout on input read (default 3m0s).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-irt",
+            "longFlag": "-input-read-timeout",
+            "key": "input-read-timeout",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "No httpx",
+            "description": "Disable httpx probing for non-url input.",
+            "metadata": {
+                "tags": [
+                    "non-configurable",
+                    "target"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-nh",
+            "longFlag": "-no-httpx",
+            "key": "no-httpx",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "No stdin",
+            "description": "Disable stdin processing.",
+            "metadata": {
+                "tags": [
+                    "non-configurable",
+                    "target"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-no-stdin",
+            "key": "no-stdin",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Headless",
+            "description": "Enable templates that require headless browser support (root user on Linux will disable sandbox).",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-headless",
+            "key": "headless",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Page timeout",
+            "description": "Seconds to wait for each page in headless mode (default 20).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-page-timeout",
+            "key": "page-timeout",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Show browser",
+            "description": "Show the browser on the screen when running templates with headless mode.",
+            "metadata": {
+                "tags": [
+                    "non-configurable",
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-sb",
+            "longFlag": "-show-browser",
+            "key": "show-browser",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Headless options",
+            "description": "Start headless chrome with additional options.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-ho",
+            "longFlag": "-headless-options",
+            "key": "headless-options",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "System chrome",
+            "description": "Use local installed Chrome browser instead of nuclei installed.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-sc",
+            "longFlag": "-system-chrome",
+            "key": "system-chrome",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "List headless action",
+            "description": "List available headless actions.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-lha",
+            "longFlag": "-list-headless-action",
+            "key": "list-headless-action",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Debug",
+            "description": "Show all requests and responses.",
+            "metadata": {
+                "tags": [
+                    "non-configurable",
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-debug",
+            "key": "debug",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Debug req",
+            "description": "Show all sent requests.",
+            "metadata": {
+                "tags": [
+                    "non-configurable",
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-dreq",
+            "longFlag": "-debug-req",
+            "key": "debug-req",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Debug resp",
+            "description": "Show all received responses.",
+            "metadata": {
+                "tags": [
+                    "non-configurable",
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-dresp",
+            "longFlag": "-debug-resp",
+            "key": "debug-resp",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Proxy",
+            "description": "List of http/socks5 proxy to use (comma separated or file input).",
+            "metadata": {
+                "tags": [
+                    "configuration-file",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-p",
+            "longFlag": "-proxy",
+            "key": "proxy",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Proxy internal",
+            "description": "Proxy all internal requests.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-pi",
+            "longFlag": "-proxy-internal",
+            "key": "proxy-internal",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "List dsl function",
+            "description": "List all supported DSL function signatures.",
+            "metadata": {
+                "tags": [
+                    "non-configurable",
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ldf",
+            "longFlag": "-list-dsl-function",
+            "key": "list-dsl-function",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Trace log",
+            "description": "File to write sent requests trace log.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "output-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-tlog",
+            "longFlag": "-trace-log",
+            "key": "trace-log",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Error log",
+            "description": "File to write sent requests error log.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "output-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-elog",
+            "longFlag": "-error-log",
+            "key": "error-log",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Version",
+            "description": "Show nuclei version.",
+            "metadata": {
+                "tags": [
+                    "non-configurable",
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-version",
+            "key": "version",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Hang Monitor",
+            "description": "Enable nuclei hang monitoring.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-hm",
+            "longFlag": "-hang-monitor",
+            "key": "hang-monitor",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Verbose",
+            "description": "Show verbose output.",
+            "metadata": {
+                "tags": [
+                    "non-configurable",
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-v",
+            "longFlag": "-verbose",
+            "key": "verbose",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Profile Mem",
+            "description": "Generate memory (heap) profile & trace files.",
+            "metadata": {
+                "tags": [
+                    "output"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-profile-mem",
+            "key": "profile-mem",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Vv",
+            "description": "Display templates loaded for scan.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-vv",
+            "key": "vv",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Show Var Dump",
+            "description": "Show variables dump for debugging.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-svd",
+            "longFlag": "-show-var-dump",
+            "key": "show-var-dump",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Var Dump Limit",
+            "description": "Limit the number of characters displayed in var dump (default 255).",
+            "metadata": {
+                "tags": [
+                    "output"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-vdl",
+            "longFlag": "-var-dump-limit",
+            "key": "var-dump-limit",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Enable Pprof",
+            "description": "Enable pprof debugging server.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ep",
+            "longFlag": "-enable-pprof",
+            "key": "enable-pprof",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Templates Version",
+            "description": "Shows the version of the installed nuclei-templates.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-tv",
+            "longFlag": "-templates-version",
+            "key": "templates-version",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Health Check",
+            "description": "Run diagnostic check up.",
+            "metadata": {
+                "tags": [
+                    "non-configurable",
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-hc",
+            "longFlag": "-health-check",
+            "key": "health-check",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Update",
+            "description": "Update nuclei engine to the latest released version.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-up",
+            "longFlag": "-update",
+            "key": "update",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Update Templates",
+            "description": "Update nuclei-templates to latest released version.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ut",
+            "longFlag": "-update-templates",
+            "key": "update-templates",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Update Template Dir",
+            "description": "Custom directory to install / update nuclei-templates.",
+            "metadata": {
+                "tags": [
+                    "output-directory"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ud",
+            "longFlag": "-update-template-dir",
+            "key": "update-template-dir",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Disable Update Check",
+            "description": "Disable automatic nuclei/templates update check.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-duc",
+            "longFlag": "-disable-update-check",
+            "key": "disable-update-check",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Stats",
+            "description": "Display statistics about the running scan.",
+            "metadata": {
+                "tags": [
+                    "non-configurable",
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-stats",
+            "key": "stats",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Stats Json",
+            "description": "Display statistics in JSONL(ines) format.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-sj",
+            "longFlag": "-stats-json",
+            "key": "stats-json",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Stats Interval",
+            "description": "Number of seconds to wait between showing a statistics update (default 5).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-si",
+            "longFlag": "-stats-interval",
+            "key": "stats-interval",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Metrics Port",
+            "description": "Port to expose nuclei metrics on (default 9092).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-mp",
+            "longFlag": "-metrics-port",
+            "key": "metrics-port",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Http Stats",
+            "description": "Enable http status capturing (experimental).",
+            "metadata": {
+                "tags": [
+                    "non-configurable",
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-hps",
+            "longFlag": "-http-stats",
+            "key": "http-stats",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Auth",
+            "description": "Configure projectdiscovery cloud (pdcp) api key (default true).",
+            "metadata": {
+                "tags": [
+                    "non-configurable",
+                    "configuration-file"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "-auth",
+            "key": "auth",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Team Id",
+            "description": "Upload scan results to given team id (optional) (default \"none\").",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-tid",
+            "longFlag": "-team-id",
+            "key": "team-id",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Cloud Upload",
+            "description": "Upload scan results to pdcp dashboard [deprecated use -dashboard].",
+            "metadata": {
+                "tags": [
+                    "non-configurable",
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-cup",
+            "longFlag": "-cloud-upload",
+            "key": "cloud-upload",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Scan Id",
+            "description": "Upload scan results to existing scan id (optional).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-sid",
+            "longFlag": "-scan-id",
+            "key": "scan-id",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Scan Name",
+            "description": "Scan name to set (optional).",
+            "metadata": {
+                "tags": [
+                    "output"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-sname",
+            "longFlag": "-scan-name",
+            "key": "scan-name",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Dashboard",
+            "description": "Upload / view nuclei results in projectdiscovery cloud (pdcp) UI dashboard.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-pd",
+            "longFlag": "-dashboard",
+            "key": "dashboard",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Dashboard Upload",
+            "description": "Upload / view nuclei results file (jsonl) in projectdiscovery cloud (pdcp) UI dashboard.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "output-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-pdu",
+            "longFlag": "-dashboard-upload",
+            "key": "dashboard-upload",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Secret File",
+            "description": "Path to config file containing secrets for nuclei authenticated scan.",
+            "metadata": {
+                "tags": [
+                    "configuration-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-sf",
+            "longFlag": "-secret-file",
+            "key": "secret-file",
+            "commandKey": "nuclei"
+        },
+        {
+            "name": "Prefetch Secrets",
+            "description": "Prefetch secrets from the secrets file.",
+            "metadata": {
+                "tags": [
+                    "configuration-file",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-ps",
+            "longFlag": "-prefetch-secrets",
+            "key": "prefetch-secrets",
+            "commandKey": "nuclei"
+        }
+    ],
+    "metadata": {
+        "supportedInput": [
+            "BatchStandardInput",
+            "StandardInput",
+            "Parameter"
+        ],
+        "supportedOutput": [
+            "StandardOutput",
+            "File",
+            "Directory"
+        ]
+    }
+}

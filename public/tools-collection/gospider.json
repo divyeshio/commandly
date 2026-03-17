@@ -1,0 +1,582 @@
+{
+    "$schema": "https://commandly.divyeshio.in/specification/flat.json",
+    "name": "gospider",
+    "displayName": "GoSpider",
+    "description": "Fast web spider written in Go.",
+    "url": "https://github.com/jaeles-project/gospider",
+    "version": "1.1.6",
+    "commands": [
+        {
+            "name": "gospider",
+            "description": "Fast web spider written in Go.",
+            "isDefault": true,
+            "sortOrder": 1,
+            "key": "gospider"
+        }
+    ],
+    "parameters": [
+        {
+            "name": "Site",
+            "description": "Site to crawl.",
+            "metadata": {
+                "tags": [
+                    "target"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "defaultValue": "",
+            "shortFlag": "-s",
+            "longFlag": "--site",
+            "sortOrder": 1,
+            "key": "site",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Sites",
+            "description": "Site list to crawl.",
+            "metadata": {
+                "tags": [
+                    "target-list-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "defaultValue": "",
+            "shortFlag": "-S",
+            "longFlag": "--sites",
+            "sortOrder": 2,
+            "key": "sites",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Proxy",
+            "description": "Proxy (ex: http://127.0.0.1:8080).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-p",
+            "longFlag": "--proxy",
+            "sortOrder": 3,
+            "key": "proxy",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Output",
+            "description": "Output folder.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "output-directory"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-o",
+            "longFlag": "--output",
+            "sortOrder": 4,
+            "key": "output",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "User agent",
+            "description": "User agent to use.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-u",
+            "longFlag": "--user-agent",
+            "sortOrder": 5,
+            "key": "user-agent",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Cookie",
+            "description": "Cookie to use (testA=a; testB=b).",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "--cookie",
+            "sortOrder": 6,
+            "key": "cookie",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Header",
+            "description": "Header to use. Use multiple flag to set multiple headers.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": true,
+            "isGlobal": false,
+            "shortFlag": "-H",
+            "longFlag": "--header",
+            "sortOrder": 7,
+            "key": "header",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Burp",
+            "description": "Load headers and cookie from burp raw http request.",
+            "metadata": {
+                "tags": [
+                    "configuration-file"
+                ]
+            },
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "--burp",
+            "sortOrder": 8,
+            "key": "burp",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Blacklist",
+            "description": "Blacklist URL regex.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "defaultValue": ".(woff|pdf|png|jpg|bmp|ico|jpeg|gif|svg|webp|css|woff2|ttf|eot|sass|scss|mp3|m4a|wav|flac|mp4|mkv|avi|wmv|mov|flv|webm)",
+            "longFlag": "--blacklist",
+            "sortOrder": 9,
+            "key": "blacklist",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Whitelist",
+            "description": "Whitelist URL regex.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "--whitelist",
+            "sortOrder": 10,
+            "key": "whitelist",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Whitelist domain",
+            "description": "Whitelist domain.",
+            "parameterType": "Option",
+            "dataType": "String",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "--whitelist-domain",
+            "sortOrder": 11,
+            "key": "whitelist-domain",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Threads",
+            "description": "Number of threads (run sites in parallel).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-t",
+            "longFlag": "--threads",
+            "sortOrder": 12,
+            "key": "threads",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Concurrent",
+            "description": "The number of the maximum allowed concurrent requests of the matching domains.",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-c",
+            "longFlag": "--concurrent",
+            "sortOrder": 13,
+            "key": "concurrent",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Depth",
+            "description": "MaxDepth limits the recursion depth of visited URLs. Set it to 0 for infinite recursion.",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-d",
+            "longFlag": "--depth",
+            "sortOrder": 14,
+            "key": "depth",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Delay",
+            "description": "Duration to wait before creating a new request to the matching domains (seconds).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-k",
+            "longFlag": "--delay",
+            "sortOrder": 15,
+            "key": "delay",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Random delay",
+            "description": "Extra randomized duration to wait added to delay before creating a new request (seconds).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-K",
+            "longFlag": "--random-delay",
+            "sortOrder": 16,
+            "key": "random-delay",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Timeout",
+            "description": "Request timeout (seconds).",
+            "parameterType": "Option",
+            "dataType": "Number",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "defaultValue": "30",
+            "shortFlag": "-m",
+            "longFlag": "--timeout",
+            "sortOrder": 17,
+            "key": "timeout",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Base",
+            "description": "Disable all and only use HTML content.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "--base",
+            "sortOrder": 18,
+            "key": "base",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "JavaScript",
+            "description": "Enable linkfinder in javascript file.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "defaultValue": "true",
+            "longFlag": "--js",
+            "sortOrder": 19,
+            "key": "javascript",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Include subdomains",
+            "description": "Include subdomains.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "--subs",
+            "sortOrder": 20,
+            "key": "include-subdomains",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Sitemap",
+            "description": "Try to crawl sitemap.xml.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "--sitemap",
+            "sortOrder": 21,
+            "defaultValue": "true",
+            "key": "sitemap",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Robots",
+            "description": "Try to crawl robots.txt.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "defaultValue": "true",
+            "longFlag": "--robots",
+            "sortOrder": 22,
+            "key": "robots",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Other source",
+            "description": "Find URLs from third-party sources (Archive.org, CommonCrawl.org, VirusTotal.com, AlienVault.com).",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-a",
+            "longFlag": "--other-source",
+            "sortOrder": 23,
+            "key": "other-source",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Include subdomains from third-party",
+            "description": "Include subdomains crawled from third-party sources. Default is main domain.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-w",
+            "longFlag": "--include-subs",
+            "sortOrder": 24,
+            "key": "include-subdomains-from-third-party",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Include other source URLs",
+            "description": "Also include other-source URLs (still crawl and request).",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-r",
+            "longFlag": "--include-other-source",
+            "sortOrder": 25,
+            "key": "include-other-source-urls",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Debug",
+            "description": "Turn on debug mode.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "--debug",
+            "sortOrder": 26,
+            "key": "debug",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "JSON output",
+            "description": "Enable JSON output.",
+            "metadata": {
+                "tags": [
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "--json",
+            "sortOrder": 27,
+            "defaultValue": "true",
+            "key": "json-output",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Verbose",
+            "description": "Turn on verbose.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-v",
+            "longFlag": "--verbose",
+            "sortOrder": 28,
+            "key": "verbose",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Length",
+            "description": "Turn on length.",
+            "metadata": {
+                "tags": [
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-l",
+            "longFlag": "--length",
+            "sortOrder": 29,
+            "key": "length",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Filter length",
+            "description": "Turn on length filter.",
+            "metadata": {
+                "tags": [
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-L",
+            "longFlag": "--filter-length",
+            "sortOrder": 30,
+            "key": "filter-length",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Raw",
+            "description": "Turn on raw.",
+            "metadata": {
+                "tags": [
+                    "output"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-R",
+            "longFlag": "--raw",
+            "sortOrder": 31,
+            "key": "raw",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Quiet",
+            "description": "Suppress all the output and only show URL.",
+            "metadata": {
+                "tags": [
+                    "output",
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-q",
+            "longFlag": "--quiet",
+            "sortOrder": 32,
+            "defaultValue": "true",
+            "key": "quiet",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "No redirect",
+            "description": "Disable redirect.",
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "--no-redirect",
+            "sortOrder": 33,
+            "key": "no-redirect",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Version",
+            "description": "Check version.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "longFlag": "--version",
+            "sortOrder": 34,
+            "key": "version",
+            "commandKey": "gospider"
+        },
+        {
+            "name": "Help",
+            "description": "Help for gospider.",
+            "metadata": {
+                "tags": [
+                    "non-configurable"
+                ]
+            },
+            "parameterType": "Flag",
+            "dataType": "Boolean",
+            "isRequired": false,
+            "isRepeatable": false,
+            "isGlobal": false,
+            "shortFlag": "-h",
+            "longFlag": "--help",
+            "sortOrder": 35,
+            "key": "help",
+            "commandKey": "gospider"
+        }
+    ],
+    "exclusionGroups": [],
+    "metadata": {
+        "supportedInput": [
+            "Parameter"
+        ],
+        "supportedOutput": [
+            "StandardOutput",
+            "Directory"
+        ]
+    }
+}
