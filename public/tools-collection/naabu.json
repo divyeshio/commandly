@@ -97,17 +97,13 @@
       "sortOrder": 6,
       "enumValues": [
         {
-          "key": "full",
-          "parameterKey": "top-ports",
           "value": "full",
-          "displayName": "full",
+          "displayName": "Full",
           "description": "Scan full set of top ports.",
           "isDefault": false,
           "sortOrder": 1
         },
         {
-          "key": "100",
-          "parameterKey": "top-ports",
           "value": "100",
           "displayName": "100",
           "description": "Scan top 100 ports.",
@@ -115,8 +111,6 @@
           "sortOrder": 2
         },
         {
-          "key": "1000",
-          "parameterKey": "top-ports",
           "value": "1000",
           "displayName": "1000",
           "description": "Scan top 1000 ports.",
@@ -332,8 +326,6 @@
       "sortOrder": 21,
       "enumValues": [
         {
-          "key": "4",
-          "parameterKey": "ip-version",
           "value": "4",
           "displayName": "4",
           "description": "IPv4.",
@@ -341,8 +333,6 @@
           "sortOrder": 1
         },
         {
-          "key": "6",
-          "parameterKey": "ip-version",
           "value": "6",
           "displayName": "6",
           "description": "IPv6.",
@@ -366,8 +356,6 @@
       "sortOrder": 22,
       "enumValues": [
         {
-          "key": "SYN",
-          "parameterKey": "scan-type",
           "value": "SYN",
           "displayName": "SYN",
           "description": "TCP SYN scan.",
@@ -375,8 +363,6 @@
           "sortOrder": 1
         },
         {
-          "key": "CONNECT",
-          "parameterKey": "scan-type",
           "value": "CONNECT",
           "displayName": "CONNECT",
           "description": "TCP connect scan.",

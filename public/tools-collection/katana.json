@@ -121,14 +121,28 @@
       "name": "Known-files",
       "description": "Enable crawling of known files (all,robotstxt,sitemapxml).",
       "parameterType": "Option",
-      "dataType": "String",
+      "dataType": "Enum",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-kf",
       "longFlag": "-known-files",
       "key": "known-files",
-      "commandKey": "katana"
+      "commandKey": "katana",
+      "enumValues": [
+        {
+          "value": "all",
+          "displayName": "All"
+        },
+        {
+          "value": "robotstxt",
+          "displayName": "Robotstxt"
+        },
+        {
+          "value": "sitemapxml",
+          "displayName": "Sitemapxml"
+        }
+      ]
     },
     {
       "name": "Max-response-size",

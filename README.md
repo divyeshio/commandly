@@ -3,7 +3,7 @@
     <img src="public/apple-touch-icon.png" alt="commandly" width="200px">
 </div>
 
-<h4 align="center">A user-friendly way to generate CLI commands using UI. Quickly turn help text from any CLI tool into UI using AI.</h4>
+<h4 align="center">CLI -> UI. A user-friendly way to generate CLI commands using UI. Quickly turn help text from any CLI tool into UI using AI.</h4>
      
 <p align="center">
   <a href="#features">Features</a> •
@@ -29,25 +29,16 @@
 - Generate Command
 - Saved Commands - using localstorage
 - Exclusion Groups
-- Json specification
-- AI Parsing - Quickly turn help text from any CLI tool into UI.
-
-## 📋 Todos
-
-- ~~Implement parsing help text into json structure using AI.~~
-- ~~Explore MCP server~~
-- Test and Run commands from browser. Maybe using some container to securely run commands or locally using wasm.
-- More tests
-- Improve UI, validations.
-- Shadcn Registry
+- JSON specification
+- AI Generation - Quickly turn help text from any CLI tool into UI.
 
 ## 🎯 Motivation
 
-When there are lots of commands and options in cli tools, I often find it it confusing and I'm lazy to figure it out all by myself (or just use ChatGPT).
+Complex CLI tools with tons of commands and options can be overwhelming. Instead of wrestling with documentation or asking ChatGPT, why not just use a UI?
 
-We also know LLMs love structured inputs, what better than a clearly defined json with listing all commands and options that go into a cli tool.
+LLMs work best with structured data. Imagine having all your CLI commands and options neatly organized in a single JSON file.
 
-And lastly, MCPs. Goal is to expose all these tools via mcp and llms would be able to get all the details of commands and options whenever and wherever required.
+Plus, building this to work with MCPs. Eventually, LLMs should be able to access all these tool details whenever they need them.
 
 ## 💪🏻 Contributing
 
@@ -56,8 +47,8 @@ Development - Please read the [contributing guide](/CONTRIBUTING.md).
 For adding new tools:
 
 1. Create/Design tool locally
-2. Copy **Flat** Json Output
-3. Raise a PR, adding json file to public/tools-collection.
+2. Copy **Flat** JSON Output
+3. Raise a PR, adding JSON file to public/tools-collection.
 
 ## 📜 License
 

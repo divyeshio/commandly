@@ -238,12 +238,34 @@
       "name": "Preset Alias",
       "description": "Applies a predefined set of options. e.g. --preset-alias mp3. The following presets are available: mp3, aac, mp4, mkv, sleep. See the \"Preset Aliases\" section at the end for more info. This option can be used multiple times",
       "parameterType": "Option",
-      "dataType": "String",
+      "dataType": "Enum",
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": true,
       "longFlag": "--preset-alias",
-      "key": "preset-alias"
+      "key": "preset-alias",
+      "enumValues": [
+        {
+          "value": "mp3",
+          "displayName": "Mp3"
+        },
+        {
+          "value": "aac",
+          "displayName": "Aac"
+        },
+        {
+          "value": "mp4",
+          "displayName": "Mp4"
+        },
+        {
+          "value": "mkv",
+          "displayName": "Mkv"
+        },
+        {
+          "value": "sleep",
+          "displayName": "Sleep"
+        }
+      ]
     },
     {
       "name": "Proxy",

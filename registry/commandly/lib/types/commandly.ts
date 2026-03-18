@@ -8,8 +8,6 @@ export interface Command {
 }
 
 export interface ParameterEnumValue {
-  key: string;
-  parameterKey: string;
   value: string;
   displayName: string;
   description?: string;

@@ -102,14 +102,28 @@
       "name": "Mode",
       "description": "Execution mode (bruteforce, resolve, filter)",
       "parameterType": "Option",
-      "dataType": "String",
+      "dataType": "Enum",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-mode",
       "sortOrder": 7,
       "key": "mode",
-      "commandKey": "shuffledns"
+      "commandKey": "shuffledns",
+      "enumValues": [
+        {
+          "value": "bruteforce",
+          "displayName": "Bruteforce"
+        },
+        {
+          "value": "resolve",
+          "displayName": "Resolve"
+        },
+        {
+          "value": "filter",
+          "displayName": "Filter"
+        }
+      ]
     },
     {
       "name": "T",

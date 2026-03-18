@@ -124,7 +124,7 @@ function OptionEnumInput({ parameter, value, onUpdate }: ParameterRenderContext)
         <SelectContent>
           {parameter.enumValues?.map((enumValue) => (
             <SelectItem
-              key={enumValue.key}
+              key={enumValue.value}
               value={enumValue.value}
             >
               {enumValue.displayName || enumValue.value}

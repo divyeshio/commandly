@@ -71,7 +71,7 @@
       "name": "Match Cdn",
       "description": "match host with specified cdn provider (cloudfront, fastly, google, leaseweb)",
       "parameterType": "Option",
-      "dataType": "String",
+      "dataType": "Enum",
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": false,
@@ -79,13 +79,31 @@
       "longFlag": "-match-cdn",
       "sortOrder": 5,
       "key": "match-cdn",
-      "commandKey": "cdncheck"
+      "commandKey": "cdncheck",
+      "enumValues": [
+        {
+          "value": "cloudfront",
+          "displayName": "Cloudfront"
+        },
+        {
+          "value": "fastly",
+          "displayName": "Fastly"
+        },
+        {
+          "value": "google",
+          "displayName": "Google"
+        },
+        {
+          "value": "leaseweb",
+          "displayName": "Leaseweb"
+        }
+      ]
     },
     {
       "name": "Match Cloud",
       "description": "match host with specified cloud provider (aws, google, oracle)",
       "parameterType": "Option",
-      "dataType": "String",
+      "dataType": "Enum",
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": false,
@@ -93,13 +111,27 @@
       "longFlag": "-match-cloud",
       "sortOrder": 6,
       "key": "match-cloud",
-      "commandKey": "cdncheck"
+      "commandKey": "cdncheck",
+      "enumValues": [
+        {
+          "value": "aws",
+          "displayName": "Aws"
+        },
+        {
+          "value": "google",
+          "displayName": "Google"
+        },
+        {
+          "value": "oracle",
+          "displayName": "Oracle"
+        }
+      ]
     },
     {
       "name": "Match Waf",
       "description": "match host with specified waf provider (cloudflare, incapsula, sucuri, akamai)",
       "parameterType": "Option",
-      "dataType": "String",
+      "dataType": "Enum",
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": false,
@@ -107,13 +139,31 @@
       "longFlag": "-match-waf",
       "sortOrder": 7,
       "key": "match-waf",
-      "commandKey": "cdncheck"
+      "commandKey": "cdncheck",
+      "enumValues": [
+        {
+          "value": "cloudflare",
+          "displayName": "Cloudflare"
+        },
+        {
+          "value": "incapsula",
+          "displayName": "Incapsula"
+        },
+        {
+          "value": "sucuri",
+          "displayName": "Sucuri"
+        },
+        {
+          "value": "akamai",
+          "displayName": "Akamai"
+        }
+      ]
     },
     {
       "name": "Filter Cdn",
       "description": "filter host with specified cdn provider (cloudfront, fastly, google, leaseweb)",
       "parameterType": "Option",
-      "dataType": "String",
+      "dataType": "Enum",
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": false,
@@ -121,13 +171,31 @@
       "longFlag": "-filter-cdn",
       "sortOrder": 8,
       "key": "filter-cdn",
-      "commandKey": "cdncheck"
+      "commandKey": "cdncheck",
+      "enumValues": [
+        {
+          "value": "cloudfront",
+          "displayName": "Cloudfront"
+        },
+        {
+          "value": "fastly",
+          "displayName": "Fastly"
+        },
+        {
+          "value": "google",
+          "displayName": "Google"
+        },
+        {
+          "value": "leaseweb",
+          "displayName": "Leaseweb"
+        }
+      ]
     },
     {
       "name": "Filter Cloud",
       "description": "filter host with specified cloud provider (aws, google, oracle)",
       "parameterType": "Option",
-      "dataType": "String",
+      "dataType": "Enum",
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": false,
@@ -135,13 +203,27 @@
       "longFlag": "-filter-cloud",
       "sortOrder": 9,
       "key": "filter-cloud",
-      "commandKey": "cdncheck"
+      "commandKey": "cdncheck",
+      "enumValues": [
+        {
+          "value": "aws",
+          "displayName": "Aws"
+        },
+        {
+          "value": "google",
+          "displayName": "Google"
+        },
+        {
+          "value": "oracle",
+          "displayName": "Oracle"
+        }
+      ]
     },
     {
       "name": "Filter Waf",
       "description": "filter host with specified waf provider (cloudflare, incapsula, sucuri, akamai)",
       "parameterType": "Option",
-      "dataType": "String",
+      "dataType": "Enum",
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": false,
@@ -149,7 +231,25 @@
       "longFlag": "-filter-waf",
       "sortOrder": 10,
       "key": "filter-waf",
-      "commandKey": "cdncheck"
+      "commandKey": "cdncheck",
+      "enumValues": [
+        {
+          "value": "cloudflare",
+          "displayName": "Cloudflare"
+        },
+        {
+          "value": "incapsula",
+          "displayName": "Incapsula"
+        },
+        {
+          "value": "sucuri",
+          "displayName": "Sucuri"
+        },
+        {
+          "value": "akamai",
+          "displayName": "Akamai"
+        }
+      ]
     },
     {
       "name": "Resp",

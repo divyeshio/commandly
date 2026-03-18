@@ -195,12 +195,6 @@
     "ParameterEnumValue": {
       "type": "object",
       "properties": {
-        "key": {
-          "type": "string"
-        },
-        "parameterKey": {
-          "type": "string"
-        },
         "value": {
           "type": "string"
         },
@@ -219,8 +213,6 @@
       },
       "required": [
         "displayName",
-        "key",
-        "parameterKey",
         "value"
       ]
     },

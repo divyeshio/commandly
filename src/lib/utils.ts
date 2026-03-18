@@ -42,13 +42,6 @@ export function replaceKey(tool: Tool): Tool {
     const oldKey = param.key;
     mapKey(oldKey, slugify(param.longFlag || param.name));
 
-    if (param.enumValues) {
-      param.enumValues.forEach((ev: ParameterEnumValue) => {
-        const oldEvKey = ev.key;
-        mapKey(oldEvKey, slugify(ev.value));
-      });
-    }
-
     if (param.validations) {
       param.validations.forEach((val: ParameterValidation) => {
         const oldValKey = val.key;
@@ -97,13 +90,9 @@ export function replaceKey(tool: Tool): Tool {
       commandKey: commandKey ? keyMap[commandKey] || commandKey : undefined,
       commandId: undefined,
       enumValues: (param.enumValues || []).map((ev: ParameterEnumValue) => {
-        const oldEvKey = ev.key;
-        const oldParamKey = ev.parameterKey;
         return {
           ...ev,
           id: undefined,
-          key: keyMap[oldEvKey] || oldEvKey,
-          parameterKey: keyMap[oldParamKey] || oldParamKey,
           parameterId: undefined,
         };
       }),

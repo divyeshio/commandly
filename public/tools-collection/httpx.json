@@ -142,14 +142,40 @@
       "name": "Hash",
       "description": "Display response body hash (supported: md5,mmh3,simhash,sha1,sha256,sha512).",
       "parameterType": "Option",
-      "dataType": "String",
+      "dataType": "Enum",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "-hash",
       "sortOrder": 9,
       "key": "hash",
-      "commandKey": "httpx"
+      "commandKey": "httpx",
+      "enumValues": [
+        {
+          "value": "md5",
+          "displayName": "Md5"
+        },
+        {
+          "value": "mmh3",
+          "displayName": "Mmh3"
+        },
+        {
+          "value": "simhash",
+          "displayName": "Simhash"
+        },
+        {
+          "value": "sha1",
+          "displayName": "Sha1"
+        },
+        {
+          "value": "sha256",
+          "displayName": "Sha256"
+        },
+        {
+          "value": "sha512",
+          "displayName": "Sha512"
+        }
+      ]
     },
     {
       "name": "Jarm",
@@ -634,7 +660,7 @@
       "name": "Match cdn",
       "description": "Match host with specified cdn provider (cloudfront, fastly, google).",
       "parameterType": "Option",
-      "dataType": "String",
+      "dataType": "Enum",
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": false,
@@ -642,7 +668,21 @@
       "longFlag": "-match-cdn",
       "sortOrder": 41,
       "key": "match-cdn",
-      "commandKey": "httpx"
+      "commandKey": "httpx",
+      "enumValues": [
+        {
+          "value": "cloudfront",
+          "displayName": "Cloudfront"
+        },
+        {
+          "value": "fastly",
+          "displayName": "Fastly"
+        },
+        {
+          "value": "google",
+          "displayName": "Google"
+        }
+      ]
     },
     {
       "name": "Match response time",
@@ -830,7 +870,7 @@
       "name": "Filter cdn",
       "description": "Filter host with specified cdn provider (cloudfront, fastly, google).",
       "parameterType": "Option",
-      "dataType": "String",
+      "dataType": "Enum",
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": false,
@@ -838,7 +878,21 @@
       "longFlag": "-filter-cdn",
       "sortOrder": 55,
       "key": "filter-cdn",
-      "commandKey": "httpx"
+      "commandKey": "httpx",
+      "enumValues": [
+        {
+          "value": "cloudfront",
+          "displayName": "Cloudfront"
+        },
+        {
+          "value": "fastly",
+          "displayName": "Fastly"
+        },
+        {
+          "value": "google",
+          "displayName": "Google"
+        }
+      ]
     },
     {
       "name": "Filter response time",
@@ -1905,7 +1959,7 @@
       "name": "Exclude",
       "description": "Exclude host matching specified filter ('cdn', 'private-ips', cidr, ip, regex).",
       "parameterType": "Option",
-      "dataType": "String",
+      "dataType": "Enum",
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": false,
@@ -1913,7 +1967,29 @@
       "longFlag": "-exclude",
       "sortOrder": 131,
       "key": "exclude",
-      "commandKey": "httpx"
+      "commandKey": "httpx",
+      "enumValues": [
+        {
+          "value": "cdn",
+          "displayName": "Cdn"
+        },
+        {
+          "value": "private-ips",
+          "displayName": "Private-ips"
+        },
+        {
+          "value": "cidr",
+          "displayName": "Cidr"
+        },
+        {
+          "value": "ip",
+          "displayName": "Ip"
+        },
+        {
+          "value": "regex",
+          "displayName": "Regex"
+        }
+      ]
     },
     {
       "name": "Retries",

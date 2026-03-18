@@ -213,14 +213,60 @@
       "name": "ExcludeType",
       "description": "DNS query type to exclude (A, AAAA, CNAME, NS, TXT, SRV, PTR, MX, SOA, AXFR, CAA) (default none).",
       "parameterType": "Option",
-      "dataType": "String",
+      "dataType": "Enum",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-e",
       "longFlag": "-exclude-type",
       "key": "exclude-type",
-      "commandKey": "dnsx"
+      "commandKey": "dnsx",
+      "enumValues": [
+        {
+          "value": "A",
+          "displayName": "A"
+        },
+        {
+          "value": "AAAA",
+          "displayName": "AAAA"
+        },
+        {
+          "value": "CNAME",
+          "displayName": "CNAME"
+        },
+        {
+          "value": "NS",
+          "displayName": "NS"
+        },
+        {
+          "value": "TXT",
+          "displayName": "TXT"
+        },
+        {
+          "value": "SRV",
+          "displayName": "SRV"
+        },
+        {
+          "value": "PTR",
+          "displayName": "PTR"
+        },
+        {
+          "value": "MX",
+          "displayName": "MX"
+        },
+        {
+          "value": "SOA",
+          "displayName": "SOA"
+        },
+        {
+          "value": "AXFR",
+          "displayName": "AXFR"
+        },
+        {
+          "value": "CAA",
+          "displayName": "CAA"
+        }
+      ]
     },
     {
       "name": "Resp",
