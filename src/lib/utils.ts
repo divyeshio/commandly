@@ -98,7 +98,7 @@ export function replaceKey(tool: Tool): Tool {
       }),
       validations: (param.validations || []).map((val: ParameterValidation) => {
         const oldValKey = val.key;
-        const oldParamKey = val.parameterKey;
+        const oldParamKey = param.key;
         return {
           ...val,
           id: undefined,

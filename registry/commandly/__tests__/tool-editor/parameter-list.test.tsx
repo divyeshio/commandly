@@ -296,7 +296,6 @@ describe("ParameterList - Rendering & Structure", () => {
         validations: [
           {
             key: "validation-key",
-            parameterKey: "test-param-key",
             validationType: "min_value",
             validationValue: "0",
             errorMessage: "Must be positive",
