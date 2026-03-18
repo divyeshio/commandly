@@ -40,7 +40,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-l",
-      "longFlag": "--list",
+      "longFlag": "-list",
       "sortOrder": 1,
       "key": "list",
       "commandKey": "httpx"
@@ -60,7 +60,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-rr",
-      "longFlag": "--request",
+      "longFlag": "-request",
       "sortOrder": 2,
       "key": "request",
       "commandKey": "httpx"
@@ -80,9 +80,29 @@
       "isRepeatable": true,
       "isGlobal": false,
       "shortFlag": "-u",
-      "longFlag": "--target",
+      "longFlag": "-target",
       "sortOrder": 3,
       "key": "target",
+      "commandKey": "httpx"
+    },
+    {
+      "name": "Input mode",
+      "description": "Mode of input file (burp).",
+      "metadata": {
+        "tags": [
+          "target",
+          "non-configurable"
+        ]
+      },
+      "parameterType": "Option",
+      "dataType": "String",
+      "isRequired": false,
+      "isRepeatable": false,
+      "isGlobal": false,
+      "shortFlag": "-im",
+      "longFlag": "-input-mode",
+      "sortOrder": 3.5,
+      "key": "input-mode",
       "commandKey": "httpx"
     },
     {
@@ -99,7 +119,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-sc",
-      "longFlag": "--status-code",
+      "longFlag": "-status-code",
       "sortOrder": 4,
       "key": "status-code",
       "commandKey": "httpx"
@@ -118,7 +138,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-cl",
-      "longFlag": "--content-length",
+      "longFlag": "-content-length",
       "sortOrder": 5,
       "key": "content-length",
       "commandKey": "httpx"
@@ -137,7 +157,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-ct",
-      "longFlag": "--content-type",
+      "longFlag": "-content-type",
       "sortOrder": 6,
       "key": "content-type",
       "commandKey": "httpx"
@@ -155,7 +175,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--location",
+      "longFlag": "-location",
       "sortOrder": 7,
       "key": "location",
       "commandKey": "httpx"
@@ -173,7 +193,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--favicon",
+      "longFlag": "-favicon",
       "sortOrder": 8,
       "key": "favicon",
       "commandKey": "httpx"
@@ -191,7 +211,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--hash",
+      "longFlag": "-hash",
       "sortOrder": 9,
       "key": "hash",
       "commandKey": "httpx"
@@ -209,7 +229,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--jarm",
+      "longFlag": "-jarm",
       "sortOrder": 10,
       "key": "jarm",
       "commandKey": "httpx"
@@ -228,7 +248,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-rt",
-      "longFlag": "--response-time",
+      "longFlag": "-response-time",
       "sortOrder": 11,
       "key": "response-time",
       "commandKey": "httpx"
@@ -247,7 +267,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-lc",
-      "longFlag": "--line-count",
+      "longFlag": "-line-count",
       "sortOrder": 12,
       "key": "line-count",
       "commandKey": "httpx"
@@ -266,7 +286,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-wc",
-      "longFlag": "--word-count",
+      "longFlag": "-word-count",
       "sortOrder": 13,
       "key": "word-count",
       "commandKey": "httpx"
@@ -284,7 +304,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--title",
+      "longFlag": "-title",
       "sortOrder": 14,
       "key": "title",
       "commandKey": "httpx"
@@ -303,7 +323,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-bp",
-      "longFlag": "--body-preview",
+      "longFlag": "-body-preview",
       "sortOrder": 15,
       "key": "body-preview",
       "commandKey": "httpx"
@@ -322,9 +342,9 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-server",
-      "longFlag": "--server",
+      "longFlag": "-web-server",
       "sortOrder": 16,
-      "key": "server",
+      "key": "web-server",
       "commandKey": "httpx"
     },
     {
@@ -341,9 +361,65 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-td",
-      "longFlag": "--tech-detect",
+      "longFlag": "-tech-detect",
       "sortOrder": 17,
       "key": "tech-detect",
+      "commandKey": "httpx"
+    },
+    {
+      "name": "Custom fingerprint file",
+      "description": "Path to a custom fingerprint file for technology detection.",
+      "metadata": {
+        "tags": [
+          "output"
+        ]
+      },
+      "parameterType": "Option",
+      "dataType": "String",
+      "isRequired": false,
+      "isRepeatable": false,
+      "isGlobal": false,
+      "shortFlag": "-cff",
+      "longFlag": "-custom-fingerprint-file",
+      "sortOrder": 17.5,
+      "key": "custom-fingerprint-file",
+      "commandKey": "httpx"
+    },
+    {
+      "name": "Cpe",
+      "description": "Display CPE (Common Platform Enumeration) based on awesome-search-queries.",
+      "metadata": {
+        "tags": [
+          "output"
+        ]
+      },
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "isRequired": false,
+      "isRepeatable": false,
+      "isGlobal": false,
+      "longFlag": "-cpe",
+      "sortOrder": 17.6,
+      "key": "cpe",
+      "commandKey": "httpx"
+    },
+    {
+      "name": "Wordpress",
+      "description": "Display WordPress plugins and themes.",
+      "metadata": {
+        "tags": [
+          "output"
+        ]
+      },
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "isRequired": false,
+      "isRepeatable": false,
+      "isGlobal": false,
+      "shortFlag": "-wp",
+      "longFlag": "-wordpress",
+      "sortOrder": 17.7,
+      "key": "wordpress",
       "commandKey": "httpx"
     },
     {
@@ -359,7 +435,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--method",
+      "longFlag": "-method",
       "sortOrder": 18,
       "key": "method",
       "commandKey": "httpx"
@@ -377,7 +453,8 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--websocket",
+      "shortFlag": "-ws",
+      "longFlag": "-websocket",
       "sortOrder": 19,
       "key": "websocket",
       "commandKey": "httpx"
@@ -395,7 +472,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--ip",
+      "longFlag": "-ip",
       "sortOrder": 20,
       "key": "ip",
       "commandKey": "httpx"
@@ -413,7 +490,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--cname",
+      "longFlag": "-cname",
       "sortOrder": 21,
       "key": "cname",
       "commandKey": "httpx"
@@ -432,7 +509,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-efqdn",
-      "longFlag": "--extract-fqdn",
+      "longFlag": "-extract-fqdn",
       "sortOrder": 22,
       "key": "extract-fqdn",
       "commandKey": "httpx"
@@ -450,7 +527,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--asn",
+      "longFlag": "-asn",
       "sortOrder": 23,
       "key": "asn",
       "commandKey": "httpx"
@@ -468,7 +545,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--cdn",
+      "longFlag": "-cdn",
       "sortOrder": 24,
       "key": "cdn",
       "commandKey": "httpx"
@@ -486,7 +563,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--probe",
+      "longFlag": "-probe",
       "sortOrder": 25,
       "key": "probe",
       "commandKey": "httpx"
@@ -505,7 +582,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-ss",
-      "longFlag": "--screenshot",
+      "longFlag": "-screenshot",
       "sortOrder": 26,
       "key": "screenshot",
       "commandKey": "httpx"
@@ -523,7 +600,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--system-chrome",
+      "longFlag": "-system-chrome",
       "sortOrder": 27,
       "key": "system-chrome",
       "commandKey": "httpx"
@@ -542,7 +619,7 @@
       "isRepeatable": true,
       "isGlobal": false,
       "shortFlag": "-ho",
-      "longFlag": "--headless-options",
+      "longFlag": "-headless-options",
       "sortOrder": 28,
       "key": "headless-options",
       "commandKey": "httpx"
@@ -561,7 +638,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-esb",
-      "longFlag": "--exclude-screenshot-bytes",
+      "longFlag": "-exclude-screenshot-bytes",
       "sortOrder": 29,
       "key": "exclude-screenshot-bytes",
       "commandKey": "httpx"
@@ -579,7 +656,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--no-screenshot-full-page",
+      "longFlag": "-no-screenshot-full-page",
       "sortOrder": 30,
       "key": "no-screenshot-full-page",
       "commandKey": "httpx"
@@ -598,7 +675,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-ehb",
-      "longFlag": "--exclude-headless-body",
+      "longFlag": "-exclude-headless-body",
       "sortOrder": 31,
       "key": "exclude-headless-body",
       "commandKey": "httpx"
@@ -617,7 +694,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-st",
-      "longFlag": "--screenshot-timeout",
+      "longFlag": "-screenshot-timeout",
       "sortOrder": 32,
       "key": "screenshot-timeout",
       "commandKey": "httpx"
@@ -636,9 +713,28 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-sid",
-      "longFlag": "--screenshot-idle",
+      "longFlag": "-screenshot-idle",
       "sortOrder": 33,
       "key": "screenshot-idle",
+      "commandKey": "httpx"
+    },
+    {
+      "name": "Javascript code",
+      "description": "Execute JavaScript code after navigation.",
+      "metadata": {
+        "tags": [
+          "output"
+        ]
+      },
+      "parameterType": "Option",
+      "dataType": "String",
+      "isRequired": false,
+      "isRepeatable": true,
+      "isGlobal": false,
+      "shortFlag": "-jsc",
+      "longFlag": "-javascript-code",
+      "sortOrder": 33.5,
+      "key": "javascript-code",
       "commandKey": "httpx"
     },
     {
@@ -655,7 +751,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-mc",
-      "longFlag": "--match-code",
+      "longFlag": "-match-code",
       "sortOrder": 34,
       "key": "match-code",
       "commandKey": "httpx"
@@ -674,7 +770,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-ml",
-      "longFlag": "--match-length",
+      "longFlag": "-match-length",
       "sortOrder": 35,
       "key": "match-length",
       "commandKey": "httpx"
@@ -693,7 +789,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-mlc",
-      "longFlag": "--match-line-count",
+      "longFlag": "-match-line-count",
       "sortOrder": 36,
       "key": "match-line-count",
       "commandKey": "httpx"
@@ -712,7 +808,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-mwc",
-      "longFlag": "--match-word-count",
+      "longFlag": "-match-word-count",
       "sortOrder": 37,
       "key": "match-word-count",
       "commandKey": "httpx"
@@ -731,7 +827,7 @@
       "isRepeatable": true,
       "isGlobal": false,
       "shortFlag": "-mfc",
-      "longFlag": "--match-favicon",
+      "longFlag": "-match-favicon",
       "sortOrder": 38,
       "key": "match-favicon",
       "commandKey": "httpx"
@@ -750,7 +846,7 @@
       "isRepeatable": true,
       "isGlobal": false,
       "shortFlag": "-ms",
-      "longFlag": "--match-string",
+      "longFlag": "-match-string",
       "sortOrder": 39,
       "key": "match-string",
       "commandKey": "httpx"
@@ -769,7 +865,7 @@
       "isRepeatable": true,
       "isGlobal": false,
       "shortFlag": "-mr",
-      "longFlag": "--match-regex",
+      "longFlag": "-match-regex",
       "sortOrder": 40,
       "key": "match-regex",
       "commandKey": "httpx"
@@ -788,7 +884,7 @@
       "isRepeatable": true,
       "isGlobal": false,
       "shortFlag": "-mcdn",
-      "longFlag": "--match-cdn",
+      "longFlag": "-match-cdn",
       "sortOrder": 41,
       "key": "match-cdn",
       "commandKey": "httpx"
@@ -807,7 +903,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-mrt",
-      "longFlag": "--match-response-time",
+      "longFlag": "-match-response-time",
       "sortOrder": 42,
       "key": "match-response-time",
       "commandKey": "httpx"
@@ -826,7 +922,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-mdc",
-      "longFlag": "--match-condition",
+      "longFlag": "-match-condition",
       "sortOrder": 43,
       "key": "match-condition",
       "commandKey": "httpx"
@@ -845,7 +941,7 @@
       "isRepeatable": true,
       "isGlobal": false,
       "shortFlag": "-er",
-      "longFlag": "--extract-regex",
+      "longFlag": "-extract-regex",
       "sortOrder": 44,
       "key": "extract-regex",
       "commandKey": "httpx"
@@ -864,7 +960,7 @@
       "isRepeatable": true,
       "isGlobal": false,
       "shortFlag": "-ep",
-      "longFlag": "--extract-preset",
+      "longFlag": "-extract-preset",
       "sortOrder": 45,
       "key": "extract-preset",
       "commandKey": "httpx"
@@ -883,7 +979,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-fc",
-      "longFlag": "--filter-code",
+      "longFlag": "-filter-code",
       "sortOrder": 46,
       "key": "filter-code",
       "commandKey": "httpx"
@@ -902,7 +998,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-fep",
-      "longFlag": "--filter-error-page",
+      "longFlag": "-filter-error-page",
       "sortOrder": 47,
       "key": "filter-error-page",
       "commandKey": "httpx"
@@ -921,7 +1017,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-fd",
-      "longFlag": "--filter-duplicates",
+      "longFlag": "-filter-duplicates",
       "sortOrder": 48,
       "key": "filter-duplicates",
       "commandKey": "httpx"
@@ -940,7 +1036,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-fl",
-      "longFlag": "--filter-length",
+      "longFlag": "-filter-length",
       "sortOrder": 49,
       "key": "filter-length",
       "commandKey": "httpx"
@@ -959,7 +1055,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-flc",
-      "longFlag": "--filter-line-count",
+      "longFlag": "-filter-line-count",
       "sortOrder": 50,
       "key": "filter-line-count",
       "commandKey": "httpx"
@@ -978,7 +1074,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-fwc",
-      "longFlag": "--filter-word-count",
+      "longFlag": "-filter-word-count",
       "sortOrder": 51,
       "key": "filter-word-count",
       "commandKey": "httpx"
@@ -997,7 +1093,7 @@
       "isRepeatable": true,
       "isGlobal": false,
       "shortFlag": "-ffc",
-      "longFlag": "--filter-favicon",
+      "longFlag": "-filter-favicon",
       "sortOrder": 52,
       "key": "filter-favicon",
       "commandKey": "httpx"
@@ -1016,7 +1112,7 @@
       "isRepeatable": true,
       "isGlobal": false,
       "shortFlag": "-fs",
-      "longFlag": "--filter-string",
+      "longFlag": "-filter-string",
       "sortOrder": 53,
       "key": "filter-string",
       "commandKey": "httpx"
@@ -1035,7 +1131,7 @@
       "isRepeatable": true,
       "isGlobal": false,
       "shortFlag": "-fe",
-      "longFlag": "--filter-regex",
+      "longFlag": "-filter-regex",
       "sortOrder": 54,
       "key": "filter-regex",
       "commandKey": "httpx"
@@ -1054,7 +1150,7 @@
       "isRepeatable": true,
       "isGlobal": false,
       "shortFlag": "-fcdn",
-      "longFlag": "--filter-cdn",
+      "longFlag": "-filter-cdn",
       "sortOrder": 55,
       "key": "filter-cdn",
       "commandKey": "httpx"
@@ -1073,7 +1169,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-frt",
-      "longFlag": "--filter-response-time",
+      "longFlag": "-filter-response-time",
       "sortOrder": 56,
       "key": "filter-response-time",
       "commandKey": "httpx"
@@ -1092,7 +1188,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-fdc",
-      "longFlag": "--filter-condition",
+      "longFlag": "-filter-condition",
       "sortOrder": 57,
       "key": "filter-condition",
       "commandKey": "httpx"
@@ -1110,9 +1206,47 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--strip",
+      "longFlag": "-strip",
       "sortOrder": 58,
       "key": "strip",
+      "commandKey": "httpx"
+    },
+    {
+      "name": "List output fields",
+      "description": "List of fields to output (comma separated).",
+      "metadata": {
+        "tags": [
+          "output"
+        ]
+      },
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "isRequired": false,
+      "isRepeatable": false,
+      "isGlobal": false,
+      "shortFlag": "-lof",
+      "longFlag": "-list-output-fields",
+      "sortOrder": 58.5,
+      "key": "list-output-fields",
+      "commandKey": "httpx"
+    },
+    {
+      "name": "Exclude output fields",
+      "description": "Exclude output fields output based on a condition.",
+      "metadata": {
+        "tags": [
+          "output"
+        ]
+      },
+      "parameterType": "Option",
+      "dataType": "String",
+      "isRequired": false,
+      "isRepeatable": true,
+      "isGlobal": false,
+      "shortFlag": "-eof",
+      "longFlag": "-exclude-output-fields",
+      "sortOrder": 58.6,
+      "key": "exclude-output-fields",
       "commandKey": "httpx"
     },
     {
@@ -1124,7 +1258,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-t",
-      "longFlag": "--threads",
+      "longFlag": "-threads",
       "sortOrder": 59,
       "key": "threads",
       "commandKey": "httpx"
@@ -1138,7 +1272,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-rl",
-      "longFlag": "--rate-limit",
+      "longFlag": "-rate-limit",
       "sortOrder": 60,
       "key": "rate-limit",
       "commandKey": "httpx"
@@ -1152,7 +1286,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-rlm",
-      "longFlag": "--rate-limit-minute",
+      "longFlag": "-rate-limit-minute",
       "sortOrder": 61,
       "key": "rate-limit-minute",
       "commandKey": "httpx"
@@ -1166,7 +1300,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-pa",
-      "longFlag": "--probe-all-ips",
+      "longFlag": "-probe-all-ips",
       "sortOrder": 62,
       "key": "probe-all-ips",
       "commandKey": "httpx"
@@ -1180,7 +1314,7 @@
       "isRepeatable": true,
       "isGlobal": false,
       "shortFlag": "-p",
-      "longFlag": "--ports",
+      "longFlag": "-ports",
       "sortOrder": 63,
       "key": "ports",
       "commandKey": "httpx"
@@ -1193,7 +1327,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--path",
+      "longFlag": "-path",
       "sortOrder": 64,
       "key": "path",
       "commandKey": "httpx"
@@ -1206,7 +1340,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--tls-probe",
+      "longFlag": "-tls-probe",
       "sortOrder": 65,
       "key": "tls-probe",
       "commandKey": "httpx"
@@ -1219,7 +1353,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--csp-probe",
+      "longFlag": "-csp-probe",
       "sortOrder": 66,
       "key": "csp-probe",
       "commandKey": "httpx"
@@ -1232,7 +1366,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--tls-grab",
+      "longFlag": "-tls-grab",
       "sortOrder": 67,
       "key": "tls-grab",
       "commandKey": "httpx"
@@ -1245,7 +1379,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--pipeline",
+      "longFlag": "-pipeline",
       "sortOrder": 68,
       "key": "pipeline",
       "commandKey": "httpx"
@@ -1258,7 +1392,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--http2",
+      "longFlag": "-http2",
       "sortOrder": 69,
       "key": "http2",
       "commandKey": "httpx"
@@ -1271,7 +1405,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--vhost",
+      "longFlag": "-vhost",
       "sortOrder": 70,
       "key": "vhost",
       "commandKey": "httpx"
@@ -1285,7 +1419,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-ldv",
-      "longFlag": "--list-dsl-variables",
+      "longFlag": "-list-dsl-variables",
       "sortOrder": 71,
       "key": "list-dsl-variables",
       "commandKey": "httpx"
@@ -1304,7 +1438,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-up",
-      "longFlag": "--update",
+      "longFlag": "-update",
       "sortOrder": 72,
       "key": "update",
       "commandKey": "httpx"
@@ -1323,7 +1457,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-duc",
-      "longFlag": "--disable-update-check",
+      "longFlag": "-disable-update-check",
       "sortOrder": 73,
       "key": "disable-update-check",
       "commandKey": "httpx"
@@ -1343,7 +1477,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-o",
-      "longFlag": "--output",
+      "longFlag": "-output",
       "sortOrder": 74,
       "key": "output",
       "commandKey": "httpx"
@@ -1363,7 +1497,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-oa",
-      "longFlag": "--output-all",
+      "longFlag": "-output-all",
       "sortOrder": 75,
       "key": "output-all",
       "commandKey": "httpx"
@@ -1383,7 +1517,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-sr",
-      "longFlag": "--store-response",
+      "longFlag": "-store-response",
       "sortOrder": 76,
       "key": "store-response",
       "commandKey": "httpx"
@@ -1403,7 +1537,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-srd",
-      "longFlag": "--store-response-dir",
+      "longFlag": "-store-response-dir",
       "sortOrder": 77,
       "key": "store-response-dir",
       "commandKey": "httpx"
@@ -1422,7 +1556,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-ob",
-      "longFlag": "--omit-body",
+      "longFlag": "-omit-body",
       "sortOrder": 78,
       "key": "omit-body",
       "commandKey": "httpx"
@@ -1440,7 +1574,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--csv",
+      "longFlag": "-csv",
       "sortOrder": 79,
       "key": "csv",
       "commandKey": "httpx"
@@ -1459,7 +1593,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-csvo",
-      "longFlag": "--csv-output-encoding",
+      "longFlag": "-csv-output-encoding",
       "sortOrder": 80,
       "key": "csv-output-encoding",
       "commandKey": "httpx"
@@ -1478,7 +1612,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-j",
-      "longFlag": "--json",
+      "longFlag": "-json",
       "sortOrder": 81,
       "key": "json",
       "commandKey": "httpx"
@@ -1497,7 +1631,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-irh",
-      "longFlag": "--include-response-header",
+      "longFlag": "-include-response-header",
       "sortOrder": 82,
       "key": "include-response-header",
       "commandKey": "httpx"
@@ -1516,7 +1650,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-irr",
-      "longFlag": "--include-response",
+      "longFlag": "-include-response",
       "sortOrder": 83,
       "key": "include-response",
       "commandKey": "httpx"
@@ -1535,7 +1669,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-irrb",
-      "longFlag": "--include-response-base64",
+      "longFlag": "-include-response-base64",
       "sortOrder": 84,
       "key": "include-response-base64",
       "commandKey": "httpx"
@@ -1553,7 +1687,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--include-chain",
+      "longFlag": "-include-chain",
       "sortOrder": 85,
       "key": "include-chain",
       "commandKey": "httpx"
@@ -1571,7 +1705,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--store-chain",
+      "longFlag": "-store-chain",
       "sortOrder": 86,
       "key": "store-chain",
       "commandKey": "httpx"
@@ -1590,7 +1724,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-svrc",
-      "longFlag": "--store-vision-recon-cluster",
+      "longFlag": "-store-vision-recon-cluster",
       "sortOrder": 87,
       "key": "store-vision-recon-cluster",
       "commandKey": "httpx"
@@ -1604,7 +1738,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-pr",
-      "longFlag": "--protocol",
+      "longFlag": "-protocol",
       "sortOrder": 88,
       "key": "protocol",
       "commandKey": "httpx"
@@ -1624,7 +1758,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-fepp",
-      "longFlag": "--filter-error-page-path",
+      "longFlag": "-filter-error-page-path",
       "sortOrder": 89,
       "key": "filter-error-page-path",
       "commandKey": "httpx"
@@ -1642,7 +1776,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--config",
+      "longFlag": "-config",
       "sortOrder": 90,
       "key": "config",
       "commandKey": "httpx"
@@ -1656,7 +1790,7 @@
       "isRepeatable": true,
       "isGlobal": false,
       "shortFlag": "-r",
-      "longFlag": "--resolvers",
+      "longFlag": "-resolvers",
       "sortOrder": 91,
       "key": "resolvers",
       "commandKey": "httpx"
@@ -1669,7 +1803,7 @@
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": false,
-      "longFlag": "--allow",
+      "longFlag": "-allow",
       "sortOrder": 92,
       "key": "allow",
       "commandKey": "httpx"
@@ -1682,7 +1816,7 @@
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": false,
-      "longFlag": "--deny",
+      "longFlag": "-deny",
       "sortOrder": 93,
       "key": "deny",
       "commandKey": "httpx"
@@ -1696,7 +1830,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-sni",
-      "longFlag": "--sni-name",
+      "longFlag": "-sni-name",
       "sortOrder": 94,
       "key": "sni-name",
       "commandKey": "httpx"
@@ -1709,9 +1843,22 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--random-agent",
+      "longFlag": "-random-agent",
       "sortOrder": 95,
       "key": "random-agent",
+      "commandKey": "httpx"
+    },
+    {
+      "name": "Auto referer",
+      "description": "Set the Referer header to the current URL.",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "isRequired": false,
+      "isRepeatable": false,
+      "isGlobal": false,
+      "longFlag": "-auto-referer",
+      "sortOrder": 95.5,
+      "key": "auto-referer",
       "commandKey": "httpx"
     },
     {
@@ -1723,22 +1870,9 @@
       "isRepeatable": true,
       "isGlobal": false,
       "shortFlag": "-H",
-      "longFlag": "--header",
+      "longFlag": "-header",
       "sortOrder": 96,
       "key": "header",
-      "commandKey": "httpx"
-    },
-    {
-      "name": "Http proxy",
-      "description": "Http proxy to use (eg http://127.0.0.1:8080).",
-      "parameterType": "Option",
-      "dataType": "String",
-      "isRequired": false,
-      "isRepeatable": false,
-      "isGlobal": false,
-      "longFlag": "--http-proxy",
-      "sortOrder": 97,
-      "key": "http-proxy",
       "commandKey": "httpx"
     },
     {
@@ -1749,8 +1883,9 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--proxy",
-      "sortOrder": 98,
+      "shortFlag": "-http-proxy",
+      "longFlag": "-proxy",
+      "sortOrder": 97,
       "key": "proxy",
       "commandKey": "httpx"
     },
@@ -1762,7 +1897,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--unsafe",
+      "longFlag": "-unsafe",
       "sortOrder": 99,
       "key": "unsafe",
       "commandKey": "httpx"
@@ -1775,7 +1910,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--resume",
+      "longFlag": "-resume",
       "sortOrder": 100,
       "key": "resume",
       "commandKey": "httpx"
@@ -1789,7 +1924,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-fr",
-      "longFlag": "--follow-redirects",
+      "longFlag": "-follow-redirects",
       "sortOrder": 101,
       "key": "follow-redirects",
       "commandKey": "httpx"
@@ -1803,7 +1938,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-maxr",
-      "longFlag": "--max-redirects",
+      "longFlag": "-max-redirects",
       "sortOrder": 102,
       "key": "max-redirects",
       "commandKey": "httpx"
@@ -1817,7 +1952,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-fhr",
-      "longFlag": "--follow-host-redirects",
+      "longFlag": "-follow-host-redirects",
       "sortOrder": 103,
       "key": "follow-host-redirects",
       "commandKey": "httpx"
@@ -1831,7 +1966,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-rhsts",
-      "longFlag": "--respect-hsts",
+      "longFlag": "-respect-hsts",
       "sortOrder": 104,
       "key": "respect-hsts",
       "commandKey": "httpx"
@@ -1844,7 +1979,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--vhost-input",
+      "longFlag": "-vhost-input",
       "sortOrder": 105,
       "key": "vhost-input",
       "commandKey": "httpx"
@@ -1857,7 +1992,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--x",
+      "longFlag": "-x",
       "sortOrder": 106,
       "key": "x",
       "commandKey": "httpx"
@@ -1870,7 +2005,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--body",
+      "longFlag": "-body",
       "sortOrder": 107,
       "key": "body",
       "commandKey": "httpx"
@@ -1884,7 +2019,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-s",
-      "longFlag": "--stream",
+      "longFlag": "-stream",
       "sortOrder": 108,
       "key": "stream",
       "commandKey": "httpx"
@@ -1898,7 +2033,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-sd",
-      "longFlag": "--skip-dedupe",
+      "longFlag": "-skip-dedupe",
       "sortOrder": 109,
       "key": "skip-dedupe",
       "commandKey": "httpx"
@@ -1912,7 +2047,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-ldp",
-      "longFlag": "--leave-default-ports",
+      "longFlag": "-leave-default-ports",
       "sortOrder": 110,
       "key": "leave-default-ports",
       "commandKey": "httpx"
@@ -1925,7 +2060,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--ztls",
+      "longFlag": "-ztls",
       "sortOrder": 111,
       "key": "ztls",
       "commandKey": "httpx"
@@ -1938,7 +2073,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--no-decode",
+      "longFlag": "-no-decode",
       "sortOrder": 112,
       "key": "no-decode",
       "commandKey": "httpx"
@@ -1952,7 +2087,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-tlsi",
-      "longFlag": "--tls-impersonate",
+      "longFlag": "-tls-impersonate",
       "sortOrder": 113,
       "key": "tls-impersonate",
       "commandKey": "httpx"
@@ -1965,7 +2100,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--no-stdin",
+      "longFlag": "-no-stdin",
       "sortOrder": 114,
       "key": "no-stdin",
       "commandKey": "httpx"
@@ -1979,9 +2114,23 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-hae",
-      "longFlag": "--http-api-endpoint",
+      "longFlag": "-http-api-endpoint",
       "sortOrder": 115,
       "key": "http-api-endpoint",
+      "commandKey": "httpx"
+    },
+    {
+      "name": "Secret file",
+      "description": "Path to the secret file for authentication.",
+      "parameterType": "Option",
+      "dataType": "String",
+      "isRequired": false,
+      "isRepeatable": false,
+      "isGlobal": false,
+      "shortFlag": "-sf",
+      "longFlag": "-secret-file",
+      "sortOrder": 115.5,
+      "key": "secret-file",
       "commandKey": "httpx"
     },
     {
@@ -1993,7 +2142,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-hc",
-      "longFlag": "--health-check",
+      "longFlag": "-health-check",
       "sortOrder": 116,
       "key": "health-check",
       "commandKey": "httpx"
@@ -2006,7 +2155,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--debug",
+      "longFlag": "-debug",
       "sortOrder": 117,
       "key": "debug",
       "commandKey": "httpx"
@@ -2019,7 +2168,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--debug-req",
+      "longFlag": "-debug-req",
       "sortOrder": 118,
       "key": "debug-req",
       "commandKey": "httpx"
@@ -2032,7 +2181,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--debug-resp",
+      "longFlag": "-debug-resp",
       "sortOrder": 119,
       "key": "debug-resp",
       "commandKey": "httpx"
@@ -2045,7 +2194,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--version",
+      "longFlag": "-version",
       "sortOrder": 120,
       "key": "version",
       "commandKey": "httpx"
@@ -2063,7 +2212,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--stats",
+      "longFlag": "-stats",
       "sortOrder": 121,
       "key": "stats",
       "commandKey": "httpx"
@@ -2076,7 +2225,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--profile-mem",
+      "longFlag": "-profile-mem",
       "sortOrder": 122,
       "key": "profile-mem",
       "commandKey": "httpx"
@@ -2094,7 +2243,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--silent",
+      "longFlag": "-silent",
       "sortOrder": 123,
       "key": "silent",
       "commandKey": "httpx"
@@ -2113,7 +2262,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-v",
-      "longFlag": "--verbose",
+      "longFlag": "-verbose",
       "sortOrder": 124,
       "key": "verbose",
       "commandKey": "httpx"
@@ -2132,7 +2281,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-si",
-      "longFlag": "--stats-interval",
+      "longFlag": "-stats-interval",
       "sortOrder": 125,
       "key": "stats-interval",
       "commandKey": "httpx"
@@ -2151,7 +2300,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-nc",
-      "longFlag": "--no-color",
+      "longFlag": "-no-color",
       "sortOrder": 126,
       "key": "no-color",
       "commandKey": "httpx"
@@ -2165,7 +2314,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-tr",
-      "longFlag": "--trace",
+      "longFlag": "-trace",
       "sortOrder": 127,
       "key": "trace",
       "commandKey": "httpx"
@@ -2179,7 +2328,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-nf",
-      "longFlag": "--no-fallback",
+      "longFlag": "-no-fallback",
       "sortOrder": 128,
       "key": "no-fallback",
       "commandKey": "httpx"
@@ -2193,7 +2342,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-nfs",
-      "longFlag": "--no-fallback-scheme",
+      "longFlag": "-no-fallback-scheme",
       "sortOrder": 129,
       "key": "no-fallback-scheme",
       "commandKey": "httpx"
@@ -2207,7 +2356,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-maxhr",
-      "longFlag": "--max-host-error",
+      "longFlag": "-max-host-error",
       "sortOrder": 130,
       "key": "max-host-error",
       "commandKey": "httpx"
@@ -2221,7 +2370,7 @@
       "isRepeatable": true,
       "isGlobal": false,
       "shortFlag": "-e",
-      "longFlag": "--exclude",
+      "longFlag": "-exclude",
       "sortOrder": 131,
       "key": "exclude",
       "commandKey": "httpx"
@@ -2234,7 +2383,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--retries",
+      "longFlag": "-retries",
       "sortOrder": 132,
       "key": "retries",
       "commandKey": "httpx"
@@ -2247,7 +2396,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--timeout",
+      "longFlag": "-timeout",
       "sortOrder": 133,
       "key": "timeout",
       "commandKey": "httpx"
@@ -2260,7 +2409,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--delay",
+      "longFlag": "-delay",
       "sortOrder": 134,
       "key": "delay",
       "commandKey": "httpx"
@@ -2274,7 +2423,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-rsts",
-      "longFlag": "--response-size-to-save",
+      "longFlag": "-response-size-to-save",
       "sortOrder": 135,
       "key": "response-size-to-save",
       "commandKey": "httpx"
@@ -2288,7 +2437,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-rstr",
-      "longFlag": "--response-size-to-read",
+      "longFlag": "-response-size-to-read",
       "sortOrder": 136,
       "key": "response-size-to-read",
       "commandKey": "httpx"
@@ -2301,7 +2450,7 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "longFlag": "--auth",
+      "longFlag": "-auth",
       "sortOrder": 137,
       "key": "auth",
       "commandKey": "httpx"
@@ -2320,7 +2469,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-ac",
-      "longFlag": "--auth-config",
+      "longFlag": "-auth-config",
       "sortOrder": 138,
       "key": "auth-config",
       "commandKey": "httpx"
@@ -2339,7 +2488,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-pd",
-      "longFlag": "--dashboard",
+      "longFlag": "-dashboard",
       "sortOrder": 139,
       "key": "dashboard",
       "commandKey": "httpx"
@@ -2353,7 +2502,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-tid",
-      "longFlag": "--team-id",
+      "longFlag": "-team-id",
       "sortOrder": 140,
       "key": "team-id",
       "commandKey": "httpx"
@@ -2367,7 +2516,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-aid",
-      "longFlag": "--asset-id",
+      "longFlag": "-asset-id",
       "sortOrder": 141,
       "key": "asset-id",
       "commandKey": "httpx"
@@ -2381,7 +2530,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-aname",
-      "longFlag": "--asset-name",
+      "longFlag": "-asset-name",
       "sortOrder": 142,
       "key": "asset-name",
       "commandKey": "httpx"
@@ -2401,7 +2550,7 @@
       "isRepeatable": false,
       "isGlobal": false,
       "shortFlag": "-pdu",
-      "longFlag": "--dashboard-upload",
+      "longFlag": "-dashboard-upload",
       "sortOrder": 143,
       "key": "dashboard-upload",
       "commandKey": "httpx"
