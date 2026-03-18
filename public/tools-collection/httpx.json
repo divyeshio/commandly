@@ -4,17 +4,6 @@
   "displayName": "Httpx",
   "description": "Httpx is a fast and multi-purpose HTTP toolkit that allows running multiple probes using the retryablehttp library.",
   "url": "https://github.com/projectdiscovery/httpx",
-  "metadata": {
-    "supportedInput": [
-      "StandardInput",
-      "Parameter"
-    ],
-    "supportedOutput": [
-      "StandardOutput",
-      "File",
-      "Directory"
-    ]
-  },
   "commands": [
     {
       "name": "httpx",
@@ -28,12 +17,6 @@
     {
       "name": "List",
       "description": "Input file containing list of hosts to process.",
-      "metadata": {
-        "tags": [
-          "target",
-          "non-configurable"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -48,12 +31,6 @@
     {
       "name": "Request",
       "description": "File containing raw request.",
-      "metadata": {
-        "tags": [
-          "target",
-          "non-configurable"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -68,12 +45,6 @@
     {
       "name": "Target",
       "description": "Input target host(s) to probe.",
-      "metadata": {
-        "tags": [
-          "target",
-          "non-configurable"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -88,12 +59,6 @@
     {
       "name": "Input mode",
       "description": "Mode of input file (burp).",
-      "metadata": {
-        "tags": [
-          "target",
-          "non-configurable"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -108,11 +73,6 @@
     {
       "name": "Status code",
       "description": "Display response status-code.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -127,11 +87,6 @@
     {
       "name": "Content length",
       "description": "Display response content-length.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -146,11 +101,6 @@
     {
       "name": "Content type",
       "description": "Display response content-type.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -165,11 +115,6 @@
     {
       "name": "Location",
       "description": "Display response redirect location.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -183,11 +128,6 @@
     {
       "name": "Favicon",
       "description": "Display mmh3 hash for '/favicon.ico' file.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -201,11 +141,6 @@
     {
       "name": "Hash",
       "description": "Display response body hash (supported: md5,mmh3,simhash,sha1,sha256,sha512).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -219,11 +154,6 @@
     {
       "name": "Jarm",
       "description": "Display jarm fingerprint hash.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -237,11 +167,6 @@
     {
       "name": "Response time",
       "description": "Display response time.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -256,11 +181,6 @@
     {
       "name": "Line count",
       "description": "Display response body line count.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -275,11 +195,6 @@
     {
       "name": "Word count",
       "description": "Display response body word count.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -294,11 +209,6 @@
     {
       "name": "Title",
       "description": "Display page title.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -312,11 +222,6 @@
     {
       "name": "Body preview",
       "description": "Display first N characters of response body (default 100).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -331,11 +236,6 @@
     {
       "name": "Server",
       "description": "Display server name.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -350,11 +250,6 @@
     {
       "name": "Tech detect",
       "description": "Display technology in use based on wappalyzer dataset.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -369,11 +264,6 @@
     {
       "name": "Custom fingerprint file",
       "description": "Path to a custom fingerprint file for technology detection.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -388,11 +278,6 @@
     {
       "name": "Cpe",
       "description": "Display CPE (Common Platform Enumeration) based on awesome-search-queries.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -406,11 +291,6 @@
     {
       "name": "Wordpress",
       "description": "Display WordPress plugins and themes.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -425,11 +305,6 @@
     {
       "name": "Method",
       "description": "Display http request method.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -443,11 +318,6 @@
     {
       "name": "Websocket",
       "description": "Display server using websocket.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -462,11 +332,6 @@
     {
       "name": "Ip",
       "description": "Display host ip.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -480,11 +345,6 @@
     {
       "name": "Cname",
       "description": "Display host cname.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -498,11 +358,6 @@
     {
       "name": "Extract fqdn",
       "description": "Get domain and subdomains from response body and header in jsonl/csv output.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -517,11 +372,6 @@
     {
       "name": "Asn",
       "description": "Display host asn information.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -535,11 +385,6 @@
     {
       "name": "Cdn",
       "description": "Display cdn/waf in use (default true).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -553,11 +398,6 @@
     {
       "name": "Probe",
       "description": "Display probe status.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -571,11 +411,6 @@
     {
       "name": "Screenshot",
       "description": "Enable saving screenshot of the page using headless browser.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -590,11 +425,6 @@
     {
       "name": "System chrome",
       "description": "Enable using local installed chrome for screenshot.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -608,11 +438,6 @@
     {
       "name": "Headless options",
       "description": "Start headless chrome with additional options.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -627,11 +452,6 @@
     {
       "name": "Exclude screenshot bytes",
       "description": "Enable excluding screenshot bytes from json output.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -646,11 +466,6 @@
     {
       "name": "No screenshot full page",
       "description": "Disable saving full page screenshot.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -664,11 +479,6 @@
     {
       "name": "Exclude headless body",
       "description": "Enable excluding headless header from json output.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -683,11 +493,6 @@
     {
       "name": "Screenshot timeout",
       "description": "Set timeout for screenshot in seconds (default 10s).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -702,11 +507,6 @@
     {
       "name": "Screenshot idle",
       "description": "Set idle time before taking screenshot in seconds (default 1s).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -721,11 +521,6 @@
     {
       "name": "Javascript code",
       "description": "Execute JavaScript code after navigation.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -740,11 +535,6 @@
     {
       "name": "Match code",
       "description": "Match response with specified status code (-mc 200,302).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -759,11 +549,6 @@
     {
       "name": "Match length",
       "description": "Match response with specified content length (-ml 100,102).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -778,11 +563,6 @@
     {
       "name": "Match line count",
       "description": "Match response body with specified line count (-mlc 423,532).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -797,11 +577,6 @@
     {
       "name": "Match word count",
       "description": "Match response body with specified word count (-mwc 43,55).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -816,11 +591,6 @@
     {
       "name": "Match favicon",
       "description": "Match response with specified favicon hash (-mfc 1494302000).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -835,11 +605,6 @@
     {
       "name": "Match string",
       "description": "Match response with specified string (-ms admin).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -854,11 +619,6 @@
     {
       "name": "Match regex",
       "description": "Match response with specified regex (-mr admin).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -873,11 +633,6 @@
     {
       "name": "Match cdn",
       "description": "Match host with specified cdn provider (cloudfront, fastly, google).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -892,11 +647,6 @@
     {
       "name": "Match response time",
       "description": "Match response with specified response time in seconds (-mrt '< 1').",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -911,11 +661,6 @@
     {
       "name": "Match condition",
       "description": "Match response with dsl expression condition.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -930,11 +675,6 @@
     {
       "name": "Extract regex",
       "description": "Display response content with matched regex.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -949,11 +689,6 @@
     {
       "name": "Extract preset",
       "description": "Display response content matched by a pre-defined regex (url,ipv4,mail).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -968,11 +703,6 @@
     {
       "name": "Filter code",
       "description": "Filter response with specified status code (-fc 403,401).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -987,11 +717,6 @@
     {
       "name": "Filter error page",
       "description": "Filter response with ML based error page detection.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -1006,11 +731,6 @@
     {
       "name": "Filter duplicates",
       "description": "Filter out near-duplicate responses (only first response is retained).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -1025,11 +745,6 @@
     {
       "name": "Filter length",
       "description": "Filter response with specified content length (-fl 23,33).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -1044,11 +759,6 @@
     {
       "name": "Filter line count",
       "description": "Filter response body with specified line count (-flc 423,532).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -1063,11 +773,6 @@
     {
       "name": "Filter word count",
       "description": "Filter response body with specified word count (-fwc 423,532).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -1082,11 +787,6 @@
     {
       "name": "Filter favicon",
       "description": "Filter response with specified favicon hash (-ffc 1494302000).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -1101,11 +801,6 @@
     {
       "name": "Filter string",
       "description": "Filter response with specified string (-fs admin).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -1120,11 +815,6 @@
     {
       "name": "Filter regex",
       "description": "Filter response with specified regex (-fe admin).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -1139,11 +829,6 @@
     {
       "name": "Filter cdn",
       "description": "Filter host with specified cdn provider (cloudfront, fastly, google).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -1158,11 +843,6 @@
     {
       "name": "Filter response time",
       "description": "Filter response with specified response time in seconds (-frt '> 1').",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -1177,11 +857,6 @@
     {
       "name": "Filter condition",
       "description": "Filter response with dsl expression condition.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -1196,11 +871,6 @@
     {
       "name": "Strip",
       "description": "Strips all tags in response. Supported formats: html,xml (default html).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -1214,11 +884,6 @@
     {
       "name": "List output fields",
       "description": "List of fields to output (comma separated).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -1233,11 +898,6 @@
     {
       "name": "Exclude output fields",
       "description": "Exclude output fields output based on a condition.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -1427,11 +1087,6 @@
     {
       "name": "Update",
       "description": "Update httpx to latest version.",
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -1446,11 +1101,6 @@
     {
       "name": "Disable update check",
       "description": "Disable automatic httpx update check.",
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -1465,12 +1115,6 @@
     {
       "name": "Output",
       "description": "File to write output results.",
-      "metadata": {
-        "tags": [
-          "output",
-          "output-file"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -1485,12 +1129,6 @@
     {
       "name": "Output all",
       "description": "Filename to write output results in all formats.",
-      "metadata": {
-        "tags": [
-          "output",
-          "output-file"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -1505,12 +1143,6 @@
     {
       "name": "Store response",
       "description": "Store http response to output directory.",
-      "metadata": {
-        "tags": [
-          "output",
-          "output-directory"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -1525,12 +1157,6 @@
     {
       "name": "Store response dir",
       "description": "Store http response to custom directory.",
-      "metadata": {
-        "tags": [
-          "output",
-          "output-directory"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -1545,11 +1171,6 @@
     {
       "name": "Omit body",
       "description": "Omit response body in output.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -1564,11 +1185,6 @@
     {
       "name": "Csv",
       "description": "Store output in csv format.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -1582,11 +1198,6 @@
     {
       "name": "Csv output encoding",
       "description": "Define output encoding.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -1601,11 +1212,6 @@
     {
       "name": "Json",
       "description": "Store output in JSONL(ines) format.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -1620,11 +1226,6 @@
     {
       "name": "Include response header",
       "description": "Include http response (headers) in JSON output (-json only).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -1639,11 +1240,6 @@
     {
       "name": "Include response",
       "description": "Include http request/response (headers + body) in JSON output (-json only).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -1658,11 +1254,6 @@
     {
       "name": "Include response base64",
       "description": "Include base64 encoded http request/response in JSON output (-json only).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -1677,11 +1268,6 @@
     {
       "name": "Include chain",
       "description": "Include redirect http chain in JSON output (-json only).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -1695,11 +1281,6 @@
     {
       "name": "Store chain",
       "description": "Include http redirect chain in responses (-sr only).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -1713,11 +1294,6 @@
     {
       "name": "Store vision recon cluster",
       "description": "Include visual recon clusters (-ss and -sr only).",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -1746,12 +1322,6 @@
     {
       "name": "Filter error page path",
       "description": "Path to store filtered error pages (default \"filtered_error_page.json\").",
-      "metadata": {
-        "tags": [
-          "output",
-          "output-file"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -1766,11 +1336,6 @@
     {
       "name": "Config",
       "description": "Path to the httpx configuration file (default $HOME/.config/httpx/config.yaml).",
-      "metadata": {
-        "tags": [
-          "configuration-file"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -2202,11 +1767,6 @@
     {
       "name": "Stats",
       "description": "Display scan statistic.",
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -2233,11 +1793,6 @@
     {
       "name": "Silent",
       "description": "Silent mode.",
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -2251,11 +1806,6 @@
     {
       "name": "Verbose",
       "description": "Verbose mode.",
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -2270,11 +1820,6 @@
     {
       "name": "Stats interval",
       "description": "Number of seconds to wait between showing a statistics update (default: 5).",
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "Number",
       "isRequired": false,
@@ -2289,11 +1834,6 @@
     {
       "name": "No color",
       "description": "Disable colors in cli output.",
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -2458,11 +1998,6 @@
     {
       "name": "Auth config",
       "description": "Configure projectdiscovery cloud (pdcp) api key credential file.",
-      "metadata": {
-        "tags": [
-          "configuration-file"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -2477,11 +2012,6 @@
     {
       "name": "Dashboard",
       "description": "Upload / view output in projectdiscovery cloud (pdcp) UI dashboard.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -2538,12 +2068,6 @@
     {
       "name": "Dashboard upload",
       "description": "Upload httpx output file (jsonl) in projectdiscovery cloud (pdcp) UI dashboard.",
-      "metadata": {
-        "tags": [
-          "output",
-          "output-file"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,

@@ -17,12 +17,6 @@
     {
       "name": "Target",
       "description": "URL to download.",
-      "metadata": {
-        "tags": [
-          "target",
-          "non-configurable"
-        ]
-      },
       "parameterType": "Argument",
       "dataType": "String",
       "isRequired": true,
@@ -36,12 +30,6 @@
     {
       "name": "Output",
       "description": "Write to file instead of stdout.",
-      "metadata": {
-        "tags": [
-          "output",
-          "output-file"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -64,7 +52,6 @@
       "isGlobal": false,
       "shortFlag": "-L",
       "longFlag": "--location",
-      "defaultValue": "true",
       "sortOrder": 1,
       "key": "location",
       "commandKey": "curl"
@@ -79,7 +66,6 @@
       "isGlobal": false,
       "shortFlag": "-s",
       "longFlag": "--silent",
-      "defaultValue": "true",
       "sortOrder": 2,
       "key": "silent",
       "commandKey": "curl"
@@ -94,7 +80,6 @@
       "isGlobal": false,
       "shortFlag": "-k",
       "longFlag": "--insecure",
-      "defaultValue": "true",
       "sortOrder": 3,
       "key": "insecure",
       "commandKey": "curl"

@@ -4,17 +4,6 @@
   "displayName": "Katana",
   "description": "Katana is a fast crawler focused on execution in automation pipelines offering both headless and non-headless crawling.",
   "url": "https://github.com/projectdiscovery/katana",
-  "metadata": {
-    "supportedInput": [
-      "StandardInput",
-      "Parameter"
-    ],
-    "supportedOutput": [
-      "StandardOutput",
-      "File",
-      "Directory"
-    ]
-  },
   "commands": [
     {
       "name": "katana",
@@ -28,12 +17,6 @@
     {
       "name": "List",
       "description": "Target url / list to crawl.",
-      "metadata": {
-        "tags": [
-          "target",
-          "non-configurable"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -59,12 +42,6 @@
     {
       "name": "Exclude",
       "description": "Exclude host matching specified filter ('cdn', 'private-ips', cidr, ip, regex).",
-      "metadata": {
-        "tags": [
-          "target",
-          "non-configurable"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -78,11 +55,6 @@
     {
       "name": "Resolvers",
       "description": "List of custom resolver (file or comma separated).",
-      "metadata": {
-        "tags": [
-          "configuration-file"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -101,7 +73,6 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "3",
       "shortFlag": "-d",
       "longFlag": "-depth",
       "key": "depth",
@@ -141,7 +112,6 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "s",
       "shortFlag": "-ct",
       "longFlag": "-crawl-duration",
       "key": "crawl-duration",
@@ -168,7 +138,6 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "4194304",
       "shortFlag": "-mrs",
       "longFlag": "-max-response-size",
       "key": "max-response-size",
@@ -182,7 +151,6 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "10",
       "longFlag": "-timeout",
       "key": "timeout",
       "commandKey": "katana"
@@ -221,7 +189,6 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "1",
       "longFlag": "-retry",
       "key": "retry",
       "commandKey": "katana"
@@ -254,11 +221,6 @@
     {
       "name": "Headers",
       "description": "Custom header/cookie to include in all http request in header:value format (file).",
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -272,11 +234,6 @@
     {
       "name": "Config",
       "description": "Path to the katana configuration file.",
-      "metadata": {
-        "tags": [
-          "configuration-file"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -289,11 +246,6 @@
     {
       "name": "Form-config",
       "description": "Path to custom form configuration file.",
-      "metadata": {
-        "tags": [
-          "configuration-file"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -307,11 +259,6 @@
     {
       "name": "Field-config",
       "description": "Path to custom field configuration file.",
-      "metadata": {
-        "tags": [
-          "configuration-file"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -330,7 +277,6 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "depth-first",
       "shortFlag": "-s",
       "longFlag": "-strategy",
       "key": "strategy",
@@ -370,7 +316,6 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "false",
       "shortFlag": "-dr",
       "longFlag": "-disable-redirects",
       "key": "disable-redirects",
@@ -392,11 +337,6 @@
     {
       "name": "Error-log",
       "description": "File to write sent requests error log.",
-      "metadata": {
-        "tags": [
-          "output-file"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -487,11 +427,6 @@
     {
       "name": "Chrome-data-dir",
       "description": "Path to store chrome browser data.",
-      "metadata": {
-        "tags": [
-          "output-directory"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -557,12 +492,6 @@
     {
       "name": "Crawl-scope",
       "description": "In scope url regex to be followed by crawler.",
-      "metadata": {
-        "tags": [
-          "target",
-          "non-configurable"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -576,12 +505,6 @@
     {
       "name": "Crawl-out-scope",
       "description": "Out of scope url regex to be excluded by crawler.",
-      "metadata": {
-        "tags": [
-          "target",
-          "non-configurable"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -600,7 +523,6 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "rdn",
       "shortFlag": "-fs",
       "longFlag": "-field-scope",
       "key": "field-scope",
@@ -661,11 +583,6 @@
     {
       "name": "Field",
       "description": "Field to display in output.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -679,11 +596,6 @@
     {
       "name": "Store-field",
       "description": "Field to store in per-host output.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -754,7 +666,6 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "10",
       "shortFlag": "-c",
       "longFlag": "-concurrency",
       "key": "concurrency",
@@ -768,7 +679,6 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "10",
       "shortFlag": "-p",
       "longFlag": "-parallelism",
       "key": "parallelism",
@@ -795,7 +705,6 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "150",
       "shortFlag": "-rl",
       "longFlag": "-rate-limit",
       "key": "rate-limit",
@@ -830,11 +739,6 @@
     {
       "name": "Disable-update-check",
       "description": "Disable automatic katana update check.",
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -848,12 +752,6 @@
     {
       "name": "Output",
       "description": "File to write output to.",
-      "metadata": {
-        "tags": [
-          "output",
-          "output-file"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -867,11 +765,6 @@
     {
       "name": "Output-template",
       "description": "Custom output template.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -898,11 +791,6 @@
     {
       "name": "Store-response-dir",
       "description": "Store http requests/responses to custom directory.",
-      "metadata": {
-        "tags": [
-          "output-directory"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -929,11 +817,6 @@
     {
       "name": "Store-field-dir",
       "description": "Store per-host field to custom directory.",
-      "metadata": {
-        "tags": [
-          "output-directory"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -947,11 +830,6 @@
     {
       "name": "Omit-raw",
       "description": "Omit raw requests/responses from jsonl output.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -965,11 +843,6 @@
     {
       "name": "Omit-body",
       "description": "Omit response body from jsonl output.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -983,11 +856,6 @@
     {
       "name": "Jsonl",
       "description": "Write output in jsonl format.",
-      "metadata": {
-        "tags": [
-          "output"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -1001,11 +869,6 @@
     {
       "name": "No-color",
       "description": "Disable output content coloring.",
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -1019,11 +882,6 @@
     {
       "name": "Silent",
       "description": "Display output only.",
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -1036,11 +894,6 @@
     {
       "name": "Verbose",
       "description": "Display verbose output.",
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -1054,11 +907,6 @@
     {
       "name": "Debug",
       "description": "Display debug output.",
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -1071,11 +919,6 @@
     {
       "name": "Version",
       "description": "Display project version.",
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -1087,4 +930,3 @@
     }
   ]
 }
-

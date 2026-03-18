@@ -4,14 +4,6 @@
   "displayName": "DNSX",
   "description": "A fast and multi-purpose DNS toolkit designed for running DNS queries.",
   "url": "https://github.com/projectdiscovery/dnsx",
-  "metadata": {
-    "supportedInput": [
-      "StandardInput"
-    ],
-    "supportedOutput": [
-      "StandardOutput"
-    ]
-  },
   "commands": [
     {
       "name": "dnsx",
@@ -225,7 +217,6 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "none",
       "shortFlag": "-e",
       "longFlag": "-exclude-type",
       "key": "exclude-type",
@@ -302,7 +293,6 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "100",
       "shortFlag": "-t",
       "longFlag": "-threads",
       "key": "threads",
@@ -316,7 +306,6 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "-1",
       "shortFlag": "-rl",
       "longFlag": "-rate-limit",
       "key": "rate-limit",
@@ -429,7 +418,6 @@
       "description": "Show only results in CLI output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "defaultValue": "true",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
@@ -464,5 +452,3 @@
     }
   ]
 }
-
-

@@ -3,15 +3,6 @@
   "name": "asnmap",
   "displayName": "ASNMap",
   "description": "Go CLI and Library for quickly mapping organization network ranges using ASN information.",
-  "metadata": {
-    "supportedInput": [
-      "Parameter"
-    ],
-    "supportedOutput": [
-      "StandardOutput",
-      "File"
-    ]
-  },
   "url": "https://github.com/projectdiscovery/asnmap",
   "commands": [
     {
@@ -26,17 +17,11 @@
     {
       "name": "Asn",
       "description": "target asn to lookup, example: -a AS5650",
-      "metadata": {
-        "tags": [
-          "INPUT"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": false,
-      "defaultValue": "",
       "shortFlag": "-a",
       "longFlag": "-asn",
       "sortOrder": 1,
@@ -48,17 +33,11 @@
     {
       "name": "Ip",
       "description": "target ip to lookup, example: -i 100.19.12.21, -i 2a10:ad40::",
-      "metadata": {
-        "tags": [
-          "INPUT"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": false,
-      "defaultValue": "",
       "shortFlag": "-i",
       "longFlag": "-ip",
       "sortOrder": 2,
@@ -70,17 +49,11 @@
     {
       "name": "Domain",
       "description": "target domain to lookup, example: -d google.com, -d facebook.com",
-      "metadata": {
-        "tags": [
-          "INPUT"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": false,
-      "defaultValue": "",
       "shortFlag": "-d",
       "longFlag": "-domain",
       "sortOrder": 3,
@@ -92,17 +65,11 @@
     {
       "name": "Org",
       "description": "target organization to lookup, example: -org GOOGLE",
-      "metadata": {
-        "tags": [
-          "INPUT"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": false,
-      "defaultValue": "",
       "longFlag": "-org",
       "sortOrder": 4,
       "arraySeparator": ",",
@@ -113,17 +80,11 @@
     {
       "name": "File",
       "description": "targets to lookup from file",
-      "metadata": {
-        "tags": [
-          "INPUT"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": false,
-      "defaultValue": "",
       "shortFlag": "-f",
       "longFlag": "-file",
       "sortOrder": 5,
@@ -135,17 +96,11 @@
     {
       "name": "Config",
       "description": "path to the asnmap configuration file",
-      "metadata": {
-        "tags": [
-          "CONFIGURATIONS"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "",
       "longFlag": "-config",
       "sortOrder": 6,
       "keyValueSeparator": " ",
@@ -155,17 +110,11 @@
     {
       "name": "Resolvers",
       "description": "list of resolvers to use",
-      "metadata": {
-        "tags": [
-          "CONFIGURATIONS"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": false,
-      "defaultValue": "",
       "shortFlag": "-r",
       "longFlag": "-resolvers",
       "sortOrder": 7,
@@ -177,17 +126,11 @@
     {
       "name": "Up",
       "description": "update asnmap to latest version",
-      "metadata": {
-        "tags": [
-          "UPDATE"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "",
       "shortFlag": "-up",
       "longFlag": "-update",
       "sortOrder": 8,
@@ -197,17 +140,11 @@
     {
       "name": "Duc",
       "description": "disable automatic asnmap update check",
-      "metadata": {
-        "tags": [
-          "UPDATE"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "",
       "shortFlag": "-duc",
       "longFlag": "-disable-update-check",
       "sortOrder": 9,
@@ -217,17 +154,11 @@
     {
       "name": "Output File",
       "description": "file to write output to",
-      "metadata": {
-        "tags": [
-          "OUTPUT"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "",
       "shortFlag": "-o",
       "longFlag": "-output",
       "sortOrder": 10,
@@ -238,17 +169,11 @@
     {
       "name": "Json Output",
       "description": "display json format output",
-      "metadata": {
-        "tags": [
-          "OUTPUT"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "",
       "shortFlag": "-j",
       "longFlag": "-json",
       "sortOrder": 11,
@@ -258,17 +183,11 @@
     {
       "name": "CSV Output",
       "description": "display csv format output",
-      "metadata": {
-        "tags": [
-          "OUTPUT"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "",
       "shortFlag": "-c",
       "longFlag": "-csv",
       "sortOrder": 12,
@@ -278,17 +197,11 @@
     {
       "name": "V6",
       "description": "display ipv6 cidr ranges in cli output",
-      "metadata": {
-        "tags": [
-          "OUTPUT"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "",
       "longFlag": "-v6",
       "sortOrder": 13,
       "key": "v6",
@@ -297,17 +210,11 @@
     {
       "name": "Verbose Output",
       "description": "display verbose output",
-      "metadata": {
-        "tags": [
-          "OUTPUT"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "",
       "shortFlag": "-v",
       "longFlag": "-verbose",
       "sortOrder": 14,
@@ -317,17 +224,11 @@
     {
       "name": "Silent",
       "description": "display silent output",
-      "metadata": {
-        "tags": [
-          "OUTPUT"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "",
       "longFlag": "-silent",
       "sortOrder": 15,
       "key": "silent",
@@ -336,17 +237,11 @@
     {
       "name": "Version",
       "description": "show version of the project",
-      "metadata": {
-        "tags": [
-          "OUTPUT"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "",
       "longFlag": "-version",
       "sortOrder": 16,
       "key": "version",
@@ -354,4 +249,3 @@
     }
   ]
 }
-

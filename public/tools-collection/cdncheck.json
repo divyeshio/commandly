@@ -4,15 +4,6 @@
   "displayName": "CDNCheck",
   "description": "cdncheck is a tool for identifying the technology associated with dns / ip network addresses.",
   "url": "https://github.com/projectdiscovery/cdncheck",
-  "metadata": {
-    "supportedInput": [
-      "Parameter"
-    ],
-    "supportedOutput": [
-      "StandardOutput",
-      "File"
-    ]
-  },
   "commands": [
     {
       "name": "cdncheck",
@@ -290,7 +281,6 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "2",
       "longFlag": "-retry",
       "sortOrder": 20,
       "key": "retry",
@@ -350,4 +340,3 @@
     }
   ]
 }
-

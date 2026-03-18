@@ -4,15 +4,6 @@
   "displayName": "Subfinder",
   "description": "Subfinder is a subdomain discovery tool that discovers subdomains for websites by using passive online sources.",
   "url": "https://github.com/projectdiscovery/subfinder",
-  "metadata": {
-    "supportedInput": [
-      "StandardInput",
-      "Parameter"
-    ],
-    "supportedOutput": [
-      "StandardOutput"
-    ]
-  },
   "commands": [
     {
       "name": "subfinder",
@@ -34,12 +25,6 @@
       "isRequired": false,
       "isRepeatable": true,
       "isGlobal": false,
-      "metadata": {
-        "tags": [
-          "target",
-          "non-configurable"
-        ]
-      },
       "key": "domain",
       "commandKey": "domain"
     },
@@ -63,7 +48,6 @@
       "longFlag": "-recursive",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "defaultValue": "false",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
@@ -80,12 +64,6 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {
-        "tags": [
-          "non-configurable",
-          "target-list"
-        ]
-      },
       "key": "list",
       "commandKey": "domain"
     },
@@ -99,12 +77,6 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {
-        "tags": [
-          "output-directory",
-          "non-configurable"
-        ]
-      },
       "key": "output-dir",
       "commandKey": "domain"
     },
@@ -114,15 +86,9 @@
       "longFlag": "-stats",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "defaultValue": "false",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "key": "stats",
       "commandKey": "domain"
     },
@@ -132,7 +98,6 @@
       "longFlag": "-timeout",
       "parameterType": "Option",
       "dataType": "Number",
-      "defaultValue": "30",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
@@ -159,15 +124,9 @@
       "shortFlag": "-up",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "defaultValue": "false",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "key": "update",
       "commandKey": "domain"
     },
@@ -177,15 +136,9 @@
       "longFlag": "-version",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "defaultValue": "false",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "key": "version",
       "commandKey": "domain"
     },
@@ -196,7 +149,6 @@
       "shortFlag": "-ei",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "defaultValue": "false",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
@@ -222,15 +174,9 @@
       "shortFlag": "-nc",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "defaultValue": "true",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "key": "no-color",
       "commandKey": "domain"
     },
@@ -255,7 +201,6 @@
       "shortFlag": "-oI",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "defaultValue": "false",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
@@ -269,7 +214,6 @@
       "shortFlag": "-nW",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "defaultValue": "false",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
@@ -297,15 +241,9 @@
       "shortFlag": "-duc",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "defaultValue": "true",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "key": "disable-update-check",
       "commandKey": "domain"
     },
@@ -316,7 +254,6 @@
       "shortFlag": "-cs",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "defaultValue": "false",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
@@ -333,11 +270,6 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {
-        "tags": [
-          "output-file"
-        ]
-      },
       "key": "output",
       "commandKey": "domain"
     },
@@ -347,15 +279,9 @@
       "longFlag": "-v",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "defaultValue": "false",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "key": "v",
       "commandKey": "domain"
     },
@@ -379,7 +305,6 @@
       "shortFlag": "-oJ",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "defaultValue": "false",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
@@ -392,15 +317,9 @@
       "longFlag": "-config",
       "parameterType": "Option",
       "dataType": "String",
-      "defaultValue": "",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {
-        "tags": [
-          "configuration-file"
-        ]
-      },
       "key": "config",
       "commandKey": "domain"
     },
@@ -437,7 +356,6 @@
       "longFlag": "-silent",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "defaultValue": "true",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
@@ -451,7 +369,6 @@
       "longFlag": "-all",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "defaultValue": "true",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
@@ -465,7 +382,6 @@
       "shortFlag": "-ls",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "defaultValue": "false",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
@@ -492,7 +408,6 @@
       "longFlag": "-max-time",
       "parameterType": "Option",
       "dataType": "Number",
-      "defaultValue": "10",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
@@ -505,7 +420,6 @@
       "longFlag": "-t",
       "parameterType": "Option",
       "dataType": "Number",
-      "defaultValue": "10",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
@@ -519,19 +433,11 @@
       "shortFlag": "-pc",
       "parameterType": "Option",
       "dataType": "String",
-      "defaultValue": "",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "metadata": {
-        "tags": [
-          "configuration-file"
-        ]
-      },
       "key": "provider-config",
       "commandKey": "domain"
     }
   ]
 }
-
-

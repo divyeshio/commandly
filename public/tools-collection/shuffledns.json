@@ -4,15 +4,6 @@
   "displayName": "ShuffleDNS",
   "description": "MassDNS wrapper written in go to enumerate valid subdomains using active bruteforce as well as resolve subdomains with wildcard filtering and easy input-output support.",
   "url": "https://github.com/projectdiscovery/shuffledns",
-  "metadata": {
-    "supportedInput": [
-      "Parameter"
-    ],
-    "supportedOutput": [
-      "StandardOutput",
-      "File"
-    ]
-  },
   "commands": [
     {
       "name": "shuffledns",
@@ -128,7 +119,6 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "10000",
       "shortFlag": "-t",
       "longFlag": "-t",
       "sortOrder": 8,
@@ -254,7 +244,6 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "5",
       "longFlag": "-retries",
       "sortOrder": 17,
       "key": "retries",
@@ -282,7 +271,6 @@
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "250",
       "longFlag": "-wt",
       "sortOrder": 19,
       "key": "wt",
@@ -344,4 +332,3 @@
     }
   ]
 }
-

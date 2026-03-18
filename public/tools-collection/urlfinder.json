@@ -4,15 +4,6 @@
   "displayName": "URLFinder",
   "description": "A streamlined tool for discovering associated URLs.",
   "url": "https://github.com/projectdiscovery/urlfinder",
-  "metadata": {
-    "supportedInput": [
-      "StandardInput",
-      "Parameter"
-    ],
-    "supportedOutput": [
-      "StandardOutput"
-    ]
-  },
   "commands": [
     {
       "name": "urlfinder",
@@ -26,11 +17,6 @@
     {
       "name": "Domain",
       "description": "Target domain",
-      "metadata": {
-        "tags": [
-          "target"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -45,11 +31,6 @@
     {
       "name": "List of Domains",
       "description": "Target domain list",
-      "metadata": {
-        "tags": [
-          "target-list"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -94,7 +75,6 @@
       "description": "Use all sources (may be slower)",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "defaultValue": "true",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
@@ -105,11 +85,6 @@
     {
       "name": "Url-scope",
       "description": "In scope url regex to be followed by urlfinder",
-      "metadata": {
-        "tags": [
-          "SCOPE"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -124,11 +99,6 @@
     {
       "name": "Url-out-scope",
       "description": "Out of scope url regex to be excluded by urlfinder",
-      "metadata": {
-        "tags": [
-          "SCOPE"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -143,17 +113,11 @@
     {
       "name": "Field-scope",
       "description": "Pre-defined scope field (dn,rdn,fqdn) or custom regex (e.g., '(company-staging.io|company.com)')",
-      "metadata": {
-        "tags": [
-          "SCOPE"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
       "isRepeatable": false,
       "isGlobal": false,
-      "defaultValue": "",
       "shortFlag": "-fs",
       "longFlag": "-field-scope",
       "key": "field-scope",
@@ -162,11 +126,6 @@
     {
       "name": "No-scope",
       "description": "Disables host based default scope",
-      "metadata": {
-        "tags": [
-          "SCOPE"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -180,11 +139,6 @@
     {
       "name": "Display-out-scope",
       "description": "Display external endpoint from scoped crawling",
-      "metadata": {
-        "tags": [
-          "SCOPE"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -198,11 +152,6 @@
     {
       "name": "Match",
       "description": "URLs or list to match (file or comma-separated)",
-      "metadata": {
-        "tags": [
-          "FILTER"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -217,11 +166,6 @@
     {
       "name": "Filter",
       "description": "URLs or list to filter (file or comma-separated)",
-      "metadata": {
-        "tags": [
-          "FILTER"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -236,11 +180,6 @@
     {
       "name": "Rate-limit",
       "description": "Max HTTP requests per second (global)",
-      "metadata": {
-        "tags": [
-          "RATE-LIMIT"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "Number",
       "isRequired": false,
@@ -254,11 +193,6 @@
     {
       "name": "Rate-limits",
       "description": "Per-provider HTTP request limits (e.g., -rls waybackarchive=15/m)",
-      "metadata": {
-        "tags": [
-          "RATE-LIMIT"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "String",
       "isRequired": false,
@@ -272,11 +206,6 @@
     {
       "name": "Update",
       "description": "Update URLFinder to the latest version",
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -284,18 +213,12 @@
       "isGlobal": false,
       "shortFlag": "-up",
       "longFlag": "-update",
-      "defaultValue": "false",
       "key": "update",
       "commandKey": "urlfinder"
     },
     {
       "name": "Verbose",
       "description": "Enable verbose output",
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -303,18 +226,12 @@
       "isGlobal": false,
       "shortFlag": "-v",
       "longFlag": "-verbose",
-      "defaultValue": "false",
       "key": "verbose",
       "commandKey": "urlfinder"
     },
     {
       "name": "Silent",
       "description": "Suppress output",
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -322,18 +239,12 @@
       "isGlobal": false,
       "shortFlag": "-s",
       "longFlag": "-silent",
-      "defaultValue": "true",
       "key": "silent",
       "commandKey": "urlfinder"
     },
     {
       "name": "Timeout",
       "description": "Timeout for HTTP requests (in seconds)",
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "parameterType": "Option",
       "dataType": "Number",
       "isRequired": false,
@@ -341,18 +252,12 @@
       "isGlobal": false,
       "shortFlag": "-to",
       "longFlag": "-timeout",
-      "defaultValue": "5",
       "key": "timeout",
       "commandKey": "urlfinder"
     },
     {
       "name": "Json",
       "description": "Output in JSON format",
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -360,18 +265,12 @@
       "isGlobal": false,
       "shortFlag": "-j",
       "longFlag": "-json",
-      "defaultValue": "false",
       "key": "json",
       "commandKey": "urlfinder"
     },
     {
       "name": "Csv",
       "description": "Output in CSV format",
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -379,18 +278,12 @@
       "isGlobal": false,
       "shortFlag": "-csv",
       "longFlag": "-csv",
-      "defaultValue": "false",
       "key": "csv",
       "commandKey": "urlfinder"
     },
     {
       "name": "Version",
       "description": "Display URLFinder version",
-      "metadata": {
-        "tags": [
-          "non-configurable"
-        ]
-      },
       "parameterType": "Flag",
       "dataType": "Boolean",
       "isRequired": false,
@@ -398,10 +291,8 @@
       "isGlobal": false,
       "shortFlag": "-vrs",
       "longFlag": "-version",
-      "defaultValue": "false",
       "key": "version",
       "commandKey": "urlfinder"
     }
   ]
 }
-
