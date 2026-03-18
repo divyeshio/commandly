@@ -40,8 +40,6 @@ describe("exportToStructuredJSON", () => {
     const tool = defaultTool();
     tool.parameters[0].enumValues = [
       {
-        key: "ev1",
-        parameterKey: "--help",
         value: "val",
         displayName: "Val",
         description: "",
@@ -58,7 +56,6 @@ describe("exportToStructuredJSON", () => {
     tool.parameters[0].validations = [
       {
         key: "v1",
-        parameterKey: "--help",
         validationType: "min_length",
         validationValue: "3",
         errorMessage: "Too short",
@@ -97,7 +94,6 @@ describe("convertToNestedStructure", () => {
     tool.parameters[0].validations = [
       {
         key: "v1",
-        parameterKey: "--help",
         validationType: "min_length",
         validationValue: "3",
         errorMessage: "Too short",

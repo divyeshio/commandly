@@ -151,7 +151,6 @@ export function ParameterDetailsDialog() {
     const validationValue = "1";
     const newValidation: ParameterValidation = {
       key: slugify(`${parameter.key}-${validationType}-${validationValue}`),
-      parameterKey: parameter.key,
       validationType,
       validationValue,
       errorMessage: "Value is too short",

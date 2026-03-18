@@ -24,7 +24,6 @@ export type ParameterValidationType =
 
 export interface ParameterValidation {
   key: string;
-  parameterKey: string;
   validationType: ParameterValidationType;
   validationValue: string;
   errorMessage: string;
