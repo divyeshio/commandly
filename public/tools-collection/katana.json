@@ -2,7 +2,9 @@
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
   "name": "katana",
   "displayName": "Katana",
-  "description": "Katana is a fast crawler focused on execution in automation pipelines offering both headless and non-headless crawling.",
+  "info": {
+    "description": "Katana is a fast crawler focused on execution in automation pipelines offering both headless and non-headless crawling."
+  },
   "url": "https://github.com/projectdiscovery/katana",
   "commands": [
     {
@@ -129,20 +131,23 @@
       "longFlag": "-known-files",
       "key": "known-files",
       "commandKey": "katana",
-      "enumValues": [
-        {
-          "value": "all",
-          "displayName": "All"
-        },
-        {
-          "value": "robotstxt",
-          "displayName": "Robotstxt"
-        },
-        {
-          "value": "sitemapxml",
-          "displayName": "Sitemapxml"
-        }
-      ]
+      "enumValues": {
+        "values": [
+          {
+            "value": "all",
+            "displayName": "All"
+          },
+          {
+            "value": "robotstxt",
+            "displayName": "Robotstxt"
+          },
+          {
+            "value": "sitemapxml",
+            "displayName": "Sitemapxml"
+          }
+        ],
+        "allowMultiple": false
+      }
     },
     {
       "name": "Max-response-size",

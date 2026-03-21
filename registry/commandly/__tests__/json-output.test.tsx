@@ -1,6 +1,7 @@
 import { JsonOutput } from "../json-output";
+import { exportToStructuredJSON } from "../lib/utils/commandly";
+import { defaultTool } from "@/lib/utils";
 import type { Tool } from "@/registry/commandly/lib/types/commandly";
-import { defaultTool, exportToStructuredJSON } from "@/registry/commandly/lib/utils/commandly";
 import { convertToNestedStructure } from "@/registry/commandly/lib/utils/commandly-nested";
 import { render, screen } from "@testing-library/react";
 import { OnUrlUpdateFunction, withNuqsTestingAdapter } from "nuqs/adapters/testing";
@@ -38,17 +39,20 @@ describe("exportToStructuredJSON", () => {
 
   it("includes enumValues when non-empty", () => {
     const tool = defaultTool();
-    tool.parameters[0].enumValues = [
-      {
-        value: "val",
-        displayName: "Val",
-        description: "",
-        isDefault: true,
-        sortOrder: 0,
-      },
-    ];
+    tool.parameters[0].enumValues = {
+      values: [
+        {
+          value: "val",
+          displayName: "Val",
+          description: "",
+          isDefault: true,
+          sortOrder: 0,
+        },
+      ],
+      allowMultiple: false,
+    };
     const result = exportToStructuredJSON(tool);
-    expect(result.parameters[0].enumValues).toHaveLength(1);
+    expect(result.parameters[0].enumValues?.values).toHaveLength(1);
   });
 
   it("includes validations when non-empty", () => {

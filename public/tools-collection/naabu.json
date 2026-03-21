@@ -2,9 +2,11 @@
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
   "name": "naabu",
   "displayName": "Naabu",
-  "description": "Fast port scanner for discovering open ports on hosts.",
+  "info": {
+    "description": "Fast port scanner for discovering open ports on hosts.",
+    "version": "2.5.0"
+  },
   "url": "https://github.com/projectdiscovery/naabu",
-  "version": "2.5.0",
   "commands": [
     {
       "name": "naabu",
@@ -95,29 +97,32 @@
       "shortFlag": "-tp",
       "longFlag": "-top-ports",
       "sortOrder": 6,
-      "enumValues": [
-        {
-          "value": "full",
-          "displayName": "Full",
-          "description": "Scan full set of top ports.",
-          "isDefault": false,
-          "sortOrder": 1
-        },
-        {
-          "value": "100",
-          "displayName": "100",
-          "description": "Scan top 100 ports.",
-          "isDefault": true,
-          "sortOrder": 2
-        },
-        {
-          "value": "1000",
-          "displayName": "1000",
-          "description": "Scan top 1000 ports.",
-          "isDefault": false,
-          "sortOrder": 3
-        }
-      ],
+      "enumValues": {
+        "values": [
+          {
+            "value": "full",
+            "displayName": "Full",
+            "description": "Scan full set of top ports.",
+            "isDefault": false,
+            "sortOrder": 1
+          },
+          {
+            "value": "100",
+            "displayName": "100",
+            "description": "Scan top 100 ports.",
+            "isDefault": true,
+            "sortOrder": 2
+          },
+          {
+            "value": "1000",
+            "displayName": "1000",
+            "description": "Scan top 1000 ports.",
+            "isDefault": false,
+            "sortOrder": 3
+          }
+        ],
+        "allowMultiple": false
+      },
       "key": "top-ports",
       "commandKey": "naabu"
     },
@@ -324,22 +329,25 @@
       "shortFlag": "-iv",
       "longFlag": "-ip-version",
       "sortOrder": 21,
-      "enumValues": [
-        {
-          "value": "4",
-          "displayName": "4",
-          "description": "IPv4.",
-          "isDefault": true,
-          "sortOrder": 1
-        },
-        {
-          "value": "6",
-          "displayName": "6",
-          "description": "IPv6.",
-          "isDefault": false,
-          "sortOrder": 2
-        }
-      ],
+      "enumValues": {
+        "values": [
+          {
+            "value": "4",
+            "displayName": "4",
+            "description": "IPv4.",
+            "isDefault": true,
+            "sortOrder": 1
+          },
+          {
+            "value": "6",
+            "displayName": "6",
+            "description": "IPv6.",
+            "isDefault": false,
+            "sortOrder": 2
+          }
+        ],
+        "allowMultiple": false
+      },
       "key": "ip-version",
       "commandKey": "naabu"
     },
@@ -354,22 +362,25 @@
       "shortFlag": "-s",
       "longFlag": "-scan-type",
       "sortOrder": 22,
-      "enumValues": [
-        {
-          "value": "SYN",
-          "displayName": "SYN",
-          "description": "TCP SYN scan.",
-          "isDefault": false,
-          "sortOrder": 1
-        },
-        {
-          "value": "CONNECT",
-          "displayName": "CONNECT",
-          "description": "TCP connect scan.",
-          "isDefault": true,
-          "sortOrder": 2
-        }
-      ],
+      "enumValues": {
+        "values": [
+          {
+            "value": "SYN",
+            "displayName": "SYN",
+            "description": "TCP SYN scan.",
+            "isDefault": false,
+            "sortOrder": 1
+          },
+          {
+            "value": "CONNECT",
+            "displayName": "CONNECT",
+            "description": "TCP connect scan.",
+            "isDefault": true,
+            "sortOrder": 2
+          }
+        ],
+        "allowMultiple": false
+      },
       "key": "scan-type",
       "commandKey": "naabu"
     },

@@ -72,19 +72,34 @@ export function CommandDialog({ isOpen, onOpenChange }: CommandDialogProps) {
                 }
               />
             </div>
-            <div className="flex items-center space-x-2 pt-6">
-              <Switch
-                id="default-cmd"
-                defaultChecked={editCommand.isDefault}
-                disabled={command?.isDefault}
-                onCheckedChange={(checked) => {
-                  setCommand((prev) => ({
-                    ...prev,
-                    isDefault: checked,
-                  }));
-                }}
-              />
-              <Label htmlFor="default-cmd">Default Command</Label>
+            <div className="flex items-center space-x-4 pt-6">
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="default-cmd"
+                  defaultChecked={editCommand.isDefault}
+                  disabled={command?.isDefault}
+                  onCheckedChange={(checked) => {
+                    setCommand((prev) => ({
+                      ...prev,
+                      isDefault: checked,
+                    }));
+                  }}
+                />
+                <Label htmlFor="default-cmd">Default Command</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="interactive-cmd"
+                  checked={editCommand.interactive ?? false}
+                  onCheckedChange={(checked) => {
+                    setCommand((prev) => ({
+                      ...prev,
+                      interactive: checked,
+                    }));
+                  }}
+                />
+                <Label htmlFor="interactive-cmd">Interactive</Label>
+              </div>
             </div>
           </div>
           <div className="flex flex-col gap-3">

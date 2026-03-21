@@ -2,7 +2,9 @@
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
   "name": "yt-dlp",
   "displayName": "yt-dlp",
-  "description": "yt-dlp is a command-line program to download videos from YouTube and other sites.",
+  "info": {
+    "description": "yt-dlp is a command-line program to download videos from YouTube and other sites."
+  },
   "url": "https://github.com/yt-dlp/yt-dlp",
   "commands": [
     {
@@ -244,28 +246,31 @@
       "isGlobal": true,
       "longFlag": "--preset-alias",
       "key": "preset-alias",
-      "enumValues": [
-        {
-          "value": "mp3",
-          "displayName": "Mp3"
-        },
-        {
-          "value": "aac",
-          "displayName": "Aac"
-        },
-        {
-          "value": "mp4",
-          "displayName": "Mp4"
-        },
-        {
-          "value": "mkv",
-          "displayName": "Mkv"
-        },
-        {
-          "value": "sleep",
-          "displayName": "Sleep"
-        }
-      ]
+      "enumValues": {
+        "values": [
+          {
+            "value": "mp3",
+            "displayName": "Mp3"
+          },
+          {
+            "value": "aac",
+            "displayName": "Aac"
+          },
+          {
+            "value": "mp4",
+            "displayName": "Mp4"
+          },
+          {
+            "value": "mkv",
+            "displayName": "Mkv"
+          },
+          {
+            "value": "sleep",
+            "displayName": "Sleep"
+          }
+        ],
+        "allowMultiple": false
+      }
     },
     {
       "name": "Proxy",

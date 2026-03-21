@@ -1,19 +1,21 @@
-import { CommandTree } from "../../tool-editor/command-tree";
+import { CommandTree } from "@/components/tool-editor/command-tree";
 import {
   ToolBuilderProvider,
   ToolBuilderState,
   useToolBuilder,
-} from "../../tool-editor/tool-editor.context";
+} from "@/components/tool-editor/tool-editor.context";
+import { defaultTool } from "@/lib/utils";
 import { Command, Tool } from "@/registry/commandly/lib/types/commandly";
-import { defaultTool } from "@/registry/commandly/lib/utils/commandly";
 import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
 import { ReactNode } from "react";
 
 const createComplexTool = (): Tool => ({
   name: "my-cli-tool",
   displayName: "My CLI Tool",
-  description: "A sample CLI tool with nested commands",
-  version: "1.0.0",
+  info: {
+    description: "A sample CLI tool with nested commands",
+    version: "1.0.0",
+  },
   commands: [
     {
       key: "my-cli-tool",

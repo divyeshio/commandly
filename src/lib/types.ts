@@ -20,17 +20,14 @@ export type AIParseResponse = {
   error?: string;
 };
 
-export type ManualNewTool = {
-  displayName: string;
-  name: string;
-  version?: string;
-  description?: string;
-  url?: string;
-};
-
 declare module "@/registry/commandly/lib/types/commandly" {
   interface ToolMetadata {
     supportedInput: SupportedToolInputType[];
     supportedOutput: SupportedToolOutputType[];
   }
+}
+
+export interface SavedCommand {
+  key: string;
+  command: string;
 }

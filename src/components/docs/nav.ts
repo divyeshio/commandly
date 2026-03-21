@@ -22,9 +22,6 @@ export const docsNav: DocNavSection[] = [
   },
   {
     section: "Blocks",
-    items: [
-      { name: "tool-editor", title: "Tool Editor" },
-      { name: "ui", title: "Basic UI" },
-    ],
+    items: [{ name: "ui", title: "Basic UI" }],
   },
 ];

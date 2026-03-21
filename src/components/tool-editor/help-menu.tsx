@@ -9,8 +9,8 @@ export function HelpMenu() {
     const rootCommands = tool.commands.filter((cmd) => !cmd.parentCommandKey);
     const globalParams = tool.parameters.filter((p) => p.isGlobal);
 
-    let preview = `${tool.displayName}${tool.version ? ` v${tool.version}` : ""}\n`;
-    preview += `${tool.description}\n\n`;
+    let preview = `${tool.displayName}${tool.info?.version ? ` v${tool.info.version}` : ""}\n`;
+    preview += `${tool.info?.description}\n\n`;
 
     preview += `USAGE:\n`;
     preview += `  ${tool.name} [GLOBAL OPTIONS] <COMMAND> [OPTIONS] [ARGUMENTS]\n\n`;
@@ -91,7 +91,7 @@ export function HelpMenu() {
           const required = arg.isRequired ? "Required: " : "";
           preview += `${indent}    ${arg.name.padEnd(18)} ${required}${arg.description}\n`;
           if (arg.dataType === "Enum") {
-            preview += `${indent}    ${" ".repeat(18)} Values: ${arg.enumValues?.map((e) => e.value).join(", ")}\n`;
+            preview += `${indent}    ${" ".repeat(18)} Values: ${arg.enumValues?.values?.map((e) => e.value).join(", ")}\n`;
           }
         });
       }

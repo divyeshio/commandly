@@ -122,7 +122,7 @@ function OptionEnumInput({ parameter, value, onUpdate }: ParameterRenderContext)
           <SelectValue placeholder="Select an option" />
         </SelectTrigger>
         <SelectContent>
-          {parameter.enumValues?.map((enumValue) => (
+          {parameter.enumValues?.values?.map((enumValue) => (
             <SelectItem
               key={enumValue.value}
               value={enumValue.value}
@@ -253,7 +253,7 @@ export function ToolRenderer({
             tool.parameters
               .filter((param) => param.commandKey === selectedCommand?.key || param.isGlobal)
               .map((parameter) => {
-                const value = parameterValues[parameter.key] || parameter.defaultValue || "";
+                const value = parameterValues[parameter.key] || "";
                 const onUpdate = (val: ParameterValue) => updateParameterValue(parameter.key, val);
                 const entry = catalog.find((e) => e.condition(parameter));
                 return entry ? (

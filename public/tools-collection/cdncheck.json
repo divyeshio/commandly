@@ -2,7 +2,9 @@
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
   "name": "cdncheck",
   "displayName": "CDNCheck",
-  "description": "cdncheck is a tool for identifying the technology associated with dns / ip network addresses.",
+  "info": {
+    "description": "cdncheck is a tool for identifying the technology associated with dns / ip network addresses."
+  },
   "url": "https://github.com/projectdiscovery/cdncheck",
   "commands": [
     {
@@ -80,24 +82,27 @@
       "sortOrder": 5,
       "key": "match-cdn",
       "commandKey": "cdncheck",
-      "enumValues": [
-        {
-          "value": "cloudfront",
-          "displayName": "Cloudfront"
-        },
-        {
-          "value": "fastly",
-          "displayName": "Fastly"
-        },
-        {
-          "value": "google",
-          "displayName": "Google"
-        },
-        {
-          "value": "leaseweb",
-          "displayName": "Leaseweb"
-        }
-      ]
+      "enumValues": {
+        "values": [
+          {
+            "value": "cloudfront",
+            "displayName": "Cloudfront"
+          },
+          {
+            "value": "fastly",
+            "displayName": "Fastly"
+          },
+          {
+            "value": "google",
+            "displayName": "Google"
+          },
+          {
+            "value": "leaseweb",
+            "displayName": "Leaseweb"
+          }
+        ],
+        "allowMultiple": false
+      }
     },
     {
       "name": "Match Cloud",
@@ -112,20 +117,23 @@
       "sortOrder": 6,
       "key": "match-cloud",
       "commandKey": "cdncheck",
-      "enumValues": [
-        {
-          "value": "aws",
-          "displayName": "Aws"
-        },
-        {
-          "value": "google",
-          "displayName": "Google"
-        },
-        {
-          "value": "oracle",
-          "displayName": "Oracle"
-        }
-      ]
+      "enumValues": {
+        "values": [
+          {
+            "value": "aws",
+            "displayName": "Aws"
+          },
+          {
+            "value": "google",
+            "displayName": "Google"
+          },
+          {
+            "value": "oracle",
+            "displayName": "Oracle"
+          }
+        ],
+        "allowMultiple": false
+      }
     },
     {
       "name": "Match Waf",
@@ -140,24 +148,27 @@
       "sortOrder": 7,
       "key": "match-waf",
       "commandKey": "cdncheck",
-      "enumValues": [
-        {
-          "value": "cloudflare",
-          "displayName": "Cloudflare"
-        },
-        {
-          "value": "incapsula",
-          "displayName": "Incapsula"
-        },
-        {
-          "value": "sucuri",
-          "displayName": "Sucuri"
-        },
-        {
-          "value": "akamai",
-          "displayName": "Akamai"
-        }
-      ]
+      "enumValues": {
+        "values": [
+          {
+            "value": "cloudflare",
+            "displayName": "Cloudflare"
+          },
+          {
+            "value": "incapsula",
+            "displayName": "Incapsula"
+          },
+          {
+            "value": "sucuri",
+            "displayName": "Sucuri"
+          },
+          {
+            "value": "akamai",
+            "displayName": "Akamai"
+          }
+        ],
+        "allowMultiple": false
+      }
     },
     {
       "name": "Filter Cdn",
@@ -172,24 +183,27 @@
       "sortOrder": 8,
       "key": "filter-cdn",
       "commandKey": "cdncheck",
-      "enumValues": [
-        {
-          "value": "cloudfront",
-          "displayName": "Cloudfront"
-        },
-        {
-          "value": "fastly",
-          "displayName": "Fastly"
-        },
-        {
-          "value": "google",
-          "displayName": "Google"
-        },
-        {
-          "value": "leaseweb",
-          "displayName": "Leaseweb"
-        }
-      ]
+      "enumValues": {
+        "values": [
+          {
+            "value": "cloudfront",
+            "displayName": "Cloudfront"
+          },
+          {
+            "value": "fastly",
+            "displayName": "Fastly"
+          },
+          {
+            "value": "google",
+            "displayName": "Google"
+          },
+          {
+            "value": "leaseweb",
+            "displayName": "Leaseweb"
+          }
+        ],
+        "allowMultiple": false
+      }
     },
     {
       "name": "Filter Cloud",
@@ -204,20 +218,23 @@
       "sortOrder": 9,
       "key": "filter-cloud",
       "commandKey": "cdncheck",
-      "enumValues": [
-        {
-          "value": "aws",
-          "displayName": "Aws"
-        },
-        {
-          "value": "google",
-          "displayName": "Google"
-        },
-        {
-          "value": "oracle",
-          "displayName": "Oracle"
-        }
-      ]
+      "enumValues": {
+        "values": [
+          {
+            "value": "aws",
+            "displayName": "Aws"
+          },
+          {
+            "value": "google",
+            "displayName": "Google"
+          },
+          {
+            "value": "oracle",
+            "displayName": "Oracle"
+          }
+        ],
+        "allowMultiple": false
+      }
     },
     {
       "name": "Filter Waf",
@@ -232,24 +249,27 @@
       "sortOrder": 10,
       "key": "filter-waf",
       "commandKey": "cdncheck",
-      "enumValues": [
-        {
-          "value": "cloudflare",
-          "displayName": "Cloudflare"
-        },
-        {
-          "value": "incapsula",
-          "displayName": "Incapsula"
-        },
-        {
-          "value": "sucuri",
-          "displayName": "Sucuri"
-        },
-        {
-          "value": "akamai",
-          "displayName": "Akamai"
-        }
-      ]
+      "enumValues": {
+        "values": [
+          {
+            "value": "cloudflare",
+            "displayName": "Cloudflare"
+          },
+          {
+            "value": "incapsula",
+            "displayName": "Incapsula"
+          },
+          {
+            "value": "sucuri",
+            "displayName": "Sucuri"
+          },
+          {
+            "value": "akamai",
+            "displayName": "Akamai"
+          }
+        ],
+        "allowMultiple": false
+      }
     },
     {
       "name": "Resp",

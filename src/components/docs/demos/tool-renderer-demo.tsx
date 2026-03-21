@@ -5,7 +5,9 @@ import { useState } from "react";
 const sampleTool: Tool = {
   name: "curl",
   displayName: "curl",
-  description: "Transfer data with URLs",
+  info: {
+    description: "Transfer data with URLs",
+  },
   commands: [{ key: "curl", name: "curl", isDefault: true }],
   parameters: [
     {

@@ -10,11 +10,8 @@
     "displayName": {
       "type": "string"
     },
-    "description": {
-      "type": "string"
-    },
-    "version": {
-      "type": "string"
+    "info": {
+      "$ref": "#/definitions/ToolInfo"
     },
     "url": {
       "type": "string"
@@ -55,6 +52,20 @@
     "name"
   ],
   "definitions": {
+    "ToolInfo": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    },
     "NestedParameter": {
       "type": "object",
       "properties": {
@@ -62,6 +73,9 @@
           "type": "string"
         },
         "description": {
+          "type": "string"
+        },
+        "group": {
           "type": "string"
         },
         "parameterType": {
@@ -82,9 +96,6 @@
         "isGlobal": {
           "type": "boolean"
         },
-        "defaultValue": {
-          "type": "string"
-        },
         "shortFlag": {
           "type": "string"
         },
@@ -104,10 +115,7 @@
           "type": "string"
         },
         "enumValues": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/NestedParameterEnumValue"
-          }
+          "$ref": "#/definitions/ParameterEnumValues"
         },
         "validations": {
           "type": "array",
@@ -159,7 +167,28 @@
         }
       }
     },
-    "NestedParameterEnumValue": {
+    "ParameterEnumValues": {
+      "type": "object",
+      "properties": {
+        "values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParameterEnumValue"
+          }
+        },
+        "allowMultiple": {
+          "type": "boolean"
+        },
+        "separator": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "allowMultiple",
+        "values"
+      ]
+    },
+    "ParameterEnumValue": {
       "type": "object",
       "properties": {
         "value": {
@@ -245,6 +274,9 @@
         },
         "description": {
           "type": "string"
+        },
+        "interactive": {
+          "type": "boolean"
         },
         "isDefault": {
           "type": "boolean"

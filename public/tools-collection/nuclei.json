@@ -2,9 +2,11 @@
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
   "name": "nuclei",
   "displayName": "Nuclei",
-  "description": "Nuclei is a fast, template based vulnerability scanner focusing on extensive configurability, massive extensibility and ease of use.",
+  "info": {
+    "description": "Nuclei is a fast, template based vulnerability scanner focusing on extensive configurability, massive extensibility and ease of use.",
+    "version": "3.7.1"
+  },
   "url": "https://github.com/projectdiscovery/nuclei",
-  "version": "3.7.1",
   "commands": [
     {
       "name": "nuclei",
@@ -89,22 +91,25 @@
       "isGlobal": false,
       "shortFlag": "-iv",
       "longFlag": "-ip-version",
-      "enumValues": [
-        {
-          "value": "4",
-          "displayName": "4",
-          "description": "Use IPv4.",
-          "isDefault": true,
-          "sortOrder": 1
-        },
-        {
-          "value": "6",
-          "displayName": "6",
-          "description": "Use IPv6.",
-          "isDefault": false,
-          "sortOrder": 2
-        }
-      ],
+      "enumValues": {
+        "values": [
+          {
+            "value": "4",
+            "displayName": "4",
+            "description": "Use IPv4.",
+            "isDefault": true,
+            "sortOrder": 1
+          },
+          {
+            "value": "6",
+            "displayName": "6",
+            "description": "Use IPv6.",
+            "isDefault": false,
+            "sortOrder": 2
+          }
+        ],
+        "allowMultiple": false
+      },
       "key": "ip-version",
       "commandKey": "nuclei"
     },
@@ -118,50 +123,53 @@
       "isGlobal": false,
       "shortFlag": "-im",
       "longFlag": "-input-mode",
-      "enumValues": [
-        {
-          "value": "list",
-          "displayName": "List",
-          "description": "Use list input mode.",
-          "isDefault": true,
-          "sortOrder": 1
-        },
-        {
-          "value": "burp",
-          "displayName": "Burp",
-          "description": "Use burp input mode.",
-          "isDefault": false,
-          "sortOrder": 2
-        },
-        {
-          "value": "jsonl",
-          "displayName": "Jsonl",
-          "description": "Use jsonl input mode.",
-          "isDefault": false,
-          "sortOrder": 3
-        },
-        {
-          "value": "yaml",
-          "displayName": "Yaml",
-          "description": "Use yaml input mode.",
-          "isDefault": false,
-          "sortOrder": 4
-        },
-        {
-          "value": "openapi",
-          "displayName": "Openapi",
-          "description": "Use openapi input mode.",
-          "isDefault": false,
-          "sortOrder": 5
-        },
-        {
-          "value": "swagger",
-          "displayName": "Swagger",
-          "description": "Use swagger input mode.",
-          "isDefault": false,
-          "sortOrder": 6
-        }
-      ],
+      "enumValues": {
+        "values": [
+          {
+            "value": "list",
+            "displayName": "List",
+            "description": "Use list input mode.",
+            "isDefault": true,
+            "sortOrder": 1
+          },
+          {
+            "value": "burp",
+            "displayName": "Burp",
+            "description": "Use burp input mode.",
+            "isDefault": false,
+            "sortOrder": 2
+          },
+          {
+            "value": "jsonl",
+            "displayName": "Jsonl",
+            "description": "Use jsonl input mode.",
+            "isDefault": false,
+            "sortOrder": 3
+          },
+          {
+            "value": "yaml",
+            "displayName": "Yaml",
+            "description": "Use yaml input mode.",
+            "isDefault": false,
+            "sortOrder": 4
+          },
+          {
+            "value": "openapi",
+            "displayName": "Openapi",
+            "description": "Use openapi input mode.",
+            "isDefault": false,
+            "sortOrder": 5
+          },
+          {
+            "value": "swagger",
+            "displayName": "Swagger",
+            "description": "Use swagger input mode.",
+            "isDefault": false,
+            "sortOrder": 6
+          }
+        ],
+        "allowMultiple": false
+      },
       "key": "input-mode",
       "commandKey": "nuclei"
     },
@@ -558,50 +566,53 @@
       "isGlobal": false,
       "shortFlag": "-s",
       "longFlag": "-severity",
-      "enumValues": [
-        {
-          "value": "info",
-          "displayName": "Info",
-          "description": "Information severity.",
-          "isDefault": false,
-          "sortOrder": 1
-        },
-        {
-          "value": "low",
-          "displayName": "Low",
-          "description": "Low severity.",
-          "isDefault": false,
-          "sortOrder": 2
-        },
-        {
-          "value": "medium",
-          "displayName": "Medium",
-          "description": "Medium severity.",
-          "isDefault": false,
-          "sortOrder": 3
-        },
-        {
-          "value": "high",
-          "displayName": "High",
-          "description": "High severity.",
-          "isDefault": false,
-          "sortOrder": 4
-        },
-        {
-          "value": "critical",
-          "displayName": "Critical",
-          "description": "Critical severity.",
-          "isDefault": false,
-          "sortOrder": 5
-        },
-        {
-          "value": "unknown",
-          "displayName": "Unknown",
-          "description": "Unknown severity.",
-          "isDefault": false,
-          "sortOrder": 6
-        }
-      ],
+      "enumValues": {
+        "values": [
+          {
+            "value": "info",
+            "displayName": "Info",
+            "description": "Information severity.",
+            "isDefault": false,
+            "sortOrder": 1
+          },
+          {
+            "value": "low",
+            "displayName": "Low",
+            "description": "Low severity.",
+            "isDefault": false,
+            "sortOrder": 2
+          },
+          {
+            "value": "medium",
+            "displayName": "Medium",
+            "description": "Medium severity.",
+            "isDefault": false,
+            "sortOrder": 3
+          },
+          {
+            "value": "high",
+            "displayName": "High",
+            "description": "High severity.",
+            "isDefault": false,
+            "sortOrder": 4
+          },
+          {
+            "value": "critical",
+            "displayName": "Critical",
+            "description": "Critical severity.",
+            "isDefault": false,
+            "sortOrder": 5
+          },
+          {
+            "value": "unknown",
+            "displayName": "Unknown",
+            "description": "Unknown severity.",
+            "isDefault": false,
+            "sortOrder": 6
+          }
+        ],
+        "allowMultiple": false
+      },
       "key": "severity",
       "commandKey": "nuclei"
     },
@@ -615,50 +626,53 @@
       "isGlobal": false,
       "shortFlag": "-es",
       "longFlag": "-exclude-severity",
-      "enumValues": [
-        {
-          "value": "info",
-          "displayName": "Info",
-          "description": "Exclude information severity.",
-          "isDefault": false,
-          "sortOrder": 1
-        },
-        {
-          "value": "low",
-          "displayName": "Low",
-          "description": "Exclude low severity.",
-          "isDefault": false,
-          "sortOrder": 2
-        },
-        {
-          "value": "medium",
-          "displayName": "Medium",
-          "description": "Exclude medium severity.",
-          "isDefault": false,
-          "sortOrder": 3
-        },
-        {
-          "value": "high",
-          "displayName": "High",
-          "description": "Exclude high severity.",
-          "isDefault": false,
-          "sortOrder": 4
-        },
-        {
-          "value": "critical",
-          "displayName": "Critical",
-          "description": "Exclude critical severity.",
-          "isDefault": false,
-          "sortOrder": 5
-        },
-        {
-          "value": "unknown",
-          "displayName": "Unknown",
-          "description": "Exclude unknown severity.",
-          "isDefault": false,
-          "sortOrder": 6
-        }
-      ],
+      "enumValues": {
+        "values": [
+          {
+            "value": "info",
+            "displayName": "Info",
+            "description": "Exclude information severity.",
+            "isDefault": false,
+            "sortOrder": 1
+          },
+          {
+            "value": "low",
+            "displayName": "Low",
+            "description": "Exclude low severity.",
+            "isDefault": false,
+            "sortOrder": 2
+          },
+          {
+            "value": "medium",
+            "displayName": "Medium",
+            "description": "Exclude medium severity.",
+            "isDefault": false,
+            "sortOrder": 3
+          },
+          {
+            "value": "high",
+            "displayName": "High",
+            "description": "Exclude high severity.",
+            "isDefault": false,
+            "sortOrder": 4
+          },
+          {
+            "value": "critical",
+            "displayName": "Critical",
+            "description": "Exclude critical severity.",
+            "isDefault": false,
+            "sortOrder": 5
+          },
+          {
+            "value": "unknown",
+            "displayName": "Unknown",
+            "description": "Exclude unknown severity.",
+            "isDefault": false,
+            "sortOrder": 6
+          }
+        ],
+        "allowMultiple": false
+      },
       "key": "exclude-severity",
       "commandKey": "nuclei"
     },
@@ -672,85 +686,88 @@
       "isGlobal": false,
       "shortFlag": "-pt",
       "longFlag": "-type",
-      "enumValues": [
-        {
-          "value": "dns",
-          "displayName": "Dns",
-          "description": "DNS templates.",
-          "isDefault": false,
-          "sortOrder": 1
-        },
-        {
-          "value": "file",
-          "displayName": "File",
-          "description": "File templates.",
-          "isDefault": false,
-          "sortOrder": 2
-        },
-        {
-          "value": "http",
-          "displayName": "Http",
-          "description": "HTTP templates.",
-          "isDefault": false,
-          "sortOrder": 3
-        },
-        {
-          "value": "headless",
-          "displayName": "Headless",
-          "description": "Headless templates.",
-          "isDefault": false,
-          "sortOrder": 4
-        },
-        {
-          "value": "tcp",
-          "displayName": "Tcp",
-          "description": "TCP templates.",
-          "isDefault": false,
-          "sortOrder": 5
-        },
-        {
-          "value": "workflow",
-          "displayName": "Workflow",
-          "description": "Workflow templates.",
-          "isDefault": false,
-          "sortOrder": 6
-        },
-        {
-          "value": "ssl",
-          "displayName": "Ssl",
-          "description": "SSL templates.",
-          "isDefault": false,
-          "sortOrder": 7
-        },
-        {
-          "value": "websocket",
-          "displayName": "Websocket",
-          "description": "Websocket templates.",
-          "isDefault": false,
-          "sortOrder": 8
-        },
-        {
-          "value": "whois",
-          "displayName": "Whois",
-          "description": "WHOIS templates.",
-          "isDefault": false,
-          "sortOrder": 9
-        },
-        {
-          "value": "code",
-          "displayName": "Code",
-          "description": "Code templates.",
-          "isDefault": false,
-          "sortOrder": 10
-        },
-        {
-          "value": "javascript",
-          "displayName": "Javascript",
-          "description": "JavaScript templates.",
-          "isDefault": false,
-          "sortOrder": 11
-        }
-      ],
+      "enumValues": {
+        "values": [
+          {
+            "value": "dns",
+            "displayName": "Dns",
+            "description": "DNS templates.",
+            "isDefault": false,
+            "sortOrder": 1
+          },
+          {
+            "value": "file",
+            "displayName": "File",
+            "description": "File templates.",
+            "isDefault": false,
+            "sortOrder": 2
+          },
+          {
+            "value": "http",
+            "displayName": "Http",
+            "description": "HTTP templates.",
+            "isDefault": false,
+            "sortOrder": 3
+          },
+          {
+            "value": "headless",
+            "displayName": "Headless",
+            "description": "Headless templates.",
+            "isDefault": false,
+            "sortOrder": 4
+          },
+          {
+            "value": "tcp",
+            "displayName": "Tcp",
+            "description": "TCP templates.",
+            "isDefault": false,
+            "sortOrder": 5
+          },
+          {
+            "value": "workflow",
+            "displayName": "Workflow",
+            "description": "Workflow templates.",
+            "isDefault": false,
+            "sortOrder": 6
+          },
+          {
+            "value": "ssl",
+            "displayName": "Ssl",
+            "description": "SSL templates.",
+            "isDefault": false,
+            "sortOrder": 7
+          },
+          {
+            "value": "websocket",
+            "displayName": "Websocket",
+            "description": "Websocket templates.",
+            "isDefault": false,
+            "sortOrder": 8
+          },
+          {
+            "value": "whois",
+            "displayName": "Whois",
+            "description": "WHOIS templates.",
+            "isDefault": false,
+            "sortOrder": 9
+          },
+          {
+            "value": "code",
+            "displayName": "Code",
+            "description": "Code templates.",
+            "isDefault": false,
+            "sortOrder": 10
+          },
+          {
+            "value": "javascript",
+            "displayName": "Javascript",
+            "description": "JavaScript templates.",
+            "isDefault": false,
+            "sortOrder": 11
+          }
+        ],
+        "allowMultiple": false
+      },
       "key": "type",
       "commandKey": "nuclei"
     },
@@ -764,85 +781,88 @@
       "isGlobal": false,
       "shortFlag": "-ept",
       "longFlag": "-exclude-type",
-      "enumValues": [
-        {
-          "value": "dns",
-          "displayName": "Dns",
-          "description": "Exclude DNS templates.",
-          "isDefault": false,
-          "sortOrder": 1
-        },
-        {
-          "value": "file",
-          "displayName": "File",
-          "description": "Exclude file templates.",
-          "isDefault": false,
-          "sortOrder": 2
-        },
-        {
-          "value": "http",
-          "displayName": "Http",
-          "description": "Exclude HTTP templates.",
-          "isDefault": false,
-          "sortOrder": 3
-        },
-        {
-          "value": "headless",
-          "displayName": "Headless",
-          "description": "Exclude headless templates.",
-          "isDefault": false,
-          "sortOrder": 4
-        },
-        {
-          "value": "tcp",
-          "displayName": "Tcp",
-          "description": "Exclude TCP templates.",
-          "isDefault": false,
-          "sortOrder": 5
-        },
-        {
-          "value": "workflow",
-          "displayName": "Workflow",
-          "description": "Exclude workflow templates.",
-          "isDefault": false,
-          "sortOrder": 6
-        },
-        {
-          "value": "ssl",
-          "displayName": "Ssl",
-          "description": "Exclude SSL templates.",
-          "isDefault": false,
-          "sortOrder": 7
-        },
-        {
-          "value": "websocket",
-          "displayName": "Websocket",
-          "description": "Exclude websocket templates.",
-          "isDefault": false,
-          "sortOrder": 8
-        },
-        {
-          "value": "whois",
-          "displayName": "Whois",
-          "description": "Exclude WHOIS templates.",
-          "isDefault": false,
-          "sortOrder": 9
-        },
-        {
-          "value": "code",
-          "displayName": "Code",
-          "description": "Exclude code templates.",
-          "isDefault": false,
-          "sortOrder": 10
-        },
-        {
-          "value": "javascript",
-          "displayName": "Javascript",
-          "description": "Exclude JavaScript templates.",
-          "isDefault": false,
-          "sortOrder": 11
-        }
-      ],
+      "enumValues": {
+        "values": [
+          {
+            "value": "dns",
+            "displayName": "Dns",
+            "description": "Exclude DNS templates.",
+            "isDefault": false,
+            "sortOrder": 1
+          },
+          {
+            "value": "file",
+            "displayName": "File",
+            "description": "Exclude file templates.",
+            "isDefault": false,
+            "sortOrder": 2
+          },
+          {
+            "value": "http",
+            "displayName": "Http",
+            "description": "Exclude HTTP templates.",
+            "isDefault": false,
+            "sortOrder": 3
+          },
+          {
+            "value": "headless",
+            "displayName": "Headless",
+            "description": "Exclude headless templates.",
+            "isDefault": false,
+            "sortOrder": 4
+          },
+          {
+            "value": "tcp",
+            "displayName": "Tcp",
+            "description": "Exclude TCP templates.",
+            "isDefault": false,
+            "sortOrder": 5
+          },
+          {
+            "value": "workflow",
+            "displayName": "Workflow",
+            "description": "Exclude workflow templates.",
+            "isDefault": false,
+            "sortOrder": 6
+          },
+          {
+            "value": "ssl",
+            "displayName": "Ssl",
+            "description": "Exclude SSL templates.",
+            "isDefault": false,
+            "sortOrder": 7
+          },
+          {
+            "value": "websocket",
+            "displayName": "Websocket",
+            "description": "Exclude websocket templates.",
+            "isDefault": false,
+            "sortOrder": 8
+          },
+          {
+            "value": "whois",
+            "displayName": "Whois",
+            "description": "Exclude WHOIS templates.",
+            "isDefault": false,
+            "sortOrder": 9
+          },
+          {
+            "value": "code",
+            "displayName": "Code",
+            "description": "Exclude code templates.",
+            "isDefault": false,
+            "sortOrder": 10
+          },
+          {
+            "value": "javascript",
+            "displayName": "Javascript",
+            "description": "Exclude JavaScript templates.",
+            "isDefault": false,
+            "sortOrder": 11
+          }
+        ],
+        "allowMultiple": false
+      },
       "key": "exclude-type",
       "commandKey": "nuclei"
     },
@@ -1436,29 +1456,32 @@
       "isGlobal": false,
       "shortFlag": "-at",
       "longFlag": "-attack-type",
-      "enumValues": [
-        {
-          "value": "batteringram",
-          "displayName": "Batteringram",
-          "description": "Use battering ram attack type.",
-          "isDefault": false,
-          "sortOrder": 1
-        },
-        {
-          "value": "pitchfork",
-          "displayName": "Pitchfork",
-          "description": "Use pitchfork attack type.",
-          "isDefault": false,
-          "sortOrder": 2
-        },
-        {
-          "value": "clusterbomb",
-          "displayName": "Clusterbomb",
-          "description": "Use cluster bomb attack type.",
-          "isDefault": false,
-          "sortOrder": 3
-        }
-      ],
+      "enumValues": {
+        "values": [
+          {
+            "value": "batteringram",
+            "displayName": "Batteringram",
+            "description": "Use battering ram attack type.",
+            "isDefault": false,
+            "sortOrder": 1
+          },
+          {
+            "value": "pitchfork",
+            "displayName": "Pitchfork",
+            "description": "Use pitchfork attack type.",
+            "isDefault": false,
+            "sortOrder": 2
+          },
+          {
+            "value": "clusterbomb",
+            "displayName": "Clusterbomb",
+            "description": "Use cluster bomb attack type.",
+            "isDefault": false,
+            "sortOrder": 3
+          }
+        ],
+        "allowMultiple": false
+      },
       "key": "attack-type",
       "commandKey": "nuclei"
     },
@@ -1636,36 +1659,39 @@
       "isGlobal": false,
       "shortFlag": "-ft",
       "longFlag": "-fuzzing-type",
-      "enumValues": [
-        {
-          "value": "replace",
-          "displayName": "Replace",
-          "description": "Replace fuzzing type.",
-          "isDefault": false,
-          "sortOrder": 1
-        },
-        {
-          "value": "prefix",
-          "displayName": "Prefix",
-          "description": "Prefix fuzzing type.",
-          "isDefault": false,
-          "sortOrder": 2
-        },
-        {
-          "value": "postfix",
-          "displayName": "Postfix",
-          "description": "Postfix fuzzing type.",
-          "isDefault": false,
-          "sortOrder": 3
-        },
-        {
-          "value": "infix",
-          "displayName": "Infix",
-          "description": "Infix fuzzing type.",
-          "isDefault": false,
-          "sortOrder": 4
-        }
-      ],
+      "enumValues": {
+        "values": [
+          {
+            "value": "replace",
+            "displayName": "Replace",
+            "description": "Replace fuzzing type.",
+            "isDefault": false,
+            "sortOrder": 1
+          },
+          {
+            "value": "prefix",
+            "displayName": "Prefix",
+            "description": "Prefix fuzzing type.",
+            "isDefault": false,
+            "sortOrder": 2
+          },
+          {
+            "value": "postfix",
+            "displayName": "Postfix",
+            "description": "Postfix fuzzing type.",
+            "isDefault": false,
+            "sortOrder": 3
+          },
+          {
+            "value": "infix",
+            "displayName": "Infix",
+            "description": "Infix fuzzing type.",
+            "isDefault": false,
+            "sortOrder": 4
+          }
+        ],
+        "allowMultiple": false
+      },
       "key": "fuzzing-type",
       "commandKey": "nuclei"
     },
@@ -1679,22 +1705,25 @@
       "isGlobal": false,
       "shortFlag": "-fm",
       "longFlag": "-fuzzing-mode",
-      "enumValues": [
-        {
-          "value": "multiple",
-          "displayName": "Multiple",
-          "description": "Multiple fuzzing mode.",
-          "isDefault": false,
-          "sortOrder": 1
-        },
-        {
-          "value": "single",
-          "displayName": "Single",
-          "description": "Single fuzzing mode.",
-          "isDefault": false,
-          "sortOrder": 2
-        }
-      ],
+      "enumValues": {
+        "values": [
+          {
+            "value": "multiple",
+            "displayName": "Multiple",
+            "description": "Multiple fuzzing mode.",
+            "isDefault": false,
+            "sortOrder": 1
+          },
+          {
+            "value": "single",
+            "displayName": "Single",
+            "description": "Single fuzzing mode.",
+            "isDefault": false,
+            "sortOrder": 2
+          }
+        ],
+        "allowMultiple": false
+      },
       "key": "fuzzing-mode",
       "commandKey": "nuclei"
     },
@@ -1808,29 +1837,32 @@
       "isGlobal": false,
       "shortFlag": "-fa",
       "longFlag": "-fuzz-aggression",
-      "enumValues": [
-        {
-          "value": "low",
-          "displayName": "Low",
-          "description": "Low fuzzing aggression.",
-          "isDefault": true,
-          "sortOrder": 1
-        },
-        {
-          "value": "medium",
-          "displayName": "Medium",
-          "description": "Medium fuzzing aggression.",
-          "isDefault": false,
-          "sortOrder": 2
-        },
-        {
-          "value": "high",
-          "displayName": "High",
-          "description": "High fuzzing aggression.",
-          "isDefault": false,
-          "sortOrder": 3
-        }
-      ],
+      "enumValues": {
+        "values": [
+          {
+            "value": "low",
+            "displayName": "Low",
+            "description": "Low fuzzing aggression.",
+            "isDefault": true,
+            "sortOrder": 1
+          },
+          {
+            "value": "medium",
+            "displayName": "Medium",
+            "description": "Medium fuzzing aggression.",
+            "isDefault": false,
+            "sortOrder": 2
+          },
+          {
+            "value": "high",
+            "displayName": "High",
+            "description": "High fuzzing aggression.",
+            "isDefault": false,
+            "sortOrder": 3
+          }
+        ],
+        "allowMultiple": false
+      },
       "key": "fuzz-aggression",
       "commandKey": "nuclei"
     },
@@ -2202,29 +2234,32 @@
       "isGlobal": false,
       "shortFlag": "-ss",
       "longFlag": "-scan-strategy",
-      "enumValues": [
-        {
-          "value": "auto",
-          "displayName": "Auto",
-          "description": "Automatic scan strategy.",
-          "isDefault": true,
-          "sortOrder": 1
-        },
-        {
-          "value": "host-spray",
-          "displayName": "Host-spray",
-          "description": "Host spray scan strategy.",
-          "isDefault": false,
-          "sortOrder": 2
-        },
-        {
-          "value": "template-spray",
-          "displayName": "Template-spray",
-          "description": "Template spray scan strategy.",
-          "isDefault": false,
-          "sortOrder": 3
-        }
-      ],
+      "enumValues": {
+        "values": [
+          {
+            "value": "auto",
+            "displayName": "Auto",
+            "description": "Automatic scan strategy.",
+            "isDefault": true,
+            "sortOrder": 1
+          },
+          {
+            "value": "host-spray",
+            "displayName": "Host-spray",
+            "description": "Host spray scan strategy.",
+            "isDefault": false,
+            "sortOrder": 2
+          },
+          {
+            "value": "template-spray",
+            "displayName": "Template-spray",
+            "description": "Template spray scan strategy.",
+            "isDefault": false,
+            "sortOrder": 3
+          }
+        ],
+        "allowMultiple": false
+      },
       "key": "scan-strategy",
       "commandKey": "nuclei"
     },

@@ -1,6 +1,6 @@
-import { HelpMenu } from "../../tool-editor/help-menu";
-import { ToolBuilderProvider } from "../../tool-editor/tool-editor.context";
-import { defaultTool } from "@/registry/commandly/lib/utils/commandly";
+import { HelpMenu } from "@/components/tool-editor/help-menu";
+import { ToolBuilderProvider } from "@/components/tool-editor/tool-editor.context";
+import { defaultTool } from "@/lib/utils";
 import { render, screen } from "@testing-library/react";
 
 describe("HelpMenu", () => {

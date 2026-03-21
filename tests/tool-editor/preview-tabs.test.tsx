@@ -1,6 +1,6 @@
-import { PreviewTabs } from "../../tool-editor/preview-tabs";
-import { ToolBuilderProvider } from "../../tool-editor/tool-editor.context";
-import { defaultTool } from "@/registry/commandly/lib/utils/commandly";
+import { PreviewTabs } from "@/components/tool-editor/preview-tabs";
+import { ToolBuilderProvider } from "@/components/tool-editor/tool-editor.context";
+import { defaultTool } from "@/lib/utils";
 import { render, screen } from "@testing-library/react";
 
 describe("PreviewTabs", () => {
