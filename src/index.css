@@ -233,4 +233,21 @@ html::-webkit-scrollbar {
   html {
     @apply font-sans;
   }
+
+  button:not([disabled]),
+  [role="button"]:not([disabled]) {
+    cursor: pointer;
+  }
+
+  ::-webkit-scrollbar {
+    @apply h-2.5 w-2.5;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full border border-solid border-transparent bg-border bg-clip-padding;
+  }
 }
