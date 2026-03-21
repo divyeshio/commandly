@@ -1,4 +1,4 @@
-import type { Command, ExclusionGroup, Parameter, Tool } from "@/commandly/types/flat";
+import type { Command, ExclusionGroup, Parameter, Tool } from "@/components/commandly/types/flat";
 
 export const buildCommandHierarchy = (commands: Command[]): Command[] => {
   return commands.sort(

@@ -1,4 +1,4 @@
-import { Parameter, Command } from "@/commandly/types/flat";
+import { Parameter, Command } from "@/components/commandly/types/flat";
 import { ParameterDetailsDialog } from "@/components/tool-editor/dialogs/parameter-details-dialog";
 import {
   ToolBuilderProvider,

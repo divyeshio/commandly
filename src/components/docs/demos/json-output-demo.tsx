@@ -1,5 +1,5 @@
-import { JsonOutput } from "@/commandly/json-output";
-import type { Tool } from "@/commandly/types/flat";
+import { JsonOutput } from "@/components/commandly/json-output";
+import type { Tool } from "@/components/commandly/types/flat";
 
 const sampleTool: Tool = {
   name: "curl",

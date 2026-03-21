@@ -1,5 +1,5 @@
 import { useToolBuilder } from "../tool-editor.context";
-import { ExclusionGroup } from "@/commandly/types/flat";
+import { ExclusionGroup } from "@/components/commandly/types/flat";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";

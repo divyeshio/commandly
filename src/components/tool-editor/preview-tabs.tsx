@@ -1,9 +1,9 @@
 import { HelpMenu } from "./help-menu";
 import { useToolBuilder } from "./tool-editor.context";
-import { GeneratedCommand } from "@/commandly/generated-command";
-import { JsonOutput } from "@/commandly/json-output";
-import { ToolRenderer } from "@/commandly/tool-renderer";
-import { Tool } from "@/commandly/types/flat";
+import { GeneratedCommand } from "@/components/commandly/generated-command";
+import { JsonOutput } from "@/components/commandly/json-output";
+import { ToolRenderer } from "@/components/commandly/tool-renderer";
+import { Tool } from "@/components/commandly/types/flat";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";

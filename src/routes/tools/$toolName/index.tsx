@@ -1,7 +1,7 @@
-import { GeneratedCommand } from "@/commandly/generated-command";
-import { defaultComponents, ToolRenderer } from "@/commandly/tool-renderer";
-import { Tool } from "@/commandly/types/flat";
-import { slugify } from "@/commandly/utils/flat";
+import { GeneratedCommand } from "@/components/commandly/generated-command";
+import { defaultComponents, ToolRenderer } from "@/components/commandly/tool-renderer";
+import { Tool } from "@/components/commandly/types/flat";
+import { slugify } from "@/components/commandly/utils/flat";
 import { SavedCommandsDialog } from "@/components/tool-editor/dialogs/saved-commands-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";

@@ -1,5 +1,5 @@
-import { Parameter, ParameterValue, Tool, Command } from "@/commandly/types/flat";
-import { getCommandPath } from "@/commandly/utils/flat";
+import { Parameter, ParameterValue, Tool, Command } from "@/components/commandly/types/flat";
+import { getCommandPath } from "@/components/commandly/utils/flat";
 import { Button } from "@/components/ui/button";
 import { TerminalIcon, CopyIcon, SaveIcon } from "lucide-react";
 import { useCallback, useEffect, useState, useMemo } from "react";

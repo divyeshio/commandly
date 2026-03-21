@@ -1,7 +1,5 @@
 import { generatePrompt } from "./prompt";
 import { useToolBuilder } from "./tool-editor.context";
-import { Tool } from "@/commandly/types/flat";
-import { exportToStructuredJSON } from "@/commandly/utils/flat";
 import {
   Conversation,
   ConversationContent,
@@ -24,6 +22,8 @@ import {
   ToolInput,
   ToolOutput,
 } from "@/components/ai-elements/tool";
+import { Tool } from "@/components/commandly/types/flat";
+import { exportToStructuredJSON } from "@/components/commandly/utils/flat";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";

@@ -1,4 +1,4 @@
-import { Command, Tool } from "@/commandly/types/flat";
+import { Command, Tool } from "@/components/commandly/types/flat";
 import { CommandTree } from "@/components/tool-editor/command-tree";
 import {
   ToolBuilderProvider,

@@ -1,6 +1,9 @@
-import { ParameterValue } from "@/commandly/types/flat";
-import { Command, Tool } from "@/commandly/types/flat";
-import { ParameterRenderContext, ParameterRendererEntry } from "@/commandly/types/renderer";
+import { ParameterValue } from "@/components/commandly/types/flat";
+import { Command, Tool } from "@/components/commandly/types/flat";
+import {
+  ParameterRenderContext,
+  ParameterRendererEntry,
+} from "@/components/commandly/types/renderer";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

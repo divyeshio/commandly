@@ -1,4 +1,4 @@
-import { Command } from "@/commandly/types/flat";
+import { Command } from "@/components/commandly/types/flat";
 import { CommandDialog } from "@/components/tool-editor/dialogs/command-dialog";
 import {
   ToolBuilderProvider,

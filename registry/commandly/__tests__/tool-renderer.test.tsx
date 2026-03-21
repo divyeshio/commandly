@@ -1,6 +1,6 @@
 import { ToolRenderer, defaultComponents } from "../tool-renderer";
-import { ParameterRendererEntry } from "@/commandly/types/renderer";
-import { createNewParameter } from "@/commandly/utils/flat";
+import { ParameterRendererEntry } from "@/components/commandly/types/renderer";
+import { createNewParameter } from "@/components/commandly/utils/flat";
 import { defaultTool } from "@/lib/utils";
 import { render, screen } from "@testing-library/react";
 
