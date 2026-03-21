@@ -1,6 +1,6 @@
 import { GeneratedCommand } from "@/commandly/generated-command";
-import { Tool } from "@/commandly/lib/types/flat";
-import { slugify } from "@/commandly/lib/utils/flat";
+import { Tool } from "@/commandly/types/flat";
+import { slugify } from "@/commandly/utils/flat";
 import { defaultComponents, ToolRenderer } from "@/commandly/tool-renderer";
 import { SavedCommandsDialog } from "@/components/tool-editor/dialogs/saved-commands-dialog";
 import { Button } from "@/components/ui/button";

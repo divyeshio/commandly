@@ -4,13 +4,13 @@ import {
   Parameter,
   ExclusionGroup,
   ParameterValue,
-} from "@/commandly/lib/types/flat";
+} from "@/commandly/types/flat";
 import {
   cleanupTool,
   createNewCommand,
   getAllSubcommands,
   slugify,
-} from "@/commandly/lib/utils/flat";
+} from "@/commandly/utils/flat";
 import {
   createContext,
   useContext,

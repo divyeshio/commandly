@@ -1,4 +1,4 @@
-import { Tool } from "@/commandly/lib/types/flat";
+import { Tool } from "@/commandly/types/flat";
 import { Button } from "@/components/ui/button";
 import {
   Card,

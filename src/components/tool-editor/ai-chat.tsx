@@ -1,7 +1,7 @@
 import { generatePrompt } from "./prompt";
 import { useToolBuilder } from "./tool-editor.context";
-import { Tool } from "@/commandly/lib/types/flat";
-import { exportToStructuredJSON } from "@/commandly/lib/utils/flat";
+import { Tool } from "@/commandly/types/flat";
+import { exportToStructuredJSON } from "@/commandly/utils/flat";
 import {
   Conversation,
   ConversationContent,

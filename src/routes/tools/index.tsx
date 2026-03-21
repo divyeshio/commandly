@@ -1,4 +1,4 @@
-import { type Tool } from "@/commandly/lib/types/flat";
+import { type Tool } from "@/commandly/types/flat";
 import { SkeletonCard } from "@/components/square-card-skeleton";
 import { ToolCard } from "@/components/tool-card";
 import { Button } from "@/components/ui/button";

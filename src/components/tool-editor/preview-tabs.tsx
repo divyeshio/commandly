@@ -2,7 +2,7 @@ import { HelpMenu } from "./help-menu";
 import { useToolBuilder } from "./tool-editor.context";
 import { GeneratedCommand } from "@/commandly/generated-command";
 import { JsonOutput } from "@/commandly/json-output";
-import { Tool } from "@/commandly/lib/types/flat";
+import { Tool } from "@/commandly/types/flat";
 import { ToolRenderer } from "@/commandly/tool-renderer";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";

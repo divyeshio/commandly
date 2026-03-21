@@ -1,6 +1,6 @@
 import { CommandDialog } from "../tool-editor/dialogs/command-dialog";
 import { useToolBuilder } from "./tool-editor.context";
-import { Command } from "@/commandly/lib/types/flat";
+import { Command } from "@/commandly/types/flat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";

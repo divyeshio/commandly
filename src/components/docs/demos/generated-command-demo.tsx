@@ -1,5 +1,5 @@
 import { GeneratedCommand } from "@/commandly/generated-command";
-import type { Tool } from "@/commandly/lib/types/flat";
+import type { Tool } from "@/commandly/types/flat";
 import { useState } from "react";
 
 const sampleTool: Tool = {

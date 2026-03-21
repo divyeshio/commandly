@@ -7,7 +7,7 @@ import { SavedCommandsDialog } from "./dialogs/saved-commands-dialog";
 import { ParameterList } from "./parameter-list";
 import { PreviewTabs } from "./preview-tabs";
 import { ToolBuilderProvider, useToolBuilder } from "./tool-editor.context";
-import { Tool } from "@/commandly/lib/types/flat";
+import { Tool } from "@/commandly/types/flat";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { SavedCommand } from "@/lib/types";

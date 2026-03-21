@@ -1,5 +1,5 @@
 import { useToolBuilder } from "../tool-editor.context";
-import { ToolMetadata } from "@/commandly/lib/types/flat";
+import { ToolMetadata } from "@/commandly/types/flat";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,

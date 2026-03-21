@@ -1,4 +1,4 @@
-import { Parameter, ExclusionGroup } from "@/commandly/lib/types/flat";
+import { Parameter, ExclusionGroup } from "@/commandly/types/flat";
 import { ParameterList } from "@/components/tool-editor/parameter-list";
 import {
   ToolBuilderProvider,

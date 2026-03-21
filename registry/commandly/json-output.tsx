@@ -1,6 +1,6 @@
-import { Tool } from "@/commandly/lib/types/flat";
-import { exportToStructuredJSON } from "@/commandly/lib/utils/flat";
-import { convertToNestedStructure } from "@/commandly/lib/utils/nested";
+import { Tool } from "@/commandly/types/flat";
+import { exportToStructuredJSON } from "@/commandly/utils/flat";
+import { convertToNestedStructure } from "@/commandly/utils/nested";
 import { Button } from "@/components/ui/button";
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {

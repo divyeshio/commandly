@@ -1,5 +1,5 @@
-import { Tool } from "@/commandly/lib/types/flat";
-import { slugify } from "@/commandly/lib/utils/flat";
+import { Tool } from "@/commandly/types/flat";
+import { slugify } from "@/commandly/utils/flat";
 import ToolEditor from "@/components/tool-editor/tool-editor";
 import { fetchToolDetails } from "@/lib/api/tools.api";
 import {

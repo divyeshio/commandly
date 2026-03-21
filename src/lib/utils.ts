@@ -6,8 +6,8 @@ import type {
   ParameterEnumValue,
   ParameterValidation,
   Tool,
-} from "@/commandly/lib/types/flat";
-import { slugify } from "@/commandly/lib/utils/flat";
+} from "@/commandly/types/flat";
+import { slugify } from "@/commandly/utils/flat";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 

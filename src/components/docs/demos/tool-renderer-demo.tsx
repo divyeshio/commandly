@@ -1,4 +1,4 @@
-import type { Tool } from "@/commandly/lib/types/flat";
+import type { Tool } from "@/commandly/types/flat";
 import { ToolRenderer } from "@/commandly/tool-renderer";
 import { useState } from "react";
 
