@@ -20,92 +20,51 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Validate changed tool files
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Validate and sanitize changed tool files
+        id: validate
+        run: |
+          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD -- "public/tools-collection/" | grep '\.json$' || true)
+
+          if [ -z "$CHANGED" ]; then
+            echo "No changed tool files."
+            exit 0
+          fi
+
+          bun run ./scripts/validate-tool-collection.ts $CHANGED
+
+      - name: Post PR comment on failure
+        if: failure() && steps.validate.outcome == 'failure'
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { execSync } = require("child_process");
-
-            const changedFiles = execSync(
-              `git diff --name-only origin/${context.payload.pull_request.base.ref}...HEAD -- "public/tools-collection/"`,
-              { encoding: "utf-8" }
-            ).trim().split("\n").filter(Boolean);
-
-            const errors = [];
-
-            for (const file of changedFiles) {
-              if (!file.endsWith(".json")) continue;
-
-              const fs = require("fs");
-              const path = require("path");
-              const fileName = path.basename(file, ".json");
-
-              let content;
-              try {
-                content = fs.readFileSync(file, "utf-8");
-              } catch {
-                errors.push(`❌ \`${file}\`: Could not read file.`);
-                continue;
-              }
-
-              let tool;
-              try {
-                tool = JSON.parse(content);
-              } catch (e) {
-                errors.push(`❌ \`${file}\`: Invalid JSON — ${e.message}`);
-                continue;
-              }
-
-              if (!tool.name) {
-                errors.push(`❌ \`${file}\`: Missing required \`name\` field.`);
-              } else if (tool.name !== fileName) {
-                errors.push(`❌ \`${file}\`: \`name\` field (\`${tool.name}\`) does not match filename (\`${fileName}\`).`);
-              }
-
-              if (!tool.displayName) {
-                errors.push(`❌ \`${file}\`: Missing required \`displayName\` field.`);
-              }
-
-              if (!Array.isArray(tool.commands) || tool.commands.length === 0) {
-                errors.push(`❌ \`${file}\`: \`commands\` must be a non-empty array.`);
-              }
-
-              if (!Array.isArray(tool.parameters)) {
-                errors.push(`❌ \`${file}\`: \`parameters\` must be an array.`);
-              }
-            }
-
-            if (errors.length > 0) {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.payload.pull_request.number,
-                body: `## Tool Validation Failed\n\n${errors.join("\n")}\n\nPlease fix the above issues and push again.`,
-              });
-              core.setFailed(`Validation failed with ${errors.length} error(s).`);
-            }
-
-      - name: Install Bun
-        if: success()
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: `## Tool Validation Failed\n\nOne or more tool JSON files failed validation. Please check the workflow run logs for details.\n\nPlease fix the above issues and push again.`,
+            });
 
       - name: Regenerate tools.json
         if: success()
         run: bun run ./scripts/generate-tools-json.ts
 
-      - name: Commit updated tools.json
+      - name: Commit updated files
         if: success()
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 
-          if git diff --quiet public/tools.json; then
-            echo "No changes to tools.json"
+          git add public/tools-collection/ public/tools.json
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
           else
-            git add public/tools.json
-            git commit -m "chore: regenerate tools.json"
+            git commit -m "chore: sanitize tool files and regenerate tools.json"
             git push origin HEAD:${{ github.head_ref }}
           fi

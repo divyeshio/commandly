@@ -78,19 +78,29 @@ export const getAllSubcommands = (commandKey: string, commands: Command[]): Comm
   return result;
 };
 
-export const exportToStructuredJSON = (tool: Tool) => {
-  const flattenCommand = (cmd: Command) => {
-    return { ...cmd };
-  };
+const SCHEMA_URL = "https://commandly.divyeshio.in/specification/flat.json";
+
+export const sanitizeToolJSON = (tool: Record<string, unknown>): Record<string, unknown> => {
+  const parameters = Array.isArray(tool.parameters)
+    ? (tool.parameters as Record<string, unknown>[]).map(({ metadata: _metadata, ...param }) => param)
+    : tool.parameters;
 
   return {
-    $schema: "https://commandly.divyeshio.in/specification/flat.json",
+    $schema: SCHEMA_URL,
+    ...tool,
+    parameters,
+  };
+};
+
+export const exportToStructuredJSON = (tool: Tool) => {
+  return {
+    $schema: SCHEMA_URL,
     name: tool.name,
     displayName: tool.displayName,
     info: tool.info,
     url: tool.info?.url,
-    commands: tool.commands.map(flattenCommand),
-    parameters: tool.parameters,
+    commands: tool.commands.map((cmd) => ({ ...cmd })),
+    parameters: tool.parameters.map(({ metadata: _metadata, ...param }) => param),
     exclusionGroups: tool.exclusionGroups,
     metadata: tool.metadata,
   };
