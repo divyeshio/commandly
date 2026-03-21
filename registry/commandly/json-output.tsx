@@ -1,3 +1,6 @@
+import { Tool } from "@/commandly/lib/types/flat";
+import { exportToStructuredJSON } from "@/commandly/lib/utils/flat";
+import { convertToNestedStructure } from "@/commandly/lib/utils/nested";
 import { Button } from "@/components/ui/button";
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -10,9 +13,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { Tool } from "@/registry/commandly/lib/types/commandly";
-import { exportToStructuredJSON } from "@/registry/commandly/lib/utils/commandly";
-import { convertToNestedStructure } from "@/registry/commandly/lib/utils/commandly-nested";
 import { CheckIcon, ChevronsUpDownIcon, CopyIcon, Edit2Icon, XIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";

@@ -4,13 +4,13 @@ import {
   Parameter,
   ExclusionGroup,
   ParameterValue,
-} from "@/registry/commandly/lib/types/commandly";
+} from "@/commandly/lib/types/flat";
 import {
   cleanupTool,
   createNewCommand,
   getAllSubcommands,
   slugify,
-} from "@/registry/commandly/lib/utils/commandly";
+} from "@/commandly/lib/utils/flat";
 import {
   createContext,
   useContext,
@@ -165,7 +165,7 @@ function toolBuilderReducer(state: ToolBuilderState, action: Action): ToolBuilde
             if (action.payload.isGlobal && action.payload.isGlobal !== param.isGlobal) {
               updatedParam.commandKey = undefined;
             }
-            if (action.payload.isGlobal === false && param.isGlobal) {
+            if (!action.payload.isGlobal && param.isGlobal) {
               updatedParam.commandKey = state.selectedCommand?.key;
             }
             return updatedParam;

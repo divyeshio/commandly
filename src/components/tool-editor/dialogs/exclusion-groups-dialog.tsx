@@ -1,4 +1,5 @@
 import { useToolBuilder } from "../tool-editor.context";
+import { ExclusionGroup } from "@/commandly/lib/types/flat";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -10,7 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ExclusionGroup } from "@/registry/commandly/lib/types/commandly";
 import { PlusIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
 

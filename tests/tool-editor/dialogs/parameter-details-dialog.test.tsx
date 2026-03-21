@@ -1,3 +1,4 @@
+import { Parameter, Command } from "@/commandly/lib/types/flat";
 import { ParameterDetailsDialog } from "@/components/tool-editor/dialogs/parameter-details-dialog";
 import {
   ToolBuilderProvider,
@@ -5,7 +6,6 @@ import {
   useToolBuilder,
 } from "@/components/tool-editor/tool-editor.context";
 import { defaultTool } from "@/lib/utils";
-import { Parameter, Command } from "@/registry/commandly/lib/types/commandly";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { ReactNode } from "react";
 

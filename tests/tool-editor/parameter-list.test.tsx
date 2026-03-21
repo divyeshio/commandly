@@ -1,3 +1,4 @@
+import { Parameter, ExclusionGroup } from "@/commandly/lib/types/flat";
 import { ParameterList } from "@/components/tool-editor/parameter-list";
 import {
   ToolBuilderProvider,
@@ -5,7 +6,6 @@ import {
   useToolBuilder,
 } from "@/components/tool-editor/tool-editor.context";
 import { defaultTool } from "@/lib/utils";
-import { Parameter, ExclusionGroup } from "@/registry/commandly/lib/types/commandly";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { ReactNode } from "react";
 
@@ -327,7 +327,7 @@ describe("ParameterList - Rendering & Structure", () => {
       fireEvent.click(addButton);
 
       expect(capturedCtx.selectedParameter).toBeTruthy();
-      expect(capturedCtx.selectedParameter?.isGlobal).toBe(false);
+      expect(capturedCtx.selectedParameter?.isGlobal).toBe(undefined);
       expect(capturedCtx.selectedParameter?.commandKey).toBe("test-command-key");
     });
 

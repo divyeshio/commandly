@@ -1,3 +1,5 @@
+import { Tool } from "@/commandly/lib/types/flat";
+import { slugify } from "@/commandly/lib/utils/flat";
 import ToolEditor from "@/components/tool-editor/tool-editor";
 import { fetchToolDetails } from "@/lib/api/tools.api";
 import {
@@ -6,8 +8,6 @@ import {
   removeSavedCommandFromStorage,
 } from "@/lib/editor-utils";
 import { SavedCommand } from "@/lib/types";
-import { Tool } from "@/registry/commandly/lib/types/commandly";
-import { slugify } from "@/registry/commandly/lib/utils/commandly";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";

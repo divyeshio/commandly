@@ -155,9 +155,6 @@
       },
       "required": [
         "dataType",
-        "isGlobal",
-        "isRepeatable",
-        "isRequired",
         "key",
         "name",
         "parameterType"
@@ -208,7 +205,6 @@
         }
       },
       "required": [
-        "allowMultiple",
         "values"
       ]
     },

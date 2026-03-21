@@ -1,3 +1,6 @@
+import { ParameterValue } from "@/commandly/lib/types/flat";
+import { Command, Tool } from "@/commandly/lib/types/flat";
+import { ParameterRenderContext, ParameterRendererEntry } from "@/commandly/lib/types/renderer";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,12 +13,6 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { ParameterValue } from "@/registry/commandly/lib/types/commandly";
-import { Command, Tool } from "@/registry/commandly/lib/types/commandly";
-import {
-  ParameterRenderContext,
-  ParameterRendererEntry,
-} from "@/registry/commandly/lib/types/renderer";
 import { InfoIcon } from "lucide-react";
 import React from "react";
 

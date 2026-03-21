@@ -1,4 +1,4 @@
-import type { Tool } from "@/registry/commandly/lib/types/commandly";
+import type { Tool } from "@/commandly/lib/types/flat";
 import { createIsomorphicFn } from "@tanstack/react-start";
 
 const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/divyeshio/commandly/refs/heads/main";

@@ -8,7 +8,7 @@ import type {
   ParameterValidationType,
   ToolInfo,
   ToolMetadata,
-} from "./commandly";
+} from "@/commandly/lib/types/flat";
 
 export interface NestedParameterValidation {
   validationType: ParameterValidationType;
@@ -29,9 +29,9 @@ export interface NestedParameter {
   parameterType: ParameterType;
   dataType: ParameterDataType;
   metadata?: ParameterMetadata;
-  isRequired: boolean;
-  isRepeatable: boolean;
-  isGlobal: boolean;
+  isRequired?: boolean;
+  isRepeatable?: boolean;
+  isGlobal?: boolean;
   shortFlag?: string;
   longFlag?: string;
   position?: number;

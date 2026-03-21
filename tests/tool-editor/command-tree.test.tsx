@@ -1,3 +1,4 @@
+import { Command, Tool } from "@/commandly/lib/types/flat";
 import { CommandTree } from "@/components/tool-editor/command-tree";
 import {
   ToolBuilderProvider,
@@ -5,7 +6,6 @@ import {
   useToolBuilder,
 } from "@/components/tool-editor/tool-editor.context";
 import { defaultTool } from "@/lib/utils";
-import { Command, Tool } from "@/registry/commandly/lib/types/commandly";
 import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
 import { ReactNode } from "react";
 
