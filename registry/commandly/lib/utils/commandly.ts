@@ -82,7 +82,9 @@ const SCHEMA_URL = "https://commandly.divyeshio.in/specification/flat.json";
 
 export const sanitizeToolJSON = (tool: Record<string, unknown>): Record<string, unknown> => {
   const parameters = Array.isArray(tool.parameters)
-    ? (tool.parameters as Record<string, unknown>[]).map(({ metadata: _metadata, ...param }) => param)
+    ? (tool.parameters as Record<string, unknown>[]).map(
+        ({ metadata: _metadata, ...param }) => param,
+      )
     : tool.parameters;
 
   return {

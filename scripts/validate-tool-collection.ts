@@ -1,9 +1,8 @@
 import { readFileSync, writeFileSync } from "fs";
 import { basename, resolve } from "path";
 
-import Ajv from "ajv";
-
 import { sanitizeToolJSON } from "../registry/commandly/lib/utils/commandly";
+import Ajv from "ajv";
 
 const schemaPath = resolve("public/specification/flat.json");
 const schema = JSON.parse(readFileSync(schemaPath, "utf-8")) as object;
@@ -40,7 +39,9 @@ for (const file of files) {
   }
 
   if (!validate(tool)) {
-    const messages = (validate.errors ?? []).map((e) => `  • ${e.instancePath || "/"} ${e.message}`);
+    const messages = (validate.errors ?? []).map(
+      (e) => `  • ${e.instancePath || "/"} ${e.message}`,
+    );
     errors.push(`❌ \`${file}\`: Schema validation failed:\n${messages.join("\n")}`);
     continue;
   }
