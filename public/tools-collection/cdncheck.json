@@ -82,7 +82,7 @@
       "sortOrder": 5,
       "key": "match-cdn",
       "commandKey": "cdncheck",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "cloudfront",
@@ -117,7 +117,7 @@
       "sortOrder": 6,
       "key": "match-cloud",
       "commandKey": "cdncheck",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "aws",
@@ -148,7 +148,7 @@
       "sortOrder": 7,
       "key": "match-waf",
       "commandKey": "cdncheck",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "cloudflare",
@@ -183,7 +183,7 @@
       "sortOrder": 8,
       "key": "filter-cdn",
       "commandKey": "cdncheck",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "cloudfront",
@@ -218,7 +218,7 @@
       "sortOrder": 9,
       "key": "filter-cloud",
       "commandKey": "cdncheck",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "aws",
@@ -249,7 +249,7 @@
       "sortOrder": 10,
       "key": "filter-waf",
       "commandKey": "cdncheck",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "cloudflare",

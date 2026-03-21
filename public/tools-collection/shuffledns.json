@@ -112,7 +112,7 @@
       "sortOrder": 7,
       "key": "mode",
       "commandKey": "shuffledns",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "bruteforce",

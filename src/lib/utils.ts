@@ -89,10 +89,10 @@ export function replaceKey(tool: Tool): Tool {
       key: keyMap[oldKey] || oldKey,
       commandKey: commandKey ? keyMap[commandKey] || commandKey : undefined,
       commandId: undefined,
-      enumValues: param.enumValues
+      enum: param.enum
         ? {
-            ...param.enumValues,
-            values: param.enumValues.values.map((ev: ParameterEnumValue) => ({
+            ...param.enum,
+            values: param.enum.values.map((ev: ParameterEnumValue) => ({
               ...ev,
               id: undefined,
               parameterId: undefined,

@@ -160,7 +160,7 @@ function toolBuilderReducer(state: ToolBuilderState, action: Action): ToolBuilde
               ...action.payload,
               dependencies: action.payload.dependencies,
               validations: action.payload.validations,
-              enumValues: action.payload.enumValues,
+              enum: action.payload.enum,
             };
             if (action.payload.isGlobal && action.payload.isGlobal !== param.isGlobal) {
               updatedParam.commandKey = undefined;

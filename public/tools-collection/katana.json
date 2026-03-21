@@ -131,7 +131,7 @@
       "longFlag": "-known-files",
       "key": "known-files",
       "commandKey": "katana",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "all",

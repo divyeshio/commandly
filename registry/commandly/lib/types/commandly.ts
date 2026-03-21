@@ -84,7 +84,7 @@ export interface Parameter {
   sortOrder?: number;
   arraySeparator?: string;
   keyValueSeparator?: string;
-  enumValues?: ParameterEnumValues;
+  enum?: ParameterEnumValues;
   validations?: ParameterValidation[];
   dependencies?: ParameterDependency[];
 }
