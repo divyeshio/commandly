@@ -42,19 +42,19 @@
           "type": "registry:lib"
         },
         {
-          "path": "registry/commandly/lib/types/commandly.ts",
+          "path": "registry/commandly/lib/types/flat.ts",
           "type": "registry:lib"
         },
         {
-          "path": "registry/commandly/lib/types/commandly-nested.ts",
+          "path": "registry/commandly/lib/types/nested.ts",
           "type": "registry:lib"
         },
         {
-          "path": "registry/commandly/lib/utils/commandly.ts",
+          "path": "registry/commandly/lib/utils/flat.ts",
           "type": "registry:lib"
         },
         {
-          "path": "registry/commandly/lib/utils/commandly-nested.ts",
+          "path": "registry/commandly/lib/utils/nested.ts",
           "type": "registry:lib"
         }
       ]
@@ -73,19 +73,19 @@
           "target": "components/commandly/generated-command.tsx"
         },
         {
-          "path": "registry/commandly/lib/types/commandly.ts",
+          "path": "registry/commandly/lib/types/flat.ts",
           "type": "registry:lib"
         },
         {
-          "path": "registry/commandly/lib/types/commandly-nested.ts",
+          "path": "registry/commandly/lib/types/nested.ts",
           "type": "registry:lib"
         },
         {
-          "path": "registry/commandly/lib/utils/commandly.ts",
+          "path": "registry/commandly/lib/utils/flat.ts",
           "type": "registry:lib"
         },
         {
-          "path": "registry/commandly/lib/utils/commandly-nested.ts",
+          "path": "registry/commandly/lib/utils/nested.ts",
           "type": "registry:lib"
         }
       ]
@@ -104,11 +104,11 @@
           "target": "components/commandly/json-output.tsx"
         },
         {
-          "path": "registry/commandly/lib/types/commandly.ts",
+          "path": "registry/commandly/lib/types/flat.ts",
           "type": "registry:lib"
         },
         {
-          "path": "registry/commandly/lib/types/commandly-nested.ts",
+          "path": "registry/commandly/lib/types/nested.ts",
           "type": "registry:lib"
         }
       ]
@@ -131,11 +131,11 @@
           "type": "registry:lib"
         },
         {
-          "path": "registry/commandly/lib/types/commandly.ts",
+          "path": "registry/commandly/lib/types/flat.ts",
           "type": "registry:lib"
         },
         {
-          "path": "registry/commandly/lib/types/commandly-nested.ts",
+          "path": "registry/commandly/lib/types/nested.ts",
           "type": "registry:lib"
         }
       ]

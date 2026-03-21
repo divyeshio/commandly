@@ -1,6 +1,6 @@
 import { useToolBuilder } from "./tool-editor.context";
+import { Command } from "@/commandly/lib/types/flat";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Command } from "@/registry/commandly/lib/types/commandly";
 
 export function HelpMenu() {
   const { tool } = useToolBuilder();

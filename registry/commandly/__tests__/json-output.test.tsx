@@ -1,8 +1,8 @@
 import { JsonOutput } from "../json-output";
-import { exportToStructuredJSON } from "../lib/utils/commandly";
+import { exportToStructuredJSON } from "../lib/utils/flat";
+import type { Tool } from "@/commandly/lib/types/flat";
+import { convertToNestedStructure } from "@/commandly/lib/utils/nested";
 import { defaultTool } from "@/lib/utils";
-import type { Tool } from "@/registry/commandly/lib/types/commandly";
-import { convertToNestedStructure } from "@/registry/commandly/lib/utils/commandly-nested";
 import { render, screen } from "@testing-library/react";
 import { OnUrlUpdateFunction, withNuqsTestingAdapter } from "nuqs/adapters/testing";
 

@@ -36,16 +36,16 @@ The foundational block containing GeneratedCommand, JsonOutput, and ToolRenderer
 
 Installing this block copies the following into your project:
 
-| File                            | Target                                               |
-| ------------------------------- | ---------------------------------------------------- |
-| `generated-command.tsx`         | `components/commandly/generated-command.tsx`         |
-| `json-output.tsx`               | `components/commandly/json-output.tsx`               |
-| `tool-renderer.tsx`             | `components/commandly/tool-renderer.tsx`             |
-| `lib/types/commandly.ts`        | `components/commandly/lib/types/commandly.ts`        |
-| `lib/types/commandly-nested.ts` | `components/commandly/lib/types/commandly-nested.ts` |
-| `lib/types/renderer.ts`         | `components/commandly/lib/types/renderer.ts`         |
-| `lib/utils/commandly.ts`        | `components/commandly/lib/utils/commandly.ts`        |
-| `lib/utils/commandly-nested.ts` | `components/commandly/lib/utils/commandly-nested.ts` |
+| File                    | Target                                       |
+| ----------------------- | -------------------------------------------- |
+| `generated-command.tsx` | `components/commandly/generated-command.tsx` |
+| `json-output.tsx`       | `components/commandly/json-output.tsx`       |
+| `tool-renderer.tsx`     | `components/commandly/tool-renderer.tsx`     |
+| `lib/types/flat.ts`     | `components/commandly/lib/types/flat.ts`     |
+| `lib/types/nested.ts`   | `components/commandly/lib/types/nested.ts`   |
+| `lib/types/renderer.ts` | `components/commandly/lib/types/renderer.ts` |
+| `lib/utils/flat.ts`     | `components/commandly/lib/utils/flat.ts`     |
+| `lib/utils/nested.ts`   | `components/commandly/lib/utils/nested.ts`   |
 
 ## Usage
 
@@ -53,7 +53,7 @@ Installing this block copies the following into your project:
 import { GeneratedCommand } from "@/components/commandly/generated-command";
 import { JsonOutput } from "@/components/commandly/json-output";
 import { ToolRenderer } from "@/components/commandly/tool-renderer";
-import type { Tool, Parameter, ParameterValue } from "@/components/commandly/lib/types/commandly";
+import type { Tool, Parameter, ParameterValue } from "@/components/commandly/lib/types/flat";
 ```
 
 ### Using All Three Together
@@ -78,6 +78,6 @@ const [values, setValues] = useState<Record<string, ParameterValue>>({})
 
 ## Notes
 
-- All three components share the same `Tool` type from `lib/types/commandly.ts`
+- All three components share the same `Tool` type from `lib/types/flat.ts`
 - The `lib/utils/` helpers handle conversion between flat and nested structures
 - Individual components (`generated-command`, `json-output`, `tool-renderer`) can also be installed separately

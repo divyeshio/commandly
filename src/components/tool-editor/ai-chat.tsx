@@ -1,5 +1,7 @@
 import { generatePrompt } from "./prompt";
 import { useToolBuilder } from "./tool-editor.context";
+import { Tool } from "@/commandly/lib/types/flat";
+import { exportToStructuredJSON } from "@/commandly/lib/utils/flat";
 import {
   Conversation,
   ConversationContent,
@@ -31,8 +33,6 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { useAIKeys, type AIProvider } from "@/lib/ai-keys";
 import { cn, replaceKey } from "@/lib/utils";
-import { Tool } from "@/registry/commandly/lib/types/commandly";
-import { exportToStructuredJSON } from "@/registry/commandly/lib/utils/commandly";
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { createGroq } from "@ai-sdk/groq";

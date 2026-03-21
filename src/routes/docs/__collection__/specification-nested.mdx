@@ -39,9 +39,9 @@ Identical to the flat [Parameter Object](/docs/specification-schema#parameter-ob
 | `name`              | string                             | ✓        | Human-readable parameter name. Also used as the identifier in exclusion groups.                                       |
 | `parameterType`     | ParameterType                      | ✓        | One of `Flag`, `Option`, or `Argument`.                                                                               |
 | `dataType`          | ParameterDataType                  | ✓        | One of `String`, `Number`, `Boolean`, or `Enum`.                                                                      |
-| `isRequired`        | boolean                            | ✓        | Whether the parameter must be provided.                                                                               |
-| `isRepeatable`      | boolean                            | ✓        | Whether the parameter can appear more than once.                                                                      |
-| `isGlobal`          | boolean                            | ✓        | If `true`, the parameter applies to all commands.                                                                     |
+| `isRequired`        | boolean                            | —        | Whether the parameter must be provided.                                                                               |
+| `isRepeatable`      | boolean                            | —        | Whether the parameter can appear more than once.                                                                      |
+| `isGlobal`          | boolean                            | —        | If `true`, the parameter applies to all commands.                                                                     |
 | `description`       | string                             | —        | Human-readable description.                                                                                           |
 | `group`             | string                             | —        | Display group label.                                                                                                  |
 | `shortFlag`         | string                             | —        | Short flag form (e.g. `-o`).                                                                                          |

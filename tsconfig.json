@@ -13,7 +13,7 @@
     "strict": true,
     "skipLibCheck": true,
     "paths": {
-      "@/registry/*": ["./registry/*"],
+      "@/commandly/*": ["./registry/commandly/*"],
       "@/*": ["./src/*"]
     }
   },

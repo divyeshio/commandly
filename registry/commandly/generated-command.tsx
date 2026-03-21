@@ -1,6 +1,6 @@
+import { Parameter, ParameterValue, Tool, Command } from "@/commandly/lib/types/flat";
+import { getCommandPath } from "@/commandly/lib/utils/flat";
 import { Button } from "@/components/ui/button";
-import { Parameter, ParameterValue, Tool, Command } from "@/registry/commandly/lib/types/commandly";
-import { getCommandPath } from "@/registry/commandly/lib/utils/commandly";
 import { TerminalIcon, CopyIcon, SaveIcon } from "lucide-react";
 import { useCallback, useEffect, useState, useMemo } from "react";
 import { toast } from "sonner";

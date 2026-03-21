@@ -1,4 +1,5 @@
 import { useToolBuilder } from "../tool-editor.context";
+import { ToolMetadata } from "@/commandly/lib/types/flat";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,7 +13,6 @@ import { Label } from "@/components/ui/label";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { Textarea } from "@/components/ui/textarea";
 import { SupportedToolInputType, SupportedToolOutputType } from "@/lib/types";
-import { ToolMetadata } from "@/registry/commandly/lib/types/commandly";
 import { SettingsIcon } from "lucide-react";
 
 const supportedInputOptions = [

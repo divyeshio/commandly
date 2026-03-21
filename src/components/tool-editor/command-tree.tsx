@@ -1,9 +1,9 @@
 import { CommandDialog } from "../tool-editor/dialogs/command-dialog";
 import { useToolBuilder } from "./tool-editor.context";
+import { Command } from "@/commandly/lib/types/flat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Command } from "@/registry/commandly/lib/types/commandly";
 import { ChevronDownIcon, ChevronRightIcon, Edit2Icon, PlusIcon, Trash2Icon } from "lucide-react";
 import { useState, useEffect } from "react";
 

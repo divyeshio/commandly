@@ -1,3 +1,4 @@
+import { Tool } from "@/commandly/lib/types/flat";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,7 +9,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { HoverCard, HoverCardTrigger, HoverCardContent } from "@/components/ui/hover-card";
-import { Tool } from "@/registry/commandly/lib/types/commandly";
 import { Link } from "@tanstack/react-router";
 import { Edit2Icon, ExternalLinkIcon, Trash2Icon } from "lucide-react";
 

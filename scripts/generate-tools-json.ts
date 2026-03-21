@@ -1,12 +1,12 @@
 import { readdirSync, readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 
-import type { Tool } from "../registry/commandly/lib/types/commandly";
+import { Tool } from "@/commandly/lib/types/flat";
 
 const collectionDir = join(process.cwd(), "public", "tools-collection");
 const files = readdirSync(collectionDir).filter((f) => f.endsWith(".json"));
 
-const tools = files.map((file) => {
+const tools = files.sort().map((file) => {
   const content = readFileSync(join(collectionDir, file), "utf-8");
   const tool = JSON.parse(content) as Tool;
   return {

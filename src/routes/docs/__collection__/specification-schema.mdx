@@ -45,9 +45,9 @@ The root object of a Commandly flat description.
 | `name`              | string                       | ✓        | Human-readable parameter name.                                                |
 | `parameterType`     | ParameterType                | ✓        | One of `Flag`, `Option`, or `Argument`.                                       |
 | `dataType`          | ParameterDataType            | ✓        | One of `String`, `Number`, `Boolean`, or `Enum`.                              |
-| `isRequired`        | boolean                      | ✓        | Whether the parameter must be provided.                                       |
-| `isRepeatable`      | boolean                      | ✓        | Whether the parameter can appear more than once.                              |
-| `isGlobal`          | boolean                      | ✓        | If `true`, the parameter applies to all commands regardless of `commandKey`.  |
+| `isRequired`        | boolean                      | —        | Whether the parameter must be provided.                                       |
+| `isRepeatable`      | boolean                      | —        | Whether the parameter can appear more than once.                              |
+| `isGlobal`          | boolean                      | —        | If `true`, the parameter applies to all commands regardless of `commandKey`.  |
 | `commandKey`        | string                       | —        | Key of the command this parameter belongs to. Omit for global parameters.     |
 | `description`       | string                       | —        | Human-readable description.                                                   |
 | `group`             | string                       | —        | Display group label for UI grouping.                                          |
@@ -84,7 +84,7 @@ The root object of a Commandly flat description.
 | Field           | Type                        | Required | Description                                                      |
 | --------------- | --------------------------- | -------- | ---------------------------------------------------------------- |
 | `values`        | ParameterEnumValue Object[] | ✓        | Ordered list of allowed values.                                  |
-| `allowMultiple` | boolean                     | ✓        | Whether multiple values can be selected simultaneously.          |
+| `allowMultiple` | boolean                     | —        | Whether multiple values can be selected simultaneously.          |
 | `separator`     | string                      | —        | Separator used when multiple values are combined into one token. |
 
 ## ParameterEnumValue Object
