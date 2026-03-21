@@ -1,6 +1,7 @@
 import { ToolRenderer, defaultComponents } from "../tool-renderer";
+import { defaultTool } from "@/lib/utils";
 import { ParameterRendererEntry } from "@/registry/commandly/lib/types/renderer";
-import { defaultTool, createNewParameter } from "@/registry/commandly/lib/utils/commandly";
+import { createNewParameter } from "@/registry/commandly/lib/utils/commandly";
 import { render, screen } from "@testing-library/react";
 
 const baseCommand = { key: "my-tool", name: "my-tool", isDefault: true, sortOrder: 0 };
@@ -66,7 +67,7 @@ describe("ToolRenderer", () => {
       name: "Format",
       parameterType: "Option" as const,
       dataType: "Enum" as const,
-      enumValues: [{ key: "json", parameterKey: "format", value: "json", displayName: "JSON" }],
+      enumValues: { values: [{ value: "json", displayName: "JSON" }], allowMultiple: false },
     };
     render(
       <ToolRenderer

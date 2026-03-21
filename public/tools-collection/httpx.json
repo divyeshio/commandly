@@ -2,7 +2,9 @@
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
   "name": "httpx",
   "displayName": "Httpx",
-  "description": "Httpx is a fast and multi-purpose HTTP toolkit that allows running multiple probes using the retryablehttp library.",
+  "info": {
+    "description": "Httpx is a fast and multi-purpose HTTP toolkit that allows running multiple probes using the retryablehttp library."
+  },
   "url": "https://github.com/projectdiscovery/httpx",
   "commands": [
     {
@@ -150,32 +152,35 @@
       "sortOrder": 9,
       "key": "hash",
       "commandKey": "httpx",
-      "enumValues": [
-        {
-          "value": "md5",
-          "displayName": "Md5"
-        },
-        {
-          "value": "mmh3",
-          "displayName": "Mmh3"
-        },
-        {
-          "value": "simhash",
-          "displayName": "Simhash"
-        },
-        {
-          "value": "sha1",
-          "displayName": "Sha1"
-        },
-        {
-          "value": "sha256",
-          "displayName": "Sha256"
-        },
-        {
-          "value": "sha512",
-          "displayName": "Sha512"
-        }
-      ]
+      "enumValues": {
+        "values": [
+          {
+            "value": "md5",
+            "displayName": "Md5"
+          },
+          {
+            "value": "mmh3",
+            "displayName": "Mmh3"
+          },
+          {
+            "value": "simhash",
+            "displayName": "Simhash"
+          },
+          {
+            "value": "sha1",
+            "displayName": "Sha1"
+          },
+          {
+            "value": "sha256",
+            "displayName": "Sha256"
+          },
+          {
+            "value": "sha512",
+            "displayName": "Sha512"
+          }
+        ],
+        "allowMultiple": false
+      }
     },
     {
       "name": "Jarm",
@@ -669,20 +674,23 @@
       "sortOrder": 41,
       "key": "match-cdn",
       "commandKey": "httpx",
-      "enumValues": [
-        {
-          "value": "cloudfront",
-          "displayName": "Cloudfront"
-        },
-        {
-          "value": "fastly",
-          "displayName": "Fastly"
-        },
-        {
-          "value": "google",
-          "displayName": "Google"
-        }
-      ]
+      "enumValues": {
+        "values": [
+          {
+            "value": "cloudfront",
+            "displayName": "Cloudfront"
+          },
+          {
+            "value": "fastly",
+            "displayName": "Fastly"
+          },
+          {
+            "value": "google",
+            "displayName": "Google"
+          }
+        ],
+        "allowMultiple": false
+      }
     },
     {
       "name": "Match response time",
@@ -879,20 +887,23 @@
       "sortOrder": 55,
       "key": "filter-cdn",
       "commandKey": "httpx",
-      "enumValues": [
-        {
-          "value": "cloudfront",
-          "displayName": "Cloudfront"
-        },
-        {
-          "value": "fastly",
-          "displayName": "Fastly"
-        },
-        {
-          "value": "google",
-          "displayName": "Google"
-        }
-      ]
+      "enumValues": {
+        "values": [
+          {
+            "value": "cloudfront",
+            "displayName": "Cloudfront"
+          },
+          {
+            "value": "fastly",
+            "displayName": "Fastly"
+          },
+          {
+            "value": "google",
+            "displayName": "Google"
+          }
+        ],
+        "allowMultiple": false
+      }
     },
     {
       "name": "Filter response time",
@@ -1968,28 +1979,31 @@
       "sortOrder": 131,
       "key": "exclude",
       "commandKey": "httpx",
-      "enumValues": [
-        {
-          "value": "cdn",
-          "displayName": "Cdn"
-        },
-        {
-          "value": "private-ips",
-          "displayName": "Private-ips"
-        },
-        {
-          "value": "cidr",
-          "displayName": "Cidr"
-        },
-        {
-          "value": "ip",
-          "displayName": "Ip"
-        },
-        {
-          "value": "regex",
-          "displayName": "Regex"
-        }
-      ]
+      "enumValues": {
+        "values": [
+          {
+            "value": "cdn",
+            "displayName": "Cdn"
+          },
+          {
+            "value": "private-ips",
+            "displayName": "Private-ips"
+          },
+          {
+            "value": "cidr",
+            "displayName": "Cidr"
+          },
+          {
+            "value": "ip",
+            "displayName": "Ip"
+          },
+          {
+            "value": "regex",
+            "displayName": "Regex"
+          }
+        ],
+        "allowMultiple": false
+      }
     },
     {
       "name": "Retries",

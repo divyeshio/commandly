@@ -8,7 +8,6 @@ import {
 import {
   cleanupTool,
   createNewCommand,
-  defaultTool,
   getAllSubcommands,
   slugify,
 } from "@/registry/commandly/lib/utils/commandly";
@@ -159,9 +158,9 @@ function toolBuilderReducer(state: ToolBuilderState, action: Action): ToolBuilde
             const updatedParam = {
               ...param,
               ...action.payload,
-              dependencies: action.payload.dependencies || [],
-              validations: action.payload.validations || [],
-              enumValues: action.payload.enumValues || [],
+              dependencies: action.payload.dependencies,
+              validations: action.payload.validations,
+              enumValues: action.payload.enumValues,
             };
             if (action.payload.isGlobal && action.payload.isGlobal !== param.isGlobal) {
               updatedParam.commandKey = undefined;
@@ -361,5 +360,3 @@ export function useToolBuilder(): ToolBuilderContextValue {
   }
   return context;
 }
-
-export { defaultTool };

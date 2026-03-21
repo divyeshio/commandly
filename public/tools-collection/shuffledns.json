@@ -2,7 +2,9 @@
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
   "name": "shuffledns",
   "displayName": "ShuffleDNS",
-  "description": "MassDNS wrapper written in go to enumerate valid subdomains using active bruteforce as well as resolve subdomains with wildcard filtering and easy input-output support.",
+  "info": {
+    "description": "MassDNS wrapper written in go to enumerate valid subdomains using active bruteforce as well as resolve subdomains with wildcard filtering and easy input-output support."
+  },
   "url": "https://github.com/projectdiscovery/shuffledns",
   "commands": [
     {
@@ -110,20 +112,23 @@
       "sortOrder": 7,
       "key": "mode",
       "commandKey": "shuffledns",
-      "enumValues": [
-        {
-          "value": "bruteforce",
-          "displayName": "Bruteforce"
-        },
-        {
-          "value": "resolve",
-          "displayName": "Resolve"
-        },
-        {
-          "value": "filter",
-          "displayName": "Filter"
-        }
-      ]
+      "enumValues": {
+        "values": [
+          {
+            "value": "bruteforce",
+            "displayName": "Bruteforce"
+          },
+          {
+            "value": "resolve",
+            "displayName": "Resolve"
+          },
+          {
+            "value": "filter",
+            "displayName": "Filter"
+          }
+        ],
+        "allowMultiple": false
+      }
     },
     {
       "name": "T",

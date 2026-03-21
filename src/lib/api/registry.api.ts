@@ -28,8 +28,11 @@ export interface Registry {
 export const fetchRegistryList = createIsomorphicFn()
   .server(async () => {
     const { promises: fs } = await import("node:fs");
-    const { join } = await import("node:path");
-    const content = await fs.readFile(join(process.cwd(), "public", "r", "registry.json"), "utf-8");
+    const path = await import("node:path");
+    const content = await fs.readFile(
+      path.join(process.cwd(), "public", "r", "registry.json"),
+      "utf-8",
+    );
     const registry = JSON.parse(content) as Registry;
     return registry.items;
   })

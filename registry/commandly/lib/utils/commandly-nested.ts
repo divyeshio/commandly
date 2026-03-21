@@ -43,6 +43,7 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
         return {
           name: cmd.name,
           description: cmd.description,
+          interactive: cmd.interactive,
           isDefault: cmd.isDefault ?? false,
           sortOrder: cmd.sortOrder ?? 0,
           parameters: commandParameters.map(convertParameter),
@@ -67,10 +68,9 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
   return {
     $schema: "https://commandly.divyeshio.in/specification/nested.json",
     name: tool.name,
-    url: tool.url,
+    url: tool.info?.url,
     displayName: tool.displayName,
-    description: tool.description,
-    version: tool.version,
+    info: tool.info,
     metadata: tool.metadata,
     globalParameters: globalParameters.map(convertParameter),
     commands: buildNestedCommands(tool.commands),

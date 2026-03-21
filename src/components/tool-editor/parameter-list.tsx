@@ -2,9 +2,8 @@ import { useToolBuilder } from "./tool-editor.context";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ExclusionGroup, ParameterType } from "@/registry/commandly/lib/types/commandly";
-import { createNewParameter, validateDefaultValue } from "@/registry/commandly/lib/utils/commandly";
+import { createNewParameter } from "@/registry/commandly/lib/utils/commandly";
 import {
-  CheckCircleIcon,
   FileTextIcon,
   FlagIcon,
   GlobeIcon,
@@ -12,7 +11,6 @@ import {
   LayersIcon,
   PlusIcon,
   Trash2Icon,
-  XCircleIcon,
 } from "lucide-react";
 
 interface ParameterListProps {
@@ -74,7 +72,6 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
 
       <div className="space-y-2">
         {parameters.map((parameter) => {
-          const validation = validateDefaultValue(parameter);
           const paramGroups = getParameterExclusionGroups(parameter.key);
 
           return (
@@ -146,10 +143,6 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
                     {group.name}
                   </Badge>
                 ))}
-                {!validation.isValid && <XCircleIcon className="h-3 w-3 text-destructive" />}
-                {validation.isValid && parameter.defaultValue && (
-                  <CheckCircleIcon className="h-3 w-3 text-green-500" />
-                )}
               </div>
             </div>
           );

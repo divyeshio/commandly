@@ -22,9 +22,15 @@ export const docsNav: DocNavSection[] = [
   },
   {
     section: "Blocks",
+    items: [{ name: "ui", title: "Basic UI" }],
+  },
+  {
+    section: "Specification",
     items: [
-      { name: "tool-editor", title: "Tool Editor" },
-      { name: "ui", title: "Basic UI" },
+      { name: "specification-intro", title: "Introduction" },
+      { name: "specification-schema", title: "Flat Schema" },
+      { name: "specification-nested", title: "Nested Schema" },
+      { name: "specification-examples", title: "Examples" },
     ],
   },
 ];

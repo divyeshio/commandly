@@ -89,13 +89,16 @@ export function replaceKey(tool: Tool): Tool {
       key: keyMap[oldKey] || oldKey,
       commandKey: commandKey ? keyMap[commandKey] || commandKey : undefined,
       commandId: undefined,
-      enumValues: (param.enumValues || []).map((ev: ParameterEnumValue) => {
-        return {
-          ...ev,
-          id: undefined,
-          parameterId: undefined,
-        };
-      }),
+      enumValues: param.enumValues
+        ? {
+            ...param.enumValues,
+            values: param.enumValues.values.map((ev: ParameterEnumValue) => ({
+              ...ev,
+              id: undefined,
+              parameterId: undefined,
+            })),
+          }
+        : undefined,
       validations: (param.validations || []).map((val: ParameterValidation) => {
         const oldValKey = val.key;
         const oldParamKey = param.key;
@@ -147,3 +150,34 @@ export function replaceKey(tool: Tool): Tool {
   const finalClone = JSON.parse(JSON.stringify(clone));
   return finalClone;
 }
+
+export const defaultTool = (toolName?: string, displayName?: string): Tool => {
+  const finalToolName = toolName || "my-tool";
+  return {
+    name: finalToolName,
+    displayName: displayName || "My Tool",
+    commands: [
+      {
+        key: slugify(finalToolName),
+        name: finalToolName,
+        description: "Main command",
+        isDefault: true,
+        sortOrder: 0,
+      },
+    ],
+    parameters: [
+      {
+        key: "--help",
+        name: "Help",
+        description: "Displays help menu of tool",
+        parameterType: "Flag",
+        dataType: "String",
+        isRequired: false,
+        isGlobal: true,
+        shortFlag: "-h",
+        longFlag: "--help",
+        isRepeatable: false,
+      },
+    ],
+  };
+};

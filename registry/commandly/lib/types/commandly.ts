@@ -1,8 +1,15 @@
+export interface ToolInfo {
+  description?: string;
+  version?: string;
+  url?: string;
+}
+
 export interface Command {
   key: string;
   parentCommandKey?: string;
   name: string;
   description?: string;
+  interactive?: boolean;
   isDefault?: boolean;
   sortOrder?: number;
 }
@@ -13,6 +20,12 @@ export interface ParameterEnumValue {
   description?: string;
   isDefault?: boolean;
   sortOrder?: number;
+}
+
+export interface ParameterEnumValues {
+  values: ParameterEnumValue[];
+  allowMultiple: boolean;
+  separator?: string;
 }
 
 export type ParameterValidationType =
@@ -58,20 +71,20 @@ export interface Parameter {
   name: string;
   commandKey?: string;
   description?: string;
+  group?: string;
   metadata?: ParameterMetadata;
   parameterType: ParameterType;
   dataType: ParameterDataType;
   isRequired: boolean;
   isRepeatable: boolean;
   isGlobal: boolean;
-  defaultValue?: string;
   shortFlag?: string;
   longFlag?: string;
   position?: number;
   sortOrder?: number;
   arraySeparator?: string;
   keyValueSeparator?: string;
-  enumValues?: ParameterEnumValue[];
+  enumValues?: ParameterEnumValues;
   validations?: ParameterValidation[];
   dependencies?: ParameterDependency[];
 }
@@ -86,19 +99,10 @@ export interface ExclusionGroup {
   parameterKeys: string[];
 }
 
-export interface SavedCommand {
-  key: string;
-  command: string;
-}
-
 export interface Tool {
   name: string;
   displayName: string;
-  description?: string;
-  version?: string;
-  category?: string;
-  tags?: string[];
-  url?: string;
+  info?: ToolInfo;
   commands: Command[];
   parameters: Parameter[];
   exclusionGroups?: ExclusionGroup[];

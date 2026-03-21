@@ -4,7 +4,9 @@ import type { Tool } from "@/registry/commandly/lib/types/commandly";
 const sampleTool: Tool = {
   name: "curl",
   displayName: "curl",
-  description: "Transfer data to or from a server",
+  info: {
+    description: "Transfer data to or from a server",
+  },
   commands: [{ key: "curl", name: "curl", isDefault: true }],
   parameters: [
     {

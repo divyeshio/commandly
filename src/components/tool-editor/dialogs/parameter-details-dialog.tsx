@@ -27,11 +27,12 @@ import {
   ParameterDependency,
   ParameterDependencyType,
   ParameterEnumValue,
+  ParameterEnumValues,
   ParameterType,
   ParameterValidation,
   ParameterValidationType,
 } from "@/registry/commandly/lib/types/commandly";
-import { slugify, validateDefaultValue } from "@/registry/commandly/lib/utils/commandly";
+import { slugify } from "@/registry/commandly/lib/utils/commandly";
 import { TagsInput } from "@/registry/commandly/ui/tags-input";
 import {
   FlagIcon,
@@ -163,28 +164,22 @@ export function ParameterDetailsDialog() {
 
   const addEnumValue = () => {
     if (!parameter) return;
-    const value = "new-value";
     const newEnumValue: ParameterEnumValue = {
-      value,
+      value: "new-value",
       displayName: "New Value",
       isDefault: false,
       sortOrder: 0,
     };
-
+    const existing = parameter.enumValues ?? { values: [], allowMultiple: false };
     updateParameter({
-      enumValues: [...(parameter.enumValues ?? []), newEnumValue],
+      enumValues: { ...existing, values: [...existing.values, newEnumValue] },
     });
   };
 
   if (!parameter) return null;
 
-  const validation = validateDefaultValue(parameter);
-
   const canSaveChanges = () => {
     if (!hasChanges) return false;
-    if (parameter.defaultValue && !validation.isValid) {
-      return false;
-    }
 
     if (!parameter.name.trim() || !parameter.longFlag?.trim()) {
       return false;
@@ -346,36 +341,31 @@ export function ParameterDetailsDialog() {
             />
           </div>
 
-          <div className="grid grid-cols-2 items-center gap-4">
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="defaultValue">Default Value</Label>
-              <Input
-                id="defaultValue"
-                value={parameter.defaultValue}
-                onChange={(e) => updateParameter({ defaultValue: e.target.value })}
-                className={!validation.isValid ? "border-destructive" : ""}
+          <div className="flex flex-col gap-2">
+            <Label>Group</Label>
+            <Input
+              value={parameter.group ?? ""}
+              onChange={(e) => updateParameter({ group: e.target.value || undefined })}
+              placeholder="e.g. output"
+            />
+          </div>
+
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
+              <Switch
+                id="isRequired"
+                checked={parameter.isRequired}
+                onCheckedChange={(checked) => updateParameter({ isRequired: checked })}
               />
-              {!validation.isValid && (
-                <p className="mt-1 text-xs text-destructive">{validation.error}</p>
-              )}
+              <Label htmlFor="isRequired">Required</Label>
             </div>
-            <div className="flex items-center space-x-4 pt-6">
-              <div className="flex items-center space-x-2">
-                <Switch
-                  id="isRequired"
-                  checked={parameter.isRequired}
-                  onCheckedChange={(checked) => updateParameter({ isRequired: checked })}
-                />
-                <Label htmlFor="isRequired">Required</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Switch
-                  id="isRepeatable"
-                  checked={parameter.isRepeatable}
-                  onCheckedChange={(checked) => updateParameter({ isRepeatable: checked })}
-                />
-                <Label htmlFor="isRepeatable">Repeatable</Label>
-              </div>
+            <div className="flex items-center space-x-2">
+              <Switch
+                id="isRepeatable"
+                checked={parameter.isRepeatable}
+                onCheckedChange={(checked) => updateParameter({ isRepeatable: checked })}
+              />
+              <Label htmlFor="isRepeatable">Repeatable</Label>
             </div>
           </div>
 
@@ -573,11 +563,43 @@ export function ParameterDetailsDialog() {
                     Add
                   </Button>
                 </div>
+                <div className="mb-3 flex items-center gap-4">
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="allow-multiple"
+                      checked={parameter.enumValues?.allowMultiple ?? false}
+                      onCheckedChange={(checked) =>
+                        updateParameter({
+                          enumValues: {
+                            ...(parameter.enumValues ?? { values: [] }),
+                            allowMultiple: checked,
+                          } as ParameterEnumValues,
+                        })
+                      }
+                    />
+                    <Label htmlFor="allow-multiple">Allow Multiple</Label>
+                  </div>
+                  {parameter.enumValues?.allowMultiple && (
+                    <Input
+                      value={parameter.enumValues?.separator ?? ","}
+                      onChange={(e) =>
+                        updateParameter({
+                          enumValues: {
+                            ...(parameter.enumValues ?? { values: [], allowMultiple: true }),
+                            separator: e.target.value,
+                          },
+                        })
+                      }
+                      placeholder="Separator (e.g. ,)"
+                      className="w-32"
+                    />
+                  )}
+                </div>
                 <div
                   className="space-y-2"
                   id="enum-values"
                 >
-                  {parameter.enumValues?.map((enumValue) => (
+                  {parameter.enumValues?.values?.map((enumValue) => (
                     <div
                       key={enumValue.value}
                       className="flex items-center gap-2 rounded border p-2"
@@ -585,11 +607,14 @@ export function ParameterDetailsDialog() {
                       <Input
                         value={enumValue.value}
                         onChange={(e) => {
-                          const updatedEnumValues = parameter.enumValues?.map((ev) =>
+                          const updatedValues = parameter.enumValues?.values?.map((ev) =>
                             ev.value === enumValue.value ? { ...ev, value: e.target.value } : ev,
                           );
                           updateParameter({
-                            enumValues: updatedEnumValues,
+                            enumValues: {
+                              ...(parameter.enumValues ?? { allowMultiple: false }),
+                              values: updatedValues ?? [],
+                            },
                           });
                         }}
                         placeholder="value"
@@ -598,13 +623,16 @@ export function ParameterDetailsDialog() {
                       <Input
                         value={enumValue.displayName}
                         onChange={(e) => {
-                          const updatedEnumValues = parameter.enumValues?.map((ev) =>
+                          const updatedValues = parameter.enumValues?.values?.map((ev) =>
                             ev.value === enumValue.value
                               ? { ...ev, displayName: e.target.value }
                               : ev,
                           );
                           updateParameter({
-                            enumValues: updatedEnumValues,
+                            enumValues: {
+                              ...(parameter.enumValues ?? { allowMultiple: false }),
+                              values: updatedValues ?? [],
+                            },
                           });
                         }}
                         placeholder="Display Name"
@@ -613,11 +641,14 @@ export function ParameterDetailsDialog() {
                       <Switch
                         checked={enumValue.isDefault}
                         onCheckedChange={(checked) => {
-                          const updatedEnumValues = parameter.enumValues?.map((ev) =>
+                          const updatedValues = parameter.enumValues?.values?.map((ev) =>
                             ev.value === enumValue.value ? { ...ev, isDefault: checked } : ev,
                           );
                           updateParameter({
-                            enumValues: updatedEnumValues,
+                            enumValues: {
+                              ...(parameter.enumValues ?? { allowMultiple: false }),
+                              values: updatedValues ?? [],
+                            },
                           });
                         }}
                       />
@@ -625,11 +656,14 @@ export function ParameterDetailsDialog() {
                         size="sm"
                         variant="ghost"
                         onClick={() => {
-                          const updatedEnumValues = parameter.enumValues?.filter(
+                          const updatedValues = parameter.enumValues?.values?.filter(
                             (ev) => ev.value !== enumValue.value,
                           );
                           updateParameter({
-                            enumValues: updatedEnumValues,
+                            enumValues: {
+                              ...(parameter.enumValues ?? { allowMultiple: false }),
+                              values: updatedValues ?? [],
+                            },
                           });
                         }}
                       >

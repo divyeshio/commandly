@@ -13,7 +13,6 @@ import { MultiSelect } from "@/components/ui/multi-select";
 import { Textarea } from "@/components/ui/textarea";
 import { SupportedToolInputType, SupportedToolOutputType } from "@/lib/types";
 import { ToolMetadata } from "@/registry/commandly/lib/types/commandly";
-import { TagsInput } from "@/registry/commandly/ui/tags-input";
 import { SettingsIcon } from "lucide-react";
 
 const supportedInputOptions = [
@@ -70,23 +69,13 @@ export function ToolDetailsDialog() {
               />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="flex flex-col gap-3">
-              <Label htmlFor="tool-version-full">Version</Label>
-              <Input
-                id="tool-version-full"
-                value={tool.version}
-                onChange={(e) => updateTool({ version: e.target.value })}
-              />
-            </div>
-            <div className="flex flex-col gap-3">
-              <Label htmlFor="tool-category">Category</Label>
-              <Input
-                id="tool-category"
-                value={tool.category}
-                onChange={(e) => updateTool({ category: e.target.value })}
-              />
-            </div>
+          <div className="flex flex-col gap-3">
+            <Label htmlFor="tool-version-full">Version</Label>
+            <Input
+              id="tool-version-full"
+              value={tool.info?.version}
+              onChange={(e) => updateTool({ info: { ...tool.info, version: e.target.value } })}
+            />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-3">
@@ -131,20 +120,11 @@ export function ToolDetailsDialog() {
             <Label htmlFor="tool-url">URL</Label>
             <Input
               id="tool-url"
-              value={tool.url ?? ""}
-              onChange={(e) => updateTool({ url: e.target.value || undefined })}
+              value={tool.info?.url ?? ""}
+              onChange={(e) =>
+                updateTool({ info: { ...tool.info, url: e.target.value || undefined } })
+              }
               placeholder="https://example.com"
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <Label>Tags</Label>
-            <TagsInput
-              value={tool.tags || []}
-              onValueChange={(tags) => {
-                updateTool({ tags });
-              }}
-              placeholder="Add tags"
             />
           </div>
 
@@ -152,8 +132,8 @@ export function ToolDetailsDialog() {
             <Label htmlFor="tool-description">Description</Label>
             <Textarea
               id="tool-description"
-              value={tool.description}
-              onChange={(e) => updateTool({ description: e.target.value })}
+              value={tool.info?.description}
+              onChange={(e) => updateTool({ info: { ...tool.info, description: e.target.value } })}
               rows={3}
             />
           </div>

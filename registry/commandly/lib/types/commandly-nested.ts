@@ -2,19 +2,13 @@ import type {
   ExclusionType,
   ParameterDataType,
   ParameterDependencyType,
+  ParameterEnumValues,
   ParameterMetadata,
   ParameterType,
   ParameterValidationType,
+  ToolInfo,
   ToolMetadata,
 } from "./commandly";
-
-export interface NestedParameterEnumValue {
-  value: string;
-  displayName: string;
-  description?: string;
-  isDefault?: boolean;
-  sortOrder?: number;
-}
 
 export interface NestedParameterValidation {
   validationType: ParameterValidationType;
@@ -31,20 +25,20 @@ export interface NestedParameterDependency {
 export interface NestedParameter {
   name: string;
   description?: string;
+  group?: string;
   parameterType: ParameterType;
   dataType: ParameterDataType;
   metadata?: ParameterMetadata;
   isRequired: boolean;
   isRepeatable: boolean;
   isGlobal: boolean;
-  defaultValue?: string;
   shortFlag?: string;
   longFlag?: string;
   position?: number;
   sortOrder?: number;
   arraySeparator?: string;
   keyValueSeparator?: string;
-  enumValues?: NestedParameterEnumValue[];
+  enumValues?: ParameterEnumValues;
   validations?: NestedParameterValidation[];
   dependencies?: NestedParameterDependency[];
 }
@@ -52,6 +46,7 @@ export interface NestedParameter {
 export interface NestedCommand {
   name: string;
   description?: string;
+  interactive?: boolean;
   isDefault: boolean;
   sortOrder: number;
   parameters: NestedParameter[];
@@ -68,8 +63,7 @@ export interface NestedTool {
   $schema?: string;
   name: string;
   displayName: string;
-  description?: string;
-  version?: string;
+  info?: ToolInfo;
   url?: string;
   globalParameters: NestedParameter[];
   commands: NestedCommand[];

@@ -7,6 +7,10 @@
   "env": {
     "builtin": true
   },
+  "options": {
+    "typeAware": true,
+    "typeCheck": true
+  },
   "ignorePatterns": ["dist", "src/routeTree.gen.ts", "src/components/ui"],
   "overrides": [
     {

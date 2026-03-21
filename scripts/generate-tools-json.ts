@@ -12,8 +12,8 @@ const tools = files.map((file) => {
   return {
     name: tool.name,
     displayName: tool.displayName || tool.name,
-    description: tool.description,
-    url: tool.url,
+    description: tool.info?.description,
+    url: tool.info?.url,
   };
 });
 

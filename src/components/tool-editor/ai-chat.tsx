@@ -1,3 +1,4 @@
+import { generatePrompt } from "./prompt";
 import { useToolBuilder } from "./tool-editor.context";
 import {
   Conversation,
@@ -21,7 +22,6 @@ import {
   ToolInput,
   ToolOutput,
 } from "@/components/ai-elements/tool";
-import { generatePrompt } from "@/components/tool-editor-ui/prompt";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
