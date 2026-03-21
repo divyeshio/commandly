@@ -246,7 +246,7 @@
       "isGlobal": true,
       "longFlag": "--preset-alias",
       "key": "preset-alias",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "mp3",

@@ -23,10 +23,10 @@ describe("JsonOutput", () => {
 });
 
 describe("exportToStructuredJSON", () => {
-  it("omits enumValues, validations, dependencies when empty", () => {
+  it("omits enum, validations, dependencies when empty", () => {
     const result = toJSON(exportToStructuredJSON(defaultTool()));
     result.parameters.forEach((param: Record<string, unknown>) => {
-      expect(param).not.toHaveProperty("enumValues");
+      expect(param).not.toHaveProperty("enum");
       expect(param).not.toHaveProperty("validations");
       expect(param).not.toHaveProperty("dependencies");
     });
@@ -37,9 +37,9 @@ describe("exportToStructuredJSON", () => {
     expect(result).not.toHaveProperty("exclusionGroups");
   });
 
-  it("includes enumValues when non-empty", () => {
+  it("includes enum when non-empty", () => {
     const tool = defaultTool();
-    tool.parameters[0].enumValues = {
+    tool.parameters[0].enum = {
       values: [
         {
           value: "val",
@@ -52,7 +52,7 @@ describe("exportToStructuredJSON", () => {
       allowMultiple: false,
     };
     const result = exportToStructuredJSON(tool);
-    expect(result.parameters[0].enumValues?.values).toHaveLength(1);
+    expect(result.parameters[0].enum?.values).toHaveLength(1);
   });
 
   it("includes validations when non-empty", () => {

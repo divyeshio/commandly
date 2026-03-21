@@ -170,9 +170,9 @@ export function ParameterDetailsDialog() {
       isDefault: false,
       sortOrder: 0,
     };
-    const existing = parameter.enumValues ?? { values: [], allowMultiple: false };
+    const existing = parameter.enum ?? { values: [], allowMultiple: false };
     updateParameter({
-      enumValues: { ...existing, values: [...existing.values, newEnumValue] },
+      enum: { ...existing, values: [...existing.values, newEnumValue] },
     });
   };
 
@@ -567,11 +567,11 @@ export function ParameterDetailsDialog() {
                   <div className="flex items-center space-x-2">
                     <Switch
                       id="allow-multiple"
-                      checked={parameter.enumValues?.allowMultiple ?? false}
+                      checked={parameter.enum?.allowMultiple ?? false}
                       onCheckedChange={(checked) =>
                         updateParameter({
-                          enumValues: {
-                            ...(parameter.enumValues ?? { values: [] }),
+                          enum: {
+                            ...(parameter.enum ?? { values: [] }),
                             allowMultiple: checked,
                           } as ParameterEnumValues,
                         })
@@ -579,13 +579,13 @@ export function ParameterDetailsDialog() {
                     />
                     <Label htmlFor="allow-multiple">Allow Multiple</Label>
                   </div>
-                  {parameter.enumValues?.allowMultiple && (
+                  {parameter.enum?.allowMultiple && (
                     <Input
-                      value={parameter.enumValues?.separator ?? ","}
+                      value={parameter.enum?.separator ?? ","}
                       onChange={(e) =>
                         updateParameter({
-                          enumValues: {
-                            ...(parameter.enumValues ?? { values: [], allowMultiple: true }),
+                          enum: {
+                            ...(parameter.enum ?? { values: [], allowMultiple: true }),
                             separator: e.target.value,
                           },
                         })
@@ -599,7 +599,7 @@ export function ParameterDetailsDialog() {
                   className="space-y-2"
                   id="enum-values"
                 >
-                  {parameter.enumValues?.values?.map((enumValue) => (
+                  {parameter.enum?.values?.map((enumValue) => (
                     <div
                       key={enumValue.value}
                       className="flex items-center gap-2 rounded border p-2"
@@ -607,12 +607,12 @@ export function ParameterDetailsDialog() {
                       <Input
                         value={enumValue.value}
                         onChange={(e) => {
-                          const updatedValues = parameter.enumValues?.values?.map((ev) =>
+                          const updatedValues = parameter.enum?.values?.map((ev) =>
                             ev.value === enumValue.value ? { ...ev, value: e.target.value } : ev,
                           );
                           updateParameter({
-                            enumValues: {
-                              ...(parameter.enumValues ?? { allowMultiple: false }),
+                            enum: {
+                              ...(parameter.enum ?? { allowMultiple: false }),
                               values: updatedValues ?? [],
                             },
                           });
@@ -623,14 +623,14 @@ export function ParameterDetailsDialog() {
                       <Input
                         value={enumValue.displayName}
                         onChange={(e) => {
-                          const updatedValues = parameter.enumValues?.values?.map((ev) =>
+                          const updatedValues = parameter.enum?.values?.map((ev) =>
                             ev.value === enumValue.value
                               ? { ...ev, displayName: e.target.value }
                               : ev,
                           );
                           updateParameter({
-                            enumValues: {
-                              ...(parameter.enumValues ?? { allowMultiple: false }),
+                            enum: {
+                              ...(parameter.enum ?? { allowMultiple: false }),
                               values: updatedValues ?? [],
                             },
                           });
@@ -641,12 +641,12 @@ export function ParameterDetailsDialog() {
                       <Switch
                         checked={enumValue.isDefault}
                         onCheckedChange={(checked) => {
-                          const updatedValues = parameter.enumValues?.values?.map((ev) =>
+                          const updatedValues = parameter.enum?.values?.map((ev) =>
                             ev.value === enumValue.value ? { ...ev, isDefault: checked } : ev,
                           );
                           updateParameter({
-                            enumValues: {
-                              ...(parameter.enumValues ?? { allowMultiple: false }),
+                            enum: {
+                              ...(parameter.enum ?? { allowMultiple: false }),
                               values: updatedValues ?? [],
                             },
                           });
@@ -656,12 +656,12 @@ export function ParameterDetailsDialog() {
                         size="sm"
                         variant="ghost"
                         onClick={() => {
-                          const updatedValues = parameter.enumValues?.values?.filter(
+                          const updatedValues = parameter.enum?.values?.filter(
                             (ev) => ev.value !== enumValue.value,
                           );
                           updateParameter({
-                            enumValues: {
-                              ...(parameter.enumValues ?? { allowMultiple: false }),
+                            enum: {
+                              ...(parameter.enum ?? { allowMultiple: false }),
                               values: updatedValues ?? [],
                             },
                           });

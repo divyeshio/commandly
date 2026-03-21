@@ -97,7 +97,7 @@
       "shortFlag": "-tp",
       "longFlag": "-top-ports",
       "sortOrder": 6,
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "full",
@@ -329,7 +329,7 @@
       "shortFlag": "-iv",
       "longFlag": "-ip-version",
       "sortOrder": 21,
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "4",
@@ -362,7 +362,7 @@
       "shortFlag": "-s",
       "longFlag": "-scan-type",
       "sortOrder": 22,
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "SYN",

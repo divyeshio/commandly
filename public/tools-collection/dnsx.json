@@ -223,7 +223,7 @@
       "longFlag": "-exclude-type",
       "key": "exclude-type",
       "commandKey": "dnsx",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "A",

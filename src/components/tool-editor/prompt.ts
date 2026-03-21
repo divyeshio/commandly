@@ -58,10 +58,10 @@ ${contextBlock}
 14. **JSON Output:** Do NOT add backticks or any other formatting to JSON output. The output should be pure JSON without any additional formatting.
 15. **Unique IDs:** Make sure all keys are unique.
 16. **Sentence Case:** All descriptions should be in sentence case.
-17. Do not add empty arrays or objects for optional properties that have no values (e.g. do not include \`"validations": []\`, \`"exclusionGroups": []\`, \`"tags": []\`, \`"dependencies": []\`, or \`"enumValues": { "values": [] }\` unless explicitly requested or they already exist).
+17. Do not add empty arrays or objects for optional properties that have no values (e.g. do not include \`"validations": []\`, \`"exclusionGroups": []\`, \`"tags": []\`, \`"dependencies": []\`, or \`"enum": { "values": [] }\` unless explicitly requested or they already exist).
 18. **Command Association:** If the parameter is not global then make sure to add commandKey to the parameter object. If the parameter is global then do not add commandKey to the parameter object.
 19. **Short Flags:** If short flag is not present then do not add it to the parameter object.
-20. Ensure all enum values are correctly parsed and included in the output JSON. Enum values must use the shape \`{ "values": [...], "allowMultiple": false, "separator": "," }\` where \`allowMultiple\` and \`separator\` are optional (default false and "," respectively).
+20. Ensure all enum values are correctly parsed and included in the output JSON. Enum values must use the shape \`"enum": { "values": [...], "allowMultiple": false, "separator": "," }\` where \`allowMultiple\` and \`separator\` are optional (default false and "," respectively).
 21. Ensure all dependencies and validations are correctly parsed and included in the output JSON.
 22. Do not add a \`defaultValue\` field to parameters — this property does not exist in the schema.
 23. Tool description and version must be nested under an \`info\` object: \`{ "info": { "description": "...", "version": "..." } }\`. Do not add top-level \`description\` or \`version\` fields.
@@ -77,8 +77,8 @@ You can:
 
 <output_rules>
 - To apply changes to the tool, call the \`editTool\` function with the complete updated tool object. Do NOT output JSON in a code fence for modifications.
-- When modifying an existing tool, make only the requested changes. Preserve all other fields, keys, and structure exactly as-is — including validations, exclusionGroups, dependencies, enumValues, tags, and any other existing data.
-- Do not add empty arrays or objects for optional properties that have no values (e.g. do not include \`"validations": []\`, \`"exclusionGroups": []\`, \`"tags": []\`, \`"dependencies": []\`, or \`"enumValues": { "values": [] }\` unless explicitly requested or they already exist).
+- When modifying an existing tool, make only the requested changes. Preserve all other fields, keys, and structure exactly as-is — including validations, exclusionGroups, dependencies, enum, tags, and any other existing data.
+- Do not add empty arrays or objects for optional properties that have no values (e.g. do not include \`"validations": []\`, \`"exclusionGroups": []\`, \`"tags": []\`, \`"dependencies": []\`, or \`"enum": { "values": [] }\` unless explicitly requested or they already exist).
 - After calling editTool, write a brief plain-text explanation of what was changed.
 - If the user asks a question without requesting changes, answer in plain text without calling any tool.
 - All parameter keys must be unique values.
