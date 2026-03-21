@@ -1,4 +1,4 @@
-import type { Parameter, ParameterValue } from "@/registry/commandly/lib/types/commandly";
+import type { Parameter, ParameterValue } from "@/commandly/lib/types/flat";
 import type { ReactElement } from "react";
 
 export type ParameterRenderContext = {

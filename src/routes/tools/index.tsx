@@ -1,3 +1,4 @@
+import { type Tool } from "@/commandly/lib/types/flat";
 import { SkeletonCard } from "@/components/square-card-skeleton";
 import { ToolCard } from "@/components/tool-card";
 import { Button } from "@/components/ui/button";
@@ -5,7 +6,6 @@ import { Input, InputIcon, InputRoot } from "@/components/ui/input";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { fetchToolsList } from "@/lib/api/tools.api";
-import { type Tool } from "@/registry/commandly/lib/types/commandly";
 import { queryOptions } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { SearchIcon } from "lucide-react";

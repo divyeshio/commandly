@@ -1,3 +1,7 @@
+import { GeneratedCommand } from "@/commandly/generated-command";
+import { Tool } from "@/commandly/lib/types/flat";
+import { slugify } from "@/commandly/lib/utils/flat";
+import { defaultComponents, ToolRenderer } from "@/commandly/tool-renderer";
 import { SavedCommandsDialog } from "@/components/tool-editor/dialogs/saved-commands-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,10 +17,6 @@ import {
 } from "@/lib/editor-utils";
 import { SavedCommand } from "@/lib/types";
 import { cn, defaultTool } from "@/lib/utils";
-import { GeneratedCommand } from "@/registry/commandly/generated-command";
-import { Tool } from "@/registry/commandly/lib/types/commandly";
-import { slugify } from "@/registry/commandly/lib/utils/commandly";
-import { defaultComponents, ToolRenderer } from "@/registry/commandly/tool-renderer";
 import { createFileRoute } from "@tanstack/react-router";
 import { CheckIcon, ChevronsUpDownIcon, InfoIcon, SaveIcon, TerminalIcon } from "lucide-react";
 import { useQueryState } from "nuqs";

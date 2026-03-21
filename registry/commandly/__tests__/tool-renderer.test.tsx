@@ -1,7 +1,7 @@
 import { ToolRenderer, defaultComponents } from "../tool-renderer";
+import { ParameterRendererEntry } from "@/commandly/lib/types/renderer";
+import { createNewParameter } from "@/commandly/lib/utils/flat";
 import { defaultTool } from "@/lib/utils";
-import { ParameterRendererEntry } from "@/registry/commandly/lib/types/renderer";
-import { createNewParameter } from "@/registry/commandly/lib/utils/commandly";
 import { render, screen } from "@testing-library/react";
 
 const baseCommand = { key: "my-tool", name: "my-tool", isDefault: true, sortOrder: 0 };

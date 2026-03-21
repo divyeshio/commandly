@@ -1,4 +1,17 @@
 import { useToolBuilder } from "../tool-editor.context";
+import {
+  Parameter,
+  ParameterDataType,
+  ParameterDependency,
+  ParameterDependencyType,
+  ParameterEnumValue,
+  ParameterEnumValues,
+  ParameterType,
+  ParameterValidation,
+  ParameterValidationType,
+} from "@/commandly/lib/types/flat";
+import { slugify } from "@/commandly/lib/utils/flat";
+import { TagsInput } from "@/commandly/ui/tags-input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,19 +34,6 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Parameter,
-  ParameterDataType,
-  ParameterDependency,
-  ParameterDependencyType,
-  ParameterEnumValue,
-  ParameterEnumValues,
-  ParameterType,
-  ParameterValidation,
-  ParameterValidationType,
-} from "@/registry/commandly/lib/types/commandly";
-import { slugify } from "@/registry/commandly/lib/utils/commandly";
-import { TagsInput } from "@/registry/commandly/ui/tags-input";
 import {
   FlagIcon,
   FileTextIcon,

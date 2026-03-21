@@ -1,8 +1,8 @@
 import { useToolBuilder } from "./tool-editor.context";
+import { ExclusionGroup, ParameterType } from "@/commandly/lib/types/flat";
+import { createNewParameter } from "@/commandly/lib/utils/flat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ExclusionGroup, ParameterType } from "@/registry/commandly/lib/types/commandly";
-import { createNewParameter } from "@/registry/commandly/lib/utils/commandly";
 import {
   FileTextIcon,
   FlagIcon,

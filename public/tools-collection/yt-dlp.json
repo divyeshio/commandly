@@ -21,8 +21,6 @@
       "description": "Print this help text and exit",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--help",
       "key": "help"
@@ -32,8 +30,6 @@
       "description": "Print program version and exit",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--version",
       "key": "version"
@@ -43,8 +39,6 @@
       "description": "Update this program to the latest version",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--update",
       "key": "update"
@@ -54,8 +48,6 @@
       "description": "Do not check for updates (default)",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--no-update",
       "key": "no-update"
@@ -65,8 +57,6 @@
       "description": "Upgrade/downgrade to a specific version. CHANNEL can be a repository as well. CHANNEL and TAG default to \"stable\" and \"latest\" respectively if omitted; See \"UPDATE\" for details. Supported channels: stable, nightly, master",
       "parameterType": "Option",
       "dataType": "String",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--update-to",
       "key": "update-to"
@@ -76,8 +66,6 @@
       "description": "Ignore download and postprocessing errors. The download will be considered successful even if the postprocessing fails",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--ignore-errors",
       "key": "ignore-errors"
@@ -87,8 +75,6 @@
       "description": "Continue with next video on download errors; e.g. to skip unavailable videos in a playlist (default)",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--no-abort-on-error",
       "key": "no-abort-on-error"
@@ -98,8 +84,6 @@
       "description": "Abort downloading of further videos if an error occurs (Alias: --no-ignore-errors)",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--abort-on-error",
       "key": "abort-on-error"
@@ -109,8 +93,6 @@
       "description": "Display the current user-agent and exit",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--dump-user-agent",
       "key": "dump-user-agent"
@@ -120,8 +102,6 @@
       "description": "List all supported extractors and exit",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--list-extractors",
       "key": "list-extractors"
@@ -131,8 +111,6 @@
       "description": "Output descriptions of all supported extractors and exit",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--extractor-descriptions",
       "key": "extractor-descriptions"
@@ -142,8 +120,6 @@
       "description": "Extractor names to use separated by commas. You can also use regexes, \"all\", \"default\" and \"end\" (end URL matching); e.g. --ies \"holodex.*,end,youtube\". Prefix the name with a \"-\" to exclude it, e.g. --ies default,-generic. Use --list-extractors for a list of extractor names. (Alias: --ies)",
       "parameterType": "Option",
       "dataType": "String",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--use-extractors",
       "key": "use-extractors"
@@ -153,8 +129,6 @@
       "description": "Use this prefix for unqualified URLs. E.g. \"gvsearch2:python\" downloads two videos from google videos for the search term \"python\". Use the value \"auto\" to let yt-dlp guess (\"auto_warning\" to emit a warning when guessing). \"error\" just throws an error. The default value \"fixup_error\" repairs broken URLs, but emits an error if this is not possible instead of searching",
       "parameterType": "Option",
       "dataType": "String",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--default-search",
       "key": "default-search"
@@ -164,8 +138,6 @@
       "description": "Don't load any more configuration files except those given to --config-locations. For backward compatibility, if this option is found inside the system configuration file, the user configuration is not loaded. (Alias: --no-config)",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--ignore-config",
       "key": "ignore-config"
@@ -175,8 +147,6 @@
       "description": "Do not load any custom configuration files (default). When given inside a configuration file, ignore all previous --config-locations defined in the current file",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--no-config-locations",
       "key": "no-config-locations"
@@ -186,7 +156,6 @@
       "description": "Location of the main configuration file; either the path to the config or its containing directory (\"-\" for stdin). Can be used multiple times and inside other configuration files",
       "parameterType": "Option",
       "dataType": "String",
-      "isRequired": false,
       "isRepeatable": true,
       "isGlobal": true,
       "longFlag": "--config-locations",
@@ -197,7 +166,6 @@
       "description": "Path to an additional directory to search for plugins. This option can be used multiple times to add multiple directories. Use \"default\" to search the default plugin directories (default)",
       "parameterType": "Option",
       "dataType": "String",
-      "isRequired": false,
       "isRepeatable": true,
       "isGlobal": true,
       "longFlag": "--plugin-dirs",
@@ -208,8 +176,6 @@
       "description": "Clear plugin directories to search, including defaults and those provided by previous --plugin-dirs",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--no-plugin-dirs",
       "key": "no-plugin-dirs"
@@ -219,8 +185,6 @@
       "description": "Do not extract a playlist's URL result entries; some entry metadata may be missing and downloading may be bypassed",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--flat-playlist",
       "key": "flat-playlist"
@@ -230,8 +194,6 @@
       "description": "Fully extract the videos of a playlist (default)",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--no-flat-playlist",
       "key": "no-flat-playlist"
@@ -241,7 +203,6 @@
       "description": "Applies a predefined set of options. e.g. --preset-alias mp3. The following presets are available: mp3, aac, mp4, mkv, sleep. See the \"Preset Aliases\" section at the end for more info. This option can be used multiple times",
       "parameterType": "Option",
       "dataType": "Enum",
-      "isRequired": false,
       "isRepeatable": true,
       "isGlobal": true,
       "longFlag": "--preset-alias",
@@ -277,8 +238,6 @@
       "description": "Use the specified HTTP/HTTPS/SOCKS proxy. To enable SOCKS proxy, specify a proper scheme, e.g. socks5://user:pass@127.0.0.1:1080/. Pass in an empty string (--proxy \"\") for direct connection",
       "parameterType": "Option",
       "dataType": "String",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--proxy",
       "key": "proxy"
@@ -288,8 +247,6 @@
       "description": "Time to wait before giving up, in seconds",
       "parameterType": "Option",
       "dataType": "Number",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--socket-timeout",
       "key": "socket-timeout"
@@ -299,8 +256,6 @@
       "description": "Client-side IP address to bind to",
       "parameterType": "Option",
       "dataType": "String",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--source-address",
       "key": "source-address"
@@ -310,8 +265,6 @@
       "description": "Client to impersonate for requests. E.g. chrome, chrome-110, chrome:windows-10. Pass --impersonate=\"\" to impersonate any client. Note that forcing impersonation for all requests may have a detrimental impact on download speed and stability",
       "parameterType": "Option",
       "dataType": "String",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--impersonate",
       "key": "impersonate"
@@ -321,8 +274,6 @@
       "description": "List available clients to impersonate.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--list-impersonate-targets",
       "key": "list-impersonate-targets"
@@ -332,8 +283,6 @@
       "description": "Make all connections via IPv4",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--force-ipv4",
       "key": "force-ipv4"
@@ -343,8 +292,6 @@
       "description": "Make all connections via IPv6",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--force-ipv6",
       "key": "force-ipv6"
@@ -354,8 +301,6 @@
       "description": "Enable file:// URLs. This is disabled by default for security reasons.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--enable-file-urls",
       "key": "enable-file-urls"
@@ -365,8 +310,6 @@
       "description": "Use this proxy to verify the IP address for some geo-restricted sites. The default proxy specified by --proxy (or none, if the option is not present) is used for the actual downloading",
       "parameterType": "Option",
       "dataType": "String",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--geo-verification-proxy",
       "key": "geo-verification-proxy"
@@ -376,8 +319,6 @@
       "description": "How to fake X-Forwarded-For HTTP header to try bypassing geographic restriction. One of \"default\" (only when known to be useful), \"never\", an IP block in CIDR notation, or a two-letter ISO 3166-2 country code",
       "parameterType": "Option",
       "dataType": "String",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--xff",
       "key": "xff"
@@ -387,8 +328,6 @@
       "description": "Comma separated playlist_index of the items to download. You can specify a range using \"[START]:[STOP][:STEP]\". For backward compatibility, START-STOP is also supported. Use negative indices to count from the right and negative STEP to download in reverse order. E.g. \"-I 1:3,7,-5::2\" used on a playlist of size 15 will download the items at index 1,2,3,7,11,13,15",
       "parameterType": "Option",
       "dataType": "String",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--playlist-items",
       "shortFlag": "-I",
@@ -399,8 +338,6 @@
       "description": "Abort download if filesize is smaller than SIZE, e.g. 50k or 44.6M",
       "parameterType": "Option",
       "dataType": "String",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--min-filesize",
       "key": "min-filesize"
@@ -410,8 +347,6 @@
       "description": "Abort download if filesize is larger than SIZE, e.g. 50k or 44.6M",
       "parameterType": "Option",
       "dataType": "String",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--max-filesize",
       "key": "max-filesize"
@@ -421,8 +356,6 @@
       "description": "Download only videos uploaded on this date. The date can be \"YYYYMMDD\" or in the format [now|today|yesterday][-N[day|week|month|year]]. E.g. \"--date today-2weeks\" downloads only videos uploaded on the same day two weeks ago",
       "parameterType": "Option",
       "dataType": "String",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--date",
       "key": "date"
@@ -432,8 +365,6 @@
       "description": "Download only videos uploaded on or before this date. The date formats accepted are the same as --date",
       "parameterType": "Option",
       "dataType": "String",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--datebefore",
       "key": "datebefore"
@@ -443,8 +374,6 @@
       "description": "Download only videos uploaded on or after this date. The date formats accepted are the same as --date",
       "parameterType": "Option",
       "dataType": "String",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--dateafter",
       "key": "dateafter"
@@ -454,7 +383,6 @@
       "description": "Generic video filter. Any \"OUTPUT TEMPLATE\" field can be compared with a number or a string using the operators defined in \"Filtering Formats\". You can also simply specify a field to match if the field is present, use \"!field\" to check if the field is not present, and \"&\" to check multiple conditions. Use a \"\\\" to escape \"&\" or quotes if needed. If used multiple times, the filter matches if at least one of the conditions is met. E.g. --match-filters !is_live --match-filters \"like_count>?100 & description~='(?i)\\bcats \\& dogs\\b'\" matches only videos that are not live OR those that have a like count more than 100 (or the like field is not available) and also has a description that contains the phrase \"cats & dogs\" (caseless). Use \"--match-filters -\" to interactively ask whether to download each video",
       "parameterType": "Option",
       "dataType": "String",
-      "isRequired": false,
       "isRepeatable": true,
       "isGlobal": true,
       "longFlag": "--match-filters",
@@ -465,8 +393,6 @@
       "description": "Do not use any --match-filters (default)",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--no-match-filters",
       "key": "no-match-filters"
@@ -476,7 +402,6 @@
       "description": "Same as \"--match-filters\" but stops the download process when a video is rejected",
       "parameterType": "Option",
       "dataType": "String",
-      "isRequired": false,
       "isRepeatable": true,
       "isGlobal": true,
       "longFlag": "--break-match-filters",
@@ -487,8 +412,6 @@
       "description": "Do not use any --break-match-filters (default)",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isRequired": false,
-      "isRepeatable": false,
       "isGlobal": true,
       "longFlag": "--no-break-match-filters",
       "key": "no-break-match-filters"

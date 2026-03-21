@@ -1,9 +1,4 @@
-import type {
-  Command,
-  ExclusionGroup,
-  Parameter,
-  Tool,
-} from "@/registry/commandly/lib/types/commandly";
+import type { Command, ExclusionGroup, Parameter, Tool } from "@/commandly/lib/types/flat";
 
 export const buildCommandHierarchy = (commands: Command[]): Command[] => {
   return commands.sort(
@@ -147,7 +142,7 @@ export const flattenImportedData = (importedData: Record<string, unknown>): Tool
       allParameters.push({
         ...param,
         commandKey: command.key as string,
-        isGlobal: !command.name,
+        ...(!command.name ? { isGlobal: true } : {}),
       });
     });
 
@@ -206,9 +201,7 @@ export const createNewParameter = (isGlobal: boolean, commandKey?: string): Para
     commandKey: isGlobal ? undefined : commandKey,
     parameterType: "Option",
     dataType: "String",
-    isRequired: false,
-    isRepeatable: false,
-    isGlobal,
+    ...(isGlobal ? { isGlobal: true } : {}),
     longFlag: "",
   };
 };

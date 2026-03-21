@@ -24,7 +24,7 @@ export interface ParameterEnumValue {
 
 export interface ParameterEnumValues {
   values: ParameterEnumValue[];
-  allowMultiple: boolean;
+  allowMultiple?: boolean;
   separator?: string;
 }
 
@@ -75,9 +75,9 @@ export interface Parameter {
   metadata?: ParameterMetadata;
   parameterType: ParameterType;
   dataType: ParameterDataType;
-  isRequired: boolean;
-  isRepeatable: boolean;
-  isGlobal: boolean;
+  isRequired?: boolean;
+  isRepeatable?: boolean;
+  isGlobal?: boolean;
   shortFlag?: string;
   longFlag?: string;
   position?: number;

@@ -1,10 +1,10 @@
+import type { Tool, Command, Parameter } from "@/commandly/lib/types/flat";
 import {
   NestedCommand,
   NestedExclusionGroup,
   NestedParameter,
   NestedTool,
-} from "../types/commandly-nested";
-import type { Tool, Command, Parameter } from "@/registry/commandly/lib/types/commandly";
+} from "@/commandly/lib/types/nested";
 
 export const convertToNestedStructure = (tool: Tool): NestedTool => {
   const globalParameters = tool.parameters.filter((p) => p.isGlobal);

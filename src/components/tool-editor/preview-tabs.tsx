@@ -1,13 +1,13 @@
 import { HelpMenu } from "./help-menu";
 import { useToolBuilder } from "./tool-editor.context";
+import { GeneratedCommand } from "@/commandly/generated-command";
+import { JsonOutput } from "@/commandly/json-output";
+import { Tool } from "@/commandly/lib/types/flat";
+import { ToolRenderer } from "@/commandly/tool-renderer";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { GeneratedCommand } from "@/registry/commandly/generated-command";
-import { JsonOutput } from "@/registry/commandly/json-output";
-import { Tool } from "@/registry/commandly/lib/types/commandly";
-import { ToolRenderer } from "@/registry/commandly/tool-renderer";
 import { TerminalIcon, WandSparklesIcon } from "lucide-react";
 import { useState } from "react";
 
