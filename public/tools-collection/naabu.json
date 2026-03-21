@@ -4,9 +4,9 @@
   "displayName": "Naabu",
   "info": {
     "description": "Fast port scanner for discovering open ports on hosts.",
-    "version": "2.5.0"
+    "version": "2.5.0",
+    "url": "https://github.com/projectdiscovery/naabu"
   },
-  "url": "https://github.com/projectdiscovery/naabu",
   "commands": [
     {
       "name": "naabu",
@@ -187,8 +187,8 @@
       "description": "Update naabu to latest version.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-update",
-      "longFlag": "-up",
+      "shortFlag": "-up",
+      "longFlag": "-update",
       "sortOrder": 14,
       "key": "update",
       "commandKey": "naabu"
@@ -198,8 +198,8 @@
       "description": "Disable automatic naabu update check.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-disable-update-check",
-      "longFlag": "-duc",
+      "shortFlag": "-duc",
+      "longFlag": "-disable-update-check",
       "sortOrder": 15,
       "key": "disable-update-check",
       "commandKey": "naabu"
@@ -209,8 +209,8 @@
       "description": "File to write output to.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-output",
-      "longFlag": "-o",
+      "shortFlag": "-o",
+      "longFlag": "-output",
       "sortOrder": 16,
       "key": "output",
       "commandKey": "naabu"
@@ -432,8 +432,8 @@
       "description": "Timeout on input read.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-input-read-timeout",
-      "longFlag": "-irt",
+      "shortFlag": "-irt",
+      "longFlag": "-input-read-timeout",
       "sortOrder": 34,
       "key": "input-read-timeout",
       "commandKey": "naabu"
@@ -453,8 +453,8 @@
       "description": "Perform only host discovery.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-host-discovery",
-      "longFlag": "-sn",
+      "shortFlag": "-sn",
+      "longFlag": "-host-discovery",
       "sortOrder": 36,
       "key": "host-discovery-only",
       "commandKey": "naabu"
@@ -464,8 +464,8 @@
       "description": "Skip host discovery (deprecated, use -wn/-with-host-discovery instead).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-skip-host-discovery",
-      "longFlag": "-Pn",
+      "shortFlag": "-Pn",
+      "longFlag": "-skip-host-discovery",
       "sortOrder": 37,
       "key": "skip-host-discovery",
       "commandKey": "naabu"
@@ -475,8 +475,8 @@
       "description": "Enable host discovery.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-with-host-discovery",
-      "longFlag": "-wn",
+      "shortFlag": "-wn",
+      "longFlag": "-with-host-discovery",
       "sortOrder": 38,
       "key": "with-host-discovery",
       "commandKey": "naabu"
@@ -486,8 +486,8 @@
       "description": "TCP SYN ping (host discovery needs to be enabled).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-probe-tcp-syn",
-      "longFlag": "-ps",
+      "shortFlag": "-ps",
+      "longFlag": "-probe-tcp-syn",
       "sortOrder": 39,
       "key": "probe-tcp-syn",
       "commandKey": "naabu"
@@ -497,8 +497,8 @@
       "description": "TCP ACK ping (host discovery needs to be enabled).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-probe-tcp-ack",
-      "longFlag": "-pa",
+      "shortFlag": "-pa",
+      "longFlag": "-probe-tcp-ack",
       "sortOrder": 40,
       "key": "probe-tcp-ack",
       "commandKey": "naabu"
@@ -508,8 +508,8 @@
       "description": "ICMP echo request ping (host discovery needs to be enabled).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-probe-icmp-echo",
-      "longFlag": "-pe",
+      "shortFlag": "-pe",
+      "longFlag": "-probe-icmp-echo",
       "sortOrder": 41,
       "key": "probe-icmp-echo",
       "commandKey": "naabu"
@@ -519,8 +519,8 @@
       "description": "ICMP timestamp request ping (host discovery needs to be enabled).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-probe-icmp-timestamp",
-      "longFlag": "-pp",
+      "shortFlag": "-pp",
+      "longFlag": "-probe-icmp-timestamp",
       "sortOrder": 42,
       "key": "probe-icmp-timestamp",
       "commandKey": "naabu"
@@ -530,8 +530,8 @@
       "description": "ICMP address mask request ping (host discovery needs to be enabled).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-probe-icmp-address-mask",
-      "longFlag": "-pm",
+      "shortFlag": "-pm",
+      "longFlag": "-probe-icmp-address-mask",
       "sortOrder": 43,
       "key": "probe-icmp-address-mask",
       "commandKey": "naabu"
@@ -541,8 +541,8 @@
       "description": "ARP ping (host discovery needs to be enabled).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-arp-ping",
-      "longFlag": "-arp",
+      "shortFlag": "-arp",
+      "longFlag": "-arp-ping",
       "sortOrder": 44,
       "key": "arp-ping",
       "commandKey": "naabu"
@@ -552,8 +552,8 @@
       "description": "IPv6 neighbor discovery ping (host discovery needs to be enabled).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-nd-ping",
-      "longFlag": "-nd",
+      "shortFlag": "-nd",
+      "longFlag": "-nd-ping",
       "sortOrder": 45,
       "key": "nd-ping",
       "commandKey": "naabu"
@@ -696,8 +696,8 @@
       "description": "Number of seconds to wait between showing a statistics update (deprecated).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-stats-interval",
-      "longFlag": "-si",
+      "shortFlag": "-si",
+      "longFlag": "-stats-interval",
       "sortOrder": 59,
       "key": "stats-interval",
       "commandKey": "naabu"

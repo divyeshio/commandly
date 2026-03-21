@@ -4,9 +4,9 @@
   "displayName": "GoSpider",
   "info": {
     "description": "Fast web spider written in Go.",
-    "version": "1.1.6"
+    "version": "1.1.6",
+    "url": "https://github.com/jaeles-project/gospider"
   },
-  "url": "https://github.com/jaeles-project/gospider",
   "commands": [
     {
       "name": "gospider",
@@ -62,7 +62,7 @@
       "commandKey": "gospider"
     },
     {
-      "name": "User agent",
+      "name": "User Agent",
       "description": "User agent to use.",
       "parameterType": "Option",
       "dataType": "String",
@@ -125,7 +125,7 @@
       "commandKey": "gospider"
     },
     {
-      "name": "Whitelist domain",
+      "name": "Whitelist Domain",
       "description": "Whitelist domain.",
       "parameterType": "Option",
       "dataType": "String",
@@ -179,7 +179,7 @@
       "commandKey": "gospider"
     },
     {
-      "name": "Random delay",
+      "name": "Random Delay",
       "description": "Extra randomized duration to wait added to delay before creating a new request (seconds).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -221,7 +221,7 @@
       "commandKey": "gospider"
     },
     {
-      "name": "Include subdomains",
+      "name": "Include Subdomains",
       "description": "Include subdomains.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -251,7 +251,7 @@
       "commandKey": "gospider"
     },
     {
-      "name": "Other source",
+      "name": "Other Source",
       "description": "Find URLs from third-party sources (Archive.org, CommonCrawl.org, VirusTotal.com, AlienVault.com).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -262,7 +262,7 @@
       "commandKey": "gospider"
     },
     {
-      "name": "Include subdomains from third-party",
+      "name": "Include Third-Party Subdomains",
       "description": "Include subdomains crawled from third-party sources. Default is main domain.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -273,7 +273,7 @@
       "commandKey": "gospider"
     },
     {
-      "name": "Include other source URLs",
+      "name": "Include Other Source URLs",
       "description": "Also include other-source URLs (still crawl and request).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -294,7 +294,7 @@
       "commandKey": "gospider"
     },
     {
-      "name": "JSON output",
+      "name": "JSON Output",
       "description": "Enable JSON output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -326,7 +326,7 @@
       "commandKey": "gospider"
     },
     {
-      "name": "Filter length",
+      "name": "Filter Length",
       "description": "Turn on length filter.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -359,7 +359,7 @@
       "commandKey": "gospider"
     },
     {
-      "name": "No redirect",
+      "name": "No Redirect",
       "description": "Disable redirect.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -389,6 +389,5 @@
       "key": "help",
       "commandKey": "gospider"
     }
-  ],
-  "exclusionGroups": []
+  ]
 }

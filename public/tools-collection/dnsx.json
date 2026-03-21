@@ -3,9 +3,10 @@
   "name": "dnsx",
   "displayName": "DNSX",
   "info": {
-    "description": "A fast and multi-purpose DNS toolkit designed for running DNS queries."
+    "description": "A fast and multi-purpose DNS toolkit designed for running DNS queries.",
+    "version": "1.2.3",
+    "url": "https://github.com/projectdiscovery/dnsx"
   },
-  "url": "https://github.com/projectdiscovery/dnsx",
   "commands": [
     {
       "name": "dnsx",
@@ -164,7 +165,7 @@
       "commandKey": "dnsx"
     },
     {
-      "name": "ExcludeType",
+      "name": "Exclude Type",
       "description": "DNS query type to exclude (A, AAAA, CNAME, NS, TXT, SRV, PTR, MX, SOA, AXFR, CAA) (default none).",
       "parameterType": "Option",
       "dataType": "Enum",
@@ -220,11 +221,10 @@
             "displayName": "CAA"
           }
         ]
-        
       }
     },
     {
-      "name": "Resp",
+      "name": "Response",
       "description": "Display DNS response.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -234,7 +234,7 @@
       "commandKey": "dnsx"
     },
     {
-      "name": "RespOnly",
+      "name": "Response Only",
       "description": "Display DNS response only.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -244,7 +244,7 @@
       "commandKey": "dnsx"
     },
     {
-      "name": "Rcode",
+      "name": "Response Code",
       "description": "Filter result by DNS status code (e.g. -rcode noerror, servfail, refused).",
       "parameterType": "Option",
       "dataType": "String",
@@ -254,7 +254,7 @@
       "commandKey": "dnsx"
     },
     {
-      "name": "Cdn",
+      "name": "CDN",
       "description": "Display CDN name.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -263,7 +263,7 @@
       "commandKey": "dnsx"
     },
     {
-      "name": "Asn",
+      "name": "ASN",
       "description": "Display host ASN information.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -282,7 +282,7 @@
       "commandKey": "dnsx"
     },
     {
-      "name": "RateLimit",
+      "name": "Rate Limit",
       "description": "Number of DNS requests/second to make (disabled by default) (default -1).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -302,7 +302,7 @@
       "commandKey": "dnsx"
     },
     {
-      "name": "DisableUpdateCheck",
+      "name": "Disable Update Check",
       "description": "Disable automatic dnsx update check.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -322,7 +322,7 @@
       "commandKey": "dnsx"
     },
     {
-      "name": "Json",
+      "name": "JSON Output",
       "description": "Write output in JSONL(ines) format.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -332,17 +332,17 @@
       "commandKey": "dnsx"
     },
     {
-      "name": "OmitRaw",
+      "name": "Omit Raw",
       "description": "Omit raw DNS response from JSONL output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-omit-raw",
-      "longFlag": "-or",
+      "shortFlag": "-or",
+      "longFlag": "-omit-raw",
       "key": "or",
       "commandKey": "dnsx"
     },
     {
-      "name": "HealthCheck",
+      "name": "Health Check",
       "description": "Display dnsx health status.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -361,7 +361,7 @@
       "commandKey": "dnsx"
     },
     {
-      "name": "NoColor",
+      "name": "No Color",
       "description": "Disable colors in CLI output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -383,13 +383,12 @@
       "description": "Show version of dnsx.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-version",
-      "longFlag": "-v",
+      "longFlag": "-version",
       "key": "v",
       "commandKey": "dnsx"
     },
     {
-      "name": "ShowConfig",
+      "name": "Show Config",
       "description": "Show configuration file location.",
       "parameterType": "Flag",
       "dataType": "Boolean",

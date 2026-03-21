@@ -3,9 +3,10 @@
   "name": "katana",
   "displayName": "Katana",
   "info": {
-    "description": "Katana is a fast crawler focused on execution in automation pipelines offering both headless and non-headless crawling."
+    "description": "Katana is a fast crawler focused on execution in automation pipelines offering both headless and non-headless crawling.",
+    "version": "1.5.0",
+    "url": "https://github.com/projectdiscovery/katana"
   },
-  "url": "https://github.com/projectdiscovery/katana",
   "commands": [
     {
       "name": "katana",
@@ -69,7 +70,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Js-crawl",
+      "name": "JS Crawl",
       "description": "Enable endpoint parsing / crawling in javascript file.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -79,7 +80,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Jsluice",
+      "name": "JS Luice",
       "description": "Enable jsluice parsing in javascript file.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -89,7 +90,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Crawl-duration",
+      "name": "Crawl Duration",
       "description": "Maximum duration to crawl the target for (s, m, h, d).",
       "parameterType": "Option",
       "dataType": "String",
@@ -99,7 +100,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Known-files",
+      "name": "Known Files",
       "description": "Enable crawling of known files (all,robotstxt,sitemapxml).",
       "parameterType": "Option",
       "dataType": "Enum",
@@ -115,18 +116,17 @@
           },
           {
             "value": "robotstxt",
-            "displayName": "Robotstxt"
+            "displayName": "robots.txt"
           },
           {
             "value": "sitemapxml",
-            "displayName": "Sitemapxml"
+            "displayName": "sitemap.xml"
           }
         ]
-        
       }
     },
     {
-      "name": "Max-response-size",
+      "name": "Max Response Size",
       "description": "Maximum response size to read.",
       "parameterType": "Option",
       "dataType": "Number",
@@ -145,7 +145,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Automatic-form-fill",
+      "name": "Automatic Form Fill",
       "description": "Enable automatic form filling (experimental).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -155,7 +155,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Form-extraction",
+      "name": "Form Extraction",
       "description": "Extract form, input, textarea & select elements in jsonl output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -183,7 +183,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Tech-detect",
+      "name": "Tech Detect",
       "description": "Enable technology detection.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -213,7 +213,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Form-config",
+      "name": "Form Config",
       "description": "Path to custom form configuration file.",
       "parameterType": "Option",
       "dataType": "String",
@@ -223,7 +223,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Field-config",
+      "name": "Field Config",
       "description": "Path to custom field configuration file.",
       "parameterType": "Option",
       "dataType": "String",
@@ -243,7 +243,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Ignore-query-params",
+      "name": "Ignore Query Params",
       "description": "Ignore crawling same path with different query-param values.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -253,7 +253,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Tls-impersonate",
+      "name": "TLS Impersonate",
       "description": "Enable experimental client hello tls randomization.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -263,7 +263,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Disable-redirects",
+      "name": "Disable Redirects",
       "description": "Disable following redirects.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -273,7 +273,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Health-check",
+      "name": "Health Check",
       "description": "Run diagnostic check up.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -283,7 +283,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Error-log",
+      "name": "Error Log",
       "description": "File to write sent requests error log.",
       "parameterType": "Option",
       "dataType": "String",
@@ -293,7 +293,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Pprof-server",
+      "name": "Pprof Server",
       "description": "Enable pprof server.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -312,7 +312,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "System-chrome",
+      "name": "System Chrome",
       "description": "Use local installed chrome browser instead of katana installed.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -322,7 +322,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Show-browser",
+      "name": "Show Browser",
       "description": "Show the browser on the screen with headless mode.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -332,7 +332,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Headless-options",
+      "name": "Headless Options",
       "description": "Start headless chrome with additional options.",
       "parameterType": "Option",
       "dataType": "String",
@@ -343,7 +343,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "No-sandbox",
+      "name": "No Sandbox",
       "description": "Start headless chrome in --no-sandbox mode.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -353,7 +353,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Chrome-data-dir",
+      "name": "Chrome Data Dir",
       "description": "Path to store chrome browser data.",
       "parameterType": "Option",
       "dataType": "String",
@@ -363,7 +363,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "System-chrome-path",
+      "name": "System Chrome Path",
       "description": "Use specified chrome browser for headless crawling.",
       "parameterType": "Option",
       "dataType": "String",
@@ -373,7 +373,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "No-incognito",
+      "name": "No Incognito",
       "description": "Start headless chrome without incognito mode.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -383,7 +383,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Chrome-ws-url",
+      "name": "Chrome WS URL",
       "description": "Use chrome browser instance launched elsewhere with the debugger listening at this URL.",
       "parameterType": "Option",
       "dataType": "String",
@@ -393,7 +393,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Xhr-extraction",
+      "name": "XHR Extraction",
       "description": "Extract xhr request url,method in jsonl output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -403,7 +403,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Crawl-scope",
+      "name": "Crawl Scope",
       "description": "In scope url regex to be followed by crawler.",
       "parameterType": "Option",
       "dataType": "String",
@@ -414,7 +414,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Crawl-out-scope",
+      "name": "Crawl Out Scope",
       "description": "Out of scope url regex to be excluded by crawler.",
       "parameterType": "Option",
       "dataType": "String",
@@ -425,7 +425,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Field-scope",
+      "name": "Field Scope",
       "description": "Pre-defined scope field or custom regex.",
       "parameterType": "Option",
       "dataType": "String",
@@ -435,7 +435,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "No-scope",
+      "name": "No Scope",
       "description": "Disable host based default scope.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -445,7 +445,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Display-out-scope",
+      "name": "Display Out Scope",
       "description": "Display external endpoint from scoped crawling.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -455,7 +455,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Match-regex",
+      "name": "Match Regex",
       "description": "Regex or list of regex to match on output url.",
       "parameterType": "Option",
       "dataType": "String",
@@ -466,7 +466,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Filter-regex",
+      "name": "Filter Regex",
       "description": "Regex or list of regex to filter on output url.",
       "parameterType": "Option",
       "dataType": "String",
@@ -487,7 +487,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Store-field",
+      "name": "Store Field",
       "description": "Field to store in per-host output.",
       "parameterType": "Option",
       "dataType": "String",
@@ -497,7 +497,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Extension-match",
+      "name": "Extension Match",
       "description": "Match output for given extension.",
       "parameterType": "Option",
       "dataType": "String",
@@ -508,7 +508,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Extension-filter",
+      "name": "Extension Filter",
       "description": "Filter output for given extension.",
       "parameterType": "Option",
       "dataType": "String",
@@ -519,7 +519,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Match-condition",
+      "name": "Match Condition",
       "description": "Match response with dsl based condition.",
       "parameterType": "Option",
       "dataType": "String",
@@ -529,7 +529,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Filter-condition",
+      "name": "Filter Condition",
       "description": "Filter response with dsl based condition.",
       "parameterType": "Option",
       "dataType": "String",
@@ -569,7 +569,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Rate-limit",
+      "name": "Rate Limit",
       "description": "Maximum requests to send per second.",
       "parameterType": "Option",
       "dataType": "Number",
@@ -579,7 +579,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Rate-limit-minute",
+      "name": "Rate Limit Minute",
       "description": "Maximum number of requests to send per minute.",
       "parameterType": "Option",
       "dataType": "Number",
@@ -599,7 +599,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Disable-update-check",
+      "name": "Disable Update Check",
       "description": "Disable automatic katana update check.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -619,7 +619,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Output-template",
+      "name": "Output Template",
       "description": "Custom output template.",
       "parameterType": "Option",
       "dataType": "String",
@@ -629,7 +629,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Store-response",
+      "name": "Store Response",
       "description": "Store http requests/responses.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -639,7 +639,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Store-response-dir",
+      "name": "Store Response Dir",
       "description": "Store http requests/responses to custom directory.",
       "parameterType": "Option",
       "dataType": "String",
@@ -649,7 +649,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "No-clobber",
+      "name": "No Clobber",
       "description": "Do not overwrite output file.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -659,7 +659,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Store-field-dir",
+      "name": "Store Field Dir",
       "description": "Store per-host field to custom directory.",
       "parameterType": "Option",
       "dataType": "String",
@@ -669,7 +669,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Omit-raw",
+      "name": "Omit Raw",
       "description": "Omit raw requests/responses from jsonl output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -679,7 +679,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Omit-body",
+      "name": "Omit Body",
       "description": "Omit response body from jsonl output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -689,7 +689,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "Jsonl",
+      "name": "JSONL Output",
       "description": "Write output in jsonl format.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -699,7 +699,7 @@
       "commandKey": "katana"
     },
     {
-      "name": "No-color",
+      "name": "No Color",
       "description": "Disable output content coloring.",
       "parameterType": "Flag",
       "dataType": "Boolean",

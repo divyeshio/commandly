@@ -69,8 +69,6 @@ export function GeneratedCommand({
           const separator = param.keyValueSeparator ?? " ";
           command += ` ${flag}${separator}${value}`;
         }
-      } else if (param.parameterType === "Argument") {
-        command += ` ${value}`;
       }
     });
 

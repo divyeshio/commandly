@@ -3,15 +3,17 @@
   "name": "yt-dlp",
   "displayName": "yt-dlp",
   "info": {
-    "description": "yt-dlp is a command-line program to download videos from YouTube and other sites."
+    "description": "yt-dlp is a command-line program to download videos from YouTube and other sites.",
+    "version": "2026.03.17",
+    "url": "https://github.com/yt-dlp/yt-dlp"
   },
-  "url": "https://github.com/yt-dlp/yt-dlp",
   "commands": [
     {
       "name": "yt-dlp",
       "description": "yt-dlp is a command-line program to download videos from YouTube and other sites.",
       "isDefault": true,
       "sortOrder": 1,
+      "commandKey": "yt-dlp",
       "key": "yt-dlp"
     }
   ],
@@ -21,8 +23,8 @@
       "description": "Print this help text and exit",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isGlobal": true,
       "longFlag": "--help",
+      "commandKey": "yt-dlp",
       "key": "help"
     },
     {
@@ -30,8 +32,8 @@
       "description": "Print program version and exit",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isGlobal": true,
       "longFlag": "--version",
+      "commandKey": "yt-dlp",
       "key": "version"
     },
     {
@@ -39,8 +41,8 @@
       "description": "Update this program to the latest version",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isGlobal": true,
       "longFlag": "--update",
+      "commandKey": "yt-dlp",
       "key": "update"
     },
     {
@@ -48,8 +50,8 @@
       "description": "Do not check for updates (default)",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isGlobal": true,
       "longFlag": "--no-update",
+      "commandKey": "yt-dlp",
       "key": "no-update"
     },
     {
@@ -57,8 +59,8 @@
       "description": "Upgrade/downgrade to a specific version. CHANNEL can be a repository as well. CHANNEL and TAG default to \"stable\" and \"latest\" respectively if omitted; See \"UPDATE\" for details. Supported channels: stable, nightly, master",
       "parameterType": "Option",
       "dataType": "String",
-      "isGlobal": true,
       "longFlag": "--update-to",
+      "commandKey": "yt-dlp",
       "key": "update-to"
     },
     {
@@ -66,8 +68,8 @@
       "description": "Ignore download and postprocessing errors. The download will be considered successful even if the postprocessing fails",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isGlobal": true,
       "longFlag": "--ignore-errors",
+      "commandKey": "yt-dlp",
       "key": "ignore-errors"
     },
     {
@@ -75,8 +77,8 @@
       "description": "Continue with next video on download errors; e.g. to skip unavailable videos in a playlist (default)",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isGlobal": true,
       "longFlag": "--no-abort-on-error",
+      "commandKey": "yt-dlp",
       "key": "no-abort-on-error"
     },
     {
@@ -84,8 +86,8 @@
       "description": "Abort downloading of further videos if an error occurs (Alias: --no-ignore-errors)",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isGlobal": true,
       "longFlag": "--abort-on-error",
+      "commandKey": "yt-dlp",
       "key": "abort-on-error"
     },
     {
@@ -93,8 +95,8 @@
       "description": "Display the current user-agent and exit",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isGlobal": true,
       "longFlag": "--dump-user-agent",
+      "commandKey": "yt-dlp",
       "key": "dump-user-agent"
     },
     {
@@ -102,8 +104,8 @@
       "description": "List all supported extractors and exit",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isGlobal": true,
       "longFlag": "--list-extractors",
+      "commandKey": "yt-dlp",
       "key": "list-extractors"
     },
     {
@@ -111,8 +113,8 @@
       "description": "Output descriptions of all supported extractors and exit",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isGlobal": true,
       "longFlag": "--extractor-descriptions",
+      "commandKey": "yt-dlp",
       "key": "extractor-descriptions"
     },
     {
@@ -120,8 +122,8 @@
       "description": "Extractor names to use separated by commas. You can also use regexes, \"all\", \"default\" and \"end\" (end URL matching); e.g. --ies \"holodex.*,end,youtube\". Prefix the name with a \"-\" to exclude it, e.g. --ies default,-generic. Use --list-extractors for a list of extractor names. (Alias: --ies)",
       "parameterType": "Option",
       "dataType": "String",
-      "isGlobal": true,
       "longFlag": "--use-extractors",
+      "commandKey": "yt-dlp",
       "key": "use-extractors"
     },
     {
@@ -129,8 +131,8 @@
       "description": "Use this prefix for unqualified URLs. E.g. \"gvsearch2:python\" downloads two videos from google videos for the search term \"python\". Use the value \"auto\" to let yt-dlp guess (\"auto_warning\" to emit a warning when guessing). \"error\" just throws an error. The default value \"fixup_error\" repairs broken URLs, but emits an error if this is not possible instead of searching",
       "parameterType": "Option",
       "dataType": "String",
-      "isGlobal": true,
       "longFlag": "--default-search",
+      "commandKey": "yt-dlp",
       "key": "default-search"
     },
     {
@@ -138,8 +140,8 @@
       "description": "Don't load any more configuration files except those given to --config-locations. For backward compatibility, if this option is found inside the system configuration file, the user configuration is not loaded. (Alias: --no-config)",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isGlobal": true,
       "longFlag": "--ignore-config",
+      "commandKey": "yt-dlp",
       "key": "ignore-config"
     },
     {
@@ -147,8 +149,8 @@
       "description": "Do not load any custom configuration files (default). When given inside a configuration file, ignore all previous --config-locations defined in the current file",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isGlobal": true,
       "longFlag": "--no-config-locations",
+      "commandKey": "yt-dlp",
       "key": "no-config-locations"
     },
     {
@@ -157,8 +159,8 @@
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "isGlobal": true,
       "longFlag": "--config-locations",
+      "commandKey": "yt-dlp",
       "key": "config-locations"
     },
     {
@@ -167,8 +169,8 @@
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "isGlobal": true,
       "longFlag": "--plugin-dirs",
+      "commandKey": "yt-dlp",
       "key": "plugin-dirs"
     },
     {
@@ -176,8 +178,8 @@
       "description": "Clear plugin directories to search, including defaults and those provided by previous --plugin-dirs",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isGlobal": true,
       "longFlag": "--no-plugin-dirs",
+      "commandKey": "yt-dlp",
       "key": "no-plugin-dirs"
     },
     {
@@ -185,8 +187,8 @@
       "description": "Do not extract a playlist's URL result entries; some entry metadata may be missing and downloading may be bypassed",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isGlobal": true,
       "longFlag": "--flat-playlist",
+      "commandKey": "yt-dlp",
       "key": "flat-playlist"
     },
     {
@@ -194,8 +196,8 @@
       "description": "Fully extract the videos of a playlist (default)",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isGlobal": true,
       "longFlag": "--no-flat-playlist",
+      "commandKey": "yt-dlp",
       "key": "no-flat-playlist"
     },
     {
@@ -204,26 +206,26 @@
       "parameterType": "Option",
       "dataType": "Enum",
       "isRepeatable": true,
-      "isGlobal": true,
       "longFlag": "--preset-alias",
+      "commandKey": "yt-dlp",
       "key": "preset-alias",
       "enum": {
         "values": [
           {
             "value": "mp3",
-            "displayName": "Mp3"
+            "displayName": "MP3"
           },
           {
             "value": "aac",
-            "displayName": "Aac"
+            "displayName": "AAC"
           },
           {
             "value": "mp4",
-            "displayName": "Mp4"
+            "displayName": "MP4"
           },
           {
             "value": "mkv",
-            "displayName": "Mkv"
+            "displayName": "MKV"
           },
           {
             "value": "sleep",
@@ -237,8 +239,8 @@
       "description": "Use the specified HTTP/HTTPS/SOCKS proxy. To enable SOCKS proxy, specify a proper scheme, e.g. socks5://user:pass@127.0.0.1:1080/. Pass in an empty string (--proxy \"\") for direct connection",
       "parameterType": "Option",
       "dataType": "String",
-      "isGlobal": true,
       "longFlag": "--proxy",
+      "commandKey": "yt-dlp",
       "key": "proxy"
     },
     {
@@ -246,8 +248,8 @@
       "description": "Time to wait before giving up, in seconds",
       "parameterType": "Option",
       "dataType": "Number",
-      "isGlobal": true,
       "longFlag": "--socket-timeout",
+      "commandKey": "yt-dlp",
       "key": "socket-timeout"
     },
     {
@@ -255,8 +257,8 @@
       "description": "Client-side IP address to bind to",
       "parameterType": "Option",
       "dataType": "String",
-      "isGlobal": true,
       "longFlag": "--source-address",
+      "commandKey": "yt-dlp",
       "key": "source-address"
     },
     {
@@ -264,8 +266,8 @@
       "description": "Client to impersonate for requests. E.g. chrome, chrome-110, chrome:windows-10. Pass --impersonate=\"\" to impersonate any client. Note that forcing impersonation for all requests may have a detrimental impact on download speed and stability",
       "parameterType": "Option",
       "dataType": "String",
-      "isGlobal": true,
       "longFlag": "--impersonate",
+      "commandKey": "yt-dlp",
       "key": "impersonate"
     },
     {
@@ -273,8 +275,8 @@
       "description": "List available clients to impersonate.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isGlobal": true,
       "longFlag": "--list-impersonate-targets",
+      "commandKey": "yt-dlp",
       "key": "list-impersonate-targets"
     },
     {
@@ -282,8 +284,8 @@
       "description": "Make all connections via IPv4",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isGlobal": true,
       "longFlag": "--force-ipv4",
+      "commandKey": "yt-dlp",
       "key": "force-ipv4"
     },
     {
@@ -291,8 +293,8 @@
       "description": "Make all connections via IPv6",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isGlobal": true,
       "longFlag": "--force-ipv6",
+      "commandKey": "yt-dlp",
       "key": "force-ipv6"
     },
     {
@@ -300,8 +302,8 @@
       "description": "Enable file:// URLs. This is disabled by default for security reasons.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isGlobal": true,
       "longFlag": "--enable-file-urls",
+      "commandKey": "yt-dlp",
       "key": "enable-file-urls"
     },
     {
@@ -309,8 +311,8 @@
       "description": "Use this proxy to verify the IP address for some geo-restricted sites. The default proxy specified by --proxy (or none, if the option is not present) is used for the actual downloading",
       "parameterType": "Option",
       "dataType": "String",
-      "isGlobal": true,
       "longFlag": "--geo-verification-proxy",
+      "commandKey": "yt-dlp",
       "key": "geo-verification-proxy"
     },
     {
@@ -318,8 +320,8 @@
       "description": "How to fake X-Forwarded-For HTTP header to try bypassing geographic restriction. One of \"default\" (only when known to be useful), \"never\", an IP block in CIDR notation, or a two-letter ISO 3166-2 country code",
       "parameterType": "Option",
       "dataType": "String",
-      "isGlobal": true,
       "longFlag": "--xff",
+      "commandKey": "yt-dlp",
       "key": "xff"
     },
     {
@@ -327,9 +329,9 @@
       "description": "Comma separated playlist_index of the items to download. You can specify a range using \"[START]:[STOP][:STEP]\". For backward compatibility, START-STOP is also supported. Use negative indices to count from the right and negative STEP to download in reverse order. E.g. \"-I 1:3,7,-5::2\" used on a playlist of size 15 will download the items at index 1,2,3,7,11,13,15",
       "parameterType": "Option",
       "dataType": "String",
-      "isGlobal": true,
       "longFlag": "--playlist-items",
       "shortFlag": "-I",
+      "commandKey": "yt-dlp",
       "key": "playlist-items"
     },
     {
@@ -337,8 +339,8 @@
       "description": "Abort download if filesize is smaller than SIZE, e.g. 50k or 44.6M",
       "parameterType": "Option",
       "dataType": "String",
-      "isGlobal": true,
       "longFlag": "--min-filesize",
+      "commandKey": "yt-dlp",
       "key": "min-filesize"
     },
     {
@@ -346,8 +348,8 @@
       "description": "Abort download if filesize is larger than SIZE, e.g. 50k or 44.6M",
       "parameterType": "Option",
       "dataType": "String",
-      "isGlobal": true,
       "longFlag": "--max-filesize",
+      "commandKey": "yt-dlp",
       "key": "max-filesize"
     },
     {
@@ -355,8 +357,8 @@
       "description": "Download only videos uploaded on this date. The date can be \"YYYYMMDD\" or in the format [now|today|yesterday][-N[day|week|month|year]]. E.g. \"--date today-2weeks\" downloads only videos uploaded on the same day two weeks ago",
       "parameterType": "Option",
       "dataType": "String",
-      "isGlobal": true,
       "longFlag": "--date",
+      "commandKey": "yt-dlp",
       "key": "date"
     },
     {
@@ -364,8 +366,8 @@
       "description": "Download only videos uploaded on or before this date. The date formats accepted are the same as --date",
       "parameterType": "Option",
       "dataType": "String",
-      "isGlobal": true,
       "longFlag": "--datebefore",
+      "commandKey": "yt-dlp",
       "key": "datebefore"
     },
     {
@@ -373,8 +375,8 @@
       "description": "Download only videos uploaded on or after this date. The date formats accepted are the same as --date",
       "parameterType": "Option",
       "dataType": "String",
-      "isGlobal": true,
       "longFlag": "--dateafter",
+      "commandKey": "yt-dlp",
       "key": "dateafter"
     },
     {
@@ -383,8 +385,8 @@
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "isGlobal": true,
       "longFlag": "--match-filters",
+      "commandKey": "yt-dlp",
       "key": "match-filters"
     },
     {
@@ -392,8 +394,8 @@
       "description": "Do not use any --match-filters (default)",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isGlobal": true,
       "longFlag": "--no-match-filters",
+      "commandKey": "yt-dlp",
       "key": "no-match-filters"
     },
     {
@@ -402,8 +404,8 @@
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "isGlobal": true,
       "longFlag": "--break-match-filters",
+      "commandKey": "yt-dlp",
       "key": "break-match-filters"
     },
     {
@@ -411,8 +413,8 @@
       "description": "Do not use any --break-match-filters (default)",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "isGlobal": true,
       "longFlag": "--no-break-match-filters",
+      "commandKey": "yt-dlp",
       "key": "no-break-match-filters"
     }
   ]

@@ -81,7 +81,7 @@ You can:
 - Do not add empty arrays or objects for optional properties that have no values (e.g. do not include \`"validations": []\`, \`"exclusionGroups": []\`, \`"tags": []\`, \`"dependencies": []\`, or \`"enum": { "values": [] }\` unless explicitly requested or they already exist).
 - After calling editTool, write a brief plain-text explanation of what was changed.
 - If the user asks a question without requesting changes, answer in plain text without calling any tool.
-- All parameter keys must be unique values.
+- All parameter keys must be unique values. It should be meaningful and derived from the parameter name or description.
 - All descriptions should be in sentence case.
 - If a parameter is not global, it must have a commandKey. Global parameters must not have a commandKey.
 - Do not add fields not present in the schema.

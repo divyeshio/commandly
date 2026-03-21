@@ -4,6 +4,7 @@
   "displayName": "Curl",
   "info": {
     "description": "curl is a command line tool and library for transferring data with URLs.",
+    "version": "8.19.0",
     "url": "https://curl.se/"
   },
   "commands": [
@@ -85,7 +86,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Dump header",
+      "name": "Dump Header",
       "description": "Write the received headers to <filename>.",
       "parameterType": "Option",
       "dataType": "String",
@@ -147,7 +148,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "User agent",
+      "name": "User Agent",
       "description": "Send User-Agent <name> to server.",
       "parameterType": "Option",
       "dataType": "String",
@@ -228,7 +229,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Max time",
+      "name": "Max Time",
       "description": "Maximum time allowed for transfer.",
       "parameterType": "Option",
       "dataType": "Number",
@@ -240,7 +241,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Connect timeout",
+      "name": "Connect Timeout",
       "description": "Maximum time allowed to connect.",
       "parameterType": "Option",
       "dataType": "Number",
@@ -262,7 +263,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Output directory",
+      "name": "Output Directory",
       "description": "Directory to save files in.",
       "parameterType": "Option",
       "dataType": "String",
@@ -273,7 +274,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Remote name",
+      "name": "Remote Name",
       "description": "Write output to file named as remote file.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -284,7 +285,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Show headers",
+      "name": "Show Headers",
       "description": "Show response headers in output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -318,7 +319,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Url",
+      "name": "URL",
       "description": "URL(s) to work with.",
       "parameterType": "Option",
       "dataType": "String",
@@ -330,7 +331,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Upload file",
+      "name": "Upload File",
       "description": "Transfer local FILE to destination.",
       "parameterType": "Option",
       "dataType": "String",
@@ -342,7 +343,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Abstract unix socket",
+      "name": "Abstract Unix Socket",
       "description": "Connect via abstract Unix domain socket.",
       "parameterType": "Option",
       "dataType": "String",
@@ -353,7 +354,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Alt svc",
+      "name": "Alt-Svc",
       "description": "Enable alt-svc with this cache file.",
       "parameterType": "Option",
       "dataType": "String",
@@ -385,7 +386,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Aws sigv4",
+      "name": "AWS SigV4",
       "description": "AWS V4 signature auth.",
       "parameterType": "Option",
       "dataType": "String",
@@ -406,7 +407,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ca native",
+      "name": "CA Native",
       "description": "Load CA certs from the OS.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -450,7 +451,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Cert status",
+      "name": "Cert Status",
       "description": "Verify server cert status OCSP-staple.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -460,7 +461,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Cert type",
+      "name": "Cert Type",
       "description": "Certificate type (DER/PEM/ENG/PROV/P12).",
       "parameterType": "Option",
       "dataType": "String",
@@ -492,7 +493,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Compressed ssh",
+      "name": "Compressed SSH",
       "description": "Enable SSH compression.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -502,7 +503,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Connect to",
+      "name": "Connect To",
       "description": "Connect to host2 instead of host1.",
       "parameterType": "Option",
       "dataType": "String",
@@ -513,7 +514,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Continue at",
+      "name": "Continue At",
       "description": "Resumed transfer offset.",
       "parameterType": "Option",
       "dataType": "String",
@@ -537,7 +538,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Cookie jar",
+      "name": "Cookie Jar",
       "description": "Save cookies to <filename> after operation.",
       "parameterType": "Option",
       "dataType": "String",
@@ -549,7 +550,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Create dirs",
+      "name": "Create Dirs",
       "description": "Create necessary local directory hierarchy.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -559,7 +560,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Create file mode",
+      "name": "Create File Mode",
       "description": "File mode for created files.",
       "parameterType": "Option",
       "dataType": "String",
@@ -570,7 +571,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Crlf",
+      "name": "CRLF",
       "description": "Convert LF to CRLF in upload.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -580,7 +581,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Crlfile",
+      "name": "CRL File",
       "description": "Certificate Revocation list.",
       "parameterType": "Option",
       "dataType": "String",
@@ -602,7 +603,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Data ascii",
+      "name": "Data ASCII",
       "description": "HTTP POST ASCII data.",
       "parameterType": "Option",
       "dataType": "String",
@@ -614,7 +615,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Data binary",
+      "name": "Data Binary",
       "description": "HTTP POST binary data.",
       "parameterType": "Option",
       "dataType": "String",
@@ -626,7 +627,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Data raw",
+      "name": "Data Raw",
       "description": "HTTP POST data, '@' allowed.",
       "parameterType": "Option",
       "dataType": "String",
@@ -638,7 +639,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Data urlencode",
+      "name": "Data URL Encode",
       "description": "HTTP POST data URL encoded.",
       "parameterType": "Option",
       "dataType": "String",
@@ -682,7 +683,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Disable eprt",
+      "name": "Disable EPRT",
       "description": "Inhibit using EPRT or LPRT.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -692,7 +693,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Disable epsv",
+      "name": "Disable EPSV",
       "description": "Inhibit using EPSV.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -702,7 +703,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Disallow username in url",
+      "name": "Disallow Username in URL",
       "description": "Disallow username in URL.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -712,7 +713,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Dns interface",
+      "name": "DNS Interface",
       "description": "Interface to use for DNS requests.",
       "parameterType": "Option",
       "dataType": "String",
@@ -723,7 +724,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Dns ipv4 addr",
+      "name": "DNS IPv4 Address",
       "description": "IPv4 address to use for DNS requests.",
       "parameterType": "Option",
       "dataType": "String",
@@ -734,7 +735,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Dns ipv6 addr",
+      "name": "DNS IPv6 Address",
       "description": "IPv6 address to use for DNS requests.",
       "parameterType": "Option",
       "dataType": "String",
@@ -745,7 +746,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Dns servers",
+      "name": "DNS Servers",
       "description": "DNS server addrs to use.",
       "parameterType": "Option",
       "dataType": "String",
@@ -756,7 +757,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Doh cert status",
+      "name": "DoH Cert Status",
       "description": "Verify DoH server cert status OCSP-staple.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -766,7 +767,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Doh insecure",
+      "name": "DoH Insecure",
       "description": "Allow insecure DoH server connections.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -776,7 +777,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Doh url",
+      "name": "DoH URL",
       "description": "Resolve hostnames over DoH.",
       "parameterType": "Option",
       "dataType": "String",
@@ -787,7 +788,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Dump ca embed",
+      "name": "Dump CA Embed",
       "description": "Write the embedded CA bundle to standard output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -808,7 +809,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Egd file",
+      "name": "EGD File",
       "description": "EGD socket path for random data.",
       "parameterType": "Option",
       "dataType": "String",
@@ -830,7 +831,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Etag compare",
+      "name": "ETag Compare",
       "description": "Load ETag from file.",
       "parameterType": "Option",
       "dataType": "String",
@@ -841,7 +842,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Etag save",
+      "name": "ETag Save",
       "description": "Parse incoming ETag and save to a file.",
       "parameterType": "Option",
       "dataType": "String",
@@ -852,7 +853,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Expect100 timeout",
+      "name": "Expect100 Timeout",
       "description": "How long to wait for 100-continue.",
       "parameterType": "Option",
       "dataType": "Number",
@@ -863,7 +864,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Fail early",
+      "name": "Fail Early",
       "description": "Fail on first transfer error.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -873,7 +874,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Fail with body",
+      "name": "Fail With Body",
       "description": "Fail on HTTP errors but save the body.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -883,7 +884,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "False start",
+      "name": "False Start",
       "description": "Enable TLS False Start.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -903,7 +904,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Form escape",
+      "name": "Form Escape",
       "description": "Escape form fields using backslash.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -913,7 +914,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Form string",
+      "name": "Form String",
       "description": "Specify multipart MIME data.",
       "parameterType": "Option",
       "dataType": "String",
@@ -925,7 +926,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ftp account",
+      "name": "FTP Account",
       "description": "Account data string.",
       "parameterType": "Option",
       "dataType": "String",
@@ -936,7 +937,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ftp alternative to user",
+      "name": "FTP Alternative User",
       "description": "String to replace USER [name].",
       "parameterType": "Option",
       "dataType": "String",
@@ -947,7 +948,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ftp create dirs",
+      "name": "FTP Create Dirs",
       "description": "Create the remote dirs if not present.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -957,7 +958,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ftp method",
+      "name": "FTP Method",
       "description": "Control CWD usage.",
       "parameterType": "Option",
       "dataType": "String",
@@ -968,7 +969,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ftp pasv",
+      "name": "FTP Passive",
       "description": "Send PASV/EPSV instead of PORT.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -978,7 +979,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ftp port",
+      "name": "FTP Port",
       "description": "Send PORT instead of PASV.",
       "parameterType": "Option",
       "dataType": "String",
@@ -990,7 +991,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ftp pret",
+      "name": "FTP PRET",
       "description": "Send PRET before PASV.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1000,7 +1001,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ftp skip pasv ip",
+      "name": "FTP Skip Passive IP",
       "description": "Skip the IP address for PASV.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1010,7 +1011,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ftp ssl ccc",
+      "name": "FTP SSL CCC",
       "description": "Send CCC after authenticating.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1020,7 +1021,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ftp ssl ccc mode",
+      "name": "FTP SSL CCC Mode",
       "description": "Set CCC mode.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1031,7 +1032,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ftp ssl control",
+      "name": "FTP SSL Control",
       "description": "Require TLS for login, clear for transfer.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1052,7 +1053,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Happy eyeballs timeout ms",
+      "name": "Happy Eyeballs Timeout (ms)",
       "description": "Time for IPv6 before IPv4.",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1063,7 +1064,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Haproxy clientip",
+      "name": "HAProxy Client IP",
       "description": "Set address in HAProxy PROXY.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1074,7 +1075,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Haproxy protocol",
+      "name": "HAProxy Protocol",
       "description": "Send HAProxy PROXY protocol v1 header.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1084,7 +1085,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Hostpubmd5",
+      "name": "Host Pubkey MD5",
       "description": "Acceptable MD5 hash of host public key.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1095,7 +1096,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Hostpubsha256",
+      "name": "Host Pubkey SHA256",
       "description": "Acceptable SHA256 hash of host public key.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1106,7 +1107,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Hsts",
+      "name": "HSTS",
       "description": "Enable HSTS with this cache file.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1117,7 +1118,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Http0.9",
+      "name": "HTTP 0.9",
       "description": "Allow HTTP/0.9 responses.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1127,7 +1128,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Http1.0",
+      "name": "HTTP 1.0",
       "description": "Use HTTP/1.0.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1138,7 +1139,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Http1.1",
+      "name": "HTTP 1.1",
       "description": "Use HTTP/1.1.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1148,7 +1149,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Http2",
+      "name": "HTTP/2",
       "description": "Use HTTP/2.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1158,7 +1159,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Http2 prior knowledge",
+      "name": "HTTP/2 Prior Knowledge",
       "description": "Use HTTP/2 without HTTP/1.1 Upgrade.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1168,7 +1169,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Http3",
+      "name": "HTTP/3",
       "description": "Use HTTP/3.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1178,7 +1179,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Http3 only",
+      "name": "HTTP/3 Only",
       "description": "Use HTTP/3 only.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1188,7 +1189,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ignore content length",
+      "name": "Ignore Content Length",
       "description": "Ignore the size of the remote resource.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1209,7 +1210,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ip tos",
+      "name": "IP TOS",
       "description": "Set IP Type of Service or Traffic Class.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1220,7 +1221,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ipfs gateway",
+      "name": "IPFS Gateway",
       "description": "Gateway for IPFS.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1231,7 +1232,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ipv4",
+      "name": "IPv4",
       "description": "Resolve names to IPv4 addresses.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1242,7 +1243,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ipv6",
+      "name": "IPv6",
       "description": "Resolve names to IPv6 addresses.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1253,7 +1254,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Json",
+      "name": "JSON",
       "description": "HTTP POST JSON.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1265,7 +1266,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Junk session cookies",
+      "name": "Junk Session Cookies",
       "description": "Ignore session cookies read from file.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1276,7 +1277,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Keepalive cnt",
+      "name": "Keepalive Count",
       "description": "Maximum number of keepalive probes.",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1287,7 +1288,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Keepalive time",
+      "name": "Keepalive Time",
       "description": "Interval time for keepalive probes.",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1309,7 +1310,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Key type",
+      "name": "Key Type",
       "description": "Private key file type (DER/PEM/ENG).",
       "parameterType": "Option",
       "dataType": "String",
@@ -1353,7 +1354,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Limit rate",
+      "name": "Limit Rate",
       "description": "Limit transfer speed to RATE.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1364,7 +1365,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "List only",
+      "name": "List Only",
       "description": "List only mode.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1375,7 +1376,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Local port",
+      "name": "Local Port",
       "description": "Use a local port number within RANGE.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1386,7 +1387,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Location trusted",
+      "name": "Location Trusted",
       "description": "As --location, but send secrets to other hosts.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1396,7 +1397,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Login options",
+      "name": "Login Options",
       "description": "Server login options.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1407,7 +1408,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Mail auth",
+      "name": "Mail Auth",
       "description": "Originator address of the original email.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1418,7 +1419,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Mail from",
+      "name": "Mail From",
       "description": "Mail from this address.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1429,7 +1430,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Mail rcpt",
+      "name": "Mail Recipients",
       "description": "Mail to this address.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1441,7 +1442,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Mail rcpt allowfails",
+      "name": "Mail RCPT Allow Fails",
       "description": "Allow RCPT TO command to fail.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1462,7 +1463,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Max filesize",
+      "name": "Max File Size",
       "description": "Maximum file size to download.",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1473,7 +1474,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Max redirs",
+      "name": "Max Redirects",
       "description": "Maximum number of redirects allowed.",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1525,7 +1526,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Netrc file",
+      "name": "Netrc File",
       "description": "Specify FILE for netrc.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1536,7 +1537,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Netrc optional",
+      "name": "Netrc Optional",
       "description": "Use either .netrc or URL.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1557,7 +1558,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "No alpn",
+      "name": "No ALPN",
       "description": "Disable the ALPN TLS extension.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1567,7 +1568,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "No buffer",
+      "name": "No Buffer",
       "description": "Disable buffering of the output stream.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1578,7 +1579,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "No clobber",
+      "name": "No Clobber",
       "description": "Do not overwrite files that already exist.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1588,7 +1589,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "No keepalive",
+      "name": "No Keepalive",
       "description": "Disable TCP keepalive on the connection.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1598,7 +1599,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "No npn",
+      "name": "No NPN",
       "description": "Disable the NPN TLS extension.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1608,7 +1609,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "No progress meter",
+      "name": "No Progress Meter",
       "description": "Do not show the progress meter.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1618,7 +1619,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "No sessionid",
+      "name": "No Session ID",
       "description": "Disable SSL session-ID reusing.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1639,7 +1640,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ntlm",
+      "name": "NTLM",
       "description": "HTTP NTLM authentication.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1649,7 +1650,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ntlm wb",
+      "name": "NTLM WB",
       "description": "HTTP NTLM authentication with winbind.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1659,7 +1660,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Oauth2 bearer",
+      "name": "OAuth2 Bearer",
       "description": "OAuth 2 Bearer Token.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1670,7 +1671,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Out null",
+      "name": "Output Null",
       "description": "Discard response data into the void.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1691,7 +1692,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Parallel immediate",
+      "name": "Parallel Immediate",
       "description": "Do not wait for multiplexing.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1701,7 +1702,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Parallel max",
+      "name": "Parallel Max",
       "description": "Maximum concurrency for parallel transfers.",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1712,7 +1713,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Parallel max host",
+      "name": "Parallel Max Host",
       "description": "Maximum connections to a single host.",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1734,7 +1735,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Path as is",
+      "name": "Path As Is",
       "description": "Do not squash .. sequences in URL path.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1755,7 +1756,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Post301",
+      "name": "Post 301",
       "description": "Do not switch to GET after a 301 redirect.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1765,7 +1766,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Post302",
+      "name": "Post 302",
       "description": "Do not switch to GET after a 302 redirect.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1775,7 +1776,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Post303",
+      "name": "Post 303",
       "description": "Do not switch to GET after a 303 redirect.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1796,7 +1797,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Progress bar",
+      "name": "Progress Bar",
       "description": "Display transfer progress as a bar.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1818,7 +1819,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proto default",
+      "name": "Proto Default",
       "description": "Use PROTOCOL for any URL missing a scheme.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1829,7 +1830,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proto redir",
+      "name": "Proto Redirect",
       "description": "Enable/disable PROTOCOLS on redirect.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1860,7 +1861,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proxy ca native",
+      "name": "Proxy CA Native",
       "description": "Load CA certs from the OS to verify proxy.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1870,7 +1871,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proxy cacert",
+      "name": "Proxy CA Cert",
       "description": "CA certificates to verify proxy against.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1881,7 +1882,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proxy capath",
+      "name": "Proxy CA Path",
       "description": "CA directory to verify proxy against.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1903,7 +1904,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proxy cert type",
+      "name": "Proxy Cert Type",
       "description": "Client certificate type for HTTPS proxy.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1914,7 +1915,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proxy ciphers",
+      "name": "Proxy Ciphers",
       "description": "TLS 1.2 (1.1, 1.0) ciphers to use for proxy.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1925,7 +1926,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proxy crlfile",
+      "name": "Proxy CRL File",
       "description": "Set a CRL list for proxy.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1946,7 +1947,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proxy header",
+      "name": "Proxy Header",
       "description": "Pass custom header(s) to proxy.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1958,7 +1959,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proxy http2",
+      "name": "Proxy HTTP/2",
       "description": "Use HTTP/2 with HTTPS proxy.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1989,7 +1990,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proxy key type",
+      "name": "Proxy Key Type",
       "description": "Private key file type for proxy.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2000,7 +2001,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proxy negotiate",
+      "name": "Proxy Negotiate",
       "description": "HTTP Negotiate (SPNEGO) auth with the proxy.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2010,7 +2011,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proxy ntlm",
+      "name": "Proxy NTLM",
       "description": "NTLM authentication with the proxy.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2020,7 +2021,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proxy pass",
+      "name": "Proxy Password",
       "description": "Passphrase for private key for HTTPS proxy.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2031,7 +2032,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proxy pinnedpubkey",
+      "name": "Proxy Pinned Public Key",
       "description": "FILE/HASHES public key to verify proxy with.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2042,7 +2043,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proxy service name",
+      "name": "Proxy Service Name",
       "description": "SPNEGO proxy service name.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2053,7 +2054,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proxy ssl allow beast",
+      "name": "Proxy SSL Allow BEAST",
       "description": "Allow this security flaw for HTTPS proxy.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2063,7 +2064,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proxy ssl auto client cert",
+      "name": "Proxy SSL Auto Client Cert",
       "description": "Auto client certificate for proxy.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2073,7 +2074,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proxy tls13 ciphers",
+      "name": "Proxy TLS 1.3 Ciphers",
       "description": "TLS 1.3 proxy cipher suites.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2084,7 +2085,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proxy tlsauthtype",
+      "name": "Proxy TLS Auth Type",
       "description": "TLS authentication type for HTTPS proxy.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2095,7 +2096,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proxy tlspassword",
+      "name": "Proxy TLS Password",
       "description": "TLS password for HTTPS proxy.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2106,7 +2107,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proxy tlsuser",
+      "name": "Proxy TLS User",
       "description": "TLS username for HTTPS proxy.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2117,7 +2118,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proxy tlsv1",
+      "name": "Proxy TLS v1",
       "description": "TLSv1 for HTTPS proxy.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2127,7 +2128,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proxy user",
+      "name": "Proxy User",
       "description": "Proxy user and password.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2139,7 +2140,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Proxy1.0",
+      "name": "Proxy 1.0",
       "description": "Use HTTP/1.0 proxy on given port.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2185,7 +2186,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Random file",
+      "name": "Random File",
       "description": "File for reading random data from.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2241,7 +2242,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Remote header name",
+      "name": "Remote Header Name",
       "description": "Use the header-provided filename.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2252,7 +2253,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Remote name all",
+      "name": "Remote Name All",
       "description": "Use the remote filename for all URLs.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2262,7 +2263,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Remote time",
+      "name": "Remote Time",
       "description": "Set remote file's time on local output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2273,7 +2274,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Remove on error",
+      "name": "Remove On Error",
       "description": "Remove output file on errors.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2283,7 +2284,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Request target",
+      "name": "Request Target",
       "description": "Specify the target for this request.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2306,7 +2307,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Retry all errors",
+      "name": "Retry All Errors",
       "description": "Retry all errors (with --retry).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2324,7 +2325,7 @@
       ]
     },
     {
-      "name": "Retry connrefused",
+      "name": "Retry Connection Refused",
       "description": "Retry on connection refused (with --retry).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2342,7 +2343,7 @@
       ]
     },
     {
-      "name": "Retry delay",
+      "name": "Retry Delay",
       "description": "Wait time between retries.",
       "parameterType": "Option",
       "dataType": "Number",
@@ -2361,7 +2362,7 @@
       ]
     },
     {
-      "name": "Retry max time",
+      "name": "Retry Max Time",
       "description": "Retry only within this period.",
       "parameterType": "Option",
       "dataType": "Number",
@@ -2380,7 +2381,7 @@
       ]
     },
     {
-      "name": "Sasl authzid",
+      "name": "SASL Auth ID",
       "description": "Identity for SASL PLAIN authentication.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2391,7 +2392,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Sasl ir",
+      "name": "SASL IR",
       "description": "Initial response in SASL authentication.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2401,7 +2402,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Service name",
+      "name": "Service Name",
       "description": "SPNEGO service name.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2412,7 +2413,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Show error",
+      "name": "Show Error",
       "description": "Show error even when -s is used.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2442,7 +2443,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Skip existing",
+      "name": "Skip Existing",
       "description": "Skip download if local file already exists.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2452,7 +2453,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Socks4",
+      "name": "SOCKS4",
       "description": "SOCKS4 proxy on given host + port.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2463,7 +2464,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Socks4a",
+      "name": "SOCKS4a",
       "description": "SOCKS4a proxy on given host + port.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2474,7 +2475,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Socks5",
+      "name": "SOCKS5",
       "description": "SOCKS5 proxy on given host + port.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2485,7 +2486,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Socks5 basic",
+      "name": "SOCKS5 Basic",
       "description": "Username/password auth for SOCKS5 proxies.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2495,7 +2496,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Socks5 gssapi",
+      "name": "SOCKS5 GSSAPI",
       "description": "Enable GSS-API auth for SOCKS5 proxies.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2505,7 +2506,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Socks5 gssapi nec",
+      "name": "SOCKS5 GSSAPI NEC",
       "description": "Compatibility with NEC SOCKS5 server.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2515,7 +2516,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Socks5 gssapi service",
+      "name": "SOCKS5 GSSAPI Service",
       "description": "SOCKS5 proxy service name for GSS-API.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2526,7 +2527,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Socks5 hostname",
+      "name": "SOCKS5 Hostname",
       "description": "SOCKS5 proxy, pass hostname to proxy.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2537,7 +2538,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Speed limit",
+      "name": "Speed Limit",
       "description": "Stop transfers slower than this.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2549,7 +2550,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Speed time",
+      "name": "Speed Time",
       "description": "Trigger 'speed-limit' abort after this time.",
       "parameterType": "Option",
       "dataType": "Number",
@@ -2561,7 +2562,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ssl",
+      "name": "SSL",
       "description": "Try enabling TLS.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2571,7 +2572,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ssl allow beast",
+      "name": "SSL Allow BEAST",
       "description": "Allow security flaw to improve interop.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2581,7 +2582,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ssl auto client cert",
+      "name": "SSL Auto Client Cert",
       "description": "Use auto client certificate (Schannel).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2591,7 +2592,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ssl no revoke",
+      "name": "SSL No Revoke",
       "description": "Disable cert revocation checks (Schannel).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2601,7 +2602,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ssl reqd",
+      "name": "SSL Required",
       "description": "Require SSL/TLS.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2611,7 +2612,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ssl revoke best effort",
+      "name": "SSL Revoke Best Effort",
       "description": "Ignore missing cert CRL dist points.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2621,7 +2622,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Ssl sessions",
+      "name": "SSL Sessions",
       "description": "Load/save SSL session tickets from/to this file.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2632,7 +2633,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Sslv2",
+      "name": "SSLv2",
       "description": "SSLv2.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2643,7 +2644,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Sslv3",
+      "name": "SSLv3",
       "description": "SSLv3.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2665,7 +2666,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Styled output",
+      "name": "Styled Output",
       "description": "Enable styled output for HTTP headers.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2675,7 +2676,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Suppress connect headers",
+      "name": "Suppress Connect Headers",
       "description": "Suppress proxy CONNECT response headers.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2685,7 +2686,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Tcp fastopen",
+      "name": "TCP Fast Open",
       "description": "Use TCP Fast Open.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2695,7 +2696,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Tcp nodelay",
+      "name": "TCP No Delay",
       "description": "Set TCP_NODELAY.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2705,7 +2706,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Telnet option",
+      "name": "Telnet Option",
       "description": "Set telnet option.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2718,7 +2719,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Tftp blksize",
+      "name": "TFTP Block Size",
       "description": "Set TFTP BLKSIZE option.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2729,7 +2730,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Tftp no options",
+      "name": "TFTP No Options",
       "description": "Do not send any TFTP options.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2739,7 +2740,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Time cond",
+      "name": "Time Condition",
       "description": "Transfer based on a time condition.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2751,7 +2752,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Tls earlydata",
+      "name": "TLS Early Data",
       "description": "Allow use of TLSv1.3 early data (0RTT).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2761,7 +2762,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Tls max",
+      "name": "TLS Max",
       "description": "Maximum allowed TLS version.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2772,7 +2773,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Tls13 ciphers",
+      "name": "TLS 1.3 Ciphers",
       "description": "TLS 1.3 cipher suites to use.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2783,7 +2784,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Tlsauthtype",
+      "name": "TLS Auth Type",
       "description": "TLS authentication type.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2794,7 +2795,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Tlspassword",
+      "name": "TLS Password",
       "description": "TLS password.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2805,7 +2806,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Tlsuser",
+      "name": "TLS User",
       "description": "TLS username.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2816,7 +2817,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Tlsv1",
+      "name": "TLS v1",
       "description": "TLSv1.0 or greater.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2827,7 +2828,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Tlsv1.0",
+      "name": "TLS v1.0",
       "description": "TLSv1.0 or greater.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2837,7 +2838,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Tlsv1.1",
+      "name": "TLS v1.1",
       "description": "TLSv1.1 or greater.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2847,7 +2848,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Tlsv1.2",
+      "name": "TLS v1.2",
       "description": "TLSv1.2 or greater.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2857,7 +2858,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Tlsv1.3",
+      "name": "TLS v1.3",
       "description": "TLSv1.3 or greater.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2867,7 +2868,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Tr encoding",
+      "name": "Transfer-Encoding",
       "description": "Request compressed transfer encoding.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2888,7 +2889,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Trace ascii",
+      "name": "Trace ASCII",
       "description": "Like --trace, but without hex output.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2899,7 +2900,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Trace config",
+      "name": "Trace Config",
       "description": "Details to log in trace/verbose output.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2910,7 +2911,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Trace ids",
+      "name": "Trace IDs",
       "description": "Transfer + connection ids in verbose output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2920,7 +2921,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Trace time",
+      "name": "Trace Time",
       "description": "Add time stamps to trace/verbose output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2930,7 +2931,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Unix socket",
+      "name": "Unix Socket",
       "description": "Connect through this Unix domain socket.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2941,7 +2942,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Upload flags",
+      "name": "Upload Flags",
       "description": "IMAP upload behavior.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2952,7 +2953,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Url query",
+      "name": "URL Query",
       "description": "Add a URL query part.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2964,7 +2965,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Use ascii",
+      "name": "Use ASCII",
       "description": "Use ASCII/text transfer.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2987,7 +2988,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Vlan priority",
+      "name": "VLAN Priority",
       "description": "Set VLAN priority.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2998,7 +2999,7 @@
       "commandKey": "curl"
     },
     {
-      "name": "Write out",
+      "name": "Write Out",
       "description": "Output FORMAT after completion.",
       "parameterType": "Option",
       "dataType": "String",

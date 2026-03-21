@@ -1,6 +1,11 @@
 {
   "version": 1,
   "skills": {
+    "skill-creator": {
+      "source": "vercel-labs/json-render",
+      "sourceType": "github",
+      "computedHash": "3893f9b73632f3099e81f5d5d4b3b59a813d06a8da1f08ebb6624a5a70578232"
+    },
     "vercel-composition-patterns": {
       "source": "vercel-labs/agent-skills",
       "sourceType": "github",

@@ -3,9 +3,10 @@
   "name": "httpx",
   "displayName": "Httpx",
   "info": {
-    "description": "Httpx is a fast and multi-purpose HTTP toolkit that allows running multiple probes using the retryablehttp library."
+    "description": "Httpx is a fast and multi-purpose HTTP toolkit that allows running multiple probes using the retryablehttp library.",
+    "version": "1.9.0",
+    "url": "https://github.com/projectdiscovery/httpx"
   },
-  "url": "https://github.com/projectdiscovery/httpx",
   "commands": [
     {
       "name": "httpx",
@@ -51,7 +52,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Input mode",
+      "name": "Input Mode",
       "description": "Mode of input file (burp).",
       "parameterType": "Option",
       "dataType": "String",
@@ -62,7 +63,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Status code",
+      "name": "Status Code",
       "description": "Display response status-code.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -73,7 +74,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Content length",
+      "name": "Content Length",
       "description": "Display response content-length.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -84,7 +85,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Content type",
+      "name": "Content Type",
       "description": "Display response content-type.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -127,11 +128,11 @@
         "values": [
           {
             "value": "md5",
-            "displayName": "Md5"
+            "displayName": "MD5"
           },
           {
             "value": "mmh3",
-            "displayName": "Mmh3"
+            "displayName": "MMH3"
           },
           {
             "value": "simhash",
@@ -139,15 +140,15 @@
           },
           {
             "value": "sha1",
-            "displayName": "Sha1"
+            "displayName": "SHA1"
           },
           {
             "value": "sha256",
-            "displayName": "Sha256"
+            "displayName": "SHA256"
           },
           {
             "value": "sha512",
-            "displayName": "Sha512"
+            "displayName": "SHA512"
           }
         ]
       }
@@ -163,7 +164,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Response time",
+      "name": "Response Time",
       "description": "Display response time.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -174,7 +175,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Line count",
+      "name": "Line Count",
       "description": "Display response body line count.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -185,7 +186,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Word count",
+      "name": "Word Count",
       "description": "Display response body word count.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -206,7 +207,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Body preview",
+      "name": "Body Preview",
       "description": "Display first N characters of response body (default 100).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -228,7 +229,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Tech detect",
+      "name": "Tech Detect",
       "description": "Display technology in use based on wappalyzer dataset.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -239,7 +240,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Custom fingerprint file",
+      "name": "Custom Fingerprint File",
       "description": "Path to a custom fingerprint file for technology detection.",
       "parameterType": "Option",
       "dataType": "String",
@@ -250,7 +251,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Cpe",
+      "name": "CPE",
       "description": "Display CPE (Common Platform Enumeration) based on awesome-search-queries.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -281,7 +282,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Websocket",
+      "name": "WebSocket",
       "description": "Display server using websocket.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -292,7 +293,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Ip",
+      "name": "IP",
       "description": "Display host ip.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -302,7 +303,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Cname",
+      "name": "CNAME",
       "description": "Display host cname.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -312,7 +313,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Extract fqdn",
+      "name": "Extract FQDN",
       "description": "Get domain and subdomains from response body and header in jsonl/csv output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -323,7 +324,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Asn",
+      "name": "ASN",
       "description": "Display host asn information.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -333,7 +334,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Cdn",
+      "name": "CDN",
       "description": "Display cdn/waf in use (default true).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -364,7 +365,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "System chrome",
+      "name": "System Chrome",
       "description": "Enable using local installed chrome for screenshot.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -374,7 +375,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Headless options",
+      "name": "Headless Options",
       "description": "Start headless chrome with additional options.",
       "parameterType": "Option",
       "dataType": "String",
@@ -386,7 +387,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Exclude screenshot bytes",
+      "name": "Exclude Screenshot Bytes",
       "description": "Enable excluding screenshot bytes from json output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -397,7 +398,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "No screenshot full page",
+      "name": "No Screenshot Full Page",
       "description": "Disable saving full page screenshot.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -407,7 +408,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Exclude headless body",
+      "name": "Exclude Headless Body",
       "description": "Enable excluding headless header from json output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -418,7 +419,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Screenshot timeout",
+      "name": "Screenshot Timeout",
       "description": "Set timeout for screenshot in seconds (default 10s).",
       "parameterType": "Option",
       "dataType": "String",
@@ -429,7 +430,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Screenshot idle",
+      "name": "Screenshot Idle",
       "description": "Set idle time before taking screenshot in seconds (default 1s).",
       "parameterType": "Option",
       "dataType": "String",
@@ -440,7 +441,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Javascript code",
+      "name": "JavaScript Code",
       "description": "Execute JavaScript code after navigation.",
       "parameterType": "Option",
       "dataType": "String",
@@ -452,7 +453,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Match code",
+      "name": "Match Code",
       "description": "Match response with specified status code (-mc 200,302).",
       "parameterType": "Option",
       "dataType": "String",
@@ -463,7 +464,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Match length",
+      "name": "Match Length",
       "description": "Match response with specified content length (-ml 100,102).",
       "parameterType": "Option",
       "dataType": "String",
@@ -474,7 +475,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Match line count",
+      "name": "Match Line Count",
       "description": "Match response body with specified line count (-mlc 423,532).",
       "parameterType": "Option",
       "dataType": "String",
@@ -485,7 +486,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Match word count",
+      "name": "Match Word Count",
       "description": "Match response body with specified word count (-mwc 43,55).",
       "parameterType": "Option",
       "dataType": "String",
@@ -496,7 +497,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Match favicon",
+      "name": "Match Favicon",
       "description": "Match response with specified favicon hash (-mfc 1494302000).",
       "parameterType": "Option",
       "dataType": "String",
@@ -508,7 +509,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Match string",
+      "name": "Match String",
       "description": "Match response with specified string (-ms admin).",
       "parameterType": "Option",
       "dataType": "String",
@@ -520,7 +521,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Match regex",
+      "name": "Match Regex",
       "description": "Match response with specified regex (-mr admin).",
       "parameterType": "Option",
       "dataType": "String",
@@ -532,7 +533,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Match cdn",
+      "name": "Match CDN",
       "description": "Match host with specified cdn provider (cloudfront, fastly, google).",
       "parameterType": "Option",
       "dataType": "Enum",
@@ -560,7 +561,7 @@
       }
     },
     {
-      "name": "Match response time",
+      "name": "Match Response Time",
       "description": "Match response with specified response time in seconds (-mrt '< 1').",
       "parameterType": "Option",
       "dataType": "String",
@@ -571,7 +572,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Match condition",
+      "name": "Match Condition",
       "description": "Match response with dsl expression condition.",
       "parameterType": "Option",
       "dataType": "String",
@@ -582,7 +583,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Extract regex",
+      "name": "Extract Regex",
       "description": "Display response content with matched regex.",
       "parameterType": "Option",
       "dataType": "String",
@@ -594,7 +595,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Extract preset",
+      "name": "Extract Preset",
       "description": "Display response content matched by a pre-defined regex (url,ipv4,mail).",
       "parameterType": "Option",
       "dataType": "String",
@@ -606,7 +607,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Filter code",
+      "name": "Filter Code",
       "description": "Filter response with specified status code (-fc 403,401).",
       "parameterType": "Option",
       "dataType": "String",
@@ -617,7 +618,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Filter error page",
+      "name": "Filter Error Page",
       "description": "Filter response with ML based error page detection.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -628,7 +629,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Filter duplicates",
+      "name": "Filter Duplicates",
       "description": "Filter out near-duplicate responses (only first response is retained).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -639,7 +640,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Filter length",
+      "name": "Filter Length",
       "description": "Filter response with specified content length (-fl 23,33).",
       "parameterType": "Option",
       "dataType": "String",
@@ -650,7 +651,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Filter line count",
+      "name": "Filter Line Count",
       "description": "Filter response body with specified line count (-flc 423,532).",
       "parameterType": "Option",
       "dataType": "String",
@@ -661,7 +662,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Filter word count",
+      "name": "Filter Word Count",
       "description": "Filter response body with specified word count (-fwc 423,532).",
       "parameterType": "Option",
       "dataType": "String",
@@ -672,7 +673,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Filter favicon",
+      "name": "Filter Favicon",
       "description": "Filter response with specified favicon hash (-ffc 1494302000).",
       "parameterType": "Option",
       "dataType": "String",
@@ -684,7 +685,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Filter string",
+      "name": "Filter String",
       "description": "Filter response with specified string (-fs admin).",
       "parameterType": "Option",
       "dataType": "String",
@@ -696,7 +697,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Filter regex",
+      "name": "Filter Regex",
       "description": "Filter response with specified regex (-fe admin).",
       "parameterType": "Option",
       "dataType": "String",
@@ -708,7 +709,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Filter cdn",
+      "name": "Filter CDN",
       "description": "Filter host with specified cdn provider (cloudfront, fastly, google).",
       "parameterType": "Option",
       "dataType": "Enum",
@@ -736,7 +737,7 @@
       }
     },
     {
-      "name": "Filter response time",
+      "name": "Filter Response Time",
       "description": "Filter response with specified response time in seconds (-frt '> 1').",
       "parameterType": "Option",
       "dataType": "String",
@@ -747,7 +748,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Filter condition",
+      "name": "Filter Condition",
       "description": "Filter response with dsl expression condition.",
       "parameterType": "Option",
       "dataType": "String",
@@ -768,7 +769,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "List output fields",
+      "name": "List Output Fields",
       "description": "List of fields to output (comma separated).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -779,7 +780,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Exclude output fields",
+      "name": "Exclude Output Fields",
       "description": "Exclude output fields output based on a condition.",
       "parameterType": "Option",
       "dataType": "String",
@@ -802,7 +803,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Rate limit",
+      "name": "Rate Limit",
       "description": "Maximum requests to send per second (default 150).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -813,7 +814,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Rate limit minute",
+      "name": "Rate Limit Minute",
       "description": "Maximum number of requests to send per minute.",
       "parameterType": "Option",
       "dataType": "Number",
@@ -824,7 +825,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Probe all ips",
+      "name": "Probe All IPs",
       "description": "Probe all the ips associated with same host.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -857,7 +858,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Tls probe",
+      "name": "TLS Probe",
       "description": "Send http probes on the extracted TLS domains (dns_name).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -867,7 +868,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Csp probe",
+      "name": "CSP Probe",
       "description": "Send http probes on the extracted CSP domains.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -877,7 +878,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Tls grab",
+      "name": "TLS Grab",
       "description": "Perform TLS(SSL) data grabbing.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -897,7 +898,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Http2",
+      "name": "HTTP/2",
       "description": "Probe and display server supporting HTTP2.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -917,7 +918,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "List dsl variables",
+      "name": "List DSL Variables",
       "description": "List json output field keys name that support dsl matcher/filter.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -939,7 +940,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Disable update check",
+      "name": "Disable Update Check",
       "description": "Disable automatic httpx update check.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -961,7 +962,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Output all",
+      "name": "Output All",
       "description": "Filename to write output results in all formats.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -972,7 +973,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Store response",
+      "name": "Store Response",
       "description": "Store http response to output directory.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -983,7 +984,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Store response dir",
+      "name": "Store Response Dir",
       "description": "Store http response to custom directory.",
       "parameterType": "Option",
       "dataType": "String",
@@ -994,7 +995,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Omit body",
+      "name": "Omit Body",
       "description": "Omit response body in output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1005,7 +1006,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Csv",
+      "name": "CSV",
       "description": "Store output in csv format.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1015,7 +1016,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Csv output encoding",
+      "name": "CSV Output Encoding",
       "description": "Define output encoding.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1026,7 +1027,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Json",
+      "name": "JSON",
       "description": "Store output in JSONL(ines) format.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1037,7 +1038,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Include response header",
+      "name": "Include Response Header",
       "description": "Include http response (headers) in JSON output (-json only).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1048,7 +1049,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Include response",
+      "name": "Include Response",
       "description": "Include http request/response (headers + body) in JSON output (-json only).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1059,7 +1060,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Include response base64",
+      "name": "Include Response Base64",
       "description": "Include base64 encoded http request/response in JSON output (-json only).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1070,7 +1071,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Include chain",
+      "name": "Include Chain",
       "description": "Include redirect http chain in JSON output (-json only).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1080,7 +1081,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Store chain",
+      "name": "Store Chain",
       "description": "Include http redirect chain in responses (-sr only).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1090,7 +1091,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Store vision recon cluster",
+      "name": "Store Vision Recon Cluster",
       "description": "Include visual recon clusters (-ss and -sr only).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1112,7 +1113,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Filter error page path",
+      "name": "Filter Error Page Path",
       "description": "Path to store filtered error pages (default \"filtered_error_page.json\").",
       "parameterType": "Option",
       "dataType": "String",
@@ -1167,7 +1168,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Sni name",
+      "name": "SNI Name",
       "description": "Custom TLS SNI name.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1178,7 +1179,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Random agent",
+      "name": "Random Agent",
       "description": "Enable Random User-Agent to use (default true).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1188,7 +1189,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Auto referer",
+      "name": "Auto Referer",
       "description": "Set the Referer header to the current URL.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1241,7 +1242,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Follow redirects",
+      "name": "Follow Redirects",
       "description": "Follow http redirects.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1252,7 +1253,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Max redirects",
+      "name": "Max Redirects",
       "description": "Max number of redirects to follow per host (default 10).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1263,7 +1264,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Follow host redirects",
+      "name": "Follow Host Redirects",
       "description": "Follow redirects on the same host.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1274,7 +1275,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Respect hsts",
+      "name": "Respect HSTS",
       "description": "Respect HSTS response headers for redirect requests.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1285,7 +1286,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Vhost input",
+      "name": "Vhost Input",
       "description": "Get a list of vhosts as input.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1326,7 +1327,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Skip dedupe",
+      "name": "Skip Dedupe",
       "description": "Disable dedupe input items (only used with stream mode).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1337,7 +1338,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Leave default ports",
+      "name": "Leave Default Ports",
       "description": "Leave default http/https ports in host header (eg. http://host:80 - https://host:443).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1358,7 +1359,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "No decode",
+      "name": "No Decode",
       "description": "Avoid decoding body.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1368,7 +1369,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Tls impersonate",
+      "name": "TLS Impersonate",
       "description": "Enable experimental client hello (ja3) tls randomization.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1379,7 +1380,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "No stdin",
+      "name": "No Stdin",
       "description": "Disable Stdin processing.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1389,7 +1390,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Http api endpoint",
+      "name": "HTTP API Endpoint",
       "description": "Experimental http api endpoint.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1400,7 +1401,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Secret file",
+      "name": "Secret File",
       "description": "Path to the secret file for authentication.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1411,7 +1412,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Health check",
+      "name": "Health Check",
       "description": "Run diagnostic check up.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1432,7 +1433,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Debug req",
+      "name": "Debug Request",
       "description": "Display request content in cli.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1442,7 +1443,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Debug resp",
+      "name": "Debug Response",
       "description": "Display response content in cli.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1472,7 +1473,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Profile mem",
+      "name": "Profile Mem",
       "description": "Optional httpx memory profile dump file.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1503,7 +1504,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Stats interval",
+      "name": "Stats Interval",
       "description": "Number of seconds to wait between showing a statistics update (default: 5).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1514,7 +1515,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "No color",
+      "name": "No Color",
       "description": "Disable colors in cli output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1536,7 +1537,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "No fallback",
+      "name": "No Fallback",
       "description": "Display both probed protocol (HTTPS and HTTP).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1547,7 +1548,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "No fallback scheme",
+      "name": "No Fallback Scheme",
       "description": "Probe with protocol scheme specified in input.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1558,7 +1559,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Max host error",
+      "name": "Max Host Error",
       "description": "Max error count per host before skipping remaining path/s (default 30).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1583,19 +1584,19 @@
         "values": [
           {
             "value": "cdn",
-            "displayName": "Cdn"
+            "displayName": "CDN"
           },
           {
             "value": "private-ips",
-            "displayName": "Private-ips"
+            "displayName": "Private IPs"
           },
           {
             "value": "cidr",
-            "displayName": "Cidr"
+            "displayName": "CIDR"
           },
           {
             "value": "ip",
-            "displayName": "Ip"
+            "displayName": "IP"
           },
           {
             "value": "regex",
@@ -1635,7 +1636,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Response size to save",
+      "name": "Response Size to Save",
       "description": "Max response size to save in bytes (default 2147483647).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1646,7 +1647,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Response size to read",
+      "name": "Response Size to Read",
       "description": "Max response size to read in bytes (default 2147483647).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1667,7 +1668,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Auth config",
+      "name": "Auth Config",
       "description": "Configure projectdiscovery cloud (pdcp) api key credential file.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1689,7 +1690,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Team id",
+      "name": "Team ID",
       "description": "Upload asset results to given team id (optional).",
       "parameterType": "Option",
       "dataType": "String",
@@ -1700,7 +1701,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Asset id",
+      "name": "Asset ID",
       "description": "Upload new assets to existing asset id (optional).",
       "parameterType": "Option",
       "dataType": "String",
@@ -1711,7 +1712,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Asset name",
+      "name": "Asset Name",
       "description": "Assets group name to set (optional).",
       "parameterType": "Option",
       "dataType": "String",
@@ -1722,7 +1723,7 @@
       "commandKey": "httpx"
     },
     {
-      "name": "Dashboard upload",
+      "name": "Dashboard Upload",
       "description": "Upload httpx output file (jsonl) in projectdiscovery cloud (pdcp) UI dashboard.",
       "parameterType": "Option",
       "dataType": "String",

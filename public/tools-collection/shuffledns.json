@@ -3,9 +3,10 @@
   "name": "shuffledns",
   "displayName": "ShuffleDNS",
   "info": {
-    "description": "MassDNS wrapper written in go to enumerate valid subdomains using active bruteforce as well as resolve subdomains with wildcard filtering and easy input-output support."
+    "description": "MassDNS wrapper written in go to enumerate valid subdomains using active bruteforce as well as resolve subdomains with wildcard filtering and easy input-output support.",
+    "version": "1.2.1",
+    "url": "https://github.com/projectdiscovery/shuffledns"
   },
-  "url": "https://github.com/projectdiscovery/shuffledns",
   "commands": [
     {
       "name": "shuffledns",
@@ -110,7 +111,7 @@
       }
     },
     {
-      "name": "T",
+      "name": "Threads",
       "description": "Number of concurrent massdns resolves (default 10000)",
       "parameterType": "Option",
       "dataType": "Number",
@@ -154,7 +155,7 @@
       "commandKey": "shuffledns"
     },
     {
-      "name": "Json",
+      "name": "JSON Output",
       "description": "Make output format as ndjson",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -229,7 +230,7 @@
       "commandKey": "shuffledns"
     },
     {
-      "name": "Wt",
+      "name": "Wildcard Threads",
       "description": "Number of concurrent wildcard checks (default 250)",
       "parameterType": "Option",
       "dataType": "Number",
@@ -263,7 +264,6 @@
       "description": "Show Verbose output",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-v",
       "longFlag": "-v",
       "sortOrder": 22,
       "key": "v",

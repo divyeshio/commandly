@@ -3,16 +3,17 @@
   "name": "subfinder",
   "displayName": "Subfinder",
   "info": {
-    "description": "Subfinder is a subdomain discovery tool that discovers subdomains for websites by using passive online sources."
+    "description": "Subfinder is a subdomain discovery tool that discovers subdomains for websites by using passive online sources.",
+    "version": "2.13.0",
+    "url": "https://github.com/projectdiscovery/subfinder"
   },
-  "url": "https://github.com/projectdiscovery/subfinder",
   "commands": [
     {
       "name": "subfinder",
       "description": "Subfinder is a subdomain discovery tool that discovers subdomains for websites by using passive online sources.",
       "isDefault": true,
       "sortOrder": 1,
-      "key": "domain"
+      "key": "subfinder"
     }
   ],
   "parameters": [
@@ -25,8 +26,8 @@
       "dataType": "String",
       "arraySeparator": ",",
       "isRepeatable": true,
-      "key": "domain",
-      "commandKey": "domain"
+      "key": "subfinder",
+      "commandKey": "subfinder"
     },
     {
       "name": "Sources",
@@ -38,7 +39,7 @@
       "arraySeparator": ",",
       "isRepeatable": true,
       "key": "sources",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "Recursive",
@@ -47,7 +48,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "key": "recursive",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "Target Domains List",
@@ -57,7 +58,7 @@
       "parameterType": "Option",
       "dataType": "String",
       "key": "list",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "Output Directory",
@@ -67,7 +68,7 @@
       "parameterType": "Option",
       "dataType": "String",
       "key": "output-dir",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "Report Statistics",
@@ -76,16 +77,16 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "key": "stats",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
-      "name": "Timeout in seconds",
+      "name": "Timeout",
       "description": "Seconds to wait before timing out (default 30)",
       "longFlag": "-timeout",
       "parameterType": "Option",
       "dataType": "Number",
       "key": "timeout",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "Resolvers File",
@@ -95,7 +96,7 @@
       "parameterType": "Option",
       "dataType": "String",
       "key": "rlist",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "Update",
@@ -105,7 +106,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "key": "update",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "Version",
@@ -114,7 +115,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "key": "version",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "Exclude IPs",
@@ -124,7 +125,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "key": "exclude-ip",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "Proxy",
@@ -133,17 +134,17 @@
       "parameterType": "Option",
       "dataType": "String",
       "key": "proxy",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
-      "name": "No Colour in Output",
+      "name": "No Color",
       "description": "Disable color in output",
       "longFlag": "-no-color",
       "shortFlag": "-nc",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "key": "no-color",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "Match",
@@ -155,7 +156,7 @@
       "arraySeparator": ",",
       "isRepeatable": true,
       "key": "match",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "Include IP",
@@ -165,7 +166,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "key": "ip",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "Active Domains Only",
@@ -175,7 +176,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "key": "active",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "Rate Limits",
@@ -186,7 +187,7 @@
       "dataType": "String",
       "keyValueSeparator": "=",
       "key": "rate-limits",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "Disable Update Check",
@@ -196,7 +197,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "key": "disable-update-check",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "Collect Sources",
@@ -206,7 +207,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "key": "collect-sources",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "Output File",
@@ -216,7 +217,7 @@
       "parameterType": "Option",
       "dataType": "String",
       "key": "output",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "Verbose Output",
@@ -225,10 +226,10 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "key": "v",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
-      "name": "Resolvers to use",
+      "name": "Resolvers",
       "description": "Comma separated list of resolvers to use",
       "longFlag": "-r",
       "parameterType": "Option",
@@ -236,7 +237,7 @@
       "arraySeparator": ",",
       "isRepeatable": true,
       "key": "r",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "Json",
@@ -246,16 +247,16 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "key": "json",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
-      "name": "Configuration file",
+      "name": "Configuration File",
       "description": "Subfinder config file",
       "longFlag": "-config",
       "parameterType": "Option",
       "dataType": "String",
       "key": "config",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "Rate Limit",
@@ -265,7 +266,7 @@
       "parameterType": "Option",
       "dataType": "Number",
       "key": "rate-limit",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "Filter",
@@ -277,7 +278,7 @@
       "arraySeparator": ",",
       "isRepeatable": true,
       "key": "filter",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "Silent",
@@ -285,9 +286,8 @@
       "longFlag": "-silent",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "",
       "key": "silent",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "All Sources",
@@ -296,7 +296,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "key": "all",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "List Sources",
@@ -306,7 +306,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "key": "list-sources",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "Exclude Sources",
@@ -318,16 +318,16 @@
       "arraySeparator": ",",
       "isRepeatable": true,
       "key": "exclude-sources",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
-      "name": "Max time",
+      "name": "Max Time",
       "description": "Minutes to wait for enumeration results (default 10)",
       "longFlag": "-max-time",
       "parameterType": "Option",
       "dataType": "Number",
       "key": "max-time",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
       "name": "Threads",
@@ -336,17 +336,17 @@
       "parameterType": "Option",
       "dataType": "Number",
       "key": "t",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     },
     {
-      "name": "Provider Configuration file",
+      "name": "Provider Configuration File",
       "description": "Provider config file",
       "longFlag": "-provider-config",
       "shortFlag": "-pc",
       "parameterType": "Option",
       "dataType": "String",
       "key": "provider-config",
-      "commandKey": "domain"
+      "commandKey": "subfinder"
     }
   ]
 }

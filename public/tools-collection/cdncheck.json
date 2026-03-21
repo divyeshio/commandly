@@ -3,13 +3,13 @@
   "name": "cdncheck",
   "displayName": "CDNCheck",
   "info": {
-    "description": "cdncheck is a tool for identifying the technology associated with dns / ip network addresses."
+    "description": "cdncheck is a tool for identifying the technology associated with dns / ip network addresses.",
+    "version": "1.2.27",
+    "url": "https://github.com/projectdiscovery/cdncheck"
   },
-  "url": "https://github.com/projectdiscovery/cdncheck",
   "commands": [
     {
       "name": "cdncheck",
-      "description": "",
       "isDefault": true,
       "sortOrder": 1,
       "key": "cdncheck"
@@ -18,7 +18,7 @@
   "parameters": [
     {
       "name": "Input",
-      "description": "list of ip / dns to process",
+      "description": "List of IP / DNS to process",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
@@ -29,8 +29,8 @@
       "commandKey": "cdncheck"
     },
     {
-      "name": "Cdn",
-      "description": "display only cdn in cli output",
+      "name": "CDN",
+      "description": "Display only CDN in CLI output",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-cdn",
@@ -40,7 +40,7 @@
     },
     {
       "name": "Cloud",
-      "description": "display only cloud in cli output",
+      "description": "Display only cloud in CLI output",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-cloud",
@@ -49,8 +49,8 @@
       "commandKey": "cdncheck"
     },
     {
-      "name": "Waf",
-      "description": "display only waf in cli output",
+      "name": "WAF",
+      "description": "Display only WAF in CLI output",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-waf",
@@ -59,8 +59,8 @@
       "commandKey": "cdncheck"
     },
     {
-      "name": "Match Cdn",
-      "description": "match host with specified cdn provider (cloudfront, fastly, google, leaseweb)",
+      "name": "Match CDN",
+      "description": "Match host with specified CDN provider (cloudfront, fastly, google, leaseweb)",
       "parameterType": "Option",
       "dataType": "Enum",
       "isRepeatable": true,
@@ -92,7 +92,7 @@
     },
     {
       "name": "Match Cloud",
-      "description": "match host with specified cloud provider (aws, google, oracle)",
+      "description": "Match host with specified cloud provider (aws, google, oracle)",
       "parameterType": "Option",
       "dataType": "Enum",
       "isRepeatable": true,
@@ -105,7 +105,7 @@
         "values": [
           {
             "value": "aws",
-            "displayName": "Aws"
+            "displayName": "AWS"
           },
           {
             "value": "google",
@@ -119,8 +119,8 @@
       }
     },
     {
-      "name": "Match Waf",
-      "description": "match host with specified waf provider (cloudflare, incapsula, sucuri, akamai)",
+      "name": "Match WAF",
+      "description": "Match host with specified WAF provider (cloudflare, incapsula, sucuri, akamai)",
       "parameterType": "Option",
       "dataType": "Enum",
       "isRepeatable": true,
@@ -151,8 +151,8 @@
       }
     },
     {
-      "name": "Filter Cdn",
-      "description": "filter host with specified cdn provider (cloudfront, fastly, google, leaseweb)",
+      "name": "Filter CDN",
+      "description": "Filter host with specified CDN provider (cloudfront, fastly, google, leaseweb)",
       "parameterType": "Option",
       "dataType": "Enum",
       "isRepeatable": true,
@@ -184,7 +184,7 @@
     },
     {
       "name": "Filter Cloud",
-      "description": "filter host with specified cloud provider (aws, google, oracle)",
+      "description": "Filter host with specified cloud provider (aws, google, oracle)",
       "parameterType": "Option",
       "dataType": "Enum",
       "isRepeatable": true,
@@ -197,7 +197,7 @@
         "values": [
           {
             "value": "aws",
-            "displayName": "Aws"
+            "displayName": "AWS"
           },
           {
             "value": "google",
@@ -211,8 +211,8 @@
       }
     },
     {
-      "name": "Filter Waf",
-      "description": "filter host with specified waf provider (cloudflare, incapsula, sucuri, akamai)",
+      "name": "Filter WAF",
+      "description": "Filter host with specified WAF provider (cloudflare, incapsula, sucuri, akamai)",
       "parameterType": "Option",
       "dataType": "Enum",
       "isRepeatable": true,
@@ -243,8 +243,8 @@
       }
     },
     {
-      "name": "Resp",
-      "description": "display technology name in cli output",
+      "name": "Response Technology",
+      "description": "Display technology name in CLI output",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-resp",
@@ -254,7 +254,7 @@
     },
     {
       "name": "Output",
-      "description": "write output in plain format to file",
+      "description": "Write output in plain format to file",
       "parameterType": "Option",
       "dataType": "String",
       "shortFlag": "-o",
@@ -265,7 +265,7 @@
     },
     {
       "name": "Verbose",
-      "description": "display verbose output",
+      "description": "Display verbose output",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "shortFlag": "-v",
@@ -275,8 +275,8 @@
       "commandKey": "cdncheck"
     },
     {
-      "name": "Jsonl",
-      "description": "write output in json(line) format",
+      "name": "JSONL Output",
+      "description": "Write output in JSON Lines format",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-jsonl",
@@ -286,7 +286,7 @@
     },
     {
       "name": "No Color",
-      "description": "disable colors in cli output",
+      "description": "Disable colors in CLI output",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "shortFlag": "-nc",
@@ -297,7 +297,7 @@
     },
     {
       "name": "Version",
-      "description": "display version of the project",
+      "description": "Display version of the project",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-version",
@@ -307,7 +307,7 @@
     },
     {
       "name": "Silent",
-      "description": "only display results in output",
+      "description": "Only display results in output",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-silent",
@@ -317,7 +317,7 @@
     },
     {
       "name": "Resolver",
-      "description": "list of resolvers to use (file or comma separated)",
+      "description": "List of resolvers to use (file or comma separated)",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
@@ -329,7 +329,7 @@
     },
     {
       "name": "Exclude",
-      "description": "exclude detected ip from output",
+      "description": "Exclude detected IP from output",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "shortFlag": "-e",
@@ -340,7 +340,7 @@
     },
     {
       "name": "Retry",
-      "description": "maximum number of retries for dns resolution (must be at least 1)",
+      "description": "Maximum number of retries for DNS resolution (must be at least 1)",
       "parameterType": "Option",
       "dataType": "Number",
       "longFlag": "-retry",
@@ -350,7 +350,7 @@
     },
     {
       "name": "Update",
-      "description": "update cdncheck to latest version",
+      "description": "Update cdncheck to latest version",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "shortFlag": "-up",
@@ -361,7 +361,7 @@
     },
     {
       "name": "Disable Update Check",
-      "description": "disable automatic cdncheck update check",
+      "description": "Disable automatic cdncheck update check",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "shortFlag": "-duc",

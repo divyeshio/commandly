@@ -3,13 +3,14 @@
   "name": "asnmap",
   "displayName": "ASNMap",
   "info": {
-    "description": "Go CLI and Library for quickly mapping organization network ranges using ASN information."
+    "description": "Go CLI and Library for quickly mapping organization network ranges using ASN information.",
+    "version": "1.1.1",
+    "url": "https://github.com/projectdiscovery/asnmap"
   },
-  "url": "https://github.com/projectdiscovery/asnmap",
   "commands": [
     {
       "name": "asnmap",
-      "description": "This will display help for the tool. Here are all the flag it supports.",
+      "description": "Map organization network ranges using ASN information.",
       "isDefault": true,
       "sortOrder": 1,
       "key": "asnmap"
@@ -17,8 +18,8 @@
   ],
   "parameters": [
     {
-      "name": "Asn",
-      "description": "target asn to lookup, example: -a AS5650",
+      "name": "ASN",
+      "description": "Target ASN to lookup, example: -a AS5650",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
@@ -31,8 +32,8 @@
       "commandKey": "asnmap"
     },
     {
-      "name": "Ip",
-      "description": "target ip to lookup, example: -i 100.19.12.21, -i 2a10:ad40::",
+      "name": "IP",
+      "description": "Target IP to lookup, example: -i 100.19.12.21, -i 2a10:ad40::",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
@@ -46,7 +47,7 @@
     },
     {
       "name": "Domain",
-      "description": "target domain to lookup, example: -d google.com, -d facebook.com",
+      "description": "Target domain to lookup, example: -d google.com, -d facebook.com",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
@@ -60,7 +61,7 @@
     },
     {
       "name": "Org",
-      "description": "target organization to lookup, example: -org GOOGLE",
+      "description": "Target organization to lookup, example: -org GOOGLE",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
@@ -73,7 +74,7 @@
     },
     {
       "name": "File",
-      "description": "targets to lookup from file",
+      "description": "Targets to lookup from file",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
@@ -87,7 +88,7 @@
     },
     {
       "name": "Config",
-      "description": "path to the asnmap configuration file",
+      "description": "Path to the asnmap configuration file",
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "-config",
@@ -98,7 +99,7 @@
     },
     {
       "name": "Resolvers",
-      "description": "list of resolvers to use",
+      "description": "List of resolvers to use",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
@@ -111,8 +112,8 @@
       "commandKey": "asnmap"
     },
     {
-      "name": "Up",
-      "description": "update asnmap to latest version",
+      "name": "Update",
+      "description": "Update asnmap to latest version",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "shortFlag": "-up",
@@ -122,8 +123,8 @@
       "commandKey": "asnmap"
     },
     {
-      "name": "Duc",
-      "description": "disable automatic asnmap update check",
+      "name": "Disable Update Check",
+      "description": "Disable automatic asnmap update check",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "shortFlag": "-duc",
@@ -134,7 +135,7 @@
     },
     {
       "name": "Output File",
-      "description": "file to write output to",
+      "description": "File to write output to",
       "parameterType": "Option",
       "dataType": "String",
       "shortFlag": "-o",
@@ -145,8 +146,8 @@
       "commandKey": "asnmap"
     },
     {
-      "name": "Json Output",
-      "description": "display json format output",
+      "name": "JSON Output",
+      "description": "Display JSON format output",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "shortFlag": "-j",
@@ -157,7 +158,7 @@
     },
     {
       "name": "CSV Output",
-      "description": "display csv format output",
+      "description": "Display CSV format output",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "shortFlag": "-c",
@@ -167,8 +168,8 @@
       "commandKey": "asnmap"
     },
     {
-      "name": "V6",
-      "description": "display ipv6 cidr ranges in cli output",
+      "name": "IPv6 Output",
+      "description": "Display IPv6 CIDR ranges in CLI output",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-v6",
@@ -178,7 +179,7 @@
     },
     {
       "name": "Verbose Output",
-      "description": "display verbose output",
+      "description": "Display verbose output",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "shortFlag": "-v",
@@ -189,7 +190,7 @@
     },
     {
       "name": "Silent",
-      "description": "display silent output",
+      "description": "Display silent output",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-silent",
@@ -199,7 +200,7 @@
     },
     {
       "name": "Version",
-      "description": "show version of the project",
+      "description": "Show version of the project",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-version",

@@ -4,9 +4,9 @@
   "displayName": "Nuclei",
   "info": {
     "description": "Nuclei is a fast, template based vulnerability scanner focusing on extensive configurability, massive extensibility and ease of use.",
-    "version": "3.7.1"
+    "version": "3.7.1",
+    "url": "https://github.com/projectdiscovery/nuclei"
   },
-  "url": "https://github.com/projectdiscovery/nuclei",
   "commands": [
     {
       "name": "nuclei",
@@ -59,7 +59,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Scan All Ips",
+      "name": "Scan All IPs",
       "description": "Scan all the IP's associated with dns record.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -69,7 +69,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Ip Version",
+      "name": "IP Version",
       "description": "IP version to scan of hostname (4,6) - (default 4).",
       "parameterType": "Option",
       "dataType": "Enum",
@@ -122,7 +122,7 @@
           },
           {
             "value": "jsonl",
-            "displayName": "Jsonl",
+            "displayName": "JSONL",
             "description": "Use jsonl input mode.",
             "isDefault": false,
             "sortOrder": 3
@@ -136,7 +136,7 @@
           },
           {
             "value": "openapi",
-            "displayName": "Openapi",
+            "displayName": "OpenAPI",
             "description": "Use openapi input mode.",
             "isDefault": false,
             "sortOrder": 5
@@ -216,7 +216,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Template Url",
+      "name": "Template URL",
       "description": "Template url or list containing template urls to run (comma-separated, file).",
       "parameterType": "Option",
       "dataType": "String",
@@ -248,7 +248,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Workflow Url",
+      "name": "Workflow URL",
       "description": "Workflow url or list containing workflow urls to run (comma-separated, file).",
       "parameterType": "Option",
       "dataType": "String",
@@ -406,7 +406,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Template Id",
+      "name": "Template ID",
       "description": "Templates to run based on template ids (comma-separated, file, allow-wildcard).",
       "parameterType": "Option",
       "dataType": "String",
@@ -759,7 +759,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Template condition",
+      "name": "Template Condition",
       "description": "Templates to run based on expression condition.",
       "parameterType": "Option",
       "dataType": "String",
@@ -780,7 +780,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Store resp",
+      "name": "Store Response",
       "description": "Store all request/response passed through nuclei to output directory.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -790,7 +790,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Store resp dir",
+      "name": "Store Response Dir",
       "description": "Store all request/response passed through nuclei to custom directory (default \"output\").",
       "parameterType": "Option",
       "dataType": "String",
@@ -809,7 +809,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "No color",
+      "name": "No Color",
       "description": "Disable output content coloring (ANSI escape codes).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -819,7 +819,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Jsonl",
+      "name": "JSONL",
       "description": "Write output in JSONL(ines) format.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -829,7 +829,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Include Rr",
+      "name": "Include RR",
       "description": "Include request/response pairs in the JSON, JSONL, and Markdown outputs (for findings only) [deprecated use -omit-raw] (default true).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -879,7 +879,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Report Db",
+      "name": "Report DB",
       "description": "Nuclei reporting database (always use this to persist report data).",
       "parameterType": "Option",
       "dataType": "String",
@@ -919,7 +919,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Json Export",
+      "name": "JSON Export",
       "description": "File to export results in JSON format.",
       "parameterType": "Option",
       "dataType": "String",
@@ -929,7 +929,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Jsonl Export",
+      "name": "JSONL Export",
       "description": "File to export results in JSONL(ine) format.",
       "parameterType": "Option",
       "dataType": "String",
@@ -989,7 +989,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Follow host redirects",
+      "name": "Follow Host Redirects",
       "description": "Follow redirects on the same host.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -999,7 +999,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Max redirects",
+      "name": "Max Redirects",
       "description": "Max number of redirects to follow for http templates (default 10).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1009,7 +1009,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Disable redirects",
+      "name": "Disable Redirects",
       "description": "Disable redirects for http templates.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1019,7 +1019,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Report config",
+      "name": "Report Config",
       "description": "Nuclei reporting module configuration file.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1089,7 +1089,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Force http2",
+      "name": "Force HTTP/2",
       "description": "Force http2 connection on requests.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1129,7 +1129,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Client Ca",
+      "name": "Client CA",
       "description": "Client certificate authority file (PEM-encoded) used for authenticating against scanned hosts.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1167,7 +1167,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Dialer keep alive",
+      "name": "Dialer Keep Alive",
       "description": "Keep-alive duration for network requests.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1177,7 +1177,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Allow local file access",
+      "name": "Allow Local File Access",
       "description": "Allows file (payload) access anywhere on the system.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1187,7 +1187,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Restrict local network access",
+      "name": "Restrict Local Network Access",
       "description": "Blocks connections to the local / private network.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1207,7 +1207,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Attack type",
+      "name": "Attack Type",
       "description": "Type of payload combinations to perform (batteringram,pitchfork,clusterbomb).",
       "parameterType": "Option",
       "dataType": "Enum",
@@ -1242,7 +1242,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Source ip",
+      "name": "Source IP",
       "description": "Source ip address to use for network scan.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1252,7 +1252,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Response size read",
+      "name": "Response Size Read",
       "description": "Max response size to read in bytes.",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1262,7 +1262,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Response size save",
+      "name": "Response Size Save",
       "description": "Max response size to read in bytes (default 1048576).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1281,7 +1281,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Tls impersonate",
+      "name": "TLS Impersonate",
       "description": "Enable experimental client hello (ja3) tls randomization.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1291,7 +1291,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Http api endpoint",
+      "name": "HTTP API Endpoint",
       "description": "Experimental http api endpoint.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1301,7 +1301,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Interactsh server",
+      "name": "Interactsh Server",
       "description": "Interactsh server url for self-hosted instance (default: oast.pro,oast.live,oast.site,oast.online,oast.fun,oast.me).",
       "parameterType": "Option",
       "dataType": "String",
@@ -1311,7 +1311,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Interactsh token",
+      "name": "Interactsh Token",
       "description": "Authentication token for self-hosted interactsh server.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1321,7 +1321,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Interactions cache size",
+      "name": "Interactions Cache Size",
       "description": "Number of requests to keep in the interactions cache (default 5000).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1330,7 +1330,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Interactions eviction",
+      "name": "Interactions Eviction",
       "description": "Number of seconds to wait before evicting requests from cache (default 60).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1339,7 +1339,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Interactions poll duration",
+      "name": "Interactions Poll Duration",
       "description": "Number of seconds to wait before each interaction poll request (default 5).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1348,7 +1348,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Interactions cooldown period",
+      "name": "Interactions Cooldown Period",
       "description": "Extra time for interaction polling before exiting (default 5).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1357,7 +1357,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "No interactsh",
+      "name": "No Interactsh",
       "description": "Disable interactsh server for OAST testing, exclude OAST based templates.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1367,7 +1367,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Fuzzing type",
+      "name": "Fuzzing Type",
       "description": "Overrides fuzzing type set in template (replace, prefix, postfix, infix).",
       "parameterType": "Option",
       "dataType": "Enum",
@@ -1409,7 +1409,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Fuzzing mode",
+      "name": "Fuzzing Mode",
       "description": "Overrides fuzzing mode set in template (multiple, single).",
       "parameterType": "Option",
       "dataType": "Enum",
@@ -1446,7 +1446,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Dast",
+      "name": "DAST",
       "description": "Enable / run dast (fuzz) nuclei templates.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1455,7 +1455,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Dast server",
+      "name": "DAST Server",
       "description": "Enable dast server mode (live fuzzing).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1465,7 +1465,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Dast report",
+      "name": "DAST Report",
       "description": "Write dast scan report to file.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1475,7 +1475,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Dast server token",
+      "name": "DAST Server Token",
       "description": "Dast server token (optional).",
       "parameterType": "Option",
       "dataType": "String",
@@ -1485,7 +1485,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Dast server address",
+      "name": "DAST Server Address",
       "description": "Dast server address (default \"localhost:9055\").",
       "parameterType": "Option",
       "dataType": "String",
@@ -1495,7 +1495,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Display fuzz points",
+      "name": "Display Fuzz Points",
       "description": "Display fuzz points in the output for debugging.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1504,7 +1504,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Fuzz param frequency",
+      "name": "Fuzz Param Frequency",
       "description": "Frequency of uninteresting parameters for fuzzing before skipping (default 10).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1513,7 +1513,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Fuzz aggression",
+      "name": "Fuzz Aggression",
       "description": "Fuzzing aggression level controls payload count for fuzz (low, medium, high) (default \"low\").",
       "parameterType": "Option",
       "dataType": "Enum",
@@ -1548,7 +1548,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Fuzz scope",
+      "name": "Fuzz Scope",
       "description": "In scope url regex to be followed by fuzzer.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1559,7 +1559,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Fuzz out scope",
+      "name": "Fuzz Out Scope",
       "description": "Out of scope url regex to be excluded by fuzzer.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1580,7 +1580,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Uncover query",
+      "name": "Uncover Query",
       "description": "Uncover search query.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1591,7 +1591,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Uncover engine",
+      "name": "Uncover Engine",
       "description": "Uncover search engine.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1602,7 +1602,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Uncover field",
+      "name": "Uncover Field",
       "description": "Uncover fields to return (ip,port,host) (default \"ip:port\").",
       "parameterType": "Option",
       "dataType": "String",
@@ -1612,7 +1612,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Uncover limit",
+      "name": "Uncover Limit",
       "description": "Uncover results to return (default 100).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1622,7 +1622,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Uncover ratelimit",
+      "name": "Uncover Rate Limit",
       "description": "Override ratelimit of engines with unknown ratelimit (default 60 req/min) (default 60).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1632,7 +1632,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Rate limit",
+      "name": "Rate Limit",
       "description": "Maximum number of requests to send per second (default 150).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1642,7 +1642,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Rate limit duration",
+      "name": "Rate Limit Duration",
       "description": "Maximum number of requests to send per second (default 1s).",
       "parameterType": "Option",
       "dataType": "String",
@@ -1652,7 +1652,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Rate limit minute",
+      "name": "Rate Limit Minute",
       "description": "Maximum number of requests to send per minute (deprecated).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1662,7 +1662,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Bulk size",
+      "name": "Bulk Size",
       "description": "Maximum number of hosts to be analyzed in parallel per template (default 25).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1682,7 +1682,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Headless bulk size",
+      "name": "Headless Bulk Size",
       "description": "Maximum number of headless hosts to be analyzed in parallel per template (default 10).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1692,7 +1692,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Headless concurrency",
+      "name": "Headless Concurrency",
       "description": "Maximum number of headless templates to be executed in parallel (default 10).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1701,7 +1701,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Js concurrency",
+      "name": "JS Concurrency",
       "description": "Maximum number of javascript runtimes to be executed in parallel (default 120).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1711,7 +1711,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Payload concurrency",
+      "name": "Payload Concurrency",
       "description": "Max payload concurrency for each template (default 25).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1721,7 +1721,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Probe concurrency",
+      "name": "Probe Concurrency",
       "description": "Http probe concurrency with httpx (default 50).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1749,7 +1749,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Leave default ports",
+      "name": "Leave Default Ports",
       "description": "Leave default HTTP/HTTPS ports (eg. host:80,host:443).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1759,7 +1759,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Max host error",
+      "name": "Max Host Error",
       "description": "Max errors for a host before skipping from scan (default 30).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1769,7 +1769,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Track error",
+      "name": "Track Error",
       "description": "Adds given error to max-host-error watchlist (standard, file).",
       "parameterType": "Option",
       "dataType": "String",
@@ -1780,7 +1780,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "No mhe",
+      "name": "No MHE",
       "description": "Disable skipping host from scan based on errors.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1799,7 +1799,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Project path",
+      "name": "Project Path",
       "description": "Set a specific project path (default \"/var/folders/56/klbhqyh52zj8s4rrlh_mlcgh0000gn/T/\").",
       "parameterType": "Option",
       "dataType": "String",
@@ -1808,7 +1808,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Stop at first match",
+      "name": "Stop At First Match",
       "description": "Stop processing HTTP requests after the first match (may break template/workflow logic).",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1827,7 +1827,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Scan strategy",
+      "name": "Scan Strategy",
       "description": "Strategy to use while scanning(auto/host-spray/template-spray) (default auto).",
       "parameterType": "Option",
       "dataType": "Enum",
@@ -1862,7 +1862,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Input read timeout",
+      "name": "Input Read Timeout",
       "description": "Timeout on input read (default 3m0s).",
       "parameterType": "Option",
       "dataType": "String",
@@ -1872,7 +1872,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "No httpx",
+      "name": "No HTTPX",
       "description": "Disable httpx probing for non-url input.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1882,7 +1882,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "No stdin",
+      "name": "No Stdin",
       "description": "Disable stdin processing.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1900,7 +1900,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Page timeout",
+      "name": "Page Timeout",
       "description": "Seconds to wait for each page in headless mode (default 20).",
       "parameterType": "Option",
       "dataType": "Number",
@@ -1909,7 +1909,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Show browser",
+      "name": "Show Browser",
       "description": "Show the browser on the screen when running templates with headless mode.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1919,7 +1919,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Headless options",
+      "name": "Headless Options",
       "description": "Start headless chrome with additional options.",
       "parameterType": "Option",
       "dataType": "String",
@@ -1930,7 +1930,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "System chrome",
+      "name": "System Chrome",
       "description": "Use local installed Chrome browser instead of nuclei installed.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1940,7 +1940,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "List headless action",
+      "name": "List Headless Action",
       "description": "List available headless actions.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1959,7 +1959,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Debug req",
+      "name": "Debug Request",
       "description": "Show all sent requests.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1969,7 +1969,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Debug resp",
+      "name": "Debug Response",
       "description": "Show all received responses.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -1990,7 +1990,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Proxy internal",
+      "name": "Proxy Internal",
       "description": "Proxy all internal requests.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2000,7 +2000,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "List dsl function",
+      "name": "List DSL Function",
       "description": "List all supported DSL function signatures.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -2010,7 +2010,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Trace log",
+      "name": "Trace Log",
       "description": "File to write sent requests trace log.",
       "parameterType": "Option",
       "dataType": "String",
@@ -2020,7 +2020,7 @@
       "commandKey": "nuclei"
     },
     {
-      "name": "Error log",
+      "name": "Error Log",
       "description": "File to write sent requests error log.",
       "parameterType": "Option",
       "dataType": "String",

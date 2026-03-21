@@ -3,9 +3,10 @@
   "name": "urlfinder",
   "displayName": "URLFinder",
   "info": {
-    "description": "A streamlined tool for discovering associated URLs."
+    "description": "A streamlined tool for discovering associated URLs.",
+    "version": "0.0.3",
+    "url": "https://github.com/projectdiscovery/urlfinder"
   },
-  "url": "https://github.com/projectdiscovery/urlfinder",
   "commands": [
     {
       "name": "urlfinder",
@@ -22,10 +23,8 @@
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "",
       "longFlag": "-d",
-      "arraySeparator": "",
-      "key": "d",
+      "key": "domain",
       "commandKey": "urlfinder"
     },
     {
@@ -34,7 +33,6 @@
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "",
       "longFlag": "-list",
       "arraySeparator": ",",
       "key": "list",
@@ -53,7 +51,7 @@
       "commandKey": "urlfinder"
     },
     {
-      "name": "Exclude-sources",
+      "name": "Exclude Sources",
       "description": "Sources to exclude (e.g., -es alienvault,commoncrawl)",
       "parameterType": "Option",
       "dataType": "String",
@@ -74,7 +72,7 @@
       "commandKey": "urlfinder"
     },
     {
-      "name": "Url-scope",
+      "name": "URL Scope",
       "description": "In scope url regex to be followed by urlfinder",
       "parameterType": "Option",
       "dataType": "String",
@@ -86,7 +84,7 @@
       "commandKey": "urlfinder"
     },
     {
-      "name": "Url-out-scope",
+      "name": "URL Out Scope",
       "description": "Out of scope url regex to be excluded by urlfinder",
       "parameterType": "Option",
       "dataType": "String",
@@ -98,7 +96,7 @@
       "commandKey": "urlfinder"
     },
     {
-      "name": "Field-scope",
+      "name": "Field Scope",
       "description": "Pre-defined scope field (dn,rdn,fqdn) or custom regex (e.g., '(company-staging.io|company.com)')",
       "parameterType": "Option",
       "dataType": "String",
@@ -108,7 +106,7 @@
       "commandKey": "urlfinder"
     },
     {
-      "name": "No-scope",
+      "name": "No Scope",
       "description": "Disables host based default scope",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -118,7 +116,7 @@
       "commandKey": "urlfinder"
     },
     {
-      "name": "Display-out-scope",
+      "name": "Display Out Scope",
       "description": "Display external endpoint from scoped crawling",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -152,7 +150,7 @@
       "commandKey": "urlfinder"
     },
     {
-      "name": "Rate-limit",
+      "name": "Rate Limit",
       "description": "Max HTTP requests per second (global)",
       "parameterType": "Option",
       "dataType": "Number",
@@ -162,7 +160,7 @@
       "commandKey": "urlfinder"
     },
     {
-      "name": "Rate-limits",
+      "name": "Rate Limits",
       "description": "Per-provider HTTP request limits (e.g., -rls waybackarchive=15/m)",
       "parameterType": "Option",
       "dataType": "String",
@@ -212,7 +210,7 @@
       "commandKey": "urlfinder"
     },
     {
-      "name": "Json",
+      "name": "JSON Output",
       "description": "Output in JSON format",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -222,11 +220,10 @@
       "commandKey": "urlfinder"
     },
     {
-      "name": "Csv",
+      "name": "CSV Output",
       "description": "Output in CSV format",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-csv",
       "longFlag": "-csv",
       "key": "csv",
       "commandKey": "urlfinder"
