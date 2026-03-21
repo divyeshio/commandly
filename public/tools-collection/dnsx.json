@@ -173,6 +173,7 @@
       "key": "exclude-type",
       "commandKey": "dnsx",
       "enum": {
+        "allowMultiple": true,
         "values": [
           {
             "value": "A",
@@ -218,8 +219,8 @@
             "value": "CAA",
             "displayName": "CAA"
           }
-        ],
-        "allowMultiple": false
+        ]
+        
       }
     },
     {

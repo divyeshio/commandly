@@ -121,8 +121,8 @@
             "value": "sitemapxml",
             "displayName": "Sitemapxml"
           }
-        ],
-        "allowMultiple": false
+        ]
+        
       }
     },
     {

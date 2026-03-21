@@ -149,8 +149,7 @@
             "value": "sha512",
             "displayName": "Sha512"
           }
-        ],
-        "allowMultiple": false
+        ]
       }
     },
     {
@@ -557,8 +556,7 @@
             "value": "google",
             "displayName": "Google"
           }
-        ],
-        "allowMultiple": false
+        ]
       }
     },
     {
@@ -734,8 +732,7 @@
             "value": "google",
             "displayName": "Google"
           }
-        ],
-        "allowMultiple": false
+        ]
       }
     },
     {
@@ -1604,8 +1601,7 @@
             "value": "regex",
             "displayName": "Regex"
           }
-        ],
-        "allowMultiple": false
+        ]
       }
     },
     {

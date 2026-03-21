@@ -2,7 +2,7 @@ import { type Tool } from "@/components/commandly/types/flat";
 import { SkeletonCard } from "@/components/square-card-skeleton";
 import { ToolCard } from "@/components/tool-card";
 import { Button } from "@/components/ui/button";
-import { Input, InputIcon, InputRoot } from "@/components/ui/input";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { fetchToolsList } from "@/lib/api/tools.api";
@@ -92,17 +92,16 @@ function RouteComponent() {
       <SidebarInset className="pt-4">
         <div className="flex gap-4 px-4">
           <SidebarTrigger className="md:hidden" />
-          <InputRoot className="w-full">
-            <InputIcon>
+          <InputGroup className="h-9 w-full shadow-sm">
+            <InputGroupAddon>
               <SearchIcon />
-            </InputIcon>
-            <Input
-              className="shadow-md"
+            </InputGroupAddon>
+            <InputGroupInput
               placeholder="Search tools..."
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
             />
-          </InputRoot>
+          </InputGroup>
           <div className="flex items-center gap-3">
             <Button
               variant="default"

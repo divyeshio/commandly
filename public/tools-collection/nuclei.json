@@ -92,8 +92,7 @@
             "isDefault": false,
             "sortOrder": 2
           }
-        ],
-        "allowMultiple": false
+        ]
       },
       "key": "ip-version",
       "commandKey": "nuclei"
@@ -149,8 +148,7 @@
             "isDefault": false,
             "sortOrder": 6
           }
-        ],
-        "allowMultiple": false
+        ]
       },
       "key": "input-mode",
       "commandKey": "nuclei"
@@ -514,8 +512,7 @@
             "isDefault": false,
             "sortOrder": 6
           }
-        ],
-        "allowMultiple": false
+        ]
       },
       "key": "severity",
       "commandKey": "nuclei"
@@ -572,8 +569,7 @@
             "isDefault": false,
             "sortOrder": 6
           }
-        ],
-        "allowMultiple": false
+        ]
       },
       "key": "exclude-severity",
       "commandKey": "nuclei"
@@ -665,8 +661,7 @@
             "isDefault": false,
             "sortOrder": 11
           }
-        ],
-        "allowMultiple": false
+        ]
       },
       "key": "type",
       "commandKey": "nuclei"
@@ -758,8 +753,7 @@
             "isDefault": false,
             "sortOrder": 11
           }
-        ],
-        "allowMultiple": false
+        ]
       },
       "key": "exclude-type",
       "commandKey": "nuclei"
@@ -1242,8 +1236,7 @@
             "isDefault": false,
             "sortOrder": 3
           }
-        ],
-        "allowMultiple": false
+        ]
       },
       "key": "attack-type",
       "commandKey": "nuclei"
@@ -1410,8 +1403,7 @@
             "isDefault": false,
             "sortOrder": 4
           }
-        ],
-        "allowMultiple": false
+        ]
       },
       "key": "fuzzing-type",
       "commandKey": "nuclei"
@@ -1439,8 +1431,7 @@
             "isDefault": false,
             "sortOrder": 2
           }
-        ],
-        "allowMultiple": false
+        ]
       },
       "key": "fuzzing-mode",
       "commandKey": "nuclei"
@@ -1551,8 +1542,7 @@
             "isDefault": false,
             "sortOrder": 3
           }
-        ],
-        "allowMultiple": false
+        ]
       },
       "key": "fuzz-aggression",
       "commandKey": "nuclei"
@@ -1866,8 +1856,7 @@
             "isDefault": false,
             "sortOrder": 3
           }
-        ],
-        "allowMultiple": false
+        ]
       },
       "key": "scan-strategy",
       "commandKey": "nuclei"

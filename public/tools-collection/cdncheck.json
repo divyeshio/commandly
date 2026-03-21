@@ -87,8 +87,7 @@
             "value": "leaseweb",
             "displayName": "Leaseweb"
           }
-        ],
-        "allowMultiple": false
+        ]
       }
     },
     {
@@ -116,8 +115,7 @@
             "value": "oracle",
             "displayName": "Oracle"
           }
-        ],
-        "allowMultiple": false
+        ]
       }
     },
     {
@@ -149,8 +147,7 @@
             "value": "akamai",
             "displayName": "Akamai"
           }
-        ],
-        "allowMultiple": false
+        ]
       }
     },
     {
@@ -182,8 +179,7 @@
             "value": "leaseweb",
             "displayName": "Leaseweb"
           }
-        ],
-        "allowMultiple": false
+        ]
       }
     },
     {
@@ -211,8 +207,7 @@
             "value": "oracle",
             "displayName": "Oracle"
           }
-        ],
-        "allowMultiple": false
+        ]
       }
     },
     {
@@ -244,8 +239,7 @@
             "value": "akamai",
             "displayName": "Akamai"
           }
-        ],
-        "allowMultiple": false
+        ]
       }
     },
     {

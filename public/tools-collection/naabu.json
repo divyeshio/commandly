@@ -102,8 +102,7 @@
             "isDefault": false,
             "sortOrder": 3
           }
-        ],
-        "allowMultiple": false
+        ]
       },
       "key": "top-ports",
       "commandKey": "naabu"
@@ -282,8 +281,7 @@
             "isDefault": false,
             "sortOrder": 2
           }
-        ],
-        "allowMultiple": false
+        ]
       },
       "key": "ip-version",
       "commandKey": "naabu"
@@ -312,8 +310,7 @@
             "isDefault": true,
             "sortOrder": 2
           }
-        ],
-        "allowMultiple": false
+        ]
       },
       "key": "scan-type",
       "commandKey": "naabu"

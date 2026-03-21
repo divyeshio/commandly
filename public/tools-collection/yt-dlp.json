@@ -229,8 +229,7 @@
             "value": "sleep",
             "displayName": "Sleep"
           }
-        ],
-        "allowMultiple": false
+        ]
       }
     },
     {

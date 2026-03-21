@@ -370,13 +370,13 @@ function RouteComponent() {
               <TabsList className="mt-4 grid h-auto w-fit grid-cols-2 rounded-full border border-muted bg-muted/50 p-1 backdrop-blur-sm">
                 <TabsTrigger
                   value="ui"
-                  className="h-auto cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium whitespace-nowrap transition-all hover:bg-muted-foreground/10 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm"
+                  className="h-auto cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium whitespace-nowrap text-foreground! transition-all hover:bg-muted-foreground/10 hover:text-foreground! data-[state=active]:bg-primary data-[state=active]:text-primary-foreground! data-[state=active]:shadow-sm"
                 >
                   UI
                 </TabsTrigger>
                 <TabsTrigger
                   value="tool-editor"
-                  className="h-auto cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium whitespace-nowrap transition-all hover:bg-muted-foreground/10 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm"
+                  className="h-auto cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium whitespace-nowrap text-foreground! transition-all hover:bg-muted-foreground/10 hover:text-foreground! data-[state=active]:bg-primary data-[state=active]:text-primary-foreground! data-[state=active]:shadow-sm"
                 >
                   Tool Editor
                 </TabsTrigger>

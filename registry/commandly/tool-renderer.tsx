@@ -5,18 +5,23 @@ import {
   ParameterRendererEntry,
 } from "@/components/commandly/types/renderer";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Command as UICommand,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { MultiSelect } from "@/components/ui/multi-select";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Switch } from "@/components/ui/switch";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { InfoIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { CheckIcon, ChevronsUpDownIcon, InfoIcon } from "lucide-react";
 import React from "react";
 
 const findDefaultCommand = (tool: Tool): Command | null => {
@@ -103,35 +108,91 @@ function FlagInput({ parameter, value, onUpdate }: ParameterRenderContext) {
 }
 
 function OptionEnumInput({ parameter, value, onUpdate }: ParameterRenderContext) {
+  const [open, setOpen] = React.useState(false);
+  const separator = parameter.enum?.separator || ",";
+  const options =
+    parameter.enum?.values?.map((e) => ({
+      value: e.value,
+      label: e.displayName || e.value,
+    })) ?? [];
+
+  const label = (
+    <ParameterLabel
+      className="select-auto"
+      name={parameter.name}
+      longFlag={parameter.longFlag}
+      shortFlag={parameter.shortFlag}
+      isRequired={parameter.isRequired}
+      isGlobal={parameter.isGlobal}
+      description={parameter.description}
+    />
+  );
+
+  if (parameter.enum?.allowMultiple) {
+    const selected = value ? (value as string).split(separator).filter(Boolean) : [];
+    return (
+      <div className="space-y-2">
+        {label}
+        <MultiSelect
+          options={options}
+          defaultValue={selected}
+          onValueChange={(vals) => onUpdate(vals.join(separator))}
+          placeholder="Select options"
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-2">
-      <ParameterLabel
-        className="select-auto"
-        name={parameter.name}
-        longFlag={parameter.longFlag}
-        shortFlag={parameter.shortFlag}
-        isRequired={parameter.isRequired}
-        isGlobal={parameter.isGlobal}
-        description={parameter.description}
-      />
-      <Select
-        value={value as string}
-        onValueChange={onUpdate}
+      {label}
+      <Popover
+        open={open}
+        onOpenChange={setOpen}
       >
-        <SelectTrigger>
-          <SelectValue placeholder="Select an option" />
-        </SelectTrigger>
-        <SelectContent>
-          {parameter.enum?.values?.map((enumValue) => (
-            <SelectItem
-              key={enumValue.value}
-              value={enumValue.value}
-            >
-              {enumValue.displayName || enumValue.value}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className="w-full justify-between font-normal"
+          >
+            {options.find((o) => o.value === value)?.label ?? "Select an option"}
+            <ChevronsUpDownIcon className="opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent
+          className="w-[--radix-popover-trigger-width] p-0"
+          align="start"
+        >
+          <UICommand>
+            <CommandInput placeholder="Search..." />
+            <CommandList>
+              <CommandEmpty>No option found.</CommandEmpty>
+              <CommandGroup>
+                {options.map((option) => (
+                  <CommandItem
+                    key={option.value}
+                    value={option.value}
+                    onSelect={(currentValue) => {
+                      onUpdate(currentValue === value ? "" : currentValue);
+                      setOpen(false);
+                    }}
+                  >
+                    {option.label}
+                    <CheckIcon
+                      className={cn(
+                        "ml-auto",
+                        value === option.value ? "opacity-100" : "opacity-0",
+                      )}
+                    />
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </UICommand>
+        </PopoverContent>
+      </Popover>
     </div>
   );
 }
