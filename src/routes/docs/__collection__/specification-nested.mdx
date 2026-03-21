@@ -1,0 +1,86 @@
+# Nested Schema
+
+The nested format embeds parameters and subcommands directly inside each command object. This mirrors how most CLI tools present their help output and is more natural to author by hand.
+
+Unlike the [Flat Schema](/docs/specification-schema), there are no `key` or `commandKey` fields — the hierarchy is expressed via nesting. Exclusion groups reference parameters by `name` instead of `key`.
+
+## Document Object
+
+| Field              | Type                                  | Required | Description                                                                          |
+| ------------------ | ------------------------------------- | -------- | ------------------------------------------------------------------------------------ |
+| `name`             | string                                | ✓        | Unique identifier for the tool.                                                      |
+| `displayName`      | string                                | ✓        | Human-readable display name.                                                         |
+| `info`             | ToolInfo Object                       | —        | Metadata about the tool. See [ToolInfo](/docs/specification-schema#toolinfo-object). |
+| `url`              | string                                | —        | URL to the tool's homepage or repository.                                            |
+| `globalParameters` | NestedParameter Object[]              | ✓        | Parameters that apply across all commands.                                           |
+| `commands`         | NestedCommand Object[]                | ✓        | List of commands with embedded parameters and subcommands.                           |
+| `exclusionGroups`  | NestedExclusionGroup Object[] \| null | —        | Groups of mutually exclusive or required parameters.                                 |
+| `metadata`         | ToolMetadata Object                   | —        | Custom metadata.                                                                     |
+| `$schema`          | string                                | —        | URL to the JSON Schema for editor validation.                                        |
+
+## NestedCommand Object
+
+| Field         | Type                     | Required | Description                                                                              |
+| ------------- | ------------------------ | -------- | ---------------------------------------------------------------------------------------- |
+| `name`        | string                   | ✓        | Command name as it appears in the CLI invocation.                                        |
+| `description` | string                   | —        | Human-readable description of the command.                                               |
+| `isDefault`   | boolean                  | —        | If `true`, this command is invoked when no subcommand is specified. Defaults to `false`. |
+| `sortOrder`   | number                   | —        | Display sort order. Defaults to `0`.                                                     |
+| `parameters`  | NestedParameter Object[] | ✓        | Parameters belonging to this command.                                                    |
+| `subcommands` | NestedCommand Object[]   | ✓        | Nested subcommands. Use an empty array if none.                                          |
+| `interactive` | boolean                  | —        | If `true`, the command requires interactive user input.                                  |
+
+## NestedParameter Object
+
+Identical to the flat [Parameter Object](/docs/specification-schema#parameter-object), but without `key` and `commandKey` since hierarchy is expressed via nesting instead.
+
+| Field               | Type                               | Required | Description                                                                                                           |
+| ------------------- | ---------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------- |
+| `name`              | string                             | ✓        | Human-readable parameter name. Also used as the identifier in exclusion groups.                                       |
+| `parameterType`     | ParameterType                      | ✓        | One of `Flag`, `Option`, or `Argument`.                                                                               |
+| `dataType`          | ParameterDataType                  | ✓        | One of `String`, `Number`, `Boolean`, or `Enum`.                                                                      |
+| `isRequired`        | boolean                            | ✓        | Whether the parameter must be provided.                                                                               |
+| `isRepeatable`      | boolean                            | ✓        | Whether the parameter can appear more than once.                                                                      |
+| `isGlobal`          | boolean                            | ✓        | If `true`, the parameter applies to all commands.                                                                     |
+| `description`       | string                             | —        | Human-readable description.                                                                                           |
+| `group`             | string                             | —        | Display group label.                                                                                                  |
+| `shortFlag`         | string                             | —        | Short flag form (e.g. `-o`).                                                                                          |
+| `longFlag`          | string                             | —        | Long flag form (e.g. `--output`).                                                                                     |
+| `position`          | number                             | —        | Positional index, starting from `1`. Required for `Argument` type.                                                    |
+| `sortOrder`         | number                             | —        | Display sort order.                                                                                                   |
+| `arraySeparator`    | string                             | —        | Separator for repeatable parameters joined into a single token.                                                       |
+| `keyValueSeparator` | string                             | —        | Character between the flag and its value. Defaults to a space.                                                        |
+| `enumValues`        | ParameterEnumValues Object         | —        | Required when `dataType` is `Enum`. See [ParameterEnumValues](/docs/specification-schema#parameterenumvalues-object). |
+| `validations`       | NestedParameterValidation Object[] | —        | Validation rules.                                                                                                     |
+| `dependencies`      | NestedParameterDependency Object[] | —        | Conditional relationships with other parameters.                                                                      |
+| `metadata`          | ParameterMetadata Object           | —        | Custom metadata. See [ParameterMetadata](/docs/specification-schema#parametermetadata-object).                        |
+
+## NestedParameterValidation Object
+
+Equivalent to [ParameterValidation](/docs/specification-schema#parametervalidation-object), without the `key` field.
+
+| Field             | Type                    | Required | Description                                                                                                |
+| ----------------- | ----------------------- | -------- | ---------------------------------------------------------------------------------------------------------- |
+| `validationType`  | ParameterValidationType | ✓        | The kind of validation. See [ParameterValidationType](/docs/specification-schema#parametervalidationtype). |
+| `validationValue` | string                  | ✓        | Threshold or pattern for the validation.                                                                   |
+| `errorMessage`    | string                  | ✓        | Message displayed when validation fails.                                                                   |
+
+## NestedParameterDependency Object
+
+Equivalent to [ParameterDependency](/docs/specification-schema#parameterdependency-object), but references parameters by `name` instead of `key`.
+
+| Field                | Type                    | Required | Description                                                                                                               |
+| -------------------- | ----------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `dependsOnParameter` | string                  | ✓        | Name of the parameter being depended upon.                                                                                |
+| `dependencyType`     | ParameterDependencyType | ✓        | One of `requires` or `conflicts_with`. See [ParameterDependencyType](/docs/specification-schema#parameterdependencytype). |
+| `conditionValue`     | string                  | —        | Specific value of `dependsOnParameter` that activates this dependency.                                                    |
+
+## NestedExclusionGroup Object
+
+Equivalent to [ExclusionGroup](/docs/specification-schema#exclusiongroup-object), but references parameters by `name` instead of `key`.
+
+| Field           | Type          | Required | Description                                                                                                    |
+| --------------- | ------------- | -------- | -------------------------------------------------------------------------------------------------------------- |
+| `name`          | string        | ✓        | Human-readable group name.                                                                                     |
+| `exclusionType` | ExclusionType | ✓        | One of `mutual_exclusive` or `required_one_of`. See [ExclusionType](/docs/specification-schema#exclusiontype). |
+| `parameters`    | string[]      | ✓        | Names of the parameters in this group.                                                                         |

@@ -1,0 +1,161 @@
+# Flat Schema
+
+The flat format stores all commands and parameters as top-level arrays within the tool document. Cross-references are expressed via `key` and `commandKey` fields. This is the primary format used by the tools collection.
+
+## Tool Object
+
+The root object of a Commandly flat description.
+
+| Field             | Type                    | Required | Description                                                                |
+| ----------------- | ----------------------- | -------- | -------------------------------------------------------------------------- |
+| `name`            | string                  | ✓        | Unique identifier for the tool. Must match the filename (without `.json`). |
+| `displayName`     | string                  | ✓        | Human-readable display name.                                               |
+| `info`            | ToolInfo Object         | —        | Metadata about the tool.                                                   |
+| `url`             | string                  | —        | URL to the tool's homepage or repository.                                  |
+| `commands`        | Command Object[]        | ✓        | List of commands. Must contain at least one entry.                         |
+| `parameters`      | Parameter Object[]      | ✓        | Flat list of all parameters across all commands.                           |
+| `exclusionGroups` | ExclusionGroup Object[] | —        | Groups of mutually exclusive or required parameters.                       |
+| `metadata`        | ToolMetadata Object     | —        | Custom metadata.                                                           |
+
+## ToolInfo Object
+
+| Field         | Type   | Required | Description                               |
+| ------------- | ------ | -------- | ----------------------------------------- |
+| `description` | string | —        | Short description of the tool.            |
+| `version`     | string | —        | Tool version string.                      |
+| `url`         | string | —        | URL to the tool's homepage or repository. |
+
+## Command Object
+
+| Field              | Type    | Required | Description                                                                              |
+| ------------------ | ------- | -------- | ---------------------------------------------------------------------------------------- |
+| `key`              | string  | ✓        | Unique identifier. Referenced by parameters via `commandKey`.                            |
+| `name`             | string  | ✓        | Command name as it appears in the CLI invocation.                                        |
+| `parentCommandKey` | string  | —        | Key of the parent command. Omit for root-level commands.                                 |
+| `description`      | string  | —        | Human-readable description of the command.                                               |
+| `isDefault`        | boolean | —        | If `true`, this command is invoked when no subcommand is specified. Defaults to `false`. |
+| `sortOrder`        | number  | —        | Display sort order.                                                                      |
+| `interactive`      | boolean | —        | If `true`, the command requires interactive user input at runtime. Defaults to `false`.  |
+
+## Parameter Object
+
+| Field               | Type                         | Required | Description                                                                   |
+| ------------------- | ---------------------------- | -------- | ----------------------------------------------------------------------------- |
+| `key`               | string                       | ✓        | Unique identifier for the parameter.                                          |
+| `name`              | string                       | ✓        | Human-readable parameter name.                                                |
+| `parameterType`     | ParameterType                | ✓        | One of `Flag`, `Option`, or `Argument`.                                       |
+| `dataType`          | ParameterDataType            | ✓        | One of `String`, `Number`, `Boolean`, or `Enum`.                              |
+| `isRequired`        | boolean                      | ✓        | Whether the parameter must be provided.                                       |
+| `isRepeatable`      | boolean                      | ✓        | Whether the parameter can appear more than once.                              |
+| `isGlobal`          | boolean                      | ✓        | If `true`, the parameter applies to all commands regardless of `commandKey`.  |
+| `commandKey`        | string                       | —        | Key of the command this parameter belongs to. Omit for global parameters.     |
+| `description`       | string                       | —        | Human-readable description.                                                   |
+| `group`             | string                       | —        | Display group label for UI grouping.                                          |
+| `shortFlag`         | string                       | —        | Short flag form (e.g. `-o`). Used for `Flag` and `Option` types.              |
+| `longFlag`          | string                       | —        | Long flag form (e.g. `--output`). Used for `Flag` and `Option` types.         |
+| `position`          | number                       | —        | Positional index, starting from `1`. Required for `Argument` type parameters. |
+| `sortOrder`         | number                       | —        | Display sort order.                                                           |
+| `arraySeparator`    | string                       | —        | Separator used when a repeatable parameter is joined into a single token.     |
+| `keyValueSeparator` | string                       | —        | Character between the flag and its value. Defaults to a space.                |
+| `enumValues`        | ParameterEnumValues Object   | —        | Required when `dataType` is `Enum`.                                           |
+| `validations`       | ParameterValidation Object[] | —        | Validation rules applied to the parameter value.                              |
+| `dependencies`      | ParameterDependency Object[] | —        | Conditional relationships with other parameters.                              |
+| `metadata`          | ParameterMetadata Object     | —        | Custom metadata.                                                              |
+
+## ParameterType
+
+| Value      | Description                                                                      |
+| ---------- | -------------------------------------------------------------------------------- |
+| `Flag`     | A boolean switch with no value (e.g. `--verbose`). Use with `dataType: Boolean`. |
+| `Option`   | A named parameter that accepts a value (e.g. `--output file.txt`).               |
+| `Argument` | A positional parameter identified by its position in the command, not a flag.    |
+
+## ParameterDataType
+
+| Value     | Description                                               |
+| --------- | --------------------------------------------------------- |
+| `String`  | A string value.                                           |
+| `Number`  | A numeric value.                                          |
+| `Boolean` | A boolean value. Typically used with `Flag` type.         |
+| `Enum`    | One of a predefined set of values. Requires `enumValues`. |
+
+## ParameterEnumValues Object
+
+| Field           | Type                        | Required | Description                                                      |
+| --------------- | --------------------------- | -------- | ---------------------------------------------------------------- |
+| `values`        | ParameterEnumValue Object[] | ✓        | Ordered list of allowed values.                                  |
+| `allowMultiple` | boolean                     | ✓        | Whether multiple values can be selected simultaneously.          |
+| `separator`     | string                      | —        | Separator used when multiple values are combined into one token. |
+
+## ParameterEnumValue Object
+
+| Field         | Type    | Required | Description                                |
+| ------------- | ------- | -------- | ------------------------------------------ |
+| `value`       | string  | ✓        | The raw value passed to the CLI.           |
+| `displayName` | string  | ✓        | Human-readable label shown in the UI.      |
+| `description` | string  | —        | Description of what this value does.       |
+| `isDefault`   | boolean | —        | Whether this value is selected by default. |
+| `sortOrder`   | number  | —        | Display sort order.                        |
+
+## ExclusionGroup Object
+
+Defines a group of parameters that are mutually exclusive or where exactly one must be chosen.
+
+| Field           | Type          | Required | Description                                     |
+| --------------- | ------------- | -------- | ----------------------------------------------- |
+| `key`           | string        | —        | Unique identifier for the group.                |
+| `name`          | string        | ✓        | Human-readable group name.                      |
+| `commandKey`    | string        | —        | Key of the command this group applies to.       |
+| `exclusionType` | ExclusionType | ✓        | One of `mutual_exclusive` or `required_one_of`. |
+| `parameterKeys` | string[]      | ✓        | Keys of the parameters belonging to this group. |
+
+## ExclusionType
+
+| Value              | Description                                              |
+| ------------------ | -------------------------------------------------------- |
+| `mutual_exclusive` | At most one parameter in the group may be set at a time. |
+| `required_one_of`  | Exactly one parameter in the group must be set.          |
+
+## ParameterValidation Object
+
+| Field             | Type                    | Required | Description                                  |
+| ----------------- | ----------------------- | -------- | -------------------------------------------- |
+| `key`             | string                  | ✓        | Unique identifier.                           |
+| `validationType`  | ParameterValidationType | ✓        | The kind of validation to apply.             |
+| `validationValue` | string                  | ✓        | The threshold or pattern for the validation. |
+| `errorMessage`    | string                  | ✓        | Message displayed when validation fails.     |
+
+## ParameterValidationType
+
+| Value        | Description                                       |
+| ------------ | ------------------------------------------------- |
+| `min_length` | Minimum number of characters in the string value. |
+| `max_length` | Maximum number of characters in the string value. |
+| `min_value`  | Minimum numeric value.                            |
+| `max_value`  | Maximum numeric value.                            |
+| `regex`      | Regular expression the value must match.          |
+
+## ParameterDependency Object
+
+Defines a conditional relationship between two parameters.
+
+| Field                   | Type                    | Required | Description                                                                                                                                     |
+| ----------------------- | ----------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `key`                   | string                  | ✓        | Unique identifier.                                                                                                                              |
+| `parameterKey`          | string                  | ✓        | Key of the parameter this dependency rule applies to.                                                                                           |
+| `dependsOnParameterKey` | string                  | ✓        | Key of the parameter being depended upon.                                                                                                       |
+| `dependencyType`        | ParameterDependencyType | ✓        | One of `requires` or `conflicts_with`.                                                                                                          |
+| `conditionValue`        | string                  | —        | Specific value of `dependsOnParameter` that activates this dependency. If omitted, the dependency applies whenever `dependsOnParameter` is set. |
+
+## ParameterDependencyType
+
+| Value            | Description                                                         |
+| ---------------- | ------------------------------------------------------------------- |
+| `requires`       | This parameter can only be set if `dependsOnParameter` is also set. |
+| `conflicts_with` | This parameter cannot be set when `dependsOnParameter` is set.      |
+
+## ParameterMetadata Object
+
+| Field  | Type     | Required | Description                                                                                   |
+| ------ | -------- | -------- | --------------------------------------------------------------------------------------------- |
+| `tags` | string[] | —        | Custom string tags. Used to annotate parameters (e.g. `"non-configurable"`, `"output-file"`). |

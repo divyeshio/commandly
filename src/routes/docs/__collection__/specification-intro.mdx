@@ -1,0 +1,35 @@
+# Specification
+
+The Commandly specification defines a standard, language-agnostic JSON format for describing CLI tools. It can be used to:
+
+- Build interactive UI for CLI tools
+- Generate CLI command strings automatically
+- Power AI-assisted tool configuration
+- Programtically call cli tools from code
+
+## Formats
+
+Two formats are available:
+
+**Flat** — Commands and parameters are stored as flat arrays. Each parameter references its parent command via a `commandKey` field. This is the primary format used by the Commandly editor, renderer components, and the tools collection.
+
+**Nested** — Parameters and subcommands are embedded directly inside each command object. More human-readable and mirrors how most CLI tools present their help output. Useful for authoring tools by hand.
+
+See [Flat Schema](/docs/specification-schema) and [Nested Schema](/docs/specification-nested) for the full object reference.
+
+## JSON Schema
+
+Machine-readable JSON Schema files for both formats are published at:
+
+- **Flat**: `https://commandly.divyeshio.in/specification/flat.json`
+- **Nested**: `https://commandly.divyeshio.in/specification/nested.json`
+
+Add `$schema` to your tool JSON file to enable editor autocomplete and validation:
+
+```json
+{
+  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
+  "name": "mytool",
+  "displayName": "My Tool"
+}
+```

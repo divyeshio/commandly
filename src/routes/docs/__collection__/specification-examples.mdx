@@ -1,0 +1,268 @@
+# Examples
+
+## Minimal Tool (Flat)
+
+A simple tool with one command, one flag, and one option.
+
+```json
+{
+  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
+  "name": "curl",
+  "displayName": "Curl",
+  "info": {
+    "description": "curl is a command line tool for transferring data with URLs."
+  },
+  "commands": [
+    {
+      "key": "curl",
+      "name": "curl",
+      "description": "Run curl to download files.",
+      "isDefault": true,
+      "sortOrder": 1
+    }
+  ],
+  "parameters": [
+    {
+      "key": "target",
+      "name": "Target",
+      "description": "URL to download.",
+      "parameterType": "Argument",
+      "dataType": "String",
+      "isRequired": true,
+      "isRepeatable": false,
+      "isGlobal": false,
+      "position": 1,
+      "sortOrder": 1,
+      "commandKey": "curl"
+    },
+    {
+      "key": "output",
+      "name": "Output",
+      "description": "Write to file instead of stdout.",
+      "parameterType": "Option",
+      "dataType": "String",
+      "isRequired": false,
+      "isRepeatable": false,
+      "isGlobal": false,
+      "shortFlag": "-o",
+      "longFlag": "--output",
+      "keyValueSeparator": " ",
+      "sortOrder": 2,
+      "commandKey": "curl"
+    },
+    {
+      "key": "location",
+      "name": "Location",
+      "description": "Follow redirects.",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "isRequired": false,
+      "isRepeatable": false,
+      "isGlobal": false,
+      "shortFlag": "-L",
+      "longFlag": "--location",
+      "sortOrder": 3,
+      "commandKey": "curl"
+    }
+  ]
+}
+```
+
+## Same Tool in Nested Format
+
+The same tool expressed using the nested format. Parameters are embedded inside the command instead of using `key`/`commandKey` references.
+
+```json
+{
+  "$schema": "https://commandly.divyeshio.in/specification/nested.json",
+  "name": "curl",
+  "displayName": "Curl",
+  "info": {
+    "description": "curl is a command line tool for transferring data with URLs."
+  },
+  "globalParameters": [],
+  "commands": [
+    {
+      "name": "curl",
+      "description": "Run curl to download files.",
+      "isDefault": true,
+      "sortOrder": 1,
+      "subcommands": [],
+      "parameters": [
+        {
+          "name": "Target",
+          "description": "URL to download.",
+          "parameterType": "Argument",
+          "dataType": "String",
+          "isRequired": true,
+          "isRepeatable": false,
+          "isGlobal": false,
+          "position": 1,
+          "sortOrder": 1
+        },
+        {
+          "name": "Output",
+          "description": "Write to file instead of stdout.",
+          "parameterType": "Option",
+          "dataType": "String",
+          "isRequired": false,
+          "isRepeatable": false,
+          "isGlobal": false,
+          "shortFlag": "-o",
+          "longFlag": "--output",
+          "keyValueSeparator": " ",
+          "sortOrder": 2
+        },
+        {
+          "name": "Location",
+          "description": "Follow redirects.",
+          "parameterType": "Flag",
+          "dataType": "Boolean",
+          "isRequired": false,
+          "isRepeatable": false,
+          "isGlobal": false,
+          "shortFlag": "-L",
+          "longFlag": "--location",
+          "sortOrder": 3
+        }
+      ]
+    }
+  ]
+}
+```
+
+## Tool with Subcommands (Flat)
+
+A tool where parameters belong to different commands via `commandKey`, and one command is a subcommand of another via `parentCommandKey`.
+
+```json
+{
+  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
+  "name": "mytool",
+  "displayName": "My Tool",
+  "commands": [
+    {
+      "key": "mytool",
+      "name": "mytool",
+      "isDefault": true,
+      "sortOrder": 1
+    },
+    {
+      "key": "mytool-scan",
+      "name": "scan",
+      "parentCommandKey": "mytool",
+      "description": "Run a scan.",
+      "sortOrder": 2
+    }
+  ],
+  "parameters": [
+    {
+      "key": "verbose",
+      "name": "Verbose",
+      "description": "Enable verbose output.",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "isRequired": false,
+      "isRepeatable": false,
+      "isGlobal": true,
+      "longFlag": "--verbose",
+      "sortOrder": 1
+    },
+    {
+      "key": "target",
+      "name": "Target",
+      "description": "Host to scan.",
+      "parameterType": "Option",
+      "dataType": "String",
+      "isRequired": true,
+      "isRepeatable": false,
+      "isGlobal": false,
+      "shortFlag": "-t",
+      "longFlag": "--target",
+      "sortOrder": 1,
+      "commandKey": "mytool-scan"
+    }
+  ]
+}
+```
+
+## Enum Parameter
+
+A parameter that accepts one of a fixed set of values.
+
+```json
+{
+  "key": "format",
+  "name": "Output Format",
+  "description": "Format for the output.",
+  "parameterType": "Option",
+  "dataType": "Enum",
+  "isRequired": false,
+  "isRepeatable": false,
+  "isGlobal": false,
+  "longFlag": "--format",
+  "sortOrder": 1,
+  "commandKey": "mytool",
+  "enumValues": {
+    "allowMultiple": false,
+    "values": [
+      { "value": "json", "displayName": "JSON", "isDefault": true, "sortOrder": 1 },
+      { "value": "csv", "displayName": "CSV", "sortOrder": 2 },
+      { "value": "table", "displayName": "Table", "sortOrder": 3 }
+    ]
+  }
+}
+```
+
+## Exclusion Group
+
+Two parameters that cannot be used together:
+
+```json
+{
+  "exclusionGroups": [
+    {
+      "key": "output-mode",
+      "name": "Output Mode",
+      "commandKey": "mytool",
+      "exclusionType": "mutual_exclusive",
+      "parameterKeys": ["silent", "verbose"]
+    }
+  ]
+}
+```
+
+## Tool with Validation and Dependencies
+
+A parameter with a minimum-length validation, and a dependency that requires another parameter to be set first:
+
+```json
+{
+  "key": "password",
+  "name": "Password",
+  "parameterType": "Option",
+  "dataType": "String",
+  "isRequired": false,
+  "isRepeatable": false,
+  "isGlobal": false,
+  "longFlag": "--password",
+  "sortOrder": 2,
+  "commandKey": "login",
+  "validations": [
+    {
+      "key": "pwd-min",
+      "validationType": "min_length",
+      "validationValue": "8",
+      "errorMessage": "Password must be at least 8 characters."
+    }
+  ],
+  "dependencies": [
+    {
+      "key": "pwd-requires-user",
+      "parameterKey": "password",
+      "dependsOnParameterKey": "username",
+      "dependencyType": "requires"
+    }
+  ]
+}
+```

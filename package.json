@@ -6,7 +6,7 @@
   "main": "src/index.tsx",
   "module": "src/index.tsx",
   "scripts": {
-    "build": "bun run tools:build && tsgo -b && vite build",
+    "build": "tsgo -b && vite build",
     "coverage": "vitest run --coverage",
     "dev": "vite dev",
     "format": "oxfmt",

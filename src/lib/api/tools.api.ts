@@ -6,8 +6,8 @@ const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/divyeshio/commandly/r
 export const fetchToolsList = createIsomorphicFn()
   .server(async () => {
     const { promises: fs } = await import("node:fs");
-    const { join } = await import("node:path");
-    const content = await fs.readFile(join(process.cwd(), "public", "tools.json"), "utf-8");
+    const path = await import("node:path");
+    const content = await fs.readFile(path.join(process.cwd(), "public", "tools.json"), "utf-8");
     return JSON.parse(content) as Partial<Tool>[];
   })
   .client(async () => {
