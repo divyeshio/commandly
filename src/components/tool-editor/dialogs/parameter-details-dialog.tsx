@@ -10,8 +10,8 @@ import {
   ParameterValidation,
   ParameterValidationType,
 } from "@/commandly/types/flat";
-import { slugify } from "@/commandly/utils/flat";
 import { TagsInput } from "@/commandly/ui/tags-input";
+import { slugify } from "@/commandly/utils/flat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {

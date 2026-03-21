@@ -38,24 +38,29 @@
           "target": "components/commandly/tool-renderer.tsx"
         },
         {
-          "path": "registry/commandly/lib/types/renderer.ts",
-          "type": "registry:lib"
+          "target": "components/commandly/types/renderer.ts",
+          "path": "registry/commandly/types/renderer.ts",
+          "type": "registry:file"
         },
         {
-          "path": "registry/commandly/lib/types/flat.ts",
-          "type": "registry:lib"
+          "target": "components/commandly/types/flat.ts",
+          "path": "registry/commandly/types/flat.ts",
+          "type": "registry:file"
         },
         {
-          "path": "registry/commandly/lib/types/nested.ts",
-          "type": "registry:lib"
+          "target": "components/commandly/types/nested.ts",
+          "path": "registry/commandly/types/nested.ts",
+          "type": "registry:file"
         },
         {
-          "path": "registry/commandly/lib/utils/flat.ts",
-          "type": "registry:lib"
+          "target": "components/commandly/utils/flat.ts",
+          "path": "registry/commandly/utils/flat.ts",
+          "type": "registry:file"
         },
         {
-          "path": "registry/commandly/lib/utils/nested.ts",
-          "type": "registry:lib"
+          "target": "components/commandly/utils/nested.ts",
+          "path": "registry/commandly/utils/nested.ts",
+          "type": "registry:file"
         }
       ]
     },
@@ -73,20 +78,24 @@
           "target": "components/commandly/generated-command.tsx"
         },
         {
-          "path": "registry/commandly/lib/types/flat.ts",
-          "type": "registry:lib"
+          "target": "components/commandly/types/flat.ts", 
+          "path": "registry/commandly/types/flat.ts",
+          "type": "registry:file"
         },
         {
-          "path": "registry/commandly/lib/types/nested.ts",
-          "type": "registry:lib"
+          "target": "components/commandly/types/nested.ts",
+          "path": "registry/commandly/types/nested.ts",
+          "type": "registry:file"
         },
         {
-          "path": "registry/commandly/lib/utils/flat.ts",
-          "type": "registry:lib"
+          "target": "components/commandly/utils/flat.ts",
+          "path": "registry/commandly/utils/flat.ts",
+          "type": "registry:file"
         },
         {
-          "path": "registry/commandly/lib/utils/nested.ts",
-          "type": "registry:lib"
+          "target": "components/commandly/utils/nested.ts",
+          "path": "registry/commandly/utils/nested.ts",
+          "type": "registry:file"
         }
       ]
     },
@@ -104,12 +113,24 @@
           "target": "components/commandly/json-output.tsx"
         },
         {
-          "path": "registry/commandly/lib/types/flat.ts",
-          "type": "registry:lib"
+          "target": "components/commandly/types/flat.ts",
+          "path": "registry/commandly/types/flat.ts",
+          "type": "registry:file"
         },
         {
-          "path": "registry/commandly/lib/types/nested.ts",
-          "type": "registry:lib"
+          "target": "components/commandly/types/nested.ts",
+          "path": "registry/commandly/types/nested.ts",
+          "type": "registry:file"
+        },
+        {
+          "target": "components/commandly/utils/flat.ts",
+          "path": "registry/commandly/utils/flat.ts",
+          "type": "registry:file"
+        },
+        {
+          "target": "components/commandly/utils/nested.ts",
+          "path": "registry/commandly/utils/nested.ts",
+          "type": "registry:file"
         }
       ]
     },
@@ -127,16 +148,19 @@
           "target": "components/commandly/tool-renderer.tsx"
         },
         {
-          "path": "registry/commandly/lib/types/renderer.ts",
-          "type": "registry:lib"
+          "target": "components/commandly/types/renderer.ts",
+          "path": "registry/commandly/types/renderer.ts",
+          "type": "registry:file"
         },
         {
-          "path": "registry/commandly/lib/types/flat.ts",
-          "type": "registry:lib"
+          "target": "components/commandly/types/flat.ts",
+          "path": "registry/commandly/types/flat.ts",
+          "type": "registry:file"
         },
         {
-          "path": "registry/commandly/lib/types/nested.ts",
-          "type": "registry:lib"
+          "target": "components/commandly/types/nested.ts",
+          "path": "registry/commandly/types/nested.ts",
+          "type": "registry:file"
         }
       ]
     }

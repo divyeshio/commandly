@@ -1,5 +1,5 @@
-import type { Tool } from "@/commandly/types/flat";
 import { ToolRenderer } from "@/commandly/tool-renderer";
+import type { Tool } from "@/commandly/types/flat";
 import { useState } from "react";
 
 const sampleTool: Tool = {

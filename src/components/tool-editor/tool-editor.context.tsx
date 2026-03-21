@@ -1,16 +1,5 @@
-import {
-  Tool,
-  Command,
-  Parameter,
-  ExclusionGroup,
-  ParameterValue,
-} from "@/commandly/types/flat";
-import {
-  cleanupTool,
-  createNewCommand,
-  getAllSubcommands,
-  slugify,
-} from "@/commandly/utils/flat";
+import { Tool, Command, Parameter, ExclusionGroup, ParameterValue } from "@/commandly/types/flat";
+import { cleanupTool, createNewCommand, getAllSubcommands, slugify } from "@/commandly/utils/flat";
 import {
   createContext,
   useContext,

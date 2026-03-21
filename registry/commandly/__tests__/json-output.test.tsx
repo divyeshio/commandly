@@ -1,6 +1,6 @@
 import { JsonOutput } from "../json-output";
-import { exportToStructuredJSON } from "@/commandly/utils/flat";
 import type { Tool } from "@/commandly/types/flat";
+import { exportToStructuredJSON } from "@/commandly/utils/flat";
 import { convertToNestedStructure } from "@/commandly/utils/nested";
 import { defaultTool } from "@/lib/utils";
 import { render, screen } from "@testing-library/react";
