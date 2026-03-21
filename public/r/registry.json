@@ -78,7 +78,7 @@
           "target": "components/commandly/generated-command.tsx"
         },
         {
-          "target": "components/commandly/types/flat.ts", 
+          "target": "components/commandly/types/flat.ts",
           "path": "registry/commandly/types/flat.ts",
           "type": "registry:file"
         },
