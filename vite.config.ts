@@ -1,3 +1,6 @@
+import { rmSync } from "node:fs";
+import { resolve } from "node:path";
+
 import mdx from "@mdx-js/rollup";
 import githubDark from "@shikijs/themes/github-dark";
 import githubLight from "@shikijs/themes/github-light";
@@ -79,6 +82,21 @@ export default defineConfig({
     viteReact({ include: /\.(mdx|jsx|tsx)$/ }),
     tailwindcss(),
   ],
+  build: {
+    rollupOptions: {
+      plugins: [
+        {
+          name: "exclude-tools-collection",
+          closeBundle() {
+            if (this.meta.watchMode) return;
+            const dist = resolve(process.cwd(), "dist/client");
+            rmSync(resolve(dist, "tools-collection"), { recursive: true, force: true });
+            rmSync(resolve(dist, "tools.json"), { force: true });
+          },
+        },
+      ],
+    },
+  },
   server: {
     port: 4001,
   },

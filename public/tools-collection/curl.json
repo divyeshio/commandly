@@ -3,7 +3,8 @@
   "name": "curl",
   "displayName": "Curl",
   "info": {
-    "description": "curl is a command line tool and library for transferring data with URLs."
+    "description": "curl is a command line tool and library for transferring data with URLs.",
+    "url": "https://curl.se/"
   },
   "commands": [
     {
