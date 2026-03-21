@@ -114,7 +114,7 @@
         "keyValueSeparator": {
           "type": "string"
         },
-        "enumValues": {
+        "enum": {
           "$ref": "#/definitions/ParameterEnumValues"
         },
         "validations": {

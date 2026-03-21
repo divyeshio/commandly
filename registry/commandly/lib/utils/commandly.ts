@@ -237,7 +237,7 @@ const isEmpty = (value: unknown[] | Record<string, unknown> | null | undefined):
 const cleanParameter = (param: Parameter): Parameter => {
   const cleaned = { ...param };
 
-  if (!cleaned.enumValues || cleaned.enumValues.values.length === 0) delete cleaned.enumValues;
+  if (!cleaned.enum || cleaned.enum.values.length === 0) delete cleaned.enum;
   if (isEmpty(cleaned.validations)) delete cleaned.validations;
   if (isEmpty(cleaned.dependencies)) delete cleaned.dependencies;
 

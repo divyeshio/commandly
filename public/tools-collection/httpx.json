@@ -152,7 +152,7 @@
       "sortOrder": 9,
       "key": "hash",
       "commandKey": "httpx",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "md5",
@@ -674,7 +674,7 @@
       "sortOrder": 41,
       "key": "match-cdn",
       "commandKey": "httpx",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "cloudfront",
@@ -887,7 +887,7 @@
       "sortOrder": 55,
       "key": "filter-cdn",
       "commandKey": "httpx",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "cloudfront",
@@ -1979,7 +1979,7 @@
       "sortOrder": 131,
       "key": "exclude",
       "commandKey": "httpx",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "cdn",

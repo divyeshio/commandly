@@ -67,7 +67,7 @@ describe("ToolRenderer", () => {
       name: "Format",
       parameterType: "Option" as const,
       dataType: "Enum" as const,
-      enumValues: { values: [{ value: "json", displayName: "JSON" }], allowMultiple: false },
+      enum: { values: [{ value: "json", displayName: "JSON" }], allowMultiple: false },
     };
     render(
       <ToolRenderer

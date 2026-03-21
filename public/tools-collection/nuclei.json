@@ -91,7 +91,7 @@
       "isGlobal": false,
       "shortFlag": "-iv",
       "longFlag": "-ip-version",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "4",
@@ -123,7 +123,7 @@
       "isGlobal": false,
       "shortFlag": "-im",
       "longFlag": "-input-mode",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "list",
@@ -566,7 +566,7 @@
       "isGlobal": false,
       "shortFlag": "-s",
       "longFlag": "-severity",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "info",
@@ -626,7 +626,7 @@
       "isGlobal": false,
       "shortFlag": "-es",
       "longFlag": "-exclude-severity",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "info",
@@ -686,7 +686,7 @@
       "isGlobal": false,
       "shortFlag": "-pt",
       "longFlag": "-type",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "dns",
@@ -781,7 +781,7 @@
       "isGlobal": false,
       "shortFlag": "-ept",
       "longFlag": "-exclude-type",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "dns",
@@ -1456,7 +1456,7 @@
       "isGlobal": false,
       "shortFlag": "-at",
       "longFlag": "-attack-type",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "batteringram",
@@ -1659,7 +1659,7 @@
       "isGlobal": false,
       "shortFlag": "-ft",
       "longFlag": "-fuzzing-type",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "replace",
@@ -1705,7 +1705,7 @@
       "isGlobal": false,
       "shortFlag": "-fm",
       "longFlag": "-fuzzing-mode",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "multiple",
@@ -1837,7 +1837,7 @@
       "isGlobal": false,
       "shortFlag": "-fa",
       "longFlag": "-fuzz-aggression",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "low",
@@ -2234,7 +2234,7 @@
       "isGlobal": false,
       "shortFlag": "-ss",
       "longFlag": "-scan-strategy",
-      "enumValues": {
+      "enum": {
         "values": [
           {
             "value": "auto",

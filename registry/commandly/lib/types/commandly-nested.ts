@@ -38,7 +38,7 @@ export interface NestedParameter {
   sortOrder?: number;
   arraySeparator?: string;
   keyValueSeparator?: string;
-  enumValues?: ParameterEnumValues;
+  enum?: ParameterEnumValues;
   validations?: NestedParameterValidation[];
   dependencies?: NestedParameterDependency[];
 }

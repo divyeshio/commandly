@@ -5,7 +5,7 @@ import Ajv from "ajv";
 
 import { sanitizeToolJSON } from "../registry/commandly/lib/utils/commandly";
 
-const schemaPath = resolve(import.meta.dir, "../public/specification/flat.json");
+const schemaPath = resolve("public/specification/flat.json");
 const schema = JSON.parse(readFileSync(schemaPath, "utf-8")) as object;
 
 const ajv = new Ajv({ allErrors: true });

@@ -57,7 +57,7 @@ The root object of a Commandly flat description.
 | `sortOrder`         | number                       | —        | Display sort order.                                                           |
 | `arraySeparator`    | string                       | —        | Separator used when a repeatable parameter is joined into a single token.     |
 | `keyValueSeparator` | string                       | —        | Character between the flag and its value. Defaults to a space.                |
-| `enumValues`        | ParameterEnumValues Object   | —        | Required when `dataType` is `Enum`.                                           |
+| `enum`              | ParameterEnumValues Object   | —        | Required when `dataType` is `Enum`.                                           |
 | `validations`       | ParameterValidation Object[] | —        | Validation rules applied to the parameter value.                              |
 | `dependencies`      | ParameterDependency Object[] | —        | Conditional relationships with other parameters.                              |
 | `metadata`          | ParameterMetadata Object     | —        | Custom metadata.                                                              |
@@ -77,7 +77,7 @@ The root object of a Commandly flat description.
 | `String`  | A string value.                                           |
 | `Number`  | A numeric value.                                          |
 | `Boolean` | A boolean value. Typically used with `Flag` type.         |
-| `Enum`    | One of a predefined set of values. Requires `enumValues`. |
+| `Enum`    | One of a predefined set of values. Requires `enum`. |
 
 ## ParameterEnumValues Object
 
