@@ -1,58 +1,8 @@
 [
   {
-    "name": "asnmap",
-    "displayName": "ASNMap",
-    "description": "Go CLI and Library for quickly mapping organization network ranges using ASN information."
-  },
-  {
-    "name": "cdncheck",
-    "displayName": "CDNCheck",
-    "description": "cdncheck is a tool for identifying the technology associated with dns / ip network addresses."
-  },
-  {
-    "name": "curl",
-    "displayName": "Curl",
-    "description": "curl is a command line tool and library for transferring data with URLs."
-  },
-  {
-    "name": "dnsx",
-    "displayName": "DNSX",
-    "description": "A fast and multi-purpose DNS toolkit designed for running DNS queries."
-  },
-  {
-    "name": "gospider",
-    "displayName": "GoSpider",
-    "description": "Fast web spider written in Go."
-  },
-  {
-    "name": "httpx",
-    "displayName": "Httpx",
-    "description": "Httpx is a fast and multi-purpose HTTP toolkit that allows running multiple probes using the retryablehttp library."
-  },
-  {
     "name": "katana",
     "displayName": "Katana",
     "description": "Katana is a fast crawler focused on execution in automation pipelines offering both headless and non-headless crawling."
-  },
-  {
-    "name": "naabu",
-    "displayName": "Naabu",
-    "description": "Fast port scanner for discovering open ports on hosts."
-  },
-  {
-    "name": "nuclei",
-    "displayName": "Nuclei",
-    "description": "Nuclei is a fast, template based vulnerability scanner focusing on extensive configurability, massive extensibility and ease of use."
-  },
-  {
-    "name": "shuffledns",
-    "displayName": "ShuffleDNS",
-    "description": "MassDNS wrapper written in go to enumerate valid subdomains using active bruteforce as well as resolve subdomains with wildcard filtering and easy input-output support."
-  },
-  {
-    "name": "subfinder",
-    "displayName": "Subfinder",
-    "description": "Subfinder is a subdomain discovery tool that discovers subdomains for websites by using passive online sources."
   },
   {
     "name": "urlfinder",
@@ -60,8 +10,58 @@
     "description": "A streamlined tool for discovering associated URLs."
   },
   {
+    "name": "httpx",
+    "displayName": "Httpx",
+    "description": "Httpx is a fast and multi-purpose HTTP toolkit that allows running multiple probes using the retryablehttp library."
+  },
+  {
+    "name": "nuclei",
+    "displayName": "Nuclei",
+    "description": "Nuclei is a fast, template based vulnerability scanner focusing on extensive configurability, massive extensibility and ease of use."
+  },
+  {
+    "name": "dnsx",
+    "displayName": "DNSX",
+    "description": "A fast and multi-purpose DNS toolkit designed for running DNS queries."
+  },
+  {
+    "name": "cdncheck",
+    "displayName": "CDNCheck",
+    "description": "cdncheck is a tool for identifying the technology associated with dns / ip network addresses."
+  },
+  {
+    "name": "shuffledns",
+    "displayName": "ShuffleDNS",
+    "description": "MassDNS wrapper written in go to enumerate valid subdomains using active bruteforce as well as resolve subdomains with wildcard filtering and easy input-output support."
+  },
+  {
+    "name": "naabu",
+    "displayName": "Naabu",
+    "description": "Fast port scanner for discovering open ports on hosts."
+  },
+  {
+    "name": "gospider",
+    "displayName": "GoSpider",
+    "description": "Fast web spider written in Go."
+  },
+  {
+    "name": "asnmap",
+    "displayName": "ASNMap",
+    "description": "Go CLI and Library for quickly mapping organization network ranges using ASN information."
+  },
+  {
     "name": "yt-dlp",
     "displayName": "yt-dlp",
     "description": "yt-dlp is a command-line program to download videos from YouTube and other sites."
+  },
+  {
+    "name": "curl",
+    "displayName": "Curl",
+    "description": "curl is a command line tool and library for transferring data with URLs."
+  },
+  {
+    "name": "subfinder",
+    "displayName": "Subfinder",
+    "description": "Subfinder is a subdomain discovery tool that discovers subdomains for websites by using passive online sources."
   }
 ]
