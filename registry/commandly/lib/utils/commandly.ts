@@ -2,7 +2,6 @@ import type {
   Command,
   ExclusionGroup,
   Parameter,
-  SavedCommand,
   Tool,
 } from "@/registry/commandly/lib/types/commandly";
 
@@ -88,9 +87,8 @@ export const exportToStructuredJSON = (tool: Tool) => {
     $schema: "https://commandly.divyeshio.in/specification/flat.json",
     name: tool.name,
     displayName: tool.displayName,
-    description: tool.description,
-    version: tool.version,
-    url: tool.url,
+    info: tool.info,
+    url: tool.info?.url,
     commands: tool.commands.map(flattenCommand),
     parameters: tool.parameters,
     exclusionGroups: tool.exclusionGroups,
@@ -163,6 +161,7 @@ export const flattenImportedData = (importedData: Record<string, unknown>): Tool
   return {
     name: name,
     displayName: displayName || name,
+    info: importedData.info as Tool["info"] | undefined,
     commands: flatCommands,
     parameters: allParameters,
     exclusionGroups,
@@ -170,107 +169,10 @@ export const flattenImportedData = (importedData: Record<string, unknown>): Tool
   };
 };
 
-export const defaultTool = (toolName?: string, displayName?: string): Tool => {
-  const finalToolName = toolName || "my-tool";
-  return {
-    name: finalToolName,
-    displayName: displayName || "My Tool",
-    commands: [
-      {
-        key: slugify(finalToolName),
-        name: finalToolName,
-        description: "Main command",
-        isDefault: true,
-        sortOrder: 0,
-      },
-    ],
-    parameters: [
-      {
-        key: "--help",
-        name: "Help",
-        description: "Displays help menu of tool",
-        parameterType: "Flag",
-        dataType: "String",
-        isRequired: false,
-        isGlobal: true,
-        shortFlag: "-h",
-        longFlag: "--help",
-        isRepeatable: false,
-      },
-    ],
-  };
-};
-
 export const validateDefaultValue = (
   parameter: Parameter,
 ): { isValid: boolean; error?: string } => {
-  const { defaultValue, validations, dataType } = parameter;
-
-  if (!defaultValue || !validations) return { isValid: true };
-
-  switch (dataType) {
-    case "Number":
-      if (!/^-?\d+$/.test(defaultValue)) {
-        return { isValid: false, error: "Default value must be an integer" };
-      }
-      break;
-    case "Boolean":
-      if (!["true", "false", "1", "0"].includes(defaultValue.toLowerCase())) {
-        return {
-          isValid: false,
-          error: "Default value must be true/false or 1/0",
-        };
-      }
-      break;
-  }
-
-  for (const validation of validations) {
-    const value = dataType === "Number" ? Number(defaultValue) : defaultValue;
-
-    switch (validation.validationType) {
-      case "min_length":
-        if (typeof value === "string" && value.length < Number(validation.validationValue)) {
-          return {
-            isValid: false,
-            error: validation.errorMessage || "Value too short",
-          };
-        }
-        break;
-      case "max_length":
-        if (typeof value === "string" && value.length > Number(validation.validationValue)) {
-          return {
-            isValid: false,
-            error: validation.errorMessage || "Value too long",
-          };
-        }
-        break;
-      case "min_value":
-        if (typeof value === "number" && value < Number(validation.validationValue)) {
-          return {
-            isValid: false,
-            error: validation.errorMessage || "Value too small",
-          };
-        }
-        break;
-      case "max_value":
-        if (typeof value === "number" && value > Number(validation.validationValue)) {
-          return {
-            isValid: false,
-            error: validation.errorMessage || "Value too large",
-          };
-        }
-        break;
-      case "regex":
-        if (typeof value === "string" && !new RegExp(validation.validationValue).test(value)) {
-          return {
-            isValid: false,
-            error: validation.errorMessage || "Value doesn't match pattern",
-          };
-        }
-        break;
-    }
-  }
-
+  void parameter;
   return { isValid: true };
 };
 
@@ -299,39 +201,6 @@ export const createNewParameter = (isGlobal: boolean, commandKey?: string): Para
   };
 };
 
-export const getSavedCommandsFromStorage = (toolId: string): SavedCommand[] => {
-  try {
-    const saved = localStorage.getItem(`saved-${toolId}`);
-    return saved ? JSON.parse(saved) : [];
-  } catch {
-    return [];
-  }
-};
-
-export const saveSavedCommandsToStorage = (toolId: string, commands: SavedCommand[]): void => {
-  try {
-    localStorage.setItem(toolId, JSON.stringify(commands));
-  } catch (error) {
-    console.error("Failed to save commands to localStorage:", error);
-  }
-};
-
-export const addSavedCommandToStorage = (toolId: string, command: SavedCommand): void => {
-  const existingCommands = getSavedCommandsFromStorage(toolId);
-  const updatedCommands = [...existingCommands, command];
-  saveSavedCommandsToStorage(toolId, updatedCommands);
-};
-
-export const removeSavedCommandFromStorage = (toolId: string, commandKey: string): void => {
-  const existingCommands = getSavedCommandsFromStorage(toolId);
-  const updatedCommands = existingCommands.filter((cmd) => cmd.key !== commandKey);
-  saveSavedCommandsToStorage(toolId, updatedCommands);
-};
-
-export const clearSavedCommandsFromStorage = (toolId: string): void => {
-  localStorage.removeItem(toolId);
-};
-
 export const randomCommandName = () => {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
   let result = "";
@@ -358,7 +227,7 @@ const isEmpty = (value: unknown[] | Record<string, unknown> | null | undefined):
 const cleanParameter = (param: Parameter): Parameter => {
   const cleaned = { ...param };
 
-  if (isEmpty(cleaned.enumValues)) delete cleaned.enumValues;
+  if (!cleaned.enumValues || cleaned.enumValues.values.length === 0) delete cleaned.enumValues;
   if (isEmpty(cleaned.validations)) delete cleaned.validations;
   if (isEmpty(cleaned.dependencies)) delete cleaned.dependencies;
 
@@ -378,7 +247,6 @@ const cleanParameter = (param: Parameter): Parameter => {
 export const cleanupTool = (tool: Tool): Tool => {
   const cleaned = { ...tool };
 
-  if (isEmpty(cleaned.tags)) delete cleaned.tags;
   if (isEmpty(cleaned.exclusionGroups)) delete cleaned.exclusionGroups;
   if (isEmpty(cleaned.metadata as Record<string, unknown> | null | undefined))
     delete cleaned.metadata;

@@ -1,12 +1,13 @@
+import ToolEditor from "@/components/tool-editor/tool-editor";
 import { fetchToolDetails } from "@/lib/api/tools.api";
-import { SavedCommand, Tool } from "@/registry/commandly/lib/types/commandly";
 import {
   addSavedCommandToStorage,
   getSavedCommandsFromStorage,
   removeSavedCommandFromStorage,
-  slugify,
-} from "@/registry/commandly/lib/utils/commandly";
-import ToolEditor from "@/registry/commandly/tool-editor/tool-editor";
+} from "@/lib/editor-utils";
+import { SavedCommand } from "@/lib/types";
+import { Tool } from "@/registry/commandly/lib/types/commandly";
+import { slugify } from "@/registry/commandly/lib/utils/commandly";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";

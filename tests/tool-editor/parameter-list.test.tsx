@@ -1,11 +1,11 @@
-import { ParameterList } from "../../tool-editor/parameter-list";
+import { ParameterList } from "@/components/tool-editor/parameter-list";
 import {
   ToolBuilderProvider,
   ToolBuilderState,
   useToolBuilder,
-} from "../../tool-editor/tool-editor.context";
+} from "@/components/tool-editor/tool-editor.context";
+import { defaultTool } from "@/lib/utils";
 import { Parameter, ExclusionGroup } from "@/registry/commandly/lib/types/commandly";
-import { defaultTool } from "@/registry/commandly/lib/utils/commandly";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { ReactNode } from "react";
 
@@ -20,7 +20,6 @@ const createTestParameter = (overrides: Partial<Parameter> = {}): Parameter => (
   isGlobal: false,
   longFlag: "--test",
   shortFlag: "-t",
-  enumValues: [],
   commandKey: "test-command-key",
   ...overrides,
 });
@@ -288,39 +287,6 @@ describe("ParameterList - Rendering & Structure", () => {
       const groupBadge = screen.getByText("Test Group").closest("span");
       expect(groupBadge?.querySelector("svg")).toBeInTheDocument();
     });
-
-    it("shows the error icon if the default value is invalid", () => {
-      const invalidParam = createTestParameter({
-        dataType: "Number",
-        defaultValue: "invalid-number",
-        validations: [
-          {
-            key: "validation-key",
-            validationType: "min_value",
-            validationValue: "0",
-            errorMessage: "Must be positive",
-          },
-        ],
-      });
-      const state = baseTestState();
-      state.tool = { ...state.tool!, parameters: [invalidParam] };
-      renderWithProvider(<ParameterList title="Parameters" />, state);
-
-      const paramCard = screen.getByText("test-param").closest("div.p-3");
-      const errorIcon = paramCard?.querySelector("svg[class*='text-destructive']");
-      expect(errorIcon).toBeInTheDocument();
-    });
-
-    it("shows the success icon if the default value is valid and present", () => {
-      const validParam = createTestParameter({ dataType: "String", defaultValue: "valid-value" });
-      const state = baseTestState();
-      state.tool = { ...state.tool!, parameters: [validParam] };
-      renderWithProvider(<ParameterList title="Parameters" />, state);
-
-      const paramCard = screen.getByText("test-param").closest("div.p-3");
-      const successIcon = paramCard?.querySelector("svg[class*='text-green-500']");
-      expect(successIcon).toBeInTheDocument();
-    });
   });
 
   describe("Interactions", () => {
@@ -400,7 +366,6 @@ describe("ParameterList - Rendering & Structure", () => {
       const paramWithMissingFields = createTestParameter({
         longFlag: "",
         shortFlag: "",
-        defaultValue: undefined,
         validations: undefined,
       });
       const state = baseTestState();

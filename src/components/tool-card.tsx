@@ -11,7 +11,6 @@ import { HoverCard, HoverCardTrigger, HoverCardContent } from "@/components/ui/h
 import { Tool } from "@/registry/commandly/lib/types/commandly";
 import { Link } from "@tanstack/react-router";
 import { Edit2Icon, ExternalLinkIcon, Trash2Icon } from "lucide-react";
-import { useRef, useEffect, useState } from "react";
 
 export function ToolCard({
   tool,
@@ -22,15 +21,8 @@ export function ToolCard({
   isLocal?: boolean;
   onDelete?: (tool: Partial<Tool>) => void;
 }) {
-  const descRef = useRef<HTMLParagraphElement>(null);
-  const [isOverflowing, setIsOverflowing] = useState(false);
-
-  useEffect(() => {
-    const el = descRef.current;
-    if (el) {
-      setIsOverflowing(el.scrollHeight > el.clientHeight + 1);
-    }
-  }, [tool.description]);
+  const description =
+    tool.info?.description ?? (tool as Partial<Tool> & { description?: string }).description;
 
   return (
     <Card
@@ -51,7 +43,7 @@ export function ToolCard({
           </span>
         </CardTitle>
         <div className="flex gap-1">
-          {tool.url && (
+          {tool.info?.url && (
             <CardAction>
               <Button
                 asChild
@@ -63,7 +55,7 @@ export function ToolCard({
                 }}
               >
                 <a
-                  href={tool.url}
+                  href={tool.info?.url}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -108,36 +100,21 @@ export function ToolCard({
         params={{ toolName: tool.name! }}
         search={{ newTool: isLocal ? tool.name : undefined }}
         preload="intent"
-        className="flex h-72 w-72 flex-col gap-0 overflow-hidden py-3"
+        className="flex min-h-0 flex-1 flex-col overflow-hidden"
       >
-        <CardContent className="min-h-0 flex-1 px-2">
-          <div className="mb-6 flex h-full min-h-0 cursor-pointer flex-col gap-4 align-top">
-            <div className="flex w-full flex-1 items-center justify-center py-1">
-              {tool.description ? (
-                isOverflowing ? (
-                  <HoverCard openDelay={0}>
-                    <HoverCardTrigger asChild>
-                      <p className="line-clamp-4 cursor-pointer p-1 text-justify overflow-ellipsis dark:text-foreground/60">
-                        {tool.description}
-                      </p>
-                    </HoverCardTrigger>
-                    <HoverCardContent className="max-w-xs text-sm">
-                      {tool.description}
-                    </HoverCardContent>
-                  </HoverCard>
-                ) : (
-                  <p
-                    ref={descRef}
-                    className="line-clamp-4 p-1 text-center overflow-ellipsis dark:text-foreground/60"
-                  >
-                    {tool.description}
-                  </p>
-                )
-              ) : (
-                <p className="text-muted">No description available</p>
-              )}
-            </div>
-          </div>
+        <CardContent className="flex min-h-0 flex-1 items-center justify-center px-2">
+          {description ? (
+            <HoverCard openDelay={300}>
+              <HoverCardTrigger asChild>
+                <p className="line-clamp-4 cursor-pointer text-center dark:text-foreground/60">
+                  {description}
+                </p>
+              </HoverCardTrigger>
+              <HoverCardContent className="max-w-xs text-sm">{description}</HoverCardContent>
+            </HoverCard>
+          ) : (
+            <p className="text-sm text-muted-foreground">No description available</p>
+          )}
         </CardContent>
         <CardFooter className="mt-auto flex w-full justify-center gap-2">
           <Button className="flex-1 hover:cursor-pointer">Go</Button>

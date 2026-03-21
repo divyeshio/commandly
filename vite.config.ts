@@ -9,7 +9,6 @@ import remarkGfm from "remark-gfm";
 import { createHighlighterCore } from "shiki/core";
 import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
 import { defineConfig } from "vite";
-import tsConfigPaths from "vite-tsconfig-paths";
 
 const options = {
   getHighlighter: () =>
@@ -26,6 +25,9 @@ const options = {
 };
 
 export default defineConfig({
+  resolve: {
+    tsconfigPaths: true,
+  },
   plugins: [
     {
       enforce: "pre",
@@ -34,9 +36,6 @@ export default defineConfig({
         rehypePlugins: [[rehypePrettyCode, options]],
       }),
     },
-    tsConfigPaths({
-      projects: ["./tsconfig.json"],
-    }),
     tanstackStart({
       prerender: {
         enabled: true,

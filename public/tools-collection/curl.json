@@ -1,7 +1,9 @@
 {
   "name": "curl",
   "displayName": "Curl",
-  "description": "curl is a command line tool and library for transferring data with URLs.",
+  "info": {
+    "description": "curl is a command line tool and library for transferring data with URLs."
+  },
   "commands": [
     {
       "name": "curl",
@@ -62,7 +64,6 @@
       "isGlobal": false,
       "shortFlag": "-L",
       "longFlag": "--location",
-      "defaultValue": "true",
       "sortOrder": 1,
       "key": "location",
       "commandKey": "curl"
@@ -82,7 +83,6 @@
       "isGlobal": false,
       "shortFlag": "-s",
       "longFlag": "--silent",
-      "defaultValue": "true",
       "sortOrder": 2,
       "key": "silent",
       "commandKey": "curl"
@@ -97,7 +97,6 @@
       "isGlobal": false,
       "shortFlag": "-k",
       "longFlag": "--insecure",
-      "defaultValue": "true",
       "sortOrder": 3,
       "key": "insecure",
       "commandKey": "curl"
@@ -233,7 +232,6 @@
       "isGlobal": false,
       "shortFlag": "-v",
       "longFlag": "--verbose",
-      "defaultValue": "true",
       "sortOrder": 13,
       "key": "verbose",
       "commandKey": "curl"
@@ -248,7 +246,6 @@
       "isGlobal": false,
       "shortFlag": "-f",
       "longFlag": "--fail",
-      "defaultValue": "true",
       "sortOrder": 14,
       "key": "fail",
       "commandKey": "curl"
@@ -263,7 +260,6 @@
       "isGlobal": false,
       "shortFlag": "-I",
       "longFlag": "--head",
-      "defaultValue": "true",
       "sortOrder": 15,
       "key": "head",
       "commandKey": "curl"
@@ -278,7 +274,6 @@
       "isGlobal": false,
       "shortFlag": "-G",
       "longFlag": "--get",
-      "defaultValue": "true",
       "sortOrder": 16,
       "key": "get",
       "commandKey": "curl"
@@ -392,7 +387,6 @@
       "isGlobal": false,
       "shortFlag": "-O",
       "longFlag": "--remote-name",
-      "defaultValue": "true",
       "sortOrder": 23,
       "key": "remote-name",
       "commandKey": "curl"
@@ -412,7 +406,6 @@
       "isGlobal": false,
       "shortFlag": "-i",
       "longFlag": "--show-headers",
-      "defaultValue": "true",
       "sortOrder": 24,
       "key": "show-headers",
       "commandKey": "curl"
@@ -442,7 +435,6 @@
       "isGlobal": false,
       "shortFlag": "-V",
       "longFlag": "--version",
-      "defaultValue": "true",
       "sortOrder": 26,
       "key": "version",
       "commandKey": "curl"
@@ -519,7 +511,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--anyauth",
-      "defaultValue": "true",
       "sortOrder": 31,
       "key": "anyauth",
       "commandKey": "curl"
@@ -534,7 +525,6 @@
       "isGlobal": false,
       "shortFlag": "-a",
       "longFlag": "--append",
-      "defaultValue": "true",
       "sortOrder": 32,
       "key": "append",
       "commandKey": "curl"
@@ -562,7 +552,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--basic",
-      "defaultValue": "true",
       "sortOrder": 34,
       "key": "basic",
       "commandKey": "curl"
@@ -576,7 +565,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--ca-native",
-      "defaultValue": "true",
       "sortOrder": 35,
       "key": "ca-native",
       "commandKey": "curl"
@@ -633,7 +621,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--cert-status",
-      "defaultValue": "true",
       "sortOrder": 39,
       "key": "cert-status",
       "commandKey": "curl"
@@ -675,7 +662,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--compressed",
-      "defaultValue": "true",
       "sortOrder": 42,
       "key": "compressed",
       "commandKey": "curl"
@@ -689,7 +675,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--compressed-ssh",
-      "defaultValue": "true",
       "sortOrder": 43,
       "key": "compressed-ssh",
       "commandKey": "curl"
@@ -768,7 +753,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--create-dirs",
-      "defaultValue": "true",
       "sortOrder": 48,
       "key": "create-dirs",
       "commandKey": "curl"
@@ -796,7 +780,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--crlf",
-      "defaultValue": "true",
       "sortOrder": 50,
       "key": "crlf",
       "commandKey": "curl"
@@ -908,7 +891,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--digest",
-      "defaultValue": "true",
       "sortOrder": 58,
       "key": "digest",
       "commandKey": "curl"
@@ -928,7 +910,6 @@
       "isGlobal": false,
       "shortFlag": "-q",
       "longFlag": "--disable",
-      "defaultValue": "true",
       "sortOrder": 59,
       "key": "disable",
       "commandKey": "curl"
@@ -942,7 +923,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--disable-eprt",
-      "defaultValue": "true",
       "sortOrder": 60,
       "key": "disable-eprt",
       "commandKey": "curl"
@@ -956,7 +936,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--disable-epsv",
-      "defaultValue": "true",
       "sortOrder": 61,
       "key": "disable-epsv",
       "commandKey": "curl"
@@ -970,7 +949,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--disallow-username-in-url",
-      "defaultValue": "true",
       "sortOrder": 62,
       "key": "disallow-username-in-url",
       "commandKey": "curl"
@@ -1040,7 +1018,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--doh-cert-status",
-      "defaultValue": "true",
       "sortOrder": 67,
       "key": "doh-cert-status",
       "commandKey": "curl"
@@ -1054,7 +1031,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--doh-insecure",
-      "defaultValue": "true",
       "sortOrder": 68,
       "key": "doh-insecure",
       "commandKey": "curl"
@@ -1093,7 +1069,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--dump-ca-embed",
-      "defaultValue": "true",
       "sortOrder": 70,
       "key": "dump-ca-embed",
       "commandKey": "curl"
@@ -1197,7 +1172,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--fail-early",
-      "defaultValue": "true",
       "sortOrder": 77,
       "key": "fail-early",
       "commandKey": "curl"
@@ -1211,7 +1185,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--fail-with-body",
-      "defaultValue": "true",
       "sortOrder": 78,
       "key": "fail-with-body",
       "commandKey": "curl"
@@ -1225,7 +1198,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--false-start",
-      "defaultValue": "true",
       "sortOrder": 79,
       "key": "false-start",
       "commandKey": "curl"
@@ -1239,7 +1211,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--follow",
-      "defaultValue": "true",
       "sortOrder": 80,
       "key": "follow",
       "commandKey": "curl"
@@ -1253,7 +1224,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--form-escape",
-      "defaultValue": "true",
       "sortOrder": 81,
       "key": "form-escape",
       "commandKey": "curl"
@@ -1309,7 +1279,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--ftp-create-dirs",
-      "defaultValue": "true",
       "sortOrder": 85,
       "key": "ftp-create-dirs",
       "commandKey": "curl"
@@ -1337,7 +1306,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--ftp-pasv",
-      "defaultValue": "true",
       "sortOrder": 87,
       "key": "ftp-pasv",
       "commandKey": "curl"
@@ -1366,7 +1334,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--ftp-pret",
-      "defaultValue": "true",
       "sortOrder": 89,
       "key": "ftp-pret",
       "commandKey": "curl"
@@ -1380,7 +1347,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--ftp-skip-pasv-ip",
-      "defaultValue": "true",
       "sortOrder": 90,
       "key": "ftp-skip-pasv-ip",
       "commandKey": "curl"
@@ -1394,7 +1360,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--ftp-ssl-ccc",
-      "defaultValue": "true",
       "sortOrder": 91,
       "key": "ftp-ssl-ccc",
       "commandKey": "curl"
@@ -1422,7 +1387,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--ftp-ssl-control",
-      "defaultValue": "true",
       "sortOrder": 93,
       "key": "ftp-ssl-control",
       "commandKey": "curl"
@@ -1437,7 +1401,6 @@
       "isGlobal": false,
       "shortFlag": "-g",
       "longFlag": "--globoff",
-      "defaultValue": "true",
       "sortOrder": 94,
       "key": "globoff",
       "commandKey": "curl"
@@ -1479,7 +1442,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--haproxy-protocol",
-      "defaultValue": "true",
       "sortOrder": 97,
       "key": "haproxy-protocol",
       "commandKey": "curl"
@@ -1535,7 +1497,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--http0.9",
-      "defaultValue": "true",
       "sortOrder": 101,
       "key": "http09",
       "commandKey": "curl"
@@ -1550,7 +1511,6 @@
       "isGlobal": false,
       "shortFlag": "-0",
       "longFlag": "--http1.0",
-      "defaultValue": "true",
       "sortOrder": 102,
       "key": "http10",
       "commandKey": "curl"
@@ -1564,7 +1524,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--http1.1",
-      "defaultValue": "true",
       "sortOrder": 103,
       "key": "http11",
       "commandKey": "curl"
@@ -1578,7 +1537,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--http2",
-      "defaultValue": "true",
       "sortOrder": 104,
       "key": "http2",
       "commandKey": "curl"
@@ -1592,7 +1550,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--http2-prior-knowledge",
-      "defaultValue": "true",
       "sortOrder": 105,
       "key": "http2-prior-knowledge",
       "commandKey": "curl"
@@ -1606,7 +1563,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--http3",
-      "defaultValue": "true",
       "sortOrder": 106,
       "key": "http3",
       "commandKey": "curl"
@@ -1620,7 +1576,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--http3-only",
-      "defaultValue": "true",
       "sortOrder": 107,
       "key": "http3-only",
       "commandKey": "curl"
@@ -1634,7 +1589,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--ignore-content-length",
-      "defaultValue": "true",
       "sortOrder": 108,
       "key": "ignore-content-length",
       "commandKey": "curl"
@@ -1697,7 +1651,6 @@
       "isGlobal": false,
       "shortFlag": "-4",
       "longFlag": "--ipv4",
-      "defaultValue": "true",
       "sortOrder": 112,
       "key": "ipv4",
       "commandKey": "curl"
@@ -1712,7 +1665,6 @@
       "isGlobal": false,
       "shortFlag": "-6",
       "longFlag": "--ipv6",
-      "defaultValue": "true",
       "sortOrder": 113,
       "key": "ipv6",
       "commandKey": "curl"
@@ -1741,7 +1693,6 @@
       "isGlobal": false,
       "shortFlag": "-j",
       "longFlag": "--junk-session-cookies",
-      "defaultValue": "true",
       "sortOrder": 115,
       "key": "junk-session-cookies",
       "commandKey": "curl"
@@ -1874,7 +1825,6 @@
       "isGlobal": false,
       "shortFlag": "-l",
       "longFlag": "--list-only",
-      "defaultValue": "true",
       "sortOrder": 124,
       "key": "list-only",
       "commandKey": "curl"
@@ -1902,7 +1852,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--location-trusted",
-      "defaultValue": "true",
       "sortOrder": 126,
       "key": "location-trusted",
       "commandKey": "curl"
@@ -1972,7 +1921,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--mail-rcpt-allowfails",
-      "defaultValue": "true",
       "sortOrder": 131,
       "key": "mail-rcpt-allowfails",
       "commandKey": "curl"
@@ -1987,7 +1935,6 @@
       "isGlobal": false,
       "shortFlag": "-M",
       "longFlag": "--manual",
-      "defaultValue": "true",
       "sortOrder": 132,
       "key": "manual",
       "commandKey": "curl"
@@ -2029,7 +1976,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--metalink",
-      "defaultValue": "true",
       "sortOrder": 135,
       "key": "metalink",
       "commandKey": "curl"
@@ -2043,7 +1989,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--mptcp",
-      "defaultValue": "true",
       "sortOrder": 136,
       "key": "mptcp",
       "commandKey": "curl"
@@ -2057,7 +2002,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--negotiate",
-      "defaultValue": "true",
       "sortOrder": 137,
       "key": "negotiate",
       "commandKey": "curl"
@@ -2072,7 +2016,6 @@
       "isGlobal": false,
       "shortFlag": "-n",
       "longFlag": "--netrc",
-      "defaultValue": "true",
       "sortOrder": 138,
       "key": "netrc",
       "commandKey": "curl"
@@ -2100,7 +2043,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--netrc-optional",
-      "defaultValue": "true",
       "sortOrder": 140,
       "key": "netrc-optional",
       "commandKey": "curl"
@@ -2115,7 +2057,6 @@
       "isGlobal": false,
       "shortFlag": "-:",
       "longFlag": "--next",
-      "defaultValue": "true",
       "sortOrder": 141,
       "key": "next",
       "commandKey": "curl"
@@ -2129,7 +2070,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--no-alpn",
-      "defaultValue": "true",
       "sortOrder": 142,
       "key": "no-alpn",
       "commandKey": "curl"
@@ -2150,7 +2090,6 @@
       "isGlobal": false,
       "shortFlag": "-N",
       "longFlag": "--no-buffer",
-      "defaultValue": "true",
       "sortOrder": 143,
       "key": "no-buffer",
       "commandKey": "curl"
@@ -2169,7 +2108,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--no-clobber",
-      "defaultValue": "true",
       "sortOrder": 144,
       "key": "no-clobber",
       "commandKey": "curl"
@@ -2183,7 +2121,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--no-keepalive",
-      "defaultValue": "true",
       "sortOrder": 145,
       "key": "no-keepalive",
       "commandKey": "curl"
@@ -2197,7 +2134,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--no-npn",
-      "defaultValue": "true",
       "sortOrder": 146,
       "key": "no-npn",
       "commandKey": "curl"
@@ -2216,7 +2152,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--no-progress-meter",
-      "defaultValue": "true",
       "sortOrder": 147,
       "key": "no-progress-meter",
       "commandKey": "curl"
@@ -2230,7 +2165,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--no-sessionid",
-      "defaultValue": "true",
       "sortOrder": 148,
       "key": "no-sessionid",
       "commandKey": "curl"
@@ -2258,7 +2192,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--ntlm",
-      "defaultValue": "true",
       "sortOrder": 150,
       "key": "ntlm",
       "commandKey": "curl"
@@ -2272,7 +2205,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--ntlm-wb",
-      "defaultValue": "true",
       "sortOrder": 151,
       "key": "ntlm-wb",
       "commandKey": "curl"
@@ -2305,7 +2237,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--out-null",
-      "defaultValue": "true",
       "sortOrder": 153,
       "key": "out-null",
       "commandKey": "curl"
@@ -2320,7 +2251,6 @@
       "isGlobal": false,
       "shortFlag": "-Z",
       "longFlag": "--parallel",
-      "defaultValue": "true",
       "sortOrder": 154,
       "key": "parallel",
       "commandKey": "curl"
@@ -2334,7 +2264,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--parallel-immediate",
-      "defaultValue": "true",
       "sortOrder": 155,
       "key": "parallel-immediate",
       "commandKey": "curl"
@@ -2390,7 +2319,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--path-as-is",
-      "defaultValue": "true",
       "sortOrder": 159,
       "key": "path-as-is",
       "commandKey": "curl"
@@ -2418,7 +2346,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--post301",
-      "defaultValue": "true",
       "sortOrder": 161,
       "key": "post301",
       "commandKey": "curl"
@@ -2432,7 +2359,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--post302",
-      "defaultValue": "true",
       "sortOrder": 162,
       "key": "post302",
       "commandKey": "curl"
@@ -2446,7 +2372,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--post303",
-      "defaultValue": "true",
       "sortOrder": 163,
       "key": "post303",
       "commandKey": "curl"
@@ -2480,7 +2405,6 @@
       "isGlobal": false,
       "shortFlag": "-#",
       "longFlag": "--progress-bar",
-      "defaultValue": "true",
       "sortOrder": 165,
       "key": "progress-bar",
       "commandKey": "curl"
@@ -2536,7 +2460,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--proxy-anyauth",
-      "defaultValue": "true",
       "sortOrder": 169,
       "key": "proxy-anyauth",
       "commandKey": "curl"
@@ -2550,7 +2473,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--proxy-basic",
-      "defaultValue": "true",
       "sortOrder": 170,
       "key": "proxy-basic",
       "commandKey": "curl"
@@ -2564,7 +2486,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--proxy-ca-native",
-      "defaultValue": "true",
       "sortOrder": 171,
       "key": "proxy-ca-native",
       "commandKey": "curl"
@@ -2662,7 +2583,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--proxy-digest",
-      "defaultValue": "true",
       "sortOrder": 178,
       "key": "proxy-digest",
       "commandKey": "curl"
@@ -2690,7 +2610,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--proxy-http2",
-      "defaultValue": "true",
       "sortOrder": 180,
       "key": "proxy-http2",
       "commandKey": "curl"
@@ -2704,7 +2623,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--proxy-insecure",
-      "defaultValue": "true",
       "sortOrder": 181,
       "key": "proxy-insecure",
       "commandKey": "curl"
@@ -2746,7 +2664,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--proxy-negotiate",
-      "defaultValue": "true",
       "sortOrder": 184,
       "key": "proxy-negotiate",
       "commandKey": "curl"
@@ -2760,7 +2677,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--proxy-ntlm",
-      "defaultValue": "true",
       "sortOrder": 185,
       "key": "proxy-ntlm",
       "commandKey": "curl"
@@ -2816,7 +2732,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--proxy-ssl-allow-beast",
-      "defaultValue": "true",
       "sortOrder": 189,
       "key": "proxy-ssl-allow-beast",
       "commandKey": "curl"
@@ -2830,7 +2745,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--proxy-ssl-auto-client-cert",
-      "defaultValue": "true",
       "sortOrder": 190,
       "key": "proxy-ssl-auto-client-cert",
       "commandKey": "curl"
@@ -2900,7 +2814,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--proxy-tlsv1",
-      "defaultValue": "true",
       "sortOrder": 195,
       "key": "proxy-tlsv1",
       "commandKey": "curl"
@@ -2944,7 +2857,6 @@
       "isGlobal": false,
       "shortFlag": "-p",
       "longFlag": "--proxytunnel",
-      "defaultValue": "true",
       "sortOrder": 198,
       "key": "proxytunnel",
       "commandKey": "curl"
@@ -3030,7 +2942,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--raw",
-      "defaultValue": "true",
       "sortOrder": 204,
       "key": "raw",
       "commandKey": "curl"
@@ -3072,7 +2983,6 @@
       "isGlobal": false,
       "shortFlag": "-J",
       "longFlag": "--remote-header-name",
-      "defaultValue": "true",
       "sortOrder": 206,
       "key": "remote-header-name",
       "commandKey": "curl"
@@ -3092,7 +3002,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--remote-name-all",
-      "defaultValue": "true",
       "sortOrder": 207,
       "key": "remote-name-all",
       "commandKey": "curl"
@@ -3112,7 +3021,6 @@
       "isGlobal": false,
       "shortFlag": "-R",
       "longFlag": "--remote-time",
-      "defaultValue": "true",
       "sortOrder": 208,
       "key": "remote-time",
       "commandKey": "curl"
@@ -3132,7 +3040,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--remove-on-error",
-      "defaultValue": "true",
       "sortOrder": 209,
       "key": "remove-on-error",
       "commandKey": "curl"
@@ -3180,7 +3087,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--retry-all-errors",
-      "defaultValue": "true",
       "sortOrder": 212,
       "key": "retry-all-errors",
       "commandKey": "curl",
@@ -3202,7 +3108,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--retry-connrefused",
-      "defaultValue": "true",
       "sortOrder": 213,
       "key": "retry-connrefused",
       "commandKey": "curl",
@@ -3282,7 +3187,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--sasl-ir",
-      "defaultValue": "true",
       "sortOrder": 217,
       "key": "sasl-ir",
       "commandKey": "curl"
@@ -3316,7 +3220,6 @@
       "isGlobal": false,
       "shortFlag": "-S",
       "longFlag": "--show-error",
-      "defaultValue": "true",
       "sortOrder": 219,
       "key": "show-error",
       "commandKey": "curl",
@@ -3357,7 +3260,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--skip-existing",
-      "defaultValue": "true",
       "sortOrder": 221,
       "key": "skip-existing",
       "commandKey": "curl"
@@ -3413,7 +3315,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--socks5-basic",
-      "defaultValue": "true",
       "sortOrder": 225,
       "key": "socks5-basic",
       "commandKey": "curl"
@@ -3427,7 +3328,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--socks5-gssapi",
-      "defaultValue": "true",
       "sortOrder": 226,
       "key": "socks5-gssapi",
       "commandKey": "curl"
@@ -3441,7 +3341,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--socks5-gssapi-nec",
-      "defaultValue": "true",
       "sortOrder": 227,
       "key": "socks5-gssapi-nec",
       "commandKey": "curl"
@@ -3513,7 +3412,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--ssl",
-      "defaultValue": "true",
       "sortOrder": 232,
       "key": "ssl",
       "commandKey": "curl"
@@ -3527,7 +3425,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--ssl-allow-beast",
-      "defaultValue": "true",
       "sortOrder": 233,
       "key": "ssl-allow-beast",
       "commandKey": "curl"
@@ -3541,7 +3438,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--ssl-auto-client-cert",
-      "defaultValue": "true",
       "sortOrder": 234,
       "key": "ssl-auto-client-cert",
       "commandKey": "curl"
@@ -3555,7 +3451,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--ssl-no-revoke",
-      "defaultValue": "true",
       "sortOrder": 235,
       "key": "ssl-no-revoke",
       "commandKey": "curl"
@@ -3569,7 +3464,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--ssl-reqd",
-      "defaultValue": "true",
       "sortOrder": 236,
       "key": "ssl-reqd",
       "commandKey": "curl"
@@ -3583,7 +3477,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--ssl-revoke-best-effort",
-      "defaultValue": "true",
       "sortOrder": 237,
       "key": "ssl-revoke-best-effort",
       "commandKey": "curl"
@@ -3612,7 +3505,6 @@
       "isGlobal": false,
       "shortFlag": "-2",
       "longFlag": "--sslv2",
-      "defaultValue": "true",
       "sortOrder": 239,
       "key": "sslv2",
       "commandKey": "curl"
@@ -3627,7 +3519,6 @@
       "isGlobal": false,
       "shortFlag": "-3",
       "longFlag": "--sslv3",
-      "defaultValue": "true",
       "sortOrder": 240,
       "key": "sslv3",
       "commandKey": "curl"
@@ -3667,7 +3558,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--styled-output",
-      "defaultValue": "true",
       "sortOrder": 242,
       "key": "styled-output",
       "commandKey": "curl"
@@ -3686,7 +3576,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--suppress-connect-headers",
-      "defaultValue": "true",
       "sortOrder": 243,
       "key": "suppress-connect-headers",
       "commandKey": "curl"
@@ -3700,7 +3589,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--tcp-fastopen",
-      "defaultValue": "true",
       "sortOrder": 244,
       "key": "tcp-fastopen",
       "commandKey": "curl"
@@ -3714,7 +3602,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--tcp-nodelay",
-      "defaultValue": "true",
       "sortOrder": 245,
       "key": "tcp-nodelay",
       "commandKey": "curl"
@@ -3757,7 +3644,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--tftp-no-options",
-      "defaultValue": "true",
       "sortOrder": 248,
       "key": "tftp-no-options",
       "commandKey": "curl"
@@ -3786,7 +3672,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--tls-earlydata",
-      "defaultValue": "true",
       "sortOrder": 250,
       "key": "tls-earlydata",
       "commandKey": "curl"
@@ -3871,7 +3756,6 @@
       "isGlobal": false,
       "shortFlag": "-1",
       "longFlag": "--tlsv1",
-      "defaultValue": "true",
       "sortOrder": 256,
       "key": "tlsv1",
       "commandKey": "curl"
@@ -3885,7 +3769,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--tlsv1.0",
-      "defaultValue": "true",
       "sortOrder": 257,
       "key": "tlsv10",
       "commandKey": "curl"
@@ -3899,7 +3782,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--tlsv1.1",
-      "defaultValue": "true",
       "sortOrder": 258,
       "key": "tlsv11",
       "commandKey": "curl"
@@ -3913,7 +3795,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--tlsv1.2",
-      "defaultValue": "true",
       "sortOrder": 259,
       "key": "tlsv12",
       "commandKey": "curl"
@@ -3927,7 +3808,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--tlsv1.3",
-      "defaultValue": "true",
       "sortOrder": 260,
       "key": "tlsv13",
       "commandKey": "curl"
@@ -3941,7 +3821,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--tr-encoding",
-      "defaultValue": "true",
       "sortOrder": 261,
       "key": "tr-encoding",
       "commandKey": "curl"
@@ -4021,7 +3900,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--trace-ids",
-      "defaultValue": "true",
       "sortOrder": 265,
       "key": "trace-ids",
       "commandKey": "curl"
@@ -4040,7 +3918,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--trace-time",
-      "defaultValue": "true",
       "sortOrder": 266,
       "key": "trace-time",
       "commandKey": "curl"
@@ -4097,7 +3974,6 @@
       "isGlobal": false,
       "shortFlag": "-B",
       "longFlag": "--use-ascii",
-      "defaultValue": "true",
       "sortOrder": 270,
       "key": "use-ascii",
       "commandKey": "curl"
@@ -4164,7 +4040,6 @@
       "isRepeatable": false,
       "isGlobal": false,
       "longFlag": "--xattr",
-      "defaultValue": "true",
       "sortOrder": 274,
       "key": "xattr",
       "commandKey": "curl"

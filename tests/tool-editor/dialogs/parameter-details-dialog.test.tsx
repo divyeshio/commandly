@@ -1,11 +1,11 @@
-import { Parameter, Command } from "@/registry/commandly/lib/types/commandly";
-import { defaultTool } from "@/registry/commandly/lib/utils/commandly";
-import { ParameterDetailsDialog } from "@/registry/commandly/tool-editor/dialogs/parameter-details-dialog";
+import { ParameterDetailsDialog } from "@/components/tool-editor/dialogs/parameter-details-dialog";
 import {
   ToolBuilderProvider,
   ToolBuilderState,
   useToolBuilder,
-} from "@/registry/commandly/tool-editor/tool-editor.context";
+} from "@/components/tool-editor/tool-editor.context";
+import { defaultTool } from "@/lib/utils";
+import { Parameter, Command } from "@/registry/commandly/lib/types/commandly";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { ReactNode } from "react";
 
@@ -20,7 +20,6 @@ const createTestParameter = (overrides: Partial<Parameter> = {}): Parameter => (
   isRepeatable: false,
   isGlobal: false,
   longFlag: "--test",
-  enumValues: [],
   ...overrides,
 });
 
@@ -507,7 +506,6 @@ describe("ParameterDetailsDialog - UI/UX", () => {
       longFlag: "--test-flag",
       shortFlag: "-t",
       description: "Test description",
-      defaultValue: "default-value",
       isRequired: true,
       isRepeatable: true,
       isGlobal: true,
@@ -524,7 +522,6 @@ describe("ParameterDetailsDialog - UI/UX", () => {
     expect(screen.getByDisplayValue("--test-flag")).toBeInTheDocument();
     expect(screen.getByDisplayValue("-t")).toBeInTheDocument();
     expect(screen.getByDisplayValue("Test description")).toBeInTheDocument();
-    expect(screen.getByDisplayValue("default-value")).toBeInTheDocument();
     expect(screen.getByDisplayValue("=")).toBeInTheDocument();
 
     // Check switches

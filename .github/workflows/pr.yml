@@ -3,6 +3,9 @@ name: PR Checks
 on:
   pull_request:
     branches: ["*"]
+    paths-ignore:
+      - "public/tools-collection/**"
+      - "public/tools.json"
 
 jobs:
   lint-format:

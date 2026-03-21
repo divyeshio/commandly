@@ -2,9 +2,11 @@
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
   "name": "gospider",
   "displayName": "GoSpider",
-  "description": "Fast web spider written in Go.",
+  "info": {
+    "description": "Fast web spider written in Go.",
+    "version": "1.1.6"
+  },
   "url": "https://github.com/jaeles-project/gospider",
-  "version": "1.1.6",
   "commands": [
     {
       "name": "gospider",

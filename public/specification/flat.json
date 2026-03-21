@@ -7,23 +7,8 @@
     "displayName": {
       "type": "string"
     },
-    "description": {
-      "type": "string"
-    },
-    "version": {
-      "type": "string"
-    },
-    "category": {
-      "type": "string"
-    },
-    "tags": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "url": {
-      "type": "string"
+    "info": {
+      "$ref": "#/definitions/ToolInfo"
     },
     "commands": {
       "type": "array",
@@ -54,6 +39,20 @@
     "parameters"
   ],
   "definitions": {
+    "ToolInfo": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    },
     "Command": {
       "type": "object",
       "properties": {
@@ -68,6 +67,9 @@
         },
         "description": {
           "type": "string"
+        },
+        "interactive": {
+          "type": "boolean"
         },
         "isDefault": {
           "type": "boolean"
@@ -96,6 +98,9 @@
         "description": {
           "type": "string"
         },
+        "group": {
+          "type": "string"
+        },
         "metadata": {
           "$ref": "#/definitions/ParameterMetadata"
         },
@@ -113,9 +118,6 @@
         },
         "isGlobal": {
           "type": "boolean"
-        },
-        "defaultValue": {
-          "type": "string"
         },
         "shortFlag": {
           "type": "string"
@@ -136,10 +138,7 @@
           "type": "string"
         },
         "enumValues": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ParameterEnumValue"
-          }
+          "$ref": "#/definitions/ParameterEnumValues"
         },
         "validations": {
           "type": "array",
@@ -191,6 +190,27 @@
         "String"
       ],
       "type": "string"
+    },
+    "ParameterEnumValues": {
+      "type": "object",
+      "properties": {
+        "values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParameterEnumValue"
+          }
+        },
+        "allowMultiple": {
+          "type": "boolean"
+        },
+        "separator": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "allowMultiple",
+        "values"
+      ]
     },
     "ParameterEnumValue": {
       "type": "object",

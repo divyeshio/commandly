@@ -1,19 +1,9 @@
 import { SkeletonCard } from "@/components/square-card-skeleton";
-import { ToolCard } from "@/components/tool-editor-ui/tool-card";
+import { ToolCard } from "@/components/tool-card";
 import { Button } from "@/components/ui/button";
 import { Input, InputIcon, InputRoot } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { MultiSelect } from "@/components/ui/multi-select";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { fetchToolsList } from "@/lib/api/tools.api";
 import { type Tool } from "@/registry/commandly/lib/types/commandly";
 import { queryOptions } from "@tanstack/react-query";
@@ -70,26 +60,6 @@ function RouteComponent() {
   }, [serverToolNames]);
 
   const [searchValue, setSearchValue] = useState("");
-  const [filterCategory, setFilterCategory] = useState("");
-  const [filterTag, setFilterTag] = useState("");
-
-  const categories = React.useMemo(() => {
-    const set = new Set<string>();
-    tools.forEach((tool) => {
-      if (tool.category) set.add(tool.category);
-    });
-    return Array.from(set);
-  }, [tools]);
-
-  const tags = React.useMemo(() => {
-    const set = new Set<string>();
-    tools.forEach((tool) => {
-      if (Array.isArray(tool.tags)) {
-        tool.tags.forEach((tag: string) => set.add(tag));
-      }
-    });
-    return Array.from(set);
-  }, [tools]);
 
   const handleNewTool = () => {
     navigation({
@@ -110,57 +80,15 @@ function RouteComponent() {
         ? tool.name?.toLowerCase().includes(searchValue.toLowerCase()) ||
           tool.displayName?.toLowerCase().includes(searchValue.toLowerCase())
         : true;
-      const matchesCategory = filterCategory ? tool.category === filterCategory : true;
-      const matchesTag = filterTag
-        ? Array.isArray(tool.tags) && tool.tags.includes(filterTag)
-        : true;
-      return matchesName && matchesCategory && matchesTag;
+      return matchesName;
     });
-  }, [tools, searchValue, filterCategory, filterTag]);
+  }, [tools, searchValue]);
 
   return (
     <SidebarProvider
       className="mt-16 border-t border-muted"
       style={{ height: "calc(100svh - 4rem)", minHeight: "calc(100svh - 4rem)" }}
     >
-      <Sidebar collapsible="none">
-        <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupContent>
-              <div className="flex flex-col gap-6 p-2">
-                <div className="flex flex-col gap-2">
-                  <Label
-                    className="mb-1 block text-sm font-medium"
-                    htmlFor="filter-category"
-                  >
-                    Category
-                  </Label>
-                  <MultiSelect
-                    options={categories.map((cat) => ({ value: cat, label: cat }))}
-                    onValueChange={function (value: string[]): void {
-                      setFilterCategory(value[0]);
-                    }}
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <Label
-                    className="mb-1 block text-sm font-medium"
-                    htmlFor="filter-tag"
-                  >
-                    Tag
-                  </Label>
-                  <MultiSelect
-                    options={tags.map((tag) => ({ value: tag, label: tag }))}
-                    onValueChange={function (value: string[]): void {
-                      setFilterTag(value[0]);
-                    }}
-                  />
-                </div>
-              </div>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        </SidebarContent>
-      </Sidebar>
       <SidebarInset className="pt-4">
         <div className="flex gap-4 px-4">
           <SidebarTrigger className="md:hidden" />
@@ -185,7 +113,7 @@ function RouteComponent() {
             </Button>
           </div>
         </div>
-        <ScrollArea className="flex *:data-radix-scroll-area-viewport:max-h-[calc(100vh-180px)]">
+        <ScrollArea className="flex *:data-radix-scroll-area-viewport:max-h-[calc(100vh-117px)]">
           <div className="container mx-auto p-6">
             <div className="flex flex-wrap justify-start gap-8">
               <Suspense

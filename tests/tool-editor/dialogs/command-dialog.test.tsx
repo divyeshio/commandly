@@ -1,11 +1,11 @@
-import { Command } from "@/registry/commandly/lib/types/commandly";
-import { defaultTool } from "@/registry/commandly/lib/utils/commandly";
-import { CommandDialog } from "@/registry/commandly/tool-editor/dialogs/command-dialog";
+import { CommandDialog } from "@/components/tool-editor/dialogs/command-dialog";
 import {
   ToolBuilderProvider,
   ToolBuilderState,
   useToolBuilder,
-} from "@/registry/commandly/tool-editor/tool-editor.context";
+} from "@/components/tool-editor/tool-editor.context";
+import { defaultTool } from "@/lib/utils";
+import { Command } from "@/registry/commandly/lib/types/commandly";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { ReactNode } from "react";
 

@@ -61,9 +61,7 @@ server.registerTool(
     const toolsList = tools.map((tool) => ({
       name: tool.name,
       displayName: tool.displayName,
-      description: tool.description || "",
-      category: tool.category || "",
-      tags: tool.tags || [],
+      description: tool.info?.description || "",
       metadata: tool.metadata,
     }));
 

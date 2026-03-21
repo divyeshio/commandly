@@ -1,4 +1,4 @@
-import { SavedCommandsDialog } from "@/components/tool-editor-ui/dialogs/saved-commands-dialog";
+import { SavedCommandsDialog } from "@/components/tool-editor/dialogs/saved-commands-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Command, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
@@ -6,16 +6,16 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { fetchToolDetails } from "@/lib/api/tools.api";
-import { cn } from "@/lib/utils";
-import { GeneratedCommand } from "@/registry/commandly/generated-command";
-import { SavedCommand, Tool } from "@/registry/commandly/lib/types/commandly";
 import {
   addSavedCommandToStorage,
-  defaultTool,
   getSavedCommandsFromStorage,
   removeSavedCommandFromStorage,
-  slugify,
-} from "@/registry/commandly/lib/utils/commandly";
+} from "@/lib/editor-utils";
+import { SavedCommand } from "@/lib/types";
+import { cn, defaultTool } from "@/lib/utils";
+import { GeneratedCommand } from "@/registry/commandly/generated-command";
+import { Tool } from "@/registry/commandly/lib/types/commandly";
+import { slugify } from "@/registry/commandly/lib/utils/commandly";
 import { defaultComponents, ToolRenderer } from "@/registry/commandly/tool-renderer";
 import { createFileRoute } from "@tanstack/react-router";
 import { CheckIcon, ChevronsUpDownIcon, InfoIcon, SaveIcon, TerminalIcon } from "lucide-react";
@@ -111,13 +111,13 @@ function RouteComponent() {
           >
             {tool.displayName ? `${tool.displayName} (${tool.name})` : `${tool.name}`}
           </span>
-          {tool.description && (
+          {tool.info?.description && (
             <Tooltip>
               <TooltipTrigger>
                 <InfoIcon className="h-3.5 w-3.5" />
               </TooltipTrigger>
               <TooltipContent>
-                <span>{tool.description}</span>
+                <span>{tool.info?.description}</span>
               </TooltipContent>
             </Tooltip>
           )}

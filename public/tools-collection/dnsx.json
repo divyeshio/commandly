@@ -2,7 +2,9 @@
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
   "name": "dnsx",
   "displayName": "DNSX",
-  "description": "A fast and multi-purpose DNS toolkit designed for running DNS queries.",
+  "info": {
+    "description": "A fast and multi-purpose DNS toolkit designed for running DNS queries."
+  },
   "url": "https://github.com/projectdiscovery/dnsx",
   "commands": [
     {
@@ -221,52 +223,55 @@
       "longFlag": "-exclude-type",
       "key": "exclude-type",
       "commandKey": "dnsx",
-      "enumValues": [
-        {
-          "value": "A",
-          "displayName": "A"
-        },
-        {
-          "value": "AAAA",
-          "displayName": "AAAA"
-        },
-        {
-          "value": "CNAME",
-          "displayName": "CNAME"
-        },
-        {
-          "value": "NS",
-          "displayName": "NS"
-        },
-        {
-          "value": "TXT",
-          "displayName": "TXT"
-        },
-        {
-          "value": "SRV",
-          "displayName": "SRV"
-        },
-        {
-          "value": "PTR",
-          "displayName": "PTR"
-        },
-        {
-          "value": "MX",
-          "displayName": "MX"
-        },
-        {
-          "value": "SOA",
-          "displayName": "SOA"
-        },
-        {
-          "value": "AXFR",
-          "displayName": "AXFR"
-        },
-        {
-          "value": "CAA",
-          "displayName": "CAA"
-        }
-      ]
+      "enumValues": {
+        "values": [
+          {
+            "value": "A",
+            "displayName": "A"
+          },
+          {
+            "value": "AAAA",
+            "displayName": "AAAA"
+          },
+          {
+            "value": "CNAME",
+            "displayName": "CNAME"
+          },
+          {
+            "value": "NS",
+            "displayName": "NS"
+          },
+          {
+            "value": "TXT",
+            "displayName": "TXT"
+          },
+          {
+            "value": "SRV",
+            "displayName": "SRV"
+          },
+          {
+            "value": "PTR",
+            "displayName": "PTR"
+          },
+          {
+            "value": "MX",
+            "displayName": "MX"
+          },
+          {
+            "value": "SOA",
+            "displayName": "SOA"
+          },
+          {
+            "value": "AXFR",
+            "displayName": "AXFR"
+          },
+          {
+            "value": "CAA",
+            "displayName": "CAA"
+          }
+        ],
+        "allowMultiple": false
+      }
     },
     {
       "name": "Resp",

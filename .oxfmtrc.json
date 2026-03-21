@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
-  "ignorePatterns": ["src/routeTree.gen.ts", "public"],
+  "ignorePatterns": ["src/routeTree.gen.ts", "public", "src/components/ui"],
   "experimentalTailwindcss": {
     "stylesheet": "./src/index.css",
     "attributes": ["class", "className"],

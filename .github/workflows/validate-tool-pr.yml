@@ -7,6 +7,7 @@ on:
 
 permissions:
   pull-requests: write
+  contents: write
 
 jobs:
   validate:
@@ -84,3 +85,27 @@ jobs:
               });
               core.setFailed(`Validation failed with ${errors.length} error(s).`);
             }
+
+      - name: Install Bun
+        if: success()
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Regenerate tools.json
+        if: success()
+        run: bun run ./scripts/generate-tools-json.ts
+
+      - name: Commit updated tools.json
+        if: success()
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+          if git diff --quiet public/tools.json; then
+            echo "No changes to tools.json"
+          else
+            git add public/tools.json
+            git commit -m "chore: regenerate tools.json"
+            git push origin HEAD:${{ github.head_ref }}
+          fi
