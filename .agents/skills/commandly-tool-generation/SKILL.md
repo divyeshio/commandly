@@ -22,7 +22,7 @@ Generate and edit CLI tool definitions in the Commandly flat JSON schema format.
 3. Map each flag/option/argument to a parameter → `parameters[]` array.
 4. Assign `commandKey` to non-global parameters.
 5. Output pure JSON — no code fences, no comments.
-6. Identify options which can take pre-defined values and create `Enum` parameters with `enum.values[]`.
+6. Identify options which can take pre-defined values and create `Enum` parameters with `enum.values[]`. Note: "e.g." in help text does not necessarily mean the values are free-form — cross-check with documentation to determine if the full value set is known and fixed before using `Enum`.
 
 ### Editing Existing Tool
 

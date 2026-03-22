@@ -145,6 +145,15 @@
       "commandKey": "katana"
     },
     {
+      "name": "Time Stable",
+      "description": "Time to wait until the page is stable in seconds.",
+      "parameterType": "Option",
+      "dataType": "Number",
+      "longFlag": "-time-stable",
+      "key": "time-stable",
+      "commandKey": "katana"
+    },
+    {
       "name": "Automatic Form Fill",
       "description": "Enable automatic form filling (experimental).",
       "parameterType": "Flag",
@@ -236,11 +245,23 @@
       "name": "Strategy",
       "description": "Visit strategy.",
       "parameterType": "Option",
-      "dataType": "String",
+      "dataType": "Enum",
       "shortFlag": "-s",
       "longFlag": "-strategy",
       "key": "strategy",
-      "commandKey": "katana"
+      "commandKey": "katana",
+      "enum": {
+        "values": [
+          {
+            "displayName": "Breadth First",
+            "value": "breadth-first"
+          },
+          {
+            "displayName": "Depth First",
+            "value": "depth-first"
+          }
+        ]
+      }
     },
     {
       "name": "Ignore Query Params",
@@ -250,6 +271,26 @@
       "shortFlag": "-iqp",
       "longFlag": "-ignore-query-params",
       "key": "ignore-query-params",
+      "commandKey": "katana"
+    },
+    {
+      "name": "Filter Similar",
+      "description": "Filter crawling of similar looking URLs (e.g., /users/123 and /users/456).",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "shortFlag": "-fsu",
+      "longFlag": "-filter-similar",
+      "key": "filter-similar",
+      "commandKey": "katana"
+    },
+    {
+      "name": "Filter Similar Threshold",
+      "description": "Number of distinct values before a path position is treated as parameter.",
+      "parameterType": "Option",
+      "dataType": "Number",
+      "shortFlag": "-fst",
+      "longFlag": "-filter-similar-threshold",
+      "key": "filter-similar-threshold",
       "commandKey": "katana"
     },
     {
@@ -270,6 +311,26 @@
       "shortFlag": "-dr",
       "longFlag": "-disable-redirects",
       "key": "disable-redirects",
+      "commandKey": "katana"
+    },
+    {
+      "name": "Path Climb",
+      "description": "Enable path climb (auto crawl parent paths).",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "shortFlag": "-pc",
+      "longFlag": "-path-climb",
+      "key": "path-climb",
+      "commandKey": "katana"
+    },
+    {
+      "name": "Knowledge Base",
+      "description": "Enable knowledge base classification.",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "shortFlag": "-kb",
+      "longFlag": "-knowledge-base",
+      "key": "knowledge-base",
       "commandKey": "katana"
     },
     {
@@ -303,12 +364,22 @@
     },
     {
       "name": "Headless",
-      "description": "Enable headless hybrid crawling (experimental).",
+      "description": "Enable headless crawling (experimental).",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "shortFlag": "-hl",
       "longFlag": "-headless",
       "key": "headless",
+      "commandKey": "katana"
+    },
+    {
+      "name": "Hybrid",
+      "description": "Enable headless hybrid crawling (experimental).",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "shortFlag": "-hh",
+      "longFlag": "-hybrid",
+      "key": "hybrid",
       "commandKey": "katana"
     },
     {
@@ -403,6 +474,46 @@
       "commandKey": "katana"
     },
     {
+      "name": "Max Failure Count",
+      "description": "Maximum number of consecutive action failures before stopping.",
+      "parameterType": "Option",
+      "dataType": "Number",
+      "shortFlag": "-mfc",
+      "longFlag": "-max-failure-count",
+      "key": "max-failure-count",
+      "commandKey": "katana"
+    },
+    {
+      "name": "Enable Diagnostics",
+      "description": "Enable diagnostics.",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "shortFlag": "-ed",
+      "longFlag": "-enable-diagnostics",
+      "key": "enable-diagnostics",
+      "commandKey": "katana"
+    },
+    {
+      "name": "Captcha Solver Provider",
+      "description": "Captcha solver provider (e.g. capsolver).",
+      "parameterType": "Option",
+      "dataType": "String",
+      "shortFlag": "-csp",
+      "longFlag": "-captcha-solver-provider",
+      "key": "captcha-solver-provider",
+      "commandKey": "katana"
+    },
+    {
+      "name": "Captcha Solver Key",
+      "description": "Captcha solver provider API key.",
+      "parameterType": "Option",
+      "dataType": "String",
+      "shortFlag": "-csk",
+      "longFlag": "-captcha-solver-key",
+      "key": "captcha-solver-key",
+      "commandKey": "katana"
+    },
+    {
       "name": "Crawl Scope",
       "description": "In scope url regex to be followed by crawler.",
       "parameterType": "Option",
@@ -480,21 +591,141 @@
       "name": "Field",
       "description": "Field to display in output.",
       "parameterType": "Option",
-      "dataType": "String",
+      "dataType": "Enum",
       "shortFlag": "-f",
       "longFlag": "-field",
       "key": "field",
-      "commandKey": "katana"
+      "commandKey": "katana",
+      "enum": {
+        "values": [
+          {
+            "value": "url",
+            "displayName": "URL"
+          },
+          {
+            "value": "path",
+            "displayName": "Path"
+          },
+          {
+            "value": "fqdn",
+            "displayName": "FQDN"
+          },
+          {
+            "value": "rdn",
+            "displayName": "RDN"
+          },
+          {
+            "value": "rurl",
+            "displayName": "RURL"
+          },
+          {
+            "value": "qurl",
+            "displayName": "QURL"
+          },
+          {
+            "value": "qpath",
+            "displayName": "QPath"
+          },
+          {
+            "value": "file",
+            "displayName": "File"
+          },
+          {
+            "value": "ufile",
+            "displayName": "UFile"
+          },
+          {
+            "value": "key",
+            "displayName": "Key"
+          },
+          {
+            "value": "value",
+            "displayName": "Value"
+          },
+          {
+            "value": "kv",
+            "displayName": "KV"
+          },
+          {
+            "value": "dir",
+            "displayName": "Dir"
+          },
+          {
+            "value": "udir",
+            "displayName": "UDir"
+          }
+        ]
+      }
     },
     {
       "name": "Store Field",
       "description": "Field to store in per-host output.",
       "parameterType": "Option",
-      "dataType": "String",
+      "dataType": "Enum",
       "shortFlag": "-sf",
       "longFlag": "-store-field",
       "key": "store-field",
-      "commandKey": "katana"
+      "commandKey": "katana",
+      "enum": {
+        "values": [
+          {
+            "value": "url",
+            "displayName": "URL"
+          },
+          {
+            "value": "path",
+            "displayName": "Path"
+          },
+          {
+            "value": "fqdn",
+            "displayName": "FQDN"
+          },
+          {
+            "value": "rdn",
+            "displayName": "RDN"
+          },
+          {
+            "value": "rurl",
+            "displayName": "RURL"
+          },
+          {
+            "value": "qurl",
+            "displayName": "QURL"
+          },
+          {
+            "value": "qpath",
+            "displayName": "QPath"
+          },
+          {
+            "value": "file",
+            "displayName": "File"
+          },
+          {
+            "value": "ufile",
+            "displayName": "UFile"
+          },
+          {
+            "value": "key",
+            "displayName": "Key"
+          },
+          {
+            "value": "value",
+            "displayName": "Value"
+          },
+          {
+            "value": "kv",
+            "displayName": "KV"
+          },
+          {
+            "value": "dir",
+            "displayName": "Dir"
+          },
+          {
+            "value": "udir",
+            "displayName": "UDir"
+          }
+        ]
+      }
     },
     {
       "name": "Extension Match",
@@ -519,6 +750,16 @@
       "commandKey": "katana"
     },
     {
+      "name": "No Default Ext Filter",
+      "description": "Remove default extensions from the filter list.",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "shortFlag": "-ndef",
+      "longFlag": "-no-default-ext-filter",
+      "key": "no-default-ext-filter",
+      "commandKey": "katana"
+    },
+    {
       "name": "Match Condition",
       "description": "Match response with dsl based condition.",
       "parameterType": "Option",
@@ -537,6 +778,112 @@
       "longFlag": "-filter-condition",
       "key": "filter-condition",
       "commandKey": "katana"
+    },
+    {
+      "name": "Disable Unique Filter",
+      "description": "Disable duplicate content filtering.",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "shortFlag": "-duf",
+      "longFlag": "-disable-unique-filter",
+      "key": "disable-unique-filter",
+      "commandKey": "katana"
+    },
+    {
+      "name": "Filter Page Type",
+      "description": "Filter response with page type.",
+      "parameterType": "Option",
+      "dataType": "Enum",
+      "isRepeatable": true,
+      "shortFlag": "-fpt",
+      "longFlag": "-filter-page-type",
+      "key": "filter-page-type",
+      "commandKey": "katana",
+      "enum": {
+        "allowMultiple": true,
+        "values": [
+          {
+            "value": "login",
+            "displayName": "Login"
+          },
+          {
+            "value": "registration",
+            "displayName": "Registration"
+          },
+          {
+            "value": "search",
+            "displayName": "Search"
+          },
+          {
+            "value": "checkout",
+            "displayName": "Checkout"
+          },
+          {
+            "value": "contact",
+            "displayName": "Contact"
+          },
+          {
+            "value": "password_reset",
+            "displayName": "Password Reset"
+          },
+          {
+            "value": "landing",
+            "displayName": "Landing"
+          },
+          {
+            "value": "product",
+            "displayName": "Product"
+          },
+          {
+            "value": "blog",
+            "displayName": "Blog"
+          },
+          {
+            "value": "settings",
+            "displayName": "Settings"
+          },
+          {
+            "value": "soft_404",
+            "displayName": "Soft 404"
+          },
+          {
+            "value": "error",
+            "displayName": "Error"
+          },
+          {
+            "value": "captcha",
+            "displayName": "Captcha"
+          },
+          {
+            "value": "parked",
+            "displayName": "Parked"
+          },
+          {
+            "value": "coming_soon",
+            "displayName": "Coming Soon"
+          },
+          {
+            "value": "admin",
+            "displayName": "Admin"
+          },
+          {
+            "value": "directory_listing",
+            "displayName": "Directory Listing"
+          },
+          {
+            "value": "default_page",
+            "displayName": "Default Page"
+          },
+          {
+            "value": "waf_block",
+            "displayName": "WAF Block"
+          },
+          {
+            "value": "other",
+            "displayName": "Other"
+          }
+        ]
+      }
     },
     {
       "name": "Concurrency",
@@ -686,6 +1033,27 @@
       "shortFlag": "-ob",
       "longFlag": "-omit-body",
       "key": "omit-body",
+      "commandKey": "katana"
+    },
+    {
+      "name": "List Output Fields",
+      "description": "List of fields to output in jsonl format.",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "shortFlag": "-lof",
+      "longFlag": "-list-output-fields",
+      "key": "list-output-fields",
+      "commandKey": "katana"
+    },
+    {
+      "name": "Exclude Output Fields",
+      "description": "Exclude fields from jsonl output.",
+      "parameterType": "Option",
+      "dataType": "String",
+      "isRepeatable": true,
+      "shortFlag": "-eof",
+      "longFlag": "-exclude-output-fields",
+      "key": "exclude-output-fields",
       "commandKey": "katana"
     },
     {

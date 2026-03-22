@@ -707,8 +707,8 @@
       "description": "Port to expose naabu metrics on.",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-metrics-port",
-      "longFlag": "-mp",
+      "shortFlag": "-mp",
+      "longFlag": "-metrics-port",
       "sortOrder": 60,
       "key": "metrics-port",
       "commandKey": "naabu"
@@ -728,8 +728,8 @@
       "description": "Configure ProjectDiscovery Cloud (PDCP) API key credential file.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-auth-config",
-      "longFlag": "-ac",
+      "shortFlag": "-ac",
+      "longFlag": "-auth-config",
       "sortOrder": 62,
       "key": "auth-config",
       "commandKey": "naabu"
@@ -739,8 +739,8 @@
       "description": "Upload or view output in ProjectDiscovery Cloud (PDCP) UI dashboard.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-dashboard",
-      "longFlag": "-pd",
+      "shortFlag": "-pd",
+      "longFlag": "-dashboard",
       "sortOrder": 63,
       "key": "dashboard",
       "commandKey": "naabu"
@@ -750,8 +750,8 @@
       "description": "Upload asset results to given team ID (optional).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-team-id",
-      "longFlag": "-tid",
+      "shortFlag": "-tid",
+      "longFlag": "-team-id",
       "sortOrder": 64,
       "key": "team-id",
       "commandKey": "naabu"
@@ -761,8 +761,8 @@
       "description": "Upload new assets to existing asset ID (optional).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-asset-id",
-      "longFlag": "-aid",
+      "shortFlag": "-aid",
+      "longFlag": "-asset-id",
       "sortOrder": 65,
       "key": "asset-id",
       "commandKey": "naabu"
@@ -772,8 +772,8 @@
       "description": "Assets group name to set (optional).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-asset-name",
-      "longFlag": "-aname",
+      "shortFlag": "-aname",
+      "longFlag": "-asset-name",
       "sortOrder": 66,
       "key": "asset-name",
       "commandKey": "naabu"
@@ -783,10 +783,65 @@
       "description": "Upload naabu output file (jsonl) in ProjectDiscovery Cloud (PDCP) UI dashboard.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-dashboard-upload",
-      "longFlag": "-pdu",
+      "shortFlag": "-pdu",
+      "longFlag": "-dashboard-upload",
       "sortOrder": 67,
       "key": "dashboard-upload",
+      "commandKey": "naabu"
+    },
+    {
+      "name": "List Output Fields",
+      "description": "List of fields to output (comma separated).",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "shortFlag": "-lof",
+      "longFlag": "-list-output-fields",
+      "sortOrder": 68,
+      "key": "list-output-fields",
+      "commandKey": "naabu"
+    },
+    {
+      "name": "Exclude Output Fields",
+      "description": "Exclude output fields based on a condition.",
+      "parameterType": "Option",
+      "dataType": "String",
+      "shortFlag": "-eof",
+      "longFlag": "-exclude-output-fields",
+      "sortOrder": 69,
+      "key": "exclude-output-fields",
+      "commandKey": "naabu"
+    },
+    {
+      "name": "Connect Payload",
+      "description": "Payload to send in CONNECT scans (optional).",
+      "parameterType": "Option",
+      "dataType": "String",
+      "shortFlag": "-cp",
+      "longFlag": "-connect-payload",
+      "sortOrder": 70,
+      "key": "connect-payload",
+      "commandKey": "naabu"
+    },
+    {
+      "name": "Service Discovery",
+      "description": "Service discovery.",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "shortFlag": "-sD",
+      "longFlag": "-service-discovery",
+      "sortOrder": 71,
+      "key": "service-discovery",
+      "commandKey": "naabu"
+    },
+    {
+      "name": "Service Version",
+      "description": "Service version.",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "shortFlag": "-sV",
+      "longFlag": "-service-version",
+      "sortOrder": 72,
+      "key": "service-version",
       "commandKey": "naabu"
     }
   ]
