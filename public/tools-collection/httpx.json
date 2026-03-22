@@ -544,6 +544,7 @@
       "key": "match-cdn",
       "commandKey": "httpx",
       "enum": {
+        "allowMultiple": true,
         "values": [
           {
             "value": "kinx",
@@ -884,6 +885,7 @@
       "key": "filter-cdn",
       "commandKey": "httpx",
       "enum": {
+        "allowMultiple": true,
         "values": [
           {
             "value": "kinx",
