@@ -88,7 +88,7 @@
     "remark-gfm": "^4.0.1",
     "shadcn": "^4.1.0",
     "shiki": "^4.0.2",
-    "typescript": "^5.9.3",
+    "typescript": "^6.0.2",
     "typescript-json-schema": "^0.67.1",
     "vite": "^8.0.2",
     "vitest": "^4.1.0",
