@@ -156,8 +156,7 @@ export const cleanupTool = (tool: Tool): Tool => {
   const cleaned = { ...tool };
 
   if (isEmpty(cleaned.exclusionGroups)) delete cleaned.exclusionGroups;
-  if (isEmpty(cleaned.metadata))
-    delete cleaned.metadata;
+  if (isEmpty(cleaned.metadata)) delete cleaned.metadata;
 
   cleaned.parameters = cleaned.parameters.map(cleanParameter);
 

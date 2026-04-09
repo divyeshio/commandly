@@ -1,8 +1,8 @@
 import { readFileSync, writeFileSync } from "fs";
 import { basename, resolve } from "path";
 
-import { sanitizeToolJSON } from "@/components/commandly/utils/flat";
 import type { Tool } from "@/components/commandly/types/flat";
+import { sanitizeToolJSON } from "@/components/commandly/utils/flat";
 import Ajv from "ajv";
 
 const schemaPath = resolve("public/specification/flat.json");

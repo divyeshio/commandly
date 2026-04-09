@@ -5,7 +5,8 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 export function HelpMenu() {
   const { tool } = useToolBuilder();
 
-  const formatDescription = (description?: string) => (description?.trim() ? ` ${description}` : "");
+  const formatDescription = (description?: string) =>
+    description?.trim() ? ` ${description}` : "";
 
   const generateToolPreview = (): string => {
     const rootCommands = tool.commands.filter((cmd) => !cmd.parentCommandKey);
