@@ -1,5 +1,5 @@
-import ToolEditor from "@/components/tool-editor/tool-editor";
 import type { Tool } from "@/components/commandly/types/flat";
+import ToolEditor from "@/components/tool-editor/tool-editor";
 import { defaultTool } from "@/lib/utils";
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { withNuqsTestingAdapter, type OnUrlUpdateFunction } from "nuqs/adapters/testing";
@@ -30,7 +30,10 @@ describe("ToolEditor", () => {
     };
 
     render(
-      <ToolEditor tool={toolWithoutCommands} onSave={onSave} />,
+      <ToolEditor
+        tool={toolWithoutCommands}
+        onSave={onSave}
+      />,
       {
         wrapper: withNuqsTestingAdapter({
           searchParams: "?newTool=newTool",
@@ -54,8 +57,6 @@ describe("ToolEditor", () => {
 
     const saveButton = await screen.findByRole("button", { name: /^save$/i });
     expect(saveButton).toBeDisabled();
-    expect(
-      screen.getByText(/at least one command are required/i),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/at least one command are required/i)).toBeInTheDocument();
   });
 });

@@ -1,5 +1,5 @@
 import { ToolRenderer } from "@/components/commandly/tool-renderer";
-import type { Tool } from "@/components/commandly/types/flat";
+import type { ParameterValue, Tool } from "@/components/commandly/types/flat";
 import { useState } from "react";
 
 const sampleTool: Tool = {
@@ -92,7 +92,7 @@ const sampleTool: Tool = {
 };
 
 export function ToolRendererDemo() {
-  const [values, setValues] = useState<Record<string, string | boolean | number>>({});
+  const [values, setValues] = useState<Record<string, ParameterValue>>({});
 
   return (
     <div className="w-full max-w-sm rounded-lg border bg-card p-4">

@@ -62,18 +62,36 @@ export function GeneratedCommand({
         if (value === true) {
           const flag = param.shortFlag || param.longFlag;
           if (flag) command += ` ${flag}`;
+        } else if (param.isRepeatable && typeof value === "number" && value > 0) {
+          const flag = param.shortFlag || param.longFlag;
+          if (flag) command += ` ${flag}`.repeat(value);
         }
       } else if (param.parameterType === "Option") {
         const flag = param.shortFlag || param.longFlag;
         if (flag) {
           const separator = param.keyValueSeparator ?? " ";
-          command += ` ${flag}${separator}${value}`;
+          if (Array.isArray(value)) {
+            const entries = value.filter((v) => v !== "");
+            if (entries.length > 0) {
+              if (param.arraySeparator) {
+                command += ` ${flag}${separator}${entries.join(param.arraySeparator)}`;
+              } else {
+                entries.forEach((v) => {
+                  command += ` ${flag}${separator}${v}`;
+                });
+              }
+            }
+          } else {
+            command += ` ${flag}${separator}${value}`;
+          }
         }
       }
     });
 
     positionalParams.forEach(({ value }) => {
-      command += ` ${value}`;
+      if (!Array.isArray(value)) {
+        command += ` ${value}`;
+      }
     });
 
     setGeneratedCommand(command);

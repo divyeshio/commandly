@@ -38,13 +38,13 @@ Generate and edit CLI tool definitions in the Commandly flat JSON schema format.
 
 ## Parameter Type Rules
 
-| CLI pattern | `parameterType` | `dataType` | Notes |
-|---|---|---|---|
-| `--verbose`, `-v` (no value) | `Flag` | `Boolean` | |
-| `--output <file>` | `Option` | `String` | Add `longFlag`, optionally `shortFlag` |
-| `--count <n>` | `Option` | `Number` | |
-| `--format <list\|json>` | `Option` | `Enum` | Use `enum.values[]` |
-| `<positional>` | `Argument` | `String`/`Number` | Set `position` (1-based) |
+| CLI pattern                  | `parameterType` | `dataType`        | Notes                                  |
+| ---------------------------- | --------------- | ----------------- | -------------------------------------- |
+| `--verbose`, `-v` (no value) | `Flag`          | `Boolean`         |                                        |
+| `--output <file>`            | `Option`        | `String`          | Add `longFlag`, optionally `shortFlag` |
+| `--count <n>`                | `Option`        | `Number`          |                                        |
+| `--format <list\|json>`      | `Option`        | `Enum`            | Use `enum.values[]`                    |
+| `<positional>`               | `Argument`      | `String`/`Number` | Set `position` (1-based)               |
 
 - **Short flag**: single dash + letter (e.g. `-o`). Include only if present.
 - **Long flag**: double dash + word (e.g. `--output`). Preserve exact prefix.
