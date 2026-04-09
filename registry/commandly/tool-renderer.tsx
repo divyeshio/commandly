@@ -21,7 +21,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Switch } from "@/components/ui/switch";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { CheckIcon, ChevronsUpDownIcon, InfoIcon } from "lucide-react";
+import { CheckIcon, ChevronsUpDownIcon, InfoIcon, PlusIcon, XIcon } from "lucide-react";
 import React from "react";
 
 const findDefaultCommand = (tool: Tool): Command | null => {
@@ -265,6 +265,72 @@ function ArgumentInput({ parameter, value, onUpdate }: ParameterRenderContext) {
   );
 }
 
+interface RepeatableWrapperProps {
+  parameter: ParameterRenderContext["parameter"];
+  value: ParameterRenderContext["value"];
+  onUpdate: ParameterRenderContext["onUpdate"];
+  renderEntry: ParameterRendererEntry["component"];
+}
+
+function RepeatableWrapper({ parameter, value, onUpdate, renderEntry }: RepeatableWrapperProps) {
+  const toArray = (v: ParameterRenderContext["value"]): string[] => {
+    if (Array.isArray(v)) return v;
+    if (v !== undefined && v !== "" && v !== false) return [String(v)];
+    return [""];
+  };
+
+  const values = toArray(value);
+
+  const updateAt = (index: number, val: ParameterRenderContext["value"]) => {
+    const next = [...values];
+    next[index] = String(val);
+    onUpdate(next);
+  };
+
+  const addRow = () => onUpdate([...values, ""]);
+
+  const removeAt = (index: number) => {
+    const next = values.filter((_, i) => i !== index);
+    onUpdate(next);
+  };
+
+  return (
+    <div className="space-y-2">
+      {values.map((val, index) => (
+        <div
+          key={index}
+          className="flex items-start gap-2"
+        >
+          <div className="flex-1">
+            {renderEntry({ parameter, value: val, onUpdate: (v) => updateAt(index, v) })}
+          </div>
+          {index > 0 && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="mt-6 shrink-0"
+              onClick={() => removeAt(index)}
+            >
+              <XIcon className="h-4 w-4" />
+            </Button>
+          )}
+        </div>
+      ))}
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        className="h-7 px-2 text-muted-foreground"
+        onClick={addRow}
+      >
+        <PlusIcon className="mr-1 h-3.5 w-3.5" />
+        Add another
+      </Button>
+    </div>
+  );
+}
+
 export function defaultComponents(): ParameterRendererEntry[] {
   return [
     { condition: (p) => p.parameterType === "Flag", component: (ctx) => <FlagInput {...ctx} /> },
@@ -314,14 +380,24 @@ export function ToolRenderer({
             tool.parameters
               .filter((param) => param.commandKey === selectedCommand?.key || param.isGlobal)
               .map((parameter) => {
-                const value = parameterValues[parameter.key] || "";
+                const value = parameterValues[parameter.key] ?? "";
                 const onUpdate = (val: ParameterValue) => updateParameterValue(parameter.key, val);
                 const entry = catalog.find((e) => e.condition(parameter));
-                return entry ? (
+                if (!entry) return null;
+                return (
                   <React.Fragment key={parameter.key}>
-                    {entry.component({ parameter, value, onUpdate })}
+                    {parameter.isRepeatable ? (
+                      <RepeatableWrapper
+                        parameter={parameter}
+                        value={value}
+                        onUpdate={onUpdate}
+                        renderEntry={entry.component}
+                      />
+                    ) : (
+                      entry.component({ parameter, value, onUpdate })
+                    )}
                   </React.Fragment>
-                ) : null;
+                );
               })
           ) : (
             <p className="text-sm text-muted-foreground">

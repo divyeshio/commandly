@@ -260,6 +260,43 @@ describe("ParameterDetailsDialog - Parameter Type Specific Fields", () => {
 
     expect(screen.getByDisplayValue(":")).toBeInTheDocument();
   });
+
+  it("hides the Repeatable switch for Flag parameters and shows it for Option/Argument", () => {
+    const flagParameter = createTestParameter({ parameterType: "Flag" });
+    renderWithProvider(<ParameterDetailsDialog />, createTestState(flagParameter));
+
+    expect(screen.queryByText("Repeatable")).not.toBeInTheDocument();
+
+    const selectElements = screen.getAllByRole("combobox");
+    const parameterTypeSelect = selectElements[0];
+
+    act(() => {
+      fireEvent.click(parameterTypeSelect);
+    });
+    act(() => {
+      fireEvent.click(screen.getByRole("option", { name: "Option" }));
+    });
+
+    expect(screen.getByText("Repeatable")).toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(parameterTypeSelect);
+    });
+    act(() => {
+      fireEvent.click(screen.getByRole("option", { name: "Argument" }));
+    });
+
+    expect(screen.getByText("Repeatable")).toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(parameterTypeSelect);
+    });
+    act(() => {
+      fireEvent.click(screen.getByRole("option", { name: "Flag" }));
+    });
+
+    expect(screen.queryByText("Repeatable")).not.toBeInTheDocument();
+  });
 });
 
 describe("ParameterDetailsDialog - Dependencies Section", () => {

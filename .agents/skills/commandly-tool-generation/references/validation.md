@@ -30,18 +30,19 @@ bun scripts/validate-tool-collection.ts public/tools-collection/*.json
 
 ### Common errors and fixes
 
-| Error | Fix |
-|---|---|
-| `"name" field does not match filename` | Set `"name"` to the bare filename without extension |
-| `"commands" must be a non-empty array` | Add at least one command; use the tool name as the default command key |
-| Schema validation: `/ must have required property 'key'` | Every command and parameter needs a `key` field |
-| Schema validation: `/ must have required property 'parameterType'` | Set `parameterType` to `"Flag"`, `"Option"`, or `"Argument"` |
-| Schema validation: `/ must have required property 'dataType'` | Set `dataType` to `"Boolean"`, `"String"`, `"Number"`, or `"Enum"` |
-| Invalid JSON | Fix syntax (trailing commas, missing quotes, etc.) |
+| Error                                                              | Fix                                                                    |
+| ------------------------------------------------------------------ | ---------------------------------------------------------------------- |
+| `"name" field does not match filename`                             | Set `"name"` to the bare filename without extension                    |
+| `"commands" must be a non-empty array`                             | Add at least one command; use the tool name as the default command key |
+| Schema validation: `/ must have required property 'key'`           | Every command and parameter needs a `key` field                        |
+| Schema validation: `/ must have required property 'parameterType'` | Set `parameterType` to `"Flag"`, `"Option"`, or `"Argument"`           |
+| Schema validation: `/ must have required property 'dataType'`      | Set `dataType` to `"Boolean"`, `"String"`, `"Number"`, or `"Enum"`     |
+| Invalid JSON                                                       | Fix syntax (trailing commas, missing quotes, etc.)                     |
 
 ### sanitizeToolJSON behaviour
 
 `sanitizeToolJSON` (from `registry/commandly/utils/flat.ts`):
+
 - Strips the `metadata` field from each parameter object.
 - Injects `"$schema": "https://commandly.divyeshio.in/specification/flat.json"` at the top level.
 

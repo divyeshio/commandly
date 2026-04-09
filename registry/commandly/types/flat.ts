@@ -52,7 +52,7 @@ export interface ParameterDependency {
   conditionValue?: string;
 }
 
-export type ParameterValue = string | number | boolean;
+export type ParameterValue = string | number | boolean | string[];
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface ToolMetadata {}

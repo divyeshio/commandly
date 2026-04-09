@@ -359,14 +359,16 @@ export function ParameterDetailsDialog() {
               />
               <Label htmlFor="isRequired">Required</Label>
             </div>
-            <div className="flex items-center space-x-2">
-              <Switch
-                id="isRepeatable"
-                checked={parameter.isRepeatable}
-                onCheckedChange={(checked) => updateParameter({ isRepeatable: checked })}
-              />
-              <Label htmlFor="isRepeatable">Repeatable</Label>
-            </div>
+            {parameter.parameterType !== "Flag" && (
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="isRepeatable"
+                  checked={parameter.isRepeatable}
+                  onCheckedChange={(checked) => updateParameter({ isRepeatable: checked })}
+                />
+                <Label htmlFor="isRepeatable">Repeatable</Label>
+              </div>
+            )}
           </div>
 
           <div className="flex flex-col gap-2">

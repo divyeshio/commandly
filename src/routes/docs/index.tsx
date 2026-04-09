@@ -35,11 +35,7 @@ function RouteComponent() {
                   >
                     {item.title}
                   </Link>
-                  {DemoComponent && (
-                    <div className="pointer-events-none select-none">
-                      <DemoComponent />
-                    </div>
-                  )}
+                  {DemoComponent && <DemoComponent />}
                 </div>
               );
             })}

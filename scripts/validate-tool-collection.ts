@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync } from "fs";
 import { basename, resolve } from "path";
 
+import type { Tool } from "@/components/commandly/types/flat";
 import { sanitizeToolJSON } from "@/components/commandly/utils/flat";
 import Ajv from "ajv";
 
@@ -30,9 +31,9 @@ for (const file of files) {
     continue;
   }
 
-  let tool: Record<string, unknown>;
+  let tool: Tool;
   try {
-    tool = JSON.parse(raw) as Record<string, unknown>;
+    tool = JSON.parse(raw) as Tool;
   } catch (e) {
     errors.push(`❌ \`${file}\`: Invalid JSON — ${(e as Error).message}`);
     continue;
@@ -48,7 +49,7 @@ for (const file of files) {
 
   if (tool.name !== fileName) {
     errors.push(
-      `❌ \`${file}\`: \`name\` field (\`${tool.name as string}\`) does not match filename (\`${fileName}\`).`,
+      `❌ \`${file}\`: \`name\` field (\`${tool.name}\`) does not match filename (\`${fileName}\`).`,
     );
     continue;
   }
