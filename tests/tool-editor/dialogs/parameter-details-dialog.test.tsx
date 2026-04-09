@@ -1,4 +1,5 @@
 import { Parameter, Command } from "@/components/commandly/types/flat";
+import { createNewParameter } from "@/components/commandly/utils/flat";
 import { ParameterDetailsDialog } from "@/components/tool-editor/dialogs/parameter-details-dialog";
 import {
   ToolBuilderProvider,
@@ -131,7 +132,7 @@ describe("ParameterDetailsDialog - Form Fields", () => {
     const parameterTypeSelect = selectElements[0];
     const dataTypeSelect = selectElements[1];
 
-    // Change parameter type
+    // Switch to Flag — dataType is auto-set to Boolean, only Boolean is in the list
     act(() => {
       fireEvent.click(parameterTypeSelect);
     });
@@ -139,15 +140,23 @@ describe("ParameterDetailsDialog - Form Fields", () => {
       fireEvent.click(screen.getByRole("option", { name: "Flag" }));
     });
     expect(screen.getByText("Flag")).toBeInTheDocument();
+    expect(screen.getByText("Boolean")).toBeInTheDocument();
 
-    // Change data type
+    // Switch back to Option — change data type to Enum
+    act(() => {
+      fireEvent.click(parameterTypeSelect);
+    });
+    act(() => {
+      fireEvent.click(screen.getByRole("option", { name: "Option" }));
+    });
+
     act(() => {
       fireEvent.click(dataTypeSelect);
     });
     act(() => {
-      fireEvent.click(screen.getByRole("option", { name: "Boolean" }));
+      fireEvent.click(screen.getByRole("option", { name: "Enum" }));
     });
-    expect(screen.getByText("Boolean")).toBeInTheDocument();
+    expect(screen.getByText("Enum")).toBeInTheDocument();
   });
 
   it("handles switch toggles for boolean properties", () => {
@@ -187,7 +196,9 @@ describe("ParameterDetailsDialog - Form Fields", () => {
 
   it("validates empty parameter name", () => {
     const testParameter = createTestParameter();
-    renderWithProvider(<ParameterDetailsDialog />, createTestState(testParameter));
+    const initState = { ...createTestState(testParameter) };
+    initState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
+    renderWithProvider(<ParameterDetailsDialog />, initState);
 
     const nameInput = screen.getByDisplayValue("test-param");
     const saveButton = screen.getByRole("button", { name: "Save Changes" });
@@ -206,7 +217,7 @@ describe("ParameterDetailsDialog - Parameter Type Specific Fields", () => {
   });
 
   it("conditionally renders fields based on parameter type", () => {
-    const flagParameter = createTestParameter({ parameterType: "Flag" });
+    const flagParameter = createTestParameter({ parameterType: "Flag", dataType: "Boolean" });
     renderWithProvider(<ParameterDetailsDialog />, createTestState(flagParameter));
 
     // Flag type shows flag fields but not key-value separator
@@ -261,8 +272,37 @@ describe("ParameterDetailsDialog - Parameter Type Specific Fields", () => {
     expect(screen.getByDisplayValue(":")).toBeInTheDocument();
   });
 
+  it("keeps focus on enum value input while typing", () => {
+    const testParameter = createTestParameter({
+      dataType: "Enum",
+      enum: {
+        values: [
+          {
+            value: "one",
+            displayName: "One",
+            isDefault: false,
+            sortOrder: 0,
+          },
+        ],
+        allowMultiple: false,
+      },
+    });
+
+    renderWithProvider(<ParameterDetailsDialog />, createTestState(testParameter));
+
+    const valueInput = screen.getByDisplayValue("one");
+    valueInput.focus();
+
+    act(() => {
+      fireEvent.change(valueInput, { target: { value: "two" } });
+    });
+
+    expect(screen.getByDisplayValue("two")).toBeInTheDocument();
+    expect(document.activeElement).toBe(screen.getByDisplayValue("two"));
+  });
+
   it("hides the Repeatable switch for Flag parameters and shows it for Option/Argument", () => {
-    const flagParameter = createTestParameter({ parameterType: "Flag" });
+    const flagParameter = createTestParameter({ parameterType: "Flag", dataType: "Boolean" });
     renderWithProvider(<ParameterDetailsDialog />, createTestState(flagParameter));
 
     expect(screen.queryByText("Repeatable")).not.toBeInTheDocument();
@@ -297,6 +337,33 @@ describe("ParameterDetailsDialog - Parameter Type Specific Fields", () => {
 
     expect(screen.queryByText("Repeatable")).not.toBeInTheDocument();
   });
+
+  it("auto-sets Boolean when switching to Flag and resets to String when switching to Option/Argument", () => {
+    const testParameter = createTestParameter({ parameterType: "Option", dataType: "String" });
+    renderWithProvider(<ParameterDetailsDialog />, createTestState(testParameter));
+
+    const parameterTypeSelect = screen.getAllByRole("combobox")[0];
+
+    // Option → Flag: dataType auto-set to Boolean, only Boolean in list
+    act(() => { fireEvent.click(parameterTypeSelect); });
+    act(() => { fireEvent.click(screen.getByRole("option", { name: "Flag" })); });
+    expect(screen.getByText("Boolean")).toBeInTheDocument();
+
+    // Flag → Option: dataType resets to String, all data type options available
+    act(() => { fireEvent.click(parameterTypeSelect); });
+    act(() => { fireEvent.click(screen.getByRole("option", { name: "Option" })); });
+    expect(screen.getByText("String")).toBeInTheDocument();
+
+    // Option → Flag again: dataType auto-set to Boolean
+    act(() => { fireEvent.click(parameterTypeSelect); });
+    act(() => { fireEvent.click(screen.getByRole("option", { name: "Flag" })); });
+    expect(screen.getByText("Boolean")).toBeInTheDocument();
+
+    // Flag → Argument: dataType resets to String, all data type options available
+    act(() => { fireEvent.click(parameterTypeSelect); });
+    act(() => { fireEvent.click(screen.getByRole("option", { name: "Argument" })); });
+    expect(screen.getByText("String")).toBeInTheDocument();
+  });
 });
 
 describe("ParameterDetailsDialog - Dependencies Section", () => {
@@ -330,7 +397,9 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
 
   it("enables save button when changes are made but keeps store unchanged until saved", () => {
     const testParameter = createTestParameter();
-    renderWithProvider(<ParameterDetailsDialog />, createTestState(testParameter));
+    const initState = { ...createTestState(testParameter) };
+    initState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
+    renderWithProvider(<ParameterDetailsDialog />, initState);
 
     const saveButton = screen.getByRole("button", { name: "Save Changes" });
     expect(saveButton).toBeDisabled();
@@ -351,10 +420,13 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     const secondParameter = createTestParameter({
       key: "different-key",
       name: "second-param",
+      longFlag: "--second",
       commandKey: "test-command-key",
     });
 
-    renderWithProvider(<ParameterDetailsDialog />, createTestState(firstParameter));
+    const initState = { ...createTestState(firstParameter) };
+    initState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [firstParameter, secondParameter] };
+    renderWithProvider(<ParameterDetailsDialog />, initState);
 
     const nameInput = screen.getByDisplayValue("first-param");
 
@@ -503,6 +575,7 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     const initState: Partial<ToolBuilderState> = {
       ...createTestState(testParameter),
     };
+    initState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
 
     const { unmount } = renderWithProvider(<ParameterDetailsDialog />, initState);
 
@@ -523,7 +596,9 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     unmount();
 
     // Re-render fresh with the same parameter
-    renderWithProvider(<ParameterDetailsDialog />, createTestState(testParameter));
+    const reopenState = { ...createTestState(testParameter) };
+    reopenState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
+    renderWithProvider(<ParameterDetailsDialog />, reopenState);
 
     expect(screen.getByDisplayValue("test-param")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Save Changes" })).toBeDisabled();
@@ -640,5 +715,180 @@ describe("ParameterDetailsDialog - UI/UX", () => {
     expect(updatedParameter?.parameterType).toBe("Flag");
     expect(updatedParameter?.longFlag).toBe("--test");
     expect(updatedParameter?.shortFlag).toBe("-t");
+  });
+});
+
+describe("ParameterDetailsDialog - Enum Section", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("shows Add label for new parameters and Save Changes for existing ones", () => {
+    const newParameter = createNewParameter(false, "test-command-key");
+    renderWithProvider(<ParameterDetailsDialog />, createTestState(newParameter));
+
+    expect(screen.queryByRole("button", { name: "Save Changes" })).not.toBeInTheDocument();
+    // Submit button shows "Add" for new params; it's disabled since no name/longFlag yet
+    // Dependencies and Validations sections also have "Add" buttons but those are enabled
+    const addButtons = screen.getAllByRole("button", { name: "Add" });
+    const submitAddButton = addButtons.find((btn) => btn.hasAttribute("disabled"));
+    expect(submitAddButton).toBeDefined();
+  });
+
+  it("renders Value and Display Name column headers when enum values exist", () => {
+    const testParameter = createTestParameter({
+      dataType: "Enum",
+      enum: {
+        values: [{ value: "opt1", displayName: "Option 1", isDefault: false, sortOrder: 0 }],
+        allowMultiple: false,
+      },
+    });
+
+    renderWithProvider(<ParameterDetailsDialog />, createTestState(testParameter));
+
+    expect(screen.getByText("Value")).toBeInTheDocument();
+    expect(screen.getByText("Display Name")).toBeInTheDocument();
+  });
+
+  it("does not render column headers when there are no enum values", () => {
+    const testParameter = createTestParameter({
+      dataType: "Enum",
+      enum: { values: [], allowMultiple: false },
+    });
+
+    renderWithProvider(<ParameterDetailsDialog />, createTestState(testParameter));
+
+    expect(screen.queryByText("Value")).not.toBeInTheDocument();
+    expect(screen.queryByText("Display Name")).not.toBeInTheDocument();
+  });
+
+  it("renders Default label next to each isDefault switch in enum rows", () => {
+    const testParameter = createTestParameter({
+      dataType: "Enum",
+      enum: {
+        values: [
+          { value: "a", displayName: "A", isDefault: false, sortOrder: 0 },
+          { value: "b", displayName: "B", isDefault: false, sortOrder: 1 },
+        ],
+        allowMultiple: false,
+      },
+    });
+
+    renderWithProvider(<ParameterDetailsDialog />, createTestState(testParameter));
+
+    const defaultLabels = screen.getAllByText("Default");
+    // 1 invisible alignment spacer + 1 per enum row = 3 total
+    expect(defaultLabels).toHaveLength(3);
+  });
+
+  it("makes isDefault selection mutually exclusive across enum value rows", () => {
+    const testParameter = createTestParameter({
+      dataType: "Enum",
+      enum: {
+        values: [
+          { value: "one", displayName: "One", isDefault: true, sortOrder: 0 },
+          { value: "two", displayName: "Two", isDefault: false, sortOrder: 1 },
+        ],
+        allowMultiple: false,
+      },
+    });
+    const initState = { ...createTestState(testParameter) };
+    initState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
+
+    renderWithProvider(<ParameterDetailsDialog />, initState);
+
+    const defaultSwitches = screen
+      .getAllByRole("switch")
+      .filter((s) => s.closest("div")?.textContent?.trim() === "Default");
+
+    expect(defaultSwitches).toHaveLength(2);
+    expect(defaultSwitches[0]).toBeChecked();
+    expect(defaultSwitches[1]).not.toBeChecked();
+
+    act(() => {
+      fireEvent.click(defaultSwitches[1]);
+    });
+
+    expect(defaultSwitches[0]).not.toBeChecked();
+    expect(defaultSwitches[1]).toBeChecked();
+  });
+
+  it("shows Separator label when allowMultiple is enabled", () => {
+    const testParameter = createTestParameter({
+      dataType: "Enum",
+      enum: {
+        values: [{ value: "x", displayName: "X", isDefault: false, sortOrder: 0 }],
+        allowMultiple: true,
+        separator: ",",
+      },
+    });
+
+    renderWithProvider(<ParameterDetailsDialog />, createTestState(testParameter));
+
+    expect(screen.getByText("Separator")).toBeInTheDocument();
+  });
+
+  it("does not show Separator label when allowMultiple is disabled", () => {
+    const testParameter = createTestParameter({
+      dataType: "Enum",
+      enum: {
+        values: [{ value: "x", displayName: "X", isDefault: false, sortOrder: 0 }],
+        allowMultiple: false,
+      },
+    });
+
+    renderWithProvider(<ParameterDetailsDialog />, createTestState(testParameter));
+
+    expect(screen.queryByText("Separator")).not.toBeInTheDocument();
+  });
+
+  it("blocks save when enum values list is empty", () => {
+    const testParameter = createTestParameter({
+      dataType: "Enum",
+      enum: { values: [], allowMultiple: false },
+    });
+    const initState = { ...createTestState(testParameter) };
+    initState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
+
+    renderWithProvider(<ParameterDetailsDialog />, initState);
+
+    const saveButton = screen.getByRole("button", { name: "Save Changes" });
+    const descriptionInput = screen.getByDisplayValue("Test parameter description");
+
+    act(() => {
+      fireEvent.change(descriptionInput, { target: { value: "Updated" } });
+    });
+
+    expect(saveButton).toBeDisabled();
+  });
+
+  it("blocks save when any enum value has an empty value string", () => {
+    const testParameter = createTestParameter({
+      dataType: "Enum",
+      enum: {
+        values: [{ value: "valid", displayName: "Valid", isDefault: false, sortOrder: 0 }],
+        allowMultiple: false,
+      },
+    });
+    const initState = { ...createTestState(testParameter) };
+    initState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
+
+    renderWithProvider(<ParameterDetailsDialog />, initState);
+
+    const saveButton = screen.getByRole("button", { name: "Save Changes" });
+
+    const descriptionInput = screen.getByDisplayValue("Test parameter description");
+    act(() => {
+      fireEvent.change(descriptionInput, { target: { value: "Updated" } });
+    });
+
+    expect(saveButton).not.toBeDisabled();
+
+    const valueInput = screen.getByDisplayValue("valid");
+    act(() => {
+      fireEvent.change(valueInput, { target: { value: "" } });
+    });
+
+    expect(saveButton).toBeDisabled();
   });
 });

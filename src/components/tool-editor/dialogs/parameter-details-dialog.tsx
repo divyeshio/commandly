@@ -45,6 +45,12 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
+const DATA_TYPE_OPTIONS: Record<ParameterType, ParameterDataType[]> = {
+  Flag: ["Boolean"],
+  Option: ["String", "Number", "Boolean", "Enum"],
+  Argument: ["String", "Number", "Boolean", "Enum"],
+};
+
 export function ParameterDetailsDialog() {
   const { selectedParameter, selectedCommand, tool, setSelectedParameter, upsertParameter } =
     useToolBuilder();
@@ -58,6 +64,8 @@ export function ParameterDetailsDialog() {
         return p.isGlobal || p.commandKey === commandKey;
       })
     : [];
+
+  const isNewParameter = !tool.parameters.some((p) => p.key === selectedParameter?.key);
 
   const [parameter, setParameter] = useState<Parameter>(selectedParameter!);
   const [hasChanges, setHasChanges] = useState(false);
@@ -165,8 +173,8 @@ export function ParameterDetailsDialog() {
   const addEnumValue = () => {
     if (!parameter) return;
     const newEnumValue: ParameterEnumValue = {
-      value: "new-value",
-      displayName: "New Value",
+      value: "",
+      displayName: "",
       isDefault: false,
       sortOrder: 0,
     };
@@ -193,6 +201,11 @@ export function ParameterDetailsDialog() {
       )
     ) {
       return false;
+    }
+
+    if (parameter.dataType === "Enum") {
+      if (!parameter.enum?.values?.length) return false;
+      if (parameter.enum.values.some((v) => !v.value.trim())) return false;
     }
 
     return true;
@@ -239,7 +252,16 @@ export function ParameterDetailsDialog() {
               <Label>Parameter Type</Label>
               <Select
                 value={parameter.parameterType}
-                onValueChange={(value: ParameterType) => updateParameter({ parameterType: value })}
+                onValueChange={(value: ParameterType) => {
+                  if (value === "Flag") {
+                    updateParameter({ parameterType: value, dataType: "Boolean" });
+                  } else {
+                    updateParameter({
+                      parameterType: value,
+                      ...(parameter.parameterType === "Flag" ? { dataType: "String" } : {}),
+                    });
+                  }
+                }}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue />
@@ -261,10 +283,11 @@ export function ParameterDetailsDialog() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="String">String</SelectItem>
-                  <SelectItem value="Number">Number</SelectItem>
-                  <SelectItem value="Boolean">Boolean</SelectItem>
-                  <SelectItem value="Enum">Enum</SelectItem>
+                  {DATA_TYPE_OPTIONS[parameter.parameterType].map((dataType) => (
+                    <SelectItem key={dataType} value={dataType}>
+                      {dataType}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -566,7 +589,7 @@ export function ParameterDetailsDialog() {
                   </Button>
                 </div>
                 <div className="mb-3 flex items-center gap-4">
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2 h-8">
                     <Switch
                       id="allow-multiple"
                       checked={parameter.enum?.allowMultiple ?? false}
@@ -582,35 +605,49 @@ export function ParameterDetailsDialog() {
                     <Label htmlFor="allow-multiple">Allow Multiple</Label>
                   </div>
                   {parameter.enum?.allowMultiple && (
-                    <Input
-                      value={parameter.enum?.separator ?? ","}
-                      onChange={(e) =>
-                        updateParameter({
-                          enum: {
-                            ...(parameter.enum ?? { values: [], allowMultiple: true }),
-                            separator: e.target.value,
-                          },
-                        })
-                      }
-                      placeholder="Separator (e.g. ,)"
-                      className="w-32"
-                    />
+                    <div className="flex gap-2">
+                      <Label>Separator</Label>
+                      <Input
+                        value={parameter.enum?.separator ?? ","}
+                        onChange={(e) =>
+                          updateParameter({
+                            enum: {
+                              ...(parameter.enum ?? { values: [], allowMultiple: true }),
+                              separator: e.target.value,
+                            },
+                          })
+                        }
+                        placeholder="e.g. ,"
+                        className="w-20"
+                      />
+                    </div>
                   )}
                 </div>
+                {parameter.enum?.values && parameter.enum.values.length > 0 && (
+                  <div className="mb-1 flex items-center gap-2 border border-transparent px-2">
+                    <span className="flex-1 text-xs text-muted-foreground">Value</span>
+                    <span className="flex-1 text-xs text-muted-foreground">Display Name</span>
+                    <div className="invisible flex shrink-0 items-center gap-1">
+                      <div className="h-[1.15rem] w-8" />
+                      <span className="text-xs">Default</span>
+                    </div>
+                    <div className="size-7 shrink-0" />
+                  </div>
+                )}
                 <div
                   className="space-y-2"
                   id="enum-values"
                 >
-                  {parameter.enum?.values?.map((enumValue) => (
+                  {parameter.enum?.values?.map((enumValue, index) => (
                     <div
-                      key={enumValue.value}
+                      key={index}
                       className="flex items-center gap-2 rounded border p-2"
                     >
                       <Input
                         value={enumValue.value}
                         onChange={(e) => {
                           const updatedValues = parameter.enum?.values?.map((ev) =>
-                            ev.value === enumValue.value ? { ...ev, value: e.target.value } : ev,
+                            ev === enumValue ? { ...ev, value: e.target.value } : ev,
                           );
                           updateParameter({
                             enum: {
@@ -626,7 +663,7 @@ export function ParameterDetailsDialog() {
                         value={enumValue.displayName}
                         onChange={(e) => {
                           const updatedValues = parameter.enum?.values?.map((ev) =>
-                            ev.value === enumValue.value
+                            ev === enumValue
                               ? { ...ev, displayName: e.target.value }
                               : ev,
                           );
@@ -640,26 +677,34 @@ export function ParameterDetailsDialog() {
                         placeholder="Display Name"
                         className="flex-1"
                       />
-                      <Switch
-                        checked={enumValue.isDefault}
-                        onCheckedChange={(checked) => {
-                          const updatedValues = parameter.enum?.values?.map((ev) =>
-                            ev.value === enumValue.value ? { ...ev, isDefault: checked } : ev,
-                          );
-                          updateParameter({
-                            enum: {
-                              ...(parameter.enum ?? { allowMultiple: false }),
-                              values: updatedValues ?? [],
-                            },
-                          });
-                        }}
-                      />
+                      <div className="flex shrink-0 items-center gap-1">
+                        <Switch
+                          checked={enumValue.isDefault}
+                          onCheckedChange={(checked) => {
+                            const updatedValues = parameter.enum?.values?.map((ev) =>
+                              ev === enumValue
+                                ? { ...ev, isDefault: checked }
+                                : checked
+                                  ? { ...ev, isDefault: false }
+                                  : ev,
+                            );
+                            updateParameter({
+                              enum: {
+                                ...(parameter.enum ?? { allowMultiple: false }),
+                                values: updatedValues ?? [],
+                              },
+                            });
+                          }}
+                        />
+                        <Label className="text-xs">Default</Label>
+                      </div>
                       <Button
                         size="sm"
                         variant="ghost"
+                        className="size-7 shrink-0 p-0"
                         onClick={() => {
                           const updatedValues = parameter.enum?.values?.filter(
-                            (ev) => ev.value !== enumValue.value,
+                            (_, valueIndex) => valueIndex !== index,
                           );
                           updateParameter({
                             enum: {
@@ -690,7 +735,7 @@ export function ParameterDetailsDialog() {
             onClick={handleSave}
             disabled={!canSaveChanges()}
           >
-            Save Changes
+            {isNewParameter ? "Add" : "Save Changes"}
           </Button>
         </DialogFooter>
       </DialogContent>
