@@ -64,8 +64,9 @@ function RouteComponent() {
   });
   const [open, setOpen] = useState(false);
   const [savedCommandsOpen, setSavedCommandsOpen] = useState(false);
+  const defaultCommandName = tool?.commands?.[0]?.name ?? "";
   const [selectedCommand, setSelectedCommand] = useQueryState("command", {
-    defaultValue: tool?.commands[0].name!,
+    defaultValue: defaultCommandName,
   });
 
   if (!tool) return <div>Tool not found.</div>;

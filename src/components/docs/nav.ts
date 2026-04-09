@@ -15,9 +15,9 @@ export const docsNav: DocNavSection[] = [
   {
     section: "Components",
     items: [
+      { name: "tool-renderer", title: "Tool Renderer" },
       { name: "generated-command", title: "Generated Command" },
       { name: "json-output", title: "JSON Output" },
-      { name: "tool-renderer", title: "Tool Renderer" },
     ],
   },
   {
