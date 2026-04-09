@@ -5,12 +5,14 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 export function HelpMenu() {
   const { tool } = useToolBuilder();
 
+  const formatDescription = (description?: string) => (description?.trim() ? ` ${description}` : "");
+
   const generateToolPreview = (): string => {
     const rootCommands = tool.commands.filter((cmd) => !cmd.parentCommandKey);
     const globalParams = tool.parameters.filter((p) => p.isGlobal);
 
     let preview = `${tool.displayName}${tool.info?.version ? ` v${tool.info.version}` : ""}\n`;
-    preview += `${tool.info?.description}\n\n`;
+    preview += `${tool.info?.description ?? ""}\n\n`;
 
     preview += `USAGE:\n`;
     preview += `  ${tool.name} [GLOBAL OPTIONS] <COMMAND> [OPTIONS] [ARGUMENTS]\n\n`;
@@ -47,7 +49,7 @@ export function HelpMenu() {
     preview += "COMMANDS:\n";
     const printCommand = (command: Command, level = 0) => {
       const indent = "  ".repeat(level + 1);
-      preview += `${indent}${command.name.padEnd(20 - level * 2)} ${command.description}\n`;
+      preview += `${indent}${command.name.padEnd(20 - level * 2)}${formatDescription(command.description)}\n`;
 
       const commandParams = tool.parameters.filter(
         (p) => !p.isGlobal && p.commandKey === command.key,
@@ -65,7 +67,7 @@ export function HelpMenu() {
           const flagStr =
             shortFlag && longFlag ? `${shortFlag}, ${longFlag}` : shortFlag || longFlag;
           const required = flag.isRequired ? "Required: " : "";
-          preview += `${indent}    ${flagStr.padEnd(18)} ${required}${flag.description}\n`;
+          preview += `${indent}    ${flagStr.padEnd(18)} ${required}${flag.description ?? ""}\n`;
         });
       }
 
@@ -80,7 +82,7 @@ export function HelpMenu() {
             ? `<value1${option.arraySeparator}value2>`
             : `<${option.dataType}>`;
           const required = option.isRequired ? "Required: " : "";
-          preview += `${indent}    ${flagStr.padEnd(18)} ${required}${option.description}\n`;
+          preview += `${indent}    ${flagStr.padEnd(18)} ${required}${option.description ?? ""}\n`;
           preview += `${indent}    ${" ".repeat(18)} Value: ${valueType}\n`;
         });
       }
@@ -89,7 +91,7 @@ export function HelpMenu() {
         preview += `${indent}  Arguments:\n`;
         arguments_.forEach((arg) => {
           const required = arg.isRequired ? "Required: " : "";
-          preview += `${indent}    ${arg.name.padEnd(18)} ${required}${arg.description}\n`;
+          preview += `${indent}    ${arg.name.padEnd(18)} ${required}${arg.description ?? ""}\n`;
           if (arg.dataType === "Enum") {
             preview += `${indent}    ${" ".repeat(18)} Values: ${arg.enum?.values?.map((e) => e.value).join(", ")}\n`;
           }
