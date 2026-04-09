@@ -6,7 +6,7 @@ import { defaultTool } from "@/lib/utils";
 import { render, screen } from "@testing-library/react";
 import { OnUrlUpdateFunction, withNuqsTestingAdapter } from "nuqs/adapters/testing";
 
-const toJSON = (value: unknown) => JSON.parse(JSON.stringify(value));
+const toJSON = <T,>(value: T): T => JSON.parse(JSON.stringify(value));
 
 describe("JsonOutput", () => {
   it("renders output type label", () => {
@@ -25,7 +25,7 @@ describe("JsonOutput", () => {
 describe("exportToStructuredJSON", () => {
   it("omits enum, validations, dependencies when empty", () => {
     const result = toJSON(exportToStructuredJSON(defaultTool()));
-    result.parameters.forEach((param: Record<string, unknown>) => {
+    result.parameters.forEach((param) => {
       expect(param).not.toHaveProperty("enum");
       expect(param).not.toHaveProperty("validations");
       expect(param).not.toHaveProperty("dependencies");
@@ -82,7 +82,7 @@ describe("exportToStructuredJSON", () => {
 describe("convertToNestedStructure", () => {
   it("omits validations and dependencies when empty", () => {
     const result = toJSON(convertToNestedStructure(defaultTool()));
-    result.globalParameters.forEach((param: Record<string, unknown>) => {
+    result.globalParameters.forEach((param) => {
       expect(param).not.toHaveProperty("validations");
       expect(param).not.toHaveProperty("dependencies");
     });
@@ -104,9 +104,7 @@ describe("convertToNestedStructure", () => {
       },
     ];
     const result = convertToNestedStructure(tool);
-    expect(
-      (result.globalParameters[0] as unknown as Record<string, unknown>).validations,
-    ).toHaveLength(1);
+    expect(result.globalParameters[0].validations).toHaveLength(1);
   });
 
   it("includes exclusionGroups when non-empty", () => {

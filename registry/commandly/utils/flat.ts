@@ -1,10 +1,4 @@
-import type { Command, ExclusionGroup, Parameter, Tool } from "@/components/commandly/types/flat";
-
-export const buildCommandHierarchy = (commands: Command[]): Command[] => {
-  return commands.sort(
-    (a, b) => (a.sortOrder ?? commands.indexOf(a)) - (b.sortOrder ?? commands.indexOf(b)),
-  );
-};
+import type { Command, Parameter, Tool } from "@/components/commandly/types/flat";
 
 export const slugify = (text: string): string => {
   return text
@@ -75,12 +69,8 @@ export const getAllSubcommands = (commandKey: string, commands: Command[]): Comm
 
 const SCHEMA_URL = "https://commandly.divyeshio.in/specification/flat.json";
 
-export const sanitizeToolJSON = (tool: Record<string, unknown>): Record<string, unknown> => {
-  const parameters = Array.isArray(tool.parameters)
-    ? (tool.parameters as Record<string, unknown>[]).map(
-        ({ metadata: _metadata, ...param }) => param,
-      )
-    : tool.parameters;
+export const sanitizeToolJSON = (tool: Tool) => {
+  const parameters = tool.parameters.map(({ metadata: _metadata, ...param }) => param);
 
   return {
     $schema: SCHEMA_URL,
@@ -101,86 +91,6 @@ export const exportToStructuredJSON = (tool: Tool) => {
     exclusionGroups: tool.exclusionGroups,
     metadata: tool.metadata,
   };
-};
-
-export const flattenImportedData = (importedData: Record<string, unknown>): Tool => {
-  const {
-    name,
-    displayName,
-    commands = [],
-    exclusionGroups = [],
-    metadata = {
-      supportedInput: [],
-      supportedOutput: [],
-    },
-  } = importedData as {
-    name: string;
-    displayName?: string;
-    parameters?: Parameter[];
-    commands?: Record<string, unknown>[];
-    exclusionGroups?: ExclusionGroup[];
-    metadata?: Tool["metadata"];
-  };
-
-  const allParameters: Parameter[] = [];
-
-  const flattenCommandParameters = (
-    command: Record<string, unknown>,
-    parentKey?: string,
-  ): Command[] => {
-    const {
-      parameters = [],
-      subcommands = [],
-      ...commandData
-    } = command as {
-      parameters?: Parameter[];
-      subcommands?: Record<string, unknown>[];
-      [key: string]: unknown;
-    };
-
-    (parameters as Parameter[]).forEach((param: Parameter) => {
-      allParameters.push({
-        ...param,
-        commandKey: command.key as string,
-        ...(!command.name ? { isGlobal: true } : {}),
-      });
-    });
-
-    const flatCommand: Command = {
-      ...commandData,
-      parentCommandKey: parentKey,
-    } as Command;
-
-    const flatCommands = [flatCommand];
-
-    (subcommands as Record<string, unknown>[]).forEach((subcmd) => {
-      flatCommands.push(...flattenCommandParameters(subcmd, command.key as string));
-    });
-
-    return flatCommands;
-  };
-
-  const flatCommands: Command[] = [];
-  (commands as Record<string, unknown>[]).forEach((cmd) => {
-    flatCommands.push(...flattenCommandParameters(cmd));
-  });
-
-  return {
-    name: name,
-    displayName: displayName || name,
-    info: importedData.info as Tool["info"] | undefined,
-    commands: flatCommands,
-    parameters: allParameters,
-    exclusionGroups,
-    metadata,
-  };
-};
-
-export const validateDefaultValue = (
-  parameter: Parameter,
-): { isValid: boolean; error?: string } => {
-  void parameter;
-  return { isValid: true };
 };
 
 export const createNewCommand = (parentKey?: string): Command => {
@@ -216,14 +126,7 @@ export const randomCommandName = () => {
   return result;
 };
 
-export function generateHashCode(s: string): string {
-  let h = 0;
-  for (let i = 0; i < s.length; i++) h = (Math.imul(31, h) + s.charCodeAt(i)) | 0;
-
-  return h.toString();
-}
-
-const isEmpty = (value: unknown[] | Record<string, unknown> | null | undefined): boolean => {
+const isEmpty = (value: object | null | undefined): boolean => {
   if (value == null) return true;
   if (Array.isArray(value)) return value.length === 0;
   return Object.keys(value).length === 0;
@@ -239,7 +142,7 @@ const cleanParameter = (param: Parameter): Parameter => {
   if (cleaned.metadata) {
     const meta = { ...cleaned.metadata };
     if (isEmpty(meta.tags)) delete meta.tags;
-    if (isEmpty(meta as Record<string, unknown>)) {
+    if (isEmpty(meta)) {
       delete cleaned.metadata;
     } else {
       cleaned.metadata = meta;
@@ -253,8 +156,7 @@ export const cleanupTool = (tool: Tool): Tool => {
   const cleaned = { ...tool };
 
   if (isEmpty(cleaned.exclusionGroups)) delete cleaned.exclusionGroups;
-  if (isEmpty(cleaned.metadata as Record<string, unknown> | null | undefined))
-    delete cleaned.metadata;
+  if (isEmpty(cleaned.metadata)) delete cleaned.metadata;
 
   cleaned.parameters = cleaned.parameters.map(cleanParameter);
 

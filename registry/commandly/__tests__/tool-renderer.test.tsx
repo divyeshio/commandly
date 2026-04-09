@@ -121,6 +121,50 @@ describe("ToolRenderer", () => {
     expect(screen.getByText("Output")).toBeInTheDocument();
   });
 
+  it("renders a repeatable Option with an 'Add another' button", () => {
+    const param = {
+      ...createNewParameter(false, "my-tool"),
+      key: "header",
+      name: "Header",
+      parameterType: "Option" as const,
+      dataType: "String" as const,
+      isRepeatable: true,
+    };
+    render(
+      <ToolRenderer
+        tool={{ ...baseTool, parameters: [param] }}
+        catalog={defaultComponents()}
+        parameterValues={{}}
+        updateParameterValue={() => {}}
+      />,
+    );
+    expect(screen.getByText("Header")).toBeInTheDocument();
+    expect(screen.getByText("Add another")).toBeInTheDocument();
+  });
+
+  it("renders multiple rows for a repeatable Option with array value", () => {
+    const param = {
+      ...createNewParameter(false, "my-tool"),
+      key: "header",
+      name: "Header",
+      parameterType: "Option" as const,
+      dataType: "String" as const,
+      isRepeatable: true,
+    };
+    render(
+      <ToolRenderer
+        tool={{ ...baseTool, parameters: [param] }}
+        catalog={defaultComponents()}
+        parameterValues={{
+          header: ["Content-Type: application/json", "Authorization: Bearer token"],
+        }}
+        updateParameterValue={() => {}}
+      />,
+    );
+    const inputs = screen.getAllByPlaceholderText("Enter value");
+    expect(inputs).toHaveLength(2);
+  });
+
   it("custom catalog entry takes precedence over built-in", () => {
     const param = {
       ...createNewParameter(false, "my-tool"),

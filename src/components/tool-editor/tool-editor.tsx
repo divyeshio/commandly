@@ -70,7 +70,8 @@ function ToolEditorContent({
 
   const [initialToolJson, setInitialToolJson] = useState(() => JSON.stringify(tool));
   const isDirty = JSON.stringify(tool) !== initialToolJson;
-  const isValid = tool.name.trim() !== "" && tool.displayName.trim() !== "";
+  const hasAtLeastOneCommand = Array.isArray(tool.commands) && tool.commands.length > 0;
+  const isValid = tool.name.trim() !== "" && tool.displayName.trim() !== "" && hasAtLeastOneCommand;
 
   const handleContribute = async () => {
     const json = JSON.stringify(tool, null, 2);
@@ -128,6 +129,7 @@ function ToolEditorContent({
                 variant="ghost"
                 size="sm"
                 className="h-6 w-6 p-0"
+                aria-label="Edit tool"
                 onClick={() => setDialogOpen("editTool", true)}
               >
                 <Edit2Icon className="h-4 w-4" />
@@ -138,7 +140,7 @@ function ToolEditorContent({
                 <>
                   {isDirty && !isValid && (
                     <span className="text-xs text-destructive">
-                      Name and display name are required
+                      Name, display name, and at least one command are required
                     </span>
                   )}
                   <Button
