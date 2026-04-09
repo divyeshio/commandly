@@ -35,15 +35,23 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import {
+  Sortable,
+  SortableContent,
+  SortableItem,
+  SortableItemHandle,
+  SortableOverlay,
+} from "@/components/ui/sortable";
+import {
   FlagIcon,
   FileTextIcon,
+  GripVerticalIcon,
   HashIcon,
   LinkIcon,
   PlusIcon,
   ShieldIcon,
   Trash2Icon,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const DATA_TYPE_OPTIONS: Record<ParameterType, ParameterDataType[]> = {
   Flag: ["Boolean"],
@@ -69,10 +77,14 @@ export function ParameterDetailsDialog() {
 
   const [parameter, setParameter] = useState<Parameter>(selectedParameter!);
   const [hasChanges, setHasChanges] = useState(false);
+  const enumValueIdsRef = useRef<string[]>([]);
 
   useEffect(() => {
     setParameter(selectedParameter!);
     setHasChanges(false);
+    enumValueIdsRef.current = (selectedParameter?.enum?.values ?? []).map(() =>
+      Math.random().toString(36).slice(2, 9),
+    );
   }, [selectedParameter]);
 
   const getParameterIcon = (parameterType: string) => {
@@ -176,8 +188,9 @@ export function ParameterDetailsDialog() {
       value: "",
       displayName: "",
       isDefault: false,
-      sortOrder: 0,
+      sortOrder: parameter.enum?.values?.length ?? 0,
     };
+    enumValueIdsRef.current = [...enumValueIdsRef.current, Math.random().toString(36).slice(2, 9)];
     const existing = parameter.enum ?? { values: [], allowMultiple: false };
     updateParameter({
       enum: { ...existing, values: [...existing.values, newEnumValue] },
@@ -625,6 +638,7 @@ export function ParameterDetailsDialog() {
                 </div>
                 {parameter.enum?.values && parameter.enum.values.length > 0 && (
                   <div className="mb-1 flex items-center gap-2 border border-transparent px-2">
+                    <div className="size-7 shrink-0" />
                     <span className="flex-1 text-xs text-muted-foreground">Value</span>
                     <span className="flex-1 text-xs text-muted-foreground">Display Name</span>
                     <div className="invisible flex shrink-0 items-center gap-1">
@@ -634,15 +648,35 @@ export function ParameterDetailsDialog() {
                     <div className="size-7 shrink-0" />
                   </div>
                 )}
-                <div
-                  className="space-y-2"
-                  id="enum-values"
+                <Sortable
+                  value={enumValueIdsRef.current}
+                  onValueChange={(newOrder) => {
+                    const idToIndex = Object.fromEntries(
+                      enumValueIdsRef.current.map((id, i) => [id, i]),
+                    );
+                    const reorderedValues = (newOrder as string[]).map((id, newIndex) => ({
+                      ...parameter.enum!.values[idToIndex[id]],
+                      sortOrder: newIndex,
+                    }));
+                    enumValueIdsRef.current = newOrder as string[];
+                    updateParameter({
+                      enum: { ...parameter.enum!, values: reorderedValues },
+                    });
+                  }}
                 >
+                  <SortableContent
+                    className="space-y-2"
+                    id="enum-values"
+                  >
                   {parameter.enum?.values?.map((enumValue, index) => (
-                    <div
-                      key={index}
+                    <SortableItem
+                      key={enumValueIdsRef.current[index]}
+                      value={enumValueIdsRef.current[index]}
                       className="flex items-center gap-2 rounded border p-2"
                     >
+                      <SortableItemHandle className="shrink-0 text-muted-foreground">
+                        <GripVerticalIcon className="h-4 w-4" />
+                      </SortableItemHandle>
                       <Input
                         value={enumValue.value}
                         onChange={(e) => {
@@ -706,6 +740,9 @@ export function ParameterDetailsDialog() {
                           const updatedValues = parameter.enum?.values?.filter(
                             (_, valueIndex) => valueIndex !== index,
                           );
+                          enumValueIdsRef.current = enumValueIdsRef.current.filter(
+                            (_, i) => i !== index,
+                          );
                           updateParameter({
                             enum: {
                               ...(parameter.enum ?? { allowMultiple: false }),
@@ -716,9 +753,11 @@ export function ParameterDetailsDialog() {
                       >
                         <Trash2Icon className="h-3 w-3" />
                       </Button>
-                    </div>
+                    </SortableItem>
                   ))}
-                </div>
+                  </SortableContent>
+                  <SortableOverlay />
+                </Sortable>
               </div>
             </>
           )}
