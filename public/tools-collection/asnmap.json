@@ -1,12 +1,7 @@
 {
-  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
   "name": "asnmap",
   "displayName": "ASNMap",
-  "info": {
-    "description": "Go CLI and Library for quickly mapping organization network ranges using ASN information.",
-    "version": "1.1.1",
-    "url": "https://github.com/projectdiscovery/asnmap"
-  },
+  "url": "https://github.com/projectdiscovery/asnmap",
   "commands": [
     {
       "name": "asnmap",
@@ -19,7 +14,7 @@
   "parameters": [
     {
       "name": "ASN",
-      "description": "Target ASN to lookup, example: -a AS5650",
+      "description": "ASN to look up (e.g., AS5650).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
@@ -33,7 +28,7 @@
     },
     {
       "name": "IP",
-      "description": "Target IP to lookup, example: -i 100.19.12.21, -i 2a10:ad40::",
+      "description": "IP to look up (e.g., 100.19.12.21 or 2a10:ad40::).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
@@ -47,7 +42,7 @@
     },
     {
       "name": "Domain",
-      "description": "Target domain to lookup, example: -d google.com, -d facebook.com",
+      "description": "Domain to look up (e.g., google.com or facebook.com).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
@@ -61,7 +56,7 @@
     },
     {
       "name": "Org",
-      "description": "Target organization to lookup, example: -org GOOGLE",
+      "description": "Organization name to look up (e.g., GOOGLE).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
@@ -74,7 +69,7 @@
     },
     {
       "name": "File",
-      "description": "Targets to lookup from file",
+      "description": "Read targets from file.",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
@@ -88,7 +83,7 @@
     },
     {
       "name": "Config",
-      "description": "Path to the asnmap configuration file",
+      "description": "Path to the asnmap configuration file.",
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "-config",
@@ -99,7 +94,7 @@
     },
     {
       "name": "Resolvers",
-      "description": "List of resolvers to use",
+      "description": "List of resolvers to use.",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
@@ -113,7 +108,7 @@
     },
     {
       "name": "Update",
-      "description": "Update asnmap to latest version",
+      "description": "Update asnmap to the latest version.",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "shortFlag": "-up",
@@ -124,7 +119,7 @@
     },
     {
       "name": "Disable Update Check",
-      "description": "Disable automatic asnmap update check",
+      "description": "Disable automatic update check.",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "shortFlag": "-duc",
@@ -135,7 +130,7 @@
     },
     {
       "name": "Output File",
-      "description": "File to write output to",
+      "description": "Write output to file.",
       "parameterType": "Option",
       "dataType": "String",
       "shortFlag": "-o",
@@ -147,7 +142,7 @@
     },
     {
       "name": "JSON Output",
-      "description": "Display JSON format output",
+      "description": "Display output in JSON format.",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "shortFlag": "-j",
@@ -158,7 +153,7 @@
     },
     {
       "name": "CSV Output",
-      "description": "Display CSV format output",
+      "description": "Display output in CSV format.",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "shortFlag": "-c",
@@ -169,7 +164,7 @@
     },
     {
       "name": "IPv6 Output",
-      "description": "Display IPv6 CIDR ranges in CLI output",
+      "description": "Display IPv6 CIDR ranges in CLI output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-v6",
@@ -179,7 +174,7 @@
     },
     {
       "name": "Verbose Output",
-      "description": "Display verbose output",
+      "description": "Display verbose output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "shortFlag": "-v",
@@ -190,7 +185,7 @@
     },
     {
       "name": "Silent",
-      "description": "Display silent output",
+      "description": "Display silent output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-silent",
@@ -200,7 +195,7 @@
     },
     {
       "name": "Version",
-      "description": "Show version of the project",
+      "description": "Show version.",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-version",
