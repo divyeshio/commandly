@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChevronDownIcon, ChevronRightIcon, Edit2Icon, PlusIcon, Trash2Icon } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface CommandNodeProps {
   command: Command;
@@ -144,10 +144,9 @@ export function CommandTree() {
   const {
     tool,
     selectedCommand,
-    editingCommand,
-    addSubcommand,
+    addCommand,
     setSelectedCommand,
-    setEditingCommand,
+    updateCommand,
     deleteCommand,
   } = useToolBuilder();
 
@@ -155,10 +154,8 @@ export function CommandTree() {
     new Set([tool.commands[0]?.key]),
   );
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [lastAddedCommand, setLastAddedCommand] = useState<{
-    key: string;
-    parentKey?: string;
-  } | null>(null);
+  const [dialogCommand, setDialogCommand] = useState<Command | undefined>(undefined);
+  const [pendingParentKey, setPendingParentKey] = useState<string | undefined>(undefined);
 
   const toggleExpanded = (commandKey: string) => {
     setExpandedCommands((prev) => {
@@ -173,30 +170,31 @@ export function CommandTree() {
   };
 
   const handleAddSubcommand = (parentKey?: string) => {
-    const newKey = addSubcommand(parentKey);
-    setLastAddedCommand({ key: newKey, parentKey });
+    setDialogCommand(undefined);
+    setPendingParentKey(parentKey);
+    setIsDialogOpen(true);
   };
 
-  useEffect(() => {
-    if (!lastAddedCommand) return;
-    const { key, parentKey } = lastAddedCommand;
-    const newCmd = tool.commands.find((cmd) => cmd.key === key);
-    if (newCmd) {
-      setSelectedCommand(newCmd);
-      if (parentKey) {
+  const handleEdit = (command: Command) => {
+    setDialogCommand(command);
+    setPendingParentKey(undefined);
+    setIsDialogOpen(true);
+  };
+
+  const handleDialogSave = (savedCommand: Command) => {
+    if (!dialogCommand) {
+      addCommand(savedCommand);
+      setSelectedCommand(savedCommand);
+      if (savedCommand.parentCommandKey) {
         setExpandedCommands((prev) => {
           const newSet = new Set(prev);
-          newSet.add(parentKey);
+          newSet.add(savedCommand.parentCommandKey!);
           return newSet;
         });
       }
-      setLastAddedCommand(null);
+    } else {
+      updateCommand(savedCommand.key, savedCommand);
     }
-  }, [tool.commands, lastAddedCommand, setSelectedCommand]);
-
-  const handleEdit = (command: Command) => {
-    setEditingCommand(command);
-    setIsDialogOpen(true);
   };
 
   const rootCommands = tool.commands.filter((cmd) => !cmd.parentCommandKey);
@@ -231,15 +229,21 @@ export function CommandTree() {
           </Button>
         </div>
       </ScrollArea>
-      {editingCommand && (
-        <CommandDialog
-          isOpen={isDialogOpen}
-          onOpenChange={(open) => {
-            setIsDialogOpen(open);
-            setEditingCommand(null);
-          }}
-        />
-      )}
+      <CommandDialog
+        key={dialogCommand?.key ?? "new"}
+        isOpen={isDialogOpen}
+        onOpenChange={(open) => {
+          setIsDialogOpen(open);
+          if (!open) {
+            setDialogCommand(undefined);
+            setPendingParentKey(undefined);
+          }
+        }}
+        command={dialogCommand}
+        parentKey={pendingParentKey}
+        toolName={tool.name}
+        onSave={handleDialogSave}
+      />
     </>
   );
 }

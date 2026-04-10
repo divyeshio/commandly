@@ -3,7 +3,6 @@ import { CommandDialog } from "@/components/tool-editor/dialogs/command-dialog";
 import {
   ToolBuilderProvider,
   ToolBuilderState,
-  useToolBuilder,
 } from "@/components/tool-editor/tool-editor.context";
 import { defaultTool } from "@/lib/utils";
 import { render, screen, fireEvent } from "@testing-library/react";
@@ -24,15 +23,7 @@ const createTestState = (
 ): Partial<ToolBuilderState> => ({
   tool: { ...defaultTool(toolName, "Test tool"), name: toolName, commands: [command] },
   selectedCommand: command,
-  editingCommand: command,
 });
-
-// Captures the latest context value so tests can verify state changes
-let capturedCtx: ReturnType<typeof useToolBuilder>;
-function ContextCapture() {
-  capturedCtx = useToolBuilder();
-  return null;
-}
 
 function renderWithProvider(ui: ReactNode, initialState: Partial<ToolBuilderState>) {
   return render(
@@ -41,24 +32,27 @@ function renderWithProvider(ui: ReactNode, initialState: Partial<ToolBuilderStat
       initialState={initialState}
     >
       {ui}
-      <ContextCapture />
     </ToolBuilderProvider>,
   );
 }
 
 describe("CommandDialog - Rendering & Structure", () => {
   const mockOnOpenChange = vi.fn();
+  const mockOnSave = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it("renders the dialog when isOpen is true", () => {
+  it("renders the dialog in edit mode when isOpen is true", () => {
     const testCommand = createTestCommand();
     renderWithProvider(
       <CommandDialog
         isOpen={true}
         onOpenChange={mockOnOpenChange}
+        command={testCommand}
+        toolName="test-tool"
+        onSave={mockOnSave}
       />,
       createTestState(testCommand),
     );
@@ -68,7 +62,23 @@ describe("CommandDialog - Rendering & Structure", () => {
     expect(screen.getByLabelText("Sort Order")).toBeInTheDocument();
     expect(screen.getByLabelText("Default Command")).toBeInTheDocument();
     expect(screen.getByLabelText("Description")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Save & Close" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Save Changes" })).toBeInTheDocument();
+  });
+
+  it("renders the dialog in add mode when no command is provided", () => {
+    const testState = createTestState(createTestCommand());
+    renderWithProvider(
+      <CommandDialog
+        isOpen={true}
+        onOpenChange={mockOnOpenChange}
+        toolName="test-tool"
+        onSave={mockOnSave}
+      />,
+      testState,
+    );
+
+    expect(screen.getByText("Add Command")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Add" })).toBeInTheDocument();
   });
 
   it("does not render dialog content when isOpen is false", () => {
@@ -77,6 +87,9 @@ describe("CommandDialog - Rendering & Structure", () => {
       <CommandDialog
         isOpen={false}
         onOpenChange={mockOnOpenChange}
+        command={testCommand}
+        toolName="test-tool"
+        onSave={mockOnSave}
       />,
       createTestState(testCommand),
     );
@@ -90,6 +103,9 @@ describe("CommandDialog - Rendering & Structure", () => {
       <CommandDialog
         isOpen={true}
         onOpenChange={mockOnOpenChange}
+        command={testCommand}
+        toolName="test-tool"
+        onSave={mockOnSave}
       />,
       createTestState(testCommand),
     );
@@ -105,6 +121,9 @@ describe("CommandDialog - Rendering & Structure", () => {
       <CommandDialog
         isOpen={true}
         onOpenChange={mockOnOpenChange}
+        command={testCommand}
+        toolName="test-tool"
+        onSave={mockOnSave}
       />,
       testState,
     );
@@ -117,8 +136,10 @@ describe("CommandDialog - Rendering & Structure", () => {
         <CommandDialog
           isOpen={false}
           onOpenChange={mockOnOpenChange}
+          command={testCommand}
+          toolName="test-tool"
+          onSave={mockOnSave}
         />
-        <ContextCapture />
       </ToolBuilderProvider>,
     );
 
@@ -128,6 +149,7 @@ describe("CommandDialog - Rendering & Structure", () => {
 
 describe("CommandDialog - Form Fields", () => {
   const mockOnOpenChange = vi.fn();
+  const mockOnSave = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -139,6 +161,9 @@ describe("CommandDialog - Form Fields", () => {
       <CommandDialog
         isOpen={true}
         onOpenChange={mockOnOpenChange}
+        command={command}
+        toolName="test-tool"
+        onSave={mockOnSave}
       />,
       createTestState(command),
     );
@@ -153,6 +178,9 @@ describe("CommandDialog - Form Fields", () => {
       <CommandDialog
         isOpen={true}
         onOpenChange={mockOnOpenChange}
+        command={command}
+        toolName="test-tool"
+        onSave={mockOnSave}
       />,
       createTestState(command),
     );
@@ -169,6 +197,9 @@ describe("CommandDialog - Form Fields", () => {
       <CommandDialog
         isOpen={true}
         onOpenChange={mockOnOpenChange}
+        command={command}
+        toolName="test-tool"
+        onSave={mockOnSave}
       />,
       createTestState(command, "test-tool"),
     );
@@ -183,6 +214,9 @@ describe("CommandDialog - Form Fields", () => {
       <CommandDialog
         isOpen={true}
         onOpenChange={mockOnOpenChange}
+        command={command}
+        toolName="test-tool"
+        onSave={mockOnSave}
       />,
       createTestState(command),
     );
@@ -197,6 +231,9 @@ describe("CommandDialog - Form Fields", () => {
       <CommandDialog
         isOpen={true}
         onOpenChange={mockOnOpenChange}
+        command={command}
+        toolName="test-tool"
+        onSave={mockOnSave}
       />,
       createTestState(command),
     );
@@ -213,6 +250,9 @@ describe("CommandDialog - Form Fields", () => {
       <CommandDialog
         isOpen={true}
         onOpenChange={mockOnOpenChange}
+        command={command}
+        toolName="test-tool"
+        onSave={mockOnSave}
       />,
       createTestState(command),
     );
@@ -229,6 +269,9 @@ describe("CommandDialog - Form Fields", () => {
       <CommandDialog
         isOpen={true}
         onOpenChange={mockOnOpenChange}
+        command={command}
+        toolName="test-tool"
+        onSave={mockOnSave}
       />,
       createTestState(command),
     );
@@ -243,6 +286,9 @@ describe("CommandDialog - Form Fields", () => {
       <CommandDialog
         isOpen={true}
         onOpenChange={mockOnOpenChange}
+        command={command}
+        toolName="test-tool"
+        onSave={mockOnSave}
       />,
       createTestState(command),
     );
@@ -252,10 +298,27 @@ describe("CommandDialog - Form Fields", () => {
 
     expect((descriptionTextarea as HTMLTextAreaElement).value).toBe("New description");
   });
+
+  it("starts with empty name in add mode", () => {
+    const testState = createTestState(createTestCommand());
+    renderWithProvider(
+      <CommandDialog
+        isOpen={true}
+        onOpenChange={mockOnOpenChange}
+        toolName="test-tool"
+        onSave={mockOnSave}
+      />,
+      testState,
+    );
+
+    const nameInput = screen.getByLabelText("Command Name") as HTMLInputElement;
+    expect(nameInput.value).toBe("");
+  });
 });
 
 describe("CommandDialog - Default Command Switch", () => {
   const mockOnOpenChange = vi.fn();
+  const mockOnSave = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -267,6 +330,9 @@ describe("CommandDialog - Default Command Switch", () => {
       <CommandDialog
         isOpen={true}
         onOpenChange={mockOnOpenChange}
+        command={command}
+        toolName="test-tool"
+        onSave={mockOnSave}
       />,
       createTestState(command),
     );
@@ -281,6 +347,9 @@ describe("CommandDialog - Default Command Switch", () => {
       <CommandDialog
         isOpen={true}
         onOpenChange={mockOnOpenChange}
+        command={command}
+        toolName="test-tool"
+        onSave={mockOnSave}
       />,
       createTestState(command),
     );
@@ -297,6 +366,9 @@ describe("CommandDialog - Default Command Switch", () => {
       <CommandDialog
         isOpen={true}
         onOpenChange={mockOnOpenChange}
+        command={command}
+        toolName="test-tool"
+        onSave={mockOnSave}
       />,
       createTestState(command),
     );
@@ -308,12 +380,13 @@ describe("CommandDialog - Default Command Switch", () => {
 
 describe("CommandDialog - Save Functionality", () => {
   const mockOnOpenChange = vi.fn();
+  const mockOnSave = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it("updates command in context and closes dialog when Save & Close is clicked", () => {
+  it("calls onSave with updated command and closes dialog when Save Changes is clicked", () => {
     const command = createTestCommand({
       key: "original-command-key",
       name: "original-command",
@@ -322,6 +395,9 @@ describe("CommandDialog - Save Functionality", () => {
       <CommandDialog
         isOpen={true}
         onOpenChange={mockOnOpenChange}
+        command={command}
+        toolName="test-tool"
+        onSave={mockOnSave}
       />,
       createTestState(command),
     );
@@ -329,14 +405,17 @@ describe("CommandDialog - Save Functionality", () => {
     const nameInput = screen.getByLabelText("Command Name");
     fireEvent.change(nameInput, { target: { value: "updated-command" } });
 
-    const saveButton = screen.getByRole("button", { name: "Save & Close" });
-    fireEvent.click(saveButton);
+    fireEvent.click(screen.getByRole("button", { name: "Save Changes" }));
 
-    const updatedCommand = capturedCtx.tool.commands.find((c) => c.key === "original-command-key");
-    expect(updatedCommand?.name).toBe("updated-command");
-    expect(updatedCommand?.description).toBe("Test command description");
-    expect(updatedCommand?.isDefault).toBe(false);
-    expect(updatedCommand?.sortOrder).toBe(0);
+    expect(mockOnSave).toHaveBeenCalledWith(
+      expect.objectContaining({
+        key: "original-command-key",
+        name: "updated-command",
+        description: "Test command description",
+        isDefault: false,
+        sortOrder: 0,
+      }),
+    );
     expect(mockOnOpenChange).toHaveBeenCalledWith(false);
   });
 
@@ -349,6 +428,9 @@ describe("CommandDialog - Save Functionality", () => {
       <CommandDialog
         isOpen={true}
         onOpenChange={mockOnOpenChange}
+        command={command}
+        toolName="test-tool"
+        onSave={mockOnSave}
       />,
       createTestState(command),
     );
@@ -360,40 +442,19 @@ describe("CommandDialog - Save Functionality", () => {
     });
     fireEvent.click(screen.getByLabelText("Default Command"));
 
-    const saveButton = screen.getByRole("button", { name: "Save & Close" });
-    fireEvent.click(saveButton);
+    fireEvent.click(screen.getByRole("button", { name: "Save Changes" }));
 
-    const updatedCommand = capturedCtx.tool.commands.find((c) => c.key === "original-command-key");
-    expect(updatedCommand?.name).toBe("new-name");
-    expect(updatedCommand?.description).toBe("New description");
-    expect(updatedCommand?.isDefault).toBe(true);
-    expect(updatedCommand?.sortOrder).toBe(15);
-  });
-
-  it("handles save with empty command name", () => {
-    const command = createTestCommand({
-      key: "original-name-key",
-      name: "original-name",
-    });
-    renderWithProvider(
-      <CommandDialog
-        isOpen={true}
-        onOpenChange={mockOnOpenChange}
-      />,
-      createTestState(command),
+    expect(mockOnSave).toHaveBeenCalledWith(
+      expect.objectContaining({
+        name: "new-name",
+        description: "New description",
+        isDefault: true,
+        sortOrder: 15,
+      }),
     );
-
-    const nameInput = screen.getByLabelText("Command Name");
-    fireEvent.change(nameInput, { target: { value: "" } });
-
-    const saveButton = screen.getByRole("button", { name: "Save & Close" });
-    fireEvent.click(saveButton);
-
-    const updatedCommand = capturedCtx.tool.commands.find((c) => c.key === "original-name-key");
-    expect(updatedCommand?.name).toBe("");
   });
 
-  it("preserves subcommands when saving", () => {
+  it("preserves key when saving in edit mode", () => {
     const command = createTestCommand({
       key: "parent-command-key",
       name: "parent-command",
@@ -402,46 +463,80 @@ describe("CommandDialog - Save Functionality", () => {
       <CommandDialog
         isOpen={true}
         onOpenChange={mockOnOpenChange}
+        command={command}
+        toolName="test-tool"
+        onSave={mockOnSave}
       />,
       createTestState(command),
     );
 
-    const nameInput = screen.getByLabelText("Command Name");
-    fireEvent.change(nameInput, { target: { value: "updated-parent" } });
+    fireEvent.change(screen.getByLabelText("Command Name"), { target: { value: "updated-parent" } });
+    fireEvent.click(screen.getByRole("button", { name: "Save Changes" }));
 
-    const saveButton = screen.getByRole("button", { name: "Save & Close" });
-    fireEvent.click(saveButton);
-
-    const updatedCommand = capturedCtx.tool.commands.find((c) => c.key === "parent-command-key");
-    expect(updatedCommand?.name).toBe("updated-parent");
+    expect(mockOnSave).toHaveBeenCalledWith(
+      expect.objectContaining({ key: "parent-command-key", name: "updated-parent" }),
+    );
   });
 
-  it("correctly updates command name using original key as identifier", () => {
-    const originalCommand = createTestCommand({
-      key: "original-name-key",
-      name: "original-name",
-    });
+  it("derives key from name when adding a new command", () => {
+    const testState = createTestState(createTestCommand());
     renderWithProvider(
       <CommandDialog
         isOpen={true}
         onOpenChange={mockOnOpenChange}
+        toolName="test-tool"
+        onSave={mockOnSave}
       />,
-      createTestState(originalCommand),
+      testState,
     );
 
-    const nameInput = screen.getByLabelText("Command Name");
-    fireEvent.change(nameInput, { target: { value: "completely-new-name" } });
+    fireEvent.change(screen.getByLabelText("Command Name"), { target: { value: "My New Command" } });
+    fireEvent.click(screen.getByRole("button", { name: "Add" }));
 
-    const saveButton = screen.getByRole("button", { name: "Save & Close" });
-    fireEvent.click(saveButton);
+    expect(mockOnSave).toHaveBeenCalledWith(
+      expect.objectContaining({ name: "My New Command", key: "my-new-command" }),
+    );
+    expect(mockOnOpenChange).toHaveBeenCalledWith(false);
+  });
 
-    const updatedCommand = capturedCtx.tool.commands.find((c) => c.key === "original-name-key");
-    expect(updatedCommand?.name).toBe("completely-new-name");
+  it("disables Add button when name is empty in add mode", () => {
+    const testState = createTestState(createTestCommand());
+    renderWithProvider(
+      <CommandDialog
+        isOpen={true}
+        onOpenChange={mockOnOpenChange}
+        toolName="test-tool"
+        onSave={mockOnSave}
+      />,
+      testState,
+    );
+
+    const addButton = screen.getByRole("button", { name: "Add" });
+    expect(addButton).toBeDisabled();
+  });
+
+  it("enables Add button when name is filled in add mode", () => {
+    const testState = createTestState(createTestCommand());
+    renderWithProvider(
+      <CommandDialog
+        isOpen={true}
+        onOpenChange={mockOnOpenChange}
+        toolName="test-tool"
+        onSave={mockOnSave}
+      />,
+      testState,
+    );
+
+    fireEvent.change(screen.getByLabelText("Command Name"), { target: { value: "new-cmd" } });
+
+    const addButton = screen.getByRole("button", { name: "Add" });
+    expect(addButton).not.toBeDisabled();
   });
 });
 
 describe("CommandDialog - UI Elements and Layout", () => {
   const mockOnOpenChange = vi.fn();
+  const mockOnSave = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -453,6 +548,9 @@ describe("CommandDialog - UI Elements and Layout", () => {
       <CommandDialog
         isOpen={true}
         onOpenChange={mockOnOpenChange}
+        command={command}
+        toolName="test-tool"
+        onSave={mockOnSave}
       />,
       createTestState(command),
     );
@@ -469,6 +567,9 @@ describe("CommandDialog - UI Elements and Layout", () => {
       <CommandDialog
         isOpen={true}
         onOpenChange={mockOnOpenChange}
+        command={command}
+        toolName="test-tool"
+        onSave={mockOnSave}
       />,
       createTestState(command),
     );

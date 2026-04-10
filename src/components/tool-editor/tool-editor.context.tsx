@@ -7,7 +7,6 @@ import {
 } from "@/components/commandly/types/flat";
 import {
   cleanupTool,
-  createNewCommand,
   getAllSubcommands,
   slugify,
 } from "@/components/commandly/utils/flat";
@@ -26,7 +25,6 @@ export interface ToolBuilderState {
   tool: Tool;
   selectedCommand: Command;
   selectedParameter: Parameter | null;
-  editingCommand: Command | null;
   parameterValues: Record<string, ParameterValue>;
   dialogs: {
     parameterDetails: boolean;
@@ -48,8 +46,7 @@ type Action =
   | { type: "SET_DIALOG_OPEN"; payload: { dialog: DialogKey; open: boolean } }
   | { type: "SET_SELECTED_COMMAND"; payload: Command }
   | { type: "SET_SELECTED_PARAMETER"; payload: Parameter | null }
-  | { type: "SET_EDITING_COMMAND"; payload: Command | null }
-  | { type: "UPSERT_PARAMETER"; payload: Parameter }
+  | { type: "UPSERT_PARAMETER"; payload: Parameter & { originalKey?: string } }
   | { type: "ADD_EXCLUSION_GROUP"; payload: ExclusionGroup }
   | { type: "UPDATE_EXCLUSION_GROUP"; payload: ExclusionGroup }
   | { type: "REMOVE_EXCLUSION_GROUP"; payload: string }
@@ -60,7 +57,6 @@ function getDefaultState(tool: Tool): ToolBuilderState {
     tool,
     selectedCommand: tool.commands[0] ?? ({} as Command),
     selectedParameter: null,
-    editingCommand: null,
     parameterValues: {},
     dialogs: {
       parameterDetails: false,
@@ -147,30 +143,29 @@ function toolBuilderReducer(state: ToolBuilderState, action: Action): ToolBuilde
     case "SET_SELECTED_PARAMETER":
       return { ...state, selectedParameter: action.payload };
 
-    case "SET_EDITING_COMMAND":
-      return { ...state, editingCommand: action.payload };
-
     case "UPSERT_PARAMETER": {
-      const exists = state.tool.parameters.some((p) => p.key === action.payload.key);
+      const { originalKey, ...parameterData } = action.payload;
+      const matchKey = originalKey || parameterData.key;
+      const exists = state.tool.parameters.some((p) => p.key === matchKey);
       const newParameters = exists
         ? state.tool.parameters.map((param) => {
-            if (param.key !== action.payload.key) return param;
+            if (param.key !== matchKey) return param;
             const updatedParam = {
               ...param,
-              ...action.payload,
-              dependencies: action.payload.dependencies,
-              validations: action.payload.validations,
-              enum: action.payload.enum,
+              ...parameterData,
+              dependencies: parameterData.dependencies,
+              validations: parameterData.validations,
+              enum: parameterData.enum,
             };
-            if (action.payload.isGlobal && action.payload.isGlobal !== param.isGlobal) {
+            if (parameterData.isGlobal && parameterData.isGlobal !== param.isGlobal) {
               updatedParam.commandKey = undefined;
             }
-            if (!action.payload.isGlobal && param.isGlobal) {
+            if (!parameterData.isGlobal && param.isGlobal) {
               updatedParam.commandKey = state.selectedCommand?.key;
             }
             return updatedParam;
           })
-        : [...state.tool.parameters, action.payload];
+        : [...state.tool.parameters, parameterData];
       return { ...state, tool: { ...state.tool, parameters: newParameters } };
     }
 
@@ -219,7 +214,7 @@ function toolBuilderReducer(state: ToolBuilderState, action: Action): ToolBuilde
 interface ToolBuilderContextValue extends ToolBuilderState {
   initializeTool: (tool: Tool) => void;
   updateTool: (updates: Partial<Tool>) => void;
-  addSubcommand: (parentKey?: string) => string;
+  addCommand: (command: Command) => void;
   deleteCommand: (commandKey: string) => void;
   updateCommand: (commandKey: string, updates: Partial<Command>) => void;
   removeParameter: (parameterKey: string) => void;
@@ -229,8 +224,7 @@ interface ToolBuilderContextValue extends ToolBuilderState {
   setDialogOpen: (dialog: DialogKey, open: boolean) => void;
   setSelectedCommand: (command: Command) => void;
   setSelectedParameter: (parameter: Parameter | null) => void;
-  setEditingCommand: (command: Command | null) => void;
-  upsertParameter: (parameter: Parameter) => void;
+  upsertParameter: (parameter: Parameter, originalKey?: string) => void;
   setParameterValue: (key: string, value: ParameterValue) => void;
   getParametersForCommand: (commandKey: string) => Parameter[];
   getGlobalParameters: () => Parameter[];
@@ -268,11 +262,9 @@ export function ToolBuilderProvider({ tool, children, initialState }: ToolBuilde
 
       updateTool: (updates: Partial<Tool>) => dispatch({ type: "UPDATE_TOOL", payload: updates }),
 
-      addSubcommand: (parentKey?: string) => {
-        const newCommand = createNewCommand(parentKey);
-        dispatch({ type: "ADD_SUBCOMMAND", payload: newCommand });
+      addCommand: (command: Command) => {
+        dispatch({ type: "ADD_SUBCOMMAND", payload: command });
         toast("Command Added", { description: "New command has been created successfully." });
-        return newCommand.key;
       },
 
       deleteCommand: (commandKey: string) => {
@@ -321,12 +313,10 @@ export function ToolBuilderProvider({ tool, children, initialState }: ToolBuilde
       setSelectedParameter: (parameter: Parameter | null) =>
         dispatch({ type: "SET_SELECTED_PARAMETER", payload: parameter }),
 
-      setEditingCommand: (command: Command | null) =>
-        dispatch({ type: "SET_EDITING_COMMAND", payload: command }),
-
-      upsertParameter: (parameter: Parameter) => {
-        const exists = state.tool.parameters.some((p) => p.key === parameter.key);
-        dispatch({ type: "UPSERT_PARAMETER", payload: parameter });
+      upsertParameter: (parameter: Parameter, originalKey?: string) => {
+        const matchKey = originalKey || parameter.key;
+        const exists = state.tool.parameters.some((p) => p.key === matchKey);
+        dispatch({ type: "UPSERT_PARAMETER", payload: { ...parameter, originalKey } });
         if (exists) {
           toast("Parameter Updated", { description: "Parameter has been updated successfully." });
         } else {

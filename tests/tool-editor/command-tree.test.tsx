@@ -318,7 +318,6 @@ describe("CommandTree", () => {
 
     it("clicking edit button opens command dialog", async () => {
       renderWithProvider(<CommandTree />, complexToolState());
-      expect(capturedCtx.editingCommand).toBeNull();
 
       const configElement = screen.getByText("config").closest("div");
       const buttons = Array.from(configElement?.querySelectorAll("button") || []);
@@ -330,17 +329,16 @@ describe("CommandTree", () => {
       if (editButton) {
         fireEvent.click(editButton);
         await waitFor(() => {
-          expect(capturedCtx.editingCommand).not.toBeNull();
-          expect(capturedCtx.editingCommand?.name).toBe("config");
+          expect(screen.getByRole("dialog")).toBeInTheDocument();
+          expect(screen.getByText("Edit Command Settings")).toBeInTheDocument();
         });
       } else {
         expect(buttons.length).toBeGreaterThan(1);
       }
     });
 
-    it("clicking add button on a command adds a new subcommand", () => {
+    it("clicking add button on a command opens dialog for new subcommand", async () => {
       renderWithProvider(<CommandTree />, complexToolState());
-      const initialCommandCount = capturedCtx.tool.commands.length;
 
       const configElement = screen.getByText("config").closest("div");
       const buttons = Array.from(configElement?.querySelectorAll("button") || []);
@@ -352,12 +350,10 @@ describe("CommandTree", () => {
 
       if (addButton) {
         fireEvent.click(addButton);
-        expect(capturedCtx.tool.commands.length).toBe(initialCommandCount + 1);
-        const newCommands = capturedCtx.tool.commands.filter(
-          (cmd) => !createComplexTool().commands.some((orig) => orig.name === cmd.name),
-        );
-        expect(newCommands.length).toBe(1);
-        expect(newCommands[0].parentCommandKey).toBe("config");
+        await waitFor(() => {
+          expect(screen.getByRole("dialog")).toBeInTheDocument();
+          expect(screen.getByRole("heading", { name: "Add Command" })).toBeInTheDocument();
+        });
       } else {
         expect(actionButtons.length).toBeGreaterThanOrEqual(2);
       }
@@ -383,14 +379,16 @@ describe("CommandTree", () => {
       }
     });
 
-    it("clicking 'Add Command' button at bottom adds a new root-level command", () => {
+    it("clicking 'Add Command' button opens dialog for new root-level command", async () => {
       renderWithProvider(<CommandTree />, complexToolState());
-      const initialCommandCount = capturedCtx.tool.commands.length;
 
       const addCommandButton = screen.getByText(/Add Command/);
       fireEvent.click(addCommandButton);
 
-      expect(capturedCtx.tool.commands.length).toBe(initialCommandCount + 1);
+      await waitFor(() => {
+        expect(screen.getByRole("dialog")).toBeInTheDocument();
+        expect(screen.getByRole("heading", { name: "Add Command" })).toBeInTheDocument();
+      });
     });
 
     it("doesn't trigger selection when clicking action buttons", () => {
@@ -409,7 +407,7 @@ describe("CommandTree", () => {
       }
     });
 
-    it("preserves expansion state when adding/removing commands", async () => {
+    it("preserves expansion state when opening add command dialog", async () => {
       renderWithProvider(<CommandTree />, complexToolState());
 
       const configElement = screen.getByText("config").closest("div");
@@ -421,7 +419,7 @@ describe("CommandTree", () => {
           expect(screen.getByText("get")).toBeInTheDocument();
         });
 
-        const addCommandButton = screen.getByText(/Add Command/);
+        const addCommandButton = screen.getByRole("button", { name: /Add Command/i });
         fireEvent.click(addCommandButton);
 
         expect(screen.getByText("get")).toBeInTheDocument();
@@ -462,9 +460,8 @@ describe("CommandTree", () => {
       expect(capturedCtx.selectedCommand.parentCommandKey).toBe("my-cli-tool");
     });
 
-    it("updates editing command in context when clicking edit", async () => {
+    it("clicking edit opens dialog pre-filled with command details", async () => {
       renderWithProvider(<CommandTree />, complexToolState());
-      expect(capturedCtx.editingCommand).toBeNull();
 
       const configElement = screen.getByText("config").closest("div");
       const buttons = Array.from(configElement?.querySelectorAll("button") || []);
@@ -476,32 +473,27 @@ describe("CommandTree", () => {
       if (editButton) {
         fireEvent.click(editButton);
         await waitFor(() => {
-          expect(capturedCtx.editingCommand).not.toBeNull();
-          expect(capturedCtx.editingCommand?.name).toBe("config");
+          expect(screen.getByText("Edit Command Settings")).toBeInTheDocument();
+          const nameInput = screen.getByLabelText("Command Name") as HTMLInputElement;
+          expect(nameInput.value).toBe("config");
         });
       }
     });
 
-    it("updates tool commands when adding new command", () => {
+    it("opens dialog when adding new command", async () => {
       renderWithProvider(<CommandTree />, complexToolState());
-      const initialCommandCount = capturedCtx.tool.commands.length;
-      const initialCommands = [...capturedCtx.tool.commands];
 
       const addCommandButton = screen.getByText(/Add Command/);
       fireEvent.click(addCommandButton);
 
-      expect(capturedCtx.tool.commands.length).toBe(initialCommandCount + 1);
-      const newCommand = capturedCtx.tool.commands.find(
-        (cmd) => !initialCommands.some((c) => c.name === cmd.name),
-      );
-      expect(newCommand).toBeDefined();
-      expect(newCommand?.parentCommandKey).toBeUndefined();
+      await waitFor(() => {
+        expect(screen.getByRole("dialog")).toBeInTheDocument();
+        expect(screen.getByRole("heading", { name: "Add Command" })).toBeInTheDocument();
+      });
     });
 
-    it("updates tool commands when adding subcommand", () => {
+    it("opens dialog when adding subcommand", async () => {
       renderWithProvider(<CommandTree />, complexToolState());
-      const initialCommandCount = capturedCtx.tool.commands.length;
-      const initialCommands = [...capturedCtx.tool.commands];
 
       const configElement = screen.getByText("config").closest("div");
       const buttons = Array.from(configElement?.querySelectorAll("button") || []);
@@ -513,12 +505,10 @@ describe("CommandTree", () => {
 
       if (addButton) {
         fireEvent.click(addButton);
-        expect(capturedCtx.tool.commands.length).toBe(initialCommandCount + 1);
-        const newCommand = capturedCtx.tool.commands.find(
-          (cmd) => !initialCommands.some((c) => c.name === cmd.name),
-        );
-        expect(newCommand).toBeDefined();
-        expect(newCommand?.parentCommandKey).toBe("config");
+        await waitFor(() => {
+          expect(screen.getByRole("dialog")).toBeInTheDocument();
+          expect(screen.getByRole("heading", { name: "Add Command" })).toBeInTheDocument();
+        });
       }
     });
 
@@ -798,7 +788,7 @@ describe("CommandTree", () => {
       expect(spacerDiv).toBeInTheDocument();
     });
 
-    it("preserves expansion state when updating commands", async () => {
+    it("preserves expansion state when opening add command dialog", async () => {
       renderWithProvider(<CommandTree />, complexToolState());
 
       const configElement = screen.getByText("config").closest("div");
@@ -823,10 +813,10 @@ describe("CommandTree", () => {
           expect(screen.getByText("get")).toBeInTheDocument();
           expect(screen.getByText("set")).toBeInTheDocument();
 
-          const newCommands = capturedCtx.tool.commands.filter(
-            (cmd) => !createComplexTool().commands.some((orig) => orig.name === cmd.name),
-          );
-          expect(newCommands.length).toBe(1);
+          await waitFor(() => {
+            expect(screen.getByRole("dialog")).toBeInTheDocument();
+            expect(screen.getByRole("heading", { name: "Add Command" })).toBeInTheDocument();
+          });
         }
       }
     });
