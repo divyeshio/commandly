@@ -63,7 +63,14 @@ function ToolEditorContent({
   onSaveCommand,
   onDeleteSavedCommand,
 }: ToolEditorContentProps) {
-  const { tool, setDialogOpen, initializeTool } = useToolBuilder();
+  const {
+    tool,
+    setDialogOpen,
+    initializeTool,
+    selectedParameter,
+    upsertParameter,
+    setSelectedParameter,
+  } = useToolBuilder();
   const [chatOpen, setChatOpen] = useState(false);
   const [streamingTool, setStreamingTool] = useState<Tool | null>(null);
   const [isAIGenerating, setIsAIGenerating] = useState(false);
@@ -228,7 +235,16 @@ function ToolEditorContent({
         </div>
       </div>
 
-      <ParameterDetailsDialog />
+      {selectedParameter && (
+        <ParameterDetailsDialog
+          parameter={selectedParameter.key ? selectedParameter : undefined}
+          isGlobal={selectedParameter.isGlobal}
+          onSave={(param) => {
+            upsertParameter(param, selectedParameter.key || undefined);
+            setSelectedParameter(null);
+          }}
+        />
+      )}
       <ToolDetailsDialog />
       <SavedCommandsDialog
         savedCommands={savedCommands}

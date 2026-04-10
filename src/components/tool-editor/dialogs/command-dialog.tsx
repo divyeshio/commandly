@@ -1,5 +1,5 @@
-import { useToolBuilder } from "../tool-editor.context";
 import { Command } from "@/components/commandly/types/flat";
+import { slugify } from "@/components/commandly/utils/flat";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,13 +19,32 @@ import { useState } from "react";
 interface CommandDialogProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
+  command?: Command;
+  parentKey?: string;
+  toolName: string;
+  onSave: (command: Command) => void;
 }
 
-export function CommandDialog({ isOpen, onOpenChange }: CommandDialogProps) {
-  const { editingCommand, tool, updateCommand } = useToolBuilder();
-  const command = editingCommand;
-  const toolName = tool.name;
-  const [editCommand, setCommand] = useState<Command>(command!);
+export function CommandDialog({
+  isOpen,
+  onOpenChange,
+  command,
+  parentKey,
+  toolName,
+  onSave,
+}: CommandDialogProps) {
+  const isNewCommand = !command;
+  const [editCommand, setCommand] = useState<Command>(
+    () =>
+      command ?? {
+        key: "",
+        name: "",
+        description: "",
+        isDefault: false,
+        sortOrder: 0,
+        parentCommandKey: parentKey,
+      },
+  );
 
   return (
     <Dialog
@@ -36,7 +55,7 @@ export function CommandDialog({ isOpen, onOpenChange }: CommandDialogProps) {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <TerminalIcon className="h-5 w-5" />
-            Edit Command Settings
+            {isNewCommand ? "Add Command" : "Edit Command Settings"}
           </DialogTitle>
           <DialogDescription>Dialog for editing command details</DialogDescription>
         </DialogHeader>
@@ -47,7 +66,7 @@ export function CommandDialog({ isOpen, onOpenChange }: CommandDialogProps) {
               <Input
                 id="cmd-name"
                 value={editCommand.name}
-                disabled={command!.name == toolName}
+                disabled={!isNewCommand && command!.name === toolName}
                 onChange={(e) =>
                   setCommand((prev) => ({
                     ...prev,
@@ -76,8 +95,8 @@ export function CommandDialog({ isOpen, onOpenChange }: CommandDialogProps) {
               <div className="flex items-center space-x-2">
                 <Switch
                   id="default-cmd"
-                  defaultChecked={editCommand.isDefault}
-                  disabled={command?.isDefault}
+                  checked={editCommand.isDefault}
+                  disabled={!isNewCommand && command?.isDefault}
                   onCheckedChange={(checked) => {
                     setCommand((prev) => ({
                       ...prev,
@@ -115,12 +134,16 @@ export function CommandDialog({ isOpen, onOpenChange }: CommandDialogProps) {
         <DialogFooter>
           <Button
             variant="outline"
+            disabled={isNewCommand && !editCommand.name.trim()}
             onClick={() => {
-              updateCommand(editCommand.key, editCommand);
+              const finalCommand = isNewCommand
+                ? { ...editCommand, key: slugify(editCommand.name) }
+                : editCommand;
+              onSave(finalCommand);
               onOpenChange(false);
             }}
           >
-            Save & Close
+            {isNewCommand ? "Add" : "Save Changes"}
           </Button>
         </DialogFooter>
       </DialogContent>

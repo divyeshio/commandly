@@ -11,7 +11,7 @@ import {
   ParameterValidationType,
 } from "@/components/commandly/types/flat";
 import { TagsInput } from "@/components/commandly/ui/tags-input";
-import { slugify } from "@/components/commandly/utils/flat";
+import { createNewParameter, slugify } from "@/components/commandly/utils/flat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,40 +32,62 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import {
+  Sortable,
+  SortableContent,
+  SortableItem,
+  SortableItemHandle,
+  SortableOverlay,
+} from "@/components/ui/sortable";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import {
   FlagIcon,
   FileTextIcon,
+  GripVerticalIcon,
   HashIcon,
   LinkIcon,
   PlusIcon,
   ShieldIcon,
   Trash2Icon,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 
-export function ParameterDetailsDialog() {
-  const { selectedParameter, selectedCommand, tool, setSelectedParameter, upsertParameter } =
-    useToolBuilder();
+const DATA_TYPE_OPTIONS: Record<ParameterType, ParameterDataType[]> = {
+  Flag: ["Boolean"],
+  Option: ["String", "Number", "Boolean", "Enum"],
+  Argument: ["String", "Number", "Boolean", "Enum"],
+};
+
+interface ParameterDetailsDialogProps {
+  parameter?: Parameter;
+  isGlobal?: boolean;
+  onSave: (parameter: Parameter) => void;
+}
+
+export function ParameterDetailsDialog({
+  parameter,
+  isGlobal = false,
+  onSave,
+}: ParameterDetailsDialogProps) {
+  const { selectedCommand, tool, setSelectedParameter } = useToolBuilder();
 
   const commandKey = selectedCommand?.key;
+  const isNewParameter = !parameter;
 
-  const availableParameters = selectedParameter
-    ? tool.parameters.filter((p) => {
-        if (p.key === selectedParameter.key) return false;
-        if (selectedParameter.isGlobal) return p.isGlobal;
-        return p.isGlobal || p.commandKey === commandKey;
-      })
-    : [];
-
-  const [parameter, setParameter] = useState<Parameter>(selectedParameter!);
+  const [internalParameter, setParameter] = useState<Parameter>(
+    () => parameter ?? createNewParameter(isGlobal, commandKey),
+  );
   const [hasChanges, setHasChanges] = useState(false);
+  const enumValueIdsRef = useRef<string[]>(
+    (parameter?.enum?.values ?? []).map(() => Math.random().toString(36).slice(2, 9)),
+  );
 
-  useEffect(() => {
-    setParameter(selectedParameter!);
-    setHasChanges(false);
-  }, [selectedParameter]);
+  const availableParameters = tool.parameters.filter((p) => {
+    if (parameter && p.key === parameter.key) return false;
+    if (parameter?.isGlobal) return p.isGlobal;
+    return p.isGlobal || p.commandKey === commandKey;
+  });
 
   const getParameterIcon = (parameterType: string) => {
     switch (parameterType) {
@@ -80,19 +102,13 @@ export function ParameterDetailsDialog() {
     }
   };
 
-  const isOpen = !!selectedParameter;
-
   const handleClose = () => {
     setSelectedParameter(null);
     setHasChanges(false);
   };
 
   const handleSave = () => {
-    if (parameter) {
-      upsertParameter(parameter);
-      setHasChanges(false);
-      handleClose();
-    }
+    onSave(internalParameter);
   };
 
   const updateParameter = (updates: Partial<Parameter>) => {
@@ -102,7 +118,7 @@ export function ParameterDetailsDialog() {
         let generatedKey = slugify(next.longFlag || next.name);
 
         const existingParam = tool.parameters.find(
-          (p) => p.key === generatedKey && p.key !== selectedParameter?.key,
+          (p) => p.key === generatedKey && p.key !== parameter?.key,
         );
         // If duplicate exists and parameter is not global, prefix with command key
         if (existingParam && !next.isGlobal && commandKey) {
@@ -165,34 +181,38 @@ export function ParameterDetailsDialog() {
   const addEnumValue = () => {
     if (!parameter) return;
     const newEnumValue: ParameterEnumValue = {
-      value: "new-value",
-      displayName: "New Value",
+      value: "",
+      displayName: "",
       isDefault: false,
-      sortOrder: 0,
+      sortOrder: parameter.enum?.values?.length ?? 0,
     };
+    enumValueIdsRef.current = [...enumValueIdsRef.current, Math.random().toString(36).slice(2, 9)];
     const existing = parameter.enum ?? { values: [], allowMultiple: false };
     updateParameter({
       enum: { ...existing, values: [...existing.values, newEnumValue] },
     });
   };
 
-  if (!parameter) return null;
-
   const canSaveChanges = () => {
     if (!hasChanges) return false;
 
-    if (!parameter.name.trim() || !parameter.longFlag?.trim()) {
+    if (!internalParameter.name.trim() || !internalParameter.longFlag?.trim()) {
       return false;
     }
     if (
       availableParameters.some(
         (p) =>
-          p.name.trim() === parameter.name.trim() ||
-          parameter.longFlag == p.longFlag ||
-          (parameter.shortFlag && parameter.shortFlag == p.shortFlag),
+          p.name.trim() === internalParameter.name.trim() ||
+          internalParameter.longFlag == p.longFlag ||
+          (internalParameter.shortFlag && internalParameter.shortFlag == p.shortFlag),
       )
     ) {
       return false;
+    }
+
+    if (internalParameter.dataType === "Enum") {
+      if (!internalParameter.enum?.values?.length) return false;
+      if (internalParameter.enum.values.some((v) => !v.value.trim())) return false;
     }
 
     return true;
@@ -200,15 +220,15 @@ export function ParameterDetailsDialog() {
 
   return (
     <Dialog
-      open={isOpen}
+      open={true}
       onOpenChange={handleClose}
     >
       <DialogContent className="max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            {getParameterIcon(parameter.parameterType)}
-            {parameter.name}
-            {parameter.isGlobal && (
+            {getParameterIcon(internalParameter.parameterType)}
+            {internalParameter.name}
+            {internalParameter.isGlobal && (
               <Badge
                 variant="default"
                 className="text-xs"
@@ -228,7 +248,7 @@ export function ParameterDetailsDialog() {
                 Parameter Name<span className="ml-1 text-destructive">*</span>
               </Label>
               <Input
-                value={parameter.name}
+                value={internalParameter.name}
                 onChange={(e) => updateParameter({ name: e.target.value })}
               />
             </div>
@@ -238,8 +258,17 @@ export function ParameterDetailsDialog() {
             <div className="flex flex-col gap-2">
               <Label>Parameter Type</Label>
               <Select
-                value={parameter.parameterType}
-                onValueChange={(value: ParameterType) => updateParameter({ parameterType: value })}
+                value={internalParameter.parameterType}
+                onValueChange={(value: ParameterType) => {
+                  if (value === "Flag") {
+                    updateParameter({ parameterType: value, dataType: "Boolean" });
+                  } else {
+                    updateParameter({
+                      parameterType: value,
+                      ...(internalParameter.parameterType === "Flag" ? { dataType: "String" } : {}),
+                    });
+                  }
+                }}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue />
@@ -254,36 +283,41 @@ export function ParameterDetailsDialog() {
             <div className="flex flex-col gap-2">
               <Label>Data Type</Label>
               <Select
-                value={parameter.dataType}
+                value={internalParameter.dataType}
                 onValueChange={(value: ParameterDataType) => updateParameter({ dataType: value })}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="String">String</SelectItem>
-                  <SelectItem value="Number">Number</SelectItem>
-                  <SelectItem value="Boolean">Boolean</SelectItem>
-                  <SelectItem value="Enum">Enum</SelectItem>
+                  {DATA_TYPE_OPTIONS[internalParameter.parameterType].map((dataType) => (
+                    <SelectItem
+                      key={dataType}
+                      value={dataType}
+                    >
+                      {dataType}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
             <div className="flex items-center space-x-2 pt-6">
               <Switch
                 id="isGlobal"
-                checked={parameter.isGlobal}
+                checked={internalParameter.isGlobal}
                 onCheckedChange={(checked) => updateParameter({ isGlobal: checked })}
               />
               <Label htmlFor="isGlobal">Global</Label>
             </div>
           </div>
 
-          {(parameter.parameterType === "Flag" || parameter.parameterType === "Option") && (
+          {(internalParameter.parameterType === "Flag" ||
+            internalParameter.parameterType === "Option") && (
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-2">
                 <Label>Short Flag (include prefix)</Label>
                 <Input
-                  value={parameter.shortFlag}
+                  value={internalParameter.shortFlag}
                   onChange={(e) => updateParameter({ shortFlag: e.target.value })}
                   placeholder="-v"
                 />
@@ -293,7 +327,7 @@ export function ParameterDetailsDialog() {
                   Long Flag (include prefix) <span className="ml-1 text-destructive">*</span>
                 </Label>
                 <Input
-                  value={parameter.longFlag}
+                  value={internalParameter.longFlag}
                   onChange={(e) => updateParameter({ longFlag: e.target.value })}
                   placeholder="--verbose"
                 />
@@ -301,27 +335,27 @@ export function ParameterDetailsDialog() {
             </div>
           )}
 
-          {parameter.parameterType === "Option" && (
+          {internalParameter.parameterType === "Option" && (
             <div className="flex flex-col gap-2">
               <Label>
                 Key-Value Separator
                 <span className="muted">(default is single space)</span>
               </Label>
               <Input
-                value={parameter.keyValueSeparator ?? " "}
+                value={internalParameter.keyValueSeparator ?? " "}
                 onChange={(e) => updateParameter({ keyValueSeparator: e.target.value })}
                 placeholder="Default is single space"
               />
             </div>
           )}
 
-          {parameter.parameterType === "Argument" && (
+          {internalParameter.parameterType === "Argument" && (
             <div className="flex flex-col gap-2">
               <Label htmlFor="position">Position</Label>
               <Input
                 id="position"
                 type="number"
-                value={parameter.position || 0}
+                value={internalParameter.position || 0}
                 onChange={(e) =>
                   updateParameter({
                     position: Number.parseInt(e.target.value) || 0,
@@ -335,7 +369,7 @@ export function ParameterDetailsDialog() {
           <div className="flex flex-col gap-2">
             <Label>Description</Label>
             <Textarea
-              value={parameter.description}
+              value={internalParameter.description}
               onChange={(e) => updateParameter({ description: e.target.value })}
               rows={2}
             />
@@ -344,7 +378,7 @@ export function ParameterDetailsDialog() {
           <div className="flex flex-col gap-2">
             <Label>Group</Label>
             <Input
-              value={parameter.group ?? ""}
+              value={internalParameter.group ?? ""}
               onChange={(e) => updateParameter({ group: e.target.value || undefined })}
               placeholder="e.g. output"
             />
@@ -354,16 +388,16 @@ export function ParameterDetailsDialog() {
             <div className="flex items-center space-x-2">
               <Switch
                 id="isRequired"
-                checked={parameter.isRequired}
+                checked={internalParameter.isRequired}
                 onCheckedChange={(checked) => updateParameter({ isRequired: checked })}
               />
               <Label htmlFor="isRequired">Required</Label>
             </div>
-            {parameter.parameterType !== "Flag" && (
+            {internalParameter.parameterType !== "Flag" && (
               <div className="flex items-center space-x-2">
                 <Switch
                   id="isRepeatable"
-                  checked={parameter.isRepeatable}
+                  checked={internalParameter.isRepeatable}
                   onCheckedChange={(checked) => updateParameter({ isRepeatable: checked })}
                 />
                 <Label htmlFor="isRepeatable">Repeatable</Label>
@@ -374,7 +408,7 @@ export function ParameterDetailsDialog() {
           <div className="flex flex-col gap-2">
             <Label>Tags</Label>
             <TagsInput
-              value={parameter.metadata?.tags || []}
+              value={internalParameter.metadata?.tags || []}
               onValueChange={(tags) => {
                 updateParameter({ metadata: { tags } });
               }}
@@ -408,8 +442,8 @@ export function ParameterDetailsDialog() {
               className="space-y-2"
               id="dependencies"
             >
-              {parameter.dependencies &&
-                parameter.dependencies.map((dependency) => (
+              {internalParameter.dependencies &&
+                internalParameter.dependencies.map((dependency) => (
                   <div
                     key={dependency.key}
                     className="flex items-center gap-2 rounded border p-2"
@@ -484,8 +518,8 @@ export function ParameterDetailsDialog() {
               </Button>
             </div>
             <div className="space-y-2">
-              {parameter.validations &&
-                parameter.validations.map((validation) => (
+              {internalParameter.validations &&
+                internalParameter.validations.map((validation) => (
                   <div
                     key={validation.key}
                     className="flex items-center gap-2 rounded border p-2"
@@ -493,7 +527,7 @@ export function ParameterDetailsDialog() {
                     <Select
                       value={validation.validationType}
                       onValueChange={(value: ParameterValidationType) => {
-                        const updatedValidations = parameter.validations?.map((v) =>
+                        const updatedValidations = internalParameter.validations?.map((v) =>
                           v.key === validation.key ? { ...v, validationType: value } : v,
                         );
                         updateParameter({
@@ -515,7 +549,7 @@ export function ParameterDetailsDialog() {
                     <Input
                       value={validation.validationValue}
                       onChange={(e) => {
-                        const updatedValidations = parameter.validations?.map((v) =>
+                        const updatedValidations = internalParameter.validations?.map((v) =>
                           v.key === validation.key ? { ...v, validationValue: e.target.value } : v,
                         );
                         updateParameter({
@@ -529,7 +563,7 @@ export function ParameterDetailsDialog() {
                       size="sm"
                       variant="ghost"
                       onClick={() => {
-                        const updatedValidations = parameter.validations?.filter(
+                        const updatedValidations = internalParameter.validations?.filter(
                           (v) => v.key !== validation.key,
                         );
                         updateParameter({
@@ -545,7 +579,7 @@ export function ParameterDetailsDialog() {
           </div>
 
           {/* Enum Values Section */}
-          {parameter.dataType === "Enum" && (
+          {internalParameter.dataType === "Enum" && (
             <>
               <Separator />
               <div>
@@ -566,14 +600,14 @@ export function ParameterDetailsDialog() {
                   </Button>
                 </div>
                 <div className="mb-3 flex items-center gap-4">
-                  <div className="flex items-center space-x-2">
+                  <div className="flex h-8 items-center space-x-2">
                     <Switch
                       id="allow-multiple"
-                      checked={parameter.enum?.allowMultiple ?? false}
+                      checked={internalParameter.enum?.allowMultiple ?? false}
                       onCheckedChange={(checked) =>
                         updateParameter({
                           enum: {
-                            ...(parameter.enum ?? { values: [] }),
+                            ...(internalParameter.enum ?? { values: [] }),
                             allowMultiple: checked,
                           } as ParameterEnumValues,
                         })
@@ -581,99 +615,145 @@ export function ParameterDetailsDialog() {
                     />
                     <Label htmlFor="allow-multiple">Allow Multiple</Label>
                   </div>
-                  {parameter.enum?.allowMultiple && (
-                    <Input
-                      value={parameter.enum?.separator ?? ","}
-                      onChange={(e) =>
-                        updateParameter({
-                          enum: {
-                            ...(parameter.enum ?? { values: [], allowMultiple: true }),
-                            separator: e.target.value,
-                          },
-                        })
-                      }
-                      placeholder="Separator (e.g. ,)"
-                      className="w-32"
-                    />
+                  {internalParameter.enum?.allowMultiple && (
+                    <div className="flex gap-2">
+                      <Label>Separator</Label>
+                      <Input
+                        value={internalParameter.enum?.separator ?? ","}
+                        onChange={(e) =>
+                          updateParameter({
+                            enum: {
+                              ...(internalParameter.enum ?? { values: [], allowMultiple: true }),
+                              separator: e.target.value,
+                            },
+                          })
+                        }
+                        placeholder="e.g. ,"
+                        className="w-20"
+                      />
+                    </div>
                   )}
                 </div>
-                <div
-                  className="space-y-2"
-                  id="enum-values"
-                >
-                  {parameter.enum?.values?.map((enumValue) => (
-                    <div
-                      key={enumValue.value}
-                      className="flex items-center gap-2 rounded border p-2"
-                    >
-                      <Input
-                        value={enumValue.value}
-                        onChange={(e) => {
-                          const updatedValues = parameter.enum?.values?.map((ev) =>
-                            ev.value === enumValue.value ? { ...ev, value: e.target.value } : ev,
-                          );
-                          updateParameter({
-                            enum: {
-                              ...(parameter.enum ?? { allowMultiple: false }),
-                              values: updatedValues ?? [],
-                            },
-                          });
-                        }}
-                        placeholder="value"
-                        className="flex-1"
-                      />
-                      <Input
-                        value={enumValue.displayName}
-                        onChange={(e) => {
-                          const updatedValues = parameter.enum?.values?.map((ev) =>
-                            ev.value === enumValue.value
-                              ? { ...ev, displayName: e.target.value }
-                              : ev,
-                          );
-                          updateParameter({
-                            enum: {
-                              ...(parameter.enum ?? { allowMultiple: false }),
-                              values: updatedValues ?? [],
-                            },
-                          });
-                        }}
-                        placeholder="Display Name"
-                        className="flex-1"
-                      />
-                      <Switch
-                        checked={enumValue.isDefault}
-                        onCheckedChange={(checked) => {
-                          const updatedValues = parameter.enum?.values?.map((ev) =>
-                            ev.value === enumValue.value ? { ...ev, isDefault: checked } : ev,
-                          );
-                          updateParameter({
-                            enum: {
-                              ...(parameter.enum ?? { allowMultiple: false }),
-                              values: updatedValues ?? [],
-                            },
-                          });
-                        }}
-                      />
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => {
-                          const updatedValues = parameter.enum?.values?.filter(
-                            (ev) => ev.value !== enumValue.value,
-                          );
-                          updateParameter({
-                            enum: {
-                              ...(parameter.enum ?? { allowMultiple: false }),
-                              values: updatedValues ?? [],
-                            },
-                          });
-                        }}
-                      >
-                        <Trash2Icon className="h-3 w-3" />
-                      </Button>
+                {internalParameter.enum?.values && internalParameter.enum.values.length > 0 && (
+                  <div className="mb-1 flex items-center gap-2 border border-transparent px-2">
+                    <div className="size-7 shrink-0" />
+                    <span className="flex-1 text-xs text-muted-foreground">Value</span>
+                    <span className="flex-1 text-xs text-muted-foreground">Display Name</span>
+                    <div className="invisible flex shrink-0 items-center gap-1">
+                      <div className="h-[1.15rem] w-8" />
+                      <span className="text-xs">Default</span>
                     </div>
-                  ))}
-                </div>
+                    <div className="size-7 shrink-0" />
+                  </div>
+                )}
+                <Sortable
+                  value={enumValueIdsRef.current}
+                  onValueChange={(newOrder) => {
+                    const idToIndex = Object.fromEntries(
+                      enumValueIdsRef.current.map((id, i) => [id, i]),
+                    );
+                    const reorderedValues = (newOrder as string[]).map((id, newIndex) => ({
+                      ...internalParameter.enum!.values[idToIndex[id]],
+                      sortOrder: newIndex,
+                    }));
+                    enumValueIdsRef.current = newOrder as string[];
+                    updateParameter({
+                      enum: { ...internalParameter.enum!, values: reorderedValues },
+                    });
+                  }}
+                >
+                  <SortableContent
+                    className="space-y-2"
+                    id="enum-values"
+                  >
+                    {internalParameter.enum?.values?.map((enumValue, index) => (
+                      <SortableItem
+                        key={enumValueIdsRef.current[index]}
+                        value={enumValueIdsRef.current[index]}
+                        className="flex items-center gap-2 rounded border p-2"
+                      >
+                        <SortableItemHandle className="shrink-0 text-muted-foreground">
+                          <GripVerticalIcon className="h-4 w-4" />
+                        </SortableItemHandle>
+                        <Input
+                          value={enumValue.value}
+                          onChange={(e) => {
+                            const updatedValues = internalParameter.enum?.values?.map((ev) =>
+                              ev === enumValue ? { ...ev, value: e.target.value } : ev,
+                            );
+                            updateParameter({
+                              enum: {
+                                ...(internalParameter.enum ?? { allowMultiple: false }),
+                                values: updatedValues ?? [],
+                              },
+                            });
+                          }}
+                          placeholder="value"
+                          className="flex-1"
+                        />
+                        <Input
+                          value={enumValue.displayName}
+                          onChange={(e) => {
+                            const updatedValues = internalParameter.enum?.values?.map((ev) =>
+                              ev === enumValue ? { ...ev, displayName: e.target.value } : ev,
+                            );
+                            updateParameter({
+                              enum: {
+                                ...(internalParameter.enum ?? { allowMultiple: false }),
+                                values: updatedValues ?? [],
+                              },
+                            });
+                          }}
+                          placeholder="Display Name"
+                          className="flex-1"
+                        />
+                        <div className="flex shrink-0 items-center gap-1">
+                          <Switch
+                            checked={enumValue.isDefault}
+                            onCheckedChange={(checked) => {
+                              const updatedValues = internalParameter.enum?.values?.map((ev) =>
+                                ev === enumValue
+                                  ? { ...ev, isDefault: checked }
+                                  : checked
+                                    ? { ...ev, isDefault: false }
+                                    : ev,
+                              );
+                              updateParameter({
+                                enum: {
+                                  ...(internalParameter.enum ?? { allowMultiple: false }),
+                                  values: updatedValues ?? [],
+                                },
+                              });
+                            }}
+                          />
+                          <Label className="text-xs">Default</Label>
+                        </div>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="size-7 shrink-0 p-0"
+                          onClick={() => {
+                            const updatedValues = internalParameter.enum?.values?.filter(
+                              (_, valueIndex) => valueIndex !== index,
+                            );
+                            enumValueIdsRef.current = enumValueIdsRef.current.filter(
+                              (_, i) => i !== index,
+                            );
+                            updateParameter({
+                              enum: {
+                                ...(internalParameter.enum ?? { allowMultiple: false }),
+                                values: updatedValues ?? [],
+                              },
+                            });
+                          }}
+                        >
+                          <Trash2Icon className="h-3 w-3" />
+                        </Button>
+                      </SortableItem>
+                    ))}
+                  </SortableContent>
+                  <SortableOverlay />
+                </Sortable>
               </div>
             </>
           )}
@@ -690,7 +770,7 @@ export function ParameterDetailsDialog() {
             onClick={handleSave}
             disabled={!canSaveChanges()}
           >
-            Save Changes
+            {isNewParameter ? "Add" : "Save Changes"}
           </Button>
         </DialogFooter>
       </DialogContent>
