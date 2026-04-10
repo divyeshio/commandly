@@ -25,10 +25,25 @@ interface CommandDialogProps {
   onSave: (command: Command) => void;
 }
 
-export function CommandDialog({ isOpen, onOpenChange, command, parentKey, toolName, onSave }: CommandDialogProps) {
+export function CommandDialog({
+  isOpen,
+  onOpenChange,
+  command,
+  parentKey,
+  toolName,
+  onSave,
+}: CommandDialogProps) {
   const isNewCommand = !command;
   const [editCommand, setCommand] = useState<Command>(
-    () => command ?? { key: "", name: "", description: "", isDefault: false, sortOrder: 0, parentCommandKey: parentKey },
+    () =>
+      command ?? {
+        key: "",
+        name: "",
+        description: "",
+        isDefault: false,
+        sortOrder: 0,
+        parentCommandKey: parentKey,
+      },
   );
 
   return (

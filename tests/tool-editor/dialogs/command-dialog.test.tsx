@@ -470,7 +470,9 @@ describe("CommandDialog - Save Functionality", () => {
       createTestState(command),
     );
 
-    fireEvent.change(screen.getByLabelText("Command Name"), { target: { value: "updated-parent" } });
+    fireEvent.change(screen.getByLabelText("Command Name"), {
+      target: { value: "updated-parent" },
+    });
     fireEvent.click(screen.getByRole("button", { name: "Save Changes" }));
 
     expect(mockOnSave).toHaveBeenCalledWith(
@@ -490,7 +492,9 @@ describe("CommandDialog - Save Functionality", () => {
       testState,
     );
 
-    fireEvent.change(screen.getByLabelText("Command Name"), { target: { value: "My New Command" } });
+    fireEvent.change(screen.getByLabelText("Command Name"), {
+      target: { value: "My New Command" },
+    });
     fireEvent.click(screen.getByRole("button", { name: "Add" }));
 
     expect(mockOnSave).toHaveBeenCalledWith(

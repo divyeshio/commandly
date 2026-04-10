@@ -358,23 +358,39 @@ describe("ParameterDetailsDialog - Parameter Type Specific Fields", () => {
     const parameterTypeSelect = screen.getAllByRole("combobox")[0];
 
     // Option → Flag: dataType auto-set to Boolean, only Boolean in list
-    act(() => { fireEvent.click(parameterTypeSelect); });
-    act(() => { fireEvent.click(screen.getByRole("option", { name: "Flag" })); });
+    act(() => {
+      fireEvent.click(parameterTypeSelect);
+    });
+    act(() => {
+      fireEvent.click(screen.getByRole("option", { name: "Flag" }));
+    });
     expect(screen.getByText("Boolean")).toBeInTheDocument();
 
     // Flag → Option: dataType resets to String, all data type options available
-    act(() => { fireEvent.click(parameterTypeSelect); });
-    act(() => { fireEvent.click(screen.getByRole("option", { name: "Option" })); });
+    act(() => {
+      fireEvent.click(parameterTypeSelect);
+    });
+    act(() => {
+      fireEvent.click(screen.getByRole("option", { name: "Option" }));
+    });
     expect(screen.getByText("String")).toBeInTheDocument();
 
     // Option → Flag again: dataType auto-set to Boolean
-    act(() => { fireEvent.click(parameterTypeSelect); });
-    act(() => { fireEvent.click(screen.getByRole("option", { name: "Flag" })); });
+    act(() => {
+      fireEvent.click(parameterTypeSelect);
+    });
+    act(() => {
+      fireEvent.click(screen.getByRole("option", { name: "Flag" }));
+    });
     expect(screen.getByText("Boolean")).toBeInTheDocument();
 
     // Flag → Argument: dataType resets to String, all data type options available
-    act(() => { fireEvent.click(parameterTypeSelect); });
-    act(() => { fireEvent.click(screen.getByRole("option", { name: "Argument" })); });
+    act(() => {
+      fireEvent.click(parameterTypeSelect);
+    });
+    act(() => {
+      fireEvent.click(screen.getByRole("option", { name: "Argument" }));
+    });
     expect(screen.getByText("String")).toBeInTheDocument();
   });
 });
@@ -427,7 +443,6 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     // Context selectedParameter should still have the original name (not yet saved)
     expect(capturedCtx.selectedParameter?.name).toBe("test-param");
   });
-
 
   it("cancels changes, closes dialog, and preserves original store state", () => {
     const testParameter = createTestParameter({
@@ -865,13 +880,12 @@ describe("ParameterDetailsDialog - Enum Section", () => {
   });
 });
 
-
-describe('ParameterDetailsDialog - Bug: Flag Update Duplication', () => {
-  it('should update existing parameter when long flag is changed, not create a new one', async () => {
+describe("ParameterDetailsDialog - Bug: Flag Update Duplication", () => {
+  it("should update existing parameter when long flag is changed, not create a new one", async () => {
     const originalParam = createTestParameter({
-      key: 'original-param',
-      name: 'original-param',
-      longFlag: '--original',
+      key: "original-param",
+      name: "original-param",
+      longFlag: "--original",
     });
 
     const initialState = createTestState(originalParam);
@@ -886,7 +900,7 @@ describe('ParameterDetailsDialog - Bug: Flag Update Duplication', () => {
 
     // Change the long flag - this will trigger slugify and change the 'key'
     act(() => {
-      fireEvent.change(longFlagInput, { target: { value: '--updated' } });
+      fireEvent.change(longFlagInput, { target: { value: "--updated" } });
     });
 
     // Save changes
@@ -896,11 +910,11 @@ describe('ParameterDetailsDialog - Bug: Flag Update Duplication', () => {
 
     // Check the final state in the tool via the captured context
     const parameters = capturedCtx.tool.parameters;
-    
+
     // IT SHOULD STILL ONLY HAVE ONE PARAMETER, but the bug causes it to have 2
     // We expect 1 in a healthy system. This test should FAIL now (length will be 2) if fixed later.
     expect(parameters).toHaveLength(1);
-    expect(parameters[0].longFlag).toBe('--updated');
-    expect(parameters[0].key).toBe('updated');
+    expect(parameters[0].longFlag).toBe("--updated");
+    expect(parameters[0].key).toBe("updated");
   });
 });

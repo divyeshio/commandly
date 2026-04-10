@@ -32,8 +32,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Sortable,
   SortableContent,
@@ -41,6 +39,8 @@ import {
   SortableItemHandle,
   SortableOverlay,
 } from "@/components/ui/sortable";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 import {
   FlagIcon,
   FileTextIcon,
@@ -65,7 +65,11 @@ interface ParameterDetailsDialogProps {
   onSave: (parameter: Parameter) => void;
 }
 
-export function ParameterDetailsDialog({ parameter, isGlobal = false, onSave }: ParameterDetailsDialogProps) {
+export function ParameterDetailsDialog({
+  parameter,
+  isGlobal = false,
+  onSave,
+}: ParameterDetailsDialogProps) {
   const { selectedCommand, tool, setSelectedParameter } = useToolBuilder();
 
   const commandKey = selectedCommand?.key;
@@ -287,7 +291,10 @@ export function ParameterDetailsDialog({ parameter, isGlobal = false, onSave }: 
                 </SelectTrigger>
                 <SelectContent>
                   {DATA_TYPE_OPTIONS[internalParameter.parameterType].map((dataType) => (
-                    <SelectItem key={dataType} value={dataType}>
+                    <SelectItem
+                      key={dataType}
+                      value={dataType}
+                    >
                       {dataType}
                     </SelectItem>
                   ))}
@@ -304,7 +311,8 @@ export function ParameterDetailsDialog({ parameter, isGlobal = false, onSave }: 
             </div>
           </div>
 
-          {(internalParameter.parameterType === "Flag" || internalParameter.parameterType === "Option") && (
+          {(internalParameter.parameterType === "Flag" ||
+            internalParameter.parameterType === "Option") && (
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-2">
                 <Label>Short Flag (include prefix)</Label>
@@ -592,7 +600,7 @@ export function ParameterDetailsDialog({ parameter, isGlobal = false, onSave }: 
                   </Button>
                 </div>
                 <div className="mb-3 flex items-center gap-4">
-                  <div className="flex items-center space-x-2 h-8">
+                  <div className="flex h-8 items-center space-x-2">
                     <Switch
                       id="allow-multiple"
                       checked={internalParameter.enum?.allowMultiple ?? false}
@@ -658,59 +666,20 @@ export function ParameterDetailsDialog({ parameter, isGlobal = false, onSave }: 
                     className="space-y-2"
                     id="enum-values"
                   >
-                  {internalParameter.enum?.values?.map((enumValue, index) => (
-                    <SortableItem
-                      key={enumValueIdsRef.current[index]}
-                      value={enumValueIdsRef.current[index]}
-                      className="flex items-center gap-2 rounded border p-2"
-                    >
-                      <SortableItemHandle className="shrink-0 text-muted-foreground">
-                        <GripVerticalIcon className="h-4 w-4" />
-                      </SortableItemHandle>
-                      <Input
-                        value={enumValue.value}
-                        onChange={(e) => {
-                          const updatedValues = internalParameter.enum?.values?.map((ev) =>
-                            ev === enumValue ? { ...ev, value: e.target.value } : ev,
-                          );
-                          updateParameter({
-                            enum: {
-                              ...(internalParameter.enum ?? { allowMultiple: false }),
-                              values: updatedValues ?? [],
-                            },
-                          });
-                        }}
-                        placeholder="value"
-                        className="flex-1"
-                      />
-                      <Input
-                        value={enumValue.displayName}
-                        onChange={(e) => {
-                          const updatedValues = internalParameter.enum?.values?.map((ev) =>
-                            ev === enumValue
-                              ? { ...ev, displayName: e.target.value }
-                              : ev,
-                          );
-                          updateParameter({
-                            enum: {
-                              ...(internalParameter.enum ?? { allowMultiple: false }),
-                              values: updatedValues ?? [],
-                            },
-                          });
-                        }}
-                        placeholder="Display Name"
-                        className="flex-1"
-                      />
-                      <div className="flex shrink-0 items-center gap-1">
-                        <Switch
-                          checked={enumValue.isDefault}
-                          onCheckedChange={(checked) => {
+                    {internalParameter.enum?.values?.map((enumValue, index) => (
+                      <SortableItem
+                        key={enumValueIdsRef.current[index]}
+                        value={enumValueIdsRef.current[index]}
+                        className="flex items-center gap-2 rounded border p-2"
+                      >
+                        <SortableItemHandle className="shrink-0 text-muted-foreground">
+                          <GripVerticalIcon className="h-4 w-4" />
+                        </SortableItemHandle>
+                        <Input
+                          value={enumValue.value}
+                          onChange={(e) => {
                             const updatedValues = internalParameter.enum?.values?.map((ev) =>
-                              ev === enumValue
-                                ? { ...ev, isDefault: checked }
-                                : checked
-                                  ? { ...ev, isDefault: false }
-                                  : ev,
+                              ev === enumValue ? { ...ev, value: e.target.value } : ev,
                             );
                             updateParameter({
                               enum: {
@@ -719,32 +688,69 @@ export function ParameterDetailsDialog({ parameter, isGlobal = false, onSave }: 
                               },
                             });
                           }}
+                          placeholder="value"
+                          className="flex-1"
                         />
-                        <Label className="text-xs">Default</Label>
-                      </div>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="size-7 shrink-0 p-0"
-                        onClick={() => {
-                          const updatedValues = internalParameter.enum?.values?.filter(
-                            (_, valueIndex) => valueIndex !== index,
-                          );
-                          enumValueIdsRef.current = enumValueIdsRef.current.filter(
-                            (_, i) => i !== index,
-                          );
-                          updateParameter({
-                            enum: {
-                              ...(internalParameter.enum ?? { allowMultiple: false }),
-                              values: updatedValues ?? [],
-                            },
-                          });
-                        }}
-                      >
-                        <Trash2Icon className="h-3 w-3" />
-                      </Button>
-                    </SortableItem>
-                  ))}
+                        <Input
+                          value={enumValue.displayName}
+                          onChange={(e) => {
+                            const updatedValues = internalParameter.enum?.values?.map((ev) =>
+                              ev === enumValue ? { ...ev, displayName: e.target.value } : ev,
+                            );
+                            updateParameter({
+                              enum: {
+                                ...(internalParameter.enum ?? { allowMultiple: false }),
+                                values: updatedValues ?? [],
+                              },
+                            });
+                          }}
+                          placeholder="Display Name"
+                          className="flex-1"
+                        />
+                        <div className="flex shrink-0 items-center gap-1">
+                          <Switch
+                            checked={enumValue.isDefault}
+                            onCheckedChange={(checked) => {
+                              const updatedValues = internalParameter.enum?.values?.map((ev) =>
+                                ev === enumValue
+                                  ? { ...ev, isDefault: checked }
+                                  : checked
+                                    ? { ...ev, isDefault: false }
+                                    : ev,
+                              );
+                              updateParameter({
+                                enum: {
+                                  ...(internalParameter.enum ?? { allowMultiple: false }),
+                                  values: updatedValues ?? [],
+                                },
+                              });
+                            }}
+                          />
+                          <Label className="text-xs">Default</Label>
+                        </div>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="size-7 shrink-0 p-0"
+                          onClick={() => {
+                            const updatedValues = internalParameter.enum?.values?.filter(
+                              (_, valueIndex) => valueIndex !== index,
+                            );
+                            enumValueIdsRef.current = enumValueIdsRef.current.filter(
+                              (_, i) => i !== index,
+                            );
+                            updateParameter({
+                              enum: {
+                                ...(internalParameter.enum ?? { allowMultiple: false }),
+                                values: updatedValues ?? [],
+                              },
+                            });
+                          }}
+                        >
+                          <Trash2Icon className="h-3 w-3" />
+                        </Button>
+                      </SortableItem>
+                    ))}
                   </SortableContent>
                   <SortableOverlay />
                 </Sortable>

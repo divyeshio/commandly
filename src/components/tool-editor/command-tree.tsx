@@ -141,14 +141,8 @@ function CommandNode({
 }
 
 export function CommandTree() {
-  const {
-    tool,
-    selectedCommand,
-    addCommand,
-    setSelectedCommand,
-    updateCommand,
-    deleteCommand,
-  } = useToolBuilder();
+  const { tool, selectedCommand, addCommand, setSelectedCommand, updateCommand, deleteCommand } =
+    useToolBuilder();
 
   const [expandedCommands, setExpandedCommands] = useState<Set<string>>(
     new Set([tool.commands[0]?.key]),

@@ -63,7 +63,14 @@ function ToolEditorContent({
   onSaveCommand,
   onDeleteSavedCommand,
 }: ToolEditorContentProps) {
-  const { tool, setDialogOpen, initializeTool, selectedParameter, upsertParameter, setSelectedParameter } = useToolBuilder();
+  const {
+    tool,
+    setDialogOpen,
+    initializeTool,
+    selectedParameter,
+    upsertParameter,
+    setSelectedParameter,
+  } = useToolBuilder();
   const [chatOpen, setChatOpen] = useState(false);
   const [streamingTool, setStreamingTool] = useState<Tool | null>(null);
   const [isAIGenerating, setIsAIGenerating] = useState(false);

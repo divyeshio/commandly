@@ -5,11 +5,7 @@ import {
   ExclusionGroup,
   ParameterValue,
 } from "@/components/commandly/types/flat";
-import {
-  cleanupTool,
-  getAllSubcommands,
-  slugify,
-} from "@/components/commandly/utils/flat";
+import { cleanupTool, getAllSubcommands, slugify } from "@/components/commandly/utils/flat";
 import {
   createContext,
   useContext,
