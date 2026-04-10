@@ -93,16 +93,6 @@ export const exportToStructuredJSON = (tool: Tool) => {
   };
 };
 
-export const createNewCommand = (parentKey?: string): Command => {
-  const name = randomCommandName();
-  return {
-    key: slugify(name),
-    parentCommandKey: parentKey,
-    name,
-    isDefault: false,
-    sortOrder: 1,
-  };
-};
 
 export const createNewParameter = (isGlobal: boolean, commandKey?: string): Parameter => {
   return {
@@ -114,16 +104,6 @@ export const createNewParameter = (isGlobal: boolean, commandKey?: string): Para
     ...(isGlobal ? { isGlobal: true } : {}),
     longFlag: "",
   };
-};
-
-export const randomCommandName = () => {
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-  let result = "";
-  const charactersLength = characters.length;
-  for (let i = 0; i < 7; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
 };
 
 const isEmpty = (value: object | null | undefined): boolean => {
