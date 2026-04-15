@@ -1,0 +1,261 @@
+{
+  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
+  "name": "notify",
+  "displayName": "Notify",
+  "commands": [
+    {
+      "key": "notify",
+      "name": "Notify",
+      "description": "Stream output from files or pipes to notification providers.",
+      "isDefault": true,
+      "sortOrder": 0
+    }
+  ],
+  "parameters": [
+    {
+      "key": "bulk",
+      "name": "Bulk",
+      "commandKey": "notify",
+      "description": "Enable bulk processing.",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "longFlag": "-bulk"
+    },
+    {
+      "key": "char-limit",
+      "name": "Character Limit",
+      "commandKey": "notify",
+      "description": "Maximum character limit per message.",
+      "parameterType": "Option",
+      "dataType": "Number",
+      "shortFlag": "-cl",
+      "longFlag": "-char-limit",
+      "validations": [
+        {
+          "key": "min_value-1",
+          "validationType": "min_value",
+          "validationValue": "1",
+          "errorMessage": "Character limit must be at least 1.",
+          "parameterKey": "char-limit"
+        }
+      ]
+    },
+    {
+      "key": "config",
+      "name": "Config",
+      "commandKey": "notify",
+      "description": "Notify configuration file path.",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-config"
+    },
+    {
+      "key": "data",
+      "name": "Data",
+      "commandKey": "notify",
+      "description": "Input file to send to Notify.",
+      "parameterType": "Option",
+      "dataType": "String",
+      "shortFlag": "-i",
+      "longFlag": "-data"
+    },
+    {
+      "key": "delay",
+      "name": "Delay",
+      "commandKey": "notify",
+      "description": "Delay in seconds between notifications.",
+      "parameterType": "Option",
+      "dataType": "Number",
+      "shortFlag": "-d",
+      "longFlag": "-delay",
+      "validations": [
+        {
+          "key": "min_value-0",
+          "validationType": "min_value",
+          "validationValue": "0",
+          "errorMessage": "Delay must be at least 0.",
+          "parameterKey": "delay"
+        }
+      ]
+    },
+    {
+      "key": "id",
+      "name": "ID",
+      "commandKey": "notify",
+      "description": "Comma-separated notification IDs.",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-id",
+      "arraySeparator": ","
+    },
+    {
+      "key": "msg-format",
+      "name": "Message Format",
+      "commandKey": "notify",
+      "description": "Custom message format.",
+      "parameterType": "Option",
+      "dataType": "String",
+      "shortFlag": "-mf",
+      "longFlag": "-msg-format"
+    },
+    {
+      "key": "no-color",
+      "name": "No Color",
+      "commandKey": "notify",
+      "description": "Disable colored output.",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "shortFlag": "-nc",
+      "longFlag": "-no-color"
+    },
+    {
+      "key": "provider-config",
+      "name": "Provider Config",
+      "commandKey": "notify",
+      "description": "Provider config file path.",
+      "parameterType": "Option",
+      "dataType": "String",
+      "shortFlag": "-pc",
+      "longFlag": "-provider-config"
+    },
+    {
+      "key": "provider",
+      "name": "Provider",
+      "commandKey": "notify",
+      "description": "Comma-separated providers to send notifications to.",
+      "parameterType": "Option",
+      "dataType": "Enum",
+      "shortFlag": "-p",
+      "longFlag": "-provider",
+      "enum": {
+        "values": [
+          {
+            "value": "slack",
+            "displayName": "Slack",
+            "sortOrder": 0
+          },
+          {
+            "value": "discord",
+            "displayName": "Discord",
+            "sortOrder": 1
+          },
+          {
+            "value": "telegram",
+            "displayName": "Telegram",
+            "sortOrder": 2
+          },
+          {
+            "value": "pushover",
+            "displayName": "Pushover",
+            "sortOrder": 3
+          },
+          {
+            "value": "smtp",
+            "displayName": "SMTP",
+            "sortOrder": 4
+          },
+          {
+            "value": "googlechat",
+            "displayName": "Google Chat",
+            "sortOrder": 5
+          },
+          {
+            "value": "teams",
+            "displayName": "Teams",
+            "sortOrder": 6
+          },
+          {
+            "value": "gotify",
+            "displayName": "Gotify",
+            "sortOrder": 7
+          },
+          {
+            "value": "custom",
+            "displayName": "Custom",
+            "sortOrder": 8
+          }
+        ],
+        "allowMultiple": true,
+        "separator": ","
+      }
+    },
+    {
+      "key": "proxy",
+      "name": "Proxy",
+      "commandKey": "notify",
+      "description": "HTTP or SOCKSv5 proxy to use.",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-proxy"
+    },
+    {
+      "key": "rate-limit",
+      "name": "Rate Limit",
+      "commandKey": "notify",
+      "description": "Maximum HTTP requests per second.",
+      "parameterType": "Option",
+      "dataType": "Number",
+      "shortFlag": "-rl",
+      "longFlag": "-rate-limit",
+      "validations": [
+        {
+          "key": "min_value-1",
+          "validationType": "min_value",
+          "validationValue": "1",
+          "errorMessage": "Rate limit must be at least 1.",
+          "parameterKey": "rate-limit"
+        }
+      ]
+    },
+    {
+      "key": "silent",
+      "name": "Silent",
+      "commandKey": "notify",
+      "description": "Enable silent mode.",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "longFlag": "-silent"
+    },
+    {
+      "key": "verbose",
+      "name": "Verbose",
+      "commandKey": "notify",
+      "description": "Enable verbose mode.",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "longFlag": "-verbose"
+    },
+    {
+      "key": "version",
+      "name": "Version",
+      "commandKey": "notify",
+      "description": "Display the version.",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "longFlag": "-version"
+    },
+    {
+      "key": "update",
+      "name": "Update",
+      "commandKey": "notify",
+      "description": "Update to the latest version.",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "longFlag": "-update"
+    },
+    {
+      "key": "disable-update-check",
+      "name": "Disable Update Check",
+      "commandKey": "notify",
+      "description": "Disable automatic update checks.",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "shortFlag": "-duc",
+      "longFlag": "-disable-update-check"
+    }
+  ],
+  "info": {
+    "url": "https://github.com/projectdiscovery/notify",
+    "description": "Stream output from files or pipes to notification providers."
+  }
+}
