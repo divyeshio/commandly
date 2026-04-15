@@ -21,7 +21,6 @@ const createComplexTool = (): Tool => ({
       key: "my-cli-tool",
       name: "my-cli-tool",
       description: "Main CLI tool command",
-      isDefault: true,
       sortOrder: 0,
     },
     {
@@ -29,7 +28,6 @@ const createComplexTool = (): Tool => ({
       name: "config",
       parentCommandKey: "my-cli-tool",
       description: "Configuration management",
-      isDefault: false,
       sortOrder: 1,
     },
     {
@@ -37,7 +35,6 @@ const createComplexTool = (): Tool => ({
       name: "get",
       parentCommandKey: "config",
       description: "Get configuration values",
-      isDefault: true,
       sortOrder: 0,
     },
     {
@@ -45,7 +42,6 @@ const createComplexTool = (): Tool => ({
       name: "set",
       parentCommandKey: "config",
       description: "Set configuration values",
-      isDefault: false,
       sortOrder: 1,
     },
     {
@@ -53,7 +49,6 @@ const createComplexTool = (): Tool => ({
       name: "list",
       parentCommandKey: "config",
       description: "List all configurations",
-      isDefault: false,
       sortOrder: 2,
     },
     {
@@ -61,7 +56,6 @@ const createComplexTool = (): Tool => ({
       name: "data",
       parentCommandKey: "my-cli-tool",
       description: "Data management operations",
-      isDefault: false,
       sortOrder: 2,
     },
     {
@@ -69,7 +63,6 @@ const createComplexTool = (): Tool => ({
       name: "create",
       parentCommandKey: "data",
       description: "Create new data entries",
-      isDefault: false,
       sortOrder: 0,
     },
     {
@@ -77,7 +70,6 @@ const createComplexTool = (): Tool => ({
       name: "read",
       parentCommandKey: "data",
       description: "Read existing data",
-      isDefault: true,
       sortOrder: 1,
     },
     {
@@ -85,7 +77,6 @@ const createComplexTool = (): Tool => ({
       name: "update",
       parentCommandKey: "data",
       description: "Update existing data",
-      isDefault: false,
       sortOrder: 2,
     },
     {
@@ -93,7 +84,6 @@ const createComplexTool = (): Tool => ({
       name: "delete",
       parentCommandKey: "data",
       description: "Delete data entries",
-      isDefault: false,
       sortOrder: 3,
     },
     {
@@ -101,7 +91,6 @@ const createComplexTool = (): Tool => ({
       name: "utils",
       parentCommandKey: "my-cli-tool",
       description: "Utility functions",
-      isDefault: false,
       sortOrder: 3,
     },
     {
@@ -109,7 +98,6 @@ const createComplexTool = (): Tool => ({
       name: "validate",
       parentCommandKey: "utils",
       description: "Validate data integrity",
-      isDefault: false,
       sortOrder: 0,
     },
     {
@@ -117,7 +105,6 @@ const createComplexTool = (): Tool => ({
       name: "backup",
       parentCommandKey: "utils",
       description: "Backup operations",
-      isDefault: false,
       sortOrder: 1,
     },
     {
@@ -125,7 +112,6 @@ const createComplexTool = (): Tool => ({
       name: "help",
       parentCommandKey: "my-cli-tool",
       description: "Display help information",
-      isDefault: false,
       sortOrder: 4,
     },
   ],
@@ -182,12 +168,6 @@ describe("CommandTree", () => {
       expect(screen.getByText("data")).toBeInTheDocument();
       expect(screen.getByText("utils")).toBeInTheDocument();
       expect(screen.getByText("help")).toBeInTheDocument();
-    });
-
-    it("renders default badge for default commands", () => {
-      renderWithProvider(<CommandTree />, complexToolState());
-      const badges = screen.getAllByText("default");
-      expect(badges.length).toBeGreaterThan(0);
     });
 
     it("renders action buttons (Edit, Add, Delete) on hover", () => {
@@ -598,7 +578,6 @@ describe("CommandTree", () => {
         name: "new-test-command",
         parentCommandKey: "config",
         description: "A new test command",
-        isDefault: false,
         sortOrder: 10,
       };
 
@@ -687,7 +666,6 @@ describe("CommandTree", () => {
             name: "level3",
             parentCommandKey: "get",
             description: "Level 3 command",
-            isDefault: false,
             sortOrder: 0,
           },
           {
@@ -695,7 +673,6 @@ describe("CommandTree", () => {
             name: "level4",
             parentCommandKey: "01979f84-addd-754c-8e0a-ef8bd967d51d",
             description: "Level 4 command",
-            isDefault: false,
             sortOrder: 0,
           },
         ],
@@ -769,7 +746,6 @@ describe("CommandTree", () => {
             key: "minimal-tool-id",
             name: "minimal-tool",
             description: "Minimal tool with just root command",
-            isDefault: true,
             sortOrder: 0,
           },
         ],
@@ -830,7 +806,6 @@ describe("CommandTree", () => {
             key: "root-id",
             name: "root",
             description: "Root command",
-            isDefault: true,
             sortOrder: 0,
           },
           {
@@ -838,7 +813,6 @@ describe("CommandTree", () => {
             name: "orphan",
             parentCommandKey: "non-existent-parent",
             description: "Orphaned command",
-            isDefault: false,
             sortOrder: 1,
           },
         ],

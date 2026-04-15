@@ -1,8 +1,19 @@
 import { type Tool } from "@/components/commandly/types/flat";
+import { slugify } from "@/components/commandly/utils/flat";
 import { SkeletonCard } from "@/components/square-card-skeleton";
 import { ToolCard } from "@/components/tool-card";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import { Label } from "@/components/ui/label";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { fetchToolsList } from "@/lib/api/tools.api";
@@ -60,12 +71,35 @@ function RouteComponent() {
   }, [serverToolNames]);
 
   const [searchValue, setSearchValue] = useState("");
+  const [newToolDialogOpen, setNewToolDialogOpen] = useState(false);
+  const [newToolName, setNewToolName] = useState("");
+  const [newToolDisplayName, setNewToolDisplayName] = useState("");
+  const [displayNameEdited, setDisplayNameEdited] = useState(false);
 
   const handleNewTool = () => {
+    setNewToolName("");
+    setNewToolDisplayName("");
+    setDisplayNameEdited(false);
+    setNewToolDialogOpen(true);
+  };
+
+  const handleNewToolNameChange = (value: string) => {
+    setNewToolName(value);
+    if (!displayNameEdited) {
+      setNewToolDisplayName(value.replace(/[-_]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()));
+    }
+  };
+
+  const handleCreateTool = () => {
+    const name = slugify(newToolName.trim());
+    const displayName = newToolDisplayName.trim() || newToolName.trim();
+    const newTool: Tool = { name, displayName, commands: [], parameters: [] };
+    localStorage.setItem(`tool-${name}`, JSON.stringify(newTool));
+    setNewToolDialogOpen(false);
     navigation({
       to: "/tools/$toolName/edit",
-      params: { toolName: "new" },
-      search: { isNew: true, isLocal: true },
+      params: { toolName: name },
+      search: { isLocal: true },
     });
   };
 
@@ -112,6 +146,58 @@ function RouteComponent() {
             </Button>
           </div>
         </div>
+        <Dialog
+          open={newToolDialogOpen}
+          onOpenChange={setNewToolDialogOpen}
+        >
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle>New Tool</DialogTitle>
+              <DialogDescription>Enter details for your new CLI tool definition.</DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="new-tool-name">Tool Name</Label>
+                <Input
+                  id="new-tool-name"
+                  placeholder="my-tool"
+                  value={newToolName}
+                  autoFocus
+                  onChange={(e) => handleNewToolNameChange(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && newToolName.trim()) handleCreateTool();
+                  }}
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="new-tool-display-name">Display Name</Label>
+                <Input
+                  id="new-tool-display-name"
+                  placeholder="My Tool"
+                  value={newToolDisplayName}
+                  onChange={(e) => {
+                    setNewToolDisplayName(e.target.value);
+                    setDisplayNameEdited(true);
+                  }}
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => setNewToolDialogOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                disabled={!newToolName.trim()}
+                onClick={handleCreateTool}
+              >
+                Create
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
         <ScrollArea className="flex *:data-radix-scroll-area-viewport:max-h-[calc(100vh-117px)]">
           <div className="container mx-auto p-6">
             <div className="flex flex-wrap justify-start gap-8">

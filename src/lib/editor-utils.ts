@@ -11,7 +11,7 @@ export const getSavedCommandsFromStorage = (toolId: string): SavedCommand[] => {
 
 export const saveSavedCommandsToStorage = (toolId: string, commands: SavedCommand[]): void => {
   try {
-    localStorage.setItem(toolId, JSON.stringify(commands));
+    localStorage.setItem(`saved-${toolId}`, JSON.stringify(commands));
   } catch (error) {
     console.error("Failed to save commands to localStorage:", error);
   }
@@ -30,5 +30,5 @@ export const removeSavedCommandFromStorage = (toolId: string, commandKey: string
 };
 
 export const clearSavedCommandsFromStorage = (toolId: string): void => {
-  localStorage.removeItem(toolId);
+  localStorage.removeItem(`saved-${toolId}`);
 };

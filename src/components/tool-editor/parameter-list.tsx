@@ -3,7 +3,9 @@ import { ExclusionGroup, ParameterType } from "@/components/commandly/types/flat
 import { createNewParameter } from "@/components/commandly/utils/flat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import {
+  Edit2Icon,
   FileTextIcon,
   FlagIcon,
   GlobeIcon,
@@ -12,10 +14,13 @@ import {
   PlusIcon,
   Trash2Icon,
 } from "lucide-react";
+import { useRef } from "react";
 
 interface ParameterListProps {
   title: string;
   isGlobal?: boolean;
+  isChatOpen?: boolean;
+  pendingChanges?: { updated: Set<string>; added: Set<string>; removed: Set<string> };
 }
 
 function ParameterIcon({ type }: { type: ParameterType }) {
@@ -31,15 +36,24 @@ function ParameterIcon({ type }: { type: ParameterType }) {
   }
 }
 
-export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
+export function ParameterList({
+  title,
+  isGlobal = false,
+  isChatOpen = false,
+  pendingChanges,
+}: ParameterListProps) {
   const {
     selectedCommand,
+    contextSelection,
     getGlobalParameters,
     getParametersForCommand,
     getExclusionGroupsForCommand,
     setSelectedParameter,
+    setContextSelection,
     removeParameter,
   } = useToolBuilder();
+
+  const lastSelectedIndexRef = useRef<number | null>(null);
 
   const globalParameters = getGlobalParameters();
   const commandParameters = selectedCommand?.key
@@ -51,8 +65,43 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
 
   const parameters = isGlobal ? globalParameters : commandParameters;
 
+  const removedParameters = isGlobal
+    ? pendingChanges
+      ? [...pendingChanges.removed].filter((k) => !parameters.some((p) => p.key === k))
+      : []
+    : pendingChanges
+      ? [...pendingChanges.removed].filter(
+          (k) => !parameters.some((p) => p.key === k) && !globalParameters.some((p) => p.key === k),
+        )
+      : [];
+
   const getParameterExclusionGroups = (parameterKey: string): ExclusionGroup[] => {
     return exclusionGroups.filter((group) => group.parameterKeys.includes(parameterKey));
+  };
+
+  const handleParameterClick = (e: React.MouseEvent, paramKey: string, index: number) => {
+    e.stopPropagation();
+
+    if (e.ctrlKey || e.metaKey) {
+      const already = contextSelection.parameterKeys.includes(paramKey);
+      setContextSelection({
+        ...contextSelection,
+        parameterKeys: already
+          ? contextSelection.parameterKeys.filter((k) => k !== paramKey)
+          : [...contextSelection.parameterKeys, paramKey],
+      });
+      lastSelectedIndexRef.current = index;
+    } else if (e.shiftKey) {
+      const anchor = lastSelectedIndexRef.current ?? index;
+      const from = Math.min(anchor, index);
+      const to = Math.max(anchor, index);
+      const rangeKeys = parameters.slice(from, to + 1).map((p) => p.key);
+      const merged = Array.from(new Set([...contextSelection.parameterKeys, ...rangeKeys]));
+      setContextSelection({ ...contextSelection, parameterKeys: merged });
+    } else {
+      setContextSelection({ commandKeys: [], parameterKeys: [paramKey] });
+      lastSelectedIndexRef.current = index;
+    }
   };
 
   return (
@@ -71,14 +120,26 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
       </div>
 
       <div className="space-y-2">
-        {parameters.map((parameter) => {
+        {parameters.map((parameter, index) => {
           const paramGroups = getParameterExclusionGroups(parameter.key);
+          const isContextSelected = contextSelection.parameterKeys.includes(parameter.key);
+          const isAdded = pendingChanges?.added.has(parameter.key);
+          const isUpdated = pendingChanges?.updated.has(parameter.key);
 
           return (
             <div
               key={parameter.key}
-              className={"cursor-pointer rounded border border-muted p-3 hover:bg-muted/50"}
-              onClick={() => setSelectedParameter(parameter)}
+              className={cn(
+                "group cursor-pointer rounded border p-3 hover:bg-muted/50",
+                isAdded && "border-l-2 border-l-green-500",
+                isUpdated && "border-l-2 border-l-amber-500",
+                !isAdded && !isUpdated && isChatOpen && isContextSelected
+                  ? "border-primary bg-accent/30 ring-1 ring-primary"
+                  : !isAdded && !isUpdated
+                    ? "border-muted"
+                    : "",
+              )}
+              onClick={(e) => handleParameterClick(e, parameter.key, index)}
             >
               <div className="mb-2 flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -92,17 +153,30 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
                     )}
                   </span>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-6 w-6 p-0"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    removeParameter(parameter.key);
-                  }}
-                >
-                  <Trash2Icon className="h-3 w-3 text-destructive" />
-                </Button>
+                <div className="flex items-center gap-0.5">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedParameter(parameter);
+                    }}
+                  >
+                    <Edit2Icon className="h-3 w-3" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 w-6 p-0"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeParameter(parameter.key);
+                    }}
+                  >
+                    <Trash2Icon className="h-3 w-3 text-destructive" />
+                  </Button>
+                </div>
               </div>
               <div className="flex flex-wrap items-center gap-1">
                 {parameter.isRequired && (
@@ -143,10 +217,42 @@ export function ParameterList({ title, isGlobal = false }: ParameterListProps) {
                     {group.name}
                   </Badge>
                 ))}
+                {isAdded && (
+                  <Badge
+                    variant="outline"
+                    className="border-green-500/40 bg-green-500/10 text-xs text-green-600 dark:text-green-400"
+                  >
+                    Added
+                  </Badge>
+                )}
+                {isUpdated && (
+                  <Badge
+                    variant="outline"
+                    className="border-amber-500/40 bg-amber-500/10 text-xs text-amber-600 dark:text-amber-400"
+                  >
+                    Updated
+                  </Badge>
+                )}
               </div>
             </div>
           );
         })}
+        {removedParameters.map((key) => (
+          <div
+            key={key}
+            className="rounded border border-l-2 border-muted border-l-red-500 p-3 opacity-60"
+          >
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-muted-foreground line-through">{key}</span>
+              <Badge
+                variant="outline"
+                className="border-red-500/40 bg-red-500/10 text-xs text-red-600 dark:text-red-400"
+              >
+                Removed
+              </Badge>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

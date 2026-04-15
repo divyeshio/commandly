@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { SavedCommand } from "@/lib/types";
 import { SaveIcon, Edit2Icon, LayersIcon, GitPullRequestIcon, SparklesIcon } from "lucide-react";
+import { parseAsBoolean, useQueryState } from "nuqs";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -65,20 +66,42 @@ function ToolEditorContent({
 }: ToolEditorContentProps) {
   const {
     tool,
+    originalTool,
+    dialogs,
     setDialogOpen,
     initializeTool,
     selectedParameter,
     upsertParameter,
     setSelectedParameter,
   } = useToolBuilder();
-  const [chatOpen, setChatOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useQueryState("ai", parseAsBoolean.withDefault(false));
   const [streamingTool, setStreamingTool] = useState<Tool | null>(null);
   const [isAIGenerating, setIsAIGenerating] = useState(false);
 
   const [initialToolJson, setInitialToolJson] = useState(() => JSON.stringify(tool));
   const isDirty = JSON.stringify(tool) !== initialToolJson;
-  const hasAtLeastOneCommand = Array.isArray(tool.commands) && tool.commands.length > 0;
-  const isValid = tool.name.trim() !== "" && tool.displayName.trim() !== "" && hasAtLeastOneCommand;
+  const isValid = tool.name.trim() !== "" && tool.displayName.trim() !== "";
+
+  const pendingChanges = (() => {
+    const currentParams = (streamingTool ?? tool).parameters;
+    const origParams = originalTool.parameters;
+    const origKeys = new Set(origParams.map((p) => p.key));
+    const currKeys = new Set(currentParams.map((p) => p.key));
+    const added = new Set([...currKeys].filter((k) => !origKeys.has(k)));
+    const removed = new Set([...origKeys].filter((k) => !currKeys.has(k)));
+    const updated = new Set(
+      currentParams
+        .filter((p) => origKeys.has(p.key))
+        .filter((p) => {
+          const orig = origParams.find((op) => op.key === p.key)!;
+          return JSON.stringify(p) !== JSON.stringify(orig);
+        })
+        .map((p) => p.key),
+    );
+    return added.size > 0 || removed.size > 0 || updated.size > 0
+      ? { added, removed, updated }
+      : undefined;
+  })();
 
   const handleContribute = async () => {
     const json = JSON.stringify(tool, null, 2);
@@ -117,7 +140,7 @@ function ToolEditorContent({
         <div className="flex flex-col justify-center gap-2 border-t border-r border-b border-muted p-1">
           <p className="p-2">Commands</p>
         </div>
-        <CommandTree />
+        <CommandTree isChatOpen={chatOpen} />
       </div>
 
       <div className="flex h-full flex-1 flex-col overflow-hidden">
@@ -147,7 +170,7 @@ function ToolEditorContent({
                 <>
                   {isDirty && !isValid && (
                     <span className="text-xs text-destructive">
-                      Name, display name, and at least one command are required
+                      Name and display name are required
                     </span>
                   )}
                   <Button
@@ -209,10 +232,14 @@ function ToolEditorContent({
                   <ParameterList
                     title="Global Parameters"
                     isGlobal={true}
+                    isChatOpen={chatOpen}
+                    pendingChanges={pendingChanges}
                   />
                   <ParameterList
                     title="Command Parameters"
                     isGlobal={false}
+                    isChatOpen={chatOpen}
+                    pendingChanges={pendingChanges}
                   />
                 </div>
               </ScrollArea>
@@ -247,6 +274,8 @@ function ToolEditorContent({
       )}
       <ToolDetailsDialog />
       <SavedCommandsDialog
+        open={dialogs.savedCommands}
+        onOpenChange={(open) => setDialogOpen("savedCommands", open)}
         savedCommands={savedCommands}
         onDeleteCommand={onDeleteSavedCommand ?? (() => {})}
       />

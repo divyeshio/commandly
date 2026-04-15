@@ -11,7 +11,6 @@
     {
       "name": "nuclei",
       "description": "Run nuclei vulnerability scanner.",
-      "isDefault": true,
       "sortOrder": 1,
       "key": "nuclei"
     }
@@ -82,15 +81,15 @@
             "value": "4",
             "displayName": "4",
             "description": "Use IPv4.",
-            "isDefault": true,
-            "sortOrder": 1
+            "sortOrder": 1,
+            "isDefault": true
           },
           {
             "value": "6",
             "displayName": "6",
             "description": "Use IPv6.",
-            "isDefault": false,
-            "sortOrder": 2
+            "sortOrder": 2,
+            "isDefault": false
           }
         ]
       },
@@ -110,43 +109,43 @@
             "value": "list",
             "displayName": "List",
             "description": "Use list input mode.",
-            "isDefault": true,
-            "sortOrder": 1
+            "sortOrder": 1,
+            "isDefault": true
           },
           {
             "value": "burp",
             "displayName": "Burp",
             "description": "Use burp input mode.",
-            "isDefault": false,
-            "sortOrder": 2
+            "sortOrder": 2,
+            "isDefault": false
           },
           {
             "value": "jsonl",
             "displayName": "JSONL",
             "description": "Use jsonl input mode.",
-            "isDefault": false,
-            "sortOrder": 3
+            "sortOrder": 3,
+            "isDefault": false
           },
           {
             "value": "yaml",
             "displayName": "Yaml",
             "description": "Use yaml input mode.",
-            "isDefault": false,
-            "sortOrder": 4
+            "sortOrder": 4,
+            "isDefault": false
           },
           {
             "value": "openapi",
             "displayName": "OpenAPI",
             "description": "Use openapi input mode.",
-            "isDefault": false,
-            "sortOrder": 5
+            "sortOrder": 5,
+            "isDefault": false
           },
           {
             "value": "swagger",
             "displayName": "Swagger",
             "description": "Use swagger input mode.",
-            "isDefault": false,
-            "sortOrder": 6
+            "sortOrder": 6,
+            "isDefault": false
           }
         ]
       },
@@ -474,43 +473,43 @@
             "value": "info",
             "displayName": "Info",
             "description": "Information severity.",
-            "isDefault": false,
-            "sortOrder": 1
+            "sortOrder": 1,
+            "isDefault": false
           },
           {
             "value": "low",
             "displayName": "Low",
             "description": "Low severity.",
-            "isDefault": false,
-            "sortOrder": 2
+            "sortOrder": 2,
+            "isDefault": false
           },
           {
             "value": "medium",
             "displayName": "Medium",
             "description": "Medium severity.",
-            "isDefault": false,
-            "sortOrder": 3
+            "sortOrder": 3,
+            "isDefault": false
           },
           {
             "value": "high",
             "displayName": "High",
             "description": "High severity.",
-            "isDefault": false,
-            "sortOrder": 4
+            "sortOrder": 4,
+            "isDefault": false
           },
           {
             "value": "critical",
             "displayName": "Critical",
             "description": "Critical severity.",
-            "isDefault": false,
-            "sortOrder": 5
+            "sortOrder": 5,
+            "isDefault": false
           },
           {
             "value": "unknown",
             "displayName": "Unknown",
             "description": "Unknown severity.",
-            "isDefault": false,
-            "sortOrder": 6
+            "sortOrder": 6,
+            "isDefault": false
           }
         ]
       },
@@ -531,43 +530,43 @@
             "value": "info",
             "displayName": "Info",
             "description": "Exclude information severity.",
-            "isDefault": false,
-            "sortOrder": 1
+            "sortOrder": 1,
+            "isDefault": false
           },
           {
             "value": "low",
             "displayName": "Low",
             "description": "Exclude low severity.",
-            "isDefault": false,
-            "sortOrder": 2
+            "sortOrder": 2,
+            "isDefault": false
           },
           {
             "value": "medium",
             "displayName": "Medium",
             "description": "Exclude medium severity.",
-            "isDefault": false,
-            "sortOrder": 3
+            "sortOrder": 3,
+            "isDefault": false
           },
           {
             "value": "high",
             "displayName": "High",
             "description": "Exclude high severity.",
-            "isDefault": false,
-            "sortOrder": 4
+            "sortOrder": 4,
+            "isDefault": false
           },
           {
             "value": "critical",
             "displayName": "Critical",
             "description": "Exclude critical severity.",
-            "isDefault": false,
-            "sortOrder": 5
+            "sortOrder": 5,
+            "isDefault": false
           },
           {
             "value": "unknown",
             "displayName": "Unknown",
             "description": "Exclude unknown severity.",
-            "isDefault": false,
-            "sortOrder": 6
+            "sortOrder": 6,
+            "isDefault": false
           }
         ]
       },
@@ -588,78 +587,78 @@
             "value": "dns",
             "displayName": "Dns",
             "description": "DNS templates.",
-            "isDefault": false,
-            "sortOrder": 1
+            "sortOrder": 1,
+            "isDefault": false
           },
           {
             "value": "file",
             "displayName": "File",
             "description": "File templates.",
-            "isDefault": false,
-            "sortOrder": 2
+            "sortOrder": 2,
+            "isDefault": false
           },
           {
             "value": "http",
             "displayName": "Http",
             "description": "HTTP templates.",
-            "isDefault": false,
-            "sortOrder": 3
+            "sortOrder": 3,
+            "isDefault": false
           },
           {
             "value": "headless",
             "displayName": "Headless",
             "description": "Headless templates.",
-            "isDefault": false,
-            "sortOrder": 4
+            "sortOrder": 4,
+            "isDefault": false
           },
           {
             "value": "tcp",
             "displayName": "Tcp",
             "description": "TCP templates.",
-            "isDefault": false,
-            "sortOrder": 5
+            "sortOrder": 5,
+            "isDefault": false
           },
           {
             "value": "workflow",
             "displayName": "Workflow",
             "description": "Workflow templates.",
-            "isDefault": false,
-            "sortOrder": 6
+            "sortOrder": 6,
+            "isDefault": false
           },
           {
             "value": "ssl",
             "displayName": "Ssl",
             "description": "SSL templates.",
-            "isDefault": false,
-            "sortOrder": 7
+            "sortOrder": 7,
+            "isDefault": false
           },
           {
             "value": "websocket",
             "displayName": "Websocket",
             "description": "Websocket templates.",
-            "isDefault": false,
-            "sortOrder": 8
+            "sortOrder": 8,
+            "isDefault": false
           },
           {
             "value": "whois",
             "displayName": "Whois",
             "description": "WHOIS templates.",
-            "isDefault": false,
-            "sortOrder": 9
+            "sortOrder": 9,
+            "isDefault": false
           },
           {
             "value": "code",
             "displayName": "Code",
             "description": "Code templates.",
-            "isDefault": false,
-            "sortOrder": 10
+            "sortOrder": 10,
+            "isDefault": false
           },
           {
             "value": "javascript",
             "displayName": "Javascript",
             "description": "JavaScript templates.",
-            "isDefault": false,
-            "sortOrder": 11
+            "sortOrder": 11,
+            "isDefault": false
           }
         ]
       },
@@ -680,78 +679,78 @@
             "value": "dns",
             "displayName": "Dns",
             "description": "Exclude DNS templates.",
-            "isDefault": false,
-            "sortOrder": 1
+            "sortOrder": 1,
+            "isDefault": false
           },
           {
             "value": "file",
             "displayName": "File",
             "description": "Exclude file templates.",
-            "isDefault": false,
-            "sortOrder": 2
+            "sortOrder": 2,
+            "isDefault": false
           },
           {
             "value": "http",
             "displayName": "Http",
             "description": "Exclude HTTP templates.",
-            "isDefault": false,
-            "sortOrder": 3
+            "sortOrder": 3,
+            "isDefault": false
           },
           {
             "value": "headless",
             "displayName": "Headless",
             "description": "Exclude headless templates.",
-            "isDefault": false,
-            "sortOrder": 4
+            "sortOrder": 4,
+            "isDefault": false
           },
           {
             "value": "tcp",
             "displayName": "Tcp",
             "description": "Exclude TCP templates.",
-            "isDefault": false,
-            "sortOrder": 5
+            "sortOrder": 5,
+            "isDefault": false
           },
           {
             "value": "workflow",
             "displayName": "Workflow",
             "description": "Exclude workflow templates.",
-            "isDefault": false,
-            "sortOrder": 6
+            "sortOrder": 6,
+            "isDefault": false
           },
           {
             "value": "ssl",
             "displayName": "Ssl",
             "description": "Exclude SSL templates.",
-            "isDefault": false,
-            "sortOrder": 7
+            "sortOrder": 7,
+            "isDefault": false
           },
           {
             "value": "websocket",
             "displayName": "Websocket",
             "description": "Exclude websocket templates.",
-            "isDefault": false,
-            "sortOrder": 8
+            "sortOrder": 8,
+            "isDefault": false
           },
           {
             "value": "whois",
             "displayName": "Whois",
             "description": "Exclude WHOIS templates.",
-            "isDefault": false,
-            "sortOrder": 9
+            "sortOrder": 9,
+            "isDefault": false
           },
           {
             "value": "code",
             "displayName": "Code",
             "description": "Exclude code templates.",
-            "isDefault": false,
-            "sortOrder": 10
+            "sortOrder": 10,
+            "isDefault": false
           },
           {
             "value": "javascript",
             "displayName": "Javascript",
             "description": "Exclude JavaScript templates.",
-            "isDefault": false,
-            "sortOrder": 11
+            "sortOrder": 11,
+            "isDefault": false
           }
         ]
       },
@@ -1219,22 +1218,22 @@
             "value": "batteringram",
             "displayName": "Batteringram",
             "description": "Use battering ram attack type.",
-            "isDefault": false,
-            "sortOrder": 1
+            "sortOrder": 1,
+            "isDefault": false
           },
           {
             "value": "pitchfork",
             "displayName": "Pitchfork",
             "description": "Use pitchfork attack type.",
-            "isDefault": false,
-            "sortOrder": 2
+            "sortOrder": 2,
+            "isDefault": false
           },
           {
             "value": "clusterbomb",
             "displayName": "Clusterbomb",
             "description": "Use cluster bomb attack type.",
-            "isDefault": false,
-            "sortOrder": 3
+            "sortOrder": 3,
+            "isDefault": false
           }
         ]
       },
@@ -1379,29 +1378,29 @@
             "value": "replace",
             "displayName": "Replace",
             "description": "Replace fuzzing type.",
-            "isDefault": false,
-            "sortOrder": 1
+            "sortOrder": 1,
+            "isDefault": false
           },
           {
             "value": "prefix",
             "displayName": "Prefix",
             "description": "Prefix fuzzing type.",
-            "isDefault": false,
-            "sortOrder": 2
+            "sortOrder": 2,
+            "isDefault": false
           },
           {
             "value": "postfix",
             "displayName": "Postfix",
             "description": "Postfix fuzzing type.",
-            "isDefault": false,
-            "sortOrder": 3
+            "sortOrder": 3,
+            "isDefault": false
           },
           {
             "value": "infix",
             "displayName": "Infix",
             "description": "Infix fuzzing type.",
-            "isDefault": false,
-            "sortOrder": 4
+            "sortOrder": 4,
+            "isDefault": false
           }
         ]
       },
@@ -1421,15 +1420,15 @@
             "value": "multiple",
             "displayName": "Multiple",
             "description": "Multiple fuzzing mode.",
-            "isDefault": false,
-            "sortOrder": 1
+            "sortOrder": 1,
+            "isDefault": false
           },
           {
             "value": "single",
             "displayName": "Single",
             "description": "Single fuzzing mode.",
-            "isDefault": false,
-            "sortOrder": 2
+            "sortOrder": 2,
+            "isDefault": false
           }
         ]
       },
@@ -1525,22 +1524,22 @@
             "value": "low",
             "displayName": "Low",
             "description": "Low fuzzing aggression.",
-            "isDefault": true,
-            "sortOrder": 1
+            "sortOrder": 1,
+            "isDefault": true
           },
           {
             "value": "medium",
             "displayName": "Medium",
             "description": "Medium fuzzing aggression.",
-            "isDefault": false,
-            "sortOrder": 2
+            "sortOrder": 2,
+            "isDefault": false
           },
           {
             "value": "high",
             "displayName": "High",
             "description": "High fuzzing aggression.",
-            "isDefault": false,
-            "sortOrder": 3
+            "sortOrder": 3,
+            "isDefault": false
           }
         ]
       },
@@ -1839,22 +1838,22 @@
             "value": "auto",
             "displayName": "Auto",
             "description": "Automatic scan strategy.",
-            "isDefault": true,
-            "sortOrder": 1
+            "sortOrder": 1,
+            "isDefault": true
           },
           {
             "value": "host-spray",
             "displayName": "Host-spray",
             "description": "Host spray scan strategy.",
-            "isDefault": false,
-            "sortOrder": 2
+            "sortOrder": 2,
+            "isDefault": false
           },
           {
             "value": "template-spray",
             "displayName": "Template-spray",
             "description": "Template spray scan strategy.",
-            "isDefault": false,
-            "sortOrder": 3
+            "sortOrder": 3,
+            "isDefault": false
           }
         ]
       },

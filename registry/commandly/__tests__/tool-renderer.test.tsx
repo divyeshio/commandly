@@ -4,7 +4,7 @@ import { createNewParameter } from "@/components/commandly/utils/flat";
 import { defaultTool } from "@/lib/utils";
 import { render, screen } from "@testing-library/react";
 
-const baseCommand = { key: "my-tool", name: "my-tool", isDefault: true, sortOrder: 0 };
+const baseCommand = { key: "my-tool", name: "my-tool", sortOrder: 0 };
 const baseTool = { ...defaultTool(), commands: [baseCommand] };
 
 describe("ToolRenderer", () => {
@@ -163,6 +163,36 @@ describe("ToolRenderer", () => {
     );
     const inputs = screen.getAllByPlaceholderText("Enter value");
     expect(inputs).toHaveLength(2);
+  });
+
+  it("renders an allowMultiple Enum parameter without crashing when value is an array (repeatable-to-non-repeatable transition)", () => {
+    const param = {
+      ...createNewParameter(false, "my-tool"),
+      key: "format",
+      name: "Format",
+      parameterType: "Option" as const,
+      dataType: "Enum" as const,
+      isRepeatable: false,
+      enum: {
+        values: [
+          { value: "json", displayName: "JSON" },
+          { value: "xml", displayName: "XML" },
+        ],
+        allowMultiple: true,
+        separator: ",",
+      },
+    };
+    expect(() =>
+      render(
+        <ToolRenderer
+          tool={{ ...baseTool, parameters: [param] }}
+          catalog={defaultComponents()}
+          parameterValues={{ format: ["json", "xml"] }}
+          updateParameterValue={() => {}}
+        />,
+      ),
+    ).not.toThrow();
+    expect(screen.getByText("Format")).toBeInTheDocument();
   });
 
   it("custom catalog entry takes precedence over built-in", () => {

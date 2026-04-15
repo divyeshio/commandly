@@ -44,7 +44,6 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
           name: cmd.name,
           description: cmd.description,
           interactive: cmd.interactive,
-          isDefault: cmd.isDefault ?? false,
           sortOrder: cmd.sortOrder ?? 0,
           parameters: commandParameters.map(convertParameter),
           subcommands: buildNestedCommands(commands, cmd.key),

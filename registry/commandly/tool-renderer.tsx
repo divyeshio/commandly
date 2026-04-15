@@ -25,9 +25,6 @@ import { CheckIcon, ChevronsUpDownIcon, InfoIcon, PlusIcon, XIcon } from "lucide
 import React from "react";
 
 const findDefaultCommand = (tool: Tool): Command | null => {
-  const defaultCommand = tool.commands.find((command) => command.isDefault);
-  if (defaultCommand) return defaultCommand;
-
   const nameMatchCommand = tool.commands.find(
     (command) => command.name.toLowerCase() === tool.name.toLowerCase(),
   );
@@ -129,7 +126,11 @@ function OptionEnumInput({ parameter, value, onUpdate }: ParameterRenderContext)
   );
 
   if (parameter.enum?.allowMultiple) {
-    const selected = value ? (value as string).split(separator).filter(Boolean) : [];
+    const selected = Array.isArray(value)
+      ? (value as string[]).filter(Boolean)
+      : value
+        ? (value as string).split(separator).filter(Boolean)
+        : [];
     return (
       <div className="space-y-2">
         {label}
