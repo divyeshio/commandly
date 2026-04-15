@@ -17,10 +17,17 @@ import {
 } from "react";
 import { toast } from "sonner";
 
+export interface ContextSelection {
+  commandKeys: string[];
+  parameterKeys: string[];
+}
+
 export interface ToolBuilderState {
   tool: Tool;
+  originalTool: Tool;
   selectedCommand: Command;
   selectedParameter: Parameter | null;
+  contextSelection: ContextSelection;
   parameterValues: Record<string, ParameterValue>;
   dialogs: {
     parameterDetails: boolean;
@@ -42,6 +49,8 @@ type Action =
   | { type: "SET_DIALOG_OPEN"; payload: { dialog: DialogKey; open: boolean } }
   | { type: "SET_SELECTED_COMMAND"; payload: Command }
   | { type: "SET_SELECTED_PARAMETER"; payload: Parameter | null }
+  | { type: "SET_CONTEXT_SELECTION"; payload: ContextSelection }
+  | { type: "CLEAR_CONTEXT_SELECTION" }
   | { type: "UPSERT_PARAMETER"; payload: Parameter & { originalKey?: string } }
   | { type: "ADD_EXCLUSION_GROUP"; payload: ExclusionGroup }
   | { type: "UPDATE_EXCLUSION_GROUP"; payload: ExclusionGroup }
@@ -49,10 +58,13 @@ type Action =
   | { type: "SET_PARAMETER_VALUE"; payload: { key: string; value: ParameterValue } };
 
 function getDefaultState(tool: Tool): ToolBuilderState {
+  const cleanTool = cleanupTool(tool);
   return {
-    tool,
+    tool: cleanTool,
+    originalTool: cleanTool,
     selectedCommand: tool.commands[0] ?? ({} as Command),
     selectedParameter: null,
+    contextSelection: { commandKeys: [], parameterKeys: [] },
     parameterValues: {},
     dialogs: {
       parameterDetails: false,
@@ -66,7 +78,7 @@ function getDefaultState(tool: Tool): ToolBuilderState {
 function toolBuilderReducer(state: ToolBuilderState, action: Action): ToolBuilderState {
   switch (action.type) {
     case "INITIALIZE_TOOL":
-      return getDefaultState(cleanupTool(action.payload));
+      return getDefaultState(action.payload);
 
     case "UPDATE_TOOL":
       return { ...state, tool: cleanupTool({ ...state.tool, ...action.payload }) };
@@ -91,6 +103,12 @@ function toolBuilderReducer(state: ToolBuilderState, action: Action): ToolBuilde
           ),
           exclusionGroups: state.tool.exclusionGroups?.filter(
             (group) => !commandsToDelete.includes(group.commandKey || ""),
+          ),
+        },
+        contextSelection: {
+          ...state.contextSelection,
+          commandKeys: state.contextSelection.commandKeys.filter(
+            (k) => !commandsToDelete.includes(k),
           ),
         },
         selectedCommand:
@@ -121,6 +139,10 @@ function toolBuilderReducer(state: ToolBuilderState, action: Action): ToolBuilde
             ...group,
             parameterKeys: group.parameterKeys.filter((key) => key !== action.payload),
           })),
+        },
+        contextSelection: {
+          ...state.contextSelection,
+          parameterKeys: state.contextSelection.parameterKeys.filter((k) => k !== action.payload),
         },
       };
       if (state.selectedParameter?.key === action.payload) next.selectedParameter = null;
@@ -202,6 +224,12 @@ function toolBuilderReducer(state: ToolBuilderState, action: Action): ToolBuilde
         parameterValues: { ...state.parameterValues, [action.payload.key]: action.payload.value },
       };
 
+    case "SET_CONTEXT_SELECTION":
+      return { ...state, contextSelection: action.payload };
+
+    case "CLEAR_CONTEXT_SELECTION":
+      return { ...state, contextSelection: { commandKeys: [], parameterKeys: [] } };
+
     default:
       return state;
   }
@@ -220,6 +248,8 @@ interface ToolBuilderContextValue extends ToolBuilderState {
   setDialogOpen: (dialog: DialogKey, open: boolean) => void;
   setSelectedCommand: (command: Command) => void;
   setSelectedParameter: (parameter: Parameter | null) => void;
+  setContextSelection: (selection: ContextSelection) => void;
+  clearContextSelection: () => void;
   upsertParameter: (parameter: Parameter, originalKey?: string) => void;
   setParameterValue: (key: string, value: ParameterValue) => void;
   getParametersForCommand: (commandKey: string) => Parameter[];
@@ -308,6 +338,11 @@ export function ToolBuilderProvider({ tool, children, initialState }: ToolBuilde
 
       setSelectedParameter: (parameter: Parameter | null) =>
         dispatch({ type: "SET_SELECTED_PARAMETER", payload: parameter }),
+
+      setContextSelection: (selection: ContextSelection) =>
+        dispatch({ type: "SET_CONTEXT_SELECTION", payload: selection }),
+
+      clearContextSelection: () => dispatch({ type: "CLEAR_CONTEXT_SELECTION" }),
 
       upsertParameter: (parameter: Parameter, originalKey?: string) => {
         const matchKey = originalKey || parameter.key;

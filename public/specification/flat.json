@@ -2,33 +2,40 @@
   "type": "object",
   "properties": {
     "name": {
+      "description": "Unique machine-readable identifier for the tool (e.g. \"httpx\").",
       "type": "string"
     },
     "displayName": {
+      "description": "Human-readable display name for the tool (e.g. \"HTTPx\").",
       "type": "string"
     },
     "info": {
+      "description": "General information about the tool such as description, version, and URL.",
       "$ref": "#/definitions/ToolInfo"
     },
     "commands": {
+      "description": "List of all commands and subcommands defined for this tool.",
       "type": "array",
       "items": {
         "$ref": "#/definitions/Command"
       }
     },
     "parameters": {
+      "description": "Flat list of all parameters across all commands and global scope.",
       "type": "array",
       "items": {
         "$ref": "#/definitions/Parameter"
       }
     },
     "exclusionGroups": {
+      "description": "Groups of parameters with mutual exclusion or required-one-of constraints.",
       "type": "array",
       "items": {
         "$ref": "#/definitions/ExclusionGroup"
       }
     },
     "metadata": {
+      "description": "Arbitrary metadata attached to the tool.",
       "$ref": "#/definitions/ToolMetadata"
     }
   },
@@ -43,12 +50,15 @@
       "type": "object",
       "properties": {
         "description": {
+          "description": "A brief human-readable description of what the tool does.",
           "type": "string"
         },
         "version": {
+          "description": "The version string of the tool (e.g. \"1.0.0\").",
           "type": "string"
         },
         "url": {
+          "description": "The homepage or documentation URL for the tool.",
           "type": "string"
         }
       }
@@ -57,24 +67,31 @@
       "type": "object",
       "properties": {
         "key": {
+          "description": "Unique identifier for this command within the tool.",
           "type": "string"
         },
         "parentCommandKey": {
+          "description": "Key of the parent command; used to represent subcommand nesting.",
           "type": "string"
         },
         "name": {
+          "description": "Human-readable display name of the command.",
           "type": "string"
         },
         "description": {
+          "description": "Brief description of what this command does.",
           "type": "string"
         },
         "interactive": {
+          "description": "Whether this command opens an interactive session or prompt.",
           "type": "boolean"
         },
         "isDefault": {
+          "description": "Whether this is the default command when no subcommand is specified.",
           "type": "boolean"
         },
         "sortOrder": {
+          "description": "Display sort position relative to sibling commands.",
           "type": "number"
         }
       },
@@ -87,66 +104,86 @@
       "type": "object",
       "properties": {
         "key": {
+          "description": "Unique identifier for this parameter within the tool.",
           "type": "string"
         },
         "name": {
+          "description": "Human-readable display name of the parameter.",
           "type": "string"
         },
         "commandKey": {
+          "description": "Key of the command this parameter belongs to; omit for global parameters.",
           "type": "string"
         },
         "description": {
+          "description": "Brief description of what this parameter does or accepts.",
           "type": "string"
         },
         "group": {
+          "description": "Optional grouping label for organising related parameters in the UI.",
           "type": "string"
         },
         "metadata": {
+          "description": "Additional metadata such as tags.",
           "$ref": "#/definitions/ParameterMetadata"
         },
         "parameterType": {
-          "$ref": "#/definitions/ParameterType"
+          "$ref": "#/definitions/ParameterType",
+          "description": "Whether this is a boolean flag, a key-value option, or a positional argument."
         },
         "dataType": {
-          "$ref": "#/definitions/ParameterDataType"
+          "$ref": "#/definitions/ParameterDataType",
+          "description": "The data type of the parameter's value."
         },
         "isRequired": {
+          "description": "Whether the user must provide this parameter.",
           "type": "boolean"
         },
         "isRepeatable": {
+          "description": "Whether this parameter can be specified multiple times.",
           "type": "boolean"
         },
         "isGlobal": {
+          "description": "Whether this parameter applies to all commands rather than a single command.",
           "type": "boolean"
         },
         "shortFlag": {
+          "description": "The single-character short flag (e.g. \"-v\").",
           "type": "string"
         },
         "longFlag": {
+          "description": "The long-form flag or option name (e.g. \"--verbose\").",
           "type": "string"
         },
         "position": {
+          "description": "Zero-based position index for positional arguments.",
           "type": "number"
         },
         "sortOrder": {
+          "description": "Display sort position relative to sibling parameters.",
           "type": "number"
         },
         "arraySeparator": {
+          "description": "Separator character used when the option accepts multiple values in one argument (e.g. \",\").",
           "type": "string"
         },
         "keyValueSeparator": {
+          "description": "Separator between key and value for key=value style options (e.g. \"=\").",
           "type": "string"
         },
         "enum": {
+          "description": "Allowed enum choices when dataType is \"Enum\".",
           "$ref": "#/definitions/ParameterEnumValues"
         },
         "validations": {
+          "description": "Validation rules applied to this parameter's value.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/ParameterValidation"
           }
         },
         "dependencies": {
+          "description": "Dependencies on other parameters (requires or conflicts-with relationships).",
           "type": "array",
           "items": {
             "$ref": "#/definitions/ParameterDependency"
@@ -164,6 +201,7 @@
       "type": "object",
       "properties": {
         "tags": {
+          "description": "Arbitrary tags for categorising or filtering parameters.",
           "type": "array",
           "items": {
             "type": "string"
@@ -192,15 +230,18 @@
       "type": "object",
       "properties": {
         "values": {
+          "description": "The list of allowed enum choices.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/ParameterEnumValue"
           }
         },
         "allowMultiple": {
+          "description": "Whether the user can select multiple values at once.",
           "type": "boolean"
         },
         "separator": {
+          "description": "Separator character used when joining multiple selected values.",
           "type": "string"
         }
       },
@@ -212,18 +253,23 @@
       "type": "object",
       "properties": {
         "value": {
+          "description": "The raw value passed to the CLI for this choice.",
           "type": "string"
         },
         "displayName": {
+          "description": "Human-readable label shown to the user for this enum choice.",
           "type": "string"
         },
         "description": {
+          "description": "Description of what this enum value does or represents.",
           "type": "string"
         },
         "isDefault": {
+          "description": "Whether this is the default selection when no value is provided.",
           "type": "boolean"
         },
         "sortOrder": {
+          "description": "Display sort position relative to sibling enum values.",
           "type": "number"
         }
       },
@@ -236,15 +282,19 @@
       "type": "object",
       "properties": {
         "key": {
+          "description": "Unique identifier for this validation rule.",
           "type": "string"
         },
         "validationType": {
-          "$ref": "#/definitions/ParameterValidationType"
+          "$ref": "#/definitions/ParameterValidationType",
+          "description": "The type of validation to apply."
         },
         "validationValue": {
+          "description": "The value to validate against (e.g. the max length number, or a regex pattern).",
           "type": "string"
         },
         "errorMessage": {
+          "description": "The error message to display when validation fails.",
           "type": "string"
         }
       },
@@ -269,18 +319,23 @@
       "type": "object",
       "properties": {
         "key": {
+          "description": "Unique identifier for this dependency rule.",
           "type": "string"
         },
         "parameterKey": {
+          "description": "Key of the parameter that owns this dependency.",
           "type": "string"
         },
         "dependsOnParameterKey": {
+          "description": "Key of the parameter this dependency references.",
           "type": "string"
         },
         "dependencyType": {
-          "$ref": "#/definitions/ParameterDependencyType"
+          "$ref": "#/definitions/ParameterDependencyType",
+          "description": "Whether this parameter requires or conflicts with the referenced parameter."
         },
         "conditionValue": {
+          "description": "Optional value that the referenced parameter must have for this dependency to apply.",
           "type": "string"
         }
       },
@@ -302,18 +357,23 @@
       "type": "object",
       "properties": {
         "key": {
+          "description": "Unique identifier for this exclusion group.",
           "type": "string"
         },
         "commandKey": {
+          "description": "Key of the command this exclusion group belongs to; omit for global groups.",
           "type": "string"
         },
         "name": {
+          "description": "Human-readable name for this exclusion group.",
           "type": "string"
         },
         "exclusionType": {
-          "$ref": "#/definitions/ExclusionType"
+          "$ref": "#/definitions/ExclusionType",
+          "description": "Whether parameters in this group are mutually exclusive or one is required."
         },
         "parameterKeys": {
+          "description": "Keys of the parameters that participate in this exclusion group.",
           "type": "array",
           "items": {
             "type": "string"

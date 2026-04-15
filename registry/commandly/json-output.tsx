@@ -1,6 +1,7 @@
 import { Tool } from "@/components/commandly/types/flat";
 import { exportToStructuredJSON } from "@/components/commandly/utils/flat";
 import { convertToNestedStructure } from "@/components/commandly/utils/nested";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -14,7 +15,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { CheckIcon, ChevronsUpDownIcon, CopyIcon, Edit2Icon, XIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 const jsonOptions = [
@@ -22,23 +23,83 @@ const jsonOptions = [
   { value: "flat", label: "Flat" },
 ];
 
+type DiffLine = { type: "same" | "added" | "removed"; text: string };
+
+function diffLines(before: string, after: string): DiffLine[] {
+  const a = before.split("\n");
+  const b = after.split("\n");
+  const m = a.length;
+  const n = b.length;
+  const dp = Array.from({ length: m + 1 }, () => new Array<number>(n + 1).fill(0));
+  for (let i = 1; i <= m; i++)
+    for (let j = 1; j <= n; j++)
+      dp[i][j] =
+        a[i - 1] === b[j - 1]
+          ? dp[i - 1][j - 1] + 1
+          : Math.max(dp[i - 1][j], dp[i][j - 1]);
+  const result: DiffLine[] = [];
+  let i = m,
+    j = n;
+  while (i > 0 || j > 0) {
+    if (i > 0 && j > 0 && a[i - 1] === b[j - 1]) {
+      result.unshift({ type: "same", text: a[i - 1] });
+      i--;
+      j--;
+    } else if (j > 0 && (i === 0 || dp[i][j - 1] >= dp[i - 1][j])) {
+      result.unshift({ type: "added", text: b[j - 1] });
+      j--;
+    } else {
+      result.unshift({ type: "removed", text: a[i - 1] });
+      i--;
+    }
+  }
+  return result;
+}
+
 interface JsonTypeComponentProps {
   tool: Tool;
+  originalTool?: Tool;
   onApply?: (tool: Tool) => void;
 }
 
-export function JsonOutput({ tool, onApply }: JsonTypeComponentProps) {
+export function JsonOutput({ tool, originalTool, onApply }: JsonTypeComponentProps) {
   const [open, setOpen] = useState(false);
   const [jsonString, setJsonString] = useState<string>();
+  const [originalJsonString, setOriginalJsonString] = useState<string>();
   const [jsonType, setJsonType] = useState<"nested" | "flat">("flat");
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState("");
+  const [showDiff, setShowDiff] = useState(true);
 
   useEffect(() => {
     const config =
       jsonType === "flat" ? exportToStructuredJSON(tool) : convertToNestedStructure(tool);
     setJsonString(JSON.stringify(config, null, 2));
   }, [jsonType, tool]);
+
+  useEffect(() => {
+    if (!originalTool) {
+      setOriginalJsonString(undefined);
+      return;
+    }
+    const config =
+      jsonType === "flat"
+        ? exportToStructuredJSON(originalTool)
+        : convertToNestedStructure(originalTool);
+    setOriginalJsonString(JSON.stringify(config, null, 2));
+  }, [jsonType, originalTool]);
+
+  const diff = useMemo(() => {
+    if (!originalJsonString || !jsonString || originalJsonString === jsonString) return null;
+    return diffLines(originalJsonString, jsonString);
+  }, [originalJsonString, jsonString]);
+
+  const diffStats = useMemo(() => {
+    if (!diff) return null;
+    const added = diff.filter((l) => l.type === "added").length;
+    const removed = diff.filter((l) => l.type === "removed").length;
+    return { added, removed };
+  }, [diff]);
 
   const handleEditToggle = () => {
     setEditValue(jsonString ?? "");
@@ -137,6 +198,34 @@ export function JsonOutput({ tool, onApply }: JsonTypeComponentProps) {
         </div>
       </CardHeader>
       <CardContent>
+        {diffStats && !isEditing && (
+          <div className="mb-2 flex items-center gap-2">
+            {diffStats.added > 0 && (
+              <Badge
+                variant="outline"
+                className="border-green-500/40 bg-green-500/10 text-green-600 dark:text-green-400"
+              >
+                +{diffStats.added} added
+              </Badge>
+            )}
+            {diffStats.removed > 0 && (
+              <Badge
+                variant="outline"
+                className="border-red-500/40 bg-red-500/10 text-red-600 dark:text-red-400"
+              >
+                -{diffStats.removed} removed
+              </Badge>
+            )}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="ml-auto h-6 px-2 text-xs"
+              onClick={() => setShowDiff((v) => !v)}
+            >
+              {showDiff ? "Full view" : "Diff view"}
+            </Button>
+          </div>
+        )}
         {isEditing ? (
           <div className="flex flex-col gap-2">
             <ScrollArea
@@ -168,6 +257,34 @@ export function JsonOutput({ tool, onApply }: JsonTypeComponentProps) {
               </Button>
             </div>
           </div>
+        ) : diff && showDiff ? (
+          <ScrollArea
+            className="max-w-full *:data-radix-scroll-area-viewport:max-h-[calc(100vh-320px)]"
+            type="hover"
+          >
+            <pre className="max-w-full rounded-md font-mono text-sm">
+              {diff.map((line, idx) => (
+                <div
+                  key={idx}
+                  className={cn(
+                    "px-1",
+                    line.type === "added" &&
+                      "bg-green-500/10 text-green-700 dark:text-green-400",
+                    line.type === "removed" &&
+                      "bg-red-500/10 text-red-700 dark:text-red-400",
+                    line.type === "same" && "text-foreground/80",
+                  )}
+                >
+                  <span className="select-none opacity-50">
+                    {line.type === "added" ? "+ " : line.type === "removed" ? "- " : "  "}
+                  </span>
+                  {line.text}
+                </div>
+              ))}
+            </pre>
+            <ScrollBar orientation="vertical" />
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
         ) : (
           <ScrollArea
             className="max-w-full *:data-radix-scroll-area-viewport:max-h-[calc(100vh-320px)]"
@@ -184,3 +301,4 @@ export function JsonOutput({ tool, onApply }: JsonTypeComponentProps) {
     </Card>
   );
 }
+

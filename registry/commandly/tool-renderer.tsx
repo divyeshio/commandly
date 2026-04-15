@@ -129,7 +129,11 @@ function OptionEnumInput({ parameter, value, onUpdate }: ParameterRenderContext)
   );
 
   if (parameter.enum?.allowMultiple) {
-    const selected = value ? (value as string).split(separator).filter(Boolean) : [];
+    const selected = Array.isArray(value)
+      ? (value as string[]).filter(Boolean)
+      : value
+        ? (value as string).split(separator).filter(Boolean)
+        : [];
     return (
       <div className="space-y-2">
         {label}

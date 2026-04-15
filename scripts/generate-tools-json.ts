@@ -13,7 +13,7 @@ const tools = files.sort().map((file) => {
     name: tool.name,
     displayName: tool.displayName || tool.name,
     description: tool.info?.description,
-    url: tool.info?.url,
+    info: tool.info
   };
 });
 

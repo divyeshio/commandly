@@ -165,6 +165,36 @@ describe("ToolRenderer", () => {
     expect(inputs).toHaveLength(2);
   });
 
+  it("renders an allowMultiple Enum parameter without crashing when value is an array (repeatable-to-non-repeatable transition)", () => {
+    const param = {
+      ...createNewParameter(false, "my-tool"),
+      key: "format",
+      name: "Format",
+      parameterType: "Option" as const,
+      dataType: "Enum" as const,
+      isRepeatable: false,
+      enum: {
+        values: [
+          { value: "json", displayName: "JSON" },
+          { value: "xml", displayName: "XML" },
+        ],
+        allowMultiple: true,
+        separator: ",",
+      },
+    };
+    expect(() =>
+      render(
+        <ToolRenderer
+          tool={{ ...baseTool, parameters: [param] }}
+          catalog={defaultComponents()}
+          parameterValues={{ format: ["json", "xml"] }}
+          updateParameterValue={() => {}}
+        />,
+      ),
+    ).not.toThrow();
+    expect(screen.getByText("Format")).toBeInTheDocument();
+  });
+
   it("custom catalog entry takes precedence over built-in", () => {
     const param = {
       ...createNewParameter(false, "my-tool"),

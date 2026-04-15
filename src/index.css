@@ -207,11 +207,9 @@ code[data-theme*=" "] span {
   color: var(--shiki-light);
 }
 
-@media (prefers-color-scheme: dark) {
-  code[data-theme*=" "],
-  code[data-theme*=" "] span {
-    color: var(--shiki-dark);
-  }
+html.dark code[data-theme*=" "],
+html.dark code[data-theme*=" "] span {
+  color: var(--shiki-dark);
 }
 
 html {

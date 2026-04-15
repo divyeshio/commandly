@@ -21,9 +21,6 @@ export function ToolCard({
   isLocal?: boolean;
   onDelete?: (tool: Partial<Tool>) => void;
 }) {
-  const description =
-    tool.info?.description ?? (tool as Partial<Tool> & { description?: string }).description;
-
   return (
     <Card
       className="flex h-72 w-72 flex-col gap-0 overflow-hidden py-3 hover:shadow-md"
@@ -103,14 +100,14 @@ export function ToolCard({
         className="flex min-h-0 flex-1 flex-col overflow-hidden"
       >
         <CardContent className="flex min-h-0 flex-1 items-center justify-center px-2">
-          {description ? (
+          {tool.info?.description ? (
             <HoverCard openDelay={300}>
               <HoverCardTrigger asChild>
                 <p className="line-clamp-4 cursor-pointer text-center dark:text-foreground/60">
-                  {description}
+                  {tool.info?.description}
                 </p>
               </HoverCardTrigger>
-              <HoverCardContent className="max-w-xs text-sm">{description}</HoverCardContent>
+              <HoverCardContent className="max-w-xs text-sm">{tool.info?.description}</HoverCardContent>
             </HoverCard>
           ) : (
             <p className="text-sm text-muted-foreground">No description available</p>

@@ -104,7 +104,7 @@ export function CommandDialog({
                     }));
                   }}
                 />
-                <Label htmlFor="default-cmd">Default Command</Label>
+                <Label htmlFor="default-cmd">Default</Label>
               </div>
               <div className="flex items-center space-x-2">
                 <Switch
