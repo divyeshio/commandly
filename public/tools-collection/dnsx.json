@@ -11,7 +11,6 @@
     {
       "name": "dnsx",
       "description": "Root command for dnsx CLI.",
-      "isDefault": true,
       "sortOrder": 1,
       "key": "dnsx"
     }

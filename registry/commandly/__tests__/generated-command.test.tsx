@@ -4,7 +4,7 @@ import { render, screen } from "@testing-library/react";
 const testTool = {
   name: "tool",
   displayName: "Tool",
-  commands: [{ key: "test-key", name: "test", isDefault: true, sortOrder: 0 }],
+  commands: [{ key: "test-key", name: "test", sortOrder: 0 }],
   parameters: [],
 };
 
@@ -23,7 +23,7 @@ describe("GeneratedCommand", () => {
     const tool = {
       name: "curl",
       displayName: "Curl",
-      commands: [{ key: "curl", name: "curl", isDefault: true, sortOrder: 1 }],
+      commands: [{ key: "curl", name: "curl", sortOrder: 1 }],
       parameters: [
         {
           key: "header",
@@ -55,7 +55,7 @@ describe("GeneratedCommand", () => {
     const tool = {
       name: "mytool",
       displayName: "My Tool",
-      commands: [{ key: "mytool", name: "mytool", isDefault: true, sortOrder: 1 }],
+      commands: [{ key: "mytool", name: "mytool", sortOrder: 1 }],
       parameters: [
         {
           key: "filter",
@@ -84,7 +84,7 @@ describe("GeneratedCommand", () => {
     const tool = {
       name: "curl",
       displayName: "Curl",
-      commands: [{ key: "curl", name: "curl", isDefault: true, sortOrder: 1 }],
+      commands: [{ key: "curl", name: "curl", sortOrder: 1 }],
       parameters: [
         {
           key: "header",
@@ -111,7 +111,7 @@ describe("GeneratedCommand", () => {
     const tool = {
       name: "ssh",
       displayName: "SSH",
-      commands: [{ key: "ssh", name: "ssh", isDefault: true, sortOrder: 1 }],
+      commands: [{ key: "ssh", name: "ssh", sortOrder: 1 }],
       parameters: [
         {
           key: "verbose",
@@ -139,7 +139,7 @@ describe("GeneratedCommand", () => {
     const tool = {
       name: "curl",
       displayName: "Curl",
-      commands: [{ key: "curl", name: "curl", isDefault: true, sortOrder: 1 }],
+      commands: [{ key: "curl", name: "curl", sortOrder: 1 }],
       parameters: [
         {
           key: "target",

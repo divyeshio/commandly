@@ -27,7 +27,6 @@ const createTestCommand = (overrides: Partial<Command> = {}): Command => ({
   key: "test-command-key",
   name: "test-command",
   description: "Test command description",
-  isDefault: false,
   sortOrder: 0,
   ...overrides,
 });

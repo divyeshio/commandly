@@ -40,7 +40,6 @@ const baseTestState = (): Partial<ToolBuilderState> => ({
         key: "test-command-key",
         name: "test-command",
         description: "Test command",
-        isDefault: false,
         sortOrder: 0,
       },
     ],
@@ -49,7 +48,6 @@ const baseTestState = (): Partial<ToolBuilderState> => ({
     key: "test-command-key",
     name: "test-command",
     description: "Test command",
-    isDefault: false,
     sortOrder: 0,
   },
   selectedParameter: null,
@@ -290,7 +288,7 @@ describe("ParameterList - Rendering & Structure", () => {
   });
 
   describe("Interactions", () => {
-    it("clicking a parameter card selects it", () => {
+    it("clicking a parameter card selects it in context", () => {
       const parameter = createTestParameter();
       const state = baseTestState();
       state.tool = { ...state.tool!, parameters: [parameter] };
@@ -300,10 +298,10 @@ describe("ParameterList - Rendering & Structure", () => {
       expect(paramCard).toBeInTheDocument();
       fireEvent.click(paramCard!);
 
-      expect(capturedCtx.selectedParameter?.key).toBe(parameter.key);
+      expect(capturedCtx.contextSelection.parameterKeys).toContain(parameter.key);
     });
 
-    it("clicking the remove button does not select the parameter", () => {
+    it("clicking the remove button does not select the parameter in context", () => {
       const parameter = createTestParameter();
       const state = baseTestState();
       state.tool = { ...state.tool!, parameters: [parameter] };
@@ -315,7 +313,7 @@ describe("ParameterList - Rendering & Structure", () => {
       );
       fireEvent.click(removeButton!);
 
-      expect(capturedCtx.selectedParameter).toBeNull();
+      expect(capturedCtx.contextSelection.parameterKeys).not.toContain(parameter.key);
     });
 
     it("add button creates a new parameter with correct context for command parameters", () => {

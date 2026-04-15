@@ -40,7 +40,6 @@ export function CommandDialog({
         key: "",
         name: "",
         description: "",
-        isDefault: false,
         sortOrder: 0,
         parentCommandKey: parentKey,
       },
@@ -92,20 +91,6 @@ export function CommandDialog({
               />
             </div>
             <div className="flex items-center space-x-4 pt-6">
-              <div className="flex items-center space-x-2">
-                <Switch
-                  id="default-cmd"
-                  checked={editCommand.isDefault}
-                  disabled={!isNewCommand && command?.isDefault}
-                  onCheckedChange={(checked) => {
-                    setCommand((prev) => ({
-                      ...prev,
-                      isDefault: checked,
-                    }));
-                  }}
-                />
-                <Label htmlFor="default-cmd">Default Command</Label>
-              </div>
               <div className="flex items-center space-x-2">
                 <Switch
                   id="interactive-cmd"

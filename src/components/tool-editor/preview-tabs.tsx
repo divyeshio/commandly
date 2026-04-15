@@ -20,8 +20,14 @@ interface PreviewTabsProps {
 export function PreviewTabs({ onSaveCommand, streamingTool, isAIGenerating }: PreviewTabsProps) {
   const [currentTab, setActiveTab] = useState("ui");
 
-  const { selectedCommand, tool, parameterValues, setParameterValue, initializeTool } =
-    useToolBuilder();
+  const {
+    selectedCommand,
+    tool,
+    originalTool,
+    parameterValues,
+    setParameterValue,
+    initializeTool,
+  } = useToolBuilder();
   const displayTool = streamingTool ?? tool;
 
   return (
@@ -56,13 +62,17 @@ export function PreviewTabs({ onSaveCommand, streamingTool, isAIGenerating }: Pr
                 </div>
                 <ScrollArea className="min-h-0 flex-1">
                   <div className="p-2">
-                    <JsonOutput tool={streamingTool} />
+                    <JsonOutput
+                      tool={streamingTool}
+                      originalTool={originalTool}
+                    />
                   </div>
                 </ScrollArea>
               </>
             ) : (
               <JsonOutput
                 tool={tool}
+                originalTool={originalTool}
                 onApply={initializeTool}
               />
             )}

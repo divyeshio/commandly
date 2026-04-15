@@ -10,7 +10,6 @@
   "commands": [
     {
       "name": "cdncheck",
-      "isDefault": true,
       "sortOrder": 1,
       "key": "cdncheck"
     }

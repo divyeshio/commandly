@@ -8,7 +8,7 @@ const sampleTool: Tool = {
   info: {
     description: "Transfer data with URLs",
   },
-  commands: [{ key: "curl", name: "curl", isDefault: true }],
+  commands: [{ key: "curl", name: "curl" }],
   parameters: [
     {
       key: "url",
