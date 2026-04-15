@@ -189,23 +189,6 @@ describe("CommandDialog - Form Fields", () => {
     expect((nameInput as HTMLInputElement).value).toBe("new-command");
   });
 
-  it("disables command name input when command name matches tool name", () => {
-    const command = createTestCommand({ name: "test-tool" });
-    renderWithProvider(
-      <CommandDialog
-        isOpen={true}
-        onOpenChange={mockOnOpenChange}
-        command={command}
-        toolName="test-tool"
-        onSave={mockOnSave}
-      />,
-      createTestState(command, "test-tool"),
-    );
-
-    const nameInput = screen.getByLabelText("Command Name");
-    expect(nameInput).toBeDisabled();
-  });
-
   it("displays current sort order in the input", () => {
     const command = createTestCommand({ sortOrder: 5 });
     renderWithProvider(

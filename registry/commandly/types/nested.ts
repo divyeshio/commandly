@@ -75,12 +75,12 @@ export interface NestedCommand {
   /** Whether this command opens an interactive session or prompt. */
   interactive?: boolean;
   /** Display sort position relative to sibling commands. */
-  sortOrder: number;
+  sortOrder?: number;
   /** Parameters that belong directly to this command. */
   parameters: NestedParameter[];
   /** Nested subcommands of this command. */
-  subcommands: NestedCommand[];
-}
+  subcommands: NestedCommand[];  /** Groups of parameters with mutual exclusion or required-one-of constraints scoped to this command. */
+  exclusionGroups?: NestedExclusionGroup[];}
 
 export interface NestedExclusionGroup {
   /** Human-readable name for this exclusion group. */

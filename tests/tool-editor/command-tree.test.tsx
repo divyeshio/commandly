@@ -492,6 +492,40 @@ describe("CommandTree", () => {
       }
     });
 
+    it("saves subcommand with correct parentCommandKey when added via + button", async () => {
+      renderWithProvider(<CommandTree />, complexToolState());
+      const initialCount = capturedCtx.tool.commands.length;
+
+      const configElement = screen.getByText("config").closest("div");
+      const buttons = Array.from(configElement?.querySelectorAll("button") || []);
+      const actionButtons = buttons.filter(
+        (btn) =>
+          btn.classList.contains("opacity-0") && btn.classList.contains("group-hover:opacity-100"),
+      );
+      const addButton = actionButtons[1];
+
+      if (addButton) {
+        fireEvent.click(addButton);
+        await waitFor(() => {
+          expect(screen.getByRole("dialog")).toBeInTheDocument();
+        });
+
+        const nameInput = screen.getByLabelText("Command Name") as HTMLInputElement;
+        fireEvent.change(nameInput, { target: { value: "new-sub" } });
+
+        const saveButton = screen.getByRole("button", { name: "Add" });
+        fireEvent.click(saveButton);
+
+        await waitFor(() => {
+          expect(capturedCtx.tool.commands.length).toBe(initialCount + 1);
+        });
+
+        const newCmd = capturedCtx.tool.commands.find((c) => c.name === "new-sub");
+        expect(newCmd).toBeDefined();
+        expect(newCmd!.parentCommandKey).toBe("config");
+      }
+    });
+
     it("removes commands from context when deleting", () => {
       renderWithProvider(<CommandTree />, complexToolState());
       const initialCommandCount = capturedCtx.tool.commands.length;

@@ -30,7 +30,6 @@ export function CommandDialog({
   onOpenChange,
   command,
   parentKey,
-  toolName,
   onSave,
 }: CommandDialogProps) {
   const isNewCommand = !command;
@@ -65,7 +64,6 @@ export function CommandDialog({
               <Input
                 id="cmd-name"
                 value={editCommand.name}
-                disabled={!isNewCommand && command!.name === toolName}
                 onChange={(e) =>
                   setCommand((prev) => ({
                     ...prev,

@@ -339,12 +339,17 @@
           "items": {
             "$ref": "#/definitions/NestedCommand"
           }
+        },
+        "exclusionGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NestedExclusionGroup"
+          }
         }
       },
       "required": [
         "name",
         "parameters",
-        "sortOrder",
         "subcommands"
       ]
     },

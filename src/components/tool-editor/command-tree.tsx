@@ -264,7 +264,7 @@ export function CommandTree({ isChatOpen = false }: { isChatOpen?: boolean }) {
         </div>
       </ScrollArea>
       <CommandDialog
-        key={dialogCommand?.key ?? "new"}
+        key={dialogCommand?.key ?? `new-${pendingParentKey ?? "root"}`}
         isOpen={isDialogOpen}
         onOpenChange={(open) => {
           setIsDialogOpen(open);
