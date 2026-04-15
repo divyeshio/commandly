@@ -60,7 +60,7 @@ describe("CommandDialog - Rendering & Structure", () => {
     expect(screen.getByText("Edit Command Settings")).toBeInTheDocument();
     expect(screen.getByLabelText("Command Name")).toBeInTheDocument();
     expect(screen.getByLabelText("Sort Order")).toBeInTheDocument();
-    expect(screen.getByLabelText("Default Command")).toBeInTheDocument();
+    expect(screen.getByLabelText("Default")).toBeInTheDocument();
     expect(screen.getByLabelText("Description")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Save Changes" })).toBeInTheDocument();
   });
@@ -337,7 +337,7 @@ describe("CommandDialog - Default Command Switch", () => {
       createTestState(command),
     );
 
-    const defaultSwitch = screen.getByLabelText("Default Command");
+    const defaultSwitch = screen.getByLabelText("Default");
     expect(defaultSwitch).toBeChecked();
   });
 
@@ -354,7 +354,7 @@ describe("CommandDialog - Default Command Switch", () => {
       createTestState(command),
     );
 
-    const defaultSwitch = screen.getByLabelText("Default Command");
+    const defaultSwitch = screen.getByLabelText("Default");
     fireEvent.click(defaultSwitch);
 
     expect(defaultSwitch).toBeChecked();
@@ -373,7 +373,7 @@ describe("CommandDialog - Default Command Switch", () => {
       createTestState(command),
     );
 
-    const defaultSwitch = screen.getByLabelText("Default Command");
+    const defaultSwitch = screen.getByLabelText("Default");
     expect(defaultSwitch).toBeDisabled();
   });
 });
@@ -440,7 +440,7 @@ describe("CommandDialog - Save Functionality", () => {
     fireEvent.change(screen.getByLabelText("Description"), {
       target: { value: "New description" },
     });
-    fireEvent.click(screen.getByLabelText("Default Command"));
+    fireEvent.click(screen.getByLabelText("Default"));
 
     fireEvent.click(screen.getByRole("button", { name: "Save Changes" }));
 
@@ -561,7 +561,7 @@ describe("CommandDialog - UI Elements and Layout", () => {
 
     expect(screen.getByLabelText("Command Name")).toBeInTheDocument();
     expect(screen.getByLabelText("Sort Order")).toBeInTheDocument();
-    expect(screen.getByLabelText("Default Command")).toBeInTheDocument();
+    expect(screen.getByLabelText("Default")).toBeInTheDocument();
     expect(screen.getByLabelText("Description")).toBeInTheDocument();
   });
 

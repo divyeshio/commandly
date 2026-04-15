@@ -1,4 +1,13 @@
-import { ApiKeySettings } from "./api-key-settings";
+import { ApiKeySettings } from "../ai-chat/api-key-settings";
+import {
+  ApprovalArtifact,
+  ChatMessage,
+  countCompletedToolCalls,
+  findPendingApproval,
+  toChatMessage,
+} from "../ai-chat/ai-chat-message-mapping";
+import { DiffView } from "../ai-chat/diff-view";
+import { ExtractedContent, type ExtractResult } from "../ai-chat/extracted-content";
 import {
   ModelPicker,
   ReasoningEffortPicker,
@@ -6,8 +15,10 @@ import {
   providerForModel,
   MODEL_GROUPS,
   type ReasoningEffort,
-} from "./model-picker";
+} from "../ai-chat/model-picker";
 import { generatePrompt } from "./prompt";
+import { ChatSession, getPersistableMessages, getSessionPreview, loadRecentSessions, saveChatSession } from "../ai-chat/ai-chat-persistence";
+import { WebSearchResults, type WebSearchResult } from "../ai-chat/web-search-results";
 import { useToolBuilder } from "./tool-editor.context";
 import {
   Conversation,
@@ -62,7 +73,6 @@ import {
   ToolHeader,
 } from "@/components/ai-elements/tool";
 import { Tool } from "@/components/commandly/types/flat";
-import { exportToStructuredJSON } from "@/components/commandly/utils/flat";
 import {
   createApplyToolDefinitionTool,
   createEditTool,
@@ -80,7 +90,18 @@ import { createGroq } from "@ai-sdk/groq";
 import { createMistral } from "@ai-sdk/mistral";
 import { createOpenAI } from "@ai-sdk/openai";
 import { createXai } from "@ai-sdk/xai";
-import { hasToolCall, stepCountIs, streamText, type LanguageModelUsage, type ModelMessage } from "ai";
+import { Chat, useChat } from "@ai-sdk/react";
+import {
+  DirectChatTransport,
+  ToolLoopAgent,
+  lastAssistantMessageIsCompleteWithApprovalResponses,
+  type InferUITools,
+  type LanguageModelUsage,
+  type Tool as AISDKTool,
+  type UIMessage,
+  isToolUIPart,
+  getToolName,
+} from "ai";
 import {
   CheckIcon,
   CopyIcon,
@@ -95,38 +116,8 @@ import {
   TerminalIcon,
   XIcon,
 } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
-
-interface ToolCallEntry {
-  toolCallId: string;
-  toolName: string;
-  title: string;
-  input: Record<string, unknown>;
-  state: "input-available" | "approval-requested" | "output-available" | "output-error";
-  output?: unknown;
-  errorText?: string;
-  originalTool?: Tool;
-  previewTool?: Tool;
-}
-
-interface ChatSession {
-  id: string;
-  toolName: string;
-  messages: ChatMessage[];
-  updatedAt: number;
-  preview: string;
-}
-
-interface ChatMessage {
-  role: "user" | "assistant";
-  content: string;
-  toolApplied?: boolean;
-  toolCalls?: ToolCallEntry[];
-  isEditing?: boolean;
-  editingContent?: string;
-  reasoningContent?: string;
-}
 
 const PROMPT_PILLS = [
   {
@@ -159,48 +150,6 @@ const MODEL_MAX_TOKENS: Record<string, number> = {
 };
 const DEFAULT_MAX_TOKENS = 128_000;
 
-function openSessionsDB(): Promise<IDBDatabase> {
-  return new Promise((resolve, reject) => {
-    const req = indexedDB.open("commandly", 2);
-    req.onupgradeneeded = () => {
-      const db = req.result;
-      if (!db.objectStoreNames.contains("keys")) {
-        db.createObjectStore("keys");
-      }
-      if (!db.objectStoreNames.contains("sessions")) {
-        const store = db.createObjectStore("sessions", { keyPath: "id" });
-        store.createIndex("toolName", "toolName", { unique: false });
-      }
-    };
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => reject(req.error);
-  });
-}
-
-async function saveChatSession(session: ChatSession): Promise<void> {
-  const db = await openSessionsDB();
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction("sessions", "readwrite");
-    tx.objectStore("sessions").put(session);
-    tx.oncomplete = () => resolve();
-    tx.onerror = () => reject(tx.error);
-  });
-}
-
-async function loadRecentSessions(toolName: string, limit = 5): Promise<ChatSession[]> {
-  const db = await openSessionsDB();
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction("sessions", "readonly");
-    const index = tx.objectStore("sessions").index("toolName");
-    const req = index.getAll(toolName);
-    req.onsuccess = () => {
-      const all = (req.result as ChatSession[]).sort((a, b) => b.updatedAt - a.updatedAt);
-      resolve(all.slice(0, limit));
-    };
-    req.onerror = () => reject(req.error);
-  });
-}
-
 function formatRelativeTime(ts: number): string {
   const diff = Date.now() - ts;
   const mins = Math.floor(diff / 60_000);
@@ -211,43 +160,6 @@ function formatRelativeTime(ts: number): string {
   const days = Math.floor(hours / 24);
   return `${days}d ago`;
 }
-
-function computeLineDiff(
-  a: string,
-  b: string,
-): Array<{ type: "same" | "add" | "remove"; text: string }> {
-  const aLines = a.split("\n");
-  const bLines = b.split("\n");
-  const m = aLines.length;
-  const n = bLines.length;
-  const dp = Array.from({ length: m + 1 }, () => new Array<number>(n + 1).fill(0));
-  for (let i = 1; i <= m; i++) {
-    for (let j = 1; j <= n; j++) {
-      dp[i][j] =
-        aLines[i - 1] === bLines[j - 1]
-          ? dp[i - 1][j - 1] + 1
-          : Math.max(dp[i - 1][j], dp[i][j - 1]);
-    }
-  }
-  const result: Array<{ type: "same" | "add" | "remove"; text: string }> = [];
-  let i = m;
-  let j = n;
-  while (i > 0 || j > 0) {
-    if (i > 0 && j > 0 && aLines[i - 1] === bLines[j - 1]) {
-      result.unshift({ type: "same", text: aLines[i - 1] });
-      i--;
-      j--;
-    } else if (j > 0 && (i === 0 || dp[i][j - 1] >= dp[i - 1][j])) {
-      result.unshift({ type: "add", text: bLines[j - 1] });
-      j--;
-    } else {
-      result.unshift({ type: "remove", text: aLines[i - 1] });
-      i--;
-    }
-  }
-  return result;
-}
-
 
 function createModelInstance(provider: AIProvider, key: string, model: string) {
   switch (provider) {
@@ -266,6 +178,38 @@ function createModelInstance(provider: AIProvider, key: string, model: string) {
   }
 }
 
+type ChatProviderOptions = Record<
+  string,
+  Record<string, string | number | boolean | null | Record<string, string | number | boolean | null>>
+>;
+type AgentUIMessage = UIMessage<unknown, never, InferUITools<Record<string, AISDKTool>>>;
+
+function createToolLoopAgent({
+  model,
+  instructions,
+  tools,
+  providerOptions,
+  onFinish,
+}: {
+  model: ReturnType<typeof createModelInstance>;
+  instructions: string;
+  tools: Record<string, AISDKTool>;
+  providerOptions?: ChatProviderOptions;
+  onFinish: ({ usage }: { usage: LanguageModelUsage }) => void;
+}) {
+  return new ToolLoopAgent({
+    model,
+    instructions,
+    tools,
+    providerOptions,
+    onFinish,
+  });
+}
+
+function cloneTool(tool: Tool): Tool {
+  return structuredClone(tool);
+}
+
 function useAIChat(
   currentTool: Tool,
   onApply: (tool: Tool) => void,
@@ -273,35 +217,36 @@ function useAIChat(
   onGeneratingChange?: (isGenerating: boolean) => void,
 ) {
   const { contextSelection } = useToolBuilder();
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
-  const [isStreaming, setIsStreaming] = useState(false);
   const [modelInternal, setModelInternal] = useState(
     () => localStorage.getItem("ai-model") ?? MODEL_GROUPS[0].models[0].value,
   );
   const [reasoningEffort, setReasoningEffortState] = useState<ReasoningEffort | null>(
     () => (localStorage.getItem("ai-reasoning-effort") as ReasoningEffort | null),
   );
-  const schemaRef = useRef<object | null>(null);
-  const abortControllerRef = useRef<AbortController | null>(null);
-  const [pendingApproval, setPendingApproval] = useState<{
-    approvalId: string;
-    toolCallId: string;
-    continuationMessages: ModelMessage[];
-    previewTool: Tool;
-    originalTool: Tool;
-    summary: string;
-    messageIndex: number;
-  } | null>(null);
+  const [schema, setSchema] = useState<object | null>(null);
   const [usage, setUsage] = useState<LanguageModelUsage | null>(null);
-  const [toolCallCount, setToolCallCount] = useState(0);
-  const [recentSessions, setRecentSessions] = useState<ChatSession[]>([]);
-  const sessionIdRef = useRef(crypto.randomUUID());
+  const [recentSessions, setRecentSessions] = useState<Array<ChatSession<AgentUIMessage>>>([]);
+  const [approvalArtifacts, setApprovalArtifacts] = useState<Record<string, ApprovalArtifact>>({});
+  const [chatId, setChatId] = useState<string>(() => crypto.randomUUID());
+  const currentToolRef = useRef(currentTool);
+  const chatMessagesRef = useRef<AgentUIMessage[]>([]);
+  const pendingPreviewRef = useRef<Tool | null>(null);
+  const chatIdRef = useRef(chatId);
+  const onApplyRef = useRef(onApply);
+  const onStreamingToolRef = useRef(onStreamingTool);
+  const onGeneratingChangeRef = useRef(onGeneratingChange);
 
   useEffect(() => {
-    loadRecentSessions(currentTool.name).then(setRecentSessions).catch(() => { });
+    loadRecentSessions<AgentUIMessage>(currentTool.name).then(setRecentSessions).catch(console.error);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTool.name]);
+
+  currentToolRef.current = currentTool;
+  chatIdRef.current = chatId;
+  onApplyRef.current = onApply;
+  onStreamingToolRef.current = onStreamingTool;
+  onGeneratingChangeRef.current = onGeneratingChange;
 
   const model = modelInternal;
   const setModel = useCallback((m: string) => {
@@ -341,411 +286,224 @@ function useAIChat(
     xai: xaiKeys,
   };
   const currentKeys = allProviderKeys[provider as Exclude<AIProvider, "tavily">];
+  const providerOptions = useMemo(
+    () => (reasoningEffort && MODEL_GROUPS.flatMap((g) => g.models).find((m) => m.value === model)?.reasoning === true
+      ? getProviderOptions(provider, model, reasoningEffort)
+      : undefined) as ChatProviderOptions | undefined,
+    [provider, model, reasoningEffort],
+  );
 
   useEffect(() => {
     fetch("/specification/flat.json")
       .then((r) => r.json())
-      .then((s) => {
-        schemaRef.current = s;
-      })
+      .then(setSchema)
       .catch(() => { });
   }, []);
 
-  const runStream = useCallback(
-    async (userText: string, history: ChatMessage[]) => {
-      abortControllerRef.current = new AbortController();
-      const toolSnapshot = currentTool;
-      let isToolApplied = false;
-      let pendingPreview: Tool | null = null;
-      let waitingForApproval = false;
+  const systemPrompt = useMemo(() => {
+    const serializedSchema = schema ? JSON.stringify(schema, null, 2) : "{}";
+    const contextCommands = currentTool.commands.filter((command) =>
+      contextSelection.commandKeys.includes(command.key),
+    );
+    const contextParameters = currentTool.parameters.filter((parameter) =>
+      contextSelection.parameterKeys.includes(parameter.key),
+    );
 
-      try {
-        const schema = schemaRef.current ? JSON.stringify(schemaRef.current, null, 2) : "{}";
-        const contextCommands = currentTool.commands.filter((c) =>
-          contextSelection.commandKeys.includes(c.key),
-        );
-        const contextParameters = currentTool.parameters.filter((p) =>
-          contextSelection.parameterKeys.includes(p.key),
-        );
-        const systemPrompt = generatePrompt(schema, {
-          context: {
-            selectedCommands: contextCommands.map((c) => ({ key: c.key, name: c.name })),
-            selectedParameters: contextParameters.map((p) => ({
-              key: p.key,
-              name: p.name,
-              longFlag: p.longFlag,
-              shortFlag: p.shortFlag,
-            })),
-          },
-        });
-        const aiModel = createModelInstance(provider, currentKeys.key, model);
-        const userMessage: ChatMessage = { role: "user", content: userText };
-        const assistantMessageIndex = history.length + 1;
-        const priorModelMessages: ModelMessage[] = [...history, userMessage].map((m) => ({
-          role: m.role as "user" | "assistant",
-          content: m.content,
-        }));
+    return generatePrompt(serializedSchema, {
+      context: {
+        selectedCommands: contextCommands.map((command) => ({ key: command.key, name: command.name })),
+        selectedParameters: contextParameters.map((parameter) => ({
+          key: parameter.key,
+          name: parameter.name,
+          longFlag: parameter.longFlag,
+          shortFlag: parameter.shortFlag,
+        })),
+      },
+    });
+  }, [schema, currentTool, contextSelection]);
 
-        const editToolDef = createEditTool(
-          () => pendingPreview ?? toolSnapshot,
-          (t) => { pendingPreview = t; onStreamingTool?.(t); }
-        );
+  const agent = useMemo(() => {
+    const aiModel = createModelInstance(provider, currentKeys.key ?? "", model);
 
-        const applyToolDefinitionDef = createApplyToolDefinitionTool(
-          () => { isToolApplied = true; },
-          () => {
-            if (pendingPreview) {
-              onApply(replaceKey(pendingPreview) as Tool);
-              pendingPreview = null;
-            }
-            onStreamingTool?.(null);
-          }
-        );
+    const editToolDef = createEditTool(
+      () => pendingPreviewRef.current ?? currentToolRef.current,
+      (tool) => {
+        pendingPreviewRef.current = tool;
+        onStreamingToolRef.current?.(tool);
+      },
+    );
 
-        const readToolDef = createReadTool(() => pendingPreview ?? toolSnapshot);
-
-        const tavilySearchTool = tavilyKeys.isSaved && tavilyKeys.key
-          ? createTavilySearchTool(tavilyKeys.key)
-          : undefined;
-        const tavilyExtractTool = tavilyKeys.isSaved && tavilyKeys.key
-          ? createTavilyExtractTool(tavilyKeys.key)
-          : undefined;
-
-        const { fullStream } = streamText({
-          model: aiModel,
-          system: systemPrompt,
-          messages: priorModelMessages,
-          tools: {
-            editTool: editToolDef,
-            applyToolDefinition: applyToolDefinitionDef,
-            readTool: readToolDef,
-            ...(tavilySearchTool ? { tavilySearch: tavilySearchTool } : {}),
-            ...(tavilyExtractTool ? { tavilyExtract: tavilyExtractTool } : {}),
-          },
-          stopWhen: [
-            stepCountIs(20), // Maximum 20 steps
-            hasToolCall('applyToolDefinition'), // Stop after calling 'applyToolDefinition'
-          ],
-          abortSignal: abortControllerRef.current.signal,
-          onFinish: ({ usage: u }) => setUsage(u),
-          providerOptions: (reasoningEffort && MODEL_GROUPS.flatMap((g) => g.models).find((m) => m.value === model)?.reasoning === true
-            ? getProviderOptions(provider, model, reasoningEffort)
-            : undefined) as Record<string, Record<string, string | number | boolean | null | Record<string, string | number | boolean | null>>> | undefined,
-        });
-
-        let fullText = "";
-        let applyToolCallId: string | null = null;
-        let reasoningBuffer = "";
-        const continuationHistory: ModelMessage[] = [...priorModelMessages];
-        let currentStepText = "";
-        const currentStepCalls: Array<{ toolCallId: string; toolName: string; input: Record<string, unknown> }> = [];
-        const resolvedResults = new Map<string, unknown>();
-        const flushCompletedStep = () => {
-          const assistantContent = [
-            ...(currentStepText ? [{ type: "text" as const, text: currentStepText }] : []),
-            ...currentStepCalls.map((c) => ({ type: "tool-call" as const, toolCallId: c.toolCallId, toolName: c.toolName, input: c.input })),
-          ];
-          if (assistantContent.length > 0) {
-            continuationHistory.push({ role: "assistant", content: assistantContent } as ModelMessage);
-          }
-          if (currentStepCalls.length > 0) {
-            continuationHistory.push({
-              role: "tool",
-              content: currentStepCalls.map((c) => ({
-                type: "tool-result" as const,
-                toolCallId: c.toolCallId,
-                toolName: c.toolName,
-                output: resolvedResults.get(c.toolCallId),
-              })),
-            } as ModelMessage);
-          }
-          currentStepText = "";
-          currentStepCalls.length = 0;
-          resolvedResults.clear();
-        };
-
-        for await (const part of fullStream) {
-          if (part.type === "text-delta") {
-            fullText += part.text;
-            currentStepText += part.text;
-            setMessages((prev) => {
-              const updated = [...prev];
-              updated[updated.length - 1] = {
-                role: "assistant",
-                content: fullText,
-                toolCalls: updated[updated.length - 1].toolCalls,
-                toolApplied: updated[updated.length - 1].toolApplied,
-                reasoningContent: updated[updated.length - 1].reasoningContent,
-              };
-              return updated;
-            });
-          } else if (part.type === "reasoning-delta") {
-            reasoningBuffer += part.text;
-            setMessages((prev) => {
-              const updated = [...prev];
-              updated[updated.length - 1] = {
-                ...updated[updated.length - 1],
-                reasoningContent: reasoningBuffer,
-              };
-              return updated;
-            });
-          } else if (part.type === "tool-input-start" && part.toolName === "editTool") {
-            setMessages((prev) => {
-              const updated = [...prev];
-              const last = updated[updated.length - 1];
-              const entry: ToolCallEntry = {
-                toolCallId: part.id,
-                toolName: "editTool",
-                title: "Editing…",
-                input: {},
-                state: "input-available",
-              };
-              updated[updated.length - 1] = {
-                ...last,
-                toolCalls: [...(last.toolCalls ?? []), entry],
-              };
-              return updated;
-            });
-          } else if (part.type === "tool-input-start" && part.toolName === "readTool") {
-            setMessages((prev) => {
-              const updated = [...prev];
-              const last = updated[updated.length - 1];
-              const entry: ToolCallEntry = {
-                toolCallId: part.id,
-                toolName: "readTool",
-                title: "Reading tool JSON…",
-                input: {},
-                state: "input-available",
-              };
-              updated[updated.length - 1] = {
-                ...last,
-                toolCalls: [...(last.toolCalls ?? []), entry],
-              };
-              return updated;
-            });
-          } else if (part.type === "tool-input-start" && part.toolName === "applyToolDefinition") {
-            applyToolCallId = part.id;
-            onGeneratingChange?.(true);
-            setMessages((prev) => {
-              const updated = [...prev];
-              const last = updated[updated.length - 1];
-              const entry: ToolCallEntry = {
-                toolCallId: part.id,
-                toolName: "applyToolDefinition",
-                title: "Preparing to apply",
-                input: {},
-                state: "input-available",
-              };
-              updated[updated.length - 1] = {
-                ...last,
-                toolCalls: [...(last.toolCalls ?? []), entry],
-              };
-              return updated;
-            });
-          } else if (
-            part.type === "tool-input-start" &&
-            (part.toolName === "tavilySearch" || part.toolName === "tavilyExtract")
-          ) {
-            setMessages((prev) => {
-              const updated = [...prev];
-              const last = updated[updated.length - 1];
-              const entry: ToolCallEntry = {
-                toolCallId: part.id,
-                toolName: part.toolName,
-                title: part.toolName === "tavilySearch" ? "Web Search" : "Extract Content",
-                input: {},
-                state: "input-available",
-              };
-              updated[updated.length - 1] = {
-                ...last,
-                toolCalls: [...(last.toolCalls ?? []), entry],
-              };
-              return updated;
-            });
-          } else if (part.type === "tool-call" && part.toolName !== "applyToolDefinition") {
-            currentStepCalls.push({ toolCallId: part.toolCallId, toolName: part.toolName, input: part.input as Record<string, unknown> });
-            if (part.toolName === "editTool") {
-              const editInput = part.input as { summary?: string };
-              setMessages((prev) => {
-                const updated = [...prev];
-                const last = updated[updated.length - 1];
-                const toolCalls = (last.toolCalls ?? []).map((tc) =>
-                  tc.toolCallId === part.toolCallId
-                    ? { ...tc, title: editInput.summary ?? "Editing…", input: part.input as Record<string, unknown> }
-                    : tc,
-                );
-                updated[updated.length - 1] = { ...last, toolCalls };
-                return updated;
-              });
-            } else if (part.toolName === "tavilySearch" || part.toolName === "tavilyExtract") {
-              setMessages((prev) => {
-                const updated = [...prev];
-                const last = updated[updated.length - 1];
-                const toolCalls = (last.toolCalls ?? []).map((tc) =>
-                  tc.toolCallId === part.toolCallId
-                    ? { ...tc, input: part.input as Record<string, unknown> }
-                    : tc,
-                );
-                updated[updated.length - 1] = { ...last, toolCalls };
-                return updated;
-              });
-            }
-          } else if (part.type === "tool-result" && part.toolName === "editTool") {
-            setToolCallCount((c) => c + 1);
-            resolvedResults.set(part.toolCallId, part.output);
-            if (resolvedResults.size === currentStepCalls.length && currentStepCalls.length > 0) {
-              flushCompletedStep();
-            }
-            setMessages((prev) => {
-              const updated = [...prev];
-              const last = updated[updated.length - 1];
-              const toolCalls = (last.toolCalls ?? []).map((tc) =>
-                tc.toolCallId === part.toolCallId
-                  ? { ...tc, state: "output-available" as const }
-                  : tc,
-              );
-              updated[updated.length - 1] = { ...last, toolCalls };
-              return updated;
-            });
-          } else if (part.type === "tool-result" && part.toolName === "readTool") {
-            setToolCallCount((c) => c + 1);
-            resolvedResults.set(part.toolCallId, part.output);
-            if (resolvedResults.size === currentStepCalls.length && currentStepCalls.length > 0) {
-              flushCompletedStep();
-            }
-            setMessages((prev) => {
-              const updated = [...prev];
-              const last = updated[updated.length - 1];
-              const toolCalls = (last.toolCalls ?? []).map((tc) =>
-                tc.toolCallId === part.toolCallId
-                  ? { ...tc, state: "output-available" as const }
-                  : tc,
-              );
-              updated[updated.length - 1] = { ...last, toolCalls };
-              return updated;
-            });
-          } else if (
-            part.type === "tool-approval-request" &&
-            part.toolCall?.toolName === "applyToolDefinition"
-          ) {
-            onGeneratingChange?.(false);
-            const input = (part.toolCall?.input ?? {}) as { summary: string };
-            const toolCallId = (part.toolCall as { toolCallId?: string } | undefined)?.toolCallId ?? part.approvalId;
-            const previewTool = pendingPreview ?? toolSnapshot;
-            const originalTool = toolSnapshot;
-
-            const finalStepContent = [
-              ...(currentStepText ? [{ type: "text" as const, text: currentStepText }] : []),
-              { type: "tool-call" as const, toolCallId, toolName: "applyToolDefinition", input: input as Record<string, unknown> },
-            ];
-            continuationHistory.push({ role: "assistant", content: finalStepContent } as ModelMessage);
-
-            waitingForApproval = true;
-            onStreamingTool?.(previewTool);
-            setMessages((prev) => {
-              const updated = [...prev];
-              const last = updated[updated.length - 1];
-              const toolCalls = (last.toolCalls ?? []).map((tc) =>
-                tc.toolCallId === applyToolCallId
-                  ? { ...tc, state: "approval-requested" as const, originalTool, previewTool }
-                  : tc,
-              );
-              updated[updated.length - 1] = { ...last, toolCalls };
-              return updated;
-            });
-            setPendingApproval({
-              approvalId: part.approvalId,
-              toolCallId,
-              continuationMessages: continuationHistory,
-              previewTool,
-              originalTool,
-              summary: input.summary,
-              messageIndex: assistantMessageIndex,
-            });
-          } else if (part.type === "tool-result" && part.toolName === "tavilySearch") {
-            setToolCallCount((c) => c + 1);
-            resolvedResults.set(part.toolCallId, part.output);
-            if (resolvedResults.size === currentStepCalls.length && currentStepCalls.length > 0) {
-              flushCompletedStep();
-            }
-            setMessages((prev) => {
-              const updated = [...prev];
-              const last = updated[updated.length - 1];
-              const toolCalls = (last.toolCalls ?? []).map((tc) =>
-                tc.toolCallId === part.toolCallId
-                  ? { ...tc, state: "output-available" as const, output: part.output }
-                  : tc,
-              );
-              updated[updated.length - 1] = { ...last, toolCalls };
-              return updated;
-            });
-          } else if (part.type === "tool-result" && part.toolName === "tavilyExtract") {
-            setToolCallCount((c) => c + 1);
-            resolvedResults.set(part.toolCallId, part.output);
-            if (resolvedResults.size === currentStepCalls.length && currentStepCalls.length > 0) {
-              flushCompletedStep();
-            }
-            setMessages((prev) => {
-              const updated = [...prev];
-              const last = updated[updated.length - 1];
-              const toolCalls = (last.toolCalls ?? []).map((tc) =>
-                tc.toolCallId === part.toolCallId
-                  ? { ...tc, state: "output-available" as const, output: part.output }
-                  : tc,
-              );
-              updated[updated.length - 1] = { ...last, toolCalls };
-              return updated;
-            });
-          }
+    const applyToolDefinitionDef = createApplyToolDefinitionTool(
+      () => { },
+      () => {
+        if (pendingPreviewRef.current) {
+          onApplyRef.current(replaceKey(pendingPreviewRef.current) as Tool);
+          pendingPreviewRef.current = null;
         }
+        onStreamingToolRef.current?.(null);
+      },
+    );
 
-        onGeneratingChange?.(false);
-        if (!waitingForApproval) onStreamingTool?.(null);
+    const tools = {
+      editTool: editToolDef,
+      applyToolDefinition: applyToolDefinitionDef,
+      readTool: createReadTool(() => pendingPreviewRef.current ?? currentToolRef.current),
+      ...(tavilyKeys.isSaved && tavilyKeys.key ? { tavilySearch: createTavilySearchTool(tavilyKeys.key) } : {}),
+      ...(tavilyKeys.isSaved && tavilyKeys.key ? { tavilyExtract: createTavilyExtractTool(tavilyKeys.key) } : {}),
+    };
 
-        setMessages((prev) => {
-          const messages = prev.filter(
-            (m) => m.role !== "assistant" || m.content !== "" || (m.toolCalls && m.toolCalls.length > 0),
-          );
-          const session: ChatSession = {
-            id: sessionIdRef.current,
-            toolName: currentTool.name,
-            messages,
-            updatedAt: Date.now(),
-            preview: (messages.find((m) => m.role === "user")?.content ?? "").slice(0, 80),
-          };
-          saveChatSession(session).catch(() => { });
-          return prev;
-        });
-      } catch (error) {
-        onGeneratingChange?.(false);
-        onStreamingTool?.(null);
-        setPendingApproval(null);
-        const isAbort = error instanceof Error && error.name === "AbortError";
-        if (isAbort) {
-          if (isToolApplied) {
-            onApply(toolSnapshot);
-          }
-        } else {
-          toast.error(error instanceof Error ? error.message : "AI request failed");
-        }
-        setMessages((prev) => prev.slice(0, -2));
-      } finally {
-        setIsStreaming(false);
+    return createToolLoopAgent({
+      model: aiModel,
+      instructions: systemPrompt,
+      tools,
+      providerOptions,
+      onFinish: ({ usage: currentUsage }) => setUsage(currentUsage),
+    });
+  }, [provider, currentKeys.key, model, systemPrompt, providerOptions, tavilyKeys.isSaved, tavilyKeys.key]);
+
+  const transport = useMemo(
+    () => new DirectChatTransport({
+      agent,
+      sendReasoning: true,
+    }),
+    [agent],
+  );
+
+  const chatCallbacksRef = useRef({
+    onFinish: () => { },
+    onError: (_error: Error) => { },
+  });
+
+  chatCallbacksRef.current = {
+    onFinish: () => {
+      onGeneratingChangeRef.current?.(false);
+    },
+    onError: (error) => {
+      onGeneratingChangeRef.current?.(false);
+      onStreamingToolRef.current?.(null);
+      if (error.name !== "AbortError") {
+        toast.error(error.message || "AI request failed");
       }
     },
-    [
-      currentTool,
-      contextSelection,
-      provider,
-      currentKeys.key,
-      model,
-      reasoningEffort,
-      tavilyKeys,
-      onApply,
-      onGeneratingChange,
-      onStreamingTool,
-    ],
+  };
+
+  const chatInstance = useMemo(
+    () => new Chat<AgentUIMessage>({
+      id: chatId,
+      messages: chatMessagesRef.current,
+      transport,
+      sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithApprovalResponses,
+      onFinish: () => chatCallbacksRef.current.onFinish(),
+      onError: (error) => chatCallbacksRef.current.onError(error),
+    }),
+    [chatId, transport],
   );
+
+  const chat = useChat({ chat: chatInstance });
+  const rawMessages = chat.messages;
+  const isStreaming = chat.status === "submitted" || chat.status === "streaming";
+  chatMessagesRef.current = rawMessages;
+
+  const persistTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    const persistableMessages = getPersistableMessages(rawMessages);
+    if (persistableMessages.length === 0) return;
+
+    if (persistTimerRef.current) {
+      clearTimeout(persistTimerRef.current);
+    }
+
+    const delay = isStreaming ? 2000 : 0;
+
+    persistTimerRef.current = setTimeout(() => {
+      persistTimerRef.current = null;
+      saveChatSession({
+        id: chatIdRef.current,
+        toolName: currentToolRef.current.name,
+        messages: persistableMessages,
+        updatedAt: Date.now(),
+        preview: getSessionPreview(persistableMessages),
+      })
+        .then(() => loadRecentSessions<AgentUIMessage>(currentToolRef.current.name))
+        .then(setRecentSessions)
+        .catch(console.error);
+    }, delay);
+
+    return () => {
+      if (persistTimerRef.current) {
+        clearTimeout(persistTimerRef.current);
+      }
+    };
+  }, [rawMessages, isStreaming]);
+
+  useEffect(() => {
+    setApprovalArtifacts((previous) => {
+      const next = { ...previous };
+      let changed = false;
+
+      for (const message of rawMessages) {
+        for (const part of message.parts) {
+          if (!isToolUIPart(part) || getToolName(part) !== "applyToolDefinition") {
+            continue;
+          }
+
+          const approvalId = part.approval?.id;
+          if (!approvalId || next[approvalId]) {
+            continue;
+          }
+
+          next[approvalId] = {
+            approvalId,
+            previewTool: cloneTool(pendingPreviewRef.current ?? currentToolRef.current),
+            originalTool: cloneTool(currentToolRef.current),
+            summary: typeof part.input === "object" && part.input && "summary" in part.input && typeof part.input.summary === "string"
+              ? part.input.summary
+              : "Apply AI changes",
+          };
+          changed = true;
+        }
+      }
+
+      return changed ? next : previous;
+    });
+  }, [rawMessages]);
+
+  const messages = useMemo(
+    () => rawMessages
+      .filter((message) => message.role === "user" || message.role === "assistant")
+      .map((message) => toChatMessage(message, approvalArtifacts)),
+    [rawMessages, approvalArtifacts],
+  );
+
+  const pendingApproval = useMemo(() => findPendingApproval(messages), [messages]);
+
+  const toolCallCount = useMemo(() => countCompletedToolCalls(rawMessages), [rawMessages]);
+
+  useEffect(() => {
+    const hasPendingApproval = rawMessages.some((message) =>
+      message.parts.some((part) =>
+        isToolUIPart(part)
+        && getToolName(part) === "applyToolDefinition"
+        && part.state === "approval-requested",
+      ),
+    );
+
+    const isApplying = rawMessages.some((message) =>
+      message.parts.some((part) =>
+        isToolUIPart(part)
+        && getToolName(part) === "applyToolDefinition"
+        && (part.state === "input-available" || part.state === "approval-responded"),
+      ),
+    );
+
+    onGeneratingChangeRef.current?.(isStreaming && isApplying);
+
+    if (!hasPendingApproval && !isApplying && !isStreaming) {
+      pendingPreviewRef.current = null;
+      onStreamingToolRef.current?.(null);
+    }
+  }, [rawMessages, isStreaming]);
 
   const sendMessage = useCallback(
     async (textOverride?: string) => {
@@ -759,235 +517,99 @@ function useAIChat(
         return;
       }
 
-      if (!textOverride) setInput("");
-      const history = messages;
-      setMessages((prev) => [
-        ...prev,
-        { role: "user", content: userText },
-        { role: "assistant", content: "" },
-      ]);
-      setIsStreaming(true);
-      setToolCallCount(0);
-      await runStream(userText, history);
-    },
-    [input, isStreaming, model, currentKeys.key, messages, runStream],
-  );
+      pendingPreviewRef.current = null;
+      setApprovalArtifacts({});
+      if (!textOverride) {
+        setInput("");
+      }
 
-  const stopStreaming = useCallback(() => {
-    abortControllerRef.current?.abort();
-  }, []);
+      await chat.sendMessage({ text: userText });
+    },
+    [input, isStreaming, model, currentKeys.key, chat],
+  );
 
   const resendFromIndex = useCallback(
     async (index: number, newContent: string) => {
       if (isStreaming || !newContent.trim() || !model || !currentKeys.key) return;
-      setPendingApproval(null);
-      onStreamingTool?.(null);
-      const history = messages.slice(0, index);
-      setMessages([
-        ...history,
-        { role: "user", content: newContent },
-        { role: "assistant", content: "" },
-      ]);
-      setIsStreaming(true);
-      await runStream(newContent, history);
+
+      pendingPreviewRef.current = null;
+      setApprovalArtifacts({});
+      onStreamingToolRef.current?.(null);
+      chat.setMessages(rawMessages.slice(0, index));
+      await chat.sendMessage({ text: newContent });
     },
-    [isStreaming, model, currentKeys.key, messages, runStream, onStreamingTool],
+    [isStreaming, model, currentKeys.key, chat, rawMessages],
   );
 
   const clearMessages = useCallback(() => {
-    const sessionIdToSave = sessionIdRef.current;
-    setMessages((prev) => {
-      if (prev.length > 0) {
-        const messages = prev.filter(
-          (m) => m.role !== "assistant" || m.content !== "" || (m.toolCalls && m.toolCalls.length > 0),
-        );
-        if (messages.length > 0) {
-          const session: ChatSession = {
-            id: sessionIdToSave,
-            toolName: currentTool.name,
-            messages,
-            updatedAt: Date.now(),
-            preview: (messages.find((m) => m.role === "user")?.content ?? "").slice(0, 80),
-          };
-          saveChatSession(session)
-            .then(() => loadRecentSessions(currentTool.name))
-            .then(setRecentSessions)
-            .catch(() => { });
-        }
-      }
-      return [];
-    });
-    setInput("");
-    sessionIdRef.current = crypto.randomUUID();
-    setPendingApproval(null);
-    setToolCallCount(0);
-    onStreamingTool?.(null);
-  }, [currentTool.name, onStreamingTool]);
+    if (persistTimerRef.current) {
+      clearTimeout(persistTimerRef.current);
+      persistTimerRef.current = null;
+    }
 
-  const runContinuation = useCallback(
-    async (messages: ModelMessage[], approvedMessageIndex: number, toolSnapshot: Tool) => {
-      if (!model || !currentKeys.key) return;
+    const persistableMessages = getPersistableMessages(rawMessages);
 
-      setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
-      setIsStreaming(true);
-      abortControllerRef.current = new AbortController();
+    const resetChat = () => {
+      chatMessagesRef.current = [];
+      setChatId(crypto.randomUUID());
+      setInput("");
+      setUsage(null);
+      setApprovalArtifacts({});
+      pendingPreviewRef.current = null;
+      onStreamingToolRef.current?.(null);
+      onGeneratingChangeRef.current?.(false);
+    };
 
-      try {
-        const systemPrompt = generatePrompt(schemaRef.current ? JSON.stringify(schemaRef.current, null, 2) : "{}");
-        const aiModel = createModelInstance(provider, currentKeys.key, model);
-        let pendingPreview: Tool | null = null;
+    if (persistableMessages.length === 0) {
+      resetChat();
+      return;
+    }
 
-        const continuationEditTool = createEditTool(
-          () => pendingPreview ?? toolSnapshot,
-          (t) => { pendingPreview = t; onStreamingTool?.(t); }
-        );
-
-        const continuationApplyToolDefinition = createApplyToolDefinitionTool(
-          () => { },
-          () => {
-            if (pendingPreview) {
-              onApply(replaceKey(pendingPreview) as Tool);
-              pendingPreview = null;
-            }
-            onStreamingTool?.(null);
-          }
-        );
-
-        const tavilySearchTool = tavilyKeys.isSaved && tavilyKeys.key
-          ? createTavilySearchTool(tavilyKeys.key)
-          : undefined;
-
-        const continuationReadTool = createReadTool(() => pendingPreview ?? toolSnapshot);
-
-        const { fullStream } = streamText({
-          model: aiModel,
-          system: systemPrompt,
-          messages,
-          tools: {
-            editTool: continuationEditTool,
-            applyToolDefinition: continuationApplyToolDefinition,
-            readTool: continuationReadTool,
-            ...(tavilySearchTool ? { tavilySearch: tavilySearchTool } : {}),
-          },
-          stopWhen: [
-            stepCountIs(20), // Maximum 20 steps
-            hasToolCall('applyToolDefinition'), // Stop after calling 'applyToolDefinition'
-          ],
-          abortSignal: abortControllerRef.current.signal,
-          onFinish: ({ usage: u }) => setUsage(u),
-          providerOptions: (reasoningEffort && MODEL_GROUPS.flatMap((g) => g.models).find((m) => m.value === model)?.reasoning === true
-            ? getProviderOptions(provider, model, reasoningEffort)
-            : undefined) as Record<string, Record<string, string | number | boolean | null | Record<string, string | number | boolean | null>>> | undefined,
-        });
-
-        let fullText = "";
-        let reasoningBuffer = "";
-
-        for await (const part of fullStream) {
-          if (part.type === "text-delta") {
-            fullText += part.text;
-            setMessages((prev) => {
-              const updated = [...prev];
-              updated[updated.length - 1] = { ...updated[updated.length - 1], content: fullText };
-              return updated;
-            });
-          } else if (part.type === "reasoning-delta") {
-            reasoningBuffer += part.text;
-            setMessages((prev) => {
-              const updated = [...prev];
-              updated[updated.length - 1] = { ...updated[updated.length - 1], reasoningContent: reasoningBuffer };
-              return updated;
-            });
-          } else if (part.type === "tool-result" && part.toolName === "applyToolDefinition") {
-            setToolCallCount((c) => c + 1);
-            setMessages((prev) => {
-              const updated = [...prev];
-              if (approvedMessageIndex < updated.length) {
-                const approvedMsg = updated[approvedMessageIndex];
-                const toolCalls = (approvedMsg.toolCalls ?? []).map((tc) =>
-                  tc.toolName === "applyToolDefinition"
-                    ? { ...tc, state: "output-available" as const }
-                    : tc,
-                );
-                updated[approvedMessageIndex] = {
-                  ...approvedMsg,
-                  toolApplied: true,
-                  toolCalls,
-                };
-              }
-              return updated;
-            });
-          }
-        }
-
-        onGeneratingChange?.(false);
-        onStreamingTool?.(null);
-
-        setMessages((prev) => {
-          const messages = prev.filter(
-            (m) => m.role !== "assistant" || m.content !== "" || (m.toolCalls && m.toolCalls.length > 0),
-          );
-          const session: ChatSession = {
-            id: sessionIdRef.current,
-            toolName: currentTool.name,
-            messages,
-            updatedAt: Date.now(),
-            preview: (messages.find((m) => m.role === "user")?.content ?? "").slice(0, 80),
-          };
-          saveChatSession(session).catch(() => { });
-          return prev;
-        });
-      } catch (error) {
-        const isAbort = error instanceof Error && error.name === "AbortError";
-        if (!isAbort) toast.error(error instanceof Error ? error.message : "AI request failed");
-        setMessages((prev) => prev.slice(0, -1));
-        onStreamingTool?.(null);
-      } finally {
-        setIsStreaming(false);
-      }
-    },
-    [currentTool, provider, currentKeys.key, model, reasoningEffort, tavilyKeys, onApply, onGeneratingChange, onStreamingTool],
-  );
+    saveChatSession({
+      id: chatIdRef.current,
+      toolName: currentTool.name,
+      messages: persistableMessages,
+      updatedAt: Date.now(),
+      preview: getSessionPreview(persistableMessages),
+    })
+      .then(() => loadRecentSessions<AgentUIMessage>(currentTool.name))
+      .then(setRecentSessions)
+      .catch(console.error)
+      .finally(resetChat);
+  }, [rawMessages, currentTool.name]);
 
   const confirmPatch = useCallback(async () => {
     if (!pendingApproval) return;
-    const { toolCallId, continuationMessages: priorMessages, previewTool, originalTool, messageIndex } = pendingApproval;
 
-    onApply(replaceKey(previewTool) as Tool);
-    onStreamingTool?.(null);
-
-    const continuationMessages: ModelMessage[] = [
-      ...priorMessages,
-      {
-        role: "tool",
-        content: [{ type: "tool-result", toolCallId, toolName: "applyToolDefinition", output: { type: "text", value: "Applied successfully. Provide a concise summary of all the changes you made to the tool." } }],
-      } as ModelMessage,
-    ];
-    setPendingApproval(null);
-    await runContinuation(continuationMessages, messageIndex, originalTool);
-  }, [pendingApproval, runContinuation, onApply, onStreamingTool]);
+    await chat.addToolApprovalResponse({
+      id: pendingApproval.approvalId,
+      approved: true,
+      reason: "Applied successfully. Provide a concise summary of all the changes you made to the tool.",
+    });
+  }, [pendingApproval, chat]);
 
   const rejectPatch = useCallback(async () => {
     if (!pendingApproval) return;
-    const { toolCallId, continuationMessages: priorMessages, originalTool, messageIndex } = pendingApproval;
-    const continuationMessages: ModelMessage[] = [
-      ...priorMessages,
-      {
-        role: "tool",
-        content: [{ type: "tool-result", toolCallId, toolName: "applyToolDefinition", output: { type: "text", value: "User rejected the changes" } }],
-      } as ModelMessage,
-    ];
-    setPendingApproval(null);
-    onStreamingTool?.(null);
-    await runContinuation(continuationMessages, messageIndex, originalTool);
-  }, [pendingApproval, runContinuation, onStreamingTool]);
 
-  const loadSession = useCallback((session: ChatSession) => {
-    setMessages(session.messages);
-    sessionIdRef.current = session.id as `${string}-${string}-${string}-${string}-${string}`;
-    setPendingApproval(null);
-    onStreamingTool?.(null);
-  }, [onStreamingTool]);
+    await chat.addToolApprovalResponse({
+      id: pendingApproval.approvalId,
+      approved: false,
+      reason: "User rejected the changes",
+    });
+    pendingPreviewRef.current = null;
+    onStreamingToolRef.current?.(null);
+  }, [pendingApproval, chat]);
+
+  const loadSession = useCallback((session: ChatSession<AgentUIMessage>) => {
+    chatMessagesRef.current = session.messages;
+    setChatId(session.id);
+    setUsage(null);
+    setInput("");
+    setApprovalArtifacts({});
+    pendingPreviewRef.current = null;
+    onStreamingToolRef.current?.(null);
+    onGeneratingChangeRef.current?.(false);
+  }, []);
 
   return {
     messages,
@@ -1000,7 +622,7 @@ function useAIChat(
     setReasoningEffort,
     provider,
     sendMessage,
-    stopStreaming,
+    stopStreaming: chat.stop,
     resendFromIndex,
     clearMessages,
     allProviderKeys,
@@ -1013,143 +635,6 @@ function useAIChat(
     recentSessions,
     loadSession,
   };
-}
-
-function DiffView({ original, updated }: { original: Tool; updated: Tool }) {
-  const aJson = JSON.stringify(exportToStructuredJSON(original), null, 2);
-  const bJson = JSON.stringify(exportToStructuredJSON(updated), null, 2);
-  const diff = computeLineDiff(aJson, bJson);
-  const CONTEXT = 2;
-  const changedSet = new Set(diff.flatMap((d, idx) => (d.type !== "same" ? [idx] : [])));
-  const visibleSet = new Set<number>();
-  for (const idx of changedSet) {
-    for (let k = Math.max(0, idx - CONTEXT); k <= Math.min(diff.length - 1, idx + CONTEXT); k++) {
-      visibleSet.add(k);
-    }
-  }
-  if (visibleSet.size === 0) {
-    return <p className="text-xs text-muted-foreground">No changes</p>;
-  }
-  const sortedIndices = [...visibleSet].sort((a, b) => a - b);
-  const chunks: number[][] = [];
-  let current: number[] = [];
-  for (let k = 0; k < sortedIndices.length; k++) {
-    if (current.length === 0 || sortedIndices[k] === sortedIndices[k - 1] + 1) {
-      current.push(sortedIndices[k]);
-    } else {
-      chunks.push(current);
-      current = [sortedIndices[k]];
-    }
-  }
-  if (current.length > 0) chunks.push(current);
-  return (
-    <div className="max-h-48 overflow-y-auto rounded border border-border/40 bg-muted/20 font-mono text-[11px]">
-      {chunks.map((chunk, ci) => (
-        <div key={ci}>
-          {ci > 0 && (
-            <div className="bg-muted/30 px-2 py-0.5 text-muted-foreground">···</div>
-          )}
-          {chunk.map((lineIdx) => {
-            const line = diff[lineIdx];
-            return (
-              <div
-                key={lineIdx}
-                className={cn(
-                  "whitespace-pre px-2 py-px",
-                  line.type === "add" && "bg-green-500/10 text-green-600 dark:text-green-400",
-                  line.type === "remove" && "bg-red-500/10 text-red-500 opacity-70 line-through dark:text-red-400",
-                  line.type === "same" && "text-muted-foreground",
-                )}
-              >
-                {line.type === "add" ? "+ " : line.type === "remove" ? "- " : "  "}
-                {line.text}
-              </div>
-            );
-          })}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-interface WebSearchResult {
-  title: string;
-  url: string;
-  content: string;
-}
-
-function WebSearchResults({ results }: { results: WebSearchResult[] }) {
-  return (
-    <div className="mt-2 space-y-2">
-      {results.slice(0, 3).map((r) => {
-        let hostname = r.url;
-        try {
-          hostname = new URL(r.url).hostname;
-        } catch { /* ignore */ }
-        return (
-          <a
-            key={r.url}
-            href={r.url}
-            target="_blank"
-            rel="noreferrer"
-            className="block rounded-lg border border-border/40 bg-muted/30 px-4 py-3 transition-colors hover:border-border/60"
-          >
-            <div className="flex items-start justify-between gap-2">
-              <span className="text-sm font-medium leading-tight text-foreground hover:underline">
-                {r.title}
-              </span>
-              <span className="shrink-0 rounded bg-muted px-2 py-0.5 text-[11px] text-muted-foreground">
-                {hostname}
-              </span>
-            </div>
-            {r.content && (
-              <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{r.content}</p>
-            )}
-            <p className="mt-2 text-[10px] uppercase tracking-wide text-muted-foreground">{hostname}</p>
-          </a>
-        );
-      })}
-    </div>
-  );
-}
-
-interface ExtractResult {
-  url: string;
-  raw_content: string;
-  hasMore?: boolean;
-}
-
-function ExtractedContent({ results }: { results: ExtractResult[] }) {
-  return (
-    <div className="mt-2 space-y-2">
-      {results.map((r) => {
-        let hostname = r.url;
-        try {
-          hostname = new URL(r.url).hostname;
-        } catch { /* ignore */ }
-        return (
-          <div key={r.url} className="rounded border border-border/40 bg-muted/20">
-            <div className="flex items-center justify-between border-b border-border/30 px-3 py-1.5">
-              <a
-                href={r.url}
-                target="_blank"
-                rel="noreferrer"
-                className="text-[11px] text-muted-foreground hover:text-foreground hover:underline"
-              >
-                {hostname}
-              </a>
-              {r.hasMore && (
-                <span className="text-[10px] text-muted-foreground">partial</span>
-              )}
-            </div>
-            <pre className="max-h-40 overflow-y-auto whitespace-pre-wrap wrap-break-word px-3 py-2 font-mono text-[11px] text-muted-foreground">
-              {r.raw_content}
-            </pre>
-          </div>
-        );
-      })}
-    </div>
-  );
 }
 
 interface MessagePartProps {
