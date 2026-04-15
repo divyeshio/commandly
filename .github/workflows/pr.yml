@@ -11,6 +11,8 @@ jobs:
   lint-format:
     runs-on: ubuntu-latest
     name: Lint and Format Code
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v6
         with:
