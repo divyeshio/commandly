@@ -25,7 +25,7 @@ export function WebSearchResults({ results }: { results: WebSearchResult[] }) {
             className="block rounded-lg border border-border/40 bg-muted/30 px-4 py-3 transition-colors hover:border-border/60"
           >
             <div className="flex items-start justify-between gap-2">
-              <span className="text-sm font-medium leading-tight text-foreground hover:underline">
+              <span className="text-sm leading-tight font-medium text-foreground hover:underline">
                 {result.title}
               </span>
               <span className="shrink-0 rounded bg-muted px-2 py-0.5 text-[11px] text-muted-foreground">
@@ -35,7 +35,9 @@ export function WebSearchResults({ results }: { results: WebSearchResult[] }) {
             {result.content && (
               <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{result.content}</p>
             )}
-            <p className="mt-2 text-[10px] uppercase tracking-wide text-muted-foreground">{hostname}</p>
+            <p className="mt-2 text-[10px] tracking-wide text-muted-foreground uppercase">
+              {hostname}
+            </p>
           </a>
         );
       })}

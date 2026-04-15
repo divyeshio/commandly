@@ -161,7 +161,6 @@ export const defaultTool = (toolName?: string, displayName?: string): Tool => {
         key: slugify(finalToolName),
         name: finalToolName,
         description: "Main command",
-        isDefault: true,
         sortOrder: 0,
       },
     ],

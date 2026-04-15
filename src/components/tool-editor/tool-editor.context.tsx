@@ -112,7 +112,9 @@ function toolBuilderReducer(state: ToolBuilderState, action: Action): ToolBuilde
           ),
         },
         selectedCommand:
-          state.selectedCommand?.key === action.payload ? newCommands[0] : state.selectedCommand,
+          state.selectedCommand?.key === action.payload
+            ? (newCommands[0] ?? ({} as Command))
+            : state.selectedCommand,
       };
     }
 
@@ -123,7 +125,6 @@ function toolBuilderReducer(state: ToolBuilderState, action: Action): ToolBuilde
           ...state.tool,
           commands: state.tool.commands.map((cmd) => {
             if (cmd.key === action.payload.commandKey) return { ...cmd, ...action.payload.updates };
-            if (action.payload.updates.isDefault) return { ...cmd, isDefault: false };
             return cmd;
           }),
         },

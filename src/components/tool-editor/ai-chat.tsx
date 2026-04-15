@@ -1,11 +1,11 @@
-import { ApiKeySettings } from "../ai-chat/api-key-settings";
 import {
-  ApprovalArtifact,
-  ChatMessage,
+  type ChatMessage,
   countCompletedToolCalls,
   findPendingApproval,
   toChatMessage,
 } from "../ai-chat/ai-chat-message-mapping";
+import { type ChatWithPreview } from "../ai-chat/ai-chat-persistence";
+import { ApiKeySettings } from "../ai-chat/api-key-settings";
 import { DiffView } from "../ai-chat/diff-view";
 import { ExtractedContent, type ExtractResult } from "../ai-chat/extracted-content";
 import {
@@ -14,47 +14,24 @@ import {
   getProviderOptions,
   providerForModel,
   MODEL_GROUPS,
-  type ReasoningEffort,
 } from "../ai-chat/model-picker";
-import { generatePrompt } from "./prompt";
-import { ChatSession, getPersistableMessages, getSessionPreview, loadRecentSessions, saveChatSession } from "../ai-chat/ai-chat-persistence";
 import { WebSearchResults, type WebSearchResult } from "../ai-chat/web-search-results";
+import { ChatStore } from "./ai-chat-store";
+import { generatePrompt } from "./prompt";
 import { useToolBuilder } from "./tool-editor.context";
 import {
-  Conversation,
-  ConversationContent,
-  ConversationEmptyState,
-  ConversationScrollButton,
-} from "@/components/ai-elements/conversation";
-import {
-  Message,
-  MessageAction,
-  MessageActions,
-  MessageContent,
-  MessageResponse,
-} from "@/components/ai-elements/message";
-import { Shimmer } from "@/components/ai-elements/shimmer";
-import { Suggestion, Suggestions } from "@/components/ai-elements/suggestion";
+  createApplyToolDefinitionTool,
+  createEditTool,
+  createReadTool,
+  createTavilyExtractTool,
+  createTavilySearchTool,
+} from "./tools";
 import {
   ChainOfThought,
   ChainOfThoughtContent,
   ChainOfThoughtHeader,
   ChainOfThoughtStep,
 } from "@/components/ai-elements/chain-of-thought";
-import {
-  Reasoning,
-  ReasoningContent,
-  ReasoningTrigger,
-} from "@/components/ai-elements/reasoning";
-import {
-  PromptInput,
-  PromptInputBody,
-  PromptInputFooter,
-  PromptInputHeader,
-  PromptInputSubmit,
-  PromptInputTextarea,
-  PromptInputTools,
-} from "@/components/ai-elements/prompt-input";
 import {
   Context,
   ContextCacheUsage,
@@ -68,19 +45,34 @@ import {
   ContextTrigger,
 } from "@/components/ai-elements/context";
 import {
-  Tool as ToolCard,
-  ToolContent,
-  ToolHeader,
-} from "@/components/ai-elements/tool";
-import { Tool } from "@/components/commandly/types/flat";
+  Conversation,
+  ConversationContent,
+  ConversationEmptyState,
+  ConversationScrollButton,
+} from "@/components/ai-elements/conversation";
 import {
-  createApplyToolDefinitionTool,
-  createEditTool,
-  createReadTool,
-  createTavilyExtractTool,
-  createTavilySearchTool
-} from "./tools";
+  Message,
+  MessageAction,
+  MessageActions,
+  MessageContent,
+  MessageResponse,
+} from "@/components/ai-elements/message";
+import {
+  PromptInput,
+  PromptInputBody,
+  PromptInputFooter,
+  PromptInputHeader,
+  PromptInputSubmit,
+  PromptInputTextarea,
+  PromptInputTools,
+} from "@/components/ai-elements/prompt-input";
+import { Reasoning, ReasoningContent, ReasoningTrigger } from "@/components/ai-elements/reasoning";
+import { Shimmer } from "@/components/ai-elements/shimmer";
+import { Suggestion, Suggestions } from "@/components/ai-elements/suggestion";
+import { Tool as ToolCard, ToolContent, ToolHeader } from "@/components/ai-elements/tool";
+import { Tool } from "@/components/commandly/types/flat";
 import { Button } from "@/components/ui/button";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Textarea } from "@/components/ui/textarea";
 import { useAIKeys, type AIProvider } from "@/lib/ai-keys";
 import { cn, replaceKey } from "@/lib/utils";
@@ -89,8 +81,8 @@ import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { createGroq } from "@ai-sdk/groq";
 import { createMistral } from "@ai-sdk/mistral";
 import { createOpenAI } from "@ai-sdk/openai";
-import { createXai } from "@ai-sdk/xai";
 import { Chat, useChat } from "@ai-sdk/react";
+import { createXai } from "@ai-sdk/xai";
 import {
   DirectChatTransport,
   ToolLoopAgent,
@@ -99,11 +91,10 @@ import {
   type LanguageModelUsage,
   type Tool as AISDKTool,
   type UIMessage,
-  isToolUIPart,
-  getToolName,
 } from "ai";
 import {
   CheckIcon,
+  ChevronRightIcon,
   CopyIcon,
   FlagIcon,
   HashIcon,
@@ -116,7 +107,7 @@ import {
   TerminalIcon,
   XIcon,
 } from "lucide-react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 import { toast } from "sonner";
 
 const PROMPT_PILLS = [
@@ -140,8 +131,8 @@ const MODEL_MAX_TOKENS: Record<string, number> = {
   "claude-haiku-3-5": 200000,
   "gpt-4o": 128000,
   "gpt-4o-mini": 128000,
-  "o1": 200000,
-  "o3": 200000,
+  o1: 200000,
+  o3: 200000,
   "o4-mini": 200000,
   "gemini-2.0-flash": 1048576,
   "gemini-2.5-pro": 1048576,
@@ -180,7 +171,10 @@ function createModelInstance(provider: AIProvider, key: string, model: string) {
 
 type ChatProviderOptions = Record<
   string,
-  Record<string, string | number | boolean | null | Record<string, string | number | boolean | null>>
+  Record<
+    string,
+    string | number | boolean | null | Record<string, string | number | boolean | null>
+  >
 >;
 type AgentUIMessage = UIMessage<unknown, never, InferUITools<Record<string, AISDKTool>>>;
 
@@ -206,10 +200,6 @@ function createToolLoopAgent({
   });
 }
 
-function cloneTool(tool: Tool): Tool {
-  return structuredClone(tool);
-}
-
 function useAIChat(
   currentTool: Tool,
   onApply: (tool: Tool) => void,
@@ -217,58 +207,12 @@ function useAIChat(
   onGeneratingChange?: (isGenerating: boolean) => void,
 ) {
   const { contextSelection } = useToolBuilder();
-  const [input, setInput] = useState("");
-  const [modelInternal, setModelInternal] = useState(
-    () => localStorage.getItem("ai-model") ?? MODEL_GROUPS[0].models[0].value,
-  );
-  const [reasoningEffort, setReasoningEffortState] = useState<ReasoningEffort | null>(
-    () => (localStorage.getItem("ai-reasoning-effort") as ReasoningEffort | null),
-  );
-  const [schema, setSchema] = useState<object | null>(null);
-  const [usage, setUsage] = useState<LanguageModelUsage | null>(null);
-  const [recentSessions, setRecentSessions] = useState<Array<ChatSession<AgentUIMessage>>>([]);
-  const [approvalArtifacts, setApprovalArtifacts] = useState<Record<string, ApprovalArtifact>>({});
-  const [chatId, setChatId] = useState<string>(() => crypto.randomUUID());
-  const currentToolRef = useRef(currentTool);
-  const chatMessagesRef = useRef<AgentUIMessage[]>([]);
-  const pendingPreviewRef = useRef<Tool | null>(null);
-  const chatIdRef = useRef(chatId);
-  const onApplyRef = useRef(onApply);
-  const onStreamingToolRef = useRef(onStreamingTool);
-  const onGeneratingChangeRef = useRef(onGeneratingChange);
+  const [store] = useState(() => new ChatStore(currentTool.name, currentTool));
+  const snapshot = useSyncExternalStore(store.subscribe, store.getSnapshot);
 
-  useEffect(() => {
-    loadRecentSessions<AgentUIMessage>(currentTool.name).then(setRecentSessions).catch(console.error);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentTool.name]);
+  store.updateTool(currentTool);
 
-  currentToolRef.current = currentTool;
-  chatIdRef.current = chatId;
-  onApplyRef.current = onApply;
-  onStreamingToolRef.current = onStreamingTool;
-  onGeneratingChangeRef.current = onGeneratingChange;
-
-  const model = modelInternal;
-  const setModel = useCallback((m: string) => {
-    setModelInternal(m);
-    localStorage.setItem("ai-model", m);
-    const isReasoning = MODEL_GROUPS.flatMap((g) => g.models).find((mo) => mo.value === m)?.reasoning === true;
-    if (!isReasoning) {
-      setReasoningEffortState(null);
-      localStorage.removeItem("ai-reasoning-effort");
-    }
-  }, []);
-
-  const setReasoningEffort = useCallback((effort: ReasoningEffort | null) => {
-    setReasoningEffortState(effort);
-    if (effort === null) {
-      localStorage.removeItem("ai-reasoning-effort");
-    } else {
-      localStorage.setItem("ai-reasoning-effort", effort);
-    }
-  }, []);
-
-  const provider = providerForModel(model);
+  const provider = providerForModel(snapshot.model);
   const openAIKeys = useAIKeys("openai");
   const anthropicKeys = useAIKeys("anthropic");
   const googleKeys = useAIKeys("google");
@@ -286,340 +230,227 @@ function useAIChat(
     xai: xaiKeys,
   };
   const currentKeys = allProviderKeys[provider as Exclude<AIProvider, "tavily">];
+
   const providerOptions = useMemo(
-    () => (reasoningEffort && MODEL_GROUPS.flatMap((g) => g.models).find((m) => m.value === model)?.reasoning === true
-      ? getProviderOptions(provider, model, reasoningEffort)
-      : undefined) as ChatProviderOptions | undefined,
-    [provider, model, reasoningEffort],
+    function computeProviderOptions() {
+      return (
+        snapshot.reasoningEffort &&
+        MODEL_GROUPS.flatMap((g) => g.models).find((m) => m.value === snapshot.model)?.reasoning ===
+          true
+          ? getProviderOptions(provider, snapshot.model, snapshot.reasoningEffort)
+          : undefined
+      ) as ChatProviderOptions | undefined;
+    },
+    [provider, snapshot.model, snapshot.reasoningEffort],
   );
 
-  useEffect(() => {
-    fetch("/specification/flat.json")
-      .then((r) => r.json())
-      .then(setSchema)
-      .catch(() => { });
-  }, []);
+  const systemPrompt = useMemo(
+    function computeSystemPrompt() {
+      const serializedSchema = snapshot.schema ? JSON.stringify(snapshot.schema, null, 2) : "{}";
+      const contextCommands = currentTool.commands.filter((command) =>
+        contextSelection.commandKeys.includes(command.key),
+      );
+      const contextParameters = currentTool.parameters.filter((parameter) =>
+        contextSelection.parameterKeys.includes(parameter.key),
+      );
+      return generatePrompt(serializedSchema, {
+        context: {
+          selectedCommands: contextCommands.map((command) => ({
+            key: command.key,
+            name: command.name,
+          })),
+          selectedParameters: contextParameters.map((parameter) => ({
+            key: parameter.key,
+            name: parameter.name,
+            longFlag: parameter.longFlag,
+            shortFlag: parameter.shortFlag,
+          })),
+        },
+      });
+    },
+    [snapshot.schema, currentTool, contextSelection],
+  );
 
-  const systemPrompt = useMemo(() => {
-    const serializedSchema = schema ? JSON.stringify(schema, null, 2) : "{}";
-    const contextCommands = currentTool.commands.filter((command) =>
-      contextSelection.commandKeys.includes(command.key),
-    );
-    const contextParameters = currentTool.parameters.filter((parameter) =>
-      contextSelection.parameterKeys.includes(parameter.key),
-    );
+  const agent = useMemo(
+    function createAgent() {
+      const aiModel = createModelInstance(provider, currentKeys.key ?? "", snapshot.model);
 
-    return generatePrompt(serializedSchema, {
-      context: {
-        selectedCommands: contextCommands.map((command) => ({ key: command.key, name: command.name })),
-        selectedParameters: contextParameters.map((parameter) => ({
-          key: parameter.key,
-          name: parameter.name,
-          longFlag: parameter.longFlag,
-          shortFlag: parameter.shortFlag,
-        })),
-      },
-    });
-  }, [schema, currentTool, contextSelection]);
+      const editToolDef = createEditTool(
+        () => store.getPendingPreview() ?? store.getCurrentTool(),
+        function onEditPreview(tool) {
+          store.setPendingPreview(tool);
+          onStreamingTool?.(tool);
+        },
+      );
 
-  const agent = useMemo(() => {
-    const aiModel = createModelInstance(provider, currentKeys.key ?? "", model);
+      const applyToolDefinitionDef = createApplyToolDefinitionTool(
+        () => {},
+        function onApplyExecuted() {
+          const preview = store.getPendingPreview();
+          if (preview) {
+            onApply(replaceKey(preview) as Tool);
+            store.setPendingPreview(null);
+          }
+          onStreamingTool?.(null);
+        },
+      );
 
-    const editToolDef = createEditTool(
-      () => pendingPreviewRef.current ?? currentToolRef.current,
-      (tool) => {
-        pendingPreviewRef.current = tool;
-        onStreamingToolRef.current?.(tool);
-      },
-    );
+      const tools = {
+        editTool: editToolDef,
+        applyToolDefinition: applyToolDefinitionDef,
+        readTool: createReadTool(() => store.getPendingPreview() ?? store.getCurrentTool()),
+        ...(tavilyKeys.isSaved && tavilyKeys.key
+          ? { tavilySearch: createTavilySearchTool(tavilyKeys.key) }
+          : {}),
+        ...(tavilyKeys.isSaved && tavilyKeys.key
+          ? { tavilyExtract: createTavilyExtractTool(tavilyKeys.key) }
+          : {}),
+      };
 
-    const applyToolDefinitionDef = createApplyToolDefinitionTool(
-      () => { },
-      () => {
-        if (pendingPreviewRef.current) {
-          onApplyRef.current(replaceKey(pendingPreviewRef.current) as Tool);
-          pendingPreviewRef.current = null;
-        }
-        onStreamingToolRef.current?.(null);
-      },
-    );
-
-    const tools = {
-      editTool: editToolDef,
-      applyToolDefinition: applyToolDefinitionDef,
-      readTool: createReadTool(() => pendingPreviewRef.current ?? currentToolRef.current),
-      ...(tavilyKeys.isSaved && tavilyKeys.key ? { tavilySearch: createTavilySearchTool(tavilyKeys.key) } : {}),
-      ...(tavilyKeys.isSaved && tavilyKeys.key ? { tavilyExtract: createTavilyExtractTool(tavilyKeys.key) } : {}),
-    };
-
-    return createToolLoopAgent({
-      model: aiModel,
-      instructions: systemPrompt,
-      tools,
+      return createToolLoopAgent({
+        model: aiModel,
+        instructions: systemPrompt,
+        tools,
+        providerOptions,
+        onFinish: function handleFinishUsage({ usage }) {
+          store.setUsage(usage);
+        },
+      });
+    },
+    [
+      provider,
+      currentKeys.key,
+      snapshot.model,
+      systemPrompt,
       providerOptions,
-      onFinish: ({ usage: currentUsage }) => setUsage(currentUsage),
-    });
-  }, [provider, currentKeys.key, model, systemPrompt, providerOptions, tavilyKeys.isSaved, tavilyKeys.key]);
+      tavilyKeys.isSaved,
+      tavilyKeys.key,
+      store,
+      onApply,
+      onStreamingTool,
+    ],
+  );
 
   const transport = useMemo(
-    () => new DirectChatTransport({
-      agent,
-      sendReasoning: true,
-    }),
+    function createTransport() {
+      return new DirectChatTransport({ agent, sendReasoning: true });
+    },
     [agent],
   );
 
-  const chatCallbacksRef = useRef({
-    onFinish: () => { },
-    onError: (_error: Error) => { },
-  });
-
-  chatCallbacksRef.current = {
-    onFinish: () => {
-      onGeneratingChangeRef.current?.(false);
-    },
-    onError: (error) => {
-      onGeneratingChangeRef.current?.(false);
-      onStreamingToolRef.current?.(null);
-      if (error.name !== "AbortError") {
-        toast.error(error.message || "AI request failed");
-      }
-    },
-  };
-
   const chatInstance = useMemo(
-    () => new Chat<AgentUIMessage>({
-      id: chatId,
-      messages: chatMessagesRef.current,
-      transport,
-      sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithApprovalResponses,
-      onFinish: () => chatCallbacksRef.current.onFinish(),
-      onError: (error) => chatCallbacksRef.current.onError(error),
-    }),
-    [chatId, transport],
+    function createChatInstance() {
+      return new Chat<AgentUIMessage>({
+        id: snapshot.chatId,
+        messages: store.getLastMessages(),
+        transport,
+        sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithApprovalResponses,
+        onFinish: function handleChatFinish() {
+          onGeneratingChange?.(false);
+        },
+        onError: function handleChatError(error) {
+          onGeneratingChange?.(false);
+          onStreamingTool?.(null);
+          if (error.name !== "AbortError") {
+            toast.error(error.message || "AI request failed");
+          }
+        },
+      });
+    },
+    [snapshot.chatId, transport, store, onGeneratingChange, onStreamingTool],
   );
 
   const chat = useChat({ chat: chatInstance });
   const rawMessages = chat.messages;
   const isStreaming = chat.status === "submitted" || chat.status === "streaming";
-  chatMessagesRef.current = rawMessages;
 
-  const persistTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    const persistableMessages = getPersistableMessages(rawMessages);
-    if (persistableMessages.length === 0) return;
-
-    if (persistTimerRef.current) {
-      clearTimeout(persistTimerRef.current);
-    }
-
-    const delay = isStreaming ? 2000 : 0;
-
-    persistTimerRef.current = setTimeout(() => {
-      persistTimerRef.current = null;
-      saveChatSession({
-        id: chatIdRef.current,
-        toolName: currentToolRef.current.name,
-        messages: persistableMessages,
-        updatedAt: Date.now(),
-        preview: getSessionPreview(persistableMessages),
-      })
-        .then(() => loadRecentSessions<AgentUIMessage>(currentToolRef.current.name))
-        .then(setRecentSessions)
-        .catch(console.error);
-    }, delay);
-
-    return () => {
-      if (persistTimerRef.current) {
-        clearTimeout(persistTimerRef.current);
-      }
-    };
-  }, [rawMessages, isStreaming]);
-
-  useEffect(() => {
-    setApprovalArtifacts((previous) => {
-      const next = { ...previous };
-      let changed = false;
-
-      for (const message of rawMessages) {
-        for (const part of message.parts) {
-          if (!isToolUIPart(part) || getToolName(part) !== "applyToolDefinition") {
-            continue;
-          }
-
-          const approvalId = part.approval?.id;
-          if (!approvalId || next[approvalId]) {
-            continue;
-          }
-
-          next[approvalId] = {
-            approvalId,
-            previewTool: cloneTool(pendingPreviewRef.current ?? currentToolRef.current),
-            originalTool: cloneTool(currentToolRef.current),
-            summary: typeof part.input === "object" && part.input && "summary" in part.input && typeof part.input.summary === "string"
-              ? part.input.summary
-              : "Apply AI changes",
-          };
-          changed = true;
-        }
-      }
-
-      return changed ? next : previous;
-    });
-  }, [rawMessages]);
+  store.syncApprovals(rawMessages);
+  store.syncPersistence(rawMessages, isStreaming);
+  store.syncGeneratingState(rawMessages, isStreaming, onGeneratingChange, onStreamingTool);
 
   const messages = useMemo(
-    () => rawMessages
-      .filter((message) => message.role === "user" || message.role === "assistant")
-      .map((message) => toChatMessage(message, approvalArtifacts)),
-    [rawMessages, approvalArtifacts],
-  );
-
-  const pendingApproval = useMemo(() => findPendingApproval(messages), [messages]);
-
-  const toolCallCount = useMemo(() => countCompletedToolCalls(rawMessages), [rawMessages]);
-
-  useEffect(() => {
-    const hasPendingApproval = rawMessages.some((message) =>
-      message.parts.some((part) =>
-        isToolUIPart(part)
-        && getToolName(part) === "applyToolDefinition"
-        && part.state === "approval-requested",
-      ),
-    );
-
-    const isApplying = rawMessages.some((message) =>
-      message.parts.some((part) =>
-        isToolUIPart(part)
-        && getToolName(part) === "applyToolDefinition"
-        && (part.state === "input-available" || part.state === "approval-responded"),
-      ),
-    );
-
-    onGeneratingChangeRef.current?.(isStreaming && isApplying);
-
-    if (!hasPendingApproval && !isApplying && !isStreaming) {
-      pendingPreviewRef.current = null;
-      onStreamingToolRef.current?.(null);
-    }
-  }, [rawMessages, isStreaming]);
-
-  const sendMessage = useCallback(
-    async (textOverride?: string) => {
-      const userText = (textOverride ?? input).trim();
-      if (!userText || isStreaming || !model) return;
-
-      if (!currentKeys.key) {
-        toast.error("API key not configured", {
-          description: "Open settings to add your API key.",
-        });
-        return;
-      }
-
-      pendingPreviewRef.current = null;
-      setApprovalArtifacts({});
-      if (!textOverride) {
-        setInput("");
-      }
-
-      await chat.sendMessage({ text: userText });
+    function computeMessages() {
+      return rawMessages
+        .filter((message) => message.role === "user" || message.role === "assistant")
+        .map((message) => toChatMessage(message, snapshot.approvalArtifacts));
     },
-    [input, isStreaming, model, currentKeys.key, chat],
+    [rawMessages, snapshot.approvalArtifacts],
   );
 
-  const resendFromIndex = useCallback(
-    async (index: number, newContent: string) => {
-      if (isStreaming || !newContent.trim() || !model || !currentKeys.key) return;
-
-      pendingPreviewRef.current = null;
-      setApprovalArtifacts({});
-      onStreamingToolRef.current?.(null);
-      chat.setMessages(rawMessages.slice(0, index));
-      await chat.sendMessage({ text: newContent });
+  const pendingApproval = useMemo(
+    function computePendingApproval() {
+      return findPendingApproval(messages);
     },
-    [isStreaming, model, currentKeys.key, chat, rawMessages],
+    [messages],
   );
 
-  const clearMessages = useCallback(() => {
-    if (persistTimerRef.current) {
-      clearTimeout(persistTimerRef.current);
-      persistTimerRef.current = null;
-    }
+  const toolCallCount = useMemo(
+    function computeToolCallCount() {
+      return countCompletedToolCalls(rawMessages);
+    },
+    [rawMessages],
+  );
 
-    const persistableMessages = getPersistableMessages(rawMessages);
-
-    const resetChat = () => {
-      chatMessagesRef.current = [];
-      setChatId(crypto.randomUUID());
-      setInput("");
-      setUsage(null);
-      setApprovalArtifacts({});
-      pendingPreviewRef.current = null;
-      onStreamingToolRef.current?.(null);
-      onGeneratingChangeRef.current?.(false);
-    };
-
-    if (persistableMessages.length === 0) {
-      resetChat();
+  function sendMessage(textOverride?: string) {
+    const userText = (textOverride ?? snapshot.input).trim();
+    if (!userText || isStreaming || !snapshot.model) return;
+    if (!currentKeys.key) {
+      toast.error("API key not configured", {
+        description: "Open settings to add your API key.",
+      });
       return;
     }
+    store.prepareForSend();
+    if (!textOverride) {
+      store.clearInput();
+    }
+    chat.sendMessage({ text: userText });
+  }
 
-    saveChatSession({
-      id: chatIdRef.current,
-      toolName: currentTool.name,
-      messages: persistableMessages,
-      updatedAt: Date.now(),
-      preview: getSessionPreview(persistableMessages),
-    })
-      .then(() => loadRecentSessions<AgentUIMessage>(currentTool.name))
-      .then(setRecentSessions)
-      .catch(console.error)
-      .finally(resetChat);
-  }, [rawMessages, currentTool.name]);
+  function resendFromIndex(index: number, newContent: string) {
+    if (isStreaming || !newContent.trim() || !snapshot.model || !currentKeys.key) return;
+    store.prepareForResend(onStreamingTool);
+    chat.setMessages(rawMessages.slice(0, index));
+    chat.sendMessage({ text: newContent });
+  }
 
-  const confirmPatch = useCallback(async () => {
+  function clearMessages() {
+    store.flushAndReset(rawMessages, onStreamingTool, onGeneratingChange);
+  }
+
+  function confirmPatch() {
     if (!pendingApproval) return;
-
-    await chat.addToolApprovalResponse({
+    chat.addToolApprovalResponse({
       id: pendingApproval.approvalId,
       approved: true,
       reason: "Applied successfully. Provide a concise summary of all the changes you made to the tool.",
     });
-  }, [pendingApproval, chat]);
+  }
 
-  const rejectPatch = useCallback(async () => {
+  function rejectPatch() {
     if (!pendingApproval) return;
-
-    await chat.addToolApprovalResponse({
+    chat.addToolApprovalResponse({
       id: pendingApproval.approvalId,
       approved: false,
       reason: "User rejected the changes",
     });
-    pendingPreviewRef.current = null;
-    onStreamingToolRef.current?.(null);
-  }, [pendingApproval, chat]);
+    store.setPendingPreview(null);
+    onStreamingTool?.(null);
+  }
 
-  const loadSession = useCallback((session: ChatSession<AgentUIMessage>) => {
-    chatMessagesRef.current = session.messages;
-    setChatId(session.id);
-    setUsage(null);
-    setInput("");
-    setApprovalArtifacts({});
-    pendingPreviewRef.current = null;
-    onStreamingToolRef.current?.(null);
-    onGeneratingChangeRef.current?.(false);
-  }, []);
+  function loadSession(session: ChatWithPreview) {
+    store.loadSession(session, onStreamingTool, onGeneratingChange);
+  }
 
   return {
     messages,
-    input,
-    setInput,
+    input: snapshot.input,
+    setInput: store.setInput.bind(store),
     isStreaming,
-    model,
-    setModel,
-    reasoningEffort,
-    setReasoningEffort,
+    model: snapshot.model,
+    setModel: store.setModel.bind(store),
+    reasoningEffort: snapshot.reasoningEffort,
+    setReasoningEffort: store.setReasoningEffort.bind(store),
     provider,
     sendMessage,
     stopStreaming: chat.stop,
@@ -630,9 +461,9 @@ function useAIChat(
     pendingApproval,
     confirmPatch,
     rejectPatch,
-    usage,
+    usage: snapshot.usage,
     toolCallCount,
-    recentSessions,
+    recentSessions: snapshot.recentSessions,
     loadSession,
   };
 }
@@ -648,7 +479,13 @@ interface MessagePartProps {
   setEditingValue: (v: string) => void;
   onResend: (index: number, content: string) => void;
   onRetry: () => void;
-  pendingApproval: { approvalId: string; previewTool: Tool; originalTool: Tool; summary: string; messageIndex: number } | null;
+  pendingApproval: {
+    approvalId: string;
+    previewTool: Tool;
+    originalTool: Tool;
+    summary: string;
+    messageIndex: number;
+  } | null;
   onConfirmPatch: () => void;
   onRejectPatch: () => void;
 }
@@ -698,42 +535,80 @@ function MessagePart({
                     : tc.toolName === "tavilyExtract"
                       ? tc.state === "output-available"
                         ? (() => {
-                          const urls = (tc.input.urls as string[] | undefined) ?? [];
-                          try { return `Extracted from ${new URL(urls[0]).hostname}`; } catch { return "Extracted content"; }
-                        })()
+                            const urls = (tc.input.urls as string[] | undefined) ?? [];
+                            try {
+                              return `Extracted from ${new URL(urls[0]).hostname}`;
+                            } catch {
+                              return "Extracted content";
+                            }
+                          })()
                         : "Extracting content…"
-                      : (tc.title ?? "Editing…")
+                      : tc.toolName === "readTool"
+                        ? (() => {
+                            const jsonPath = tc.input.jsonPath as string | undefined;
+                            const summary = tc.input.summary as string | undefined;
+                            const pathLabel =
+                              jsonPath && jsonPath !== "$" ? jsonPath : "whole tool";
+                            if (tc.state !== "output-available")
+                              return summary
+                                ? `${summary} (${pathLabel})`
+                                : `Reading ${pathLabel}…`;
+                            return summary ? `${summary} (${pathLabel})` : `Read ${pathLabel}`;
+                          })()
+                        : (tc.title ?? "Editing…")
                 }
                 status={tc.state === "output-available" ? "complete" : "active"}
               >
                 {tc.toolName === "tavilySearch" && tc.state === "output-available" && (
                   <WebSearchResults
-                    results={
-                      ((tc.output as { results?: WebSearchResult[] })?.results ?? [])
-                    }
+                    results={(tc.output as { results?: WebSearchResult[] })?.results ?? []}
                   />
                 )}
                 {tc.toolName === "tavilyExtract" && tc.state === "output-available" && (
                   <ExtractedContent
-                    results={
-                      ((tc.output as { results?: ExtractResult[] })?.results ?? [])
-                    }
+                    results={(tc.output as { results?: ExtractResult[] })?.results ?? []}
                   />
                 )}
+                {tc.toolName === "editTool" &&
+                  tc.state === "output-available" &&
+                  (() => {
+                    const patch = tc.input.patch as Record<string, unknown> | undefined;
+                    if (!patch) return null;
+                    const keys = Object.keys(patch);
+                    return (
+                      <Collapsible>
+                        <CollapsibleTrigger className="flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground">
+                          <ChevronRightIcon className="h-3 w-3 transition-transform in-data-[state=open]:rotate-90" />
+                          {keys.length} field{keys.length !== 1 ? "s" : ""} modified
+                        </CollapsibleTrigger>
+                        <CollapsibleContent>
+                          <pre className="mt-1 max-h-48 overflow-auto rounded bg-muted p-2 text-xs">
+                            {JSON.stringify(patch, null, 2)}
+                          </pre>
+                        </CollapsibleContent>
+                      </Collapsible>
+                    );
+                  })()}
               </ChainOfThoughtStep>
             ))}
           </ChainOfThoughtContent>
         </ChainOfThought>
       )}
       {applyToolCall && (
-        <ToolCard className="w-full" defaultOpen={!!isPending}>
+        <ToolCard
+          className="w-full"
+          defaultOpen
+        >
           <ToolHeader
             type="tool-applyToolDefinition"
             state={applyToolCall.state}
           />
           <ToolContent>
-            {(applyToolCall.originalTool && applyToolCall.previewTool) && (
-              <DiffView original={applyToolCall.originalTool} updated={applyToolCall.previewTool} />
+            {applyToolCall.originalTool && applyToolCall.previewTool && (
+              <DiffView
+                original={applyToolCall.originalTool}
+                updated={applyToolCall.previewTool}
+              />
             )}
             {isPending && (
               <div className="flex flex-col gap-2 pt-2">
@@ -934,7 +809,7 @@ export function AIChatPanel({
               </div>
               {chat.recentSessions.length > 0 && (
                 <div className="w-full space-y-1.5">
-                  <p className="text-center text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                  <p className="text-center text-[11px] font-medium tracking-wide text-muted-foreground uppercase">
                     Recent sessions
                   </p>
                   <div className="flex flex-col gap-1">
@@ -944,26 +819,17 @@ export function AIChatPanel({
                         onClick={() => chat.loadSession(session)}
                         className="flex w-full items-start justify-between gap-2 rounded border border-border/40 bg-muted/30 px-3 py-2 text-left text-xs transition-colors hover:border-border/60 hover:bg-muted/50"
                       >
-                        <span className="line-clamp-1 flex-1 text-foreground">{session.preview || "Empty session"}</span>
-                        <span className="shrink-0 text-muted-foreground">{formatRelativeTime(session.updatedAt)}</span>
+                        <span className="line-clamp-1 flex-1 text-foreground">
+                          {session.preview || "Empty session"}
+                        </span>
+                        <span className="shrink-0 text-muted-foreground">
+                          {formatRelativeTime(session.updatedAt)}
+                        </span>
                       </button>
                     ))}
                   </div>
                 </div>
               )}
-              <Suggestions className="mt-2 justify-center">
-                {PROMPT_PILLS.map((pill) => (
-                  <Suggestion
-                    key={pill.label}
-                    suggestion={pill.text}
-                    onClick={chat.sendMessage}
-                    disabled={chat.isStreaming}
-                    className="text-xs"
-                  >
-                    {pill.label}
-                  </Suggestion>
-                ))}
-              </Suggestions>
             </ConversationEmptyState>
           ) : (
             chat.messages.map((msg, i) => (
@@ -988,6 +854,24 @@ export function AIChatPanel({
         </ConversationContent>
         <ConversationScrollButton />
       </Conversation>
+
+      {chat.messages.length === 0 && (
+        <div className="shrink-0 px-3 pb-2">
+          <Suggestions className="w-full flex-wrap justify-center">
+            {PROMPT_PILLS.map((pill) => (
+              <Suggestion
+                key={pill.label}
+                suggestion={pill.text}
+                onClick={chat.sendMessage}
+                disabled={chat.isStreaming}
+                className="text-xs"
+              >
+                {pill.label}
+              </Suggestion>
+            ))}
+          </Suggestions>
+        </div>
+      )}
 
       <div className="shrink-0 border-t border-border/50 p-3">
         <PromptInput

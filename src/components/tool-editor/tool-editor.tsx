@@ -67,6 +67,7 @@ function ToolEditorContent({
   const {
     tool,
     originalTool,
+    dialogs,
     setDialogOpen,
     initializeTool,
     selectedParameter,
@@ -79,8 +80,7 @@ function ToolEditorContent({
 
   const [initialToolJson, setInitialToolJson] = useState(() => JSON.stringify(tool));
   const isDirty = JSON.stringify(tool) !== initialToolJson;
-  const hasAtLeastOneCommand = Array.isArray(tool.commands) && tool.commands.length > 0;
-  const isValid = tool.name.trim() !== "" && tool.displayName.trim() !== "" && hasAtLeastOneCommand;
+  const isValid = tool.name.trim() !== "" && tool.displayName.trim() !== "";
 
   const pendingChanges = (() => {
     const currentParams = (streamingTool ?? tool).parameters;
@@ -135,9 +135,7 @@ function ToolEditorContent({
   };
 
   return (
-    <div
-      className="flex h-[calc(100svh-4rem)] bg-background"
-    >
+    <div className="flex h-[calc(100svh-4rem)] bg-background">
       <div className="flex h-full w-72 flex-col overflow-hidden">
         <div className="flex flex-col justify-center gap-2 border-t border-r border-b border-muted p-1">
           <p className="p-2">Commands</p>
@@ -172,7 +170,7 @@ function ToolEditorContent({
                 <>
                   {isDirty && !isValid && (
                     <span className="text-xs text-destructive">
-                      Name, display name, and at least one command are required
+                      Name and display name are required
                     </span>
                   )}
                   <Button
@@ -276,6 +274,8 @@ function ToolEditorContent({
       )}
       <ToolDetailsDialog />
       <SavedCommandsDialog
+        open={dialogs.savedCommands}
+        onOpenChange={(open) => setDialogOpen("savedCommands", open)}
         savedCommands={savedCommands}
         onDeleteCommand={onDeleteSavedCommand ?? (() => {})}
       />

@@ -70,7 +70,7 @@ export function ToolCard({
               <Link
                 to="/tools/$toolName/edit"
                 params={{ toolName: tool.name! }}
-                search={{ isNew: false, isLocal: isLocal }}
+                search={{ isLocal: isLocal }}
               >
                 <Edit2Icon className="size-4" />
               </Link>
@@ -107,7 +107,9 @@ export function ToolCard({
                   {tool.info?.description}
                 </p>
               </HoverCardTrigger>
-              <HoverCardContent className="max-w-xs text-sm">{tool.info?.description}</HoverCardContent>
+              <HoverCardContent className="max-w-xs text-sm">
+                {tool.info?.description}
+              </HoverCardContent>
             </HoverCard>
           ) : (
             <p className="text-sm text-muted-foreground">No description available</p>

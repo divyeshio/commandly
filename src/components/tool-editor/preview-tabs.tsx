@@ -20,8 +20,14 @@ interface PreviewTabsProps {
 export function PreviewTabs({ onSaveCommand, streamingTool, isAIGenerating }: PreviewTabsProps) {
   const [currentTab, setActiveTab] = useState("ui");
 
-  const { selectedCommand, tool, originalTool, parameterValues, setParameterValue, initializeTool } =
-    useToolBuilder();
+  const {
+    selectedCommand,
+    tool,
+    originalTool,
+    parameterValues,
+    setParameterValue,
+    initializeTool,
+  } = useToolBuilder();
   const displayTool = streamingTool ?? tool;
 
   return (

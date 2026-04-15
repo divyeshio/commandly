@@ -1,6 +1,7 @@
 import { Tool } from "@/components/commandly/types/flat";
 import { cleanupTool, exportToStructuredJSON } from "@/components/commandly/utils/flat";
 import { tool } from "ai";
+import { JSONPath } from "jsonpath-plus";
 import { z } from "zod";
 
 export function applyMergePatch(base: Tool, patch: Partial<Tool>): Tool {
@@ -55,25 +56,23 @@ export function createApplyToolDefinitionTool(onApplied: () => void, onApply: ()
 export function createReadTool(getCurrent: () => Tool) {
   return tool({
     description:
-      "Read the current tool JSON to inspect its structure or verify changes. Call this first before any edits. Use the fields parameter to read only specific top-level sections for large tools.",
+      "Read the current tool JSON to inspect its structure or verify changes. Call this first before any edits. Use jsonPath to read only a specific section (e.g. '$.parameters', '$.commands', '$.info', '$.parameters[0]').",
     inputSchema: z.object({
-      reason: z.string().optional().describe("Why you are reading the tool JSON"),
-      fields: z
-        .array(z.enum(["info", "parameters", "commands", "exclusionGroups"]))
+      summary: z.string().optional().describe("Brief description of what you are looking for"),
+      jsonPath: z
+        .string()
         .optional()
-        .describe("Specific top-level fields to read. Omit to read all."),
+        .describe(
+          "JSONPath expression to read a specific section. Use '$' or omit for the whole tool. Examples: '$.info', '$.parameters', '$.commands', '$.parameters[0]'.",
+        ),
     }),
-    execute: async ({ fields }) => {
+    execute: async ({ jsonPath }) => {
       const current = getCurrent();
-      const exported = exportToStructuredJSON(current) as Record<string, unknown>;
-      if (fields && fields.length > 0) {
-        const partial: Record<string, unknown> = {};
-        for (const f of fields) {
-          if (f in exported) partial[f] = exported[f];
-        }
-        return { tool: partial, note: `Showing fields: ${fields.join(", ")}` };
-      }
-      return { tool: exported };
+      const exported = exportToStructuredJSON(current);
+      const path = jsonPath && jsonPath !== "$" ? jsonPath : "$";
+      const matches = JSONPath({ path, json: exported as object });
+      const result = matches.length === 1 ? matches[0] : matches;
+      return { result, jsonPath: path };
     },
   });
 }
@@ -94,7 +93,8 @@ export function createTavilySearchTool(apiKey: string) {
       };
       return {
         query,
-        results: data.results?.map((r) => ({ title: r.title, url: r.url, content: r.content })) ?? [],
+        results:
+          data.results?.map((r) => ({ title: r.title, url: r.url, content: r.content })) ?? [],
       };
     },
   });
@@ -115,7 +115,9 @@ export function createTavilyExtractTool(apiKey: string) {
       maxChars: z
         .number()
         .optional()
-        .describe("Max characters to return per URL (default 6000). Reduce if content is too large to process at once."),
+        .describe(
+          "Max characters to return per URL (default 6000). Reduce if content is too large to process at once.",
+        ),
     }),
     execute: async ({ urls, startOffset = 0, maxChars = 6000 }) => {
       const resp = await fetch("https://api.tavily.com/extract", {
@@ -128,13 +130,14 @@ export function createTavilyExtractTool(apiKey: string) {
         results?: { url: string; raw_content: string }[];
       };
       return {
-        results: data.results?.map((r) => ({
-          url: r.url,
-          raw_content: r.raw_content.slice(startOffset, startOffset + maxChars),
-          totalChars: r.raw_content.length,
-          hasMore: r.raw_content.length > startOffset + maxChars,
-          nextOffset: startOffset + maxChars,
-        })) ?? [],
+        results:
+          data.results?.map((r) => ({
+            url: r.url,
+            raw_content: r.raw_content.slice(startOffset, startOffset + maxChars),
+            totalChars: r.raw_content.length,
+            hasMore: r.raw_content.length > startOffset + maxChars,
+            nextOffset: startOffset + maxChars,
+          })) ?? [],
       };
     },
   });

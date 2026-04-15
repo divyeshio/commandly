@@ -36,7 +36,12 @@ function ParameterIcon({ type }: { type: ParameterType }) {
   }
 }
 
-export function ParameterList({ title, isGlobal = false, isChatOpen = false, pendingChanges }: ParameterListProps) {
+export function ParameterList({
+  title,
+  isGlobal = false,
+  isChatOpen = false,
+  pendingChanges,
+}: ParameterListProps) {
   const {
     selectedCommand,
     contextSelection,
@@ -61,18 +66,14 @@ export function ParameterList({ title, isGlobal = false, isChatOpen = false, pen
   const parameters = isGlobal ? globalParameters : commandParameters;
 
   const removedParameters = isGlobal
-    ? (pendingChanges
-        ? [...pendingChanges.removed].filter((k) =>
-            !parameters.some((p) => p.key === k),
-          )
-        : [])
-    : (pendingChanges
-        ? [...pendingChanges.removed].filter(
-            (k) =>
-              !parameters.some((p) => p.key === k) &&
-              !globalParameters.some((p) => p.key === k),
-          )
-        : []);
+    ? pendingChanges
+      ? [...pendingChanges.removed].filter((k) => !parameters.some((p) => p.key === k))
+      : []
+    : pendingChanges
+      ? [...pendingChanges.removed].filter(
+          (k) => !parameters.some((p) => p.key === k) && !globalParameters.some((p) => p.key === k),
+        )
+      : [];
 
   const getParameterExclusionGroups = (parameterKey: string): ExclusionGroup[] => {
     return exclusionGroups.filter((group) => group.parameterKeys.includes(parameterKey));
@@ -135,8 +136,8 @@ export function ParameterList({ title, isGlobal = false, isChatOpen = false, pen
                 !isAdded && !isUpdated && isChatOpen && isContextSelected
                   ? "border-primary bg-accent/30 ring-1 ring-primary"
                   : !isAdded && !isUpdated
-                  ? "border-muted"
-                  : "",
+                    ? "border-muted"
+                    : "",
               )}
               onClick={(e) => handleParameterClick(e, parameter.key, index)}
             >
@@ -239,10 +240,10 @@ export function ParameterList({ title, isGlobal = false, isChatOpen = false, pen
         {removedParameters.map((key) => (
           <div
             key={key}
-            className="rounded border border-l-2 border-l-red-500 border-muted p-3 opacity-60"
+            className="rounded border border-l-2 border-muted border-l-red-500 p-3 opacity-60"
           >
             <div className="flex items-center gap-2">
-              <span className="text-sm font-medium line-through text-muted-foreground">{key}</span>
+              <span className="text-sm font-medium text-muted-foreground line-through">{key}</span>
               <Badge
                 variant="outline"
                 className="border-red-500/40 bg-red-500/10 text-xs text-red-600 dark:text-red-400"

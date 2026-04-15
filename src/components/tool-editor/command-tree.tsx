@@ -1,7 +1,6 @@
 import { CommandDialog } from "../tool-editor/dialogs/command-dialog";
 import { useToolBuilder } from "./tool-editor.context";
 import { Command } from "@/components/commandly/types/flat";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
@@ -79,14 +78,6 @@ function CommandNode({
         )}
 
         <span className="flex-1 text-sm font-medium">{command.name}</span>
-        {command.isDefault && (
-          <Badge
-            variant="secondary"
-            className="text-xs"
-          >
-            default
-          </Badge>
-        )}
         <Button
           variant="ghost"
           size="sm"

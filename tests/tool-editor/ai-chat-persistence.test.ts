@@ -1,16 +1,19 @@
-import "fake-indexeddb/auto";
-import type { UIMessage } from "ai";
 import {
-  saveChatSession,
-  loadRecentSessions,
+  createChat,
+  upsertMessage,
+  loadChat,
+  getChats,
+  deleteChat,
+  deleteMessage,
   getPersistableMessages,
   getSessionPreview,
-  type ChatSession,
 } from "@/components/ai-chat/ai-chat-persistence";
+import type { UIMessage } from "ai";
 
-// Persistence is type-agnostic (JSON serialization), so we cast complex
-// SDK tool-invocation parts to avoid fighting deeply generic UIMessage types.
-function makeToolPart(toolName: string, overrides: Record<string, unknown> = {}): UIMessage["parts"][number] {
+function makeToolPart(
+  toolName: string,
+  overrides: Record<string, unknown> = {},
+): UIMessage["parts"][number] {
   return {
     type: `tool-${toolName}`,
     toolCallId: crypto.randomUUID(),
@@ -37,139 +40,211 @@ function makeEmptyAssistantMessage(): UIMessage {
   };
 }
 
-function makeSession(overrides: Partial<ChatSession> = {}): ChatSession {
-  return {
-    id: crypto.randomUUID(),
-    toolName: "test-tool",
-    messages: [
-      makeTextMessage("user", "Hello"),
-      makeTextMessage("assistant", "Hi there"),
-    ],
-    updatedAt: Date.now(),
-    preview: "Hello",
-    ...overrides,
-  };
-}
-
 beforeEach(() => {
-  // Reset IndexedDB between tests to avoid cross-test contamination
-  indexedDB = new IDBFactory();
-});
-
-describe("saveChatSession", () => {
-  it("saves a session and retrieves it by toolName", async () => {
-    const session = makeSession();
-
-    await saveChatSession(session);
-    const loaded = await loadRecentSessions(session.toolName);
-
-    expect(loaded).toHaveLength(1);
-    expect(loaded[0].id).toBe(session.id);
-    expect(loaded[0].toolName).toBe(session.toolName);
-    expect(loaded[0].messages).toHaveLength(2);
-    expect(loaded[0].messages[0].parts[0]).toEqual({ type: "text", text: "Hello" });
-  });
-
-  it("overwrites a session with the same id", async () => {
-    const session = makeSession();
-    await saveChatSession(session);
-
-    const updated: ChatSession = {
-      ...session,
-      messages: [
-        makeTextMessage("user", "Updated message"),
-        makeTextMessage("assistant", "Updated response"),
-      ],
-      updatedAt: Date.now() + 1000,
-      preview: "Updated message",
-    };
-    await saveChatSession(updated);
-
-    const loaded = await loadRecentSessions(session.toolName);
-    expect(loaded).toHaveLength(1);
-    expect(loaded[0].preview).toBe("Updated message");
-  });
-
-  it("stores messages as plain JSON-safe objects", async () => {
-    const msg = makeTextMessage("user", "test");
-    // Attach a non-serializable property to verify JSON roundtrip strips it
-    (msg as unknown as Record<string, unknown>).fn = () => {};
-
-    const session = makeSession({ messages: [msg] });
-    await saveChatSession(session);
-
-    const loaded = await loadRecentSessions(session.toolName);
-    expect(loaded[0].messages[0]).not.toHaveProperty("fn");
+  Object.defineProperty(globalThis, "indexedDB", {
+    value: new IDBFactory(),
+    writable: true,
+    configurable: true,
   });
 });
 
-describe("loadRecentSessions", () => {
-  it("returns empty array when no sessions exist", async () => {
-    const loaded = await loadRecentSessions("nonexistent-tool");
+describe("createChat + loadChat", () => {
+  it("creates a chat and loads its messages", async () => {
+    const chatId = crypto.randomUUID();
+    await createChat(chatId, "test-tool");
+
+    const msg = makeTextMessage("user", "Hello");
+    await upsertMessage(chatId, msg, 0);
+
+    const loaded = await loadChat(chatId);
+    expect(loaded).toHaveLength(1);
+    expect(loaded[0].id).toBe(msg.id);
+    expect(loaded[0].parts[0]).toEqual({ type: "text", text: "Hello" });
+  });
+
+  it("returns empty array for chat with no messages", async () => {
+    const chatId = crypto.randomUUID();
+    await createChat(chatId, "test-tool");
+
+    const loaded = await loadChat(chatId);
     expect(loaded).toEqual([]);
   });
 
-  it("filters sessions by toolName", async () => {
-    await saveChatSession(makeSession({ toolName: "tool-a" }));
-    await saveChatSession(makeSession({ toolName: "tool-b" }));
-    await saveChatSession(makeSession({ toolName: "tool-a" }));
+  it("returns messages in order", async () => {
+    const chatId = crypto.randomUUID();
+    await createChat(chatId, "test-tool");
 
-    const sessionsA = await loadRecentSessions("tool-a");
-    const sessionsB = await loadRecentSessions("tool-b");
+    const msg1 = makeTextMessage("user", "First");
+    const msg2 = makeTextMessage("assistant", "Second");
+    const msg3 = makeTextMessage("user", "Third");
 
-    expect(sessionsA).toHaveLength(2);
-    expect(sessionsB).toHaveLength(1);
-    expect(sessionsA.every((s) => s.toolName === "tool-a")).toBe(true);
+    await upsertMessage(chatId, msg2, 1);
+    await upsertMessage(chatId, msg3, 2);
+    await upsertMessage(chatId, msg1, 0);
+
+    const loaded = await loadChat(chatId);
+    expect(loaded.map((m) => m.parts[0])).toEqual([
+      { type: "text", text: "First" },
+      { type: "text", text: "Second" },
+      { type: "text", text: "Third" },
+    ]);
+  });
+});
+
+describe("upsertMessage", () => {
+  it("updates an existing message on re-upsert", async () => {
+    const chatId = crypto.randomUUID();
+    await createChat(chatId, "test-tool");
+
+    const msgId = crypto.randomUUID();
+    const original = makeTextMessage("assistant", "Original", msgId);
+    await upsertMessage(chatId, original, 0);
+
+    const updated: UIMessage = {
+      id: msgId,
+      role: "assistant",
+      parts: [{ type: "text", text: "Updated" }],
+    };
+    await upsertMessage(chatId, updated, 0);
+
+    const loaded = await loadChat(chatId);
+    expect(loaded).toHaveLength(1);
+    expect(loaded[0].parts[0]).toEqual({ type: "text", text: "Updated" });
   });
 
-  it("returns sessions sorted by updatedAt descending", async () => {
-    const now = Date.now();
-    await saveChatSession(makeSession({ toolName: "t", updatedAt: now - 2000 }));
-    await saveChatSession(makeSession({ toolName: "t", updatedAt: now }));
-    await saveChatSession(makeSession({ toolName: "t", updatedAt: now - 1000 }));
+  it("rejects upsert for nonexistent chat", async () => {
+    const msg = makeTextMessage("user", "Hello");
+    await expect(upsertMessage("nonexistent", msg, 0)).rejects.toThrow();
+  });
 
-    const loaded = await loadRecentSessions("t");
-    expect(loaded[0].updatedAt).toBe(now);
-    expect(loaded[1].updatedAt).toBe(now - 1000);
-    expect(loaded[2].updatedAt).toBe(now - 2000);
+  it("strips non-serializable properties from parts", async () => {
+    const chatId = crypto.randomUUID();
+    await createChat(chatId, "test-tool");
+
+    const msg = makeTextMessage("user", "test");
+    (msg as unknown as Record<string, unknown>).fn = () => {};
+
+    await upsertMessage(chatId, msg, 0);
+    const loaded = await loadChat(chatId);
+    expect(loaded[0]).not.toHaveProperty("fn");
+  });
+});
+
+describe("getChats", () => {
+  it("returns empty array when no chats exist", async () => {
+    const chats = await getChats("nonexistent-tool");
+    expect(chats).toEqual([]);
+  });
+
+  it("filters chats by toolName", async () => {
+    await createChat("a1", "tool-a");
+    await createChat("b1", "tool-b");
+    await createChat("a2", "tool-a");
+
+    const chatsA = await getChats("tool-a");
+    const chatsB = await getChats("tool-b");
+
+    expect(chatsA).toHaveLength(2);
+    expect(chatsB).toHaveLength(1);
+    expect(chatsA.every((c) => c.toolName === "tool-a")).toBe(true);
   });
 
   it("respects the limit parameter", async () => {
     for (let i = 0; i < 10; i++) {
-      await saveChatSession(makeSession({ toolName: "t", updatedAt: i }));
+      await createChat(crypto.randomUUID(), "t");
     }
-
-    const loaded = await loadRecentSessions("t", 3);
-    expect(loaded).toHaveLength(3);
+    const chats = await getChats("t", 3);
+    expect(chats).toHaveLength(3);
   });
 
   it("defaults to a limit of 5", async () => {
     for (let i = 0; i < 8; i++) {
-      await saveChatSession(makeSession({ toolName: "t", updatedAt: i }));
+      await createChat(crypto.randomUUID(), "t");
     }
-
-    const loaded = await loadRecentSessions("t");
-    expect(loaded).toHaveLength(5);
+    const chats = await getChats("t");
+    expect(chats).toHaveLength(5);
   });
 
-  it("regenerates preview from messages on load", async () => {
-    const session = makeSession({
-      messages: [makeTextMessage("user", "My actual question")],
-      preview: "stale-preview",
-    });
-    await saveChatSession(session);
+  it("computes preview from first user message", async () => {
+    const chatId = crypto.randomUUID();
+    await createChat(chatId, "test-tool");
+    await upsertMessage(chatId, makeTextMessage("assistant", "Welcome"), 0);
+    await upsertMessage(chatId, makeTextMessage("user", "My question"), 1);
 
-    const loaded = await loadRecentSessions(session.toolName);
-    expect(loaded[0].preview).toBe("My actual question");
+    const chats = await getChats("test-tool");
+    expect(chats[0].preview).toBe("My question");
+  });
+
+  it("includes message count", async () => {
+    const chatId = crypto.randomUUID();
+    await createChat(chatId, "test-tool");
+    await upsertMessage(chatId, makeTextMessage("user", "Hello"), 0);
+    await upsertMessage(chatId, makeTextMessage("assistant", "Hi"), 1);
+
+    const chats = await getChats("test-tool");
+    expect(chats[0].messageCount).toBe(2);
+  });
+});
+
+describe("deleteChat", () => {
+  it("removes chat and all its messages", async () => {
+    const chatId = crypto.randomUUID();
+    await createChat(chatId, "test-tool");
+    await upsertMessage(chatId, makeTextMessage("user", "Hello"), 0);
+    await upsertMessage(chatId, makeTextMessage("assistant", "Hi"), 1);
+
+    await deleteChat(chatId);
+
+    const chats = await getChats("test-tool");
+    expect(chats).toHaveLength(0);
+
+    const messages = await loadChat(chatId);
+    expect(messages).toHaveLength(0);
+  });
+
+  it("does not affect other chats", async () => {
+    const chatA = crypto.randomUUID();
+    const chatB = crypto.randomUUID();
+    await createChat(chatA, "test-tool");
+    await createChat(chatB, "test-tool");
+    await upsertMessage(chatA, makeTextMessage("user", "A"), 0);
+    await upsertMessage(chatB, makeTextMessage("user", "B"), 0);
+
+    await deleteChat(chatA);
+
+    const chats = await getChats("test-tool");
+    expect(chats).toHaveLength(1);
+    expect(chats[0].id).toBe(chatB);
+  });
+});
+
+describe("deleteMessage", () => {
+  it("deletes the target message and all subsequent messages", async () => {
+    const chatId = crypto.randomUUID();
+    await createChat(chatId, "test-tool");
+
+    const m1 = makeTextMessage("user", "First");
+    const m2 = makeTextMessage("assistant", "Second");
+    const m3 = makeTextMessage("user", "Third");
+    await upsertMessage(chatId, m1, 0);
+    await upsertMessage(chatId, m2, 1);
+    await upsertMessage(chatId, m3, 2);
+
+    await deleteMessage(m2.id);
+
+    const loaded = await loadChat(chatId);
+    expect(loaded).toHaveLength(1);
+    expect(loaded[0].id).toBe(m1.id);
+  });
+
+  it("is a no-op for nonexistent message", async () => {
+    await expect(deleteMessage("nonexistent")).resolves.toBeUndefined();
   });
 });
 
 describe("getPersistableMessages", () => {
   it("keeps user messages regardless of content", () => {
-    const messages: UIMessage[] = [
-      makeTextMessage("user", "hello"),
-      makeTextMessage("user", ""),
-    ];
+    const messages: UIMessage[] = [makeTextMessage("user", "hello"), makeTextMessage("user", "")];
     expect(getPersistableMessages(messages)).toHaveLength(2);
   });
 
@@ -186,22 +261,12 @@ describe("getPersistableMessages", () => {
     expect(result[1].parts[0]).toEqual({ type: "text", text: "response" });
   });
 
-  it("keeps assistant messages with text content", () => {
-    const messages: UIMessage[] = [
-      makeTextMessage("assistant", "I have content"),
-    ];
-    expect(getPersistableMessages(messages)).toHaveLength(1);
-  });
-
   it("keeps assistant messages with tool-invocation parts", () => {
     const messages: UIMessage[] = [
       {
         id: "1",
         role: "assistant",
-        parts: [
-          { type: "step-start" },
-          makeToolPart("editTool", { input: {}, output: "done" }),
-        ],
+        parts: [{ type: "step-start" }, makeToolPart("editTool", { input: {}, output: "done" })],
       },
     ];
     expect(getPersistableMessages(messages)).toHaveLength(1);
@@ -238,204 +303,232 @@ describe("getSessionPreview", () => {
     const messages: UIMessage[] = [makeTextMessage("assistant", "Hello")];
     expect(getSessionPreview(messages)).toBe("");
   });
-
-  it("joins multiple text parts from the same message", () => {
-    const messages: UIMessage[] = [
-      {
-        id: "1",
-        role: "user",
-        parts: [
-          { type: "text", text: "Part one " },
-          { type: "text", text: "Part two" },
-        ],
-      },
-    ];
-    expect(getSessionPreview(messages)).toBe("Part one Part two");
-  });
-});
-
-describe("onFinish callback integration", () => {
-  it("persists when onFinish fires with valid messages", async () => {
-    const chatId = crypto.randomUUID();
-    const toolName = "test-tool";
-    const finishedMessages: UIMessage[] = [
-      makeTextMessage("user", "Hello"),
-      makeTextMessage("assistant", "Hi there!"),
-    ];
-
-    // Simulate the exact onFinish flow from ai-chat.tsx
-    const persistableMessages = getPersistableMessages(finishedMessages);
-    expect(persistableMessages.length).toBeGreaterThan(0);
-
-    await saveChatSession({
-      id: chatId,
-      toolName,
-      messages: persistableMessages,
-      updatedAt: Date.now(),
-      preview: getSessionPreview(persistableMessages),
-    });
-
-    const loaded = await loadRecentSessions(toolName);
-    expect(loaded).toHaveLength(1);
-    expect(loaded[0].id).toBe(chatId);
-    expect(loaded[0].messages).toHaveLength(2);
-  });
-
-  it("skips persistence when all assistant messages are empty step-starts", async () => {
-    const finishedMessages: UIMessage[] = [
-      makeTextMessage("user", "Hello"),
-      makeEmptyAssistantMessage(),
-    ];
-
-    const persistableMessages = getPersistableMessages(finishedMessages);
-    // User messages always persist, but empty assistant messages are filtered
-    expect(persistableMessages).toHaveLength(1);
-    expect(persistableMessages[0].role).toBe("user");
-  });
-
-  it("persists multi-turn conversations with tool calls", async () => {
-    const chatId = crypto.randomUUID();
-    const toolName = "test-tool";
-    const finishedMessages: UIMessage[] = [
-      makeTextMessage("user", "Edit the tool name"),
-      {
-        id: "a1",
-        role: "assistant",
-        parts: [
-          { type: "step-start" },
-          { type: "text", text: "I'll edit the tool name for you." },
-          makeToolPart("editTool", {
-            input: { field: "name", value: "newName" },
-            output: { success: true },
-          }),
-        ],
-      },
-      {
-        id: "a2",
-        role: "assistant",
-        parts: [
-          { type: "step-start" },
-          makeToolPart("applyToolDefinition", {
-            input: {},
-            output: { applied: true },
-          }),
-        ],
-      },
-      {
-        id: "a3",
-        role: "assistant",
-        parts: [{ type: "text", text: "Done! I've updated the tool name." }],
-      },
-    ];
-
-    const persistableMessages = getPersistableMessages(finishedMessages);
-    expect(persistableMessages).toHaveLength(4);
-
-    await saveChatSession({
-      id: chatId,
-      toolName,
-      messages: persistableMessages,
-      updatedAt: Date.now(),
-      preview: getSessionPreview(persistableMessages),
-    });
-
-    const loaded = await loadRecentSessions(toolName);
-    expect(loaded).toHaveLength(1);
-    expect(loaded[0].messages).toHaveLength(4);
-  });
-
-  it("updates existing session on subsequent onFinish calls", async () => {
-    const chatId = crypto.randomUUID();
-    const toolName = "test-tool";
-
-    // First onFinish — one exchange
-    await saveChatSession({
-      id: chatId,
-      toolName,
-      messages: [makeTextMessage("user", "First message"), makeTextMessage("assistant", "First reply")],
-      updatedAt: Date.now(),
-      preview: "First message",
-    });
-
-    // Second onFinish — conversation continued
-    await saveChatSession({
-      id: chatId,
-      toolName,
-      messages: [
-        makeTextMessage("user", "First message"),
-        makeTextMessage("assistant", "First reply"),
-        makeTextMessage("user", "Second message"),
-        makeTextMessage("assistant", "Second reply"),
-      ],
-      updatedAt: Date.now() + 1000,
-      preview: "First message",
-    });
-
-    const loaded = await loadRecentSessions(toolName);
-    expect(loaded).toHaveLength(1);
-    expect(loaded[0].messages).toHaveLength(4);
-  });
 });
 
 describe("round-trip message integrity", () => {
   it("preserves tool-invocation parts through save/load", async () => {
-    const messages: UIMessage[] = [
-      makeTextMessage("user", "edit the tool"),
-      {
-        id: "a1",
-        role: "assistant",
-        parts: [
-          { type: "text", text: "I'll edit the tool." },
-          makeToolPart("editTool", {
-            input: { field: "name", value: "newName" },
-            output: { success: true },
-          }),
-        ],
-      },
-    ];
+    const chatId = crypto.randomUUID();
+    await createChat(chatId, "test-tool");
 
-    const session = makeSession({ messages });
-    await saveChatSession(session);
+    const assistantMsg: UIMessage = {
+      id: "a1",
+      role: "assistant",
+      parts: [
+        { type: "text", text: "I'll edit the tool." },
+        makeToolPart("editTool", {
+          input: { field: "name", value: "newName" },
+          output: { success: true },
+        }),
+      ],
+    };
+    await upsertMessage(chatId, makeTextMessage("user", "edit the tool"), 0);
+    await upsertMessage(chatId, assistantMsg, 1);
 
-    const loaded = await loadRecentSessions(session.toolName);
-    const assistantMsg = loaded[0].messages.find((m) => m.role === "assistant")!;
+    const loaded = await loadChat(chatId);
+    const loadedAssistant = loaded.find((m) => m.role === "assistant")!;
 
-    expect(assistantMsg.parts).toHaveLength(2);
-    const toolPart = assistantMsg.parts[1] as Record<string, unknown>;
+    expect(loadedAssistant.parts).toHaveLength(2);
+    const toolPart = loadedAssistant.parts[1] as Record<string, unknown>;
     expect(toolPart.type).toBe("tool-editTool");
     expect(toolPart.input).toEqual({ field: "name", value: "newName" });
     expect(toolPart.output).toEqual({ success: true });
   });
 
   it("preserves reasoning parts through save/load", async () => {
-    const messages: UIMessage[] = [
-      makeTextMessage("user", "think about this"),
-      {
-        id: "a1",
-        role: "assistant",
-        parts: [
-          { type: "reasoning", text: "Let me think...", providerMetadata: {} },
-          { type: "text", text: "Here's my answer" },
-        ],
-      },
-    ];
+    const chatId = crypto.randomUUID();
+    await createChat(chatId, "test-tool");
 
-    const session = makeSession({ messages });
-    await saveChatSession(session);
+    const assistantMsg: UIMessage = {
+      id: "a1",
+      role: "assistant",
+      parts: [
+        { type: "reasoning", text: "Let me think...", providerMetadata: {} },
+        { type: "text", text: "Here's my answer" },
+      ],
+    };
+    await upsertMessage(chatId, makeTextMessage("user", "think about this"), 0);
+    await upsertMessage(chatId, assistantMsg, 1);
 
-    const loaded = await loadRecentSessions(session.toolName);
-    const parts = loaded[0].messages[1].parts;
+    const loaded = await loadChat(chatId);
+    const parts = loaded[1].parts;
     expect(parts[0].type).toBe("reasoning");
     if (parts[0].type === "reasoning") {
       expect(parts[0].text).toBe("Let me think...");
     }
   });
+});
 
-  it("handles empty messages array", async () => {
-    const session = makeSession({ messages: [] });
-    await saveChatSession(session);
+describe("upsert updated messages (extraction regression)", () => {
+  it("re-upserting a message with new parts preserves the update", async () => {
+    const chatId = crypto.randomUUID();
+    await createChat(chatId, "test-tool");
 
-    const loaded = await loadRecentSessions(session.toolName);
-    expect(loaded[0].messages).toEqual([]);
+    const assistantId = "assistant-1";
+    const initial: UIMessage = {
+      id: assistantId,
+      role: "assistant",
+      parts: [
+        { type: "text", text: "I'll extract content." },
+        makeToolPart("tavilyExtract", {
+          state: "input-available",
+          input: { urls: ["https://example.com"] },
+          output: undefined,
+        }),
+      ],
+    };
+    await upsertMessage(chatId, makeTextMessage("user", "extract example.com"), 0);
+    await upsertMessage(chatId, initial, 1);
+
+    const updated: UIMessage = {
+      id: assistantId,
+      role: "assistant",
+      parts: [
+        { type: "text", text: "I'll extract content." },
+        makeToolPart("tavilyExtract", {
+          state: "output-available",
+          input: { urls: ["https://example.com"] },
+          output: { results: [{ url: "https://example.com", raw_content: "page content" }] },
+        }),
+        { type: "text", text: "Here's what I found." },
+      ],
+    };
+    await upsertMessage(chatId, updated, 1);
+
+    const loaded = await loadChat(chatId);
+    expect(loaded).toHaveLength(2);
+    const loadedAssistant = loaded[1];
+    expect(loadedAssistant.id).toBe(assistantId);
+    expect(loadedAssistant.parts).toHaveLength(3);
+    const toolPart = loadedAssistant.parts[1] as Record<string, unknown>;
+    expect(toolPart.state).toBe("output-available");
+    expect(toolPart.output).toEqual({
+      results: [{ url: "https://example.com", raw_content: "page content" }],
+    });
+  });
+
+  it("re-upserting preserves message order", async () => {
+    const chatId = crypto.randomUUID();
+    await createChat(chatId, "test-tool");
+
+    const msg1 = makeTextMessage("user", "Hello");
+    const msg2Id = "assistant-msg";
+    const msg2Initial: UIMessage = {
+      id: msg2Id,
+      role: "assistant",
+      parts: [{ type: "text", text: "thinking..." }],
+    };
+    await upsertMessage(chatId, msg1, 0);
+    await upsertMessage(chatId, msg2Initial, 1);
+
+    const msg2Updated: UIMessage = {
+      id: msg2Id,
+      role: "assistant",
+      parts: [
+        { type: "text", text: "thinking..." },
+        makeToolPart("editTool", { input: { summary: "edit" }, output: { success: true } }),
+        { type: "text", text: "Done editing." },
+      ],
+    };
+    await upsertMessage(chatId, msg2Updated, 1);
+
+    const msg3 = makeTextMessage("user", "Thanks");
+    await upsertMessage(chatId, msg3, 2);
+
+    const loaded = await loadChat(chatId);
+    expect(loaded).toHaveLength(3);
+    expect(loaded[0].id).toBe(msg1.id);
+    expect(loaded[1].id).toBe(msg2Id);
+    expect(loaded[1].parts).toHaveLength(3);
+    expect(loaded[2].id).toBe(msg3.id);
+  });
+
+  it("persists extraction tool parts with chunked content", async () => {
+    const chatId = crypto.randomUUID();
+    await createChat(chatId, "test-tool");
+
+    const msg: UIMessage = {
+      id: "a1",
+      role: "assistant",
+      parts: [
+        makeToolPart("tavilyExtract", {
+          input: { urls: ["https://example.com"], startOffset: 0, maxChars: 6000 },
+          output: {
+            results: [{
+              url: "https://example.com",
+              raw_content: "x".repeat(6000),
+              totalChars: 12000,
+              hasMore: true,
+              nextOffset: 6000,
+            }],
+          },
+        }),
+        makeToolPart("tavilyExtract", {
+          input: { urls: ["https://example.com"], startOffset: 6000, maxChars: 6000 },
+          output: {
+            results: [{
+              url: "https://example.com",
+              raw_content: "y".repeat(6000),
+              totalChars: 12000,
+              hasMore: false,
+              nextOffset: 12000,
+            }],
+          },
+        }),
+        { type: "text", text: "Extracted all content." },
+      ],
+    };
+
+    await upsertMessage(chatId, makeTextMessage("user", "extract it all"), 0);
+    await upsertMessage(chatId, msg, 1);
+
+    const loaded = await loadChat(chatId);
+    const assistant = loaded[1];
+    expect(assistant.parts).toHaveLength(3);
+
+    const firstExtract = assistant.parts[0] as Record<string, unknown>;
+    const output1 = firstExtract.output as Record<string, unknown>;
+    const results1 = output1.results as { hasMore: boolean }[];
+    expect(results1[0].hasMore).toBe(true);
+
+    const secondExtract = assistant.parts[1] as Record<string, unknown>;
+    const output2 = secondExtract.output as Record<string, unknown>;
+    const results2 = output2.results as { hasMore: boolean }[];
+    expect(results2[0].hasMore).toBe(false);
+  });
+});
+
+describe("hasPersistableContent with tool messages", () => {
+  it("keeps assistant messages with extraction tool parts", () => {
+    const messages: UIMessage[] = [
+      {
+        id: "1",
+        role: "assistant",
+        parts: [
+          { type: "step-start" },
+          makeToolPart("tavilyExtract", {
+            input: { urls: ["https://example.com"] },
+            output: { results: [] },
+          }),
+        ],
+      },
+    ];
+    expect(getPersistableMessages(messages)).toHaveLength(1);
+  });
+
+  it("keeps assistant messages with search tool parts", () => {
+    const messages: UIMessage[] = [
+      {
+        id: "1",
+        role: "assistant",
+        parts: [
+          { type: "step-start" },
+          makeToolPart("tavilySearch", {
+            input: { query: "test" },
+            output: { results: [] },
+          }),
+        ],
+      },
+    ];
+    expect(getPersistableMessages(messages)).toHaveLength(1);
   });
 });

@@ -17,7 +17,10 @@ export function ExtractedContent({ results }: { results: ExtractResult[] }) {
         }
 
         return (
-          <div key={result.url} className="rounded border border-border/40 bg-muted/20">
+          <div
+            key={result.url}
+            className="rounded border border-border/40 bg-muted/20"
+          >
             <div className="flex items-center justify-between border-b border-border/30 px-3 py-1.5">
               <a
                 href={result.url}
@@ -27,11 +30,9 @@ export function ExtractedContent({ results }: { results: ExtractResult[] }) {
               >
                 {hostname}
               </a>
-              {result.hasMore && (
-                <span className="text-[10px] text-muted-foreground">partial</span>
-              )}
+              {result.hasMore && <span className="text-[10px] text-muted-foreground">partial</span>}
             </div>
-            <pre className="max-h-40 overflow-y-auto whitespace-pre-wrap wrap-break-word px-3 py-2 font-mono text-[11px] text-muted-foreground">
+            <pre className="max-h-40 overflow-y-auto px-3 py-2 font-mono text-[11px] wrap-break-word whitespace-pre-wrap text-muted-foreground">
               {result.raw_content}
             </pre>
           </div>

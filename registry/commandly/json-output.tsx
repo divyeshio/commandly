@@ -34,9 +34,7 @@ function diffLines(before: string, after: string): DiffLine[] {
   for (let i = 1; i <= m; i++)
     for (let j = 1; j <= n; j++)
       dp[i][j] =
-        a[i - 1] === b[j - 1]
-          ? dp[i - 1][j - 1] + 1
-          : Math.max(dp[i - 1][j], dp[i][j - 1]);
+        a[i - 1] === b[j - 1] ? dp[i - 1][j - 1] + 1 : Math.max(dp[i - 1][j], dp[i][j - 1]);
   const result: DiffLine[] = [];
   let i = m,
     j = n;
@@ -268,14 +266,12 @@ export function JsonOutput({ tool, originalTool, onApply }: JsonTypeComponentPro
                   key={idx}
                   className={cn(
                     "px-1",
-                    line.type === "added" &&
-                      "bg-green-500/10 text-green-700 dark:text-green-400",
-                    line.type === "removed" &&
-                      "bg-red-500/10 text-red-700 dark:text-red-400",
+                    line.type === "added" && "bg-green-500/10 text-green-700 dark:text-green-400",
+                    line.type === "removed" && "bg-red-500/10 text-red-700 dark:text-red-400",
                     line.type === "same" && "text-foreground/80",
                   )}
                 >
-                  <span className="select-none opacity-50">
+                  <span className="opacity-50 select-none">
                     {line.type === "added" ? "+ " : line.type === "removed" ? "- " : "  "}
                   </span>
                   {line.text}
@@ -301,4 +297,3 @@ export function JsonOutput({ tool, originalTool, onApply }: JsonTypeComponentPro
     </Card>
   );
 }
-

@@ -322,10 +322,6 @@
           "description": "Whether this command opens an interactive session or prompt.",
           "type": "boolean"
         },
-        "isDefault": {
-          "description": "Whether this is the default command when no subcommand is specified.",
-          "type": "boolean"
-        },
         "sortOrder": {
           "description": "Display sort position relative to sibling commands.",
           "type": "number"
@@ -346,7 +342,6 @@
         }
       },
       "required": [
-        "isDefault",
         "name",
         "parameters",
         "sortOrder",

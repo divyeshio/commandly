@@ -11,7 +11,6 @@
     {
       "name": "yt-dlp",
       "description": "yt-dlp is a command-line program to download videos from YouTube and other sites.",
-      "isDefault": true,
       "sortOrder": 1,
       "commandKey": "yt-dlp",
       "key": "yt-dlp"

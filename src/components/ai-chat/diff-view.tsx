@@ -14,9 +14,10 @@ function computeLineDiff(
 
   for (let i = 1; i <= m; i++) {
     for (let j = 1; j <= n; j++) {
-      dp[i][j] = aLines[i - 1] === bLines[j - 1]
-        ? dp[i - 1][j - 1] + 1
-        : Math.max(dp[i - 1][j], dp[i][j - 1]);
+      dp[i][j] =
+        aLines[i - 1] === bLines[j - 1]
+          ? dp[i - 1][j - 1] + 1
+          : Math.max(dp[i - 1][j], dp[i][j - 1]);
     }
   }
 
@@ -47,8 +48,14 @@ export function DiffView({ original, updated }: { original: Tool; updated: Tool 
   const diff = computeLineDiff(aJson, bJson);
   const visibleSet = new Set<number>();
 
-  for (const index of diff.flatMap((line, currentIndex) => (line.type !== "same" ? [currentIndex] : []))) {
-    for (let cursor = Math.max(0, index - 2); cursor <= Math.min(diff.length - 1, index + 2); cursor++) {
+  for (const index of diff.flatMap((line, currentIndex) =>
+    line.type !== "same" ? [currentIndex] : [],
+  )) {
+    for (
+      let cursor = Math.max(0, index - 2);
+      cursor <= Math.min(diff.length - 1, index + 2);
+      cursor++
+    ) {
       visibleSet.add(cursor);
     }
   }
@@ -88,9 +95,10 @@ export function DiffView({ original, updated }: { original: Tool; updated: Tool 
               <div
                 key={lineIndex}
                 className={cn(
-                  "whitespace-pre px-2 py-px",
+                  "px-2 py-px whitespace-pre",
                   line.type === "add" && "bg-green-500/10 text-green-600 dark:text-green-400",
-                  line.type === "remove" && "bg-red-500/10 text-red-500 opacity-70 line-through dark:text-red-400",
+                  line.type === "remove" &&
+                    "bg-red-500/10 text-red-500 line-through opacity-70 dark:text-red-400",
                   line.type === "same" && "text-muted-foreground",
                 )}
               >

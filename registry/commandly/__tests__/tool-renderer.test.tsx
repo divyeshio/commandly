@@ -4,7 +4,7 @@ import { createNewParameter } from "@/components/commandly/utils/flat";
 import { defaultTool } from "@/lib/utils";
 import { render, screen } from "@testing-library/react";
 
-const baseCommand = { key: "my-tool", name: "my-tool", isDefault: true, sortOrder: 0 };
+const baseCommand = { key: "my-tool", name: "my-tool", sortOrder: 0 };
 const baseTool = { ...defaultTool(), commands: [baseCommand] };
 
 describe("ToolRenderer", () => {

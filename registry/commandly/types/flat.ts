@@ -18,8 +18,6 @@ export interface Command {
   description?: string;
   /** Whether this command opens an interactive session or prompt. */
   interactive?: boolean;
-  /** Whether this is the default command when no subcommand is specified. */
-  isDefault?: boolean;
   /** Display sort position relative to sibling commands. */
   sortOrder?: number;
 }

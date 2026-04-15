@@ -12,7 +12,6 @@ const createTestCommand = (overrides: Partial<Command> = {}): Command => ({
   key: "test-command-key",
   name: "test-command",
   description: "Test command description",
-  isDefault: false,
   sortOrder: 0,
   ...overrides,
 });
@@ -60,7 +59,6 @@ describe("CommandDialog - Rendering & Structure", () => {
     expect(screen.getByText("Edit Command Settings")).toBeInTheDocument();
     expect(screen.getByLabelText("Command Name")).toBeInTheDocument();
     expect(screen.getByLabelText("Sort Order")).toBeInTheDocument();
-    expect(screen.getByLabelText("Default")).toBeInTheDocument();
     expect(screen.getByLabelText("Description")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Save Changes" })).toBeInTheDocument();
   });
@@ -316,68 +314,6 @@ describe("CommandDialog - Form Fields", () => {
   });
 });
 
-describe("CommandDialog - Default Command Switch", () => {
-  const mockOnOpenChange = vi.fn();
-  const mockOnSave = vi.fn();
-
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
-  it("reflects current isDefault state", () => {
-    const command = createTestCommand({ isDefault: true });
-    renderWithProvider(
-      <CommandDialog
-        isOpen={true}
-        onOpenChange={mockOnOpenChange}
-        command={command}
-        toolName="test-tool"
-        onSave={mockOnSave}
-      />,
-      createTestState(command),
-    );
-
-    const defaultSwitch = screen.getByLabelText("Default");
-    expect(defaultSwitch).toBeChecked();
-  });
-
-  it("updates isDefault when switch is toggled", () => {
-    const command = createTestCommand({ isDefault: false });
-    renderWithProvider(
-      <CommandDialog
-        isOpen={true}
-        onOpenChange={mockOnOpenChange}
-        command={command}
-        toolName="test-tool"
-        onSave={mockOnSave}
-      />,
-      createTestState(command),
-    );
-
-    const defaultSwitch = screen.getByLabelText("Default");
-    fireEvent.click(defaultSwitch);
-
-    expect(defaultSwitch).toBeChecked();
-  });
-
-  it("disables switch when command is already default", () => {
-    const command = createTestCommand({ isDefault: true });
-    renderWithProvider(
-      <CommandDialog
-        isOpen={true}
-        onOpenChange={mockOnOpenChange}
-        command={command}
-        toolName="test-tool"
-        onSave={mockOnSave}
-      />,
-      createTestState(command),
-    );
-
-    const defaultSwitch = screen.getByLabelText("Default");
-    expect(defaultSwitch).toBeDisabled();
-  });
-});
-
 describe("CommandDialog - Save Functionality", () => {
   const mockOnOpenChange = vi.fn();
   const mockOnSave = vi.fn();
@@ -412,7 +348,6 @@ describe("CommandDialog - Save Functionality", () => {
         key: "original-command-key",
         name: "updated-command",
         description: "Test command description",
-        isDefault: false,
         sortOrder: 0,
       }),
     );
@@ -440,7 +375,6 @@ describe("CommandDialog - Save Functionality", () => {
     fireEvent.change(screen.getByLabelText("Description"), {
       target: { value: "New description" },
     });
-    fireEvent.click(screen.getByLabelText("Default"));
 
     fireEvent.click(screen.getByRole("button", { name: "Save Changes" }));
 
@@ -448,7 +382,6 @@ describe("CommandDialog - Save Functionality", () => {
       expect.objectContaining({
         name: "new-name",
         description: "New description",
-        isDefault: true,
         sortOrder: 15,
       }),
     );
@@ -561,7 +494,6 @@ describe("CommandDialog - UI Elements and Layout", () => {
 
     expect(screen.getByLabelText("Command Name")).toBeInTheDocument();
     expect(screen.getByLabelText("Sort Order")).toBeInTheDocument();
-    expect(screen.getByLabelText("Default")).toBeInTheDocument();
     expect(screen.getByLabelText("Description")).toBeInTheDocument();
   });
 

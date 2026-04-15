@@ -1,11 +1,5 @@
 import { Tool } from "@/components/commandly/types/flat";
-import {
-    getToolName,
-  isReasoningUIPart,
-  isTextUIPart,
-  isToolUIPart,
-  type UIMessage,
-} from "ai";
+import { getToolName, isReasoningUIPart, isTextUIPart, isToolUIPart, type UIMessage } from "ai";
 
 export interface ToolCallEntry {
   toolCallId: string;
@@ -14,13 +8,13 @@ export interface ToolCallEntry {
   title: string;
   input: Record<string, unknown>;
   state:
-  | "input-streaming"
-  | "input-available"
-  | "approval-requested"
-  | "approval-responded"
-  | "output-available"
-  | "output-denied"
-  | "output-error";
+    | "input-streaming"
+    | "input-available"
+    | "approval-requested"
+    | "approval-responded"
+    | "output-available"
+    | "output-denied"
+    | "output-error";
   output?: unknown;
   errorText?: string;
   originalTool?: Tool;
@@ -55,7 +49,10 @@ function getToolTitle(toolName: string, input: Record<string, unknown>, fallback
   }
 
   if (toolName === "readTool") {
-    return "Reading tool JSON…";
+    const summary = input.summary as string | undefined;
+    const jsonPath = input.jsonPath as string | undefined;
+    const pathLabel = jsonPath && jsonPath !== "$" ? jsonPath : "whole tool";
+    return summary ? `${summary} (${pathLabel})` : `Reading ${pathLabel}…`;
   }
 
   if (toolName === "applyToolDefinition") {
@@ -75,11 +72,14 @@ function getToolTitle(toolName: string, input: Record<string, unknown>, fallback
 
 function toToolInput(value: unknown): Record<string, unknown> {
   return value && typeof value === "object" && !Array.isArray(value)
-    ? value as Record<string, unknown>
+    ? (value as Record<string, unknown>)
     : {};
 }
 
-export function toChatMessage(message: UIMessage, approvalArtifacts: Record<string, ApprovalArtifact>): ChatMessage {
+export function toChatMessage(
+  message: UIMessage,
+  approvalArtifacts: Record<string, ApprovalArtifact>,
+): ChatMessage {
   const content = message.parts
     .filter(isTextUIPart)
     .map((part) => part.text)
@@ -90,55 +90,61 @@ export function toChatMessage(message: UIMessage, approvalArtifacts: Record<stri
     .map((part) => part.text)
     .join("");
 
-  const toolCalls = message.parts
-    .filter(isToolUIPart)
-    .map((part) => {
-      const toolName = getToolName(part);
-      const input = toToolInput("input" in part ? part.input : undefined);
-      const approvalId = part.approval?.id;
-      const artifact = approvalId ? approvalArtifacts[approvalId] : undefined;
+  const toolCalls = message.parts.filter(isToolUIPart).map((part) => {
+    const toolName = getToolName(part);
+    const input = toToolInput("input" in part ? part.input : undefined);
+    const approvalId = part.approval?.id;
+    const artifact = approvalId ? approvalArtifacts[approvalId] : undefined;
 
-      return {
-        toolCallId: part.toolCallId,
-        toolName,
-        approvalId,
-        title: getToolTitle(toolName, input, part.title),
-        input,
-        state: part.state,
-        output: "output" in part ? part.output : undefined,
-        errorText: "errorText" in part ? part.errorText : undefined,
-        originalTool: artifact?.originalTool,
-        previewTool: artifact?.previewTool,
-      } satisfies ToolCallEntry;
-    });
+    return {
+      toolCallId: part.toolCallId,
+      toolName,
+      approvalId,
+      title: getToolTitle(toolName, input, part.title),
+      input,
+      state: part.state,
+      output: "output" in part ? part.output : undefined,
+      errorText: "errorText" in part ? part.errorText : undefined,
+      originalTool: artifact?.originalTool,
+      previewTool: artifact?.previewTool,
+    } satisfies ToolCallEntry;
+  });
 
   return {
     id: message.id,
     role: message.role === "assistant" ? "assistant" : "user",
     content,
-    toolApplied: toolCalls.some((toolCall) => toolCall.toolName === "applyToolDefinition" && toolCall.state === "output-available"),
+    toolApplied: toolCalls.some(
+      (toolCall) =>
+        toolCall.toolName === "applyToolDefinition" && toolCall.state === "output-available",
+    ),
     toolCalls: toolCalls.length > 0 ? toolCalls : undefined,
     reasoningContent: reasoningContent || undefined,
   };
 }
 
 export function countCompletedToolCalls(messages: UIMessage[]): number {
-  return messages.reduce((count, message) => (
-    count + message.parts.filter(
-      (part) => isToolUIPart(part)
-        && (
-          part.state === "output-available"
-          || part.state === "output-error"
-          || part.state === "output-denied"
-        ),
-    ).length
-  ), 0);
+  return messages.reduce(
+    (count, message) =>
+      count +
+      message.parts.filter(
+        (part) =>
+          isToolUIPart(part) &&
+          (part.state === "output-available" ||
+            part.state === "output-error" ||
+            part.state === "output-denied"),
+      ).length,
+    0,
+  );
 }
 
 export function findPendingApproval(messages: ChatMessage[]) {
   for (let index = messages.length - 1; index >= 0; index--) {
     const applyToolCall = messages[index].toolCalls?.find(
-      (toolCall) => toolCall.toolName === "applyToolDefinition" && toolCall.state === "approval-requested" && toolCall.approvalId,
+      (toolCall) =>
+        toolCall.toolName === "applyToolDefinition" &&
+        toolCall.state === "approval-requested" &&
+        toolCall.approvalId,
     );
 
     if (applyToolCall?.approvalId && applyToolCall.originalTool && applyToolCall.previewTool) {
@@ -146,7 +152,10 @@ export function findPendingApproval(messages: ChatMessage[]) {
         approvalId: applyToolCall.approvalId,
         previewTool: applyToolCall.previewTool,
         originalTool: applyToolCall.originalTool,
-        summary: typeof applyToolCall.input.summary === "string" ? applyToolCall.input.summary : "Apply AI changes",
+        summary:
+          typeof applyToolCall.input.summary === "string"
+            ? applyToolCall.input.summary
+            : "Apply AI changes",
         messageIndex: index,
       };
     }

@@ -1,6 +1,6 @@
-import { type AIProvider } from "@/lib/ai-keys";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { type AIProvider } from "@/lib/ai-keys";
 import { cn } from "@/lib/utils";
 import { CheckIcon, ChevronsUpDownIcon, ChevronUpIcon } from "lucide-react";
 import { useState } from "react";
@@ -119,17 +119,9 @@ export const MODEL_GROUPS: {
 export function providerForModel(model: string): AIProvider {
   if (model.startsWith("claude")) return "anthropic";
   if (model.startsWith("gemini")) return "google";
-  if (
-    model.startsWith("llama") ||
-    model.startsWith("meta-llama") ||
-    model.startsWith("qwen")
-  )
+  if (model.startsWith("llama") || model.startsWith("meta-llama") || model.startsWith("qwen"))
     return "groq";
-  if (
-    model.startsWith("mistral") ||
-    model.startsWith("codestral") ||
-    model.startsWith("magistral")
-  )
+  if (model.startsWith("mistral") || model.startsWith("codestral") || model.startsWith("magistral"))
     return "mistral";
   if (model.startsWith("grok")) return "xai";
   return "openai";
@@ -142,7 +134,7 @@ export function getProviderOptions(
   model: string,
   effort: ReasoningEffort,
 ): Record<string, unknown> {
-    if (provider === "openai") {
+  if (provider === "openai") {
     if (effort === "none") return {};
     const effortMap = { minimal: "low", low: "low", medium: "medium", high: "high" } as const;
     return { openai: { reasoningEffort: effortMap[effort] } };
@@ -294,13 +286,17 @@ export function ReasoningEffortPicker({
 }: ReasoningEffortPickerProps) {
   const [open, setOpen] = useState(false);
 
-  const isReasoningModel = MODEL_GROUPS.flatMap((g) => g.models).find((m) => m.value === model)?.reasoning === true;
+  const isReasoningModel =
+    MODEL_GROUPS.flatMap((g) => g.models).find((m) => m.value === model)?.reasoning === true;
   if (!isReasoningModel) return null;
 
   const current = EFFORT_OPTIONS.find((o) => o.value === effort);
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover
+      open={open}
+      onOpenChange={setOpen}
+    >
       <PopoverTrigger asChild>
         <Button
           variant="ghost"
@@ -311,7 +307,10 @@ export function ReasoningEffortPicker({
           <ChevronUpIcon className="h-3 w-3 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-36 p-1" align="start">
+      <PopoverContent
+        className="w-36 p-1"
+        align="start"
+      >
         {EFFORT_OPTIONS.map(({ value, label }) => (
           <button
             key={value}

@@ -85,7 +85,7 @@ function RouteComponent() {
       command,
     };
 
-    addSavedCommandToStorage(`saved-${toolId}`, newSavedCommand);
+    addSavedCommandToStorage(toolId, newSavedCommand);
     setSavedCommands(getSavedCommandsFromStorage(toolId));
 
     toast("Command Saved", {
@@ -96,7 +96,7 @@ function RouteComponent() {
   const handleDeleteCommand = (commandKey: string) => {
     if (!tool) return;
     const toolId = tool.name;
-    removeSavedCommandFromStorage(`saved-${toolId}`, commandKey);
+    removeSavedCommandFromStorage(toolId, commandKey);
     setSavedCommands(getSavedCommandsFromStorage(toolId));
   };
 

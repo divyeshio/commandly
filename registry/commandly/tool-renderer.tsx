@@ -25,9 +25,6 @@ import { CheckIcon, ChevronsUpDownIcon, InfoIcon, PlusIcon, XIcon } from "lucide
 import React from "react";
 
 const findDefaultCommand = (tool: Tool): Command | null => {
-  const defaultCommand = tool.commands.find((command) => command.isDefault);
-  if (defaultCommand) return defaultCommand;
-
   const nameMatchCommand = tool.commands.find(
     (command) => command.name.toLowerCase() === tool.name.toLowerCase(),
   );

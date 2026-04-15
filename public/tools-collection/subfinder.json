@@ -11,7 +11,6 @@
     {
       "name": "subfinder",
       "description": "Subfinder is a subdomain discovery tool that discovers subdomains for websites by using passive online sources.",
-      "isDefault": true,
       "sortOrder": 1,
       "key": "subfinder"
     }

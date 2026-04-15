@@ -39,15 +39,6 @@ export const getCommandPath = (command: Command, tool: Tool): string => {
 
   if (!path) return command.name;
 
-  if (command.name === tool.name && command.isDefault) {
-    return tool.name;
-  }
-
-  const rootCommand = tool.commands.find((c) => c.name === tool.name);
-  if (rootCommand?.isDefault && path[0] === tool.name) {
-    path[0] = tool.name;
-  }
-
   return path.join(" ");
 };
 
@@ -85,14 +76,12 @@ export const exportToStructuredJSON = (tool: Tool) => {
     name: tool.name,
     displayName: tool.displayName,
     info: tool.info,
-    url: tool.info?.url,
     commands: tool.commands.map((cmd) => ({ ...cmd })),
     parameters: tool.parameters.map(({ metadata: _metadata, ...param }) => param),
     exclusionGroups: tool.exclusionGroups,
     metadata: tool.metadata,
   };
 };
-
 
 export const createNewParameter = (isGlobal: boolean, commandKey?: string): Parameter => {
   return {

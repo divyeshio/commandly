@@ -18,19 +18,31 @@ const KEY_ID = "master-key";
 
 function getOrCreateCryptoKey(): Promise<CryptoKey> {
   return new Promise((resolve, reject) => {
-    const request = indexedDB.open(DB_NAME, 3);
+    const request = indexedDB.open(DB_NAME, 4);
     request.onupgradeneeded = (event) => {
       const db = request.result;
       const oldVersion = (event as IDBVersionChangeEvent).oldVersion;
       if (!db.objectStoreNames.contains(STORE_NAME)) {
         db.createObjectStore(STORE_NAME);
       }
-      if (oldVersion < 3 && db.objectStoreNames.contains("sessions")) {
-        db.deleteObjectStore("sessions");
+      if (oldVersion < 4) {
+        if (db.objectStoreNames.contains("sessions")) {
+          db.deleteObjectStore("sessions");
+        }
+        if (db.objectStoreNames.contains("chats")) {
+          db.deleteObjectStore("chats");
+        }
+        if (db.objectStoreNames.contains("messages")) {
+          db.deleteObjectStore("messages");
+        }
       }
-      if (!db.objectStoreNames.contains("sessions")) {
-        const store = db.createObjectStore("sessions", { keyPath: "id" });
-        store.createIndex("toolName", "toolName", { unique: false });
+      if (!db.objectStoreNames.contains("chats")) {
+        const chatStore = db.createObjectStore("chats", { keyPath: "id" });
+        chatStore.createIndex("toolName", "toolName", { unique: false });
+      }
+      if (!db.objectStoreNames.contains("messages")) {
+        const msgStore = db.createObjectStore("messages", { keyPath: "id" });
+        msgStore.createIndex("chatId", "chatId", { unique: false });
       }
     };
     request.onerror = () => reject(request.error);

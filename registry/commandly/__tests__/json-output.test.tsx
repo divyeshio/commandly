@@ -45,7 +45,6 @@ describe("exportToStructuredJSON", () => {
           value: "val",
           displayName: "Val",
           description: "",
-          isDefault: true,
           sortOrder: 0,
         },
       ],
