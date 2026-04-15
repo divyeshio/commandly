@@ -8,10 +8,7 @@ import {
   truncateMessages,
   upsertMessage,
 } from "../ai-chat/ai-chat-persistence";
-import {
-  MODEL_GROUPS,
-  type ReasoningEffort,
-} from "../ai-chat/model-picker";
+import { MODEL_GROUPS, type ReasoningEffort } from "../ai-chat/model-picker";
 import type { Tool } from "@/components/commandly/types/flat";
 import type { LanguageModelUsage, UIMessage } from "ai";
 import { isToolUIPart, getToolName, type InferUITools, type Tool as AISDKTool } from "ai";
@@ -134,9 +131,8 @@ export class ChatStore {
   setModel(value: string): void {
     this.model = value;
     localStorage.setItem("ai-model", value);
-    const isReasoning = MODEL_GROUPS
-      .flatMap((g) => g.models)
-      .find((m) => m.value === value)?.reasoning === true;
+    const isReasoning =
+      MODEL_GROUPS.flatMap((g) => g.models).find((m) => m.value === value)?.reasoning === true;
     if (!isReasoning) {
       this.reasoningEffort = null;
       localStorage.removeItem("ai-reasoning-effort");
@@ -251,9 +247,7 @@ export class ChatStore {
       if (!hasUpdates && !needsTruncate) return;
 
       const isNewChat = snapshotIds.length === 0;
-      const ensureChat = isNewChat
-        ? createChat(currentChatId, toolName)
-        : Promise.resolve();
+      const ensureChat = isNewChat ? createChat(currentChatId, toolName) : Promise.resolve();
 
       ensureChat
         .then(async () => {

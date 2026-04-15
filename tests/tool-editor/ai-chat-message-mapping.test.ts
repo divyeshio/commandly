@@ -290,9 +290,7 @@ describe("countCompletedToolCalls", () => {
       {
         id: "a2",
         role: "assistant",
-        parts: [
-          makeToolUIPart("applyToolDefinition", { state: "output-available" }),
-        ],
+        parts: [makeToolUIPart("applyToolDefinition", { state: "output-available" })],
       },
     ];
     expect(countCompletedToolCalls(messages)).toBe(3);

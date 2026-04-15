@@ -423,7 +423,8 @@ function useAIChat(
     chat.addToolApprovalResponse({
       id: pendingApproval.approvalId,
       approved: true,
-      reason: "Applied successfully. Provide a concise summary of all the changes you made to the tool.",
+      reason:
+        "Applied successfully. Provide a concise summary of all the changes you made to the tool.",
     });
   }
 

@@ -453,25 +453,29 @@ describe("upsert updated messages (extraction regression)", () => {
         makeToolPart("tavilyExtract", {
           input: { urls: ["https://example.com"], startOffset: 0, maxChars: 6000 },
           output: {
-            results: [{
-              url: "https://example.com",
-              raw_content: "x".repeat(6000),
-              totalChars: 12000,
-              hasMore: true,
-              nextOffset: 6000,
-            }],
+            results: [
+              {
+                url: "https://example.com",
+                raw_content: "x".repeat(6000),
+                totalChars: 12000,
+                hasMore: true,
+                nextOffset: 6000,
+              },
+            ],
           },
         }),
         makeToolPart("tavilyExtract", {
           input: { urls: ["https://example.com"], startOffset: 6000, maxChars: 6000 },
           output: {
-            results: [{
-              url: "https://example.com",
-              raw_content: "y".repeat(6000),
-              totalChars: 12000,
-              hasMore: false,
-              nextOffset: 12000,
-            }],
+            results: [
+              {
+                url: "https://example.com",
+                raw_content: "y".repeat(6000),
+                totalChars: 12000,
+                hasMore: false,
+                nextOffset: 12000,
+              },
+            ],
           },
         }),
         { type: "text", text: "Extracted all content." },
