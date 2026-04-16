@@ -154,30 +154,30 @@ function RouteComponent() {
           )}
         </p>
         <div className="flex flex-wrap gap-2 sm:ml-auto">
-        <Button
-          className="relative z-10 flex gap-2"
-          variant="outline"
-          size="sm"
-          asChild
-        >
-          <Link
-            to="/tools/$toolName/edit"
-            params={{ toolName: tool.binaryName }}
-            search={{ isLocal: !!newTool }}
+          <Button
+            className="relative z-10 flex gap-2"
+            variant="outline"
+            size="sm"
+            asChild
           >
-            <Edit2Icon className="h-4 w-4" />
-            Edit
-          </Link>
-        </Button>
-        <Button
-          className="relative z-10"
-          variant="outline"
-          size="sm"
-          onClick={() => setSavedCommandsOpen(true)}
-        >
-          <SaveIcon className="mr-2 h-4 w-4" />
-          Saved Commands
-        </Button>
+            <Link
+              to="/tools/$toolName/edit"
+              params={{ toolName: tool.binaryName }}
+              search={{ isLocal: !!newTool }}
+            >
+              <Edit2Icon className="h-4 w-4" />
+              Edit
+            </Link>
+          </Button>
+          <Button
+            className="relative z-10"
+            variant="outline"
+            size="sm"
+            onClick={() => setSavedCommandsOpen(true)}
+          >
+            <SaveIcon className="mr-2 h-4 w-4" />
+            Saved Commands
+          </Button>
         </div>
       </div>
       <div className="flex w-full flex-col items-center justify-center gap-8 px-4 lg:flex-row lg:items-start lg:gap-16">

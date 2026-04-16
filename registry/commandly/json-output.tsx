@@ -120,54 +120,56 @@ export function JsonOutput({ tool, originalTool, onApply }: JsonTypeComponentPro
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>
-          <span className="text-sm">Output type: </span>
-          <Popover
-            open={open}
-            onOpenChange={setOpen}
-          >
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                role="combobox"
-                aria-expanded={open}
-                className="w-48 justify-between"
-              >
-                {jsonOptions.find((option) => option.value === jsonType)?.label}
-                <ChevronsUpDownIcon className="opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-48 p-0">
-              <UICommand>
-                <CommandList>
-                  <CommandGroup>
-                    {jsonOptions.map((option) => (
-                      <CommandItem
-                        key={option.value}
-                        value={option.value}
-                        onSelect={(currentValue) => {
-                          setJsonType(currentValue as "nested" | "flat");
-                          setOpen(false);
-                        }}
-                      >
-                        {option.label}
-                        <CheckIcon
-                          className={cn(
-                            "ml-auto h-4 w-4",
-                            jsonType === option.value ? "opacity-100" : "opacity-0",
-                          )}
-                        />
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                </CommandList>
-              </UICommand>
-            </PopoverContent>
-          </Popover>
+    <Card className="max-w-full">
+      <CardHeader className="gap-4">
+        <CardTitle className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center">
+            <span className="text-sm">Output type:</span>
+            <Popover
+              open={open}
+              onOpenChange={setOpen}
+            >
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={open}
+                  className="w-full min-w-0 justify-between sm:w-48"
+                >
+                  {jsonOptions.find((option) => option.value === jsonType)?.label}
+                  <ChevronsUpDownIcon className="opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[var(--radix-popover-trigger-width)] min-w-40 p-0 sm:w-48">
+                <UICommand>
+                  <CommandList>
+                    <CommandGroup>
+                      {jsonOptions.map((option) => (
+                        <CommandItem
+                          key={option.value}
+                          value={option.value}
+                          onSelect={(currentValue) => {
+                            setJsonType(currentValue as "nested" | "flat");
+                            setOpen(false);
+                          }}
+                        >
+                          {option.label}
+                          <CheckIcon
+                            className={cn(
+                              "ml-auto h-4 w-4",
+                              jsonType === option.value ? "opacity-100" : "opacity-0",
+                            )}
+                          />
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </UICommand>
+              </PopoverContent>
+            </Popover>
+          </div>
         </CardTitle>
-        <div className="flex gap-3">
+        <div className="flex shrink-0 items-center gap-3 self-start sm:self-auto">
           {onApply && !isEditing && (
             <CardAction
               className="rounded-md"
@@ -197,7 +199,7 @@ export function JsonOutput({ tool, originalTool, onApply }: JsonTypeComponentPro
       </CardHeader>
       <CardContent>
         {diffStats && !isEditing && (
-          <div className="mb-2 flex items-center gap-2">
+          <div className="mb-2 flex flex-wrap items-center gap-2">
             {diffStats.added > 0 && (
               <Badge
                 variant="outline"
@@ -217,7 +219,7 @@ export function JsonOutput({ tool, originalTool, onApply }: JsonTypeComponentPro
             <Button
               variant="ghost"
               size="sm"
-              className="ml-auto h-6 px-2 text-xs"
+              className="h-6 px-2 text-xs sm:ml-auto"
               onClick={() => setShowDiff((v) => !v)}
             >
               {showDiff ? "Full view" : "Diff view"}
@@ -231,7 +233,7 @@ export function JsonOutput({ tool, originalTool, onApply }: JsonTypeComponentPro
               type="hover"
             >
               <Textarea
-                className="min-h-[calc(100vh-400px)] font-mono text-sm"
+                className="min-h-80 font-mono text-sm sm:min-h-[calc(100vh-400px)]"
                 value={editValue}
                 onChange={(e) => setEditValue(e.target.value)}
                 spellCheck={false}
@@ -260,7 +262,7 @@ export function JsonOutput({ tool, originalTool, onApply }: JsonTypeComponentPro
             className="max-w-full *:data-radix-scroll-area-viewport:max-h-[calc(100vh-320px)]"
             type="hover"
           >
-            <pre className="max-w-full rounded-md font-mono text-sm">
+            <pre className="w-fit min-w-full rounded-md font-mono text-sm whitespace-pre">
               {diff.map((line, idx) => (
                 <div
                   key={idx}
@@ -286,7 +288,7 @@ export function JsonOutput({ tool, originalTool, onApply }: JsonTypeComponentPro
             className="max-w-full *:data-radix-scroll-area-viewport:max-h-[calc(100vh-320px)]"
             type="hover"
           >
-            <pre className="max-h max-w-full rounded-md bg-card font-mono text-sm dark:text-gray-200">
+            <pre className="w-fit min-w-full rounded-md bg-card font-mono text-sm whitespace-pre dark:text-gray-200">
               {jsonString}
             </pre>
             <ScrollBar orientation="vertical" />

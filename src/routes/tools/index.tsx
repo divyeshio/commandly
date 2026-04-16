@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { Label } from "@/components/ui/label";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { fetchToolsList } from "@/lib/api/tools.api";
 import { queryOptions } from "@tanstack/react-query";
@@ -126,9 +126,9 @@ function RouteComponent() {
       style={{ height: "calc(100svh - 4rem)", minHeight: "calc(100svh - 4rem)" }}
     >
       <SidebarInset className="pt-4">
-        <div className="flex gap-4 px-4">
-          <SidebarTrigger className="md:hidden" />
-          <InputGroup className="h-9 w-full shadow-sm">
+        <div className="flex items-center gap-3 px-4">
+          <SidebarTrigger className="shrink-0 md:hidden" />
+          <InputGroup className="h-9 min-w-0 flex-1 shadow-sm">
             <InputGroupAddon>
               <SearchIcon />
             </InputGroupAddon>
@@ -138,7 +138,7 @@ function RouteComponent() {
               onChange={(e) => setSearchValue(e.target.value)}
             />
           </InputGroup>
-          <div className="flex items-center gap-3">
+          <div className="flex shrink-0 items-center gap-3">
             <Button
               variant="default"
               className="shadow-sm"
@@ -198,9 +198,9 @@ function RouteComponent() {
             </DialogFooter>
           </DialogContent>
         </Dialog>
-        <ScrollArea className="flex *:data-radix-scroll-area-viewport:max-h-[calc(100vh-117px)]">
-          <div className="container mx-auto p-6">
-            <div className="flex flex-wrap justify-center gap-4 sm:justify-start sm:gap-8">
+        <ScrollArea className="h-full *:data-radix-scroll-area-viewport:max-h-[calc(100vh-117px)]">
+          <div className="mx-auto w-full max-w-7xl p-4 sm:p-6">
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-8">
               <Suspense
                 fallback={
                   <>
@@ -216,7 +216,6 @@ function RouteComponent() {
                   onDelete={handleDelete}
                 />
               </Suspense>
-              <ScrollBar orientation="vertical" />
             </div>
           </div>
         </ScrollArea>

@@ -165,7 +165,7 @@ function createModelInstance(provider: AIProvider, key: string, model: string) {
     case "mistral":
       return createMistral({ apiKey: key })(model);
     case "openrouter":
-      return createOpenRouter({ apiKey: key})(model);
+      return createOpenRouter({ apiKey: key })(model);
     case "xai":
       return createXai({ apiKey: key })(model);
     default:

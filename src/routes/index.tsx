@@ -1,8 +1,13 @@
 import { ToolRenderer } from "@/components/commandly/tool-renderer";
+import type {
+  Tool,
+  ParameterType,
+  Parameter,
+  ParameterValue,
+} from "@/components/commandly/types/flat";
 import { getCommandPath } from "@/components/commandly/utils/flat";
-import { ToolBuilderProvider, useToolBuilder } from "@/components/tool-editor/tool-editor.context";
 import { TextMarquee } from "@/components/text-marquee";
-import type { Tool, ParameterType, Parameter, ParameterValue } from "@/components/commandly/types/flat";
+import { ToolBuilderProvider, useToolBuilder } from "@/components/tool-editor/tool-editor.context";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tree, Folder, File } from "@/components/ui/file-tree";
@@ -210,7 +215,7 @@ function ReadOnlyCommandTree() {
     setContextSelection({ commandKeys: [], parameterKeys: [] });
   };
 
-  const handleCommandClick = (command: typeof tool.commands[0], e: React.MouseEvent) => {
+  const handleCommandClick = (command: (typeof tool.commands)[0], e: React.MouseEvent) => {
     e.stopPropagation();
     setSelectedCommand(command);
     setContextSelection({ commandKeys: [command.key], parameterKeys: [] });
@@ -220,15 +225,25 @@ function ReadOnlyCommandTree() {
     <span className="flex items-center gap-1.5">
       {tool.binaryName}
       {rootParamCount > 0 && (
-        <Badge variant="secondary" className="h-4 min-w-4 px-1 text-[10px] leading-none">{rootParamCount}</Badge>
+        <Badge
+          variant="secondary"
+          className="h-4 min-w-4 px-1 text-[10px] leading-none"
+        >
+          {rootParamCount}
+        </Badge>
       )}
       {globalParamCount > 0 && (
-        <Badge variant="outline" className="h-4 min-w-4 px-1 text-[10px] leading-none">{globalParamCount}</Badge>
+        <Badge
+          variant="outline"
+          className="h-4 min-w-4 px-1 text-[10px] leading-none"
+        >
+          {globalParamCount}
+        </Badge>
       )}
     </span>
   );
 
-  const renderCommand = (command: typeof tool.commands[0]) => {
+  const renderCommand = (command: (typeof tool.commands)[0]) => {
     const subcommands = tool.commands.filter((c) => c.parentCommandKey === command.key);
     const isSelected = selectedCommand?.key === command.key;
     const paramCount = tool.parameters.filter((p) => p.commandKey === command.key).length;
@@ -237,7 +252,12 @@ function ReadOnlyCommandTree() {
       <span className="flex items-center gap-1.5">
         {command.name}
         {paramCount > 0 && (
-          <Badge variant="secondary" className="h-4 min-w-4 px-1 text-[10px] leading-none">{paramCount}</Badge>
+          <Badge
+            variant="secondary"
+            className="h-4 min-w-4 px-1 text-[10px] leading-none"
+          >
+            {paramCount}
+          </Badge>
         )}
       </span>
     );
@@ -294,11 +314,18 @@ function ReadOnlyCommandTree() {
 }
 
 function ReadOnlyParameterList({ title, isGlobal = false }: { title: string; isGlobal?: boolean }) {
-  const { selectedCommand, getGlobalParameters, getRootParameters, getParametersForCommand } = useToolBuilder();
+  const { selectedCommand, getGlobalParameters, getRootParameters, getParametersForCommand } =
+    useToolBuilder();
   const globalParameters = getGlobalParameters();
   const rootParameters = getRootParameters();
-  const commandParameters = selectedCommand?.key ? getParametersForCommand(selectedCommand.key) : [];
-  const parameters = isGlobal ? globalParameters : selectedCommand ? commandParameters : rootParameters;
+  const commandParameters = selectedCommand?.key
+    ? getParametersForCommand(selectedCommand.key)
+    : [];
+  const parameters = isGlobal
+    ? globalParameters
+    : selectedCommand
+      ? commandParameters
+      : rootParameters;
 
   if (parameters.length === 0) return null;
 
@@ -328,10 +355,34 @@ function ReadOnlyParameterList({ title, isGlobal = false }: { title: string; isG
               </span>
             </div>
             <div className="flex flex-wrap items-center gap-1">
-              {parameter.isRequired && <Badge variant="destructive" className="text-xs">required</Badge>}
-              <Badge variant="outline" className="text-xs">{parameter.parameterType}</Badge>
-              <Badge variant="secondary" className="text-xs">{parameter.dataType}</Badge>
-              {isGlobal && <Badge variant="default" className="text-xs">global</Badge>}
+              {parameter.isRequired && (
+                <Badge
+                  variant="destructive"
+                  className="text-xs"
+                >
+                  required
+                </Badge>
+              )}
+              <Badge
+                variant="outline"
+                className="text-xs"
+              >
+                {parameter.parameterType}
+              </Badge>
+              <Badge
+                variant="secondary"
+                className="text-xs"
+              >
+                {parameter.dataType}
+              </Badge>
+              {isGlobal && (
+                <Badge
+                  variant="default"
+                  className="text-xs"
+                >
+                  global
+                </Badge>
+              )}
             </div>
           </div>
         ))}
@@ -362,7 +413,9 @@ function CompactGeneratedCommand() {
 
     const allParams = [
       ...tool.parameters.filter((p) => p.isGlobal),
-      ...(sc ? tool.parameters.filter((p) => p.commandKey === sc.key) : tool.parameters.filter((p) => !p.commandKey && !p.isGlobal)),
+      ...(sc
+        ? tool.parameters.filter((p) => p.commandKey === sc.key)
+        : tool.parameters.filter((p) => !p.commandKey && !p.isGlobal)),
     ];
 
     const positional: { param: Parameter; value: ParameterValue }[] = [];
@@ -390,7 +443,9 @@ function CompactGeneratedCommand() {
 
     positional
       .sort((a, b) => (a.param.position || 0) - (b.param.position || 0))
-      .forEach(({ value }) => { if (!Array.isArray(value)) cmd += ` ${value}`; });
+      .forEach(({ value }) => {
+        if (!Array.isArray(value)) cmd += ` ${value}`;
+      });
 
     return cmd;
   }, [tool, selectedCommand, parameterValues]);
@@ -447,27 +502,30 @@ function DemoToolEditorContent() {
               <div className="min-w-64 flex-2/5 overflow-hidden">
                 <ScrollArea className="h-full">
                   <div className="flex flex-col gap-4 pr-3 pb-4">
-                    <ReadOnlyParameterList title="Global Parameters" isGlobal={true} />
+                    <ReadOnlyParameterList
+                      title="Global Parameters"
+                      isGlobal={true}
+                    />
                     <ReadOnlyParameterList title="Command Parameters" />
                   </div>
                 </ScrollArea>
               </div>
-            <div className="flex h-full flex-3/5 flex-col gap-3 overflow-hidden">
-              <div className="min-h-0 flex-1 overflow-hidden rounded-lg border border-border/60">
-                <ScrollArea className="h-full">
-                  <div className="space-y-4 p-4">
-                    <ToolRenderer
-                      selectedCommand={selectedCommand}
-                      tool={tool}
-                      parameterValues={parameterValues}
-                      updateParameterValue={(key, value) => setParameterValue(key, value)}
-                    />
-                  </div>
-                </ScrollArea>
+              <div className="flex h-full flex-3/5 flex-col gap-3 overflow-hidden">
+                <div className="min-h-0 flex-1 overflow-hidden rounded-lg border border-border/60">
+                  <ScrollArea className="h-full">
+                    <div className="space-y-4 p-4">
+                      <ToolRenderer
+                        selectedCommand={selectedCommand}
+                        tool={tool}
+                        parameterValues={parameterValues}
+                        updateParameterValue={(key, value) => setParameterValue(key, value)}
+                      />
+                    </div>
+                  </ScrollArea>
+                </div>
+                <CompactGeneratedCommand />
               </div>
-              <CompactGeneratedCommand />
             </div>
-          </div>
           </div>
         </div>
       </div>
@@ -583,8 +641,7 @@ function RouteComponent() {
             backgroundImage:
               "linear-gradient(to right, oklch(0.5 0 0 / 20%) 1px, transparent 1px), linear-gradient(to bottom, oklch(0.5 0 0 / 20%) 1px, transparent 1px)",
             backgroundSize: "64px 64px",
-            maskImage:
-              "radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 70%)",
+            maskImage: "radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 70%)",
             WebkitMaskImage:
               "radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 70%)",
           }}
@@ -605,8 +662,8 @@ function RouteComponent() {
           </h1>
 
           <p className="mb-8 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Define any command-line tool as structured JSON. Build interactive UIs from it.
-            Run tools programmatically or visually, your choice.
+            Define any command-line tool as structured JSON. Build interactive UIs from it. Run
+            tools programmatically or visually, your choice.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-3">
@@ -650,44 +707,44 @@ function RouteComponent() {
       <section className="my-12 border-y border-dashed border-border">
         <div className="mx-auto w-full max-w-6xl border-dashed border-border px-4 py-16 sm:border-x sm:py-24">
           <div className="flex items-center justify-center">
-          <TextMarquee
-            speed={1}
-            prefix={
-              <span className="font-mono text-3xl font-bold tracking-tight text-foreground sm:text-5xl">
-                commandly&nbsp;/&nbsp;
-              </span>
-            }
-          >
-            {[
-              "curl",
-              "git",
-              "docker",
-              "ssh",
-              "rsync",
-              "ffmpeg",
-              "grep",
-              "sed",
-              "awk",
-              "tar",
-              "wget",
-              "find",
-              "kubectl",
-              "nginx",
-              "openssl",
-              "jq",
-              "tmux",
-              "vim",
-              "gcc",
-              "python",
-            ].map((name) => (
-              <span
-                key={name}
-                className="font-mono text-2xl font-bold tracking-tight text-muted-foreground sm:text-3xl"
-              >
-                {name}
-              </span>
-            ))}
-          </TextMarquee>
+            <TextMarquee
+              speed={1}
+              prefix={
+                <span className="font-mono text-3xl font-bold tracking-tight text-foreground sm:text-5xl">
+                  commandly&nbsp;/&nbsp;
+                </span>
+              }
+            >
+              {[
+                "curl",
+                "git",
+                "docker",
+                "ssh",
+                "rsync",
+                "ffmpeg",
+                "grep",
+                "sed",
+                "awk",
+                "tar",
+                "wget",
+                "find",
+                "kubectl",
+                "nginx",
+                "openssl",
+                "jq",
+                "tmux",
+                "vim",
+                "gcc",
+                "python",
+              ].map((name) => (
+                <span
+                  key={name}
+                  className="font-mono text-2xl font-bold tracking-tight text-muted-foreground sm:text-3xl"
+                >
+                  {name}
+                </span>
+              ))}
+            </TextMarquee>
           </div>
         </div>
       </section>
@@ -705,8 +762,8 @@ function RouteComponent() {
               CLI → JSON → UI
             </h2>
             <p className="mx-auto max-w-xl text-muted-foreground">
-              Turn any command-line tool into a structured definition, then render it
-              as an interactive interface, or use it programmatically.
+              Turn any command-line tool into a structured definition, then render it as an
+              interactive interface, or use it programmatically.
             </p>
           </motion.div>
 
@@ -738,7 +795,9 @@ function RouteComponent() {
                 transition={{ delay: i * 0.1 }}
                 className="rounded-xl border border-border/60 bg-card p-6"
               >
-                <div className="mb-3 font-mono text-2xl font-bold text-muted-foreground/30">{s.step}</div>
+                <div className="mb-3 font-mono text-2xl font-bold text-muted-foreground/30">
+                  {s.step}
+                </div>
                 <h3 className="mb-2 font-mono text-lg font-semibold tracking-tight">{s.title}</h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
               </motion.div>
@@ -776,9 +835,7 @@ function RouteComponent() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg border border-border/40 bg-muted/30 text-foreground">
                   {f.icon}
                 </div>
-                <h3 className="mb-1.5 font-mono text-sm font-semibold tracking-tight">
-                  {f.title}
-                </h3>
+                <h3 className="mb-1.5 font-mono text-sm font-semibold tracking-tight">{f.title}</h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">{f.desc}</p>
               </IsometricCard>
             ))}
@@ -799,8 +856,8 @@ function RouteComponent() {
               Built for developers
             </h2>
             <p className="mx-auto max-w-xl text-muted-foreground">
-              Not just a pretty interface. Commandly gives you structured data you can
-              build on top of.
+              Not just a pretty interface. Commandly gives you structured data you can build on top
+              of.
             </p>
           </motion.div>
 
@@ -831,7 +888,9 @@ function RouteComponent() {
                 transition={{ delay: i * 0.08 }}
                 className="rounded-xl border border-border/60 bg-card p-6"
               >
-                <h3 className="mb-2 font-mono text-sm font-semibold tracking-tight">{item.title}</h3>
+                <h3 className="mb-2 font-mono text-sm font-semibold tracking-tight">
+                  {item.title}
+                </h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
               </motion.div>
             ))}
@@ -851,12 +910,12 @@ function RouteComponent() {
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Button
               size="lg"
-              className="group gap-2 rounded-xl px-10 text-base"
+              className="group gap-2 rounded-xl px-5 text-base"
               asChild
             >
               <Link to="/tools">
                 Launch Commandly
-                <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                <ArrowRightIcon className="h-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
             </Button>
             <Button

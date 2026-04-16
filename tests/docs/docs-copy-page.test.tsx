@@ -46,7 +46,7 @@ describe("DocsCopyPage", () => {
     });
   });
 
-  it("renders the secondary copy actions menu", () => {
+  it("renders the secondary copy actions menu", async () => {
     render(
       <DocsCopyPage
         page={"# Title\n\nSome docs"}
@@ -54,9 +54,10 @@ describe("DocsCopyPage", () => {
       />,
     );
 
-    fireEvent.click(screen.getAllByRole("button", { name: /open copy actions/i })[1]);
+    const trigger = screen.getByRole("button", { name: /open copy actions/i });
+    fireEvent.pointerDown(trigger, { button: 0, ctrlKey: false });
 
-    expect(screen.getByText("View Markdown")).toBeInTheDocument();
+    expect(await screen.findByText("View Markdown")).toBeInTheDocument();
     expect(screen.getByText("Open in ChatGPT")).toBeInTheDocument();
     expect(screen.getByText("Open in Claude")).toBeInTheDocument();
   });

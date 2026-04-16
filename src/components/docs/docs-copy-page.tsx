@@ -7,14 +7,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Separator } from "@/components/ui/separator";
 import { CheckIcon, ChevronDownIcon, CopyIcon } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 function getPromptUrl(baseURL: string, url: string) {
   return `${baseURL}?q=${encodeURIComponent(
-    `I’m looking at this Commandly documentation page: ${url}.\nHelp me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it.`,
+    `I'm looking at this Commandly documentation page: ${url}.\nHelp me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it.`,
   )}`;
 }
 
@@ -22,6 +20,8 @@ interface DocsCopyPageProps {
   page: string;
   sourceUrl?: string;
 }
+
+const menuLinkClassName = "flex w-full items-center gap-2";
 
 function getMenuItems(url: string, sourceUrl?: string) {
   return {
@@ -31,6 +31,7 @@ function getMenuItems(url: string, sourceUrl?: string) {
           href={sourceUrl}
           target="_blank"
           rel="noopener noreferrer"
+          className={menuLinkClassName}
         >
           <svg
             strokeLinejoin="round"
@@ -52,6 +53,7 @@ function getMenuItems(url: string, sourceUrl?: string) {
         href={getPromptUrl("https://v0.dev", url)}
         target="_blank"
         rel="noopener noreferrer"
+        className={menuLinkClassName}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -69,6 +71,7 @@ function getMenuItems(url: string, sourceUrl?: string) {
         href={getPromptUrl("https://chatgpt.com", url)}
         target="_blank"
         rel="noopener noreferrer"
+        className={menuLinkClassName}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -88,6 +91,7 @@ function getMenuItems(url: string, sourceUrl?: string) {
         href={getPromptUrl("https://claude.ai/new", url)}
         target="_blank"
         rel="noopener noreferrer"
+        className={menuLinkClassName}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -107,7 +111,7 @@ function getMenuItems(url: string, sourceUrl?: string) {
         href={getPromptUrl("https://scira.ai/", url)}
         target="_blank"
         rel="noopener noreferrer"
-        className="m-0 p-0"
+        className={menuLinkClassName}
       >
         <svg
           viewBox="0 0 910 934"
@@ -209,67 +213,30 @@ export function DocsCopyPage({ page, sourceUrl }: DocsCopyPageProps) {
     <Button
       variant="secondary"
       size="sm"
-      className="peer -ml-0.5 size-8 shadow-none md:size-7 md:text-[0.8rem]"
+      className="size-8 shrink-0 rounded-l-none border-0 border-l border-border/50 px-2 shadow-none md:size-7 md:text-[0.8rem]"
     >
-      <ChevronDownIcon className="rotate-180 sm:rotate-0" />
+      <ChevronDownIcon className="size-4" />
       <span className="sr-only">Open copy actions</span>
     </Button>
   );
 
   return (
-    <Popover>
-      <div className="group/buttons relative flex rounded-lg bg-secondary *:data-[slot=button]:focus-visible:relative *:data-[slot=button]:focus-visible:z-10">
-        <PopoverAnchor />
+    <DropdownMenu>
+      <div className="group/buttons inline-flex max-w-full items-stretch overflow-hidden rounded-lg border bg-secondary text-secondary-foreground *:data-[slot=button]:focus-visible:relative *:data-[slot=button]:focus-visible:z-10">
         <Button
           variant="secondary"
           size="sm"
-          className="h-8 shadow-none md:h-7 md:text-[0.8rem]"
+          className="h-8 min-w-0 rounded-r-none border-0 px-3 shadow-none md:h-7 md:text-[0.8rem]"
           onClick={copyPage}
         >
           {isCopied ? <CheckIcon /> : <CopyIcon />}
           Copy Page
         </Button>
-        <DropdownMenu>
-          <DropdownMenuTrigger
-            asChild
-            className="hidden sm:flex"
-          >
-            {trigger}
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="end"
-            className="animate-none! rounded-lg shadow-none"
-          >
-            {Object.entries(menuItems).map(([key, item]) => {
-              const content = item();
-              if (!content) {
-                return null;
-              }
-
-              return (
-                <DropdownMenuItem
-                  key={key}
-                  asChild
-                >
-                  {content}
-                </DropdownMenuItem>
-              );
-            })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <Separator
-          orientation="vertical"
-          className="absolute top-1 right-8 z-0 h-6 bg-foreground/5 peer-focus-visible:opacity-0 sm:right-7 sm:h-5"
-        />
-        <PopoverTrigger
-          asChild
-          className="flex sm:hidden"
-        >
-          {trigger}
-        </PopoverTrigger>
-        <PopoverContent
-          className="w-52 rounded-lg bg-background/90 p-1 shadow-none backdrop-blur-sm"
+        <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
+        <DropdownMenuContent
           align="end"
+          sideOffset={6}
+          className="w-[calc(100vw-2rem)] max-w-56 rounded-lg p-1 shadow-md sm:w-56"
         >
           {Object.entries(menuItems).map(([key, item]) => {
             const content = item();
@@ -278,19 +245,17 @@ export function DocsCopyPage({ page, sourceUrl }: DocsCopyPageProps) {
             }
 
             return (
-              <Button
-                variant="ghost"
-                size="lg"
-                asChild
+              <DropdownMenuItem
                 key={key}
-                className="w-full justify-start text-base font-normal *:[svg]:text-muted-foreground"
+                asChild
+                className="cursor-pointer"
               >
                 {content}
-              </Button>
+              </DropdownMenuItem>
             );
           })}
-        </PopoverContent>
+        </DropdownMenuContent>
       </div>
-    </Popover>
+    </DropdownMenu>
   );
 }

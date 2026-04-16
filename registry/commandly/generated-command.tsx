@@ -134,15 +134,17 @@ export function GeneratedCommand({
   };
 
   return (
-    <div>
+    <div className="min-w-0">
       {generatedCommand ? (
         <div className="space-y-4">
-          <div className="rounded bg-muted p-4 font-mono text-sm">{generatedCommand}</div>
-          <div className="flex gap-2">
+          <div className="overflow-x-auto rounded bg-muted p-4 font-mono text-sm">
+            <div className="min-w-max whitespace-nowrap">{generatedCommand}</div>
+          </div>
+          <div className="flex flex-col gap-2 sm:flex-row">
             <Button
               onClick={copyCommand}
               variant="outline"
-              className="flex-1"
+              className="w-full sm:flex-1"
             >
               <CopyIcon className="mr-2 h-4 w-4" />
               Copy Command
@@ -151,7 +153,7 @@ export function GeneratedCommand({
               <Button
                 onClick={() => onSaveCommand(generatedCommand)}
                 variant="outline"
-                className="flex-1"
+                className="w-full sm:flex-1"
               >
                 <SaveIcon className="mr-2 h-4 w-4" />
                 Save Command

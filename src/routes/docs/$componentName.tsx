@@ -58,8 +58,8 @@ function RouteComponent() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 sm:py-12">
-      <div className="mb-4 flex justify-end">
+    <div className="mx-auto w-full max-w-4xl min-w-0 px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
+      <div className="mb-5 flex justify-end sm:mb-6">
         <DocsCopyPage
           page={raw}
           sourceUrl={`${GITHUB_RAW_BASE}/src/routes/docs/__collection__/${componentName}.mdx`}

@@ -20,6 +20,20 @@ describe("JsonOutput", () => {
     });
     expect(screen.getByText(/Output type/)).toBeInTheDocument();
   });
+
+  it("renders a mobile-safe combobox trigger and JSON content", () => {
+    const onUrlUpdate = vi.fn<OnUrlUpdateFunction>();
+
+    render(<JsonOutput tool={defaultTool()} />, {
+      wrapper: withNuqsTestingAdapter({
+        searchParams: "?newTool=newTool",
+        onUrlUpdate,
+      }),
+    });
+
+    expect(screen.getByRole("combobox")).toBeInTheDocument();
+    expect(screen.getByText(/\"binaryName\"|\"name\"/)).toBeInTheDocument();
+  });
 });
 
 describe("exportToStructuredJSON", () => {

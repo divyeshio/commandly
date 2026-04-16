@@ -227,6 +227,35 @@ describe("GeneratedCommand", () => {
     expect(output.textContent).toBe("httpx");
   });
 
+  it("renders command output in a horizontally scrollable container and stacks actions accessibly", () => {
+    render(
+      <GeneratedCommand
+        tool={{
+          binaryName: "curl",
+          displayName: "Curl",
+          commands: [{ key: "curl", name: "curl", sortOrder: 1 }],
+          parameters: [
+            {
+              key: "url",
+              name: "URL",
+              commandKey: "curl",
+              parameterType: "Argument",
+              dataType: "String",
+              position: 1,
+              sortOrder: 1,
+            },
+          ],
+        }}
+        parameterValues={{ url: "https://example.com/really/long/path/that/should/not/wrap" }}
+        onSaveCommand={() => {}}
+      />,
+    );
+
+    expect(screen.getByText(/https:\/\/example.com\/really\/long\/path/)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /copy command/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /save command/i })).toBeInTheDocument();
+  });
+
   it("includes root parameters in generated command when tool has commands but selectedCommand is null", () => {
     const tool = {
       binaryName: "mycli",

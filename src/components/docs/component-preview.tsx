@@ -33,7 +33,7 @@ function SyntaxHighlightedCodeInner({ code }: { code: string }) {
   });
   return (
     <div
-      className="text-sm [&_pre]:overflow-x-auto [&_pre]:p-4"
+      className="max-w-full text-sm [&_pre]:max-w-full [&_pre]:overflow-x-auto [&_pre]:p-4"
       dangerouslySetInnerHTML={{ __html: html }}
     ></div>
   );
