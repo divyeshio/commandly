@@ -7,10 +7,19 @@ import {
   useToolBuilder,
 } from "@/components/tool-editor/tool-editor.context";
 import { defaultTool } from "@/lib/utils";
+import { useBlocker } from "@tanstack/react-router";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { withNuqsTestingAdapter, type OnUrlUpdateFunction } from "nuqs/adapters/testing";
 import { ReactNode } from "react";
 import { vi } from "vitest";
+
+const { useBlockerMock } = vi.hoisted(() => ({
+  useBlockerMock: vi.fn(),
+}));
+
+vi.mock("@tanstack/react-router", () => ({
+  useBlocker: useBlockerMock,
+}));
 
 let capturedCtx: ReturnType<typeof useToolBuilder>;
 
@@ -32,6 +41,10 @@ function renderWithProvider(ui: ReactNode, initialState: Partial<ToolBuilderStat
 }
 
 describe("ToolEditor", () => {
+  beforeEach(() => {
+    vi.mocked(useBlocker).mockReset();
+  });
+
   it("renders tool name and displayName", () => {
     const onUrlUpdate = vi.fn<OnUrlUpdateFunction>();
 
@@ -78,5 +91,27 @@ describe("ToolEditor", () => {
     expect(capturedCtx.tool.interactive).toBeUndefined();
     fireEvent.click(interactiveSwitch);
     expect(capturedCtx.tool.interactive).toBe(true);
+  });
+
+  it("enables navigation blocking when the editor becomes dirty", () => {
+    const onUrlUpdate = vi.fn<OnUrlUpdateFunction>();
+
+    render(<ToolEditor tool={defaultTool("test-tool", "Test Tool")} />, {
+      wrapper: withNuqsTestingAdapter({
+        searchParams: "?test-tool=test-tool",
+        onUrlUpdate,
+      }),
+    });
+
+    expect(useBlocker).toHaveBeenLastCalledWith(
+      expect.objectContaining({ enableBeforeUnload: false }),
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Edit tool" }));
+    fireEvent.click(screen.getByLabelText("Interactive"));
+
+    expect(useBlocker).toHaveBeenLastCalledWith(
+      expect.objectContaining({ enableBeforeUnload: true }),
+    );
   });
 });

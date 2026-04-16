@@ -132,10 +132,10 @@ function RouteComponent() {
 
   return (
     <div className="mt-16 flex flex-col">
-      <div className="relative mx-8 my-4 flex items-center gap-2">
-        <p className="absolute left-1/2 flex -translate-x-1/2 gap-2">
+      <div className="relative mx-4 my-4 flex flex-wrap items-center gap-2 sm:mx-8">
+        <p className="flex gap-2 sm:absolute sm:left-1/2 sm:-translate-x-1/2">
           <span
-            className="font-mono text-lg font-medium"
+            className="font-mono text-base font-medium sm:text-lg"
             style={{
               viewTransitionName: `tool-card-title-${tool.binaryName}`,
             }}
@@ -153,8 +153,9 @@ function RouteComponent() {
             </Tooltip>
           )}
         </p>
+        <div className="flex flex-wrap gap-2 sm:ml-auto">
         <Button
-          className="relative z-10 ml-auto flex gap-2"
+          className="relative z-10 flex gap-2"
           variant="outline"
           size="sm"
           asChild
@@ -177,10 +178,11 @@ function RouteComponent() {
           <SaveIcon className="mr-2 h-4 w-4" />
           Saved Commands
         </Button>
+        </div>
       </div>
-      <div className="align-center flex w-full justify-center gap-16 px-4">
+      <div className="flex w-full flex-col items-center justify-center gap-8 px-4 lg:flex-row lg:items-start lg:gap-16">
         <Card
-          className="w-2xl max-w-4xl"
+          className="w-full max-w-4xl lg:w-2xl"
           style={{
             viewTransitionName: `tool-card-${tool.binaryName}`,
           }}
@@ -296,7 +298,7 @@ function RouteComponent() {
           </CardContent>
         </Card>
 
-        <Card className="h-full w-3xl max-w-full">
+        <Card className="w-full max-w-full lg:h-full lg:w-3xl">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TerminalIcon className="h-5 w-5" />

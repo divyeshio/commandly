@@ -200,7 +200,7 @@ function RouteComponent() {
         </Dialog>
         <ScrollArea className="flex *:data-radix-scroll-area-viewport:max-h-[calc(100vh-117px)]">
           <div className="container mx-auto p-6">
-            <div className="flex flex-wrap justify-start gap-8">
+            <div className="flex flex-wrap justify-center gap-4 sm:justify-start sm:gap-8">
               <Suspense
                 fallback={
                   <>

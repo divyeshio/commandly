@@ -17,7 +17,7 @@ export function ComponentPreviewTabs({ preview, code, className }: ComponentPrev
           <TabsTrigger value="code">Code</TabsTrigger>
         </TabsList>
         <TabsContent value="preview">
-          <div className="flex min-h-87.5 items-center justify-center rounded-lg border p-10">
+          <div className="flex min-h-48 items-center justify-center rounded-lg border p-4 sm:min-h-87.5 sm:p-10">
             {preview}
           </div>
         </TabsContent>
