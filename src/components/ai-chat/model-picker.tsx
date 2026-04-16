@@ -52,11 +52,30 @@ export const MODEL_GROUPS: {
     ],
   },
   {
+    provider: "openrouter",
+    label: "OpenRouter",
+    logoUrl: "https://www.google.com/s2/favicons?domain=openrouter.ai&sz=32",
+    keyPlaceholder: "sk-or-v1-...",
+    models: [
+      { value: "openai/gpt-5.2", label: "GPT-5.2 via OpenRouter" },
+      {
+        value: "anthropic/claude-sonnet-4.5",
+        label: "Claude Sonnet 4.5 via OpenRouter",
+      },
+      {
+        value: "anthropic/claude-opus-4.7",
+        label: "Claude Opus 4.7 via OpenRouter",
+      },
+      { value: "z-ai/glm-5.1", label: "GLM 5.1 via OpenRouter" },
+    ],
+  },
+  {
     provider: "anthropic",
     label: "Anthropic",
     logoUrl: "https://www.google.com/s2/favicons?domain=anthropic.com&sz=32",
     keyPlaceholder: "sk-ant-...",
     models: [
+      { value: "claude-opus-4-7", label: "Claude Opus 4.7", reasoning: true },
       { value: "claude-opus-4-6", label: "Claude Opus 4.6", reasoning: true },
       { value: "claude-sonnet-4-6", label: "Claude Sonnet 4.6", reasoning: true },
       { value: "claude-haiku-4-5", label: "Claude Haiku 4.5" },
@@ -117,6 +136,12 @@ export const MODEL_GROUPS: {
 ];
 
 export function providerForModel(model: string): AIProvider {
+  const configuredProvider = MODEL_GROUPS.find((group) =>
+    group.models.some((candidate) => candidate.value === model),
+  )?.provider;
+  if (configuredProvider) return configuredProvider;
+
+  if (model.startsWith("openrouter/")) return "openrouter";
   if (model.startsWith("claude")) return "anthropic";
   if (model.startsWith("gemini")) return "google";
   if (model.startsWith("llama") || model.startsWith("meta-llama") || model.startsWith("qwen"))

@@ -83,6 +83,7 @@ import { createMistral } from "@ai-sdk/mistral";
 import { createOpenAI } from "@ai-sdk/openai";
 import { Chat, useChat } from "@ai-sdk/react";
 import { createXai } from "@ai-sdk/xai";
+import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import {
   DirectChatTransport,
   ToolLoopAgent,
@@ -126,6 +127,7 @@ const PROMPT_PILLS = [
 ];
 
 const MODEL_MAX_TOKENS: Record<string, number> = {
+  "claude-opus-4-7": 200000,
   "claude-opus-4-5": 200000,
   "claude-sonnet-4-5": 200000,
   "claude-haiku-3-5": 200000,
@@ -162,6 +164,8 @@ function createModelInstance(provider: AIProvider, key: string, model: string) {
       return createGroq({ apiKey: key })(model);
     case "mistral":
       return createMistral({ apiKey: key })(model);
+    case "openrouter":
+      return createOpenRouter({ apiKey: key})(model);
     case "xai":
       return createXai({ apiKey: key })(model);
     default:
@@ -214,6 +218,7 @@ function useAIChat(
 
   const provider = providerForModel(snapshot.model);
   const openAIKeys = useAIKeys("openai");
+  const openRouterKeys = useAIKeys("openrouter");
   const anthropicKeys = useAIKeys("anthropic");
   const googleKeys = useAIKeys("google");
   const groqKeys = useAIKeys("groq");
@@ -223,6 +228,7 @@ function useAIChat(
 
   const allProviderKeys = {
     openai: openAIKeys,
+    openrouter: openRouterKeys,
     anthropic: anthropicKeys,
     google: googleKeys,
     groq: groqKeys,

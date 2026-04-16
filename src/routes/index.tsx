@@ -1,538 +1,934 @@
-import { useTheme } from "@/components/theme-switcher";
+import { ToolRenderer } from "@/components/commandly/tool-renderer";
+import { getCommandPath } from "@/components/commandly/utils/flat";
+import { ToolBuilderProvider, useToolBuilder } from "@/components/tool-editor/tool-editor.context";
+import { TextMarquee } from "@/components/text-marquee";
+import type { Tool, ParameterType, Parameter, ParameterValue } from "@/components/commandly/types/flat";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tree, Folder, File } from "@/components/ui/file-tree";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRightIcon, GitMergeIcon, SparklesIcon, TerminalIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import {
+  ArrowRightIcon,
+  BracesIcon,
+  ChevronRightIcon,
+  CodeIcon,
+  FileTextIcon,
+  FlagIcon,
+  GitMergeIcon,
+  GlobeIcon,
+  HashIcon,
+  MonitorIcon,
+  SparklesIcon,
+  TerminalIcon,
+  WrenchIcon,
+} from "lucide-react";
+import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
+import type { MouseEvent, ReactNode } from "react";
+import { useCallback, useMemo, useRef } from "react";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
 });
 
-interface FloatingTool {
-  id: string;
-  name: string;
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  scale: number;
-  opacity: number;
-  phase: "appearing" | "floating" | "disappearing";
-  createdAt: number;
-}
+function IsometricCard({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 200, damping: 20 });
+  const springY = useSpring(y, { stiffness: 200, damping: 20 });
+  const rotateX = useTransform(springY, [-0.5, 0.5], [8, -8]);
+  const rotateY = useTransform(springX, [-0.5, 0.5], [-8, 8]);
 
-const TOOL_NAMES = [
-  "asnmap",
-  "cdncheck",
-  "dnsx",
-  "shuffledns",
-  "subfinder",
-  "yt-dlp",
-  "git",
-  "npm",
-  "curl",
-  "grep",
-  "find",
-  "docker",
-  "bash",
-  "zsh",
-  "sh",
-  "fish",
-  "curl",
-  "wget",
-  "git",
-  "grep",
-  "sed",
-  "awk",
-  "find",
-  "xargs",
-  "ssh",
-  "scp",
-  "rsync",
-  "tar",
-  "zip",
-  "unzip",
-  "gzip",
-  "bzip2",
-  "lzma",
-  "xz",
-  "top",
-  "htop",
-  "ps",
-  "ping",
-  "traceroute",
-  "netstat",
-  "ss",
-  "ip",
-  "ifconfig",
-  "dig",
-  "nslookup",
-  "whois",
-  "nmap",
-  "tcpdump",
-  "tshark",
-  "lsof",
-  "strace",
-  "ltrace",
-  "journalctl",
-  "dmesg",
-  "systemctl",
-  "service",
-  "chmod",
-  "chown",
-  "ln",
-  "cp",
-  "mv",
-  "rm",
-  "mkdir",
-  "rmdir",
-  "touch",
-  "stat",
-  "df",
-  "du",
-  "ls",
-  "tree",
-  "echo",
-  "printf",
-  "tee",
-  "less",
-  "more",
-  "cat",
-  "head",
-  "tail",
-  "diff",
-  "patch",
-  "sort",
-  "uniq",
-  "tr",
-  "cut",
-  "split",
-  "wc",
-  "yes",
-  "sleep",
-  "time",
-  "date",
-  "cal",
-  "env",
-  "export",
-  "alias",
-  "unalias",
-  "clear",
-  "history",
-  "man",
-  "info",
-  "which",
-  "whereis",
-  "type",
-  "uname",
-  "hostname",
-  "su",
-  "sudo",
-  "docker",
-  "kubectl",
-  "terraform",
-  "ansible",
-];
+  const handleMouseMove = useCallback(
+    (e: MouseEvent<HTMLDivElement>) => {
+      if (!ref.current) return;
+      const rect = ref.current.getBoundingClientRect();
+      x.set((e.clientX - rect.left) / rect.width - 0.5);
+      y.set((e.clientY - rect.top) / rect.height - 0.5);
+    },
+    [x, y],
+  );
 
-function FloatingToolNames() {
-  const [tools, setTools] = useState<FloatingTool[]>([]);
-
-  useEffect(() => {
-    const spawnTool = () => {
-      const newTool: FloatingTool = {
-        id: Math.random().toString(36).substr(2, 9),
-        name: TOOL_NAMES[Math.floor(Math.random() * TOOL_NAMES.length)],
-        x: 0, // Spread across wider area
-        y: -50, // Start from top
-        vx: (Math.random() - 0.5) * 2, // Random horizontal velocity
-        vy: Math.random() * 3 + 1, // Downward velocity
-        scale: 0,
-        opacity: 0,
-        phase: "appearing",
-        createdAt: Date.now(),
-      };
-
-      setTools((prev) => [...prev, newTool]);
-    };
-
-    const animate = () => {
-      setTools((prev) =>
-        prev
-          .map((tool) => {
-            const age = Date.now() - tool.createdAt;
-            const newTool = { ...tool };
-
-            // Update position
-            newTool.x += newTool.vx;
-            newTool.y += newTool.vy;
-
-            // Phase transitions and animations
-            if (tool.phase === "appearing" && age < 1000) {
-              newTool.scale = Math.min(1, age / 100);
-              newTool.opacity = Math.min(0.7, age / 1000);
-            } else if (tool.phase === "appearing" && age >= 1000) {
-              newTool.phase = "floating";
-              newTool.scale = 1;
-              newTool.opacity = 0.7;
-            } else if (tool.phase === "floating" && age < 8000) {
-              // Floating behavior - gentle movement, keep scale and opacity stable
-              newTool.vx += (Math.random() - 0.5) * 0.1;
-              newTool.vy += (Math.random() - 0.5) * 0.1;
-
-              // Limit velocity
-              newTool.vx = Math.max(-2, Math.min(2, newTool.vx));
-              newTool.vy = Math.max(-2, Math.min(2, newTool.vy));
-            } else if (tool.phase === "floating" && age >= 9000) {
-              newTool.phase = "disappearing";
-            } else if (tool.phase === "disappearing") {
-              const disappearTime = age - 9000;
-              newTool.opacity = Math.max(0, 0.7 - disappearTime / 2000);
-            }
-
-            return newTool;
-          })
-          .filter((tool) => tool.opacity > 0),
-      );
-    };
-
-    // Spawn tools periodically
-    const spawnInterval = setInterval(spawnTool, 1000);
-
-    // Animation loop
-    const animationInterval = setInterval(animate, 35);
-
-    return () => {
-      clearInterval(spawnInterval);
-      clearInterval(animationInterval);
-    };
-  }, []);
+  const handleMouseLeave = useCallback(() => {
+    x.set(0);
+    y.set(0);
+  }, [x, y]);
 
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      {tools.map((tool) => (
-        <div
-          key={tool.id}
-          className="absolute font-mono text-foreground/40 select-none"
-          style={{
-            left: `calc(50% + ${tool.x}px)`,
-            top: `calc(10% + ${tool.y}px)`,
-            transform: `scale(${tool.scale})`,
-            opacity: tool.opacity,
-            fontSize: "1rem",
-            zIndex: 1,
-          }}
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.5, delay }}
+      style={{
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d",
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className={`group relative overflow-hidden rounded-2xl border border-border/60 bg-card p-6 shadow-lg transition-shadow duration-300 hover:shadow-2xl ${className}`}
+    >
+      <div
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{
+          background:
+            "radial-gradient(600px circle at var(--mouse-x,50%) var(--mouse-y,50%), oklch(0.5 0 0 / 6%), transparent 60%)",
+        }}
+      />
+      {children}
+    </motion.div>
+  );
+}
+
+const DEMO_TOOL: Tool = {
+  binaryName: "curl",
+  displayName: "cURL",
+  info: { description: "Transfer data from or to a server using URLs." },
+  commands: [],
+  parameters: [
+    {
+      key: "url",
+      name: "URL",
+      description: "URL to fetch",
+      parameterType: "Argument",
+      dataType: "String",
+      isRequired: true,
+      position: 0,
+      sortOrder: 0,
+    },
+    {
+      key: "request",
+      name: "Request Method",
+      description: "HTTP method to use",
+      parameterType: "Option",
+      dataType: "String",
+      shortFlag: "-X",
+      longFlag: "--request",
+      keyValueSeparator: " ",
+      sortOrder: 1,
+    },
+    {
+      key: "header",
+      name: "Header",
+      description: "Pass custom header(s) to the server",
+      parameterType: "Option",
+      dataType: "String",
+      shortFlag: "-H",
+      longFlag: "--header",
+      keyValueSeparator: " ",
+      sortOrder: 2,
+    },
+    {
+      key: "data",
+      name: "Data",
+      description: "Send data in a POST request",
+      parameterType: "Option",
+      dataType: "String",
+      shortFlag: "-d",
+      longFlag: "--data",
+      keyValueSeparator: " ",
+      sortOrder: 3,
+    },
+    {
+      key: "output",
+      name: "Output",
+      description: "Write output to file instead of stdout",
+      parameterType: "Option",
+      dataType: "String",
+      shortFlag: "-o",
+      longFlag: "--output",
+      keyValueSeparator: " ",
+      sortOrder: 4,
+    },
+    {
+      key: "follow-redirects",
+      name: "Follow Redirects",
+      description: "Follow redirects",
+      parameterType: "Flag",
+      dataType: "Boolean",
+      shortFlag: "-L",
+      longFlag: "--location",
+      sortOrder: 5,
+    },
+    {
+      key: "verbose",
+      name: "Verbose",
+      description: "Make the operation more talkative",
+      parameterType: "Flag",
+      dataType: "Boolean",
+      shortFlag: "-v",
+      longFlag: "--verbose",
+      sortOrder: 6,
+    },
+    {
+      key: "silent",
+      name: "Silent",
+      description: "Silent mode, don't show progress or errors",
+      parameterType: "Flag",
+      dataType: "Boolean",
+      shortFlag: "-s",
+      longFlag: "--silent",
+      sortOrder: 7,
+    },
+  ],
+};
+
+function ParameterIcon({ type }: { type: ParameterType }) {
+  switch (type) {
+    case "Flag":
+      return <FlagIcon className="h-4 w-4" />;
+    case "Option":
+      return <HashIcon className="h-4 w-4" />;
+    case "Argument":
+      return <FileTextIcon className="h-4 w-4" />;
+    default:
+      return <HashIcon className="h-4 w-4" />;
+  }
+}
+
+function ReadOnlyCommandTree() {
+  const { tool, selectedCommand, setSelectedCommand, setContextSelection } = useToolBuilder();
+  const rootCommands = tool.commands.filter((cmd) => !cmd.parentCommandKey);
+  const isRootSelected = selectedCommand === null;
+  const rootParamCount = tool.parameters.filter((p) => !p.commandKey && !p.isGlobal).length;
+  const globalParamCount = tool.parameters.filter((p) => p.isGlobal).length;
+
+  const handleRootClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedCommand(null);
+    setContextSelection({ commandKeys: [], parameterKeys: [] });
+  };
+
+  const handleCommandClick = (command: typeof tool.commands[0], e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedCommand(command);
+    setContextSelection({ commandKeys: [command.key], parameterKeys: [] });
+  };
+
+  const rootElement = (
+    <span className="flex items-center gap-1.5">
+      {tool.binaryName}
+      {rootParamCount > 0 && (
+        <Badge variant="secondary" className="h-4 min-w-4 px-1 text-[10px] leading-none">{rootParamCount}</Badge>
+      )}
+      {globalParamCount > 0 && (
+        <Badge variant="outline" className="h-4 min-w-4 px-1 text-[10px] leading-none">{globalParamCount}</Badge>
+      )}
+    </span>
+  );
+
+  const renderCommand = (command: typeof tool.commands[0]) => {
+    const subcommands = tool.commands.filter((c) => c.parentCommandKey === command.key);
+    const isSelected = selectedCommand?.key === command.key;
+    const paramCount = tool.parameters.filter((p) => p.commandKey === command.key).length;
+
+    const nameElement = (
+      <span className="flex items-center gap-1.5">
+        {command.name}
+        {paramCount > 0 && (
+          <Badge variant="secondary" className="h-4 min-w-4 px-1 text-[10px] leading-none">{paramCount}</Badge>
+        )}
+      </span>
+    );
+
+    if (subcommands.length > 0) {
+      return (
+        <Folder
+          key={command.key}
+          value={command.key}
+          element={nameElement}
+          isSelect={isSelected}
+          className="px-2 py-1.5"
+          onClick={(e: React.MouseEvent) => handleCommandClick(command, e)}
         >
-          {tool.name}
-        </div>
-      ))}
+          {subcommands.map((subcmd) => renderCommand(subcmd))}
+        </Folder>
+      );
+    }
+
+    return (
+      <File
+        key={command.key}
+        value={command.key}
+        isSelect={isSelected}
+        className="w-full px-2 py-1.5"
+        fileIcon={<ChevronRightIcon className="invisible size-4" />}
+        onClick={(e: React.MouseEvent) => handleCommandClick(command, e)}
+      >
+        {nameElement}
+      </File>
+    );
+  };
+
+  return (
+    <Tree
+      className="flex-1 border-r border-muted"
+      initialExpandedItems={["__root__", ...rootCommands.map((c) => c.key)]}
+      indicator
+      sort="none"
+      openIcon={<TerminalIcon className="size-4" />}
+      closeIcon={<TerminalIcon className="size-4" />}
+    >
+      <Folder
+        value="__root__"
+        element={rootElement}
+        isSelect={isRootSelected}
+        className="px-2 py-1.5 font-medium"
+        onClick={handleRootClick}
+      >
+        {rootCommands.map((cmd) => renderCommand(cmd))}
+      </Folder>
+    </Tree>
+  );
+}
+
+function ReadOnlyParameterList({ title, isGlobal = false }: { title: string; isGlobal?: boolean }) {
+  const { selectedCommand, getGlobalParameters, getRootParameters, getParametersForCommand } = useToolBuilder();
+  const globalParameters = getGlobalParameters();
+  const rootParameters = getRootParameters();
+  const commandParameters = selectedCommand?.key ? getParametersForCommand(selectedCommand.key) : [];
+  const parameters = isGlobal ? globalParameters : selectedCommand ? commandParameters : rootParameters;
+
+  if (parameters.length === 0) return null;
+
+  return (
+    <div>
+      <div className="mb-4 flex items-center justify-between">
+        <h3 className="flex items-center gap-2 text-lg font-semibold">
+          {isGlobal && <GlobeIcon className="h-5 w-5" />}
+          {title} ({parameters.length})
+        </h3>
+      </div>
+      <div className="space-y-2">
+        {parameters.map((parameter) => (
+          <div
+            key={parameter.key}
+            className="rounded border border-muted p-3"
+          >
+            <div className="mb-2 flex items-center gap-2">
+              <ParameterIcon type={parameter.parameterType} />
+              <span className="text-sm font-medium">
+                {parameter.name}
+                {(parameter.longFlag || parameter.shortFlag) && (
+                  <span className="ml-1 text-muted-foreground">
+                    ({[parameter.longFlag, parameter.shortFlag].filter(Boolean).join(", ")})
+                  </span>
+                )}
+              </span>
+            </div>
+            <div className="flex flex-wrap items-center gap-1">
+              {parameter.isRequired && <Badge variant="destructive" className="text-xs">required</Badge>}
+              <Badge variant="outline" className="text-xs">{parameter.parameterType}</Badge>
+              <Badge variant="secondary" className="text-xs">{parameter.dataType}</Badge>
+              {isGlobal && <Badge variant="default" className="text-xs">global</Badge>}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
 
-function RouteComponent() {
-  const { theme } = useTheme();
+function DemoToolEditor() {
+  return (
+    <ToolBuilderProvider tool={DEMO_TOOL}>
+      <DemoToolEditorContent />
+    </ToolBuilderProvider>
+  );
+}
+
+function CompactGeneratedCommand() {
+  const { tool, selectedCommand, parameterValues } = useToolBuilder();
+
+  const command = useMemo(() => {
+    let cmd = tool.binaryName;
+    const sc = selectedCommand ?? tool.commands[0];
+
+    if (sc) {
+      const path = getCommandPath(sc, tool);
+      if (tool.binaryName !== path) cmd = `${tool.binaryName} ${path}`;
+    }
+
+    const allParams = [
+      ...tool.parameters.filter((p) => p.isGlobal),
+      ...(sc ? tool.parameters.filter((p) => p.commandKey === sc.key) : tool.parameters.filter((p) => !p.commandKey && !p.isGlobal)),
+    ];
+
+    const positional: { param: Parameter; value: ParameterValue }[] = [];
+
+    allParams.forEach((param) => {
+      const value = parameterValues[param.key];
+      if (value === undefined || value === "" || value === false) return;
+
+      if (param.parameterType === "Argument") {
+        positional.push({ param, value });
+        return;
+      }
+
+      if (param.parameterType === "Flag" && value === true) {
+        const flag = param.shortFlag || param.longFlag;
+        if (flag) cmd += ` ${flag}`;
+      } else if (param.parameterType === "Option") {
+        const flag = param.shortFlag || param.longFlag;
+        if (flag) {
+          const sep = param.keyValueSeparator ?? " ";
+          cmd += ` ${flag}${sep}${Array.isArray(value) ? value.join(" ") : value}`;
+        }
+      }
+    });
+
+    positional
+      .sort((a, b) => (a.param.position || 0) - (b.param.position || 0))
+      .forEach(({ value }) => { if (!Array.isArray(value)) cmd += ` ${value}`; });
+
+    return cmd;
+  }, [tool, selectedCommand, parameterValues]);
 
   return (
-    <div className="flex w-full flex-col gap-0">
-      <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-linear-to-br from-background via-primary/5 to-secondary/10 dark:from-background dark:via-primary/10 dark:to-secondary/20">
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]" />
+    <div className="flex items-center gap-2 rounded-lg border border-border/60 bg-muted/30 px-3 py-2 font-mono text-sm">
+      <TerminalIcon className="h-4 w-4 shrink-0 text-muted-foreground" />
+      <span className="truncate">{command}</span>
+    </div>
+  );
+}
 
-        <div className="absolute top-20 left-20 h-32 w-32 animate-pulse rounded-full bg-primary/20 blur-3xl" />
-        <div className="absolute right-20 bottom-40 h-40 w-40 animate-pulse rounded-full bg-primary/30 blur-3xl delay-1000" />
-        <div className="absolute top-1/2 left-1/4 h-20 w-20 animate-pulse rounded-full bg-accent/25 blur-2xl delay-500" />
+function DemoToolEditorContent() {
+  const { tool, selectedCommand, parameterValues, setParameterValue } = useToolBuilder();
 
-        <FloatingToolNames />
+  return (
+    <div className="w-full">
+      <div className="overflow-hidden rounded-xl border border-border/80 bg-card shadow-2xl">
+        <div className="flex items-center gap-2 border-b border-border/60 bg-muted/50 px-4 py-2.5">
+          <div className="flex gap-1.5">
+            <div className="h-3 w-3 rounded-full bg-red-400/80" />
+            <div className="h-3 w-3 rounded-full bg-yellow-400/80" />
+            <div className="h-3 w-3 rounded-full bg-green-400/80" />
+          </div>
+          <span className="ml-2 flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
+            <TerminalIcon size={12} />
+            commandly / {tool.displayName} ({tool.binaryName})
+          </span>
+        </div>
 
-        <div
-          className="pointer-events-none absolute inset-0 z-0"
-          style={{
-            background:
-              "radial-gradient(ellipse at 50% 30%, rgba(var(--primary),0.15) 0%, transparent 70%)",
-          }}
-        />
+        {/* Mobile: ToolRenderer + command only */}
+        <div className="flex flex-col gap-3 p-4 md:hidden">
+          <div className="overflow-hidden rounded-lg border border-border/60">
+            <div className="space-y-4 p-4">
+              <ToolRenderer
+                selectedCommand={selectedCommand}
+                tool={tool}
+                parameterValues={parameterValues}
+                updateParameterValue={(key, value) => setParameterValue(key, value)}
+              />
+            </div>
+          </div>
+          <CompactGeneratedCommand />
+        </div>
 
-        <div className="z-10 mx-auto flex max-w-6xl flex-col items-center px-8">
-          {/* Badge */}
-          <div className="mb-8 flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-2 backdrop-blur-xs">
-            <SparklesIcon className="h-4 w-4 text-foreground dark:text-primary" />
-            <span className="text-sm font-medium text-foreground dark:text-primary">
-              Now with AI-powered parsing
-            </span>
+        {/* Desktop: full editor */}
+        <div className="hidden h-144 md:flex">
+          <div className="flex w-52 shrink-0 flex-col overflow-hidden">
+            <ReadOnlyCommandTree />
           </div>
 
-          <h1 className="mb-6 flex items-center gap-4 bg-clip-text font-mono text-8xl text-primary drop-shadow-xl md:text-9xl">
-            <TerminalIcon
-              size={80}
-              className="text-primary"
-            />
-            Commandly
+          <div className="flex min-h-0 flex-1 overflow-hidden">
+            <div className="flex min-h-0 flex-1 gap-4 overflow-hidden p-4">
+              <div className="min-w-64 flex-2/5 overflow-hidden">
+                <ScrollArea className="h-full">
+                  <div className="flex flex-col gap-4 pr-3 pb-4">
+                    <ReadOnlyParameterList title="Global Parameters" isGlobal={true} />
+                    <ReadOnlyParameterList title="Command Parameters" />
+                  </div>
+                </ScrollArea>
+              </div>
+            <div className="flex h-full flex-3/5 flex-col gap-3 overflow-hidden">
+              <div className="min-h-0 flex-1 overflow-hidden rounded-lg border border-border/60">
+                <ScrollArea className="h-full">
+                  <div className="space-y-4 p-4">
+                    <ToolRenderer
+                      selectedCommand={selectedCommand}
+                      tool={tool}
+                      parameterValues={parameterValues}
+                      updateParameterValue={(key, value) => setParameterValue(key, value)}
+                    />
+                  </div>
+                </ScrollArea>
+              </div>
+              <CompactGeneratedCommand />
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AnimatedPipeline() {
+  return (
+    <div className="flex flex-col items-center justify-center gap-3 py-2 sm:flex-row sm:gap-4">
+      <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        className="flex items-center gap-2 rounded-lg border border-border/60 bg-muted/40 px-4 py-3"
+      >
+        <TerminalIcon className="h-5 w-5 text-muted-foreground" />
+        <span className="font-mono text-sm font-medium">CLI Help Text</span>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, scaleX: 0 }}
+        whileInView={{ opacity: 1, scaleX: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.2 }}
+        className="rotate-90 sm:rotate-0"
+      >
+        <ArrowRightIcon className="h-5 w-5 text-muted-foreground" />
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.3 }}
+        className="flex items-center gap-2 rounded-lg border border-primary/30 bg-primary/5 px-4 py-3"
+      >
+        <BracesIcon className="h-5 w-5 text-primary" />
+        <span className="font-mono text-sm font-medium text-primary">JSON Definition</span>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, scaleX: 0 }}
+        whileInView={{ opacity: 1, scaleX: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.4 }}
+        className="rotate-90 sm:rotate-0"
+      >
+        <ArrowRightIcon className="h-5 w-5 text-muted-foreground" />
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, x: 20 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.5 }}
+        className="flex items-center gap-2 rounded-lg border border-border/60 bg-muted/40 px-4 py-3"
+      >
+        <MonitorIcon className="h-5 w-5 text-muted-foreground" />
+        <span className="font-mono text-sm font-medium">Visual UI</span>
+      </motion.div>
+    </div>
+  );
+}
+
+const FEATURES: {
+  icon: ReactNode;
+  title: string;
+  desc: string;
+}[] = [
+  {
+    icon: <WrenchIcon className="h-6 w-6" />,
+    title: "Visual Command Builder",
+    desc: "Define commands, subcommands, flags, and arguments through a visual editor. No syntax to memorize.",
+  },
+  {
+    icon: <BracesIcon className="h-6 w-6" />,
+    title: "Structured JSON Output",
+    desc: "Every tool definition is a portable JSON file, flat or nested, ready for automation, sharing, or version control.",
+  },
+  {
+    icon: <MonitorIcon className="h-6 w-6" />,
+    title: "Interactive Preview",
+    desc: "Toggle parameters and see the generated command update in real-time. Test before you run.",
+  },
+  {
+    icon: <CodeIcon className="h-6 w-6" />,
+    title: "Programmatic Access",
+    desc: "Use tool definitions to build wrappers, automate workflows, or integrate CLI tools into any application.",
+  },
+  {
+    icon: <SparklesIcon className="h-6 w-6" />,
+    title: "AI Parsing",
+    desc: "Paste any CLI help text and let AI extract commands, flags, and descriptions into a structured definition.",
+  },
+  {
+    icon: <TerminalIcon className="h-6 w-6" />,
+    title: "Universal CLI Support",
+    desc: "Works with any command-line tool: curl, ffmpeg, docker, git, kubectl, and hundreds more.",
+  },
+];
+
+const COMMIT_SHA = import.meta.env.VITE_COMMIT_SHA as string | undefined;
+
+function RouteComponent() {
+  return (
+    <div className="flex w-full flex-col">
+      {/* ─── Hero ─── */}
+      <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden px-6 py-24">
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, oklch(0.5 0 0 / 20%) 1px, transparent 1px), linear-gradient(to bottom, oklch(0.5 0 0 / 20%) 1px, transparent 1px)",
+            backgroundSize: "64px 64px",
+            maskImage:
+              "radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 70%)",
+            WebkitMaskImage:
+              "radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 70%)",
+          }}
+        />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,oklch(0.5_0_0/10%),transparent)]" />
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="z-10 mb-12 flex max-w-3xl flex-col items-center text-center"
+        >
+          <h1 className="mb-5 font-mono text-3xl leading-tight tracking-tight text-foreground sm:text-5xl lg:text-7xl">
+            The visual layer for{" "}
+            <span className="bg-linear-to-r from-foreground/90 to-foreground/50 bg-clip-text text-transparent">
+              every CLI tool
+            </span>
           </h1>
 
-          <p className="mb-12 max-w-4xl text-center text-2xl leading-relaxed font-light text-foreground/80 md:text-3xl">
-            Build, preview, and manage CLI commands visually—no syntax to memorize, no flags to
-            forget.
-            <span className="font-semibold text-primary shadow-md shadow-primary">
-              {" "}
-              Make the terminal accessible, powerful, and fun.
-            </span>
+          <p className="mb-8 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            Define any command-line tool as structured JSON. Build interactive UIs from it.
+            Run tools programmatically or visually, your choice.
           </p>
 
-          <div className="flex flex-col items-center gap-4 sm:flex-row">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             <Button
               size="lg"
-              className="hover:shadow-3xl group relative overflow-hidden rounded-2xl bg-linear-to-r from-primary to-primary/80 px-12 py-6 text-xl text-primary-foreground shadow-2xl transition-all hover:scale-105 hover:from-primary/90 hover:to-primary focus:ring-4 focus:ring-primary/40 focus:outline-none"
+              className="group gap-2 rounded-xl px-8 text-base"
+              asChild
+            >
+              <Link to="/tools">
+                Get Started
+                <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </Link>
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="gap-2 rounded-xl px-8 text-base"
               asChild
             >
               <Link
-                to="/tools"
-                className="flex items-center gap-3"
+                to="/docs/$componentName"
+                params={{ componentName: "specification-intro" }}
               >
-                <span className="absolute inset-0 bg-linear-to-r from-white/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                Get Started
-                <ArrowRightIcon className="h-6 w-6 transition-transform group-hover:translate-x-1" />
+                Documentation
               </Link>
             </Button>
           </div>
+        </motion.div>
 
-          <div className="mt-16 flex items-center gap-8 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <div className="h-2 w-2 animate-pulse rounded-full bg-accent/50" />
-              <span>100% Free & Open Source</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="h-2 w-2 animate-pulse rounded-full bg-accent/60" />
-              <span>Minimal UI</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="h-2 w-2 animate-pulse rounded-full bg-accent/70" />
-              <span>Tool Editor</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* What is Commandly */}
-      <section className="flex min-h-screen w-full flex-col items-center justify-center gap-8 p-20 px-8">
-        <div className="max-w-4xl text-center">
-          <h2 className="mb-6 bg-linear-to-br from-primary to-primary/30 bg-clip-text text-5xl font-bold text-transparent">
-            What is Commandly?
-          </h2>
-        </div>
-        <div className="flex w-full flex-col items-center justify-center gap-16 md:flex-row">
-          <div className="max-w-xl flex-1 font-sans text-xl leading-relaxed md:max-w-md">
-            Meet your personal command-line assistant. <b>Build</b> complex CLI commands visually,{" "}
-            <b>preview</b> them instantly, and skip syntax errors for good. Whether you're a
-            developer, sysadmin, or automation fan, Commandly makes the terminal simple and
-            enjoyable.
-            <br />
-            <br />
-            <ul className="mt-4 list-inside list-disc gap-4 font-serif text-lg text-muted-foreground">
-              <li>Beginner-friendly and powerful for pros</li>
-              <li>Share, save, and organize commands</li>
-              <li>Instant feedback and error checking</li>
-              <li>Modern, intuitive UI for a classic tool</li>
-            </ul>
-          </div>
-          <div className="flex min-w-0 flex-[2.5] flex-col items-center gap-4">
-            <Tabs
-              defaultValue="ui"
-              className="flex w-full flex-col items-center"
-            >
-              <div className="grid w-full">
-                <TabsContent
-                  forceMount
-                  value="tool-editor"
-                  className="w-full transition-opacity duration-200 [grid-area:1/1] data-[state=inactive]:pointer-events-none data-[state=inactive]:opacity-0"
-                >
-                  <img
-                    src={
-                      theme === "dark" ? "/images/tool-editor-dark.png" : "/images/tool-editor.png"
-                    }
-                    alt="Commandly Tool Editor Screenshot"
-                    loading="eager"
-                    className="min-h-100 w-full max-w-400 min-w-225 rounded-2xl border-2 border-muted bg-background object-contain p-4 shadow-2xl shadow-primary"
-                  />
-                </TabsContent>
-                <TabsContent
-                  forceMount
-                  value="ui"
-                  className="w-full transition-opacity duration-200 [grid-area:1/1] data-[state=inactive]:pointer-events-none data-[state=inactive]:opacity-0"
-                >
-                  <img
-                    src={theme === "dark" ? "/images/ui-dark.png" : "/images/ui.png"}
-                    alt="Commandly UI Screenshot"
-                    loading="eager"
-                    className="min-h-100 w-full max-w-400 min-w-225 rounded-2xl border-2 border-muted bg-background object-contain p-4 shadow-2xl shadow-primary"
-                  />
-                </TabsContent>
-              </div>
-              <TabsList className="mt-4 grid h-auto w-fit grid-cols-2 rounded-full border border-muted bg-muted/50 p-1 backdrop-blur-sm">
-                <TabsTrigger
-                  value="ui"
-                  className="h-auto cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium whitespace-nowrap text-foreground! transition-all hover:bg-muted-foreground/10 hover:text-foreground! data-[state=active]:bg-primary data-[state=active]:text-primary-foreground! data-[state=active]:shadow-sm"
-                >
-                  UI
-                </TabsTrigger>
-                <TabsTrigger
-                  value="tool-editor"
-                  className="h-auto cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium whitespace-nowrap text-foreground! transition-all hover:bg-muted-foreground/10 hover:text-foreground! data-[state=active]:bg-primary data-[state=active]:text-primary-foreground! data-[state=active]:shadow-sm"
-                >
-                  Tool Editor
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Grid */}
-      <section className="flex min-h-screen w-full flex-col items-center justify-center gap-12 px-8">
-        <h2 className="mb-2 text-4xl font-bold">Features</h2>
-        <div className="grid w-full grid-cols-1 gap-10 md:grid-cols-3">
-          <Feature
-            icon="🌳"
-            title="Visual Command Tree"
-            desc="Build hierarchical command structures with nested subcommands. Add, edit, delete, and reorganize commands through an intuitive tree interface."
-          />
-          <Feature
-            icon="⚙️"
-            title="Advanced Parameter Editor"
-            desc="Configure parameters with types, flags, default values, enums, dependencies, and validations. Supports global and per-command parameters."
-          />
-          <Feature
-            icon="👀"
-            title="Live Runtime Preview"
-            desc="Interactive preview with real parameter values and live validation. See exactly what your command will look like before running it."
-          />
-          <Feature
-            icon="💾"
-            title="Command Library"
-            desc="Save, organize, and manage your favorite commands in local storage. Copy, delete, and reuse commands across sessions."
-          />
-          <Feature
-            icon="📤"
-            title="JSON Export"
-            desc="Export tool definitions as structured JSON (flat or nested format) for sharing, backup, or integration with other tools."
-          />
-          <Feature
-            icon="🤖"
-            title="AI-Powered Parsing"
-            desc="Parse CLI help text using OpenAI to automatically extract commands, parameters, and descriptions. Turn any tool's help into a structured definition."
-          />
-        </div>
-      </section>
-
-      {/* How it Works */}
-      <section className="flex w-full flex-col items-center justify-center gap-12 px-8 py-40">
-        <h2 className="mb-2 text-4xl font-bold">How it Works</h2>
-        <div className="flex w-full flex-col items-center justify-center gap-10 md:flex-row">
-          <Step
-            number={1}
-            title="Add Command"
-            desc="Start by adding your main command and any subcommands. Use the visual builder to structure your CLI logic."
-          />
-          <Step
-            number={2}
-            title="Customize"
-            desc="Add parameters, set dependencies, and tweak validations. Preview everything as you go."
-          />
-          <Step
-            number={3}
-            title="Preview & Export"
-            desc="See the command, help menu, and JSON output instantly. Save, copy, or share your work."
-          />
-        </div>
-      </section>
-
-      {/* Final Call to Action */}
-      <footer className="mt-auto flex w-full flex-col items-center gap-8 border-t border-muted bg-linear-to-t from-primary/20 to-background py-16 shadow-inner">
-        <h2 className="mb-2 text-3xl font-bold dark:text-primary">
-          Ready to build your next command?
-        </h2>
-        <Button
-          size="lg"
-          className="rounded-xl border-2 border-primary px-10 py-6 text-lg shadow-xl transition-all hover:shadow-2xl focus:ring-4 focus:ring-primary/40 focus:outline-none"
-          asChild
+        <motion.div
+          initial={{ opacity: 0, y: 48 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="z-10 w-full max-w-6xl"
         >
-          <Link to="/tools">Get Started</Link>
-        </Button>
-        <div className="mt-8 flex gap-8">
-          <a
-            href="https://github.com/divyeshio/commandly"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-lg text-muted-foreground transition-colors hover:text-primary"
+          <DemoToolEditor />
+        </motion.div>
+      </section>
+
+      {/* ─── Tool Marquee ─── */}
+      <section className="my-12 border-y border-dashed border-border">
+        <div className="mx-auto w-full max-w-6xl border-dashed border-border px-4 py-16 sm:border-x sm:py-24">
+          <div className="flex items-center justify-center">
+          <TextMarquee
+            speed={1}
+            prefix={
+              <span className="font-mono text-3xl font-bold tracking-tight text-foreground sm:text-5xl">
+                commandly&nbsp;/&nbsp;
+              </span>
+            }
           >
-            GitHub
-          </a>
-          <a
-            href="https://twitter.com/divyeshio"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-lg text-muted-foreground transition-colors hover:text-primary"
-          >
-            Twitter
-          </a>
-          <a
-            href="https://linkedin.com/in/divyeshio"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-lg text-muted-foreground transition-colors hover:text-primary"
-          >
-            LinkedIn
-          </a>
+            {[
+              "curl",
+              "git",
+              "docker",
+              "ssh",
+              "rsync",
+              "ffmpeg",
+              "grep",
+              "sed",
+              "awk",
+              "tar",
+              "wget",
+              "find",
+              "kubectl",
+              "nginx",
+              "openssl",
+              "jq",
+              "tmux",
+              "vim",
+              "gcc",
+              "python",
+            ].map((name) => (
+              <span
+                key={name}
+                className="font-mono text-2xl font-bold tracking-tight text-muted-foreground sm:text-3xl"
+              >
+                {name}
+              </span>
+            ))}
+          </TextMarquee>
+          </div>
         </div>
-        <div className="mt-6 flex items-center gap-3 text-xs text-muted-foreground">
-          <span>© {new Date().getFullYear()} Commandly. All rights reserved.</span>
-          {COMMIT_SHA && (
-            <>
+      </section>
+
+      {/* ─── How It Works ─── */}
+      <section className="relative w-full px-6 py-20 sm:py-32">
+        <div className="mx-auto max-w-4xl">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mb-12 text-center"
+          >
+            <h2 className="mb-3 font-mono text-2xl tracking-tight text-foreground sm:text-4xl">
+              CLI → JSON → UI
+            </h2>
+            <p className="mx-auto max-w-xl text-muted-foreground">
+              Turn any command-line tool into a structured definition, then render it
+              as an interactive interface, or use it programmatically.
+            </p>
+          </motion.div>
+
+          <AnimatedPipeline />
+
+          <div className="mt-12 grid gap-6 sm:mt-16 sm:grid-cols-3">
+            {[
+              {
+                step: "01",
+                title: "Define",
+                desc: "Describe your CLI tool with commands, flags, options, and arguments in a simple JSON format. Or paste help text and let AI do it.",
+              },
+              {
+                step: "02",
+                title: "Render",
+                desc: "Commandly generates an interactive UI from the definition. Toggle parameters, fill values, see the command update live.",
+              },
+              {
+                step: "03",
+                title: "Use",
+                desc: "Copy commands, export JSON definitions, integrate with your toolchain, or build automation on top of the specification.",
+              },
+            ].map((s, i) => (
+              <motion.div
+                key={s.step}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="rounded-xl border border-border/60 bg-card p-6"
+              >
+                <div className="mb-3 font-mono text-2xl font-bold text-muted-foreground/30">{s.step}</div>
+                <h3 className="mb-2 font-mono text-lg font-semibold tracking-tight">{s.title}</h3>
+                <p className="text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Features ─── */}
+      <section className="relative w-full px-6 py-20 sm:py-32">
+        <div className="mx-auto max-w-5xl">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mb-12 text-center sm:mb-16"
+          >
+            <h2 className="mb-3 font-mono text-2xl tracking-tight text-foreground sm:text-4xl">
+              Everything you need
+            </h2>
+            <p className="text-muted-foreground">
+              A complete toolkit for defining, previewing, and automating CLI tools.
+            </p>
+          </motion.div>
+
+          <div
+            className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+            style={{ perspective: "1200px" }}
+          >
+            {FEATURES.map((f, i) => (
+              <IsometricCard
+                key={f.title}
+                delay={i * 0.08}
+              >
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg border border-border/40 bg-muted/30 text-foreground">
+                  {f.icon}
+                </div>
+                <h3 className="mb-1.5 font-mono text-sm font-semibold tracking-tight">
+                  {f.title}
+                </h3>
+                <p className="text-sm leading-relaxed text-muted-foreground">{f.desc}</p>
+              </IsometricCard>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Built for Developers ─── */}
+      <section className="relative w-full border-y border-border/40 px-6 py-20 sm:py-32">
+        <div className="mx-auto max-w-4xl">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mb-12 text-center"
+          >
+            <h2 className="mb-3 font-mono text-2xl tracking-tight text-foreground sm:text-4xl">
+              Built for developers
+            </h2>
+            <p className="mx-auto max-w-xl text-muted-foreground">
+              Not just a pretty interface. Commandly gives you structured data you can
+              build on top of.
+            </p>
+          </motion.div>
+
+          <div className="grid gap-6 sm:grid-cols-2">
+            {[
+              {
+                title: "Open Specification",
+                desc: "The Commandly JSON specification is open and documented. Build your own renderers, validators, or integrations.",
+              },
+              {
+                title: "Embeddable Components",
+                desc: "Drop ToolRenderer or GeneratedCommand into your own React app. Every component is published as a registry block.",
+              },
+              {
+                title: "MCP Server",
+                desc: "Commandly ships an MCP server so AI assistants and agents can discover and call CLI tools programmatically.",
+              },
+              {
+                title: "Community Tools",
+                desc: "Browse and contribute tool definitions for popular CLI tools. Fork, customize, and share with the community.",
+              },
+            ].map((item, i) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                className="rounded-xl border border-border/60 bg-card p-6"
+              >
+                <h3 className="mb-2 font-mono text-sm font-semibold tracking-tight">{item.title}</h3>
+                <p className="text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── CTA ─── */}
+      <section className="w-full px-6 py-16 sm:py-24">
+        <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
+          <h2 className="mb-4 font-mono text-2xl tracking-tight text-foreground sm:text-4xl">
+            Ready to build?
+          </h2>
+          <p className="mb-8 text-muted-foreground">
+            Define your first CLI tool in minutes, visually or from help text.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <Button
+              size="lg"
+              className="group gap-2 rounded-xl px-10 text-base"
+              asChild
+            >
+              <Link to="/tools">
+                Launch Commandly
+                <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </Link>
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="gap-2 rounded-xl px-8 text-base"
+              asChild
+            >
               <a
-                href={`https://github.com/divyeshio/commandly/commit/${COMMIT_SHA}`}
+                href="https://github.com/divyeshio/commandly"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex gap-1 font-mono transition-colors hover:text-primary"
               >
-                <GitMergeIcon
-                  size={12}
-                  className="text-muted-foreground"
-                />
-                {COMMIT_SHA.slice(0, 7)}
+                <GitMergeIcon className="h-4 w-4" />
+                View on GitHub
               </a>
-            </>
-          )}
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Footer ─── */}
+      <footer className="w-full border-t border-border/60 px-6 py-10">
+        <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 sm:flex-row sm:justify-between">
+          <div className="flex items-center gap-2 font-mono text-sm text-muted-foreground">
+            <TerminalIcon size={14} />
+            <span>Commandly</span>
+            <span className="text-border">·</span>
+            <span>© {new Date().getFullYear()}</span>
+            {COMMIT_SHA && (
+              <>
+                <span className="text-border">·</span>
+                <a
+                  href={`https://github.com/divyeshio/commandly/commit/${COMMIT_SHA}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 transition-colors hover:text-foreground"
+                >
+                  <GitMergeIcon size={11} />
+                  {COMMIT_SHA.slice(0, 7)}
+                </a>
+              </>
+            )}
+          </div>
+          <div className="flex gap-6 text-sm text-muted-foreground">
+            <a
+              href="https://github.com/divyeshio/commandly"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-foreground"
+            >
+              GitHub
+            </a>
+            <a
+              href="https://twitter.com/divyeshio"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-foreground"
+            >
+              Twitter
+            </a>
+            <a
+              href="https://linkedin.com/in/divyeshio"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-foreground"
+            >
+              LinkedIn
+            </a>
+          </div>
         </div>
       </footer>
-    </div>
-  );
-}
-
-interface FeatureProps {
-  icon: string;
-  title: string;
-  desc: string;
-}
-function Feature({ icon, title, desc }: FeatureProps) {
-  return (
-    <div className="flex flex-col items-center gap-2 rounded-xl border border-card/20 bg-card/10 p-6 shadow-lg backdrop-blur-md transition-all duration-300 hover:bg-white/15 hover:shadow-xl dark:border-card/10 dark:bg-card-foreground/5 dark:hover:bg-white/10">
-      <span className="text-3xl">{icon}</span>
-      <span className="text-lg font-semibold">{title}</span>
-      <span className="text-center text-sm text-muted-foreground">{desc}</span>
-    </div>
-  );
-}
-
-interface StepProps {
-  number: number;
-  title: string;
-  desc: string;
-}
-function Step({ number, title, desc }: StepProps) {
-  return (
-    <div className="flex min-w-50 flex-col items-center gap-2 rounded-xl bg-muted/40 p-6 shadow-lg transition-all duration-300 hover:bg-white/15 hover:shadow-xl dark:hover:bg-white/10">
-      <span className="text-2xl font-bold text-primary">{number}</span>
-      <span className="text-lg font-semibold">{title}</span>
-      <span className="text-center text-sm text-muted-foreground">{desc}</span>
     </div>
   );
 }

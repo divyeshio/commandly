@@ -11,6 +11,7 @@ import { Tool } from "@/components/commandly/types/flat";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { SavedCommand } from "@/lib/types";
+import { useBlocker } from "@tanstack/react-router";
 import { SaveIcon, Edit2Icon, LayersIcon, GitPullRequestIcon, SparklesIcon } from "lucide-react";
 import { parseAsBoolean, useQueryState } from "nuqs";
 import { useState } from "react";
@@ -81,6 +82,20 @@ function ToolEditorContent({
   const [initialToolJson, setInitialToolJson] = useState(() => JSON.stringify(tool));
   const isDirty = JSON.stringify(tool) !== initialToolJson;
   const isValid = (tool.binaryName ?? "").trim() !== "" && (tool.displayName ?? "").trim() !== "";
+  const shouldBlockNavigation = isDirty || isAIGenerating;
+
+  useBlocker({
+    shouldBlockFn: () => {
+      if (!shouldBlockNavigation) return false;
+
+      const reason = isAIGenerating
+        ? "An AI message is still in progress. Leave this page?"
+        : "You have unsaved changes. Leave this page?";
+
+      return !window.confirm(reason);
+    },
+    enableBeforeUnload: shouldBlockNavigation,
+  });
 
   const pendingChanges = (() => {
     const currentParams = (streamingTool ?? tool).parameters;

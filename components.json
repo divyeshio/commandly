@@ -24,6 +24,7 @@
   "registries": {
     "@ai-elements": "https://ai-sdk.dev/elements/api/registry/{name}.json",
     "@diceui": "https://diceui.com/r/{name}.json",
-    "@magicui": "https://magicui.design/r/{name}"
+    "@magicui": "https://magicui.design/r/{name}",
+    "@spell": "https://spell.sh/r/{name}.json"
   }
 }

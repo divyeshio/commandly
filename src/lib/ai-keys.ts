@@ -1,9 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 
-export type AIProvider = "openai" | "anthropic" | "google" | "groq" | "mistral" | "xai" | "tavily";
+export type AIProvider =
+  | "openai"
+  | "openrouter"
+  | "anthropic"
+  | "google"
+  | "groq"
+  | "mistral"
+  | "xai"
+  | "tavily";
 
 const STORAGE_KEYS: Record<AIProvider, string> = {
   openai: "ai-api-key",
+  openrouter: "ai-api-key-openrouter",
   anthropic: "ai-api-key-anthropic",
   google: "ai-api-key-google",
   groq: "ai-api-key-groq",
