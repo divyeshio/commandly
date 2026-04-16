@@ -151,8 +151,8 @@ export interface ExclusionGroup {
 }
 
 export interface Tool {
-  /** Unique machine-readable identifier for the tool (e.g. "httpx"). */
-  name: string;
+  /** Unique binary name for the tool that it can be invoked from the command line (e.g. "httpx"). */
+  binaryName: string;
   /** Human-readable display name for the tool (e.g. "HTTPx"). */
   displayName: string;
   /** General information about the tool such as description, version, and URL. */

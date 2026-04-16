@@ -10,7 +10,7 @@ import { render, screen, fireEvent, waitFor, act } from "@testing-library/react"
 import { ReactNode } from "react";
 
 const createComplexTool = (): Tool => ({
-  name: "my-cli-tool",
+  binaryName: "my-cli-tool",
   displayName: "My CLI Tool",
   info: {
     description: "A sample CLI tool with nested commands",
@@ -120,9 +120,21 @@ const createComplexTool = (): Tool => ({
   metadata: { supportedInput: [], supportedOutput: [] },
 });
 
+const simpleTestTool: Tool = {
+  ...defaultTool("test-tool", "Test tool"),
+  commands: [
+    {
+      key: "test-tool",
+      name: "test-tool",
+      description: "Main command",
+      sortOrder: 0,
+    },
+  ],
+};
+
 const simpleTestState: Partial<ToolBuilderState> = {
-  tool: defaultTool("test-tool", "Test tool"),
-  selectedCommand: {} as Command,
+  tool: simpleTestTool,
+  selectedCommand: simpleTestTool.commands[0],
 };
 
 const complexToolState = (): Partial<ToolBuilderState> => {
@@ -148,323 +160,226 @@ function renderWithProvider(ui: ReactNode, initialState: Partial<ToolBuilderStat
   );
 }
 
+function findActionButtons(container: Element): HTMLButtonElement[] {
+  return Array.from(container.querySelectorAll("button")).filter(
+    (btn) =>
+      btn.classList.contains("opacity-0") && btn.classList.contains("group-hover:opacity-100"),
+  ) as HTMLButtonElement[];
+}
+
+function findDeleteButton(container: Element): HTMLButtonElement | undefined {
+  return Array.from(container.querySelectorAll("button")).find((btn) => {
+    const svg = btn.querySelector("svg");
+    return svg && svg.classList.contains("text-destructive");
+  }) as HTMLButtonElement | undefined;
+}
+
+function getRootTrigger(): Element {
+  const triggers = document.querySelectorAll("[data-radix-collection-item]");
+  return triggers[0];
+}
+
+function getChevron(trigger: Element): Element {
+  return trigger.querySelector("[role='button']")!;
+}
+
+function getTriggerFor(name: string): Element {
+  const elements = screen.getAllByText(name);
+  for (const el of elements) {
+    const trigger = el.closest("[data-radix-collection-item]") || el.closest("[role='button']");
+    if (trigger && !trigger.classList.contains("font-medium")) return trigger;
+  }
+  const textEl = elements[0];
+  return (textEl.closest("[data-radix-collection-item]") || textEl.closest("[role='button']"))!;
+}
+
 describe("CommandTree", () => {
   describe("Basic Rendering Tests", () => {
-    it("renders add command button", () => {
+    it("renders the tool name as the root node", () => {
       renderWithProvider(<CommandTree />, simpleTestState);
-      expect(screen.getByText(/Add Command/)).toBeInTheDocument();
+      expect(screen.getAllByText("test-tool").length).toBeGreaterThanOrEqual(1);
     });
 
-    it("renders the root command (tool name)", () => {
-      renderWithProvider(<CommandTree />, simpleTestState);
-      expect(screen.getByText("test-tool")).toBeInTheDocument();
-    });
-
-    it("renders command hierarchy correctly with proper indentation", () => {
-      const initialState = complexToolState();
-      renderWithProvider(<CommandTree />, initialState);
-      expect(screen.getByText("my-cli-tool")).toBeInTheDocument();
+    it("renders command hierarchy correctly", () => {
+      renderWithProvider(<CommandTree />, complexToolState());
+      expect(screen.getAllByText("my-cli-tool").length).toBeGreaterThanOrEqual(1);
       expect(screen.getByText("config")).toBeInTheDocument();
       expect(screen.getByText("data")).toBeInTheDocument();
       expect(screen.getByText("utils")).toBeInTheDocument();
       expect(screen.getByText("help")).toBeInTheDocument();
     });
 
-    it("renders action buttons (Edit, Add, Delete) on hover", () => {
-      renderWithProvider(<CommandTree />, simpleTestState);
-      const editButtons = screen.getAllByRole("button");
-      const actionButtons = editButtons.filter(
-        (btn) =>
-          btn.querySelector("svg") &&
-          (btn.className.includes("opacity-0") ||
-            btn.className.includes("group-hover:opacity-100")),
-      );
-      expect(actionButtons.length).toBeGreaterThan(0);
+    it("renders action buttons on command nodes", () => {
+      renderWithProvider(<CommandTree />, complexToolState());
+      const configTrigger = getTriggerFor("config");
+      const actions = findActionButtons(configTrigger);
+      expect(actions.length).toBeGreaterThan(0);
+    });
+
+    it("does not show delete button on root node", () => {
+      renderWithProvider(<CommandTree />, complexToolState());
+      const rootTrigger = getRootTrigger();
+      const deleteBtn = findDeleteButton(rootTrigger);
+      expect(deleteBtn).toBeUndefined();
+    });
+
+    it("shows delete button on command nodes", () => {
+      renderWithProvider(<CommandTree />, complexToolState());
+      const helpTrigger = getTriggerFor("help");
+      const deleteBtn = findDeleteButton(helpTrigger);
+      expect(deleteBtn).toBeDefined();
     });
   });
 
   describe("Command Tree Structure Tests", () => {
     it("renders subcommands when parent is expanded", async () => {
       renderWithProvider(<CommandTree />, complexToolState());
-      expect(screen.getByText("config")).toBeInTheDocument();
 
-      const configElement = screen.getByText("config").closest("div");
-      const expandButton = configElement?.querySelector("button");
+      const configTrigger = getTriggerFor("config");
+      fireEvent.click(getChevron(configTrigger));
 
-      if (expandButton) {
-        fireEvent.click(expandButton);
-        await waitFor(() => {
-          expect(screen.getByText("get")).toBeInTheDocument();
-          expect(screen.getByText("set")).toBeInTheDocument();
-          expect(screen.getByText("list")).toBeInTheDocument();
-        });
-      }
+      await waitFor(() => {
+        expect(screen.getByText("get")).toBeInTheDocument();
+        expect(screen.getByText("set")).toBeInTheDocument();
+        expect(screen.getByText("list")).toBeInTheDocument();
+      });
     });
 
     it("hides subcommands when parent is collapsed", async () => {
       renderWithProvider(<CommandTree />, complexToolState());
-      const dataElement = screen.getByText("data").closest("div");
-      const expandButton = dataElement?.querySelector("button");
 
-      if (expandButton) {
-        fireEvent.click(expandButton);
-        await waitFor(() => {
-          expect(screen.getByText("create")).toBeInTheDocument();
-        });
-
-        fireEvent.click(expandButton);
-        await waitFor(() => {
-          expect(screen.queryByText("create")).not.toBeInTheDocument();
-          expect(screen.queryByText("read")).not.toBeInTheDocument();
-          expect(screen.queryByText("update")).not.toBeInTheDocument();
-          expect(screen.queryByText("delete")).not.toBeInTheDocument();
-        });
-      }
-    });
-
-    it("shows correct chevron icons based on expansion state", () => {
-      renderWithProvider(<CommandTree />, complexToolState());
-      const utilsElement = screen.getByText("utils").closest("div");
-      expect(utilsElement).toBeInTheDocument();
-      const chevronButton = utilsElement?.querySelector("button");
-      expect(chevronButton).toBeInTheDocument();
-      const svgElement = chevronButton?.querySelector("svg");
-      expect(svgElement).toBeInTheDocument();
-    });
-
-    it("maintains correct indentation levels for nested commands", async () => {
-      renderWithProvider(<CommandTree />, complexToolState());
-      const configElement = screen.getByText("config").closest("div");
-      const expandButton = configElement?.querySelector("button");
-
-      if (expandButton) {
-        fireEvent.click(expandButton);
-        await waitFor(() => {
-          const getElement = screen.getByText("get").closest("div");
-          const setElement = screen.getByText("set").closest("div");
-          expect(getElement).toHaveStyle({ paddingLeft: expect.stringMatching(/\d+px/) });
-          expect(setElement).toHaveStyle({ paddingLeft: expect.stringMatching(/\d+px/) });
-        });
-      }
-    });
-
-    it("doesn't show delete button for root command", () => {
-      renderWithProvider(<CommandTree />, complexToolState());
-      const rootElement = screen.getByText("my-cli-tool").closest("div");
-      const buttons = rootElement?.querySelectorAll("button") || [];
-      const deleteButtons = Array.from(buttons).filter((btn) => {
-        const svg = btn.querySelector("svg");
-        if (!svg) return false;
-        return (
-          svg.classList.contains("text-destructive") || btn.classList.contains("text-destructive")
-        );
+      const configTrigger = getTriggerFor("config");
+      fireEvent.click(getChevron(configTrigger));
+      await waitFor(() => {
+        expect(screen.getByText("get")).toBeInTheDocument();
       });
-      expect(deleteButtons.length).toBe(0);
+
+      fireEvent.click(getChevron(configTrigger));
+      await waitFor(() => {
+        expect(screen.queryByText("get")).not.toBeInTheDocument();
+      });
     });
   });
 
   describe("Interaction Tests", () => {
     it("clicking a command selects it", () => {
       renderWithProvider(<CommandTree />, complexToolState());
-      expect(capturedCtx.selectedCommand.name).toBe("my-cli-tool");
+      expect(capturedCtx.selectedCommand?.name).toBe("my-cli-tool");
 
-      const configElement = screen.getByText("config");
-      fireEvent.click(configElement);
-
-      expect(capturedCtx.selectedCommand.name).toBe("config");
+      fireEvent.click(screen.getByText("config"));
+      expect(capturedCtx.selectedCommand?.name).toBe("config");
     });
 
-    it("clicking chevron toggles command expansion", async () => {
+    it("clicking the root node sets selectedCommand to null", () => {
       renderWithProvider(<CommandTree />, complexToolState());
-      const configElement = screen.getByText("config").closest("div");
-      const expandButton = configElement?.querySelector("button");
+      expect(capturedCtx.selectedCommand?.name).toBe("my-cli-tool");
 
-      expect(screen.queryByText("get")).not.toBeInTheDocument();
-
-      if (expandButton) {
-        fireEvent.click(expandButton);
-        await waitFor(() => {
-          expect(screen.getByText("get")).toBeInTheDocument();
-          expect(screen.getByText("set")).toBeInTheDocument();
-        });
-
-        fireEvent.click(expandButton);
-        await waitFor(() => {
-          expect(screen.queryByText("get")).not.toBeInTheDocument();
-          expect(screen.queryByText("set")).not.toBeInTheDocument();
-        });
-      }
+      const rootTrigger = getRootTrigger();
+      fireEvent.click(rootTrigger);
+      expect(capturedCtx.selectedCommand).toBeNull();
     });
 
     it("clicking edit button opens command dialog", async () => {
       renderWithProvider(<CommandTree />, complexToolState());
 
-      const configElement = screen.getByText("config").closest("div");
-      const buttons = Array.from(configElement?.querySelectorAll("button") || []);
-      const editButton = buttons.find(
-        (btn) =>
-          btn.classList.contains("opacity-0") && btn.classList.contains("group-hover:opacity-100"),
-      );
+      const configTrigger = getTriggerFor("config");
+      const actions = findActionButtons(configTrigger);
+      const editButton = actions[1];
 
-      if (editButton) {
-        fireEvent.click(editButton);
-        await waitFor(() => {
-          expect(screen.getByRole("dialog")).toBeInTheDocument();
-          expect(screen.getByText("Edit Command Settings")).toBeInTheDocument();
-        });
-      } else {
-        expect(buttons.length).toBeGreaterThan(1);
-      }
+      fireEvent.click(editButton);
+      await waitFor(() => {
+        expect(screen.getByRole("dialog")).toBeInTheDocument();
+        expect(screen.getByText("Edit Command Settings")).toBeInTheDocument();
+      });
     });
 
     it("clicking add button on a command opens dialog for new subcommand", async () => {
       renderWithProvider(<CommandTree />, complexToolState());
 
-      const configElement = screen.getByText("config").closest("div");
-      const buttons = Array.from(configElement?.querySelectorAll("button") || []);
-      const actionButtons = buttons.filter(
-        (btn) =>
-          btn.classList.contains("opacity-0") && btn.classList.contains("group-hover:opacity-100"),
-      );
-      const addButton = actionButtons[1];
+      const configTrigger = getTriggerFor("config");
+      const actions = findActionButtons(configTrigger);
+      const addButton = actions[2];
 
-      if (addButton) {
-        fireEvent.click(addButton);
-        await waitFor(() => {
-          expect(screen.getByRole("dialog")).toBeInTheDocument();
-          expect(screen.getByRole("heading", { name: "Add Command" })).toBeInTheDocument();
-        });
-      } else {
-        expect(actionButtons.length).toBeGreaterThanOrEqual(2);
-      }
-    });
-
-    it("clicking delete button removes the command", () => {
-      renderWithProvider(<CommandTree />, complexToolState());
-      const initialCommandCount = capturedCtx.tool.commands.length;
-
-      const helpElement = screen.getByText("help").closest("div");
-      const buttons = Array.from(helpElement?.querySelectorAll("button") || []);
-      const deleteButton = buttons.find((btn) => {
-        const svg = btn.querySelector("svg");
-        return svg && svg.classList.contains("text-destructive");
-      });
-
-      if (deleteButton) {
-        fireEvent.click(deleteButton);
-        expect(capturedCtx.tool.commands.length).toBeLessThan(initialCommandCount);
-        expect(screen.queryByText("help")).not.toBeInTheDocument();
-      } else {
-        expect(buttons.length).toBeGreaterThan(0);
-      }
-    });
-
-    it("clicking 'Add Command' button opens dialog for new root-level command", async () => {
-      renderWithProvider(<CommandTree />, complexToolState());
-
-      const addCommandButton = screen.getByText(/Add Command/);
-      fireEvent.click(addCommandButton);
-
+      fireEvent.click(addButton);
       await waitFor(() => {
         expect(screen.getByRole("dialog")).toBeInTheDocument();
         expect(screen.getByRole("heading", { name: "Add Command" })).toBeInTheDocument();
       });
     });
 
-    it("doesn't trigger selection when clicking action buttons", () => {
+    it("clicking delete button removes the command", () => {
       renderWithProvider(<CommandTree />, complexToolState());
-      const rootCommand = capturedCtx.tool.commands.find((c) => c.name === "my-cli-tool");
+      const initialCommandCount = capturedCtx.tool.commands.length;
 
-      const configElement = screen.getByText("config").closest("div");
-      const editButton = configElement?.querySelector("button svg")?.closest("button");
+      const helpTrigger = getTriggerFor("help");
+      const deleteButton = findDeleteButton(helpTrigger);
+      expect(deleteButton).toBeDefined();
 
-      if (editButton && editButton.querySelector("svg")) {
-        fireEvent.click(editButton);
-        // Root should still be selected if stopPropagation works
-        if (rootCommand) {
-          expect(screen.getByText("my-cli-tool")).toBeInTheDocument();
-        }
-      }
+      fireEvent.click(deleteButton!);
+      expect(capturedCtx.tool.commands.length).toBeLessThan(initialCommandCount);
+      expect(screen.queryByText("help")).not.toBeInTheDocument();
     });
 
-    it("preserves expansion state when opening add command dialog", async () => {
+    it("clicking root add button opens dialog for new root-level command", async () => {
       renderWithProvider(<CommandTree />, complexToolState());
 
-      const configElement = screen.getByText("config").closest("div");
-      const expandButton = configElement?.querySelector("button");
+      const rootTrigger = getRootTrigger();
+      const actions = findActionButtons(rootTrigger);
+      const addButton = actions[0];
 
-      if (expandButton) {
-        fireEvent.click(expandButton);
-        await waitFor(() => {
-          expect(screen.getByText("get")).toBeInTheDocument();
-        });
-
-        const addCommandButton = screen.getByRole("button", { name: /Add Command/i });
-        fireEvent.click(addCommandButton);
-
-        expect(screen.getByText("get")).toBeInTheDocument();
-        expect(screen.getByText("set")).toBeInTheDocument();
-      }
+      fireEvent.click(addButton);
+      await waitFor(() => {
+        expect(screen.getByRole("dialog")).toBeInTheDocument();
+        expect(screen.getByRole("heading", { name: "Add Command" })).toBeInTheDocument();
+      });
     });
 
     it("handles multiple levels of nesting correctly", async () => {
       renderWithProvider(<CommandTree />, complexToolState());
 
-      const configElement = screen.getByText("config").closest("div");
-      const configExpandButton = configElement?.querySelector("button");
+      const configTrigger = getTriggerFor("config");
+      fireEvent.click(getChevron(configTrigger));
+      await waitFor(() => {
+        expect(screen.getByText("get")).toBeInTheDocument();
+      });
 
-      if (configExpandButton) {
-        fireEvent.click(configExpandButton);
-        await waitFor(() => {
-          expect(screen.getByText("get")).toBeInTheDocument();
-        });
-
-        const getElement = screen.getByText("get");
-        fireEvent.click(getElement);
-
-        expect(capturedCtx.selectedCommand.name).toBe("get");
-        expect(capturedCtx.selectedCommand.parentCommandKey).toBe("config");
-      }
+      fireEvent.click(screen.getByText("get"));
+      expect(capturedCtx.selectedCommand?.name).toBe("get");
+      expect(capturedCtx.selectedCommand?.parentCommandKey).toBe("config");
     });
   });
 
   describe("State Management Tests", () => {
     it("updates selected command in context when clicking a command", () => {
       renderWithProvider(<CommandTree />, complexToolState());
-      expect(capturedCtx.selectedCommand.name).toBe("my-cli-tool");
+      expect(capturedCtx.selectedCommand?.name).toBe("my-cli-tool");
 
-      const configElement = screen.getByText("config");
-      fireEvent.click(configElement);
-
-      expect(capturedCtx.selectedCommand.name).toBe("config");
-      expect(capturedCtx.selectedCommand.parentCommandKey).toBe("my-cli-tool");
+      fireEvent.click(screen.getByText("config"));
+      expect(capturedCtx.selectedCommand?.name).toBe("config");
+      expect(capturedCtx.selectedCommand?.parentCommandKey).toBe("my-cli-tool");
     });
 
     it("clicking edit opens dialog pre-filled with command details", async () => {
       renderWithProvider(<CommandTree />, complexToolState());
 
-      const configElement = screen.getByText("config").closest("div");
-      const buttons = Array.from(configElement?.querySelectorAll("button") || []);
-      const editButton = buttons.find(
-        (btn) =>
-          btn.classList.contains("opacity-0") && btn.classList.contains("group-hover:opacity-100"),
-      );
+      const configTrigger = getTriggerFor("config");
+      const actions = findActionButtons(configTrigger);
+      const editButton = actions[1];
 
-      if (editButton) {
-        fireEvent.click(editButton);
-        await waitFor(() => {
-          expect(screen.getByText("Edit Command Settings")).toBeInTheDocument();
-          const nameInput = screen.getByLabelText("Command Name") as HTMLInputElement;
-          expect(nameInput.value).toBe("config");
-        });
-      }
+      fireEvent.click(editButton);
+      await waitFor(() => {
+        expect(screen.getByText("Edit Command Settings")).toBeInTheDocument();
+        const nameInput = screen.getByLabelText("Command Name") as HTMLInputElement;
+        expect(nameInput.value).toBe("config");
+      });
     });
 
     it("opens dialog when adding new command", async () => {
       renderWithProvider(<CommandTree />, complexToolState());
 
-      const addCommandButton = screen.getByText(/Add Command/);
-      fireEvent.click(addCommandButton);
+      const rootTrigger = getRootTrigger();
+      const actions = findActionButtons(rootTrigger);
+      fireEvent.click(actions[0]);
 
       await waitFor(() => {
         expect(screen.getByRole("dialog")).toBeInTheDocument();
@@ -475,41 +390,141 @@ describe("CommandTree", () => {
     it("opens dialog when adding subcommand", async () => {
       renderWithProvider(<CommandTree />, complexToolState());
 
-      const configElement = screen.getByText("config").closest("div");
-      const buttons = Array.from(configElement?.querySelectorAll("button") || []);
-      const actionButtons = buttons.filter(
-        (btn) =>
-          btn.classList.contains("opacity-0") && btn.classList.contains("group-hover:opacity-100"),
-      );
-      const addButton = actionButtons[1];
+      const configTrigger = getTriggerFor("config");
+      const actions = findActionButtons(configTrigger);
+      const addButton = actions[2];
 
-      if (addButton) {
-        fireEvent.click(addButton);
-        await waitFor(() => {
-          expect(screen.getByRole("dialog")).toBeInTheDocument();
-          expect(screen.getByRole("heading", { name: "Add Command" })).toBeInTheDocument();
-        });
-      }
+      fireEvent.click(addButton);
+      await waitFor(() => {
+        expect(screen.getByRole("dialog")).toBeInTheDocument();
+        expect(screen.getByRole("heading", { name: "Add Command" })).toBeInTheDocument();
+      });
+    });
+
+    it("saves subcommand with correct parentCommandKey when added via + button", async () => {
+      renderWithProvider(<CommandTree />, complexToolState());
+      const initialCount = capturedCtx.tool.commands.length;
+
+      const configTrigger = getTriggerFor("config");
+      const actions = findActionButtons(configTrigger);
+      const addButton = actions[2];
+
+      fireEvent.click(addButton);
+      await waitFor(() => {
+        expect(screen.getByRole("dialog")).toBeInTheDocument();
+      });
+
+      const nameInput = screen.getByLabelText("Command Name") as HTMLInputElement;
+      fireEvent.change(nameInput, { target: { value: "new-sub" } });
+
+      const saveButton = screen.getByRole("button", { name: "Add" });
+      fireEvent.click(saveButton);
+
+      await waitFor(() => {
+        expect(capturedCtx.tool.commands.length).toBe(initialCount + 1);
+      });
+
+      const newCmd = capturedCtx.tool.commands.find((c) => c.name === "new-sub");
+      expect(newCmd).toBeDefined();
+      expect(newCmd!.parentCommandKey).toBe("config");
+    });
+
+    it("disables save when subcommand name matches parent command name", async () => {
+      renderWithProvider(<CommandTree />, complexToolState());
+
+      const configTrigger = getTriggerFor("config");
+      const actions = findActionButtons(configTrigger);
+      const addButton = actions[2];
+
+      fireEvent.click(addButton);
+      await waitFor(() => {
+        expect(screen.getByRole("dialog")).toBeInTheDocument();
+      });
+
+      const nameInput = screen.getByLabelText("Command Name") as HTMLInputElement;
+      fireEvent.change(nameInput, { target: { value: "config" } });
+
+      const saveButton = screen.getByRole("button", { name: "Add" });
+      expect(saveButton).toBeDisabled();
+      expect(
+        screen.getByText("A command with this name already exists at this level."),
+      ).toBeInTheDocument();
+    });
+
+    it("disables save when subcommand name matches an existing sibling", async () => {
+      renderWithProvider(<CommandTree />, complexToolState());
+
+      const configTrigger = getTriggerFor("config");
+      fireEvent.click(getChevron(configTrigger));
+      await waitFor(() => {
+        expect(screen.getByText("get")).toBeInTheDocument();
+      });
+
+      const actions = findActionButtons(configTrigger);
+      const addButton = actions[2];
+
+      fireEvent.click(addButton);
+      await waitFor(() => {
+        expect(screen.getByRole("dialog")).toBeInTheDocument();
+      });
+
+      const nameInput = screen.getByLabelText("Command Name") as HTMLInputElement;
+      fireEvent.change(nameInput, { target: { value: "get" } });
+
+      const saveButton = screen.getByRole("button", { name: "Add" });
+      expect(saveButton).toBeDisabled();
+      expect(
+        screen.getByText("A command with this name already exists at this level."),
+      ).toBeInTheDocument();
+    });
+
+    it("clears dialog inputs after closing and reopening", async () => {
+      renderWithProvider(<CommandTree />, complexToolState());
+
+      const rootTrigger = getRootTrigger();
+      const rootActions = findActionButtons(rootTrigger);
+      const addButton = rootActions[0];
+
+      fireEvent.click(addButton);
+      await waitFor(() => {
+        expect(screen.getByRole("dialog")).toBeInTheDocument();
+      });
+
+      const nameInput = screen.getByLabelText("Command Name") as HTMLInputElement;
+      fireEvent.change(nameInput, { target: { value: "some-command" } });
+      expect(nameInput.value).toBe("some-command");
+
+      const descInput = screen.getByLabelText("Description") as HTMLTextAreaElement;
+      fireEvent.change(descInput, { target: { value: "some description" } });
+
+      fireEvent.click(screen.getByRole("button", { name: "Add" }));
+      await waitFor(() => {
+        expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+      });
+
+      fireEvent.click(addButton);
+      await waitFor(() => {
+        expect(screen.getByRole("dialog")).toBeInTheDocument();
+      });
+
+      const newNameInput = screen.getByLabelText("Command Name") as HTMLInputElement;
+      const newDescInput = screen.getByLabelText("Description") as HTMLTextAreaElement;
+      expect(newNameInput.value).toBe("");
+      expect(newDescInput.value).toBe("");
     });
 
     it("removes commands from context when deleting", () => {
       renderWithProvider(<CommandTree />, complexToolState());
       const initialCommandCount = capturedCtx.tool.commands.length;
-      const helpCommand = capturedCtx.tool.commands.find((cmd) => cmd.name === "help");
-      expect(helpCommand).toBeDefined();
+      expect(capturedCtx.tool.commands.find((cmd) => cmd.name === "help")).toBeDefined();
 
-      const helpElement = screen.getByText("help").closest("div");
-      const buttons = Array.from(helpElement?.querySelectorAll("button") || []);
-      const deleteButton = buttons.find((btn) => {
-        const svg = btn.querySelector("svg");
-        return svg && svg.classList.contains("text-destructive");
-      });
+      const helpTrigger = getTriggerFor("help");
+      const deleteButton = findDeleteButton(helpTrigger);
+      expect(deleteButton).toBeDefined();
 
-      if (deleteButton) {
-        fireEvent.click(deleteButton);
-        expect(capturedCtx.tool.commands.length).toBe(initialCommandCount - 1);
-        expect(capturedCtx.tool.commands.find((cmd) => cmd.name === "help")).toBeUndefined();
-      }
+      fireEvent.click(deleteButton!);
+      expect(capturedCtx.tool.commands.length).toBe(initialCommandCount - 1);
+      expect(capturedCtx.tool.commands.find((cmd) => cmd.name === "help")).toBeUndefined();
     });
 
     it("updates selected command when current selection is deleted", () => {
@@ -517,44 +532,19 @@ describe("CommandTree", () => {
       const helpCmd = initialState.tool!.commands.find((c) => c.name === "help")!;
       renderWithProvider(<CommandTree />, { ...initialState, selectedCommand: helpCmd });
 
-      expect(capturedCtx.selectedCommand.name).toBe("help");
+      expect(capturedCtx.selectedCommand?.name).toBe("help");
 
-      const helpElement = screen.getByText("help").closest("div");
-      const buttons = Array.from(helpElement?.querySelectorAll("button") || []);
-      const deleteButton = buttons.find((btn) => {
-        const svg = btn.querySelector("svg");
-        return svg && svg.classList.contains("text-destructive");
-      });
+      const helpTrigger = getTriggerFor("help");
+      const deleteButton = findDeleteButton(helpTrigger);
+      expect(deleteButton).toBeDefined();
 
-      if (deleteButton) {
-        fireEvent.click(deleteButton);
-        expect(capturedCtx.selectedCommand.name).toBe("my-cli-tool");
-      }
-    });
-
-    it("maintains expanded commands state independently of context updates", async () => {
-      renderWithProvider(<CommandTree />, complexToolState());
-
-      const configElement = screen.getByText("config").closest("div");
-      const expandButton = configElement?.querySelector("button");
-
-      if (expandButton) {
-        fireEvent.click(expandButton);
-        await waitFor(() => {
-          expect(screen.getByText("get")).toBeInTheDocument();
-        });
-
-        const addCommandButton = screen.getByText(/Add Command/);
-        fireEvent.click(addCommandButton);
-
-        expect(screen.getByText("get")).toBeInTheDocument();
-        expect(screen.getByText("set")).toBeInTheDocument();
-      }
+      fireEvent.click(deleteButton!);
+      expect(capturedCtx.selectedCommand?.name).toBe("my-cli-tool");
     });
 
     it("responds to external context changes", async () => {
       renderWithProvider(<CommandTree />, complexToolState());
-      expect(screen.getByText("my-cli-tool")).toBeInTheDocument();
+      expect(screen.getAllByText("my-cli-tool").length).toBeGreaterThanOrEqual(1);
 
       const dataCommand = capturedCtx.tool.commands.find((cmd) => cmd.name === "data");
       if (dataCommand) {
@@ -563,13 +553,13 @@ describe("CommandTree", () => {
         });
 
         await waitFor(() => {
-          expect(screen.getByText("my-cli-tool")).toBeInTheDocument();
+          expect(screen.getAllByText("my-cli-tool").length).toBeGreaterThanOrEqual(1);
           expect(screen.getByText("data")).toBeInTheDocument();
         });
       }
     });
 
-    it("handles command hierarchy changes correctly", () => {
+    it("handles command hierarchy changes correctly", async () => {
       renderWithProvider(<CommandTree />, complexToolState());
 
       const currentCommands = capturedCtx.tool.commands;
@@ -585,38 +575,12 @@ describe("CommandTree", () => {
         capturedCtx.updateTool({ commands: [...currentCommands, newCommand] });
       });
 
-      const configElement = screen.getByText("config").closest("div");
-      const expandButton = configElement?.querySelector("button");
+      const configTrigger = getTriggerFor("config");
+      fireEvent.click(getChevron(configTrigger));
 
-      if (expandButton) {
-        fireEvent.click(expandButton);
+      await waitFor(() => {
         expect(screen.getByText("new-test-command")).toBeInTheDocument();
-      }
-    });
-
-    it("preserves component state during context updates", async () => {
-      renderWithProvider(<CommandTree />, complexToolState());
-
-      const configElement = screen.getByText("config").closest("div");
-      const expandButton = configElement?.querySelector("button");
-
-      if (expandButton) {
-        fireEvent.click(expandButton);
-        await waitFor(() => {
-          expect(screen.getByText("get")).toBeInTheDocument();
-        });
-
-        const dataCommand = capturedCtx.tool.commands.find((cmd) => cmd.name === "data");
-        if (dataCommand) {
-          act(() => {
-            capturedCtx.setSelectedCommand(dataCommand);
-          });
-        }
-
-        // Config should still be expanded
-        expect(screen.getByText("get")).toBeInTheDocument();
-        expect(screen.getByText("set")).toBeInTheDocument();
-      }
+      });
     });
 
     it("handles rapid context changes correctly", async () => {
@@ -626,35 +590,21 @@ describe("CommandTree", () => {
       const dataCommand = commands.find((cmd) => cmd.name === "data")!;
       const utilsCommand = commands.find((cmd) => cmd.name === "utils")!;
 
-      if (configCommand && dataCommand && utilsCommand) {
-        act(() => {
-          capturedCtx.setSelectedCommand(configCommand);
-          capturedCtx.setSelectedCommand(dataCommand);
-          capturedCtx.setSelectedCommand(utilsCommand);
-        });
+      act(() => {
+        capturedCtx.setSelectedCommand(configCommand);
+        capturedCtx.setSelectedCommand(dataCommand);
+        capturedCtx.setSelectedCommand(utilsCommand);
+      });
 
-        await waitFor(() => {
-          expect(capturedCtx.selectedCommand.name).toBe("utils");
-        });
+      await waitFor(() => {
+        expect(capturedCtx.selectedCommand?.name).toBe("utils");
+      });
 
-        expect(screen.getByText("utils")).toBeInTheDocument();
-      }
+      expect(screen.getByText("utils")).toBeInTheDocument();
     });
   });
 
   describe("Edge Cases Tests", () => {
-    it("handles commands with no subcommands correctly", () => {
-      renderWithProvider(<CommandTree />, complexToolState());
-
-      const helpElement = screen.getByText("help").closest("div");
-      expect(helpElement).toBeInTheDocument();
-
-      const expandButton = helpElement?.querySelector("#expand-button");
-      const spacerDiv = helpElement?.querySelector("div.w-4");
-      expect(spacerDiv).toBeInTheDocument();
-      expect(expandButton).not.toBeInTheDocument();
-    });
-
     it("handles deep nesting of commands", async () => {
       const complexTool = createComplexTool();
       const deepTool: Tool = {
@@ -683,37 +633,20 @@ describe("CommandTree", () => {
         selectedCommand: deepTool.commands[0],
       });
 
-      const configElement = screen.getByText("config").closest("div");
-      const configExpandButton = configElement?.querySelector("button");
+      fireEvent.click(getChevron(getTriggerFor("config")));
+      await waitFor(() => {
+        expect(screen.getByText("get")).toBeInTheDocument();
+      });
 
-      if (configExpandButton) {
-        fireEvent.click(configExpandButton);
-        await waitFor(() => {
-          expect(screen.getByText("get")).toBeInTheDocument();
-        });
+      fireEvent.click(getChevron(getTriggerFor("get")));
+      await waitFor(() => {
+        expect(screen.getByText("level3")).toBeInTheDocument();
+      });
 
-        const getElement = screen.getByText("get").closest("div");
-        const getExpandButton = getElement?.querySelector("button");
-
-        if (getExpandButton) {
-          fireEvent.click(getExpandButton);
-          await waitFor(() => {
-            expect(screen.getByText("level3")).toBeInTheDocument();
-          });
-
-          const level3Element = screen.getByText("level3").closest("div");
-          const level3ExpandButton = level3Element?.querySelector("button");
-
-          if (level3ExpandButton) {
-            fireEvent.click(level3ExpandButton);
-            await waitFor(() => {
-              expect(screen.getByText("level4")).toBeInTheDocument();
-            });
-            const level4Element = screen.getByText("level4").closest("div");
-            expect(level4Element).toBeInTheDocument();
-          }
-        }
-      }
+      fireEvent.click(getChevron(getTriggerFor("level3")));
+      await waitFor(() => {
+        expect(screen.getByText("level4")).toBeInTheDocument();
+      });
     });
 
     it("maintains state correctly after command deletion", () => {
@@ -721,80 +654,25 @@ describe("CommandTree", () => {
       const helpCmd = initialState.tool!.commands.find((c) => c.name === "help")!;
       renderWithProvider(<CommandTree />, { ...initialState, selectedCommand: helpCmd });
 
-      expect(capturedCtx.selectedCommand.name).toBe("help");
+      expect(capturedCtx.selectedCommand?.name).toBe("help");
 
-      const helpElement = screen.getByText("help").closest("div");
-      const buttons = Array.from(helpElement?.querySelectorAll("button") || []);
-      const deleteButton = buttons.find((btn) => {
-        const svg = btn.querySelector("svg");
-        return svg && svg.classList.contains("text-destructive");
-      });
+      const helpTrigger = getTriggerFor("help");
+      const deleteButton = findDeleteButton(helpTrigger);
+      expect(deleteButton).toBeDefined();
 
-      if (deleteButton) {
-        fireEvent.click(deleteButton);
-        expect(capturedCtx.selectedCommand.name).toBe("my-cli-tool");
-        expect(screen.queryByText("help")).not.toBeInTheDocument();
-      }
+      fireEvent.click(deleteButton!);
+      expect(capturedCtx.selectedCommand?.name).toBe("my-cli-tool");
+      expect(screen.queryByText("help")).not.toBeInTheDocument();
     });
 
     it("handles empty command list gracefully", () => {
-      const complexTool = createComplexTool();
-      const minimalTool: Tool = {
-        ...complexTool,
-        commands: [
-          {
-            key: "minimal-tool-id",
-            name: "minimal-tool",
-            description: "Minimal tool with just root command",
-            sortOrder: 0,
-          },
-        ],
-      };
-
+      const tool = defaultTool("empty-tool", "Empty Tool");
       renderWithProvider(<CommandTree />, {
-        tool: minimalTool,
-        selectedCommand: minimalTool.commands[0],
+        tool,
+        selectedCommand: null,
       });
 
-      expect(screen.getByText("minimal-tool")).toBeInTheDocument();
-      expect(screen.getByText(/Add Command/)).toBeInTheDocument();
-
-      const rootElement = screen.getByText("minimal-tool").closest("div");
-      const spacerDiv = rootElement?.querySelector("div.w-4");
-      expect(spacerDiv).toBeInTheDocument();
-    });
-
-    it("preserves expansion state when opening add command dialog", async () => {
-      renderWithProvider(<CommandTree />, complexToolState());
-
-      const configElement = screen.getByText("config").closest("div");
-      const expandButton = configElement?.querySelector("button");
-
-      if (expandButton) {
-        fireEvent.click(expandButton);
-        await waitFor(() => {
-          expect(screen.getByText("get")).toBeInTheDocument();
-        });
-
-        const buttons = Array.from(configElement?.querySelectorAll("button") || []);
-        const actionButtons = buttons.filter(
-          (btn) =>
-            btn.classList.contains("opacity-0") &&
-            btn.classList.contains("group-hover:opacity-100"),
-        );
-        const addButton = actionButtons[1];
-
-        if (addButton) {
-          fireEvent.click(addButton);
-          expect(screen.getByText("get")).toBeInTheDocument();
-          expect(screen.getByText("set")).toBeInTheDocument();
-
-          await waitFor(() => {
-            expect(screen.getByRole("dialog")).toBeInTheDocument();
-            expect(screen.getByRole("heading", { name: "Add Command" })).toBeInTheDocument();
-          });
-        }
-      }
+      expect(screen.getByText("empty-tool")).toBeInTheDocument();
     });
 
     it("handles invalid command hierarchies gracefully", () => {
@@ -826,7 +704,77 @@ describe("CommandTree", () => {
       ).not.toThrow();
 
       expect(screen.getByText("root")).toBeInTheDocument();
-      expect(screen.getByText(/Add Command/)).toBeInTheDocument();
+    });
+
+    it("preserves expansion state when opening add command dialog", async () => {
+      renderWithProvider(<CommandTree />, complexToolState());
+
+      const configTrigger = getTriggerFor("config");
+      fireEvent.click(getChevron(configTrigger));
+      await waitFor(() => {
+        expect(screen.getByText("get")).toBeInTheDocument();
+      });
+
+      const rootTrigger = getRootTrigger();
+      const rootActions = findActionButtons(rootTrigger);
+      fireEvent.click(rootActions[0]);
+
+      expect(screen.getByText("get")).toBeInTheDocument();
+      expect(screen.getByText("set")).toBeInTheDocument();
+
+      await waitFor(() => {
+        expect(screen.getByRole("dialog")).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("Drag and Drop Tests", () => {
+    it("renders drag handle for non-root commands", () => {
+      renderWithProvider(<CommandTree />, complexToolState());
+      const helpTrigger = getTriggerFor("help");
+      const actions = findActionButtons(helpTrigger);
+      // grip + edit + add + delete = 4 buttons for non-root leaf commands
+      expect(actions.length).toBeGreaterThanOrEqual(3);
+    });
+
+    it("does not render drag handle for the root node", () => {
+      renderWithProvider(<CommandTree />, complexToolState());
+      const rootTrigger = getRootTrigger();
+      const actions = findActionButtons(rootTrigger);
+      // Root only has Add button (no grip, no edit, no delete)
+      expect(actions).toHaveLength(1);
+    });
+
+    it("renders drag handle for subcommands", async () => {
+      renderWithProvider(<CommandTree />, complexToolState());
+      const configTrigger = getTriggerFor("config");
+      fireEvent.click(getChevron(configTrigger));
+      await waitFor(() => {
+        expect(screen.getByText("get")).toBeInTheDocument();
+      });
+      const getTrigger = getTriggerFor("get");
+      const actions = findActionButtons(getTrigger);
+      expect(actions.length).toBeGreaterThanOrEqual(3);
+    });
+
+    it("reorderCommands updates sortOrder in context", () => {
+      renderWithProvider(<CommandTree />, complexToolState());
+      expect(typeof capturedCtx.reorderCommands).toBe("function");
+
+      const rootChildren = capturedCtx.tool.commands.filter(
+        (c) => c.parentCommandKey === "my-cli-tool",
+      );
+      const reversedKeys = [...rootChildren].reverse().map((c) => c.key);
+
+      act(() => {
+        capturedCtx.reorderCommands(reversedKeys, "my-cli-tool");
+      });
+
+      const updated = capturedCtx.tool.commands.filter(
+        (c) => c.parentCommandKey === "my-cli-tool",
+      );
+      const first = updated.find((c) => c.sortOrder === 0);
+      expect(first?.key).toBe(reversedKeys[0]);
     });
   });
 });

@@ -1,21 +1,13 @@
 {
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
-  "name": "yt-dlp",
+  "binaryName": "yt-dlp",
   "displayName": "yt-dlp",
   "info": {
     "description": "yt-dlp is a command-line program to download videos from YouTube and other sites.",
     "version": "2026.03.17",
     "url": "https://github.com/yt-dlp/yt-dlp"
   },
-  "commands": [
-    {
-      "name": "yt-dlp",
-      "description": "yt-dlp is a command-line program to download videos from YouTube and other sites.",
-      "sortOrder": 1,
-      "commandKey": "yt-dlp",
-      "key": "yt-dlp"
-    }
-  ],
+  "commands": [],
   "parameters": [
     {
       "name": "Help",
@@ -23,7 +15,6 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "--help",
-      "commandKey": "yt-dlp",
       "key": "help"
     },
     {
@@ -32,7 +23,6 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "--version",
-      "commandKey": "yt-dlp",
       "key": "version"
     },
     {
@@ -41,7 +31,6 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "--update",
-      "commandKey": "yt-dlp",
       "key": "update"
     },
     {
@@ -50,7 +39,6 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "--no-update",
-      "commandKey": "yt-dlp",
       "key": "no-update"
     },
     {
@@ -59,7 +47,6 @@
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "--update-to",
-      "commandKey": "yt-dlp",
       "key": "update-to"
     },
     {
@@ -68,7 +55,6 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "--ignore-errors",
-      "commandKey": "yt-dlp",
       "key": "ignore-errors"
     },
     {
@@ -77,7 +63,6 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "--no-abort-on-error",
-      "commandKey": "yt-dlp",
       "key": "no-abort-on-error"
     },
     {
@@ -86,7 +71,6 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "--abort-on-error",
-      "commandKey": "yt-dlp",
       "key": "abort-on-error"
     },
     {
@@ -95,7 +79,6 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "--dump-user-agent",
-      "commandKey": "yt-dlp",
       "key": "dump-user-agent"
     },
     {
@@ -104,7 +87,6 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "--list-extractors",
-      "commandKey": "yt-dlp",
       "key": "list-extractors"
     },
     {
@@ -113,7 +95,6 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "--extractor-descriptions",
-      "commandKey": "yt-dlp",
       "key": "extractor-descriptions"
     },
     {
@@ -122,7 +103,6 @@
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "--use-extractors",
-      "commandKey": "yt-dlp",
       "key": "use-extractors"
     },
     {
@@ -131,7 +111,6 @@
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "--default-search",
-      "commandKey": "yt-dlp",
       "key": "default-search"
     },
     {
@@ -140,7 +119,6 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "--ignore-config",
-      "commandKey": "yt-dlp",
       "key": "ignore-config"
     },
     {
@@ -149,7 +127,6 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "--no-config-locations",
-      "commandKey": "yt-dlp",
       "key": "no-config-locations"
     },
     {
@@ -159,7 +136,6 @@
       "dataType": "String",
       "isRepeatable": true,
       "longFlag": "--config-locations",
-      "commandKey": "yt-dlp",
       "key": "config-locations"
     },
     {
@@ -169,7 +145,6 @@
       "dataType": "String",
       "isRepeatable": true,
       "longFlag": "--plugin-dirs",
-      "commandKey": "yt-dlp",
       "key": "plugin-dirs"
     },
     {
@@ -178,7 +153,6 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "--no-plugin-dirs",
-      "commandKey": "yt-dlp",
       "key": "no-plugin-dirs"
     },
     {
@@ -187,7 +161,6 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "--flat-playlist",
-      "commandKey": "yt-dlp",
       "key": "flat-playlist"
     },
     {
@@ -196,7 +169,6 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "--no-flat-playlist",
-      "commandKey": "yt-dlp",
       "key": "no-flat-playlist"
     },
     {
@@ -206,7 +178,6 @@
       "dataType": "Enum",
       "isRepeatable": true,
       "longFlag": "--preset-alias",
-      "commandKey": "yt-dlp",
       "key": "preset-alias",
       "enum": {
         "values": [
@@ -239,7 +210,6 @@
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "--proxy",
-      "commandKey": "yt-dlp",
       "key": "proxy"
     },
     {
@@ -248,7 +218,6 @@
       "parameterType": "Option",
       "dataType": "Number",
       "longFlag": "--socket-timeout",
-      "commandKey": "yt-dlp",
       "key": "socket-timeout"
     },
     {
@@ -257,7 +226,6 @@
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "--source-address",
-      "commandKey": "yt-dlp",
       "key": "source-address"
     },
     {
@@ -266,7 +234,6 @@
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "--impersonate",
-      "commandKey": "yt-dlp",
       "key": "impersonate"
     },
     {
@@ -275,7 +242,6 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "--list-impersonate-targets",
-      "commandKey": "yt-dlp",
       "key": "list-impersonate-targets"
     },
     {
@@ -284,7 +250,6 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "--force-ipv4",
-      "commandKey": "yt-dlp",
       "key": "force-ipv4"
     },
     {
@@ -293,7 +258,6 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "--force-ipv6",
-      "commandKey": "yt-dlp",
       "key": "force-ipv6"
     },
     {
@@ -302,7 +266,6 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "--enable-file-urls",
-      "commandKey": "yt-dlp",
       "key": "enable-file-urls"
     },
     {
@@ -311,7 +274,6 @@
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "--geo-verification-proxy",
-      "commandKey": "yt-dlp",
       "key": "geo-verification-proxy"
     },
     {
@@ -320,7 +282,6 @@
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "--xff",
-      "commandKey": "yt-dlp",
       "key": "xff"
     },
     {
@@ -330,7 +291,6 @@
       "dataType": "String",
       "longFlag": "--playlist-items",
       "shortFlag": "-I",
-      "commandKey": "yt-dlp",
       "key": "playlist-items"
     },
     {
@@ -339,7 +299,6 @@
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "--min-filesize",
-      "commandKey": "yt-dlp",
       "key": "min-filesize"
     },
     {
@@ -348,7 +307,6 @@
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "--max-filesize",
-      "commandKey": "yt-dlp",
       "key": "max-filesize"
     },
     {
@@ -357,7 +315,6 @@
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "--date",
-      "commandKey": "yt-dlp",
       "key": "date"
     },
     {
@@ -366,7 +323,6 @@
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "--datebefore",
-      "commandKey": "yt-dlp",
       "key": "datebefore"
     },
     {
@@ -375,7 +331,6 @@
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "--dateafter",
-      "commandKey": "yt-dlp",
       "key": "dateafter"
     },
     {
@@ -385,7 +340,6 @@
       "dataType": "String",
       "isRepeatable": true,
       "longFlag": "--match-filters",
-      "commandKey": "yt-dlp",
       "key": "match-filters"
     },
     {
@@ -394,7 +348,6 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "--no-match-filters",
-      "commandKey": "yt-dlp",
       "key": "no-match-filters"
     },
     {
@@ -404,7 +357,6 @@
       "dataType": "String",
       "isRepeatable": true,
       "longFlag": "--break-match-filters",
-      "commandKey": "yt-dlp",
       "key": "break-match-filters"
     },
     {
@@ -413,7 +365,6 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "--no-break-match-filters",
-      "commandKey": "yt-dlp",
       "key": "no-break-match-filters"
     }
   ]

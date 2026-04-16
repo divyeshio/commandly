@@ -36,7 +36,7 @@ const createTestState = (
   toolName: string = "test-tool",
   command?: Command,
 ): Partial<ToolBuilderState> => ({
-  tool: { ...defaultTool(toolName, "Test tool"), name: toolName },
+  tool: { ...defaultTool(toolName, "Test tool"), binaryName: toolName },
   selectedCommand: command || createTestCommand(),
   selectedParameter: parameter,
 });

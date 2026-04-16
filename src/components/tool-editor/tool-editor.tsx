@@ -80,7 +80,7 @@ function ToolEditorContent({
 
   const [initialToolJson, setInitialToolJson] = useState(() => JSON.stringify(tool));
   const isDirty = JSON.stringify(tool) !== initialToolJson;
-  const isValid = tool.name.trim() !== "" && tool.displayName.trim() !== "";
+  const isValid = (tool.binaryName ?? "").trim() !== "" && (tool.displayName ?? "").trim() !== "";
 
   const pendingChanges = (() => {
     const currentParams = (streamingTool ?? tool).parameters;
@@ -105,10 +105,10 @@ function ToolEditorContent({
 
   const handleContribute = async () => {
     const json = JSON.stringify(tool, null, 2);
-    const filePath = `public/tools-collection/${tool.name}.json`;
+    const filePath = `public/tools-collection/${tool.binaryName}.json`;
 
     if (isNewTool) {
-      const message = encodeURIComponent(`feat(tools): add ${tool.name}`);
+      const message = encodeURIComponent(`feat(tools): add ${tool.binaryName}`);
       const filename = encodeURIComponent(filePath);
       if (json.length <= MAX_URL_JSON_LENGTH) {
         window.open(
@@ -135,25 +135,23 @@ function ToolEditorContent({
   };
 
   return (
-    <div className="flex h-[calc(100svh-4rem)] bg-background">
-      <div className="flex h-full w-72 flex-col overflow-hidden">
-        <div className="flex flex-col justify-center gap-2 border-t border-r border-b border-muted p-1">
-          <p className="p-2">Commands</p>
+    <div className="flex h-[calc(100svh-4rem)] flex-col bg-background">
+      <div className="flex border-t border-b border-muted">
+        <div className="flex w-72 shrink-0 items-center border-r border-muted px-3 py-2">
+          <p className="text-sm font-medium">Commands</p>
         </div>
-        <CommandTree isChatOpen={chatOpen} />
-      </div>
-
-      <div className="flex h-full flex-1 flex-col overflow-hidden">
-        <div className="border-t border-b border-muted p-2">
+        <div className="flex-1 p-2">
           <div className="flex justify-between">
             <div className="flex items-center justify-between gap-2">
               <span
                 className="ml-3 text-lg font-medium"
                 style={{
-                  viewTransitionName: `tool-card-title-${tool.name}`,
+                  viewTransitionName: `tool-card-title-${tool.binaryName}`,
                 }}
               >
-                {tool.displayName ? `${tool.displayName} (${tool.name})` : `${tool.name}`}
+                {tool.displayName
+                  ? `${tool.displayName} (${tool.binaryName})`
+                  : `${tool.binaryName}`}
               </span>
               <Button
                 variant="ghost"
@@ -222,6 +220,12 @@ function ToolEditorContent({
               </Button>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="flex min-h-0 flex-1 overflow-hidden">
+        <div className="flex w-72 shrink-0 flex-col overflow-hidden">
+          <CommandTree isChatOpen={chatOpen} />
         </div>
 
         <div className="flex min-h-0 flex-1 overflow-hidden">

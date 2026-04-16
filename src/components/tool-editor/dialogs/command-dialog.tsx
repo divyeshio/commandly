@@ -21,6 +21,7 @@ interface CommandDialogProps {
   onOpenChange: (open: boolean) => void;
   command?: Command;
   parentKey?: string;
+  siblingKeys?: string[];
   toolName: string;
   onSave: (command: Command) => void;
 }
@@ -30,25 +31,34 @@ export function CommandDialog({
   onOpenChange,
   command,
   parentKey,
-  toolName,
+  siblingKeys = [],
   onSave,
 }: CommandDialogProps) {
   const isNewCommand = !command;
-  const [editCommand, setCommand] = useState<Command>(
-    () =>
-      command ?? {
-        key: "",
-        name: "",
-        description: "",
-        sortOrder: 0,
-        parentCommandKey: parentKey,
-      },
-  );
+  const getDefaultCommand = () =>
+    command ?? {
+      key: "",
+      name: "",
+      description: "",
+      sortOrder: 0,
+      parentCommandKey: parentKey,
+    };
+
+  const [editCommand, setCommand] = useState<Command>(getDefaultCommand);
+
+  const sluggedName = slugify(editCommand.name);
+  const isDuplicate =
+    isNewCommand &&
+    !!sluggedName &&
+    (sluggedName === parentKey || siblingKeys.includes(sluggedName));
 
   return (
     <Dialog
       open={isOpen}
-      onOpenChange={onOpenChange}
+      onOpenChange={(open) => {
+        if (!open) setCommand(getDefaultCommand());
+        onOpenChange(open);
+      }}
     >
       <DialogContent className="max-w-2xl">
         <DialogHeader>
@@ -65,7 +75,6 @@ export function CommandDialog({
               <Input
                 id="cmd-name"
                 value={editCommand.name}
-                disabled={!isNewCommand && command!.name === toolName}
                 onChange={(e) =>
                   setCommand((prev) => ({
                     ...prev,
@@ -73,37 +82,26 @@ export function CommandDialog({
                   }))
                 }
               />
+              {isDuplicate && (
+                <p className="text-sm text-destructive">
+                  A command with this name already exists at this level.
+                </p>
+              )}
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="flex flex-col gap-3">
-              <Label htmlFor="sort-order">Sort Order</Label>
-              <Input
-                id="sort-order"
-                type="number"
-                value={editCommand.sortOrder}
-                onChange={(e) =>
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
+              <Switch
+                id="interactive-cmd"
+                checked={editCommand.interactive ?? false}
+                onCheckedChange={(checked) => {
                   setCommand((prev) => ({
                     ...prev,
-                    sortOrder: Number.parseInt(e.target.value) || 0,
-                  }))
-                }
+                    interactive: checked,
+                  }));
+                }}
               />
-            </div>
-            <div className="flex items-center space-x-4 pt-6">
-              <div className="flex items-center space-x-2">
-                <Switch
-                  id="interactive-cmd"
-                  checked={editCommand.interactive ?? false}
-                  onCheckedChange={(checked) => {
-                    setCommand((prev) => ({
-                      ...prev,
-                      interactive: checked,
-                    }));
-                  }}
-                />
-                <Label htmlFor="interactive-cmd">Interactive</Label>
-              </div>
+              <Label htmlFor="interactive-cmd">Interactive</Label>
             </div>
           </div>
           <div className="flex flex-col gap-3">
@@ -119,12 +117,13 @@ export function CommandDialog({
         <DialogFooter>
           <Button
             variant="outline"
-            disabled={isNewCommand && !editCommand.name.trim()}
+            disabled={(isNewCommand && !editCommand.name.trim()) || isDuplicate}
             onClick={() => {
               const finalCommand = isNewCommand
                 ? { ...editCommand, key: slugify(editCommand.name) }
                 : editCommand;
               onSave(finalCommand);
+              setCommand(getDefaultCommand());
               onOpenChange(false);
             }}
           >

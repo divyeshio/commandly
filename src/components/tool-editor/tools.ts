@@ -5,15 +5,13 @@ import { JSONPath } from "jsonpath-plus";
 import { z } from "zod";
 
 export function applyMergePatch(base: Tool, patch: Partial<Tool>): Tool {
-  const merged: Record<string, unknown> = { ...base };
+  const merged = { ...base, ...patch };
   for (const [k, v] of Object.entries(patch)) {
     if (v === null) {
-      delete merged[k];
-    } else {
-      merged[k] = v;
+      delete (merged as Record<string, unknown>)[k];
     }
   }
-  return cleanupTool(merged as unknown as Tool);
+  return cleanupTool(merged);
 }
 
 export function createEditTool(getBase: () => Tool, onPreview: (tool: Tool) => void) {

@@ -10,8 +10,8 @@ const tools = files.sort().map((file) => {
   const content = readFileSync(join(collectionDir, file), "utf-8");
   const tool = JSON.parse(content) as Tool;
   return {
-    name: tool.name,
-    displayName: tool.displayName || tool.name,
+    binaryName: tool.binaryName,
+    displayName: tool.displayName || tool.binaryName,
     description: tool.info?.description,
     info: tool.info,
   };

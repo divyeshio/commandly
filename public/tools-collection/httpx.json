@@ -1,20 +1,13 @@
 {
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
-  "name": "httpx",
+  "binaryName": "httpx",
   "displayName": "Httpx",
   "info": {
     "description": "Httpx is a fast and multi-purpose HTTP toolkit that allows running multiple probes using the retryablehttp library.",
     "version": "1.9.0",
     "url": "https://github.com/projectdiscovery/httpx"
   },
-  "commands": [
-    {
-      "name": "httpx",
-      "description": "Run httpx with the specified parameters.",
-      "sortOrder": 1,
-      "key": "httpx"
-    }
-  ],
+  "commands": [],
   "parameters": [
     {
       "name": "List",
@@ -24,8 +17,7 @@
       "shortFlag": "-l",
       "longFlag": "-list",
       "sortOrder": 1,
-      "key": "list",
-      "commandKey": "httpx"
+      "key": "list"
     },
     {
       "name": "Request",
@@ -35,8 +27,7 @@
       "shortFlag": "-rr",
       "longFlag": "-request",
       "sortOrder": 2,
-      "key": "request",
-      "commandKey": "httpx"
+      "key": "request"
     },
     {
       "name": "Target",
@@ -47,8 +38,7 @@
       "shortFlag": "-u",
       "longFlag": "-target",
       "sortOrder": 3,
-      "key": "target",
-      "commandKey": "httpx"
+      "key": "target"
     },
     {
       "name": "Input Mode",
@@ -58,8 +48,7 @@
       "shortFlag": "-im",
       "longFlag": "-input-mode",
       "sortOrder": 4,
-      "key": "input-mode",
-      "commandKey": "httpx"
+      "key": "input-mode"
     },
     {
       "name": "Status Code",
@@ -69,8 +58,7 @@
       "shortFlag": "-sc",
       "longFlag": "-status-code",
       "sortOrder": 5,
-      "key": "status-code",
-      "commandKey": "httpx"
+      "key": "status-code"
     },
     {
       "name": "Content Length",
@@ -80,8 +68,7 @@
       "shortFlag": "-cl",
       "longFlag": "-content-length",
       "sortOrder": 6,
-      "key": "content-length",
-      "commandKey": "httpx"
+      "key": "content-length"
     },
     {
       "name": "Content Type",
@@ -91,8 +78,7 @@
       "shortFlag": "-ct",
       "longFlag": "-content-type",
       "sortOrder": 7,
-      "key": "content-type",
-      "commandKey": "httpx"
+      "key": "content-type"
     },
     {
       "name": "Location",
@@ -101,8 +87,7 @@
       "dataType": "Boolean",
       "longFlag": "-location",
       "sortOrder": 8,
-      "key": "location",
-      "commandKey": "httpx"
+      "key": "location"
     },
     {
       "name": "Favicon",
@@ -111,8 +96,7 @@
       "dataType": "Boolean",
       "longFlag": "-favicon",
       "sortOrder": 9,
-      "key": "favicon",
-      "commandKey": "httpx"
+      "key": "favicon"
     },
     {
       "name": "Hash",
@@ -122,7 +106,6 @@
       "longFlag": "-hash",
       "sortOrder": 10,
       "key": "hash",
-      "commandKey": "httpx",
       "enum": {
         "values": [
           {
@@ -159,8 +142,7 @@
       "dataType": "Boolean",
       "longFlag": "-jarm",
       "sortOrder": 11,
-      "key": "jarm",
-      "commandKey": "httpx"
+      "key": "jarm"
     },
     {
       "name": "Response Time",
@@ -170,8 +152,7 @@
       "shortFlag": "-rt",
       "longFlag": "-response-time",
       "sortOrder": 12,
-      "key": "response-time",
-      "commandKey": "httpx"
+      "key": "response-time"
     },
     {
       "name": "Line Count",
@@ -181,8 +162,7 @@
       "shortFlag": "-lc",
       "longFlag": "-line-count",
       "sortOrder": 13,
-      "key": "line-count",
-      "commandKey": "httpx"
+      "key": "line-count"
     },
     {
       "name": "Word Count",
@@ -192,8 +172,7 @@
       "shortFlag": "-wc",
       "longFlag": "-word-count",
       "sortOrder": 14,
-      "key": "word-count",
-      "commandKey": "httpx"
+      "key": "word-count"
     },
     {
       "name": "Title",
@@ -202,8 +181,7 @@
       "dataType": "Boolean",
       "longFlag": "-title",
       "sortOrder": 15,
-      "key": "title",
-      "commandKey": "httpx"
+      "key": "title"
     },
     {
       "name": "Body Preview",
@@ -213,8 +191,7 @@
       "shortFlag": "-bp",
       "longFlag": "-body-preview",
       "sortOrder": 16,
-      "key": "body-preview",
-      "commandKey": "httpx"
+      "key": "body-preview"
     },
     {
       "name": "Server",
@@ -224,8 +201,7 @@
       "shortFlag": "-server",
       "longFlag": "-web-server",
       "sortOrder": 17,
-      "key": "web-server",
-      "commandKey": "httpx"
+      "key": "web-server"
     },
     {
       "name": "Tech Detect",
@@ -235,8 +211,7 @@
       "shortFlag": "-td",
       "longFlag": "-tech-detect",
       "sortOrder": 18,
-      "key": "tech-detect",
-      "commandKey": "httpx"
+      "key": "tech-detect"
     },
     {
       "name": "Custom Fingerprint File",
@@ -246,8 +221,7 @@
       "shortFlag": "-cff",
       "longFlag": "-custom-fingerprint-file",
       "sortOrder": 19,
-      "key": "custom-fingerprint-file",
-      "commandKey": "httpx"
+      "key": "custom-fingerprint-file"
     },
     {
       "name": "CPE",
@@ -256,8 +230,7 @@
       "dataType": "Boolean",
       "longFlag": "-cpe",
       "sortOrder": 20,
-      "key": "cpe",
-      "commandKey": "httpx"
+      "key": "cpe"
     },
     {
       "name": "Wordpress",
@@ -267,8 +240,7 @@
       "shortFlag": "-wp",
       "longFlag": "-wordpress",
       "sortOrder": 21,
-      "key": "wordpress",
-      "commandKey": "httpx"
+      "key": "wordpress"
     },
     {
       "name": "Method",
@@ -277,8 +249,7 @@
       "dataType": "Boolean",
       "longFlag": "-method",
       "sortOrder": 22,
-      "key": "method",
-      "commandKey": "httpx"
+      "key": "method"
     },
     {
       "name": "WebSocket",
@@ -288,8 +259,7 @@
       "shortFlag": "-ws",
       "longFlag": "-websocket",
       "sortOrder": 23,
-      "key": "websocket",
-      "commandKey": "httpx"
+      "key": "websocket"
     },
     {
       "name": "IP",
@@ -298,8 +268,7 @@
       "dataType": "Boolean",
       "longFlag": "-ip",
       "sortOrder": 24,
-      "key": "ip",
-      "commandKey": "httpx"
+      "key": "ip"
     },
     {
       "name": "CNAME",
@@ -308,8 +277,7 @@
       "dataType": "Boolean",
       "longFlag": "-cname",
       "sortOrder": 25,
-      "key": "cname",
-      "commandKey": "httpx"
+      "key": "cname"
     },
     {
       "name": "Extract FQDN",
@@ -319,8 +287,7 @@
       "shortFlag": "-efqdn",
       "longFlag": "-extract-fqdn",
       "sortOrder": 26,
-      "key": "extract-fqdn",
-      "commandKey": "httpx"
+      "key": "extract-fqdn"
     },
     {
       "name": "ASN",
@@ -329,8 +296,7 @@
       "dataType": "Boolean",
       "longFlag": "-asn",
       "sortOrder": 27,
-      "key": "asn",
-      "commandKey": "httpx"
+      "key": "asn"
     },
     {
       "name": "CDN",
@@ -339,8 +305,7 @@
       "dataType": "Boolean",
       "longFlag": "-cdn",
       "sortOrder": 28,
-      "key": "cdn",
-      "commandKey": "httpx"
+      "key": "cdn"
     },
     {
       "name": "Probe",
@@ -349,8 +314,7 @@
       "dataType": "Boolean",
       "longFlag": "-probe",
       "sortOrder": 29,
-      "key": "probe",
-      "commandKey": "httpx"
+      "key": "probe"
     },
     {
       "name": "Screenshot",
@@ -360,8 +324,7 @@
       "shortFlag": "-ss",
       "longFlag": "-screenshot",
       "sortOrder": 30,
-      "key": "screenshot",
-      "commandKey": "httpx"
+      "key": "screenshot"
     },
     {
       "name": "System Chrome",
@@ -370,8 +333,7 @@
       "dataType": "Boolean",
       "longFlag": "-system-chrome",
       "sortOrder": 31,
-      "key": "system-chrome",
-      "commandKey": "httpx"
+      "key": "system-chrome"
     },
     {
       "name": "Headless Options",
@@ -382,8 +344,7 @@
       "shortFlag": "-ho",
       "longFlag": "-headless-options",
       "sortOrder": 32,
-      "key": "headless-options",
-      "commandKey": "httpx"
+      "key": "headless-options"
     },
     {
       "name": "Exclude Screenshot Bytes",
@@ -393,8 +354,7 @@
       "shortFlag": "-esb",
       "longFlag": "-exclude-screenshot-bytes",
       "sortOrder": 33,
-      "key": "exclude-screenshot-bytes",
-      "commandKey": "httpx"
+      "key": "exclude-screenshot-bytes"
     },
     {
       "name": "No Screenshot Full Page",
@@ -403,8 +363,7 @@
       "dataType": "Boolean",
       "longFlag": "-no-screenshot-full-page",
       "sortOrder": 34,
-      "key": "no-screenshot-full-page",
-      "commandKey": "httpx"
+      "key": "no-screenshot-full-page"
     },
     {
       "name": "Exclude Headless Body",
@@ -414,8 +373,7 @@
       "shortFlag": "-ehb",
       "longFlag": "-exclude-headless-body",
       "sortOrder": 35,
-      "key": "exclude-headless-body",
-      "commandKey": "httpx"
+      "key": "exclude-headless-body"
     },
     {
       "name": "Screenshot Timeout",
@@ -425,8 +383,7 @@
       "shortFlag": "-st",
       "longFlag": "-screenshot-timeout",
       "sortOrder": 36,
-      "key": "screenshot-timeout",
-      "commandKey": "httpx"
+      "key": "screenshot-timeout"
     },
     {
       "name": "Screenshot Idle",
@@ -436,8 +393,7 @@
       "shortFlag": "-sid",
       "longFlag": "-screenshot-idle",
       "sortOrder": 37,
-      "key": "screenshot-idle",
-      "commandKey": "httpx"
+      "key": "screenshot-idle"
     },
     {
       "name": "JavaScript Code",
@@ -448,8 +404,7 @@
       "shortFlag": "-jsc",
       "longFlag": "-javascript-code",
       "sortOrder": 38,
-      "key": "javascript-code",
-      "commandKey": "httpx"
+      "key": "javascript-code"
     },
     {
       "name": "Match Code",
@@ -459,8 +414,7 @@
       "shortFlag": "-mc",
       "longFlag": "-match-code",
       "sortOrder": 39,
-      "key": "match-code",
-      "commandKey": "httpx"
+      "key": "match-code"
     },
     {
       "name": "Match Length",
@@ -470,8 +424,7 @@
       "shortFlag": "-ml",
       "longFlag": "-match-length",
       "sortOrder": 40,
-      "key": "match-length",
-      "commandKey": "httpx"
+      "key": "match-length"
     },
     {
       "name": "Match Line Count",
@@ -481,8 +434,7 @@
       "shortFlag": "-mlc",
       "longFlag": "-match-line-count",
       "sortOrder": 41,
-      "key": "match-line-count",
-      "commandKey": "httpx"
+      "key": "match-line-count"
     },
     {
       "name": "Match Word Count",
@@ -492,8 +444,7 @@
       "shortFlag": "-mwc",
       "longFlag": "-match-word-count",
       "sortOrder": 42,
-      "key": "match-word-count",
-      "commandKey": "httpx"
+      "key": "match-word-count"
     },
     {
       "name": "Match Favicon",
@@ -504,8 +455,7 @@
       "shortFlag": "-mfc",
       "longFlag": "-match-favicon",
       "sortOrder": 43,
-      "key": "match-favicon",
-      "commandKey": "httpx"
+      "key": "match-favicon"
     },
     {
       "name": "Match String",
@@ -516,8 +466,7 @@
       "shortFlag": "-ms",
       "longFlag": "-match-string",
       "sortOrder": 44,
-      "key": "match-string",
-      "commandKey": "httpx"
+      "key": "match-string"
     },
     {
       "name": "Match Regex",
@@ -528,8 +477,7 @@
       "shortFlag": "-mr",
       "longFlag": "-match-regex",
       "sortOrder": 45,
-      "key": "match-regex",
-      "commandKey": "httpx"
+      "key": "match-regex"
     },
     {
       "name": "Match CDN",
@@ -541,7 +489,6 @@
       "longFlag": "-match-cdn",
       "sortOrder": 46,
       "key": "match-cdn",
-      "commandKey": "httpx",
       "enum": {
         "allowMultiple": true,
         "values": [
@@ -620,8 +567,7 @@
       "shortFlag": "-mrt",
       "longFlag": "-match-response-time",
       "sortOrder": 47,
-      "key": "match-response-time",
-      "commandKey": "httpx"
+      "key": "match-response-time"
     },
     {
       "name": "Match Condition",
@@ -631,8 +577,7 @@
       "shortFlag": "-mdc",
       "longFlag": "-match-condition",
       "sortOrder": 48,
-      "key": "match-condition",
-      "commandKey": "httpx"
+      "key": "match-condition"
     },
     {
       "name": "Extract Regex",
@@ -643,8 +588,7 @@
       "shortFlag": "-er",
       "longFlag": "-extract-regex",
       "sortOrder": 49,
-      "key": "extract-regex",
-      "commandKey": "httpx"
+      "key": "extract-regex"
     },
     {
       "name": "Extract Preset",
@@ -656,7 +600,6 @@
       "longFlag": "-extract-preset",
       "sortOrder": 50,
       "key": "extract-preset",
-      "commandKey": "httpx",
       "enum": {
         "values": [
           {
@@ -682,8 +625,7 @@
       "shortFlag": "-fc",
       "longFlag": "-filter-code",
       "sortOrder": 51,
-      "key": "filter-code",
-      "commandKey": "httpx"
+      "key": "filter-code"
     },
     {
       "name": "Filter Page Type",
@@ -695,7 +637,6 @@
       "longFlag": "-filter-page-type",
       "sortOrder": 52,
       "key": "filter-page-type",
-      "commandKey": "httpx",
       "enum": {
         "values": [
           {
@@ -789,8 +730,7 @@
       "shortFlag": "-fep",
       "longFlag": "-filter-error-page",
       "sortOrder": 53,
-      "key": "filter-error-page",
-      "commandKey": "httpx"
+      "key": "filter-error-page"
     },
     {
       "name": "Filter Duplicates",
@@ -800,8 +740,7 @@
       "shortFlag": "-fd",
       "longFlag": "-filter-duplicates",
       "sortOrder": 54,
-      "key": "filter-duplicates",
-      "commandKey": "httpx"
+      "key": "filter-duplicates"
     },
     {
       "name": "Filter Length",
@@ -811,8 +750,7 @@
       "shortFlag": "-fl",
       "longFlag": "-filter-length",
       "sortOrder": 55,
-      "key": "filter-length",
-      "commandKey": "httpx"
+      "key": "filter-length"
     },
     {
       "name": "Filter Line Count",
@@ -822,8 +760,7 @@
       "shortFlag": "-flc",
       "longFlag": "-filter-line-count",
       "sortOrder": 56,
-      "key": "filter-line-count",
-      "commandKey": "httpx"
+      "key": "filter-line-count"
     },
     {
       "name": "Filter Word Count",
@@ -833,8 +770,7 @@
       "shortFlag": "-fwc",
       "longFlag": "-filter-word-count",
       "sortOrder": 57,
-      "key": "filter-word-count",
-      "commandKey": "httpx"
+      "key": "filter-word-count"
     },
     {
       "name": "Filter Favicon",
@@ -845,8 +781,7 @@
       "shortFlag": "-ffc",
       "longFlag": "-filter-favicon",
       "sortOrder": 58,
-      "key": "filter-favicon",
-      "commandKey": "httpx"
+      "key": "filter-favicon"
     },
     {
       "name": "Filter String",
@@ -857,8 +792,7 @@
       "shortFlag": "-fs",
       "longFlag": "-filter-string",
       "sortOrder": 59,
-      "key": "filter-string",
-      "commandKey": "httpx"
+      "key": "filter-string"
     },
     {
       "name": "Filter Regex",
@@ -869,8 +803,7 @@
       "shortFlag": "-fe",
       "longFlag": "-filter-regex",
       "sortOrder": 60,
-      "key": "filter-regex",
-      "commandKey": "httpx"
+      "key": "filter-regex"
     },
     {
       "name": "Filter CDN",
@@ -882,7 +815,6 @@
       "longFlag": "-filter-cdn",
       "sortOrder": 61,
       "key": "filter-cdn",
-      "commandKey": "httpx",
       "enum": {
         "allowMultiple": true,
         "values": [
@@ -961,8 +893,7 @@
       "shortFlag": "-frt",
       "longFlag": "-filter-response-time",
       "sortOrder": 62,
-      "key": "filter-response-time",
-      "commandKey": "httpx"
+      "key": "filter-response-time"
     },
     {
       "name": "Filter Condition",
@@ -972,8 +903,7 @@
       "shortFlag": "-fdc",
       "longFlag": "-filter-condition",
       "sortOrder": 63,
-      "key": "filter-condition",
-      "commandKey": "httpx"
+      "key": "filter-condition"
     },
     {
       "name": "Strip",
@@ -982,8 +912,7 @@
       "dataType": "Boolean",
       "longFlag": "-strip",
       "sortOrder": 64,
-      "key": "strip",
-      "commandKey": "httpx"
+      "key": "strip"
     },
     {
       "name": "List Output Fields",
@@ -993,8 +922,7 @@
       "shortFlag": "-lof",
       "longFlag": "-list-output-fields",
       "sortOrder": 65,
-      "key": "list-output-fields",
-      "commandKey": "httpx"
+      "key": "list-output-fields"
     },
     {
       "name": "Exclude Output Fields",
@@ -1005,8 +933,7 @@
       "shortFlag": "-eof",
       "longFlag": "-exclude-output-fields",
       "sortOrder": 66,
-      "key": "exclude-output-fields",
-      "commandKey": "httpx"
+      "key": "exclude-output-fields"
     },
     {
       "name": "Threads",
@@ -1016,8 +943,7 @@
       "shortFlag": "-t",
       "longFlag": "-threads",
       "sortOrder": 67,
-      "key": "threads",
-      "commandKey": "httpx"
+      "key": "threads"
     },
     {
       "name": "Rate Limit",
@@ -1027,8 +953,7 @@
       "shortFlag": "-rl",
       "longFlag": "-rate-limit",
       "sortOrder": 68,
-      "key": "rate-limit",
-      "commandKey": "httpx"
+      "key": "rate-limit"
     },
     {
       "name": "Rate Limit Minute",
@@ -1038,8 +963,7 @@
       "shortFlag": "-rlm",
       "longFlag": "-rate-limit-minute",
       "sortOrder": 69,
-      "key": "rate-limit-minute",
-      "commandKey": "httpx"
+      "key": "rate-limit-minute"
     },
     {
       "name": "Probe All IPs",
@@ -1049,8 +973,7 @@
       "shortFlag": "-pa",
       "longFlag": "-probe-all-ips",
       "sortOrder": 70,
-      "key": "probe-all-ips",
-      "commandKey": "httpx"
+      "key": "probe-all-ips"
     },
     {
       "name": "Ports",
@@ -1061,8 +984,7 @@
       "shortFlag": "-p",
       "longFlag": "-ports",
       "sortOrder": 71,
-      "key": "ports",
-      "commandKey": "httpx"
+      "key": "ports"
     },
     {
       "name": "Path",
@@ -1071,8 +993,7 @@
       "dataType": "String",
       "longFlag": "-path",
       "sortOrder": 72,
-      "key": "path",
-      "commandKey": "httpx"
+      "key": "path"
     },
     {
       "name": "TLS Probe",
@@ -1081,8 +1002,7 @@
       "dataType": "Boolean",
       "longFlag": "-tls-probe",
       "sortOrder": 73,
-      "key": "tls-probe",
-      "commandKey": "httpx"
+      "key": "tls-probe"
     },
     {
       "name": "CSP Probe",
@@ -1091,8 +1011,7 @@
       "dataType": "Boolean",
       "longFlag": "-csp-probe",
       "sortOrder": 74,
-      "key": "csp-probe",
-      "commandKey": "httpx"
+      "key": "csp-probe"
     },
     {
       "name": "TLS Grab",
@@ -1101,8 +1020,7 @@
       "dataType": "Boolean",
       "longFlag": "-tls-grab",
       "sortOrder": 75,
-      "key": "tls-grab",
-      "commandKey": "httpx"
+      "key": "tls-grab"
     },
     {
       "name": "Pipeline",
@@ -1111,8 +1029,7 @@
       "dataType": "Boolean",
       "longFlag": "-pipeline",
       "sortOrder": 76,
-      "key": "pipeline",
-      "commandKey": "httpx"
+      "key": "pipeline"
     },
     {
       "name": "HTTP/2",
@@ -1121,8 +1038,7 @@
       "dataType": "Boolean",
       "longFlag": "-http2",
       "sortOrder": 77,
-      "key": "http2",
-      "commandKey": "httpx"
+      "key": "http2"
     },
     {
       "name": "Vhost",
@@ -1131,8 +1047,7 @@
       "dataType": "Boolean",
       "longFlag": "-vhost",
       "sortOrder": 78,
-      "key": "vhost",
-      "commandKey": "httpx"
+      "key": "vhost"
     },
     {
       "name": "List DSL Variables",
@@ -1142,8 +1057,7 @@
       "shortFlag": "-ldv",
       "longFlag": "-list-dsl-variables",
       "sortOrder": 79,
-      "key": "list-dsl-variables",
-      "commandKey": "httpx"
+      "key": "list-dsl-variables"
     },
     {
       "name": "Update",
@@ -1153,8 +1067,7 @@
       "shortFlag": "-up",
       "longFlag": "-update",
       "sortOrder": 80,
-      "key": "update",
-      "commandKey": "httpx"
+      "key": "update"
     },
     {
       "name": "Disable Update Check",
@@ -1164,8 +1077,7 @@
       "shortFlag": "-duc",
       "longFlag": "-disable-update-check",
       "sortOrder": 81,
-      "key": "disable-update-check",
-      "commandKey": "httpx"
+      "key": "disable-update-check"
     },
     {
       "name": "Output",
@@ -1175,8 +1087,7 @@
       "shortFlag": "-o",
       "longFlag": "-output",
       "sortOrder": 82,
-      "key": "output",
-      "commandKey": "httpx"
+      "key": "output"
     },
     {
       "name": "Output All",
@@ -1186,8 +1097,7 @@
       "shortFlag": "-oa",
       "longFlag": "-output-all",
       "sortOrder": 83,
-      "key": "output-all",
-      "commandKey": "httpx"
+      "key": "output-all"
     },
     {
       "name": "Store Response",
@@ -1197,8 +1107,7 @@
       "shortFlag": "-sr",
       "longFlag": "-store-response",
       "sortOrder": 84,
-      "key": "store-response",
-      "commandKey": "httpx"
+      "key": "store-response"
     },
     {
       "name": "Store Response Dir",
@@ -1208,8 +1117,7 @@
       "shortFlag": "-srd",
       "longFlag": "-store-response-dir",
       "sortOrder": 85,
-      "key": "store-response-dir",
-      "commandKey": "httpx"
+      "key": "store-response-dir"
     },
     {
       "name": "Omit Body",
@@ -1219,8 +1127,7 @@
       "shortFlag": "-ob",
       "longFlag": "-omit-body",
       "sortOrder": 86,
-      "key": "omit-body",
-      "commandKey": "httpx"
+      "key": "omit-body"
     },
     {
       "name": "CSV",
@@ -1229,8 +1136,7 @@
       "dataType": "Boolean",
       "longFlag": "-csv",
       "sortOrder": 87,
-      "key": "csv",
-      "commandKey": "httpx"
+      "key": "csv"
     },
     {
       "name": "CSV Output Encoding",
@@ -1240,8 +1146,7 @@
       "shortFlag": "-csvo",
       "longFlag": "-csv-output-encoding",
       "sortOrder": 88,
-      "key": "csv-output-encoding",
-      "commandKey": "httpx"
+      "key": "csv-output-encoding"
     },
     {
       "name": "JSON",
@@ -1251,8 +1156,7 @@
       "shortFlag": "-j",
       "longFlag": "-json",
       "sortOrder": 89,
-      "key": "json",
-      "commandKey": "httpx"
+      "key": "json"
     },
     {
       "name": "Markdown",
@@ -1262,8 +1166,7 @@
       "shortFlag": "-md",
       "longFlag": "-markdown",
       "sortOrder": 90,
-      "key": "markdown",
-      "commandKey": "httpx"
+      "key": "markdown"
     },
     {
       "name": "Include Response Header",
@@ -1273,8 +1176,7 @@
       "shortFlag": "-irh",
       "longFlag": "-include-response-header",
       "sortOrder": 91,
-      "key": "include-response-header",
-      "commandKey": "httpx"
+      "key": "include-response-header"
     },
     {
       "name": "Include Response",
@@ -1284,8 +1186,7 @@
       "shortFlag": "-irr",
       "longFlag": "-include-response",
       "sortOrder": 92,
-      "key": "include-response",
-      "commandKey": "httpx"
+      "key": "include-response"
     },
     {
       "name": "Include Response Base64",
@@ -1295,8 +1196,7 @@
       "shortFlag": "-irrb",
       "longFlag": "-include-response-base64",
       "sortOrder": 93,
-      "key": "include-response-base64",
-      "commandKey": "httpx"
+      "key": "include-response-base64"
     },
     {
       "name": "Include Chain",
@@ -1305,8 +1205,7 @@
       "dataType": "Boolean",
       "longFlag": "-include-chain",
       "sortOrder": 94,
-      "key": "include-chain",
-      "commandKey": "httpx"
+      "key": "include-chain"
     },
     {
       "name": "Store Chain",
@@ -1315,8 +1214,7 @@
       "dataType": "Boolean",
       "longFlag": "-store-chain",
       "sortOrder": 95,
-      "key": "store-chain",
-      "commandKey": "httpx"
+      "key": "store-chain"
     },
     {
       "name": "Store Vision Recon Cluster",
@@ -1326,8 +1224,7 @@
       "shortFlag": "-svrc",
       "longFlag": "-store-vision-recon-cluster",
       "sortOrder": 96,
-      "key": "store-vision-recon-cluster",
-      "commandKey": "httpx"
+      "key": "store-vision-recon-cluster"
     },
     {
       "name": "Protocol",
@@ -1338,7 +1235,6 @@
       "longFlag": "-protocol",
       "sortOrder": 97,
       "key": "protocol",
-      "commandKey": "httpx",
       "enum": {
         "values": [
           {
@@ -1368,8 +1264,7 @@
       "shortFlag": "-fepp",
       "longFlag": "-filter-error-page-path",
       "sortOrder": 98,
-      "key": "filter-error-page-path",
-      "commandKey": "httpx"
+      "key": "filter-error-page-path"
     },
     {
       "name": "Result DB",
@@ -1379,8 +1274,7 @@
       "shortFlag": "-rdb",
       "longFlag": "-result-db",
       "sortOrder": 99,
-      "key": "result-db",
-      "commandKey": "httpx"
+      "key": "result-db"
     },
     {
       "name": "Result DB Config",
@@ -1390,8 +1284,7 @@
       "shortFlag": "-rdbc",
       "longFlag": "-result-db-config",
       "sortOrder": 100,
-      "key": "result-db-config",
-      "commandKey": "httpx"
+      "key": "result-db-config"
     },
     {
       "name": "Result DB Type",
@@ -1402,7 +1295,6 @@
       "longFlag": "-result-db-type",
       "sortOrder": 101,
       "key": "result-db-type",
-      "commandKey": "httpx",
       "enum": {
         "values": [
           {
@@ -1428,8 +1320,7 @@
       "shortFlag": "-rdbcs",
       "longFlag": "-result-db-conn",
       "sortOrder": 102,
-      "key": "result-db-conn",
-      "commandKey": "httpx"
+      "key": "result-db-conn"
     },
     {
       "name": "Result DB Name",
@@ -1439,8 +1330,7 @@
       "shortFlag": "-rdbn",
       "longFlag": "-result-db-name",
       "sortOrder": 103,
-      "key": "result-db-name",
-      "commandKey": "httpx"
+      "key": "result-db-name"
     },
     {
       "name": "Result DB Table",
@@ -1450,8 +1340,7 @@
       "shortFlag": "-rdbtb",
       "longFlag": "-result-db-table",
       "sortOrder": 104,
-      "key": "result-db-table",
-      "commandKey": "httpx"
+      "key": "result-db-table"
     },
     {
       "name": "Result DB Batch Size",
@@ -1461,8 +1350,7 @@
       "shortFlag": "-rdbbs",
       "longFlag": "-result-db-batch-size",
       "sortOrder": 105,
-      "key": "result-db-batch-size",
-      "commandKey": "httpx"
+      "key": "result-db-batch-size"
     },
     {
       "name": "Result DB Omit Raw",
@@ -1472,8 +1360,7 @@
       "shortFlag": "-rdbor",
       "longFlag": "-result-db-omit-raw",
       "sortOrder": 106,
-      "key": "result-db-omit-raw",
-      "commandKey": "httpx"
+      "key": "result-db-omit-raw"
     },
     {
       "name": "Config",
@@ -1482,8 +1369,7 @@
       "dataType": "String",
       "longFlag": "-config",
       "sortOrder": 107,
-      "key": "config",
-      "commandKey": "httpx"
+      "key": "config"
     },
     {
       "name": "Resolvers",
@@ -1494,8 +1380,7 @@
       "shortFlag": "-r",
       "longFlag": "-resolvers",
       "sortOrder": 108,
-      "key": "resolvers",
-      "commandKey": "httpx"
+      "key": "resolvers"
     },
     {
       "name": "Allow",
@@ -1505,8 +1390,7 @@
       "isRepeatable": true,
       "longFlag": "-allow",
       "sortOrder": 109,
-      "key": "allow",
-      "commandKey": "httpx"
+      "key": "allow"
     },
     {
       "name": "Deny",
@@ -1516,8 +1400,7 @@
       "isRepeatable": true,
       "longFlag": "-deny",
       "sortOrder": 110,
-      "key": "deny",
-      "commandKey": "httpx"
+      "key": "deny"
     },
     {
       "name": "SNI Name",
@@ -1527,8 +1410,7 @@
       "shortFlag": "-sni",
       "longFlag": "-sni-name",
       "sortOrder": 111,
-      "key": "sni-name",
-      "commandKey": "httpx"
+      "key": "sni-name"
     },
     {
       "name": "Random Agent",
@@ -1537,8 +1419,7 @@
       "dataType": "Boolean",
       "longFlag": "-random-agent",
       "sortOrder": 112,
-      "key": "random-agent",
-      "commandKey": "httpx"
+      "key": "random-agent"
     },
     {
       "name": "Auto Referer",
@@ -1547,8 +1428,7 @@
       "dataType": "Boolean",
       "longFlag": "-auto-referer",
       "sortOrder": 113,
-      "key": "auto-referer",
-      "commandKey": "httpx"
+      "key": "auto-referer"
     },
     {
       "name": "Header",
@@ -1559,8 +1439,7 @@
       "shortFlag": "-H",
       "longFlag": "-header",
       "sortOrder": 114,
-      "key": "header",
-      "commandKey": "httpx"
+      "key": "header"
     },
     {
       "name": "Proxy",
@@ -1570,8 +1449,7 @@
       "shortFlag": "-http-proxy",
       "longFlag": "-proxy",
       "sortOrder": 115,
-      "key": "proxy",
-      "commandKey": "httpx"
+      "key": "proxy"
     },
     {
       "name": "Unsafe",
@@ -1580,8 +1458,7 @@
       "dataType": "Boolean",
       "longFlag": "-unsafe",
       "sortOrder": 116,
-      "key": "unsafe",
-      "commandKey": "httpx"
+      "key": "unsafe"
     },
     {
       "name": "Resume",
@@ -1590,8 +1467,7 @@
       "dataType": "Boolean",
       "longFlag": "-resume",
       "sortOrder": 117,
-      "key": "resume",
-      "commandKey": "httpx"
+      "key": "resume"
     },
     {
       "name": "Follow Redirects",
@@ -1601,8 +1477,7 @@
       "shortFlag": "-fr",
       "longFlag": "-follow-redirects",
       "sortOrder": 118,
-      "key": "follow-redirects",
-      "commandKey": "httpx"
+      "key": "follow-redirects"
     },
     {
       "name": "Max Redirects",
@@ -1612,8 +1487,7 @@
       "shortFlag": "-maxr",
       "longFlag": "-max-redirects",
       "sortOrder": 119,
-      "key": "max-redirects",
-      "commandKey": "httpx"
+      "key": "max-redirects"
     },
     {
       "name": "Follow Host Redirects",
@@ -1623,8 +1497,7 @@
       "shortFlag": "-fhr",
       "longFlag": "-follow-host-redirects",
       "sortOrder": 120,
-      "key": "follow-host-redirects",
-      "commandKey": "httpx"
+      "key": "follow-host-redirects"
     },
     {
       "name": "Respect HSTS",
@@ -1634,8 +1507,7 @@
       "shortFlag": "-rhsts",
       "longFlag": "-respect-hsts",
       "sortOrder": 121,
-      "key": "respect-hsts",
-      "commandKey": "httpx"
+      "key": "respect-hsts"
     },
     {
       "name": "Vhost Input",
@@ -1644,8 +1516,7 @@
       "dataType": "Boolean",
       "longFlag": "-vhost-input",
       "sortOrder": 122,
-      "key": "vhost-input",
-      "commandKey": "httpx"
+      "key": "vhost-input"
     },
     {
       "name": "X",
@@ -1654,8 +1525,7 @@
       "dataType": "String",
       "longFlag": "-x",
       "sortOrder": 123,
-      "key": "x",
-      "commandKey": "httpx"
+      "key": "x"
     },
     {
       "name": "Body",
@@ -1664,8 +1534,7 @@
       "dataType": "String",
       "longFlag": "-body",
       "sortOrder": 124,
-      "key": "body",
-      "commandKey": "httpx"
+      "key": "body"
     },
     {
       "name": "Stream",
@@ -1675,8 +1544,7 @@
       "shortFlag": "-s",
       "longFlag": "-stream",
       "sortOrder": 125,
-      "key": "stream",
-      "commandKey": "httpx"
+      "key": "stream"
     },
     {
       "name": "Skip Dedupe",
@@ -1686,8 +1554,7 @@
       "shortFlag": "-sd",
       "longFlag": "-skip-dedupe",
       "sortOrder": 126,
-      "key": "skip-dedupe",
-      "commandKey": "httpx"
+      "key": "skip-dedupe"
     },
     {
       "name": "Leave Default Ports",
@@ -1697,8 +1564,7 @@
       "shortFlag": "-ldp",
       "longFlag": "-leave-default-ports",
       "sortOrder": 127,
-      "key": "leave-default-ports",
-      "commandKey": "httpx"
+      "key": "leave-default-ports"
     },
     {
       "name": "Ztls",
@@ -1707,8 +1573,7 @@
       "dataType": "Boolean",
       "longFlag": "-ztls",
       "sortOrder": 128,
-      "key": "ztls",
-      "commandKey": "httpx"
+      "key": "ztls"
     },
     {
       "name": "No Decode",
@@ -1717,8 +1582,7 @@
       "dataType": "Boolean",
       "longFlag": "-no-decode",
       "sortOrder": 129,
-      "key": "no-decode",
-      "commandKey": "httpx"
+      "key": "no-decode"
     },
     {
       "name": "TLS Impersonate",
@@ -1728,8 +1592,7 @@
       "shortFlag": "-tlsi",
       "longFlag": "-tls-impersonate",
       "sortOrder": 130,
-      "key": "tls-impersonate",
-      "commandKey": "httpx"
+      "key": "tls-impersonate"
     },
     {
       "name": "No Stdin",
@@ -1738,8 +1601,7 @@
       "dataType": "Boolean",
       "longFlag": "-no-stdin",
       "sortOrder": 131,
-      "key": "no-stdin",
-      "commandKey": "httpx"
+      "key": "no-stdin"
     },
     {
       "name": "HTTP API Endpoint",
@@ -1749,8 +1611,7 @@
       "shortFlag": "-hae",
       "longFlag": "-http-api-endpoint",
       "sortOrder": 132,
-      "key": "http-api-endpoint",
-      "commandKey": "httpx"
+      "key": "http-api-endpoint"
     },
     {
       "name": "Secret File",
@@ -1760,8 +1621,7 @@
       "shortFlag": "-sf",
       "longFlag": "-secret-file",
       "sortOrder": 133,
-      "key": "secret-file",
-      "commandKey": "httpx"
+      "key": "secret-file"
     },
     {
       "name": "Health Check",
@@ -1771,8 +1631,7 @@
       "shortFlag": "-hc",
       "longFlag": "-health-check",
       "sortOrder": 134,
-      "key": "health-check",
-      "commandKey": "httpx"
+      "key": "health-check"
     },
     {
       "name": "Debug",
@@ -1781,8 +1640,7 @@
       "dataType": "Boolean",
       "longFlag": "-debug",
       "sortOrder": 135,
-      "key": "debug",
-      "commandKey": "httpx"
+      "key": "debug"
     },
     {
       "name": "Debug Request",
@@ -1791,8 +1649,7 @@
       "dataType": "Boolean",
       "longFlag": "-debug-req",
       "sortOrder": 136,
-      "key": "debug-req",
-      "commandKey": "httpx"
+      "key": "debug-req"
     },
     {
       "name": "Debug Response",
@@ -1801,8 +1658,7 @@
       "dataType": "Boolean",
       "longFlag": "-debug-resp",
       "sortOrder": 137,
-      "key": "debug-resp",
-      "commandKey": "httpx"
+      "key": "debug-resp"
     },
     {
       "name": "Version",
@@ -1811,8 +1667,7 @@
       "dataType": "Boolean",
       "longFlag": "-version",
       "sortOrder": 138,
-      "key": "version",
-      "commandKey": "httpx"
+      "key": "version"
     },
     {
       "name": "Stats",
@@ -1821,8 +1676,7 @@
       "dataType": "Boolean",
       "longFlag": "-stats",
       "sortOrder": 139,
-      "key": "stats",
-      "commandKey": "httpx"
+      "key": "stats"
     },
     {
       "name": "Profile Mem",
@@ -1831,8 +1685,7 @@
       "dataType": "String",
       "longFlag": "-profile-mem",
       "sortOrder": 140,
-      "key": "profile-mem",
-      "commandKey": "httpx"
+      "key": "profile-mem"
     },
     {
       "name": "Silent",
@@ -1841,8 +1694,7 @@
       "dataType": "Boolean",
       "longFlag": "-silent",
       "sortOrder": 141,
-      "key": "silent",
-      "commandKey": "httpx"
+      "key": "silent"
     },
     {
       "name": "Verbose",
@@ -1852,8 +1704,7 @@
       "shortFlag": "-v",
       "longFlag": "-verbose",
       "sortOrder": 142,
-      "key": "verbose",
-      "commandKey": "httpx"
+      "key": "verbose"
     },
     {
       "name": "Stats Interval",
@@ -1863,8 +1714,7 @@
       "shortFlag": "-si",
       "longFlag": "-stats-interval",
       "sortOrder": 143,
-      "key": "stats-interval",
-      "commandKey": "httpx"
+      "key": "stats-interval"
     },
     {
       "name": "No Color",
@@ -1874,8 +1724,7 @@
       "shortFlag": "-nc",
       "longFlag": "-no-color",
       "sortOrder": 144,
-      "key": "no-color",
-      "commandKey": "httpx"
+      "key": "no-color"
     },
     {
       "name": "Trace",
@@ -1885,8 +1734,7 @@
       "shortFlag": "-tr",
       "longFlag": "-trace",
       "sortOrder": 145,
-      "key": "trace",
-      "commandKey": "httpx"
+      "key": "trace"
     },
     {
       "name": "No Fallback",
@@ -1896,8 +1744,7 @@
       "shortFlag": "-nf",
       "longFlag": "-no-fallback",
       "sortOrder": 146,
-      "key": "no-fallback",
-      "commandKey": "httpx"
+      "key": "no-fallback"
     },
     {
       "name": "No Fallback Scheme",
@@ -1907,8 +1754,7 @@
       "shortFlag": "-nfs",
       "longFlag": "-no-fallback-scheme",
       "sortOrder": 147,
-      "key": "no-fallback-scheme",
-      "commandKey": "httpx"
+      "key": "no-fallback-scheme"
     },
     {
       "name": "Max Host Error",
@@ -1918,8 +1764,7 @@
       "shortFlag": "-maxhr",
       "longFlag": "-max-host-error",
       "sortOrder": 148,
-      "key": "max-host-error",
-      "commandKey": "httpx"
+      "key": "max-host-error"
     },
     {
       "name": "Exclude",
@@ -1931,7 +1776,6 @@
       "longFlag": "-exclude",
       "sortOrder": 149,
       "key": "exclude",
-      "commandKey": "httpx",
       "enum": {
         "values": [
           {
@@ -1964,8 +1808,7 @@
       "dataType": "Number",
       "longFlag": "-retries",
       "sortOrder": 150,
-      "key": "retries",
-      "commandKey": "httpx"
+      "key": "retries"
     },
     {
       "name": "Timeout",
@@ -1974,8 +1817,7 @@
       "dataType": "Number",
       "longFlag": "-timeout",
       "sortOrder": 151,
-      "key": "timeout",
-      "commandKey": "httpx"
+      "key": "timeout"
     },
     {
       "name": "Delay",
@@ -1984,8 +1826,7 @@
       "dataType": "String",
       "longFlag": "-delay",
       "sortOrder": 152,
-      "key": "delay",
-      "commandKey": "httpx"
+      "key": "delay"
     },
     {
       "name": "Response Size to Save",
@@ -1995,8 +1836,7 @@
       "shortFlag": "-rsts",
       "longFlag": "-response-size-to-save",
       "sortOrder": 153,
-      "key": "response-size-to-save",
-      "commandKey": "httpx"
+      "key": "response-size-to-save"
     },
     {
       "name": "Response Size to Read",
@@ -2006,8 +1846,7 @@
       "shortFlag": "-rstr",
       "longFlag": "-response-size-to-read",
       "sortOrder": 154,
-      "key": "response-size-to-read",
-      "commandKey": "httpx"
+      "key": "response-size-to-read"
     },
     {
       "name": "Auth",
@@ -2016,8 +1855,7 @@
       "dataType": "Boolean",
       "longFlag": "-auth",
       "sortOrder": 155,
-      "key": "auth",
-      "commandKey": "httpx"
+      "key": "auth"
     },
     {
       "name": "Auth Config",
@@ -2027,8 +1865,7 @@
       "shortFlag": "-ac",
       "longFlag": "-auth-config",
       "sortOrder": 156,
-      "key": "auth-config",
-      "commandKey": "httpx"
+      "key": "auth-config"
     },
     {
       "name": "Dashboard",
@@ -2038,8 +1875,7 @@
       "shortFlag": "-pd",
       "longFlag": "-dashboard",
       "sortOrder": 157,
-      "key": "dashboard",
-      "commandKey": "httpx"
+      "key": "dashboard"
     },
     {
       "name": "Team ID",
@@ -2049,8 +1885,7 @@
       "shortFlag": "-tid",
       "longFlag": "-team-id",
       "sortOrder": 158,
-      "key": "team-id",
-      "commandKey": "httpx"
+      "key": "team-id"
     },
     {
       "name": "Asset ID",
@@ -2060,8 +1895,7 @@
       "shortFlag": "-aid",
       "longFlag": "-asset-id",
       "sortOrder": 159,
-      "key": "asset-id",
-      "commandKey": "httpx"
+      "key": "asset-id"
     },
     {
       "name": "Asset Name",
@@ -2071,8 +1905,7 @@
       "shortFlag": "-aname",
       "longFlag": "-asset-name",
       "sortOrder": 160,
-      "key": "asset-name",
-      "commandKey": "httpx"
+      "key": "asset-name"
     },
     {
       "name": "Dashboard Upload",
@@ -2082,8 +1915,7 @@
       "shortFlag": "-pdu",
       "longFlag": "-dashboard-upload",
       "sortOrder": 161,
-      "key": "dashboard-upload",
-      "commandKey": "httpx"
+      "key": "dashboard-upload"
     }
   ]
 }

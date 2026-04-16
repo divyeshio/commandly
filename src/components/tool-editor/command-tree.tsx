@@ -1,143 +1,60 @@
 import { CommandDialog } from "../tool-editor/dialogs/command-dialog";
 import { useToolBuilder } from "./tool-editor.context";
 import { Command } from "@/components/commandly/types/flat";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tree, Folder, File } from "@/components/ui/file-tree";
+import {
+  Sortable,
+  SortableContent,
+  SortableItem,
+  SortableItemHandle,
+  SortableOverlay,
+} from "@/components/ui/sortable";
 import { cn } from "@/lib/utils";
-import { ChevronDownIcon, ChevronRightIcon, Edit2Icon, PlusIcon, Trash2Icon } from "lucide-react";
+import { ChevronRightIcon, Edit2Icon, GripVerticalIcon, PlusIcon, TerminalIcon, Trash2Icon } from "lucide-react";
 import { useState } from "react";
 
-interface CommandNodeProps {
-  command: Command;
-  level?: number;
-  allCommands: Command[];
-  toolName: string;
-  selectedCommandKey?: string;
-  contextCommandKeys: string[];
-  isChatOpen: boolean;
-  expandedCommands: Set<string>;
-  onToggle: (commandKey: string) => void;
-  onSelect: (command: Command, e: React.MouseEvent) => void;
-  onEdit: (command: Command) => void;
-  onAddSubcommand: (parentKey?: string) => void;
-  onDelete: (commandKey: string) => void;
-}
+const ROOT_ID = "__root__";
 
-function CommandNode({
-  command,
-  level = 0,
-  allCommands,
-  toolName,
-  selectedCommandKey,
-  contextCommandKeys,
-  isChatOpen,
-  expandedCommands,
-  onToggle,
-  onSelect,
+function CommandActions({
   onEdit,
-  onAddSubcommand,
+  onAdd,
   onDelete,
-}: CommandNodeProps) {
-  const isExpanded = expandedCommands.has(command.key);
-  const subcommands = allCommands.filter((cmd) => cmd.parentCommandKey === command.key);
-  const hasSubcommands = subcommands.length > 0;
-  const isSelected = selectedCommandKey === command.key;
-  const isContextSelected = contextCommandKeys.includes(command.key);
-  const isRoot = command.name === toolName;
-
+  showHandle = false,
+}: {
+  onEdit?: () => void;
+  onAdd: () => void;
+  onDelete?: () => void;
+  showHandle?: boolean;
+}) {
   return (
-    <div key={command.key}>
-      <div
-        className={cn(
-          "group flex cursor-pointer items-center gap-2 rounded-md p-2 hover:bg-muted/50",
-          isSelected && "bg-muted",
-          isChatOpen && isContextSelected && "ring-1 ring-primary",
-        )}
-        style={{ paddingLeft: `${level * 16 + 8}px` }}
-        onClick={(e) => onSelect(command, e)}
-      >
-        {hasSubcommands ? (
+    <>
+      {showHandle && (
+        <SortableItemHandle asChild>
           <Button
-            id="expand-button"
             variant="ghost"
             size="sm"
-            className="h-4 w-4 p-0"
-            onClick={(e) => {
-              e.stopPropagation();
-              onToggle(command.key);
-            }}
+            className="h-5 w-5 p-0 opacity-0 group-hover:opacity-100"
           >
-            {isExpanded ? (
-              <ChevronDownIcon className="h-3 w-3" />
-            ) : (
-              <ChevronRightIcon className="h-3 w-3" />
-            )}
+            <GripVerticalIcon className="h-3 w-3" />
           </Button>
-        ) : (
-          <div className="w-4" />
-        )}
-
-        <span className="flex-1 text-sm font-medium">{command.name}</span>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="h-4 w-4 p-0 opacity-0 group-hover:opacity-100"
-          onClick={(e) => {
-            e.stopPropagation();
-            onEdit(command);
-          }}
-        >
+        </SortableItemHandle>
+      )}
+      {onEdit && (
+        <Button variant="ghost" size="sm" className="h-5 w-5 p-0 opacity-0 group-hover:opacity-100" onClick={onEdit}>
           <Edit2Icon className="h-3 w-3" />
         </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="h-4 w-4 p-0 opacity-0 group-hover:opacity-100"
-          onClick={(e) => {
-            e.stopPropagation();
-            onAddSubcommand(command.key);
-          }}
-        >
-          <PlusIcon className="h-3 w-3" />
-        </Button>
-        {!isRoot && (
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-4 w-4 p-0 opacity-0 group-hover:opacity-100"
-            onClick={(e) => {
-              e.stopPropagation();
-              onDelete(command.key);
-            }}
-          >
-            <Trash2Icon className="h-3 w-3 text-destructive" />
-          </Button>
-        )}
-      </div>
-
-      {isExpanded && hasSubcommands && (
-        <div>
-          {subcommands.map((subcmd) => (
-            <CommandNode
-              key={subcmd.key}
-              command={subcmd}
-              level={level + 1}
-              allCommands={allCommands}
-              toolName={toolName}
-              selectedCommandKey={selectedCommandKey}
-              contextCommandKeys={contextCommandKeys}
-              isChatOpen={isChatOpen}
-              expandedCommands={expandedCommands}
-              onToggle={onToggle}
-              onSelect={onSelect}
-              onEdit={onEdit}
-              onAddSubcommand={onAddSubcommand}
-              onDelete={onDelete}
-            />
-          ))}
-        </div>
       )}
-    </div>
+      <Button variant="ghost" size="sm" className="h-5 w-5 p-0 opacity-0 group-hover:opacity-100" onClick={onAdd}>
+        <PlusIcon className="h-3 w-3" />
+      </Button>
+      {onDelete && (
+        <Button variant="ghost" size="sm" className="h-5 w-5 p-0 opacity-0 group-hover:opacity-100" onClick={onDelete}>
+          <Trash2Icon className="h-3 w-3 text-destructive" />
+        </Button>
+      )}
+    </>
   );
 }
 
@@ -151,28 +68,14 @@ export function CommandTree({ isChatOpen = false }: { isChatOpen?: boolean }) {
     setContextSelection,
     updateCommand,
     deleteCommand,
+    reorderCommands,
   } = useToolBuilder();
 
-  const [expandedCommands, setExpandedCommands] = useState<Set<string>>(
-    new Set([tool.commands[0]?.key]),
-  );
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogCommand, setDialogCommand] = useState<Command | undefined>(undefined);
   const [pendingParentKey, setPendingParentKey] = useState<string | undefined>(undefined);
 
   const lastSelectedCommandIndexRef = { current: null as number | null };
-
-  const toggleExpanded = (commandKey: string) => {
-    setExpandedCommands((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(commandKey)) {
-        newSet.delete(commandKey);
-      } else {
-        newSet.add(commandKey);
-      }
-      return newSet;
-    });
-  };
 
   const handleAddSubcommand = (parentKey?: string) => {
     setDialogCommand(undefined);
@@ -186,7 +89,13 @@ export function CommandTree({ isChatOpen = false }: { isChatOpen?: boolean }) {
     setIsDialogOpen(true);
   };
 
-  const handleSelect = (command: Command, e: React.MouseEvent) => {
+  const handleRootClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedCommand(null);
+    setContextSelection({ commandKeys: [], parameterKeys: [] });
+  };
+
+  const handleCommandClick = (command: Command, e: React.MouseEvent) => {
     e.stopPropagation();
     const flatCommands = tool.commands;
     const index = flatCommands.findIndex((c) => c.key === command.key);
@@ -217,54 +126,164 @@ export function CommandTree({ isChatOpen = false }: { isChatOpen?: boolean }) {
     if (!dialogCommand) {
       addCommand(savedCommand);
       setSelectedCommand(savedCommand);
-      if (savedCommand.parentCommandKey) {
-        setExpandedCommands((prev) => {
-          const newSet = new Set(prev);
-          newSet.add(savedCommand.parentCommandKey!);
-          return newSet;
-        });
-      }
     } else {
       updateCommand(savedCommand.key, savedCommand);
     }
   };
 
+  const renderCommand = (command: Command) => {
+    const subcommands = tool.commands.filter((c) => c.parentCommandKey === command.key);
+    const isSelected = selectedCommand?.key === command.key;
+    const isContextSelected = contextSelection.commandKeys.includes(command.key);
+    const paramCount = tool.parameters.filter((p) => p.commandKey === command.key).length;
+
+    const nameElement = (
+      <span className="flex items-center gap-1.5">
+        {command.name}
+        {paramCount > 0 && (
+          <Badge variant="secondary" className="h-4 min-w-4 px-1 text-[10px] leading-none">
+            {paramCount}
+          </Badge>
+        )}
+      </span>
+    );
+
+    const actions = (
+      <CommandActions
+        onEdit={() => handleEdit(command)}
+        onAdd={() => handleAddSubcommand(command.key)}
+        onDelete={() => deleteCommand(command.key)}
+        showHandle
+      />
+    );
+
+    if (subcommands.length > 0) {
+      return (
+        <Folder
+          value={command.key}
+          element={nameElement}
+          isSelect={isSelected}
+          className={cn(
+            "group px-2 py-1.5",
+            isChatOpen && isContextSelected && "ring-1 ring-primary",
+          )}
+          actions={actions}
+          onClick={(e) => handleCommandClick(command, e)}
+        >
+          <Sortable
+            value={subcommands}
+            getItemValue={(cmd) => cmd.key}
+            onValueChange={(newOrder) =>
+              reorderCommands(newOrder.map((c) => c.key), command.key)
+            }
+          >
+            <SortableContent withoutSlot>
+              {subcommands.map((subcmd) => (
+                <SortableItem key={subcmd.key} value={subcmd.key}>
+                  {renderCommand(subcmd)}
+                </SortableItem>
+              ))}
+            </SortableContent>
+            <SortableOverlay>
+              {({ value }) => {
+                const cmd = tool.commands.find((c) => c.key === value);
+                return (
+                  <div className="rounded-md border bg-background px-2 py-1.5 text-sm">
+                    {cmd?.name}
+                  </div>
+                );
+              }}
+            </SortableOverlay>
+          </Sortable>
+        </Folder>
+      );
+    }
+
+    return (
+      <File
+        value={command.key}
+        isSelect={isSelected}
+        className={cn(
+          "group w-full px-2 py-1.5",
+          isChatOpen && isContextSelected && "ring-1 ring-primary",
+        )}
+        fileIcon={<ChevronRightIcon className="size-4 invisible" />}
+        actions={actions}
+        onClick={(e) => handleCommandClick(command, e)}
+      >
+        {nameElement}
+      </File>
+    );
+  };
+
   const rootCommands = tool.commands.filter((cmd) => !cmd.parentCommandKey);
+  const isRootSelected = selectedCommand === null;
+  const rootParamCount = tool.parameters.filter((p) => !p.commandKey && !p.isGlobal).length;
+  const globalParamCount = tool.parameters.filter((p) => p.isGlobal).length;
+
+  const rootElement = (
+    <span className="flex items-center gap-1.5">
+      {tool.binaryName}
+      {rootParamCount > 0 && (
+        <Badge variant="secondary" className="h-4 min-w-4 px-1 text-[10px] leading-none">
+          {rootParamCount}
+        </Badge>
+      )}
+      {globalParamCount > 0 && (
+        <Badge variant="outline" className="h-4 min-w-4 px-1 text-[10px] leading-none">
+          {globalParamCount}
+        </Badge>
+      )}
+    </span>
+  );
 
   return (
     <>
-      <ScrollArea className="flex-1 border-r border-muted p-1">
-        <div className="p-2">
-          {rootCommands.map((command) => (
-            <CommandNode
-              key={command.key}
-              command={command}
-              allCommands={tool.commands}
-              toolName={tool.name}
-              selectedCommandKey={selectedCommand?.key}
-              contextCommandKeys={contextSelection.commandKeys}
-              isChatOpen={isChatOpen}
-              expandedCommands={expandedCommands}
-              onToggle={toggleExpanded}
-              onSelect={handleSelect}
-              onEdit={handleEdit}
-              onAddSubcommand={handleAddSubcommand}
-              onDelete={deleteCommand}
-            />
-          ))}
-        </div>
-        <div className="p-2">
-          <Button
-            className="w-full"
-            onClick={() => handleAddSubcommand()}
+      <Tree
+        className="flex-1 border-r border-muted"
+        initialExpandedItems={[ROOT_ID, ...rootCommands.map((c) => c.key)]}
+        indicator
+        sort="none"
+        openIcon={<TerminalIcon className="size-4" />}
+        closeIcon={<TerminalIcon className="size-4" />}
+      >
+        <Folder
+          value={ROOT_ID}
+          element={rootElement}
+          isSelect={isRootSelected}
+          className="group px-2 py-1.5 font-medium"
+          actions={<CommandActions onAdd={() => handleAddSubcommand()} />}
+          onClick={handleRootClick}
+        >
+          <Sortable
+            value={rootCommands}
+            getItemValue={(cmd) => cmd.key}
+            onValueChange={(newOrder) =>
+              reorderCommands(newOrder.map((c) => c.key), undefined)
+            }
           >
-            <PlusIcon className="mr-1 h-3 w-3" />
-            Add Command
-          </Button>
-        </div>
-      </ScrollArea>
+            <SortableContent withoutSlot>
+              {rootCommands.map((command) => (
+                <SortableItem key={command.key} value={command.key}>
+                  {renderCommand(command)}
+                </SortableItem>
+              ))}
+            </SortableContent>
+            <SortableOverlay>
+              {({ value }) => {
+                const cmd = tool.commands.find((c) => c.key === value);
+                return (
+                  <div className="rounded-md border bg-background px-2 py-1.5 text-sm">
+                    {cmd?.name}
+                  </div>
+                );
+              }}
+            </SortableOverlay>
+          </Sortable>
+        </Folder>
+      </Tree>
       <CommandDialog
-        key={dialogCommand?.key ?? "new"}
+        key={dialogCommand?.key ?? `new-${pendingParentKey ?? "root"}`}
         isOpen={isDialogOpen}
         onOpenChange={(open) => {
           setIsDialogOpen(open);
@@ -275,7 +294,10 @@ export function CommandTree({ isChatOpen = false }: { isChatOpen?: boolean }) {
         }}
         command={dialogCommand}
         parentKey={pendingParentKey}
-        toolName={tool.name}
+        siblingKeys={tool.commands
+          .filter((c) => c.parentCommandKey === pendingParentKey)
+          .map((c) => c.key)}
+        toolName={tool.binaryName}
         onSave={handleDialogSave}
       />
     </>

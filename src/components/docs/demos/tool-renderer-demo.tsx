@@ -3,7 +3,7 @@ import type { ParameterValue, Tool } from "@/components/commandly/types/flat";
 import { useState } from "react";
 
 const sampleTool: Tool = {
-  name: "curl",
+  binaryName: "curl",
   displayName: "curl",
   info: {
     description: "Transfer data with URLs",

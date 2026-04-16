@@ -1,20 +1,13 @@
 {
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
-  "name": "gospider",
+  "binaryName": "gospider",
   "displayName": "GoSpider",
   "info": {
     "description": "Fast web spider written in Go.",
     "version": "1.1.6",
     "url": "https://github.com/jaeles-project/gospider"
   },
-  "commands": [
-    {
-      "name": "gospider",
-      "description": "Fast web spider written in Go.",
-      "sortOrder": 1,
-      "key": "gospider"
-    }
-  ],
+  "commands": [],
   "parameters": [
     {
       "name": "Site",
@@ -24,8 +17,7 @@
       "shortFlag": "-s",
       "longFlag": "--site",
       "sortOrder": 1,
-      "key": "site",
-      "commandKey": "gospider"
+      "key": "site"
     },
     {
       "name": "Sites",
@@ -35,8 +27,7 @@
       "shortFlag": "-S",
       "longFlag": "--sites",
       "sortOrder": 2,
-      "key": "sites",
-      "commandKey": "gospider"
+      "key": "sites"
     },
     {
       "name": "Proxy",
@@ -46,8 +37,7 @@
       "shortFlag": "-p",
       "longFlag": "--proxy",
       "sortOrder": 3,
-      "key": "proxy",
-      "commandKey": "gospider"
+      "key": "proxy"
     },
     {
       "name": "Output",
@@ -57,8 +47,7 @@
       "shortFlag": "-o",
       "longFlag": "--output",
       "sortOrder": 4,
-      "key": "output",
-      "commandKey": "gospider"
+      "key": "output"
     },
     {
       "name": "User Agent",
@@ -68,8 +57,7 @@
       "shortFlag": "-u",
       "longFlag": "--user-agent",
       "sortOrder": 5,
-      "key": "user-agent",
-      "commandKey": "gospider"
+      "key": "user-agent"
     },
     {
       "name": "Cookie",
@@ -78,8 +66,7 @@
       "dataType": "String",
       "longFlag": "--cookie",
       "sortOrder": 6,
-      "key": "cookie",
-      "commandKey": "gospider"
+      "key": "cookie"
     },
     {
       "name": "Header",
@@ -90,8 +77,7 @@
       "shortFlag": "-H",
       "longFlag": "--header",
       "sortOrder": 7,
-      "key": "header",
-      "commandKey": "gospider"
+      "key": "header"
     },
     {
       "name": "Burp",
@@ -100,8 +86,7 @@
       "dataType": "String",
       "longFlag": "--burp",
       "sortOrder": 8,
-      "key": "burp",
-      "commandKey": "gospider"
+      "key": "burp"
     },
     {
       "name": "Blacklist",
@@ -110,8 +95,7 @@
       "dataType": "String",
       "longFlag": "--blacklist",
       "sortOrder": 9,
-      "key": "blacklist",
-      "commandKey": "gospider"
+      "key": "blacklist"
     },
     {
       "name": "Whitelist",
@@ -120,8 +104,7 @@
       "dataType": "String",
       "longFlag": "--whitelist",
       "sortOrder": 10,
-      "key": "whitelist",
-      "commandKey": "gospider"
+      "key": "whitelist"
     },
     {
       "name": "Whitelist Domain",
@@ -130,8 +113,7 @@
       "dataType": "String",
       "longFlag": "--whitelist-domain",
       "sortOrder": 11,
-      "key": "whitelist-domain",
-      "commandKey": "gospider"
+      "key": "whitelist-domain"
     },
     {
       "name": "Threads",
@@ -141,8 +123,7 @@
       "shortFlag": "-t",
       "longFlag": "--threads",
       "sortOrder": 12,
-      "key": "threads",
-      "commandKey": "gospider"
+      "key": "threads"
     },
     {
       "name": "Concurrent",
@@ -152,8 +133,7 @@
       "shortFlag": "-c",
       "longFlag": "--concurrent",
       "sortOrder": 13,
-      "key": "concurrent",
-      "commandKey": "gospider"
+      "key": "concurrent"
     },
     {
       "name": "Depth",
@@ -163,8 +143,7 @@
       "shortFlag": "-d",
       "longFlag": "--depth",
       "sortOrder": 14,
-      "key": "depth",
-      "commandKey": "gospider"
+      "key": "depth"
     },
     {
       "name": "Delay",
@@ -174,8 +153,7 @@
       "shortFlag": "-k",
       "longFlag": "--delay",
       "sortOrder": 15,
-      "key": "delay",
-      "commandKey": "gospider"
+      "key": "delay"
     },
     {
       "name": "Random Delay",
@@ -185,8 +163,7 @@
       "shortFlag": "-K",
       "longFlag": "--random-delay",
       "sortOrder": 16,
-      "key": "random-delay",
-      "commandKey": "gospider"
+      "key": "random-delay"
     },
     {
       "name": "Timeout",
@@ -196,8 +173,7 @@
       "shortFlag": "-m",
       "longFlag": "--timeout",
       "sortOrder": 17,
-      "key": "timeout",
-      "commandKey": "gospider"
+      "key": "timeout"
     },
     {
       "name": "Base",
@@ -206,8 +182,7 @@
       "dataType": "Boolean",
       "longFlag": "--base",
       "sortOrder": 18,
-      "key": "base",
-      "commandKey": "gospider"
+      "key": "base"
     },
     {
       "name": "JavaScript",
@@ -216,8 +191,7 @@
       "dataType": "Boolean",
       "longFlag": "--js",
       "sortOrder": 19,
-      "key": "javascript",
-      "commandKey": "gospider"
+      "key": "javascript"
     },
     {
       "name": "Include Subdomains",
@@ -226,8 +200,7 @@
       "dataType": "Boolean",
       "longFlag": "--subs",
       "sortOrder": 20,
-      "key": "include-subdomains",
-      "commandKey": "gospider"
+      "key": "include-subdomains"
     },
     {
       "name": "Sitemap",
@@ -236,8 +209,7 @@
       "dataType": "Boolean",
       "longFlag": "--sitemap",
       "sortOrder": 21,
-      "key": "sitemap",
-      "commandKey": "gospider"
+      "key": "sitemap"
     },
     {
       "name": "Robots",
@@ -246,8 +218,7 @@
       "dataType": "Boolean",
       "longFlag": "--robots",
       "sortOrder": 22,
-      "key": "robots",
-      "commandKey": "gospider"
+      "key": "robots"
     },
     {
       "name": "Other Source",
@@ -257,8 +228,7 @@
       "shortFlag": "-a",
       "longFlag": "--other-source",
       "sortOrder": 23,
-      "key": "other-source",
-      "commandKey": "gospider"
+      "key": "other-source"
     },
     {
       "name": "Include Third-Party Subdomains",
@@ -268,8 +238,7 @@
       "shortFlag": "-w",
       "longFlag": "--include-subs",
       "sortOrder": 24,
-      "key": "include-subdomains-from-third-party",
-      "commandKey": "gospider"
+      "key": "include-subdomains-from-third-party"
     },
     {
       "name": "Include Other Source URLs",
@@ -279,8 +248,7 @@
       "shortFlag": "-r",
       "longFlag": "--include-other-source",
       "sortOrder": 25,
-      "key": "include-other-source-urls",
-      "commandKey": "gospider"
+      "key": "include-other-source-urls"
     },
     {
       "name": "Debug",
@@ -289,8 +257,7 @@
       "dataType": "Boolean",
       "longFlag": "--debug",
       "sortOrder": 26,
-      "key": "debug",
-      "commandKey": "gospider"
+      "key": "debug"
     },
     {
       "name": "JSON Output",
@@ -299,8 +266,7 @@
       "dataType": "Boolean",
       "longFlag": "--json",
       "sortOrder": 27,
-      "key": "json-output",
-      "commandKey": "gospider"
+      "key": "json-output"
     },
     {
       "name": "Verbose",
@@ -310,8 +276,7 @@
       "shortFlag": "-v",
       "longFlag": "--verbose",
       "sortOrder": 28,
-      "key": "verbose",
-      "commandKey": "gospider"
+      "key": "verbose"
     },
     {
       "name": "Length",
@@ -321,8 +286,7 @@
       "shortFlag": "-l",
       "longFlag": "--length",
       "sortOrder": 29,
-      "key": "length",
-      "commandKey": "gospider"
+      "key": "length"
     },
     {
       "name": "Filter Length",
@@ -332,8 +296,7 @@
       "shortFlag": "-L",
       "longFlag": "--filter-length",
       "sortOrder": 30,
-      "key": "filter-length",
-      "commandKey": "gospider"
+      "key": "filter-length"
     },
     {
       "name": "Raw",
@@ -343,8 +306,7 @@
       "shortFlag": "-R",
       "longFlag": "--raw",
       "sortOrder": 31,
-      "key": "raw",
-      "commandKey": "gospider"
+      "key": "raw"
     },
     {
       "name": "Quiet",
@@ -354,8 +316,7 @@
       "shortFlag": "-q",
       "longFlag": "--quiet",
       "sortOrder": 32,
-      "key": "quiet",
-      "commandKey": "gospider"
+      "key": "quiet"
     },
     {
       "name": "No Redirect",
@@ -364,8 +325,7 @@
       "dataType": "Boolean",
       "longFlag": "--no-redirect",
       "sortOrder": 33,
-      "key": "no-redirect",
-      "commandKey": "gospider"
+      "key": "no-redirect"
     },
     {
       "name": "Version",
@@ -374,8 +334,7 @@
       "dataType": "Boolean",
       "longFlag": "--version",
       "sortOrder": 34,
-      "key": "version",
-      "commandKey": "gospider"
+      "key": "version"
     },
     {
       "name": "Help",
@@ -385,8 +344,7 @@
       "shortFlag": "-h",
       "longFlag": "--help",
       "sortOrder": 35,
-      "key": "help",
-      "commandKey": "gospider"
+      "key": "help"
     }
   ]
 }

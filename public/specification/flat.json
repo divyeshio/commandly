@@ -1,8 +1,8 @@
 {
   "type": "object",
   "properties": {
-    "name": {
-      "description": "Unique machine-readable identifier for the tool (e.g. \"httpx\").",
+    "binaryName": {
+      "description": "Unique binary name for the tool that it can be invoked from the command line (e.g. \"httpx\").",
       "type": "string"
     },
     "displayName": {
@@ -40,9 +40,9 @@
     }
   },
   "required": [
+    "binaryName",
     "commands",
     "displayName",
-    "name",
     "parameters"
   ],
   "definitions": {

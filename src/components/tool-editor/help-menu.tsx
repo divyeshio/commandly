@@ -16,7 +16,7 @@ export function HelpMenu() {
     preview += `${tool.info?.description ?? ""}\n\n`;
 
     preview += `USAGE:\n`;
-    preview += `  ${tool.name} [GLOBAL OPTIONS] <COMMAND> [OPTIONS] [ARGUMENTS]\n\n`;
+    preview += `  ${tool.binaryName} [GLOBAL OPTIONS] <COMMAND> [OPTIONS] [ARGUMENTS]\n\n`;
 
     if (globalParams.length > 0) {
       preview += "GLOBAL OPTIONS:\n";
@@ -47,68 +47,70 @@ export function HelpMenu() {
       preview += "\n";
     }
 
-    preview += "COMMANDS:\n";
-    const printCommand = (command: Command, level = 0) => {
-      const indent = "  ".repeat(level + 1);
-      preview += `${indent}${command.name.padEnd(20 - level * 2)}${formatDescription(command.description)}\n`;
+    if (rootCommands.length > 0) {
+      preview += "COMMANDS:\n";
+      const printCommand = (command: Command, level = 0) => {
+        const indent = "  ".repeat(level + 1);
+        preview += `${indent}${command.name.padEnd(20 - level * 2)}${formatDescription(command.description)}\n`;
 
-      const commandParams = tool.parameters.filter(
-        (p) => !p.isGlobal && p.commandKey === command.key,
-      );
+        const commandParams = tool.parameters.filter(
+          (p) => !p.isGlobal && p.commandKey === command.key,
+        );
 
-      const flags = commandParams.filter((p) => p.parameterType === "Flag");
-      const options = commandParams.filter((p) => p.parameterType === "Option");
-      const arguments_ = commandParams.filter((p) => p.parameterType === "Argument");
+        const flags = commandParams.filter((p) => p.parameterType === "Flag");
+        const options = commandParams.filter((p) => p.parameterType === "Option");
+        const arguments_ = commandParams.filter((p) => p.parameterType === "Argument");
 
-      if (flags.length > 0) {
-        preview += `${indent}  Flags:\n`;
-        flags.forEach((flag) => {
-          const shortFlag = flag.shortFlag ? `${flag.shortFlag}` : "";
-          const longFlag = flag.longFlag ? `${flag.longFlag}` : "";
-          const flagStr =
-            shortFlag && longFlag ? `${shortFlag}, ${longFlag}` : shortFlag || longFlag;
-          const required = flag.isRequired ? "Required: " : "";
-          preview += `${indent}    ${flagStr.padEnd(18)} ${required}${flag.description ?? ""}\n`;
-        });
-      }
+        if (flags.length > 0) {
+          preview += `${indent}  Flags:\n`;
+          flags.forEach((flag) => {
+            const shortFlag = flag.shortFlag ? `${flag.shortFlag}` : "";
+            const longFlag = flag.longFlag ? `${flag.longFlag}` : "";
+            const flagStr =
+              shortFlag && longFlag ? `${shortFlag}, ${longFlag}` : shortFlag || longFlag;
+            const required = flag.isRequired ? "Required: " : "";
+            preview += `${indent}    ${flagStr.padEnd(18)} ${required}${flag.description ?? ""}\n`;
+          });
+        }
 
-      if (options.length > 0) {
-        preview += `${indent}  Options:\n`;
-        options.forEach((option) => {
-          const shortFlag = option.shortFlag ? `${option.shortFlag}` : "";
-          const longFlag = option.longFlag ? `${option.longFlag}` : "";
-          const flagStr =
-            shortFlag && longFlag ? `${shortFlag}, ${longFlag}` : shortFlag || longFlag;
-          const valueType = option.dataType.includes("array")
-            ? `<value1${option.arraySeparator}value2>`
-            : `<${option.dataType}>`;
-          const required = option.isRequired ? "Required: " : "";
-          preview += `${indent}    ${flagStr.padEnd(18)} ${required}${option.description ?? ""}\n`;
-          preview += `${indent}    ${" ".repeat(18)} Value: ${valueType}\n`;
-        });
-      }
+        if (options.length > 0) {
+          preview += `${indent}  Options:\n`;
+          options.forEach((option) => {
+            const shortFlag = option.shortFlag ? `${option.shortFlag}` : "";
+            const longFlag = option.longFlag ? `${option.longFlag}` : "";
+            const flagStr =
+              shortFlag && longFlag ? `${shortFlag}, ${longFlag}` : shortFlag || longFlag;
+            const valueType = option.dataType.includes("array")
+              ? `<value1${option.arraySeparator}value2>`
+              : `<${option.dataType}>`;
+            const required = option.isRequired ? "Required: " : "";
+            preview += `${indent}    ${flagStr.padEnd(18)} ${required}${option.description ?? ""}\n`;
+            preview += `${indent}    ${" ".repeat(18)} Value: ${valueType}\n`;
+          });
+        }
 
-      if (arguments_.length > 0) {
-        preview += `${indent}  Arguments:\n`;
-        arguments_.forEach((arg) => {
-          const required = arg.isRequired ? "Required: " : "";
-          preview += `${indent}    ${arg.name.padEnd(18)} ${required}${arg.description ?? ""}\n`;
-          if (arg.dataType === "Enum") {
-            preview += `${indent}    ${" ".repeat(18)} Values: ${arg.enum?.values?.map((e) => e.value).join(", ")}\n`;
-          }
-        });
-      }
+        if (arguments_.length > 0) {
+          preview += `${indent}  Arguments:\n`;
+          arguments_.forEach((arg) => {
+            const required = arg.isRequired ? "Required: " : "";
+            preview += `${indent}    ${arg.name.padEnd(18)} ${required}${arg.description ?? ""}\n`;
+            if (arg.dataType === "Enum") {
+              preview += `${indent}    ${" ".repeat(18)} Values: ${arg.enum?.values?.map((e) => e.value).join(", ")}\n`;
+            }
+          });
+        }
 
-      const subcommands = tool.commands.filter((cmd) => cmd.parentCommandKey === command.key);
-      if (subcommands.length > 0) {
-        preview += `${indent}  Subcommands:\n`;
-        subcommands.forEach((subcmd) => {
-          printCommand(subcmd, level + 2);
-        });
-      }
-    };
+        const subcommands = tool.commands.filter((cmd) => cmd.parentCommandKey === command.key);
+        if (subcommands.length > 0) {
+          preview += `${indent}  Subcommands:\n`;
+          subcommands.forEach((subcmd) => {
+            printCommand(subcmd, level + 2);
+          });
+        }
+      };
 
-    rootCommands.forEach((cmd) => printCommand(cmd));
+      rootCommands.forEach((cmd) => printCommand(cmd));
+    }
 
     return preview;
   };

@@ -12,7 +12,15 @@ export default defineConfig({
     setupFiles: ["./tests/vitest.setup.ts"],
     coverage: {
       provider: "v8",
-      reporter: process.env.GITHUB_ACTIONS ? ["text", "github-actions"] : ["text"],
+      reporter: process.env.GITHUB_ACTIONS
+        ? ["text", "github-actions", "json-summary"]
+        : ["text"],
+      exclude: [
+        "src/components/ui/**",
+        "src/components/ai-elements/**",
+        "src/routes/**",
+        "registry/commandly/ui/**",
+      ],
     },
   },
 });

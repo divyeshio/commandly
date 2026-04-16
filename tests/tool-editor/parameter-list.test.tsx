@@ -6,7 +6,7 @@ import {
   useToolBuilder,
 } from "@/components/tool-editor/tool-editor.context";
 import { defaultTool } from "@/lib/utils";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import { ReactNode } from "react";
 
 const createTestParameter = (overrides: Partial<Parameter> = {}): Parameter => ({
@@ -400,6 +400,47 @@ describe("ParameterList - Rendering & Structure", () => {
 
       expect(screen.getByText("test-param")).toBeInTheDocument();
       expect(screen.getByText("(--verbose, -v)")).toBeInTheDocument();
+    });
+  });
+
+  describe("Drag and Drop", () => {
+    it("renders a drag handle for each parameter card", () => {
+      const parameters = [
+        createTestParameter({ key: "p1", name: "param-one" }),
+        createTestParameter({ key: "p2", name: "param-two" }),
+      ];
+      const state = baseTestState();
+      state.tool = { ...state.tool!, parameters };
+      renderWithProvider(<ParameterList title="Parameters" />, state);
+
+      const cards = screen.getAllByText(/param-one|param-two/);
+      expect(cards.length).toBeGreaterThanOrEqual(2);
+
+      const allButtons = document.querySelectorAll("button.opacity-0.group-hover\\:opacity-100");
+      // Each card has grip + edit buttons (at minimum 2 × 2 = 4 hidden buttons)
+      expect(allButtons.length).toBeGreaterThanOrEqual(4);
+    });
+
+    it("reorderParameters updates sortOrder in context", () => {
+      const p1 = createTestParameter({ key: "p1", name: "param-one", commandKey: "test-command-key" });
+      const p2 = createTestParameter({ key: "p2", name: "param-two", commandKey: "test-command-key" });
+      const p3 = createTestParameter({ key: "p3", name: "param-three", commandKey: "test-command-key" });
+      const state = baseTestState();
+      state.tool = { ...state.tool!, parameters: [p1, p2, p3] };
+      renderWithProvider(<ParameterList title="Parameters" />, state);
+
+      expect(typeof capturedCtx.reorderParameters).toBe("function");
+
+      act(() => {
+        capturedCtx.reorderParameters(["p3", "p1", "p2"]);
+      });
+
+      const p3Updated = capturedCtx.tool.parameters.find((p) => p.key === "p3");
+      const p1Updated = capturedCtx.tool.parameters.find((p) => p.key === "p1");
+      const p2Updated = capturedCtx.tool.parameters.find((p) => p.key === "p2");
+      expect(p3Updated?.sortOrder).toBe(0);
+      expect(p1Updated?.sortOrder).toBe(1);
+      expect(p2Updated?.sortOrder).toBe(2);
     });
   });
 });

@@ -40,6 +40,16 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
         const commandParameters = tool.parameters.filter(
           (p) => p.commandKey === cmd.key && !p.isGlobal,
         );
+        const commandExclusionGroups = tool.exclusionGroups
+          ?.filter((g) => g.commandKey === cmd.key)
+          .map((group) => ({
+            name: group.name,
+            exclusionType: group.exclusionType,
+            parameters: group.parameterKeys.map((pk) => {
+              const param = tool.parameters.find((p) => p.key === pk);
+              return param?.longFlag || "";
+            }),
+          }));
         return {
           name: cmd.name,
           description: cmd.description,
@@ -47,30 +57,33 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
           sortOrder: cmd.sortOrder ?? 0,
           parameters: commandParameters.map(convertParameter),
           subcommands: buildNestedCommands(commands, cmd.key),
+          ...(commandExclusionGroups?.length ? { exclusionGroups: commandExclusionGroups } : {}),
         };
       });
   };
 
-  const nestedExclusionGroups: NestedExclusionGroup[] | undefined = tool.exclusionGroups?.map(
-    (group) => {
-      return {
-        name: group.name,
-        exclusionType: group.exclusionType,
-        parameters: group.parameterKeys.map((pk) => {
-          const param = tool.parameters.find((p) => p.key === pk);
-          return param?.longFlag || "";
-        }),
-      };
-    },
-  );
+  const nestedExclusionGroups: NestedExclusionGroup[] | undefined = tool.exclusionGroups
+    ?.filter((g) => !g.commandKey)
+    .map((group) => ({
+      name: group.name,
+      exclusionType: group.exclusionType,
+      parameters: group.parameterKeys.map((pk) => {
+        const param = tool.parameters.find((p) => p.key === pk);
+        return param?.longFlag || "";
+      }),
+    }));
+
+  const rootParameters =
+    tool.commands.length === 0 ? tool.parameters.filter((p) => !p.commandKey && !p.isGlobal) : [];
 
   return {
     $schema: "https://commandly.divyeshio.in/specification/nested.json",
-    name: tool.name,
+    binaryName: tool.binaryName,
     url: tool.info?.url,
     displayName: tool.displayName,
     info: tool.info,
     metadata: tool.metadata,
+    rootParameters: rootParameters.map(convertParameter),
     globalParameters: globalParameters.map(convertParameter),
     commands: buildNestedCommands(tool.commands),
     exclusionGroups: nestedExclusionGroups,

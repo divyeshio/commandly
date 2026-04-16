@@ -43,7 +43,9 @@ function RouteComponent() {
   const loaderData = Route.useLoaderData();
   const [tools, setTools] = useState<Partial<Tool>[]>(loaderData.serverTools || []);
   const [serverToolNames] = useState<Set<string>>(
-    new Set((loaderData.serverTools || []).map((t) => t.name).filter((n): n is string => !!n)),
+    new Set(
+      (loaderData.serverTools || []).map((t) => t.binaryName).filter((n): n is string => !!n),
+    ),
   );
 
   useEffect(() => {
@@ -53,7 +55,7 @@ function RouteComponent() {
       if (key?.startsWith("tool-")) {
         try {
           const tool = JSON.parse(localStorage.getItem(key)!) as Partial<Tool>;
-          if (tool?.name && !serverToolNames.has(tool.name)) {
+          if (tool?.binaryName && !serverToolNames.has(tool.binaryName)) {
             localTools.push(tool);
           }
         } catch {
@@ -63,8 +65,8 @@ function RouteComponent() {
     }
     if (localTools.length > 0) {
       setTools((prev) => {
-        const existingNames = new Set(prev.map((t) => t.name));
-        const newTools = localTools.filter((t) => !existingNames.has(t.name));
+        const existingNames = new Set(prev.map((t) => t.binaryName));
+        const newTools = localTools.filter((t) => !existingNames.has(t.binaryName));
         return [...newTools, ...prev];
       });
     }
@@ -93,7 +95,7 @@ function RouteComponent() {
   const handleCreateTool = () => {
     const name = slugify(newToolName.trim());
     const displayName = newToolDisplayName.trim() || newToolName.trim();
-    const newTool: Tool = { name, displayName, commands: [], parameters: [] };
+    const newTool: Tool = { binaryName: name, displayName, commands: [], parameters: [] };
     localStorage.setItem(`tool-${name}`, JSON.stringify(newTool));
     setNewToolDialogOpen(false);
     navigation({
@@ -104,14 +106,14 @@ function RouteComponent() {
   };
 
   const handleDelete = (tool: Partial<Tool>) => {
-    localStorage.removeItem(`tool-${tool.name}`);
-    setTools((prev) => prev.filter((t) => t.name !== tool.name));
+    localStorage.removeItem(`tool-${tool.binaryName}`);
+    setTools((prev) => prev.filter((t) => t.binaryName !== tool.binaryName));
   };
 
   const filteredTools = React.useMemo(() => {
     return tools.filter((tool) => {
       const matchesName = searchValue
-        ? tool.name?.toLowerCase().includes(searchValue.toLowerCase()) ||
+        ? tool.binaryName?.toLowerCase().includes(searchValue.toLowerCase()) ||
           tool.displayName?.toLowerCase().includes(searchValue.toLowerCase())
         : true;
       return matchesName;
@@ -157,10 +159,9 @@ function RouteComponent() {
             </DialogHeader>
             <div className="space-y-4">
               <div className="flex flex-col gap-2">
-                <Label htmlFor="new-tool-name">Tool Name</Label>
+                <Label htmlFor="new-tool-name">Binary Name</Label>
                 <Input
                   id="new-tool-name"
-                  placeholder="my-tool"
                   value={newToolName}
                   autoFocus
                   onChange={(e) => handleNewToolNameChange(e.target.value)}
@@ -173,7 +174,6 @@ function RouteComponent() {
                 <Label htmlFor="new-tool-display-name">Display Name</Label>
                 <Input
                   id="new-tool-display-name"
-                  placeholder="My Tool"
                   value={newToolDisplayName}
                   onChange={(e) => {
                     setNewToolDisplayName(e.target.value);
@@ -239,9 +239,9 @@ function ListComponent({
       {tools.map((tool: Partial<Tool>, index: number) => {
         return (
           <ToolCard
-            key={tool.name || index}
+            key={tool.binaryName || index}
             tool={tool}
-            isLocal={!serverToolNames.has(tool.name!)}
+            isLocal={!serverToolNames.has(tool.binaryName!)}
             onDelete={onDelete}
           />
         );

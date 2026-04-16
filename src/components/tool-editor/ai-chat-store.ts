@@ -97,8 +97,8 @@ export class ChatStore {
 
   updateTool(tool: Tool): void {
     this.currentTool = tool;
-    if (tool.name !== this.toolName) {
-      this.toolName = tool.name;
+    if (tool.binaryName !== this.toolName) {
+      this.toolName = tool.binaryName;
       this.refreshChats();
     }
   }

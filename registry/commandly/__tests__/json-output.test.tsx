@@ -81,7 +81,7 @@ describe("exportToStructuredJSON", () => {
 describe("convertToNestedStructure", () => {
   it("omits validations and dependencies when empty", () => {
     const result = toJSON(convertToNestedStructure(defaultTool()));
-    result.globalParameters.forEach((param) => {
+    result.rootParameters.forEach((param) => {
       expect(param).not.toHaveProperty("validations");
       expect(param).not.toHaveProperty("dependencies");
     });
@@ -103,7 +103,7 @@ describe("convertToNestedStructure", () => {
       },
     ];
     const result = convertToNestedStructure(tool);
-    expect(result.globalParameters[0].validations).toHaveLength(1);
+    expect(result.rootParameters[0].validations).toHaveLength(1);
   });
 
   it("includes exclusionGroups when non-empty", () => {

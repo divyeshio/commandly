@@ -47,16 +47,30 @@ for (const file of files) {
     continue;
   }
 
-  if (tool.name !== fileName) {
+  if (tool.binaryName !== fileName) {
     errors.push(
-      `❌ \`${file}\`: \`name\` field (\`${tool.name}\`) does not match filename (\`${fileName}\`).`,
+      `❌ \`${file}\`: \`name\` field (\`${tool.binaryName}\`) does not match filename (\`${fileName}\`).`,
     );
     continue;
   }
 
-  if (!Array.isArray(tool.commands) || tool.commands.length === 0) {
-    errors.push(`❌ \`${file}\`: \`commands\` must be a non-empty array.`);
+  if (!Array.isArray(tool.commands)) {
+    errors.push(`❌ \`${file}\`: \`commands\` must be an array.`);
     continue;
+  }
+
+  const hasCommands = tool.commands.length > 0;
+  for (const param of tool.parameters) {
+    if (!hasCommands && (param.commandKey || param.isGlobal)) {
+      errors.push(
+        `❌ \`${file}\`: Parameter \`${param.key}\` must not have \`commandKey\` or \`isGlobal\` when there are no commands.`,
+      );
+    }
+    if (hasCommands && !param.commandKey && !param.isGlobal) {
+      errors.push(
+        `❌ \`${file}\`: Parameter \`${param.key}\` must have \`commandKey\` or \`isGlobal\` when commands exist.`,
+      );
+    }
   }
 
   const sanitized = sanitizeToolJSON(tool);

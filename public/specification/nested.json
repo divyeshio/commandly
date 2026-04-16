@@ -1,12 +1,8 @@
 {
   "type": "object",
   "properties": {
-    "$schema": {
-      "description": "Optional JSON schema URI for validation.",
-      "type": "string"
-    },
-    "name": {
-      "description": "Unique machine-readable identifier for the tool (e.g. \"httpx\").",
+    "binaryName": {
+      "description": "Unique binary name for the tool that it can be invoked from the command line (e.g. \"httpx\").",
       "type": "string"
     },
     "displayName": {
@@ -20,6 +16,13 @@
     "url": {
       "description": "The homepage or documentation URL for the tool.",
       "type": "string"
+    },
+    "rootParameters": {
+      "description": "Parameters that belong to the root invocation when no commands exist.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/NestedParameter"
+      }
     },
     "globalParameters": {
       "description": "Parameters that apply to all commands globally.",
@@ -55,10 +58,11 @@
     }
   },
   "required": [
+    "binaryName",
     "commands",
     "displayName",
     "globalParameters",
-    "name"
+    "rootParameters"
   ],
   "definitions": {
     "ToolInfo": {
@@ -339,12 +343,17 @@
           "items": {
             "$ref": "#/definitions/NestedCommand"
           }
+        },
+        "exclusionGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NestedExclusionGroup"
+          }
         }
       },
       "required": [
         "name",
         "parameters",
-        "sortOrder",
         "subcommands"
       ]
     },
