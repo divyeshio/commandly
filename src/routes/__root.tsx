@@ -1,7 +1,7 @@
 import appCss from "../index.css?url";
 import { DefaultCatchBoundary } from "@/components/error-component";
 import { NotFound } from "@/components/not-found";
-import { ThemeProvider, ThemeSwitcher } from "@/components/theme-switcher";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import type { QueryClient } from "@tanstack/react-query";
@@ -9,6 +9,7 @@ import type { QueryClient } from "@tanstack/react-query";
 import { HeadContent, Outlet, Scripts, createRootRouteWithContext } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { MenuIcon, TerminalIcon } from "lucide-react";
+import { ThemeProvider } from "next-themes";
 import { NuqsAdapter } from "nuqs/adapters/react";
 import * as React from "react";
 import { useState } from "react";
@@ -63,7 +64,12 @@ export const Route = createRootRouteWithContext<{
 
 function RootComponent() {
   return (
-    <ThemeProvider>
+    <ThemeProvider
+      themes={["light", "dark", "system"]}
+      defaultTheme="dark"
+      disableTransitionOnChange
+      attribute="class"
+    >
       <RootDocument>
         <Outlet />
       </RootDocument>

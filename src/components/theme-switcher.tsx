@@ -1,18 +1,20 @@
 import { Button } from "./ui/button";
 import { MoonIcon, SunIcon } from "lucide-react";
-import { createContext, ReactNode, useContext, useEffect, useRef, useState } from "react";
-import { flushSync } from "react-dom";
+import { useTheme } from "next-themes";
+import { useRef } from "react";
 
-type Theme = "dark" | "light" | "system";
+export type Theme = "dark" | "light" | "system";
 
 export function ThemeSwitcher() {
-  const { theme, setTheme } = useTheme();
   const ref = useRef<HTMLButtonElement>(null);
-  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => setMounted(true), []);
+  const { theme, setTheme } = useTheme();
 
   const toggleDarkMode = async (theme: Theme) => {
+    /**
+     * Return early if View Transition API is not supported
+     * or user prefers reduced motion
+     */
     if (
       !ref.current ||
       !document.startViewTransition ||
@@ -23,9 +25,7 @@ export function ThemeSwitcher() {
     }
 
     await document.startViewTransition(() => {
-      flushSync(() => {
-        setTheme(theme);
-      });
+      setTheme(theme);
     }).ready;
 
     const { top, left, width, height } = ref.current.getBoundingClientRect();
@@ -40,7 +40,7 @@ export function ThemeSwitcher() {
         clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${maxRadius}px at ${x}px ${y}px)`],
       },
       {
-        duration: 400,
+        duration: 500,
         easing: "ease-in-out",
         pseudoElement: "::view-transition-new(root)",
       },
@@ -49,13 +49,13 @@ export function ThemeSwitcher() {
 
   return (
     <Button
+      variant="link"
       size="icon"
-      variant="ghost"
       className="rounded-full"
       onClick={() => (theme === "dark" ? toggleDarkMode("light") : toggleDarkMode("dark"))}
       ref={ref}
     >
-      {(mounted ? theme === "dark" : true) ? (
+      {theme === "dark" ? (
         <MoonIcon className="scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
       ) : (
         <SunIcon className="scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
@@ -63,48 +63,3 @@ export function ThemeSwitcher() {
     </Button>
   );
 }
-
-interface ThemeProviderContextType {
-  theme: Theme;
-  setTheme: (theme: Theme) => void;
-}
-
-const ThemeProviderContext = createContext<ThemeProviderContextType | undefined>(undefined);
-
-const storageKey = "ui-theme";
-
-interface ThemeProviderProps {
-  children: ReactNode;
-  defaultTheme?: Theme;
-}
-
-export function ThemeProvider({ children, defaultTheme = "dark" }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window === "undefined") return defaultTheme;
-    return (localStorage.getItem(storageKey) as Theme) || defaultTheme;
-  });
-
-  useEffect(() => {
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-    localStorage.setItem(storageKey, theme);
-  }, [theme]);
-
-  const value = {
-    theme,
-    setTheme,
-  };
-
-  return <ThemeProviderContext.Provider value={value}>{children}</ThemeProviderContext.Provider>;
-}
-
-export const useTheme = () => {
-  const context = useContext(ThemeProviderContext);
-  if (context === undefined) {
-    throw new Error("useTheme must be used within a ThemeProvider");
-  }
-  return context;
-};
