@@ -46,9 +46,9 @@ import { JsonOutput } from "@/components/commandly/json-output";
 
 ```tsx
 const tool: Tool = {
-  name: "curl",
+  binaryName: "curl",
   displayName: "curl",
-  commands: [{ key: "curl", name: "curl", isDefault: true }],
+  commands: [{ key: "curl", name: "curl" }],
   parameters: [
     {
       key: "url",

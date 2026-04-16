@@ -22,11 +22,11 @@ import { Switch } from "@/components/ui/switch";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { CheckIcon, ChevronsUpDownIcon, InfoIcon, PlusIcon, XIcon } from "lucide-react";
-import React from "react";
+import React, { useMemo } from "react";
 
 const findDefaultCommand = (tool: Tool): Command | null => {
   const nameMatchCommand = tool.commands.find(
-    (command) => command.name.toLowerCase() === tool.name.toLowerCase(),
+    (command) => command.name.toLowerCase() === tool.binaryName.toLowerCase(),
   );
   if (nameMatchCommand) return nameMatchCommand;
 
@@ -63,14 +63,16 @@ function ParameterLabel({
         </span>
       )}
       {isRequired && <span className="ml-1 text-destructive">*</span>}
-      <Tooltip>
-        <TooltipTrigger>
-          <InfoIcon className="h-3.5 w-3.5" />
-        </TooltipTrigger>
-        <TooltipContent>
-          <span>{description}</span>
-        </TooltipContent>
-      </Tooltip>
+      {description?.trim() && (
+        <Tooltip>
+          <TooltipTrigger>
+            <InfoIcon className="h-3.5 w-3.5" />
+          </TooltipTrigger>
+          <TooltipContent>
+            <span>{description}</span>
+          </TooltipContent>
+        </Tooltip>
+      )}
       {children}
       {isGlobal && (
         <Badge
@@ -369,44 +371,47 @@ export function ToolRenderer({
   parameterValues,
   updateParameterValue,
 }: ToolRendererProps) {
-  const selectedCommand = providedCommand ?? findDefaultCommand(tool);
+  const selectedCommand =
+    providedCommand === undefined ? findDefaultCommand(tool) : providedCommand;
+  const hasCommands = tool.commands.length > 0;
+
+  const visibleParameters = useMemo(() => {
+    if (!hasCommands || !selectedCommand) {
+      return tool.parameters.filter((p) => !p.commandKey || p.isGlobal);
+    }
+    return tool.parameters.filter(
+      (param) => param.commandKey === selectedCommand?.key || param.isGlobal,
+    );
+  }, [tool, hasCommands, selectedCommand]);
 
   return (
     <React.Fragment>
-      {selectedCommand && tool.commands.length === 0 ? (
-        <p className="text-sm text-muted-foreground">No commands available for this tool.</p>
-      ) : (
-        <div className="space-y-4">
-          {tool.parameters.length > 0 ? (
-            tool.parameters
-              .filter((param) => param.commandKey === selectedCommand?.key || param.isGlobal)
-              .map((parameter) => {
-                const value = parameterValues[parameter.key] ?? "";
-                const onUpdate = (val: ParameterValue) => updateParameterValue(parameter.key, val);
-                const entry = catalog.find((e) => e.condition(parameter));
-                if (!entry) return null;
-                return (
-                  <React.Fragment key={parameter.key}>
-                    {parameter.isRepeatable ? (
-                      <RepeatableWrapper
-                        parameter={parameter}
-                        value={value}
-                        onUpdate={onUpdate}
-                        renderEntry={entry.component}
-                      />
-                    ) : (
-                      entry.component({ parameter, value, onUpdate })
-                    )}
-                  </React.Fragment>
-                );
-              })
-          ) : (
-            <p className="text-sm text-muted-foreground">
-              No parameters available for this command.
-            </p>
-          )}
-        </div>
-      )}
+      <div className="space-y-4">
+        {visibleParameters.length > 0 ? (
+          visibleParameters.map((parameter) => {
+            const value = parameterValues[parameter.key] ?? "";
+            const onUpdate = (val: ParameterValue) => updateParameterValue(parameter.key, val);
+            const entry = catalog.find((e) => e.condition(parameter));
+            if (!entry) return null;
+            return (
+              <React.Fragment key={parameter.key}>
+                {parameter.isRepeatable ? (
+                  <RepeatableWrapper
+                    parameter={parameter}
+                    value={value}
+                    onUpdate={onUpdate}
+                    renderEntry={entry.component}
+                  />
+                ) : (
+                  entry.component({ parameter, value, onUpdate })
+                )}
+              </React.Fragment>
+            );
+          })
+        ) : (
+          <p className="text-sm text-muted-foreground">No parameters available for this command.</p>
+        )}
+      </div>
     </React.Fragment>
   );
 }

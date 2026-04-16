@@ -151,10 +151,12 @@ export interface ExclusionGroup {
 }
 
 export interface Tool {
-  /** Unique machine-readable identifier for the tool (e.g. "httpx"). */
-  name: string;
+  /** Unique binary name for the tool that it can be invoked from the command line (e.g. "httpx"). */
+  binaryName: string;
   /** Human-readable display name for the tool (e.g. "HTTPx"). */
   displayName: string;
+  /** Whether the root tool invocation opens an interactive session or prompt. */
+  interactive?: boolean;
   /** General information about the tool such as description, version, and URL. */
   info?: ToolInfo;
   /** List of all commands and subcommands defined for this tool. */

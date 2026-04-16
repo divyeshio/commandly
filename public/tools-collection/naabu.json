@@ -1,20 +1,13 @@
 {
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
-  "name": "naabu",
+  "binaryName": "naabu",
   "displayName": "Naabu",
   "info": {
     "description": "Fast port scanner for discovering open ports on hosts.",
     "version": "2.5.0",
     "url": "https://github.com/projectdiscovery/naabu"
   },
-  "commands": [
-    {
-      "name": "naabu",
-      "description": "Run naabu with flags.",
-      "sortOrder": 1,
-      "key": "naabu"
-    }
-  ],
+  "commands": [],
   "parameters": [
     {
       "name": "Host",
@@ -23,8 +16,7 @@
       "dataType": "String",
       "longFlag": "-host",
       "sortOrder": 1,
-      "key": "host",
-      "commandKey": "naabu"
+      "key": "host"
     },
     {
       "name": "List",
@@ -34,8 +26,7 @@
       "shortFlag": "-l",
       "longFlag": "-list",
       "sortOrder": 2,
-      "key": "list",
-      "commandKey": "naabu"
+      "key": "list"
     },
     {
       "name": "Exclude Hosts",
@@ -45,8 +36,7 @@
       "shortFlag": "-eh",
       "longFlag": "-exclude-hosts",
       "sortOrder": 3,
-      "key": "exclude-hosts",
-      "commandKey": "naabu"
+      "key": "exclude-hosts"
     },
     {
       "name": "Exclude File",
@@ -56,8 +46,7 @@
       "shortFlag": "-ef",
       "longFlag": "-exclude-file",
       "sortOrder": 4,
-      "key": "exclude-file",
-      "commandKey": "naabu"
+      "key": "exclude-file"
     },
     {
       "name": "Port",
@@ -67,8 +56,7 @@
       "shortFlag": "-p",
       "longFlag": "-port",
       "sortOrder": 5,
-      "key": "port",
-      "commandKey": "naabu"
+      "key": "port"
     },
     {
       "name": "Top Ports",
@@ -103,8 +91,7 @@
           }
         ]
       },
-      "key": "top-ports",
-      "commandKey": "naabu"
+      "key": "top-ports"
     },
     {
       "name": "Exclude Ports",
@@ -114,8 +101,7 @@
       "shortFlag": "-ep",
       "longFlag": "-exclude-ports",
       "sortOrder": 7,
-      "key": "exclude-ports",
-      "commandKey": "naabu"
+      "key": "exclude-ports"
     },
     {
       "name": "Ports File",
@@ -125,8 +111,7 @@
       "shortFlag": "-pf",
       "longFlag": "-ports-file",
       "sortOrder": 8,
-      "key": "ports-file",
-      "commandKey": "naabu"
+      "key": "ports-file"
     },
     {
       "name": "Port Threshold",
@@ -136,8 +121,7 @@
       "shortFlag": "-pts",
       "longFlag": "-port-threshold",
       "sortOrder": 9,
-      "key": "port-threshold",
-      "commandKey": "naabu"
+      "key": "port-threshold"
     },
     {
       "name": "Exclude CDN",
@@ -147,8 +131,7 @@
       "shortFlag": "-ec",
       "longFlag": "-exclude-cdn",
       "sortOrder": 10,
-      "key": "exclude-cdn",
-      "commandKey": "naabu"
+      "key": "exclude-cdn"
     },
     {
       "name": "Display CDN",
@@ -158,8 +141,7 @@
       "shortFlag": "-cdn",
       "longFlag": "-display-cdn",
       "sortOrder": 11,
-      "key": "display-cdn",
-      "commandKey": "naabu"
+      "key": "display-cdn"
     },
     {
       "name": "Threads",
@@ -168,8 +150,7 @@
       "dataType": "Number",
       "longFlag": "-c",
       "sortOrder": 12,
-      "key": "threads",
-      "commandKey": "naabu"
+      "key": "threads"
     },
     {
       "name": "Rate",
@@ -178,8 +159,7 @@
       "dataType": "Number",
       "longFlag": "-rate",
       "sortOrder": 13,
-      "key": "rate",
-      "commandKey": "naabu"
+      "key": "rate"
     },
     {
       "name": "Update",
@@ -189,8 +169,7 @@
       "shortFlag": "-up",
       "longFlag": "-update",
       "sortOrder": 14,
-      "key": "update",
-      "commandKey": "naabu"
+      "key": "update"
     },
     {
       "name": "Disable Update Check",
@@ -200,8 +179,7 @@
       "shortFlag": "-duc",
       "longFlag": "-disable-update-check",
       "sortOrder": 15,
-      "key": "disable-update-check",
-      "commandKey": "naabu"
+      "key": "disable-update-check"
     },
     {
       "name": "Output",
@@ -211,8 +189,7 @@
       "shortFlag": "-o",
       "longFlag": "-output",
       "sortOrder": 16,
-      "key": "output",
-      "commandKey": "naabu"
+      "key": "output"
     },
     {
       "name": "JSON",
@@ -222,8 +199,7 @@
       "shortFlag": "-j",
       "longFlag": "-json",
       "sortOrder": 17,
-      "key": "json",
-      "commandKey": "naabu"
+      "key": "json"
     },
     {
       "name": "CSV",
@@ -232,8 +208,7 @@
       "dataType": "Boolean",
       "longFlag": "-csv",
       "sortOrder": 18,
-      "key": "csv",
-      "commandKey": "naabu"
+      "key": "csv"
     },
     {
       "name": "Config",
@@ -242,8 +217,7 @@
       "dataType": "String",
       "longFlag": "-config",
       "sortOrder": 19,
-      "key": "config",
-      "commandKey": "naabu"
+      "key": "config"
     },
     {
       "name": "Scan All IPs",
@@ -253,8 +227,7 @@
       "shortFlag": "-sa",
       "longFlag": "-scan-all-ips",
       "sortOrder": 20,
-      "key": "scan-all-ips",
-      "commandKey": "naabu"
+      "key": "scan-all-ips"
     },
     {
       "name": "IP Version",
@@ -282,8 +255,7 @@
           }
         ]
       },
-      "key": "ip-version",
-      "commandKey": "naabu"
+      "key": "ip-version"
     },
     {
       "name": "Scan Type",
@@ -311,8 +283,7 @@
           }
         ]
       },
-      "key": "scan-type",
-      "commandKey": "naabu"
+      "key": "scan-type"
     },
     {
       "name": "Source IP",
@@ -321,8 +292,7 @@
       "dataType": "String",
       "longFlag": "-source-ip",
       "sortOrder": 23,
-      "key": "source-ip",
-      "commandKey": "naabu"
+      "key": "source-ip"
     },
     {
       "name": "Interface List",
@@ -332,8 +302,7 @@
       "shortFlag": "-il",
       "longFlag": "-interface-list",
       "sortOrder": 24,
-      "key": "interface-list",
-      "commandKey": "naabu"
+      "key": "interface-list"
     },
     {
       "name": "Interface",
@@ -343,8 +312,7 @@
       "shortFlag": "-i",
       "longFlag": "-interface",
       "sortOrder": 25,
-      "key": "interface",
-      "commandKey": "naabu"
+      "key": "interface"
     },
     {
       "name": "Nmap",
@@ -353,8 +321,7 @@
       "dataType": "Boolean",
       "longFlag": "-nmap",
       "sortOrder": 26,
-      "key": "nmap",
-      "commandKey": "naabu"
+      "key": "nmap"
     },
     {
       "name": "Nmap CLI",
@@ -363,8 +330,7 @@
       "dataType": "String",
       "longFlag": "-nmap-cli",
       "sortOrder": 27,
-      "key": "nmap-cli",
-      "commandKey": "naabu"
+      "key": "nmap-cli"
     },
     {
       "name": "Resolvers",
@@ -373,8 +339,7 @@
       "dataType": "String",
       "longFlag": "-r",
       "sortOrder": 28,
-      "key": "resolvers",
-      "commandKey": "naabu"
+      "key": "resolvers"
     },
     {
       "name": "Proxy",
@@ -383,8 +348,7 @@
       "dataType": "String",
       "longFlag": "-proxy",
       "sortOrder": 29,
-      "key": "proxy",
-      "commandKey": "naabu"
+      "key": "proxy"
     },
     {
       "name": "Proxy Auth",
@@ -393,8 +357,7 @@
       "dataType": "String",
       "longFlag": "-proxy-auth",
       "sortOrder": 30,
-      "key": "proxy-auth",
-      "commandKey": "naabu"
+      "key": "proxy-auth"
     },
     {
       "name": "Resume",
@@ -403,8 +366,7 @@
       "dataType": "Boolean",
       "longFlag": "-resume",
       "sortOrder": 31,
-      "key": "resume",
-      "commandKey": "naabu"
+      "key": "resume"
     },
     {
       "name": "Stream",
@@ -413,8 +375,7 @@
       "dataType": "Boolean",
       "longFlag": "-stream",
       "sortOrder": 32,
-      "key": "stream",
-      "commandKey": "naabu"
+      "key": "stream"
     },
     {
       "name": "Passive",
@@ -423,8 +384,7 @@
       "dataType": "Boolean",
       "longFlag": "-passive",
       "sortOrder": 33,
-      "key": "passive",
-      "commandKey": "naabu"
+      "key": "passive"
     },
     {
       "name": "Input Read Timeout",
@@ -434,8 +394,7 @@
       "shortFlag": "-irt",
       "longFlag": "-input-read-timeout",
       "sortOrder": 34,
-      "key": "input-read-timeout",
-      "commandKey": "naabu"
+      "key": "input-read-timeout"
     },
     {
       "name": "No Stdin",
@@ -444,8 +403,7 @@
       "dataType": "Boolean",
       "longFlag": "-no-stdin",
       "sortOrder": 35,
-      "key": "no-stdin",
-      "commandKey": "naabu"
+      "key": "no-stdin"
     },
     {
       "name": "Host Discovery Only",
@@ -455,8 +413,7 @@
       "shortFlag": "-sn",
       "longFlag": "-host-discovery",
       "sortOrder": 36,
-      "key": "host-discovery-only",
-      "commandKey": "naabu"
+      "key": "host-discovery-only"
     },
     {
       "name": "Skip Host Discovery",
@@ -466,8 +423,7 @@
       "shortFlag": "-Pn",
       "longFlag": "-skip-host-discovery",
       "sortOrder": 37,
-      "key": "skip-host-discovery",
-      "commandKey": "naabu"
+      "key": "skip-host-discovery"
     },
     {
       "name": "With Host Discovery",
@@ -477,8 +433,7 @@
       "shortFlag": "-wn",
       "longFlag": "-with-host-discovery",
       "sortOrder": 38,
-      "key": "with-host-discovery",
-      "commandKey": "naabu"
+      "key": "with-host-discovery"
     },
     {
       "name": "Probe TCP SYN",
@@ -488,8 +443,7 @@
       "shortFlag": "-ps",
       "longFlag": "-probe-tcp-syn",
       "sortOrder": 39,
-      "key": "probe-tcp-syn",
-      "commandKey": "naabu"
+      "key": "probe-tcp-syn"
     },
     {
       "name": "Probe TCP ACK",
@@ -499,8 +453,7 @@
       "shortFlag": "-pa",
       "longFlag": "-probe-tcp-ack",
       "sortOrder": 40,
-      "key": "probe-tcp-ack",
-      "commandKey": "naabu"
+      "key": "probe-tcp-ack"
     },
     {
       "name": "Probe ICMP Echo",
@@ -510,8 +463,7 @@
       "shortFlag": "-pe",
       "longFlag": "-probe-icmp-echo",
       "sortOrder": 41,
-      "key": "probe-icmp-echo",
-      "commandKey": "naabu"
+      "key": "probe-icmp-echo"
     },
     {
       "name": "Probe ICMP Timestamp",
@@ -521,8 +473,7 @@
       "shortFlag": "-pp",
       "longFlag": "-probe-icmp-timestamp",
       "sortOrder": 42,
-      "key": "probe-icmp-timestamp",
-      "commandKey": "naabu"
+      "key": "probe-icmp-timestamp"
     },
     {
       "name": "Probe ICMP Address Mask",
@@ -532,8 +483,7 @@
       "shortFlag": "-pm",
       "longFlag": "-probe-icmp-address-mask",
       "sortOrder": 43,
-      "key": "probe-icmp-address-mask",
-      "commandKey": "naabu"
+      "key": "probe-icmp-address-mask"
     },
     {
       "name": "ARP Ping",
@@ -543,8 +493,7 @@
       "shortFlag": "-arp",
       "longFlag": "-arp-ping",
       "sortOrder": 44,
-      "key": "arp-ping",
-      "commandKey": "naabu"
+      "key": "arp-ping"
     },
     {
       "name": "ND Ping",
@@ -554,8 +503,7 @@
       "shortFlag": "-nd",
       "longFlag": "-nd-ping",
       "sortOrder": 45,
-      "key": "nd-ping",
-      "commandKey": "naabu"
+      "key": "nd-ping"
     },
     {
       "name": "Rev PTR",
@@ -564,8 +512,7 @@
       "dataType": "Boolean",
       "longFlag": "-rev-ptr",
       "sortOrder": 46,
-      "key": "rev-ptr",
-      "commandKey": "naabu"
+      "key": "rev-ptr"
     },
     {
       "name": "Retries",
@@ -574,8 +521,7 @@
       "dataType": "Number",
       "longFlag": "-retries",
       "sortOrder": 47,
-      "key": "retries",
-      "commandKey": "naabu"
+      "key": "retries"
     },
     {
       "name": "Timeout",
@@ -584,8 +530,7 @@
       "dataType": "Number",
       "longFlag": "-timeout",
       "sortOrder": 48,
-      "key": "timeout",
-      "commandKey": "naabu"
+      "key": "timeout"
     },
     {
       "name": "Warm Up Time",
@@ -594,8 +539,7 @@
       "dataType": "Number",
       "longFlag": "-warm-up-time",
       "sortOrder": 49,
-      "key": "warm-up-time",
-      "commandKey": "naabu"
+      "key": "warm-up-time"
     },
     {
       "name": "Ping",
@@ -604,8 +548,7 @@
       "dataType": "Boolean",
       "longFlag": "-ping",
       "sortOrder": 50,
-      "key": "ping",
-      "commandKey": "naabu"
+      "key": "ping"
     },
     {
       "name": "Verify",
@@ -614,8 +557,7 @@
       "dataType": "Boolean",
       "longFlag": "-verify",
       "sortOrder": 51,
-      "key": "verify",
-      "commandKey": "naabu"
+      "key": "verify"
     },
     {
       "name": "Health Check",
@@ -625,8 +567,7 @@
       "shortFlag": "-hc",
       "longFlag": "-health-check",
       "sortOrder": 52,
-      "key": "health-check",
-      "commandKey": "naabu"
+      "key": "health-check"
     },
     {
       "name": "Debug",
@@ -635,8 +576,7 @@
       "dataType": "Boolean",
       "longFlag": "-debug",
       "sortOrder": 53,
-      "key": "debug",
-      "commandKey": "naabu"
+      "key": "debug"
     },
     {
       "name": "Verbose",
@@ -646,8 +586,7 @@
       "shortFlag": "-v",
       "longFlag": "-verbose",
       "sortOrder": 54,
-      "key": "verbose",
-      "commandKey": "naabu"
+      "key": "verbose"
     },
     {
       "name": "No Color",
@@ -657,8 +596,7 @@
       "shortFlag": "-nc",
       "longFlag": "-no-color",
       "sortOrder": 55,
-      "key": "no-color",
-      "commandKey": "naabu"
+      "key": "no-color"
     },
     {
       "name": "Silent",
@@ -667,8 +605,7 @@
       "dataType": "Boolean",
       "longFlag": "-silent",
       "sortOrder": 56,
-      "key": "silent",
-      "commandKey": "naabu"
+      "key": "silent"
     },
     {
       "name": "Version",
@@ -677,8 +614,7 @@
       "dataType": "Boolean",
       "longFlag": "-version",
       "sortOrder": 57,
-      "key": "version",
-      "commandKey": "naabu"
+      "key": "version"
     },
     {
       "name": "Stats",
@@ -687,8 +623,7 @@
       "dataType": "Boolean",
       "longFlag": "-stats",
       "sortOrder": 58,
-      "key": "stats",
-      "commandKey": "naabu"
+      "key": "stats"
     },
     {
       "name": "Stats Interval",
@@ -698,8 +633,7 @@
       "shortFlag": "-si",
       "longFlag": "-stats-interval",
       "sortOrder": 59,
-      "key": "stats-interval",
-      "commandKey": "naabu"
+      "key": "stats-interval"
     },
     {
       "name": "Metrics Port",
@@ -709,8 +643,7 @@
       "shortFlag": "-mp",
       "longFlag": "-metrics-port",
       "sortOrder": 60,
-      "key": "metrics-port",
-      "commandKey": "naabu"
+      "key": "metrics-port"
     },
     {
       "name": "Auth",
@@ -719,8 +652,7 @@
       "dataType": "Boolean",
       "longFlag": "-auth",
       "sortOrder": 61,
-      "key": "auth",
-      "commandKey": "naabu"
+      "key": "auth"
     },
     {
       "name": "Auth Config",
@@ -730,8 +662,7 @@
       "shortFlag": "-ac",
       "longFlag": "-auth-config",
       "sortOrder": 62,
-      "key": "auth-config",
-      "commandKey": "naabu"
+      "key": "auth-config"
     },
     {
       "name": "Dashboard",
@@ -741,8 +672,7 @@
       "shortFlag": "-pd",
       "longFlag": "-dashboard",
       "sortOrder": 63,
-      "key": "dashboard",
-      "commandKey": "naabu"
+      "key": "dashboard"
     },
     {
       "name": "Team ID",
@@ -752,8 +682,7 @@
       "shortFlag": "-tid",
       "longFlag": "-team-id",
       "sortOrder": 64,
-      "key": "team-id",
-      "commandKey": "naabu"
+      "key": "team-id"
     },
     {
       "name": "Asset ID",
@@ -763,8 +692,7 @@
       "shortFlag": "-aid",
       "longFlag": "-asset-id",
       "sortOrder": 65,
-      "key": "asset-id",
-      "commandKey": "naabu"
+      "key": "asset-id"
     },
     {
       "name": "Asset Name",
@@ -774,8 +702,7 @@
       "shortFlag": "-aname",
       "longFlag": "-asset-name",
       "sortOrder": 66,
-      "key": "asset-name",
-      "commandKey": "naabu"
+      "key": "asset-name"
     },
     {
       "name": "Dashboard Upload",
@@ -785,8 +712,7 @@
       "shortFlag": "-pdu",
       "longFlag": "-dashboard-upload",
       "sortOrder": 67,
-      "key": "dashboard-upload",
-      "commandKey": "naabu"
+      "key": "dashboard-upload"
     },
     {
       "name": "List Output Fields",
@@ -796,8 +722,7 @@
       "shortFlag": "-lof",
       "longFlag": "-list-output-fields",
       "sortOrder": 68,
-      "key": "list-output-fields",
-      "commandKey": "naabu"
+      "key": "list-output-fields"
     },
     {
       "name": "Exclude Output Fields",
@@ -807,8 +732,7 @@
       "shortFlag": "-eof",
       "longFlag": "-exclude-output-fields",
       "sortOrder": 69,
-      "key": "exclude-output-fields",
-      "commandKey": "naabu"
+      "key": "exclude-output-fields"
     },
     {
       "name": "Connect Payload",
@@ -818,8 +742,7 @@
       "shortFlag": "-cp",
       "longFlag": "-connect-payload",
       "sortOrder": 70,
-      "key": "connect-payload",
-      "commandKey": "naabu"
+      "key": "connect-payload"
     },
     {
       "name": "Service Discovery",
@@ -829,8 +752,7 @@
       "shortFlag": "-sD",
       "longFlag": "-service-discovery",
       "sortOrder": 71,
-      "key": "service-discovery",
-      "commandKey": "naabu"
+      "key": "service-discovery"
     },
     {
       "name": "Service Version",
@@ -840,8 +762,7 @@
       "shortFlag": "-sV",
       "longFlag": "-service-version",
       "sortOrder": 72,
-      "key": "service-version",
-      "commandKey": "naabu"
+      "key": "service-version"
     }
   ]
 }

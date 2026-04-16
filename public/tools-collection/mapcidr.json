@@ -1,19 +1,12 @@
 {
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
-  "name": "mapcidr",
+  "binaryName": "mapcidr",
   "displayName": "Mapcidr",
-  "commands": [
-    {
-      "key": "mapcidr",
-      "name": "mapcidr",
-      "description": "Perform multiple operations on CIDR and IP ranges."
-    }
-  ],
+  "commands": [],
   "parameters": [
     {
       "key": "cidr",
       "name": "CIDR input",
-      "commandKey": "mapcidr",
       "description": "CIDR, IP, or file input to process.",
       "group": "Input",
       "parameterType": "Option",
@@ -26,7 +19,6 @@
     {
       "key": "slice-by-cidr-count",
       "name": "Slice by CIDR count",
-      "commandKey": "mapcidr",
       "description": "Split CIDRs into the requested number of subnets.",
       "group": "Process",
       "parameterType": "Option",
@@ -37,7 +29,6 @@
     {
       "key": "slice-by-host-count",
       "name": "Slice by host count",
-      "commandKey": "mapcidr",
       "description": "Split CIDRs into subnets with the requested host count.",
       "group": "Process",
       "parameterType": "Option",
@@ -48,7 +39,6 @@
     {
       "key": "aggregate",
       "name": "Aggregate",
-      "commandKey": "mapcidr",
       "description": "Merge IPs and CIDRs into the smallest subnet.",
       "group": "Process",
       "parameterType": "Flag",
@@ -58,7 +48,6 @@
     {
       "key": "approximate-aggregate",
       "name": "Approximate aggregate",
-      "commandKey": "mapcidr",
       "description": "Approximate sparse IPv4 ranges into the smallest subnet block.",
       "group": "Process",
       "parameterType": "Flag",
@@ -68,7 +57,6 @@
     {
       "key": "count",
       "name": "Count",
-      "commandKey": "mapcidr",
       "description": "Count the number of IPs in the input CIDR.",
       "group": "Process",
       "parameterType": "Flag",
@@ -78,7 +66,6 @@
     {
       "key": "convert-to-ipv4",
       "name": "Convert to IPv4",
-      "commandKey": "mapcidr",
       "description": "Convert input IPs to IPv4 format.",
       "group": "Process",
       "parameterType": "Flag",
@@ -88,7 +75,6 @@
     {
       "key": "convert-to-ipv6",
       "name": "Convert to IPv6",
-      "commandKey": "mapcidr",
       "description": "Convert input IPs to IPv6 format.",
       "group": "Process",
       "parameterType": "Flag",
@@ -98,7 +84,6 @@
     {
       "key": "ip-format",
       "name": "IP format",
-      "commandKey": "mapcidr",
       "description": "Output IPs in one or more format indices.",
       "group": "Process",
       "parameterType": "Option",
@@ -163,7 +148,6 @@
     {
       "key": "zero-pad-n",
       "name": "Zero pad count",
-      "commandKey": "mapcidr",
       "description": "Number of padded zeros to use.",
       "group": "Process",
       "parameterType": "Option",
@@ -174,7 +158,6 @@
     {
       "key": "zero-pad-permute",
       "name": "Zero pad permutations",
-      "commandKey": "mapcidr",
       "description": "Enable permutations from zero to the pad count for each octet.",
       "group": "Process",
       "parameterType": "Flag",
@@ -185,7 +168,6 @@
     {
       "key": "filter-ipv4",
       "name": "Filter IPv4",
-      "commandKey": "mapcidr",
       "description": "Keep only IPv4 addresses from the input.",
       "group": "Filter",
       "parameterType": "Flag",
@@ -196,7 +178,6 @@
     {
       "key": "filter-ipv6",
       "name": "Filter IPv6",
-      "commandKey": "mapcidr",
       "description": "Keep only IPv6 addresses from the input.",
       "group": "Filter",
       "parameterType": "Flag",
@@ -207,7 +188,6 @@
     {
       "key": "skip-base",
       "name": "Skip base IPs",
-      "commandKey": "mapcidr",
       "description": "Skip base IPs ending in .0.",
       "group": "Filter",
       "parameterType": "Flag",
@@ -217,7 +197,6 @@
     {
       "key": "skip-broadcast",
       "name": "Skip broadcast IPs",
-      "commandKey": "mapcidr",
       "description": "Skip broadcast IPs ending in .255.",
       "group": "Filter",
       "parameterType": "Flag",
@@ -227,7 +206,6 @@
     {
       "key": "match-ip",
       "name": "Match IPs",
-      "commandKey": "mapcidr",
       "description": "Match IPs or CIDRs from the given list or file.",
       "group": "Filter",
       "parameterType": "Option",
@@ -240,7 +218,6 @@
     {
       "key": "filter-ip",
       "name": "Filter IPs",
-      "commandKey": "mapcidr",
       "description": "Filter IPs or CIDRs from the given list or file.",
       "group": "Filter",
       "parameterType": "Option",
@@ -253,7 +230,6 @@
     {
       "key": "sort",
       "name": "Sort ascending",
-      "commandKey": "mapcidr",
       "description": "Sort input IPs and CIDRs in ascending order.",
       "group": "Miscellaneous",
       "parameterType": "Flag",
@@ -264,7 +240,6 @@
     {
       "key": "sort-reverse",
       "name": "Sort descending",
-      "commandKey": "mapcidr",
       "description": "Sort input IPs and CIDRs in descending order.",
       "group": "Miscellaneous",
       "parameterType": "Flag",
@@ -275,7 +250,6 @@
     {
       "key": "shuffle-ip",
       "name": "Shuffle IPs",
-      "commandKey": "mapcidr",
       "description": "Shuffle input IPs randomly.",
       "group": "Miscellaneous",
       "parameterType": "Flag",
@@ -286,7 +260,6 @@
     {
       "key": "shuffle-port",
       "name": "Shuffle ports",
-      "commandKey": "mapcidr",
       "description": "Shuffle input IP:Port values randomly.",
       "group": "Miscellaneous",
       "parameterType": "Option",
@@ -297,7 +270,6 @@
     {
       "key": "update",
       "name": "Update",
-      "commandKey": "mapcidr",
       "description": "Update mapcidr to the latest version.",
       "group": "Update",
       "parameterType": "Flag",
@@ -308,7 +280,6 @@
     {
       "key": "disable-update-check",
       "name": "Disable update check",
-      "commandKey": "mapcidr",
       "description": "Disable automatic update checks.",
       "group": "Update",
       "parameterType": "Flag",
@@ -319,7 +290,6 @@
     {
       "key": "verbose",
       "name": "Verbose",
-      "commandKey": "mapcidr",
       "description": "Enable verbose output.",
       "group": "Output",
       "parameterType": "Flag",
@@ -329,7 +299,6 @@
     {
       "key": "output",
       "name": "Output file",
-      "commandKey": "mapcidr",
       "description": "Write output to a file.",
       "group": "Output",
       "parameterType": "Option",
@@ -340,7 +309,6 @@
     {
       "key": "silent",
       "name": "Silent",
-      "commandKey": "mapcidr",
       "description": "Suppress non-output logs.",
       "group": "Output",
       "parameterType": "Flag",
@@ -350,7 +318,6 @@
     {
       "key": "version",
       "name": "Version",
-      "commandKey": "mapcidr",
       "description": "Show the project version.",
       "group": "Output",
       "parameterType": "Flag",

@@ -1,20 +1,13 @@
 {
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
-  "name": "curl",
+  "binaryName": "curl",
   "displayName": "Curl",
   "info": {
     "description": "curl is a command line tool and library for transferring data with URLs.",
     "version": "8.19.0",
     "url": "https://curl.se/"
   },
-  "commands": [
-    {
-      "name": "curl",
-      "description": "Run curl to download files.",
-      "sortOrder": 1,
-      "key": "curl"
-    }
-  ],
+  "commands": [],
   "parameters": [
     {
       "name": "Target",
@@ -24,8 +17,7 @@
       "isRequired": true,
       "sortOrder": 5,
       "position": 1,
-      "key": "target",
-      "commandKey": "curl"
+      "key": "target"
     },
     {
       "name": "Output",
@@ -36,8 +28,7 @@
       "longFlag": "--output",
       "keyValueSeparator": " ",
       "sortOrder": 4,
-      "key": "output",
-      "commandKey": "curl"
+      "key": "output"
     },
     {
       "name": "Location",
@@ -47,8 +38,7 @@
       "shortFlag": "-L",
       "longFlag": "--location",
       "sortOrder": 1,
-      "key": "location",
-      "commandKey": "curl"
+      "key": "location"
     },
     {
       "name": "Silent",
@@ -58,8 +48,7 @@
       "shortFlag": "-s",
       "longFlag": "--silent",
       "sortOrder": 2,
-      "key": "silent",
-      "commandKey": "curl"
+      "key": "silent"
     },
     {
       "name": "Insecure",
@@ -69,8 +58,7 @@
       "shortFlag": "-k",
       "longFlag": "--insecure",
       "sortOrder": 3,
-      "key": "insecure",
-      "commandKey": "curl"
+      "key": "insecure"
     },
     {
       "name": "Config",
@@ -81,8 +69,7 @@
       "longFlag": "--config",
       "keyValueSeparator": " ",
       "sortOrder": 6,
-      "key": "config",
-      "commandKey": "curl"
+      "key": "config"
     },
     {
       "name": "Dump Header",
@@ -93,8 +80,7 @@
       "longFlag": "--dump-header",
       "keyValueSeparator": " ",
       "sortOrder": 7,
-      "key": "dump-header",
-      "commandKey": "curl"
+      "key": "dump-header"
     },
     {
       "name": "Request",
@@ -105,8 +91,7 @@
       "longFlag": "--request",
       "keyValueSeparator": " ",
       "sortOrder": 8,
-      "key": "request",
-      "commandKey": "curl"
+      "key": "request"
     },
     {
       "name": "Header",
@@ -118,8 +103,7 @@
       "longFlag": "--header",
       "keyValueSeparator": " ",
       "sortOrder": 9,
-      "key": "header",
-      "commandKey": "curl"
+      "key": "header"
     },
     {
       "name": "Data",
@@ -131,8 +115,7 @@
       "longFlag": "--data",
       "keyValueSeparator": " ",
       "sortOrder": 10,
-      "key": "data",
-      "commandKey": "curl"
+      "key": "data"
     },
     {
       "name": "User",
@@ -143,8 +126,7 @@
       "longFlag": "--user",
       "keyValueSeparator": " ",
       "sortOrder": 11,
-      "key": "user",
-      "commandKey": "curl"
+      "key": "user"
     },
     {
       "name": "User Agent",
@@ -155,8 +137,7 @@
       "longFlag": "--user-agent",
       "keyValueSeparator": " ",
       "sortOrder": 12,
-      "key": "user-agent",
-      "commandKey": "curl"
+      "key": "user-agent"
     },
     {
       "name": "Verbose",
@@ -166,8 +147,7 @@
       "shortFlag": "-v",
       "longFlag": "--verbose",
       "sortOrder": 13,
-      "key": "verbose",
-      "commandKey": "curl"
+      "key": "verbose"
     },
     {
       "name": "Fail",
@@ -177,8 +157,7 @@
       "shortFlag": "-f",
       "longFlag": "--fail",
       "sortOrder": 14,
-      "key": "fail",
-      "commandKey": "curl"
+      "key": "fail"
     },
     {
       "name": "Head",
@@ -188,8 +167,7 @@
       "shortFlag": "-I",
       "longFlag": "--head",
       "sortOrder": 15,
-      "key": "head",
-      "commandKey": "curl"
+      "key": "head"
     },
     {
       "name": "Get",
@@ -199,8 +177,7 @@
       "shortFlag": "-G",
       "longFlag": "--get",
       "sortOrder": 16,
-      "key": "get",
-      "commandKey": "curl"
+      "key": "get"
     },
     {
       "name": "Form",
@@ -212,8 +189,7 @@
       "longFlag": "--form",
       "keyValueSeparator": " ",
       "sortOrder": 17,
-      "key": "form",
-      "commandKey": "curl"
+      "key": "form"
     },
     {
       "name": "Proxy",
@@ -224,8 +200,7 @@
       "longFlag": "--proxy",
       "keyValueSeparator": " ",
       "sortOrder": 18,
-      "key": "proxy",
-      "commandKey": "curl"
+      "key": "proxy"
     },
     {
       "name": "Max Time",
@@ -236,8 +211,7 @@
       "longFlag": "--max-time",
       "keyValueSeparator": " ",
       "sortOrder": 19,
-      "key": "max-time",
-      "commandKey": "curl"
+      "key": "max-time"
     },
     {
       "name": "Connect Timeout",
@@ -247,8 +221,7 @@
       "longFlag": "--connect-timeout",
       "keyValueSeparator": " ",
       "sortOrder": 20,
-      "key": "connect-timeout",
-      "commandKey": "curl"
+      "key": "connect-timeout"
     },
     {
       "name": "Retry",
@@ -258,8 +231,7 @@
       "longFlag": "--retry",
       "keyValueSeparator": " ",
       "sortOrder": 21,
-      "key": "retry",
-      "commandKey": "curl"
+      "key": "retry"
     },
     {
       "name": "Output Directory",
@@ -269,8 +241,7 @@
       "longFlag": "--output-dir",
       "keyValueSeparator": " ",
       "sortOrder": 22,
-      "key": "output-dir",
-      "commandKey": "curl"
+      "key": "output-dir"
     },
     {
       "name": "Remote Name",
@@ -280,8 +251,7 @@
       "shortFlag": "-O",
       "longFlag": "--remote-name",
       "sortOrder": 23,
-      "key": "remote-name",
-      "commandKey": "curl"
+      "key": "remote-name"
     },
     {
       "name": "Show Headers",
@@ -291,8 +261,7 @@
       "shortFlag": "-i",
       "longFlag": "--show-headers",
       "sortOrder": 24,
-      "key": "show-headers",
-      "commandKey": "curl"
+      "key": "show-headers"
     },
     {
       "name": "Help",
@@ -303,8 +272,7 @@
       "longFlag": "--help",
       "keyValueSeparator": " ",
       "sortOrder": 25,
-      "key": "help",
-      "commandKey": "curl"
+      "key": "help"
     },
     {
       "name": "Version",
@@ -314,8 +282,7 @@
       "shortFlag": "-V",
       "longFlag": "--version",
       "sortOrder": 26,
-      "key": "version",
-      "commandKey": "curl"
+      "key": "version"
     },
     {
       "name": "URL",
@@ -326,8 +293,7 @@
       "longFlag": "--url",
       "keyValueSeparator": " ",
       "sortOrder": 27,
-      "key": "url",
-      "commandKey": "curl"
+      "key": "url"
     },
     {
       "name": "Upload File",
@@ -338,8 +304,7 @@
       "longFlag": "--upload-file",
       "keyValueSeparator": " ",
       "sortOrder": 28,
-      "key": "upload-file",
-      "commandKey": "curl"
+      "key": "upload-file"
     },
     {
       "name": "Abstract Unix Socket",
@@ -349,8 +314,7 @@
       "longFlag": "--abstract-unix-socket",
       "keyValueSeparator": " ",
       "sortOrder": 29,
-      "key": "abstract-unix-socket",
-      "commandKey": "curl"
+      "key": "abstract-unix-socket"
     },
     {
       "name": "Alt-Svc",
@@ -360,8 +324,7 @@
       "longFlag": "--alt-svc",
       "keyValueSeparator": " ",
       "sortOrder": 30,
-      "key": "alt-svc",
-      "commandKey": "curl"
+      "key": "alt-svc"
     },
     {
       "name": "Anyauth",
@@ -370,8 +333,7 @@
       "dataType": "Boolean",
       "longFlag": "--anyauth",
       "sortOrder": 31,
-      "key": "anyauth",
-      "commandKey": "curl"
+      "key": "anyauth"
     },
     {
       "name": "Append",
@@ -381,8 +343,7 @@
       "shortFlag": "-a",
       "longFlag": "--append",
       "sortOrder": 32,
-      "key": "append",
-      "commandKey": "curl"
+      "key": "append"
     },
     {
       "name": "AWS SigV4",
@@ -392,8 +353,7 @@
       "longFlag": "--aws-sigv4",
       "keyValueSeparator": " ",
       "sortOrder": 33,
-      "key": "aws-sigv4",
-      "commandKey": "curl"
+      "key": "aws-sigv4"
     },
     {
       "name": "Basic",
@@ -402,8 +362,7 @@
       "dataType": "Boolean",
       "longFlag": "--basic",
       "sortOrder": 34,
-      "key": "basic",
-      "commandKey": "curl"
+      "key": "basic"
     },
     {
       "name": "CA Native",
@@ -412,8 +371,7 @@
       "dataType": "Boolean",
       "longFlag": "--ca-native",
       "sortOrder": 35,
-      "key": "ca-native",
-      "commandKey": "curl"
+      "key": "ca-native"
     },
     {
       "name": "Cacert",
@@ -423,8 +381,7 @@
       "longFlag": "--cacert",
       "keyValueSeparator": " ",
       "sortOrder": 36,
-      "key": "cacert",
-      "commandKey": "curl"
+      "key": "cacert"
     },
     {
       "name": "Capath",
@@ -434,8 +391,7 @@
       "longFlag": "--capath",
       "keyValueSeparator": " ",
       "sortOrder": 37,
-      "key": "capath",
-      "commandKey": "curl"
+      "key": "capath"
     },
     {
       "name": "Cert",
@@ -446,8 +402,7 @@
       "longFlag": "--cert",
       "keyValueSeparator": " ",
       "sortOrder": 38,
-      "key": "cert",
-      "commandKey": "curl"
+      "key": "cert"
     },
     {
       "name": "Cert Status",
@@ -456,8 +411,7 @@
       "dataType": "Boolean",
       "longFlag": "--cert-status",
       "sortOrder": 39,
-      "key": "cert-status",
-      "commandKey": "curl"
+      "key": "cert-status"
     },
     {
       "name": "Cert Type",
@@ -467,8 +421,7 @@
       "longFlag": "--cert-type",
       "keyValueSeparator": " ",
       "sortOrder": 40,
-      "key": "cert-type",
-      "commandKey": "curl"
+      "key": "cert-type"
     },
     {
       "name": "Ciphers",
@@ -478,8 +431,7 @@
       "longFlag": "--ciphers",
       "keyValueSeparator": " ",
       "sortOrder": 41,
-      "key": "ciphers",
-      "commandKey": "curl"
+      "key": "ciphers"
     },
     {
       "name": "Compressed",
@@ -488,8 +440,7 @@
       "dataType": "Boolean",
       "longFlag": "--compressed",
       "sortOrder": 42,
-      "key": "compressed",
-      "commandKey": "curl"
+      "key": "compressed"
     },
     {
       "name": "Compressed SSH",
@@ -498,8 +449,7 @@
       "dataType": "Boolean",
       "longFlag": "--compressed-ssh",
       "sortOrder": 43,
-      "key": "compressed-ssh",
-      "commandKey": "curl"
+      "key": "compressed-ssh"
     },
     {
       "name": "Connect To",
@@ -509,8 +459,7 @@
       "longFlag": "--connect-to",
       "keyValueSeparator": " ",
       "sortOrder": 44,
-      "key": "connect-to",
-      "commandKey": "curl"
+      "key": "connect-to"
     },
     {
       "name": "Continue At",
@@ -521,8 +470,7 @@
       "longFlag": "--continue-at",
       "keyValueSeparator": " ",
       "sortOrder": 45,
-      "key": "continue-at",
-      "commandKey": "curl"
+      "key": "continue-at"
     },
     {
       "name": "Cookie",
@@ -533,8 +481,7 @@
       "longFlag": "--cookie",
       "keyValueSeparator": " ",
       "sortOrder": 46,
-      "key": "cookie",
-      "commandKey": "curl"
+      "key": "cookie"
     },
     {
       "name": "Cookie Jar",
@@ -545,8 +492,7 @@
       "longFlag": "--cookie-jar",
       "keyValueSeparator": " ",
       "sortOrder": 47,
-      "key": "cookie-jar",
-      "commandKey": "curl"
+      "key": "cookie-jar"
     },
     {
       "name": "Create Dirs",
@@ -555,8 +501,7 @@
       "dataType": "Boolean",
       "longFlag": "--create-dirs",
       "sortOrder": 48,
-      "key": "create-dirs",
-      "commandKey": "curl"
+      "key": "create-dirs"
     },
     {
       "name": "Create File Mode",
@@ -566,8 +511,7 @@
       "longFlag": "--create-file-mode",
       "keyValueSeparator": " ",
       "sortOrder": 49,
-      "key": "create-file-mode",
-      "commandKey": "curl"
+      "key": "create-file-mode"
     },
     {
       "name": "CRLF",
@@ -576,8 +520,7 @@
       "dataType": "Boolean",
       "longFlag": "--crlf",
       "sortOrder": 50,
-      "key": "crlf",
-      "commandKey": "curl"
+      "key": "crlf"
     },
     {
       "name": "CRL File",
@@ -587,8 +530,7 @@
       "longFlag": "--crlfile",
       "keyValueSeparator": " ",
       "sortOrder": 51,
-      "key": "crlfile",
-      "commandKey": "curl"
+      "key": "crlfile"
     },
     {
       "name": "Curves",
@@ -598,8 +540,7 @@
       "longFlag": "--curves",
       "keyValueSeparator": " ",
       "sortOrder": 52,
-      "key": "curves",
-      "commandKey": "curl"
+      "key": "curves"
     },
     {
       "name": "Data ASCII",
@@ -610,8 +551,7 @@
       "longFlag": "--data-ascii",
       "keyValueSeparator": " ",
       "sortOrder": 53,
-      "key": "data-ascii",
-      "commandKey": "curl"
+      "key": "data-ascii"
     },
     {
       "name": "Data Binary",
@@ -622,8 +562,7 @@
       "longFlag": "--data-binary",
       "keyValueSeparator": " ",
       "sortOrder": 54,
-      "key": "data-binary",
-      "commandKey": "curl"
+      "key": "data-binary"
     },
     {
       "name": "Data Raw",
@@ -634,8 +573,7 @@
       "longFlag": "--data-raw",
       "keyValueSeparator": " ",
       "sortOrder": 55,
-      "key": "data-raw",
-      "commandKey": "curl"
+      "key": "data-raw"
     },
     {
       "name": "Data URL Encode",
@@ -646,8 +584,7 @@
       "longFlag": "--data-urlencode",
       "keyValueSeparator": " ",
       "sortOrder": 56,
-      "key": "data-urlencode",
-      "commandKey": "curl"
+      "key": "data-urlencode"
     },
     {
       "name": "Delegation",
@@ -657,8 +594,7 @@
       "longFlag": "--delegation",
       "keyValueSeparator": " ",
       "sortOrder": 57,
-      "key": "delegation",
-      "commandKey": "curl"
+      "key": "delegation"
     },
     {
       "name": "Digest",
@@ -667,8 +603,7 @@
       "dataType": "Boolean",
       "longFlag": "--digest",
       "sortOrder": 58,
-      "key": "digest",
-      "commandKey": "curl"
+      "key": "digest"
     },
     {
       "name": "Disable",
@@ -678,8 +613,7 @@
       "shortFlag": "-q",
       "longFlag": "--disable",
       "sortOrder": 59,
-      "key": "disable",
-      "commandKey": "curl"
+      "key": "disable"
     },
     {
       "name": "Disable EPRT",
@@ -688,8 +622,7 @@
       "dataType": "Boolean",
       "longFlag": "--disable-eprt",
       "sortOrder": 60,
-      "key": "disable-eprt",
-      "commandKey": "curl"
+      "key": "disable-eprt"
     },
     {
       "name": "Disable EPSV",
@@ -698,8 +631,7 @@
       "dataType": "Boolean",
       "longFlag": "--disable-epsv",
       "sortOrder": 61,
-      "key": "disable-epsv",
-      "commandKey": "curl"
+      "key": "disable-epsv"
     },
     {
       "name": "Disallow Username in URL",
@@ -708,8 +640,7 @@
       "dataType": "Boolean",
       "longFlag": "--disallow-username-in-url",
       "sortOrder": 62,
-      "key": "disallow-username-in-url",
-      "commandKey": "curl"
+      "key": "disallow-username-in-url"
     },
     {
       "name": "DNS Interface",
@@ -719,8 +650,7 @@
       "longFlag": "--dns-interface",
       "keyValueSeparator": " ",
       "sortOrder": 63,
-      "key": "dns-interface",
-      "commandKey": "curl"
+      "key": "dns-interface"
     },
     {
       "name": "DNS IPv4 Address",
@@ -730,8 +660,7 @@
       "longFlag": "--dns-ipv4-addr",
       "keyValueSeparator": " ",
       "sortOrder": 64,
-      "key": "dns-ipv4-addr",
-      "commandKey": "curl"
+      "key": "dns-ipv4-addr"
     },
     {
       "name": "DNS IPv6 Address",
@@ -741,8 +670,7 @@
       "longFlag": "--dns-ipv6-addr",
       "keyValueSeparator": " ",
       "sortOrder": 65,
-      "key": "dns-ipv6-addr",
-      "commandKey": "curl"
+      "key": "dns-ipv6-addr"
     },
     {
       "name": "DNS Servers",
@@ -752,8 +680,7 @@
       "longFlag": "--dns-servers",
       "keyValueSeparator": " ",
       "sortOrder": 66,
-      "key": "dns-servers",
-      "commandKey": "curl"
+      "key": "dns-servers"
     },
     {
       "name": "DoH Cert Status",
@@ -762,8 +689,7 @@
       "dataType": "Boolean",
       "longFlag": "--doh-cert-status",
       "sortOrder": 67,
-      "key": "doh-cert-status",
-      "commandKey": "curl"
+      "key": "doh-cert-status"
     },
     {
       "name": "DoH Insecure",
@@ -772,8 +698,7 @@
       "dataType": "Boolean",
       "longFlag": "--doh-insecure",
       "sortOrder": 68,
-      "key": "doh-insecure",
-      "commandKey": "curl"
+      "key": "doh-insecure"
     },
     {
       "name": "DoH URL",
@@ -783,8 +708,7 @@
       "longFlag": "--doh-url",
       "keyValueSeparator": " ",
       "sortOrder": 69,
-      "key": "doh-url",
-      "commandKey": "curl"
+      "key": "doh-url"
     },
     {
       "name": "Dump CA Embed",
@@ -793,8 +717,7 @@
       "dataType": "Boolean",
       "longFlag": "--dump-ca-embed",
       "sortOrder": 70,
-      "key": "dump-ca-embed",
-      "commandKey": "curl"
+      "key": "dump-ca-embed"
     },
     {
       "name": "Ech",
@@ -804,8 +727,7 @@
       "longFlag": "--ech",
       "keyValueSeparator": " ",
       "sortOrder": 71,
-      "key": "ech",
-      "commandKey": "curl"
+      "key": "ech"
     },
     {
       "name": "EGD File",
@@ -815,8 +737,7 @@
       "longFlag": "--egd-file",
       "keyValueSeparator": " ",
       "sortOrder": 72,
-      "key": "egd-file",
-      "commandKey": "curl"
+      "key": "egd-file"
     },
     {
       "name": "Engine",
@@ -826,8 +747,7 @@
       "longFlag": "--engine",
       "keyValueSeparator": " ",
       "sortOrder": 73,
-      "key": "engine",
-      "commandKey": "curl"
+      "key": "engine"
     },
     {
       "name": "ETag Compare",
@@ -837,8 +757,7 @@
       "longFlag": "--etag-compare",
       "keyValueSeparator": " ",
       "sortOrder": 74,
-      "key": "etag-compare",
-      "commandKey": "curl"
+      "key": "etag-compare"
     },
     {
       "name": "ETag Save",
@@ -848,8 +767,7 @@
       "longFlag": "--etag-save",
       "keyValueSeparator": " ",
       "sortOrder": 75,
-      "key": "etag-save",
-      "commandKey": "curl"
+      "key": "etag-save"
     },
     {
       "name": "Expect100 Timeout",
@@ -859,8 +777,7 @@
       "longFlag": "--expect100-timeout",
       "keyValueSeparator": " ",
       "sortOrder": 76,
-      "key": "expect100-timeout",
-      "commandKey": "curl"
+      "key": "expect100-timeout"
     },
     {
       "name": "Fail Early",
@@ -869,8 +786,7 @@
       "dataType": "Boolean",
       "longFlag": "--fail-early",
       "sortOrder": 77,
-      "key": "fail-early",
-      "commandKey": "curl"
+      "key": "fail-early"
     },
     {
       "name": "Fail With Body",
@@ -879,8 +795,7 @@
       "dataType": "Boolean",
       "longFlag": "--fail-with-body",
       "sortOrder": 78,
-      "key": "fail-with-body",
-      "commandKey": "curl"
+      "key": "fail-with-body"
     },
     {
       "name": "False Start",
@@ -889,8 +804,7 @@
       "dataType": "Boolean",
       "longFlag": "--false-start",
       "sortOrder": 79,
-      "key": "false-start",
-      "commandKey": "curl"
+      "key": "false-start"
     },
     {
       "name": "Follow",
@@ -899,8 +813,7 @@
       "dataType": "Boolean",
       "longFlag": "--follow",
       "sortOrder": 80,
-      "key": "follow",
-      "commandKey": "curl"
+      "key": "follow"
     },
     {
       "name": "Form Escape",
@@ -909,8 +822,7 @@
       "dataType": "Boolean",
       "longFlag": "--form-escape",
       "sortOrder": 81,
-      "key": "form-escape",
-      "commandKey": "curl"
+      "key": "form-escape"
     },
     {
       "name": "Form String",
@@ -921,8 +833,7 @@
       "longFlag": "--form-string",
       "keyValueSeparator": " ",
       "sortOrder": 82,
-      "key": "form-string",
-      "commandKey": "curl"
+      "key": "form-string"
     },
     {
       "name": "FTP Account",
@@ -932,8 +843,7 @@
       "longFlag": "--ftp-account",
       "keyValueSeparator": " ",
       "sortOrder": 83,
-      "key": "ftp-account",
-      "commandKey": "curl"
+      "key": "ftp-account"
     },
     {
       "name": "FTP Alternative User",
@@ -943,8 +853,7 @@
       "longFlag": "--ftp-alternative-to-user",
       "keyValueSeparator": " ",
       "sortOrder": 84,
-      "key": "ftp-alternative-to-user",
-      "commandKey": "curl"
+      "key": "ftp-alternative-to-user"
     },
     {
       "name": "FTP Create Dirs",
@@ -953,8 +862,7 @@
       "dataType": "Boolean",
       "longFlag": "--ftp-create-dirs",
       "sortOrder": 85,
-      "key": "ftp-create-dirs",
-      "commandKey": "curl"
+      "key": "ftp-create-dirs"
     },
     {
       "name": "FTP Method",
@@ -964,8 +872,7 @@
       "longFlag": "--ftp-method",
       "keyValueSeparator": " ",
       "sortOrder": 86,
-      "key": "ftp-method",
-      "commandKey": "curl"
+      "key": "ftp-method"
     },
     {
       "name": "FTP Passive",
@@ -974,8 +881,7 @@
       "dataType": "Boolean",
       "longFlag": "--ftp-pasv",
       "sortOrder": 87,
-      "key": "ftp-pasv",
-      "commandKey": "curl"
+      "key": "ftp-pasv"
     },
     {
       "name": "FTP Port",
@@ -986,8 +892,7 @@
       "longFlag": "--ftp-port",
       "keyValueSeparator": " ",
       "sortOrder": 88,
-      "key": "ftp-port",
-      "commandKey": "curl"
+      "key": "ftp-port"
     },
     {
       "name": "FTP PRET",
@@ -996,8 +901,7 @@
       "dataType": "Boolean",
       "longFlag": "--ftp-pret",
       "sortOrder": 89,
-      "key": "ftp-pret",
-      "commandKey": "curl"
+      "key": "ftp-pret"
     },
     {
       "name": "FTP Skip Passive IP",
@@ -1006,8 +910,7 @@
       "dataType": "Boolean",
       "longFlag": "--ftp-skip-pasv-ip",
       "sortOrder": 90,
-      "key": "ftp-skip-pasv-ip",
-      "commandKey": "curl"
+      "key": "ftp-skip-pasv-ip"
     },
     {
       "name": "FTP SSL CCC",
@@ -1016,8 +919,7 @@
       "dataType": "Boolean",
       "longFlag": "--ftp-ssl-ccc",
       "sortOrder": 91,
-      "key": "ftp-ssl-ccc",
-      "commandKey": "curl"
+      "key": "ftp-ssl-ccc"
     },
     {
       "name": "FTP SSL CCC Mode",
@@ -1027,8 +929,7 @@
       "longFlag": "--ftp-ssl-ccc-mode",
       "keyValueSeparator": " ",
       "sortOrder": 92,
-      "key": "ftp-ssl-ccc-mode",
-      "commandKey": "curl"
+      "key": "ftp-ssl-ccc-mode"
     },
     {
       "name": "FTP SSL Control",
@@ -1037,8 +938,7 @@
       "dataType": "Boolean",
       "longFlag": "--ftp-ssl-control",
       "sortOrder": 93,
-      "key": "ftp-ssl-control",
-      "commandKey": "curl"
+      "key": "ftp-ssl-control"
     },
     {
       "name": "Globoff",
@@ -1048,8 +948,7 @@
       "shortFlag": "-g",
       "longFlag": "--globoff",
       "sortOrder": 94,
-      "key": "globoff",
-      "commandKey": "curl"
+      "key": "globoff"
     },
     {
       "name": "Happy Eyeballs Timeout (ms)",
@@ -1059,8 +958,7 @@
       "longFlag": "--happy-eyeballs-timeout-ms",
       "keyValueSeparator": " ",
       "sortOrder": 95,
-      "key": "happy-eyeballs-timeout-ms",
-      "commandKey": "curl"
+      "key": "happy-eyeballs-timeout-ms"
     },
     {
       "name": "HAProxy Client IP",
@@ -1070,8 +968,7 @@
       "longFlag": "--haproxy-clientip",
       "keyValueSeparator": " ",
       "sortOrder": 96,
-      "key": "haproxy-clientip",
-      "commandKey": "curl"
+      "key": "haproxy-clientip"
     },
     {
       "name": "HAProxy Protocol",
@@ -1080,8 +977,7 @@
       "dataType": "Boolean",
       "longFlag": "--haproxy-protocol",
       "sortOrder": 97,
-      "key": "haproxy-protocol",
-      "commandKey": "curl"
+      "key": "haproxy-protocol"
     },
     {
       "name": "Host Pubkey MD5",
@@ -1091,8 +987,7 @@
       "longFlag": "--hostpubmd5",
       "keyValueSeparator": " ",
       "sortOrder": 98,
-      "key": "hostpubmd5",
-      "commandKey": "curl"
+      "key": "hostpubmd5"
     },
     {
       "name": "Host Pubkey SHA256",
@@ -1102,8 +997,7 @@
       "longFlag": "--hostpubsha256",
       "keyValueSeparator": " ",
       "sortOrder": 99,
-      "key": "hostpubsha256",
-      "commandKey": "curl"
+      "key": "hostpubsha256"
     },
     {
       "name": "HSTS",
@@ -1113,8 +1007,7 @@
       "longFlag": "--hsts",
       "keyValueSeparator": " ",
       "sortOrder": 100,
-      "key": "hsts",
-      "commandKey": "curl"
+      "key": "hsts"
     },
     {
       "name": "HTTP 0.9",
@@ -1123,8 +1016,7 @@
       "dataType": "Boolean",
       "longFlag": "--http0.9",
       "sortOrder": 101,
-      "key": "http09",
-      "commandKey": "curl"
+      "key": "http09"
     },
     {
       "name": "HTTP 1.0",
@@ -1134,8 +1026,7 @@
       "shortFlag": "-0",
       "longFlag": "--http1.0",
       "sortOrder": 102,
-      "key": "http10",
-      "commandKey": "curl"
+      "key": "http10"
     },
     {
       "name": "HTTP 1.1",
@@ -1144,8 +1035,7 @@
       "dataType": "Boolean",
       "longFlag": "--http1.1",
       "sortOrder": 103,
-      "key": "http11",
-      "commandKey": "curl"
+      "key": "http11"
     },
     {
       "name": "HTTP/2",
@@ -1154,8 +1044,7 @@
       "dataType": "Boolean",
       "longFlag": "--http2",
       "sortOrder": 104,
-      "key": "http2",
-      "commandKey": "curl"
+      "key": "http2"
     },
     {
       "name": "HTTP/2 Prior Knowledge",
@@ -1164,8 +1053,7 @@
       "dataType": "Boolean",
       "longFlag": "--http2-prior-knowledge",
       "sortOrder": 105,
-      "key": "http2-prior-knowledge",
-      "commandKey": "curl"
+      "key": "http2-prior-knowledge"
     },
     {
       "name": "HTTP/3",
@@ -1174,8 +1062,7 @@
       "dataType": "Boolean",
       "longFlag": "--http3",
       "sortOrder": 106,
-      "key": "http3",
-      "commandKey": "curl"
+      "key": "http3"
     },
     {
       "name": "HTTP/3 Only",
@@ -1184,8 +1071,7 @@
       "dataType": "Boolean",
       "longFlag": "--http3-only",
       "sortOrder": 107,
-      "key": "http3-only",
-      "commandKey": "curl"
+      "key": "http3-only"
     },
     {
       "name": "Ignore Content Length",
@@ -1194,8 +1080,7 @@
       "dataType": "Boolean",
       "longFlag": "--ignore-content-length",
       "sortOrder": 108,
-      "key": "ignore-content-length",
-      "commandKey": "curl"
+      "key": "ignore-content-length"
     },
     {
       "name": "Interface",
@@ -1205,8 +1090,7 @@
       "longFlag": "--interface",
       "keyValueSeparator": " ",
       "sortOrder": 109,
-      "key": "interface",
-      "commandKey": "curl"
+      "key": "interface"
     },
     {
       "name": "IP TOS",
@@ -1216,8 +1100,7 @@
       "longFlag": "--ip-tos",
       "keyValueSeparator": " ",
       "sortOrder": 110,
-      "key": "ip-tos",
-      "commandKey": "curl"
+      "key": "ip-tos"
     },
     {
       "name": "IPFS Gateway",
@@ -1227,8 +1110,7 @@
       "longFlag": "--ipfs-gateway",
       "keyValueSeparator": " ",
       "sortOrder": 111,
-      "key": "ipfs-gateway",
-      "commandKey": "curl"
+      "key": "ipfs-gateway"
     },
     {
       "name": "IPv4",
@@ -1238,8 +1120,7 @@
       "shortFlag": "-4",
       "longFlag": "--ipv4",
       "sortOrder": 112,
-      "key": "ipv4",
-      "commandKey": "curl"
+      "key": "ipv4"
     },
     {
       "name": "IPv6",
@@ -1249,8 +1130,7 @@
       "shortFlag": "-6",
       "longFlag": "--ipv6",
       "sortOrder": 113,
-      "key": "ipv6",
-      "commandKey": "curl"
+      "key": "ipv6"
     },
     {
       "name": "JSON",
@@ -1261,8 +1141,7 @@
       "longFlag": "--json",
       "keyValueSeparator": " ",
       "sortOrder": 114,
-      "key": "json",
-      "commandKey": "curl"
+      "key": "json"
     },
     {
       "name": "Junk Session Cookies",
@@ -1272,8 +1151,7 @@
       "shortFlag": "-j",
       "longFlag": "--junk-session-cookies",
       "sortOrder": 115,
-      "key": "junk-session-cookies",
-      "commandKey": "curl"
+      "key": "junk-session-cookies"
     },
     {
       "name": "Keepalive Count",
@@ -1283,8 +1161,7 @@
       "longFlag": "--keepalive-cnt",
       "keyValueSeparator": " ",
       "sortOrder": 116,
-      "key": "keepalive-cnt",
-      "commandKey": "curl"
+      "key": "keepalive-cnt"
     },
     {
       "name": "Keepalive Time",
@@ -1294,8 +1171,7 @@
       "longFlag": "--keepalive-time",
       "keyValueSeparator": " ",
       "sortOrder": 117,
-      "key": "keepalive-time",
-      "commandKey": "curl"
+      "key": "keepalive-time"
     },
     {
       "name": "Key",
@@ -1305,8 +1181,7 @@
       "longFlag": "--key",
       "keyValueSeparator": " ",
       "sortOrder": 118,
-      "key": "key",
-      "commandKey": "curl"
+      "key": "key"
     },
     {
       "name": "Key Type",
@@ -1316,8 +1191,7 @@
       "longFlag": "--key-type",
       "keyValueSeparator": " ",
       "sortOrder": 119,
-      "key": "key-type",
-      "commandKey": "curl"
+      "key": "key-type"
     },
     {
       "name": "Knownhosts",
@@ -1327,8 +1201,7 @@
       "longFlag": "--knownhosts",
       "keyValueSeparator": " ",
       "sortOrder": 120,
-      "key": "knownhosts",
-      "commandKey": "curl"
+      "key": "knownhosts"
     },
     {
       "name": "Krb",
@@ -1338,8 +1211,7 @@
       "longFlag": "--krb",
       "keyValueSeparator": " ",
       "sortOrder": 121,
-      "key": "krb",
-      "commandKey": "curl"
+      "key": "krb"
     },
     {
       "name": "Libcurl",
@@ -1349,8 +1221,7 @@
       "longFlag": "--libcurl",
       "keyValueSeparator": " ",
       "sortOrder": 122,
-      "key": "libcurl",
-      "commandKey": "curl"
+      "key": "libcurl"
     },
     {
       "name": "Limit Rate",
@@ -1360,8 +1231,7 @@
       "longFlag": "--limit-rate",
       "keyValueSeparator": " ",
       "sortOrder": 123,
-      "key": "limit-rate",
-      "commandKey": "curl"
+      "key": "limit-rate"
     },
     {
       "name": "List Only",
@@ -1371,8 +1241,7 @@
       "shortFlag": "-l",
       "longFlag": "--list-only",
       "sortOrder": 124,
-      "key": "list-only",
-      "commandKey": "curl"
+      "key": "list-only"
     },
     {
       "name": "Local Port",
@@ -1382,8 +1251,7 @@
       "longFlag": "--local-port",
       "keyValueSeparator": " ",
       "sortOrder": 125,
-      "key": "local-port",
-      "commandKey": "curl"
+      "key": "local-port"
     },
     {
       "name": "Location Trusted",
@@ -1392,8 +1260,7 @@
       "dataType": "Boolean",
       "longFlag": "--location-trusted",
       "sortOrder": 126,
-      "key": "location-trusted",
-      "commandKey": "curl"
+      "key": "location-trusted"
     },
     {
       "name": "Login Options",
@@ -1403,8 +1270,7 @@
       "longFlag": "--login-options",
       "keyValueSeparator": " ",
       "sortOrder": 127,
-      "key": "login-options",
-      "commandKey": "curl"
+      "key": "login-options"
     },
     {
       "name": "Mail Auth",
@@ -1414,8 +1280,7 @@
       "longFlag": "--mail-auth",
       "keyValueSeparator": " ",
       "sortOrder": 128,
-      "key": "mail-auth",
-      "commandKey": "curl"
+      "key": "mail-auth"
     },
     {
       "name": "Mail From",
@@ -1425,8 +1290,7 @@
       "longFlag": "--mail-from",
       "keyValueSeparator": " ",
       "sortOrder": 129,
-      "key": "mail-from",
-      "commandKey": "curl"
+      "key": "mail-from"
     },
     {
       "name": "Mail Recipients",
@@ -1437,8 +1301,7 @@
       "longFlag": "--mail-rcpt",
       "keyValueSeparator": " ",
       "sortOrder": 130,
-      "key": "mail-rcpt",
-      "commandKey": "curl"
+      "key": "mail-rcpt"
     },
     {
       "name": "Mail RCPT Allow Fails",
@@ -1447,8 +1310,7 @@
       "dataType": "Boolean",
       "longFlag": "--mail-rcpt-allowfails",
       "sortOrder": 131,
-      "key": "mail-rcpt-allowfails",
-      "commandKey": "curl"
+      "key": "mail-rcpt-allowfails"
     },
     {
       "name": "Manual",
@@ -1458,8 +1320,7 @@
       "shortFlag": "-M",
       "longFlag": "--manual",
       "sortOrder": 132,
-      "key": "manual",
-      "commandKey": "curl"
+      "key": "manual"
     },
     {
       "name": "Max File Size",
@@ -1469,8 +1330,7 @@
       "longFlag": "--max-filesize",
       "keyValueSeparator": " ",
       "sortOrder": 133,
-      "key": "max-filesize",
-      "commandKey": "curl"
+      "key": "max-filesize"
     },
     {
       "name": "Max Redirects",
@@ -1480,8 +1340,7 @@
       "longFlag": "--max-redirs",
       "keyValueSeparator": " ",
       "sortOrder": 134,
-      "key": "max-redirs",
-      "commandKey": "curl"
+      "key": "max-redirs"
     },
     {
       "name": "Metalink",
@@ -1490,8 +1349,7 @@
       "dataType": "Boolean",
       "longFlag": "--metalink",
       "sortOrder": 135,
-      "key": "metalink",
-      "commandKey": "curl"
+      "key": "metalink"
     },
     {
       "name": "Mptcp",
@@ -1500,8 +1358,7 @@
       "dataType": "Boolean",
       "longFlag": "--mptcp",
       "sortOrder": 136,
-      "key": "mptcp",
-      "commandKey": "curl"
+      "key": "mptcp"
     },
     {
       "name": "Negotiate",
@@ -1510,8 +1367,7 @@
       "dataType": "Boolean",
       "longFlag": "--negotiate",
       "sortOrder": 137,
-      "key": "negotiate",
-      "commandKey": "curl"
+      "key": "negotiate"
     },
     {
       "name": "Netrc",
@@ -1521,8 +1377,7 @@
       "shortFlag": "-n",
       "longFlag": "--netrc",
       "sortOrder": 138,
-      "key": "netrc",
-      "commandKey": "curl"
+      "key": "netrc"
     },
     {
       "name": "Netrc File",
@@ -1532,8 +1387,7 @@
       "longFlag": "--netrc-file",
       "keyValueSeparator": " ",
       "sortOrder": 139,
-      "key": "netrc-file",
-      "commandKey": "curl"
+      "key": "netrc-file"
     },
     {
       "name": "Netrc Optional",
@@ -1542,8 +1396,7 @@
       "dataType": "Boolean",
       "longFlag": "--netrc-optional",
       "sortOrder": 140,
-      "key": "netrc-optional",
-      "commandKey": "curl"
+      "key": "netrc-optional"
     },
     {
       "name": "Next",
@@ -1553,8 +1406,7 @@
       "shortFlag": "-:",
       "longFlag": "--next",
       "sortOrder": 141,
-      "key": "next",
-      "commandKey": "curl"
+      "key": "next"
     },
     {
       "name": "No ALPN",
@@ -1563,8 +1415,7 @@
       "dataType": "Boolean",
       "longFlag": "--no-alpn",
       "sortOrder": 142,
-      "key": "no-alpn",
-      "commandKey": "curl"
+      "key": "no-alpn"
     },
     {
       "name": "No Buffer",
@@ -1574,8 +1425,7 @@
       "shortFlag": "-N",
       "longFlag": "--no-buffer",
       "sortOrder": 143,
-      "key": "no-buffer",
-      "commandKey": "curl"
+      "key": "no-buffer"
     },
     {
       "name": "No Clobber",
@@ -1584,8 +1434,7 @@
       "dataType": "Boolean",
       "longFlag": "--no-clobber",
       "sortOrder": 144,
-      "key": "no-clobber",
-      "commandKey": "curl"
+      "key": "no-clobber"
     },
     {
       "name": "No Keepalive",
@@ -1594,8 +1443,7 @@
       "dataType": "Boolean",
       "longFlag": "--no-keepalive",
       "sortOrder": 145,
-      "key": "no-keepalive",
-      "commandKey": "curl"
+      "key": "no-keepalive"
     },
     {
       "name": "No NPN",
@@ -1604,8 +1452,7 @@
       "dataType": "Boolean",
       "longFlag": "--no-npn",
       "sortOrder": 146,
-      "key": "no-npn",
-      "commandKey": "curl"
+      "key": "no-npn"
     },
     {
       "name": "No Progress Meter",
@@ -1614,8 +1461,7 @@
       "dataType": "Boolean",
       "longFlag": "--no-progress-meter",
       "sortOrder": 147,
-      "key": "no-progress-meter",
-      "commandKey": "curl"
+      "key": "no-progress-meter"
     },
     {
       "name": "No Session ID",
@@ -1624,8 +1470,7 @@
       "dataType": "Boolean",
       "longFlag": "--no-sessionid",
       "sortOrder": 148,
-      "key": "no-sessionid",
-      "commandKey": "curl"
+      "key": "no-sessionid"
     },
     {
       "name": "Noproxy",
@@ -1635,8 +1480,7 @@
       "longFlag": "--noproxy",
       "keyValueSeparator": " ",
       "sortOrder": 149,
-      "key": "noproxy",
-      "commandKey": "curl"
+      "key": "noproxy"
     },
     {
       "name": "NTLM",
@@ -1645,8 +1489,7 @@
       "dataType": "Boolean",
       "longFlag": "--ntlm",
       "sortOrder": 150,
-      "key": "ntlm",
-      "commandKey": "curl"
+      "key": "ntlm"
     },
     {
       "name": "NTLM WB",
@@ -1655,8 +1498,7 @@
       "dataType": "Boolean",
       "longFlag": "--ntlm-wb",
       "sortOrder": 151,
-      "key": "ntlm-wb",
-      "commandKey": "curl"
+      "key": "ntlm-wb"
     },
     {
       "name": "OAuth2 Bearer",
@@ -1666,8 +1508,7 @@
       "longFlag": "--oauth2-bearer",
       "keyValueSeparator": " ",
       "sortOrder": 152,
-      "key": "oauth2-bearer",
-      "commandKey": "curl"
+      "key": "oauth2-bearer"
     },
     {
       "name": "Output Null",
@@ -1676,8 +1517,7 @@
       "dataType": "Boolean",
       "longFlag": "--out-null",
       "sortOrder": 153,
-      "key": "out-null",
-      "commandKey": "curl"
+      "key": "out-null"
     },
     {
       "name": "Parallel",
@@ -1687,8 +1527,7 @@
       "shortFlag": "-Z",
       "longFlag": "--parallel",
       "sortOrder": 154,
-      "key": "parallel",
-      "commandKey": "curl"
+      "key": "parallel"
     },
     {
       "name": "Parallel Immediate",
@@ -1697,8 +1536,7 @@
       "dataType": "Boolean",
       "longFlag": "--parallel-immediate",
       "sortOrder": 155,
-      "key": "parallel-immediate",
-      "commandKey": "curl"
+      "key": "parallel-immediate"
     },
     {
       "name": "Parallel Max",
@@ -1708,8 +1546,7 @@
       "longFlag": "--parallel-max",
       "keyValueSeparator": " ",
       "sortOrder": 156,
-      "key": "parallel-max",
-      "commandKey": "curl"
+      "key": "parallel-max"
     },
     {
       "name": "Parallel Max Host",
@@ -1719,8 +1556,7 @@
       "longFlag": "--parallel-max-host",
       "keyValueSeparator": " ",
       "sortOrder": 157,
-      "key": "parallel-max-host",
-      "commandKey": "curl"
+      "key": "parallel-max-host"
     },
     {
       "name": "Pass",
@@ -1730,8 +1566,7 @@
       "longFlag": "--pass",
       "keyValueSeparator": " ",
       "sortOrder": 158,
-      "key": "pass",
-      "commandKey": "curl"
+      "key": "pass"
     },
     {
       "name": "Path As Is",
@@ -1740,8 +1575,7 @@
       "dataType": "Boolean",
       "longFlag": "--path-as-is",
       "sortOrder": 159,
-      "key": "path-as-is",
-      "commandKey": "curl"
+      "key": "path-as-is"
     },
     {
       "name": "Pinnedpubkey",
@@ -1751,8 +1585,7 @@
       "longFlag": "--pinnedpubkey",
       "keyValueSeparator": " ",
       "sortOrder": 160,
-      "key": "pinnedpubkey",
-      "commandKey": "curl"
+      "key": "pinnedpubkey"
     },
     {
       "name": "Post 301",
@@ -1761,8 +1594,7 @@
       "dataType": "Boolean",
       "longFlag": "--post301",
       "sortOrder": 161,
-      "key": "post301",
-      "commandKey": "curl"
+      "key": "post301"
     },
     {
       "name": "Post 302",
@@ -1771,8 +1603,7 @@
       "dataType": "Boolean",
       "longFlag": "--post302",
       "sortOrder": 162,
-      "key": "post302",
-      "commandKey": "curl"
+      "key": "post302"
     },
     {
       "name": "Post 303",
@@ -1781,8 +1612,7 @@
       "dataType": "Boolean",
       "longFlag": "--post303",
       "sortOrder": 163,
-      "key": "post303",
-      "commandKey": "curl"
+      "key": "post303"
     },
     {
       "name": "Preproxy",
@@ -1792,8 +1622,7 @@
       "longFlag": "--preproxy",
       "keyValueSeparator": " ",
       "sortOrder": 164,
-      "key": "preproxy",
-      "commandKey": "curl"
+      "key": "preproxy"
     },
     {
       "name": "Progress Bar",
@@ -1803,8 +1632,7 @@
       "shortFlag": "-#",
       "longFlag": "--progress-bar",
       "sortOrder": 165,
-      "key": "progress-bar",
-      "commandKey": "curl"
+      "key": "progress-bar"
     },
     {
       "name": "Proto",
@@ -1814,8 +1642,7 @@
       "longFlag": "--proto",
       "keyValueSeparator": " ",
       "sortOrder": 166,
-      "key": "proto",
-      "commandKey": "curl"
+      "key": "proto"
     },
     {
       "name": "Proto Default",
@@ -1825,8 +1652,7 @@
       "longFlag": "--proto-default",
       "keyValueSeparator": " ",
       "sortOrder": 167,
-      "key": "proto-default",
-      "commandKey": "curl"
+      "key": "proto-default"
     },
     {
       "name": "Proto Redirect",
@@ -1836,8 +1662,7 @@
       "longFlag": "--proto-redir",
       "keyValueSeparator": " ",
       "sortOrder": 168,
-      "key": "proto-redir",
-      "commandKey": "curl"
+      "key": "proto-redir"
     },
     {
       "name": "Proxy anyauth",
@@ -1846,8 +1671,7 @@
       "dataType": "Boolean",
       "longFlag": "--proxy-anyauth",
       "sortOrder": 169,
-      "key": "proxy-anyauth",
-      "commandKey": "curl"
+      "key": "proxy-anyauth"
     },
     {
       "name": "Proxy basic",
@@ -1856,8 +1680,7 @@
       "dataType": "Boolean",
       "longFlag": "--proxy-basic",
       "sortOrder": 170,
-      "key": "proxy-basic",
-      "commandKey": "curl"
+      "key": "proxy-basic"
     },
     {
       "name": "Proxy CA Native",
@@ -1866,8 +1689,7 @@
       "dataType": "Boolean",
       "longFlag": "--proxy-ca-native",
       "sortOrder": 171,
-      "key": "proxy-ca-native",
-      "commandKey": "curl"
+      "key": "proxy-ca-native"
     },
     {
       "name": "Proxy CA Cert",
@@ -1877,8 +1699,7 @@
       "longFlag": "--proxy-cacert",
       "keyValueSeparator": " ",
       "sortOrder": 172,
-      "key": "proxy-cacert",
-      "commandKey": "curl"
+      "key": "proxy-cacert"
     },
     {
       "name": "Proxy CA Path",
@@ -1888,8 +1709,7 @@
       "longFlag": "--proxy-capath",
       "keyValueSeparator": " ",
       "sortOrder": 173,
-      "key": "proxy-capath",
-      "commandKey": "curl"
+      "key": "proxy-capath"
     },
     {
       "name": "Proxy cert",
@@ -1899,8 +1719,7 @@
       "longFlag": "--proxy-cert",
       "keyValueSeparator": " ",
       "sortOrder": 174,
-      "key": "proxy-cert",
-      "commandKey": "curl"
+      "key": "proxy-cert"
     },
     {
       "name": "Proxy Cert Type",
@@ -1910,8 +1729,7 @@
       "longFlag": "--proxy-cert-type",
       "keyValueSeparator": " ",
       "sortOrder": 175,
-      "key": "proxy-cert-type",
-      "commandKey": "curl"
+      "key": "proxy-cert-type"
     },
     {
       "name": "Proxy Ciphers",
@@ -1921,8 +1739,7 @@
       "longFlag": "--proxy-ciphers",
       "keyValueSeparator": " ",
       "sortOrder": 176,
-      "key": "proxy-ciphers",
-      "commandKey": "curl"
+      "key": "proxy-ciphers"
     },
     {
       "name": "Proxy CRL File",
@@ -1932,8 +1749,7 @@
       "longFlag": "--proxy-crlfile",
       "keyValueSeparator": " ",
       "sortOrder": 177,
-      "key": "proxy-crlfile",
-      "commandKey": "curl"
+      "key": "proxy-crlfile"
     },
     {
       "name": "Proxy digest",
@@ -1942,8 +1758,7 @@
       "dataType": "Boolean",
       "longFlag": "--proxy-digest",
       "sortOrder": 178,
-      "key": "proxy-digest",
-      "commandKey": "curl"
+      "key": "proxy-digest"
     },
     {
       "name": "Proxy Header",
@@ -1954,8 +1769,7 @@
       "longFlag": "--proxy-header",
       "keyValueSeparator": " ",
       "sortOrder": 179,
-      "key": "proxy-header",
-      "commandKey": "curl"
+      "key": "proxy-header"
     },
     {
       "name": "Proxy HTTP/2",
@@ -1964,8 +1778,7 @@
       "dataType": "Boolean",
       "longFlag": "--proxy-http2",
       "sortOrder": 180,
-      "key": "proxy-http2",
-      "commandKey": "curl"
+      "key": "proxy-http2"
     },
     {
       "name": "Proxy insecure",
@@ -1974,8 +1787,7 @@
       "dataType": "Boolean",
       "longFlag": "--proxy-insecure",
       "sortOrder": 181,
-      "key": "proxy-insecure",
-      "commandKey": "curl"
+      "key": "proxy-insecure"
     },
     {
       "name": "Proxy key",
@@ -1985,8 +1797,7 @@
       "longFlag": "--proxy-key",
       "keyValueSeparator": " ",
       "sortOrder": 182,
-      "key": "proxy-key",
-      "commandKey": "curl"
+      "key": "proxy-key"
     },
     {
       "name": "Proxy Key Type",
@@ -1996,8 +1807,7 @@
       "longFlag": "--proxy-key-type",
       "keyValueSeparator": " ",
       "sortOrder": 183,
-      "key": "proxy-key-type",
-      "commandKey": "curl"
+      "key": "proxy-key-type"
     },
     {
       "name": "Proxy Negotiate",
@@ -2006,8 +1816,7 @@
       "dataType": "Boolean",
       "longFlag": "--proxy-negotiate",
       "sortOrder": 184,
-      "key": "proxy-negotiate",
-      "commandKey": "curl"
+      "key": "proxy-negotiate"
     },
     {
       "name": "Proxy NTLM",
@@ -2016,8 +1825,7 @@
       "dataType": "Boolean",
       "longFlag": "--proxy-ntlm",
       "sortOrder": 185,
-      "key": "proxy-ntlm",
-      "commandKey": "curl"
+      "key": "proxy-ntlm"
     },
     {
       "name": "Proxy Password",
@@ -2027,8 +1835,7 @@
       "longFlag": "--proxy-pass",
       "keyValueSeparator": " ",
       "sortOrder": 186,
-      "key": "proxy-pass",
-      "commandKey": "curl"
+      "key": "proxy-pass"
     },
     {
       "name": "Proxy Pinned Public Key",
@@ -2038,8 +1845,7 @@
       "longFlag": "--proxy-pinnedpubkey",
       "keyValueSeparator": " ",
       "sortOrder": 187,
-      "key": "proxy-pinnedpubkey",
-      "commandKey": "curl"
+      "key": "proxy-pinnedpubkey"
     },
     {
       "name": "Proxy Service Name",
@@ -2049,8 +1855,7 @@
       "longFlag": "--proxy-service-name",
       "keyValueSeparator": " ",
       "sortOrder": 188,
-      "key": "proxy-service-name",
-      "commandKey": "curl"
+      "key": "proxy-service-name"
     },
     {
       "name": "Proxy SSL Allow BEAST",
@@ -2059,8 +1864,7 @@
       "dataType": "Boolean",
       "longFlag": "--proxy-ssl-allow-beast",
       "sortOrder": 189,
-      "key": "proxy-ssl-allow-beast",
-      "commandKey": "curl"
+      "key": "proxy-ssl-allow-beast"
     },
     {
       "name": "Proxy SSL Auto Client Cert",
@@ -2069,8 +1873,7 @@
       "dataType": "Boolean",
       "longFlag": "--proxy-ssl-auto-client-cert",
       "sortOrder": 190,
-      "key": "proxy-ssl-auto-client-cert",
-      "commandKey": "curl"
+      "key": "proxy-ssl-auto-client-cert"
     },
     {
       "name": "Proxy TLS 1.3 Ciphers",
@@ -2080,8 +1883,7 @@
       "longFlag": "--proxy-tls13-ciphers",
       "keyValueSeparator": " ",
       "sortOrder": 191,
-      "key": "proxy-tls13-ciphers",
-      "commandKey": "curl"
+      "key": "proxy-tls13-ciphers"
     },
     {
       "name": "Proxy TLS Auth Type",
@@ -2091,8 +1893,7 @@
       "longFlag": "--proxy-tlsauthtype",
       "keyValueSeparator": " ",
       "sortOrder": 192,
-      "key": "proxy-tlsauthtype",
-      "commandKey": "curl"
+      "key": "proxy-tlsauthtype"
     },
     {
       "name": "Proxy TLS Password",
@@ -2102,8 +1903,7 @@
       "longFlag": "--proxy-tlspassword",
       "keyValueSeparator": " ",
       "sortOrder": 193,
-      "key": "proxy-tlspassword",
-      "commandKey": "curl"
+      "key": "proxy-tlspassword"
     },
     {
       "name": "Proxy TLS User",
@@ -2113,8 +1913,7 @@
       "longFlag": "--proxy-tlsuser",
       "keyValueSeparator": " ",
       "sortOrder": 194,
-      "key": "proxy-tlsuser",
-      "commandKey": "curl"
+      "key": "proxy-tlsuser"
     },
     {
       "name": "Proxy TLS v1",
@@ -2123,8 +1922,7 @@
       "dataType": "Boolean",
       "longFlag": "--proxy-tlsv1",
       "sortOrder": 195,
-      "key": "proxy-tlsv1",
-      "commandKey": "curl"
+      "key": "proxy-tlsv1"
     },
     {
       "name": "Proxy User",
@@ -2135,8 +1933,7 @@
       "longFlag": "--proxy-user",
       "keyValueSeparator": " ",
       "sortOrder": 196,
-      "key": "proxy-user",
-      "commandKey": "curl"
+      "key": "proxy-user"
     },
     {
       "name": "Proxy 1.0",
@@ -2146,8 +1943,7 @@
       "longFlag": "--proxy1.0",
       "keyValueSeparator": " ",
       "sortOrder": 197,
-      "key": "proxy10",
-      "commandKey": "curl"
+      "key": "proxy10"
     },
     {
       "name": "Proxytunnel",
@@ -2157,8 +1953,7 @@
       "shortFlag": "-p",
       "longFlag": "--proxytunnel",
       "sortOrder": 198,
-      "key": "proxytunnel",
-      "commandKey": "curl"
+      "key": "proxytunnel"
     },
     {
       "name": "Pubkey",
@@ -2168,8 +1963,7 @@
       "longFlag": "--pubkey",
       "keyValueSeparator": " ",
       "sortOrder": 199,
-      "key": "pubkey",
-      "commandKey": "curl"
+      "key": "pubkey"
     },
     {
       "name": "Quote",
@@ -2181,8 +1975,7 @@
       "longFlag": "--quote",
       "keyValueSeparator": " ",
       "sortOrder": 200,
-      "key": "quote",
-      "commandKey": "curl"
+      "key": "quote"
     },
     {
       "name": "Random File",
@@ -2192,8 +1985,7 @@
       "longFlag": "--random-file",
       "keyValueSeparator": " ",
       "sortOrder": 201,
-      "key": "random-file",
-      "commandKey": "curl"
+      "key": "random-file"
     },
     {
       "name": "Range",
@@ -2204,8 +1996,7 @@
       "longFlag": "--range",
       "keyValueSeparator": " ",
       "sortOrder": 202,
-      "key": "range",
-      "commandKey": "curl"
+      "key": "range"
     },
     {
       "name": "Rate",
@@ -2215,8 +2006,7 @@
       "longFlag": "--rate",
       "keyValueSeparator": " ",
       "sortOrder": 203,
-      "key": "rate",
-      "commandKey": "curl"
+      "key": "rate"
     },
     {
       "name": "Raw",
@@ -2225,8 +2015,7 @@
       "dataType": "Boolean",
       "longFlag": "--raw",
       "sortOrder": 204,
-      "key": "raw",
-      "commandKey": "curl"
+      "key": "raw"
     },
     {
       "name": "Referer",
@@ -2237,8 +2026,7 @@
       "longFlag": "--referer",
       "keyValueSeparator": " ",
       "sortOrder": 205,
-      "key": "referer",
-      "commandKey": "curl"
+      "key": "referer"
     },
     {
       "name": "Remote Header Name",
@@ -2248,8 +2036,7 @@
       "shortFlag": "-J",
       "longFlag": "--remote-header-name",
       "sortOrder": 206,
-      "key": "remote-header-name",
-      "commandKey": "curl"
+      "key": "remote-header-name"
     },
     {
       "name": "Remote Name All",
@@ -2258,8 +2045,7 @@
       "dataType": "Boolean",
       "longFlag": "--remote-name-all",
       "sortOrder": 207,
-      "key": "remote-name-all",
-      "commandKey": "curl"
+      "key": "remote-name-all"
     },
     {
       "name": "Remote Time",
@@ -2269,8 +2055,7 @@
       "shortFlag": "-R",
       "longFlag": "--remote-time",
       "sortOrder": 208,
-      "key": "remote-time",
-      "commandKey": "curl"
+      "key": "remote-time"
     },
     {
       "name": "Remove On Error",
@@ -2279,8 +2064,7 @@
       "dataType": "Boolean",
       "longFlag": "--remove-on-error",
       "sortOrder": 209,
-      "key": "remove-on-error",
-      "commandKey": "curl"
+      "key": "remove-on-error"
     },
     {
       "name": "Request Target",
@@ -2290,8 +2074,7 @@
       "longFlag": "--request-target",
       "keyValueSeparator": " ",
       "sortOrder": 210,
-      "key": "request-target",
-      "commandKey": "curl"
+      "key": "request-target"
     },
     {
       "name": "Resolve",
@@ -2302,8 +2085,7 @@
       "longFlag": "--resolve",
       "keyValueSeparator": " ",
       "sortOrder": 211,
-      "key": "resolve",
-      "commandKey": "curl"
+      "key": "resolve"
     },
     {
       "name": "Retry All Errors",
@@ -2313,7 +2095,6 @@
       "longFlag": "--retry-all-errors",
       "sortOrder": 212,
       "key": "retry-all-errors",
-      "commandKey": "curl",
       "dependencies": [
         {
           "key": "dep-retry-all-errors-retry",
@@ -2331,7 +2112,6 @@
       "longFlag": "--retry-connrefused",
       "sortOrder": 213,
       "key": "retry-connrefused",
-      "commandKey": "curl",
       "dependencies": [
         {
           "key": "dep-retry-connrefused-retry",
@@ -2350,7 +2130,6 @@
       "keyValueSeparator": " ",
       "sortOrder": 214,
       "key": "retry-delay",
-      "commandKey": "curl",
       "dependencies": [
         {
           "key": "dep-retry-delay-retry",
@@ -2369,7 +2148,6 @@
       "keyValueSeparator": " ",
       "sortOrder": 215,
       "key": "retry-max-time",
-      "commandKey": "curl",
       "dependencies": [
         {
           "key": "dep-retry-max-time-retry",
@@ -2387,8 +2165,7 @@
       "longFlag": "--sasl-authzid",
       "keyValueSeparator": " ",
       "sortOrder": 216,
-      "key": "sasl-authzid",
-      "commandKey": "curl"
+      "key": "sasl-authzid"
     },
     {
       "name": "SASL IR",
@@ -2397,8 +2174,7 @@
       "dataType": "Boolean",
       "longFlag": "--sasl-ir",
       "sortOrder": 217,
-      "key": "sasl-ir",
-      "commandKey": "curl"
+      "key": "sasl-ir"
     },
     {
       "name": "Service Name",
@@ -2408,8 +2184,7 @@
       "longFlag": "--service-name",
       "keyValueSeparator": " ",
       "sortOrder": 218,
-      "key": "service-name",
-      "commandKey": "curl"
+      "key": "service-name"
     },
     {
       "name": "Show Error",
@@ -2420,7 +2195,6 @@
       "longFlag": "--show-error",
       "sortOrder": 219,
       "key": "show-error",
-      "commandKey": "curl",
       "dependencies": [
         {
           "key": "dep-show-error-silent",
@@ -2438,8 +2212,7 @@
       "longFlag": "--sigalgs",
       "keyValueSeparator": " ",
       "sortOrder": 220,
-      "key": "sigalgs",
-      "commandKey": "curl"
+      "key": "sigalgs"
     },
     {
       "name": "Skip Existing",
@@ -2448,8 +2221,7 @@
       "dataType": "Boolean",
       "longFlag": "--skip-existing",
       "sortOrder": 221,
-      "key": "skip-existing",
-      "commandKey": "curl"
+      "key": "skip-existing"
     },
     {
       "name": "SOCKS4",
@@ -2459,8 +2231,7 @@
       "longFlag": "--socks4",
       "keyValueSeparator": " ",
       "sortOrder": 222,
-      "key": "socks4",
-      "commandKey": "curl"
+      "key": "socks4"
     },
     {
       "name": "SOCKS4a",
@@ -2470,8 +2241,7 @@
       "longFlag": "--socks4a",
       "keyValueSeparator": " ",
       "sortOrder": 223,
-      "key": "socks4a",
-      "commandKey": "curl"
+      "key": "socks4a"
     },
     {
       "name": "SOCKS5",
@@ -2481,8 +2251,7 @@
       "longFlag": "--socks5",
       "keyValueSeparator": " ",
       "sortOrder": 224,
-      "key": "socks5",
-      "commandKey": "curl"
+      "key": "socks5"
     },
     {
       "name": "SOCKS5 Basic",
@@ -2491,8 +2260,7 @@
       "dataType": "Boolean",
       "longFlag": "--socks5-basic",
       "sortOrder": 225,
-      "key": "socks5-basic",
-      "commandKey": "curl"
+      "key": "socks5-basic"
     },
     {
       "name": "SOCKS5 GSSAPI",
@@ -2501,8 +2269,7 @@
       "dataType": "Boolean",
       "longFlag": "--socks5-gssapi",
       "sortOrder": 226,
-      "key": "socks5-gssapi",
-      "commandKey": "curl"
+      "key": "socks5-gssapi"
     },
     {
       "name": "SOCKS5 GSSAPI NEC",
@@ -2511,8 +2278,7 @@
       "dataType": "Boolean",
       "longFlag": "--socks5-gssapi-nec",
       "sortOrder": 227,
-      "key": "socks5-gssapi-nec",
-      "commandKey": "curl"
+      "key": "socks5-gssapi-nec"
     },
     {
       "name": "SOCKS5 GSSAPI Service",
@@ -2522,8 +2288,7 @@
       "longFlag": "--socks5-gssapi-service",
       "keyValueSeparator": " ",
       "sortOrder": 228,
-      "key": "socks5-gssapi-service",
-      "commandKey": "curl"
+      "key": "socks5-gssapi-service"
     },
     {
       "name": "SOCKS5 Hostname",
@@ -2533,8 +2298,7 @@
       "longFlag": "--socks5-hostname",
       "keyValueSeparator": " ",
       "sortOrder": 229,
-      "key": "socks5-hostname",
-      "commandKey": "curl"
+      "key": "socks5-hostname"
     },
     {
       "name": "Speed Limit",
@@ -2545,8 +2309,7 @@
       "longFlag": "--speed-limit",
       "keyValueSeparator": " ",
       "sortOrder": 230,
-      "key": "speed-limit",
-      "commandKey": "curl"
+      "key": "speed-limit"
     },
     {
       "name": "Speed Time",
@@ -2557,8 +2320,7 @@
       "longFlag": "--speed-time",
       "keyValueSeparator": " ",
       "sortOrder": 231,
-      "key": "speed-time",
-      "commandKey": "curl"
+      "key": "speed-time"
     },
     {
       "name": "SSL",
@@ -2567,8 +2329,7 @@
       "dataType": "Boolean",
       "longFlag": "--ssl",
       "sortOrder": 232,
-      "key": "ssl",
-      "commandKey": "curl"
+      "key": "ssl"
     },
     {
       "name": "SSL Allow BEAST",
@@ -2577,8 +2338,7 @@
       "dataType": "Boolean",
       "longFlag": "--ssl-allow-beast",
       "sortOrder": 233,
-      "key": "ssl-allow-beast",
-      "commandKey": "curl"
+      "key": "ssl-allow-beast"
     },
     {
       "name": "SSL Auto Client Cert",
@@ -2587,8 +2347,7 @@
       "dataType": "Boolean",
       "longFlag": "--ssl-auto-client-cert",
       "sortOrder": 234,
-      "key": "ssl-auto-client-cert",
-      "commandKey": "curl"
+      "key": "ssl-auto-client-cert"
     },
     {
       "name": "SSL No Revoke",
@@ -2597,8 +2356,7 @@
       "dataType": "Boolean",
       "longFlag": "--ssl-no-revoke",
       "sortOrder": 235,
-      "key": "ssl-no-revoke",
-      "commandKey": "curl"
+      "key": "ssl-no-revoke"
     },
     {
       "name": "SSL Required",
@@ -2607,8 +2365,7 @@
       "dataType": "Boolean",
       "longFlag": "--ssl-reqd",
       "sortOrder": 236,
-      "key": "ssl-reqd",
-      "commandKey": "curl"
+      "key": "ssl-reqd"
     },
     {
       "name": "SSL Revoke Best Effort",
@@ -2617,8 +2374,7 @@
       "dataType": "Boolean",
       "longFlag": "--ssl-revoke-best-effort",
       "sortOrder": 237,
-      "key": "ssl-revoke-best-effort",
-      "commandKey": "curl"
+      "key": "ssl-revoke-best-effort"
     },
     {
       "name": "SSL Sessions",
@@ -2628,8 +2384,7 @@
       "longFlag": "--ssl-sessions",
       "keyValueSeparator": " ",
       "sortOrder": 238,
-      "key": "ssl-sessions",
-      "commandKey": "curl"
+      "key": "ssl-sessions"
     },
     {
       "name": "SSLv2",
@@ -2639,8 +2394,7 @@
       "shortFlag": "-2",
       "longFlag": "--sslv2",
       "sortOrder": 239,
-      "key": "sslv2",
-      "commandKey": "curl"
+      "key": "sslv2"
     },
     {
       "name": "SSLv3",
@@ -2650,8 +2404,7 @@
       "shortFlag": "-3",
       "longFlag": "--sslv3",
       "sortOrder": 240,
-      "key": "sslv3",
-      "commandKey": "curl"
+      "key": "sslv3"
     },
     {
       "name": "Stderr",
@@ -2661,8 +2414,7 @@
       "longFlag": "--stderr",
       "keyValueSeparator": " ",
       "sortOrder": 241,
-      "key": "stderr",
-      "commandKey": "curl"
+      "key": "stderr"
     },
     {
       "name": "Styled Output",
@@ -2671,8 +2423,7 @@
       "dataType": "Boolean",
       "longFlag": "--styled-output",
       "sortOrder": 242,
-      "key": "styled-output",
-      "commandKey": "curl"
+      "key": "styled-output"
     },
     {
       "name": "Suppress Connect Headers",
@@ -2681,8 +2432,7 @@
       "dataType": "Boolean",
       "longFlag": "--suppress-connect-headers",
       "sortOrder": 243,
-      "key": "suppress-connect-headers",
-      "commandKey": "curl"
+      "key": "suppress-connect-headers"
     },
     {
       "name": "TCP Fast Open",
@@ -2691,8 +2441,7 @@
       "dataType": "Boolean",
       "longFlag": "--tcp-fastopen",
       "sortOrder": 244,
-      "key": "tcp-fastopen",
-      "commandKey": "curl"
+      "key": "tcp-fastopen"
     },
     {
       "name": "TCP No Delay",
@@ -2701,8 +2450,7 @@
       "dataType": "Boolean",
       "longFlag": "--tcp-nodelay",
       "sortOrder": 245,
-      "key": "tcp-nodelay",
-      "commandKey": "curl"
+      "key": "tcp-nodelay"
     },
     {
       "name": "Telnet Option",
@@ -2714,8 +2462,7 @@
       "longFlag": "--telnet-option",
       "keyValueSeparator": " ",
       "sortOrder": 246,
-      "key": "telnet-option",
-      "commandKey": "curl"
+      "key": "telnet-option"
     },
     {
       "name": "TFTP Block Size",
@@ -2725,8 +2472,7 @@
       "longFlag": "--tftp-blksize",
       "keyValueSeparator": " ",
       "sortOrder": 247,
-      "key": "tftp-blksize",
-      "commandKey": "curl"
+      "key": "tftp-blksize"
     },
     {
       "name": "TFTP No Options",
@@ -2735,8 +2481,7 @@
       "dataType": "Boolean",
       "longFlag": "--tftp-no-options",
       "sortOrder": 248,
-      "key": "tftp-no-options",
-      "commandKey": "curl"
+      "key": "tftp-no-options"
     },
     {
       "name": "Time Condition",
@@ -2747,8 +2492,7 @@
       "longFlag": "--time-cond",
       "keyValueSeparator": " ",
       "sortOrder": 249,
-      "key": "time-cond",
-      "commandKey": "curl"
+      "key": "time-cond"
     },
     {
       "name": "TLS Early Data",
@@ -2757,8 +2501,7 @@
       "dataType": "Boolean",
       "longFlag": "--tls-earlydata",
       "sortOrder": 250,
-      "key": "tls-earlydata",
-      "commandKey": "curl"
+      "key": "tls-earlydata"
     },
     {
       "name": "TLS Max",
@@ -2768,8 +2511,7 @@
       "longFlag": "--tls-max",
       "keyValueSeparator": " ",
       "sortOrder": 251,
-      "key": "tls-max",
-      "commandKey": "curl"
+      "key": "tls-max"
     },
     {
       "name": "TLS 1.3 Ciphers",
@@ -2779,8 +2521,7 @@
       "longFlag": "--tls13-ciphers",
       "keyValueSeparator": " ",
       "sortOrder": 252,
-      "key": "tls13-ciphers",
-      "commandKey": "curl"
+      "key": "tls13-ciphers"
     },
     {
       "name": "TLS Auth Type",
@@ -2790,8 +2531,7 @@
       "longFlag": "--tlsauthtype",
       "keyValueSeparator": " ",
       "sortOrder": 253,
-      "key": "tlsauthtype",
-      "commandKey": "curl"
+      "key": "tlsauthtype"
     },
     {
       "name": "TLS Password",
@@ -2801,8 +2541,7 @@
       "longFlag": "--tlspassword",
       "keyValueSeparator": " ",
       "sortOrder": 254,
-      "key": "tlspassword",
-      "commandKey": "curl"
+      "key": "tlspassword"
     },
     {
       "name": "TLS User",
@@ -2812,8 +2551,7 @@
       "longFlag": "--tlsuser",
       "keyValueSeparator": " ",
       "sortOrder": 255,
-      "key": "tlsuser",
-      "commandKey": "curl"
+      "key": "tlsuser"
     },
     {
       "name": "TLS v1",
@@ -2823,8 +2561,7 @@
       "shortFlag": "-1",
       "longFlag": "--tlsv1",
       "sortOrder": 256,
-      "key": "tlsv1",
-      "commandKey": "curl"
+      "key": "tlsv1"
     },
     {
       "name": "TLS v1.0",
@@ -2833,8 +2570,7 @@
       "dataType": "Boolean",
       "longFlag": "--tlsv1.0",
       "sortOrder": 257,
-      "key": "tlsv10",
-      "commandKey": "curl"
+      "key": "tlsv10"
     },
     {
       "name": "TLS v1.1",
@@ -2843,8 +2579,7 @@
       "dataType": "Boolean",
       "longFlag": "--tlsv1.1",
       "sortOrder": 258,
-      "key": "tlsv11",
-      "commandKey": "curl"
+      "key": "tlsv11"
     },
     {
       "name": "TLS v1.2",
@@ -2853,8 +2588,7 @@
       "dataType": "Boolean",
       "longFlag": "--tlsv1.2",
       "sortOrder": 259,
-      "key": "tlsv12",
-      "commandKey": "curl"
+      "key": "tlsv12"
     },
     {
       "name": "TLS v1.3",
@@ -2863,8 +2597,7 @@
       "dataType": "Boolean",
       "longFlag": "--tlsv1.3",
       "sortOrder": 260,
-      "key": "tlsv13",
-      "commandKey": "curl"
+      "key": "tlsv13"
     },
     {
       "name": "Transfer-Encoding",
@@ -2873,8 +2606,7 @@
       "dataType": "Boolean",
       "longFlag": "--tr-encoding",
       "sortOrder": 261,
-      "key": "tr-encoding",
-      "commandKey": "curl"
+      "key": "tr-encoding"
     },
     {
       "name": "Trace",
@@ -2884,8 +2616,7 @@
       "longFlag": "--trace",
       "keyValueSeparator": " ",
       "sortOrder": 262,
-      "key": "trace",
-      "commandKey": "curl"
+      "key": "trace"
     },
     {
       "name": "Trace ASCII",
@@ -2895,8 +2626,7 @@
       "longFlag": "--trace-ascii",
       "keyValueSeparator": " ",
       "sortOrder": 263,
-      "key": "trace-ascii",
-      "commandKey": "curl"
+      "key": "trace-ascii"
     },
     {
       "name": "Trace Config",
@@ -2906,8 +2636,7 @@
       "longFlag": "--trace-config",
       "keyValueSeparator": " ",
       "sortOrder": 264,
-      "key": "trace-config",
-      "commandKey": "curl"
+      "key": "trace-config"
     },
     {
       "name": "Trace IDs",
@@ -2916,8 +2645,7 @@
       "dataType": "Boolean",
       "longFlag": "--trace-ids",
       "sortOrder": 265,
-      "key": "trace-ids",
-      "commandKey": "curl"
+      "key": "trace-ids"
     },
     {
       "name": "Trace Time",
@@ -2926,8 +2654,7 @@
       "dataType": "Boolean",
       "longFlag": "--trace-time",
       "sortOrder": 266,
-      "key": "trace-time",
-      "commandKey": "curl"
+      "key": "trace-time"
     },
     {
       "name": "Unix Socket",
@@ -2937,8 +2664,7 @@
       "longFlag": "--unix-socket",
       "keyValueSeparator": " ",
       "sortOrder": 267,
-      "key": "unix-socket",
-      "commandKey": "curl"
+      "key": "unix-socket"
     },
     {
       "name": "Upload Flags",
@@ -2948,8 +2674,7 @@
       "longFlag": "--upload-flags",
       "keyValueSeparator": " ",
       "sortOrder": 268,
-      "key": "upload-flags",
-      "commandKey": "curl"
+      "key": "upload-flags"
     },
     {
       "name": "URL Query",
@@ -2960,8 +2685,7 @@
       "longFlag": "--url-query",
       "keyValueSeparator": " ",
       "sortOrder": 269,
-      "key": "url-query",
-      "commandKey": "curl"
+      "key": "url-query"
     },
     {
       "name": "Use ASCII",
@@ -2971,8 +2695,7 @@
       "shortFlag": "-B",
       "longFlag": "--use-ascii",
       "sortOrder": 270,
-      "key": "use-ascii",
-      "commandKey": "curl"
+      "key": "use-ascii"
     },
     {
       "name": "Variable",
@@ -2983,8 +2706,7 @@
       "longFlag": "--variable",
       "keyValueSeparator": " ",
       "sortOrder": 271,
-      "key": "variable",
-      "commandKey": "curl"
+      "key": "variable"
     },
     {
       "name": "VLAN Priority",
@@ -2994,8 +2716,7 @@
       "longFlag": "--vlan-priority",
       "keyValueSeparator": " ",
       "sortOrder": 272,
-      "key": "vlan-priority",
-      "commandKey": "curl"
+      "key": "vlan-priority"
     },
     {
       "name": "Write Out",
@@ -3006,8 +2727,7 @@
       "longFlag": "--write-out",
       "keyValueSeparator": " ",
       "sortOrder": 273,
-      "key": "write-out",
-      "commandKey": "curl"
+      "key": "write-out"
     },
     {
       "name": "Xattr",
@@ -3016,8 +2736,7 @@
       "dataType": "Boolean",
       "longFlag": "--xattr",
       "sortOrder": 274,
-      "key": "xattr",
-      "commandKey": "curl"
+      "key": "xattr"
     }
   ]
 }

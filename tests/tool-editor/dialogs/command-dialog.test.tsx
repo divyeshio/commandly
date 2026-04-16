@@ -20,7 +20,7 @@ const createTestState = (
   command: Command,
   toolName: string = "test-tool",
 ): Partial<ToolBuilderState> => ({
-  tool: { ...defaultTool(toolName, "Test tool"), name: toolName, commands: [command] },
+  tool: { ...defaultTool(toolName, "Test tool"), binaryName: toolName, commands: [command] },
   selectedCommand: command,
 });
 
@@ -58,7 +58,7 @@ describe("CommandDialog - Rendering & Structure", () => {
 
     expect(screen.getByText("Edit Command Settings")).toBeInTheDocument();
     expect(screen.getByLabelText("Command Name")).toBeInTheDocument();
-    expect(screen.getByLabelText("Sort Order")).toBeInTheDocument();
+    expect(screen.getByLabelText("Interactive")).toBeInTheDocument();
     expect(screen.getByLabelText("Description")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Save Changes" })).toBeInTheDocument();
   });
@@ -189,78 +189,6 @@ describe("CommandDialog - Form Fields", () => {
     expect((nameInput as HTMLInputElement).value).toBe("new-command");
   });
 
-  it("disables command name input when command name matches tool name", () => {
-    const command = createTestCommand({ name: "test-tool" });
-    renderWithProvider(
-      <CommandDialog
-        isOpen={true}
-        onOpenChange={mockOnOpenChange}
-        command={command}
-        toolName="test-tool"
-        onSave={mockOnSave}
-      />,
-      createTestState(command, "test-tool"),
-    );
-
-    const nameInput = screen.getByLabelText("Command Name");
-    expect(nameInput).toBeDisabled();
-  });
-
-  it("displays current sort order in the input", () => {
-    const command = createTestCommand({ sortOrder: 5 });
-    renderWithProvider(
-      <CommandDialog
-        isOpen={true}
-        onOpenChange={mockOnOpenChange}
-        command={command}
-        toolName="test-tool"
-        onSave={mockOnSave}
-      />,
-      createTestState(command),
-    );
-
-    const sortOrderInput = screen.getByLabelText("Sort Order") as HTMLInputElement;
-    expect(sortOrderInput.value).toBe("5");
-  });
-
-  it("updates sort order when input changes", () => {
-    const command = createTestCommand();
-    renderWithProvider(
-      <CommandDialog
-        isOpen={true}
-        onOpenChange={mockOnOpenChange}
-        command={command}
-        toolName="test-tool"
-        onSave={mockOnSave}
-      />,
-      createTestState(command),
-    );
-
-    const sortOrderInput = screen.getByLabelText("Sort Order");
-    fireEvent.change(sortOrderInput, { target: { value: "10" } });
-
-    expect((sortOrderInput as HTMLInputElement).value).toBe("10");
-  });
-
-  it("defaults sort order to 0 for invalid input", () => {
-    const command = createTestCommand();
-    renderWithProvider(
-      <CommandDialog
-        isOpen={true}
-        onOpenChange={mockOnOpenChange}
-        command={command}
-        toolName="test-tool"
-        onSave={mockOnSave}
-      />,
-      createTestState(command),
-    );
-
-    const sortOrderInput = screen.getByLabelText("Sort Order");
-    fireEvent.change(sortOrderInput, { target: { value: "invalid" } });
-
-    expect((sortOrderInput as HTMLInputElement).value).toBe("0");
-  });
-
   it("displays current description in the textarea", () => {
     const command = createTestCommand({ description: "My test description" });
     renderWithProvider(
@@ -371,7 +299,6 @@ describe("CommandDialog - Save Functionality", () => {
     );
 
     fireEvent.change(screen.getByLabelText("Command Name"), { target: { value: "new-name" } });
-    fireEvent.change(screen.getByLabelText("Sort Order"), { target: { value: "15" } });
     fireEvent.change(screen.getByLabelText("Description"), {
       target: { value: "New description" },
     });
@@ -382,7 +309,6 @@ describe("CommandDialog - Save Functionality", () => {
       expect.objectContaining({
         name: "new-name",
         description: "New description",
-        sortOrder: 15,
       }),
     );
   });
@@ -493,7 +419,7 @@ describe("CommandDialog - UI Elements and Layout", () => {
     );
 
     expect(screen.getByLabelText("Command Name")).toBeInTheDocument();
-    expect(screen.getByLabelText("Sort Order")).toBeInTheDocument();
+    expect(screen.getByLabelText("Interactive")).toBeInTheDocument();
     expect(screen.getByLabelText("Description")).toBeInTheDocument();
   });
 

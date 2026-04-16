@@ -154,16 +154,9 @@ export function replaceKey(tool: Tool): Tool {
 export const defaultTool = (toolName?: string, displayName?: string): Tool => {
   const finalToolName = toolName || "my-tool";
   return {
-    name: finalToolName,
+    binaryName: finalToolName,
     displayName: displayName || "My Tool",
-    commands: [
-      {
-        key: slugify(finalToolName),
-        name: finalToolName,
-        description: "Main command",
-        sortOrder: 0,
-      },
-    ],
+    commands: [],
     parameters: [
       {
         key: "--help",
@@ -172,7 +165,6 @@ export const defaultTool = (toolName?: string, displayName?: string): Tool => {
         parameterType: "Flag",
         dataType: "String",
         isRequired: false,
-        isGlobal: true,
         shortFlag: "-h",
         longFlag: "--help",
         isRepeatable: false,

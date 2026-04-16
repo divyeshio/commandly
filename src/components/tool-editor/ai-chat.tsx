@@ -207,7 +207,7 @@ function useAIChat(
   onGeneratingChange?: (isGenerating: boolean) => void,
 ) {
   const { contextSelection } = useToolBuilder();
-  const [store] = useState(() => new ChatStore(currentTool.name, currentTool));
+  const [store] = useState(() => new ChatStore(currentTool.binaryName, currentTool));
   const snapshot = useSyncExternalStore(store.subscribe, store.getSnapshot);
 
   store.updateTool(currentTool);

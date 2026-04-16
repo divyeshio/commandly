@@ -111,6 +111,7 @@ export function PreviewTabs({ onSaveCommand, streamingTool, isAIGenerating }: Pr
                 <CardContent className="space-y-4">
                   <GeneratedCommand
                     tool={tool}
+                    selectedCommand={selectedCommand}
                     parameterValues={parameterValues}
                     onSaveCommand={onSaveCommand}
                   />

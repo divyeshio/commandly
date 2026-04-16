@@ -1,20 +1,13 @@
 {
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
-  "name": "urlfinder",
+  "binaryName": "urlfinder",
   "displayName": "URLFinder",
   "info": {
     "description": "A streamlined tool for discovering associated URLs.",
     "version": "0.0.3",
     "url": "https://github.com/projectdiscovery/urlfinder"
   },
-  "commands": [
-    {
-      "name": "urlfinder",
-      "description": "A streamlined tool for discovering associated URLs.",
-      "sortOrder": 1,
-      "key": "urlfinder"
-    }
-  ],
+  "commands": [],
   "parameters": [
     {
       "name": "Domain",
@@ -23,8 +16,7 @@
       "dataType": "String",
       "isRepeatable": true,
       "longFlag": "-d",
-      "key": "domain",
-      "commandKey": "urlfinder"
+      "key": "domain"
     },
     {
       "name": "List of Domains",
@@ -34,8 +26,7 @@
       "isRepeatable": true,
       "longFlag": "-list",
       "arraySeparator": ",",
-      "key": "list",
-      "commandKey": "urlfinder"
+      "key": "list"
     },
     {
       "name": "Sources",
@@ -46,8 +37,7 @@
       "shortFlag": "-s",
       "longFlag": "-sources",
       "arraySeparator": ",",
-      "key": "sources",
-      "commandKey": "urlfinder"
+      "key": "sources"
     },
     {
       "name": "Exclude Sources",
@@ -58,8 +48,7 @@
       "shortFlag": "-es",
       "longFlag": "-exclude-sources",
       "arraySeparator": ",",
-      "key": "exclude-sources",
-      "commandKey": "urlfinder"
+      "key": "exclude-sources"
     },
     {
       "name": "All",
@@ -67,8 +56,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-all",
-      "key": "all",
-      "commandKey": "urlfinder"
+      "key": "all"
     },
     {
       "name": "URL Scope",
@@ -79,8 +67,7 @@
       "shortFlag": "-us",
       "longFlag": "-url-scope",
       "arraySeparator": ",",
-      "key": "url-scope",
-      "commandKey": "urlfinder"
+      "key": "url-scope"
     },
     {
       "name": "URL Out Scope",
@@ -91,8 +78,7 @@
       "shortFlag": "-uos",
       "longFlag": "-url-out-scope",
       "arraySeparator": ",",
-      "key": "url-out-scope",
-      "commandKey": "urlfinder"
+      "key": "url-out-scope"
     },
     {
       "name": "Field Scope",
@@ -101,8 +87,7 @@
       "dataType": "String",
       "shortFlag": "-fs",
       "longFlag": "-field-scope",
-      "key": "field-scope",
-      "commandKey": "urlfinder"
+      "key": "field-scope"
     },
     {
       "name": "No Scope",
@@ -111,8 +96,7 @@
       "dataType": "Boolean",
       "shortFlag": "-ns",
       "longFlag": "-no-scope",
-      "key": "no-scope",
-      "commandKey": "urlfinder"
+      "key": "no-scope"
     },
     {
       "name": "Display Out Scope",
@@ -121,8 +105,7 @@
       "dataType": "Boolean",
       "shortFlag": "-do",
       "longFlag": "-display-out-scope",
-      "key": "display-out-scope",
-      "commandKey": "urlfinder"
+      "key": "display-out-scope"
     },
     {
       "name": "Match",
@@ -133,8 +116,7 @@
       "shortFlag": "-m",
       "longFlag": "-match",
       "arraySeparator": ",",
-      "key": "match",
-      "commandKey": "urlfinder"
+      "key": "match"
     },
     {
       "name": "Filter",
@@ -145,8 +127,7 @@
       "shortFlag": "-f",
       "longFlag": "-filter",
       "arraySeparator": ",",
-      "key": "filter",
-      "commandKey": "urlfinder"
+      "key": "filter"
     },
     {
       "name": "Rate Limit",
@@ -155,8 +136,7 @@
       "dataType": "Number",
       "shortFlag": "-rl",
       "longFlag": "-rate-limit",
-      "key": "rate-limit",
-      "commandKey": "urlfinder"
+      "key": "rate-limit"
     },
     {
       "name": "Rate Limits",
@@ -165,8 +145,7 @@
       "dataType": "String",
       "shortFlag": "-rls",
       "longFlag": "-rate-limits",
-      "key": "rate-limits",
-      "commandKey": "urlfinder"
+      "key": "rate-limits"
     },
     {
       "name": "Update",
@@ -175,8 +154,7 @@
       "dataType": "Boolean",
       "shortFlag": "-up",
       "longFlag": "-update",
-      "key": "update",
-      "commandKey": "urlfinder"
+      "key": "update"
     },
     {
       "name": "Verbose",
@@ -185,8 +163,7 @@
       "dataType": "Boolean",
       "shortFlag": "-v",
       "longFlag": "-verbose",
-      "key": "verbose",
-      "commandKey": "urlfinder"
+      "key": "verbose"
     },
     {
       "name": "Silent",
@@ -195,8 +172,7 @@
       "dataType": "Boolean",
       "shortFlag": "-s",
       "longFlag": "-silent",
-      "key": "silent",
-      "commandKey": "urlfinder"
+      "key": "silent"
     },
     {
       "name": "Timeout",
@@ -205,8 +181,7 @@
       "dataType": "Number",
       "shortFlag": "-to",
       "longFlag": "-timeout",
-      "key": "timeout",
-      "commandKey": "urlfinder"
+      "key": "timeout"
     },
     {
       "name": "JSON Output",
@@ -215,8 +190,7 @@
       "dataType": "Boolean",
       "shortFlag": "-j",
       "longFlag": "-json",
-      "key": "json",
-      "commandKey": "urlfinder"
+      "key": "json"
     },
     {
       "name": "CSV Output",
@@ -224,8 +198,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-csv",
-      "key": "csv",
-      "commandKey": "urlfinder"
+      "key": "csv"
     },
     {
       "name": "Version",
@@ -234,8 +207,7 @@
       "dataType": "Boolean",
       "shortFlag": "-vrs",
       "longFlag": "-version",
-      "key": "version",
-      "commandKey": "urlfinder"
+      "key": "version"
     }
   ]
 }

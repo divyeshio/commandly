@@ -83,4 +83,23 @@ jobs:
           fi
 
       - run: bun run build
-      - run: bun run test
+      - run: bun run coverage
+
+      - name: Write coverage summary
+        if: always()
+        run: |
+          bun -e "
+            const s = require('./coverage/coverage-summary.json');
+            const t = s.total;
+            const fmt = (m) => \`\${m.pct}% (\${m.covered}/\${m.total})\`;
+            const lines = [
+              '## Test Coverage',
+              '| Metric | Coverage |',
+              '|--------|----------|',
+              \`| Statements | \${fmt(t.statements)} |\`,
+              \`| Branches   | \${fmt(t.branches)} |\`,
+              \`| Functions  | \${fmt(t.functions)} |\`,
+              \`| Lines      | \${fmt(t.lines)} |\`,
+            ].join('\n');
+            require('fs').appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines + '\n');
+          "

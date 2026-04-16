@@ -75,11 +75,12 @@ export interface NestedCommand {
   /** Whether this command opens an interactive session or prompt. */
   interactive?: boolean;
   /** Display sort position relative to sibling commands. */
-  sortOrder: number;
+  sortOrder?: number;
   /** Parameters that belong directly to this command. */
   parameters: NestedParameter[];
   /** Nested subcommands of this command. */
-  subcommands: NestedCommand[];
+  subcommands: NestedCommand[] /** Groups of parameters with mutual exclusion or required-one-of constraints scoped to this command. */;
+  exclusionGroups?: NestedExclusionGroup[];
 }
 
 export interface NestedExclusionGroup {
@@ -92,16 +93,18 @@ export interface NestedExclusionGroup {
 }
 
 export interface NestedTool {
-  /** Optional JSON schema URI for validation. */
-  $schema?: string;
-  /** Unique machine-readable identifier for the tool (e.g. "httpx"). */
-  name: string;
+  /** Unique binary name for the tool that it can be invoked from the command line (e.g. "httpx"). */
+  binaryName: string;
   /** Human-readable display name for the tool (e.g. "HTTPx"). */
   displayName: string;
+  /** Whether the root tool invocation opens an interactive session or prompt. */
+  interactive?: boolean;
   /** General information about the tool such as description, version, and URL. */
   info?: ToolInfo;
   /** The homepage or documentation URL for the tool. */
   url?: string;
+  /** Parameters that belong to the root invocation when no commands exist. */
+  rootParameters: NestedParameter[];
   /** Parameters that apply to all commands globally. */
   globalParameters: NestedParameter[];
   /** Hierarchical list of commands and their nested subcommands. */

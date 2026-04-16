@@ -8,12 +8,12 @@ The root object of a Commandly flat description.
 
 | Field             | Type                    | Required | Description                                                                |
 | ----------------- | ----------------------- | -------- | -------------------------------------------------------------------------- |
-| `name`            | string                  | ✓        | Unique identifier for the tool. Must match the filename (without `.json`). |
+| `binaryName`      | string                  | ✓        | Unique CLI binary name for the tool, such as `httpx` or `curl`.            |
 | `displayName`     | string                  | ✓        | Human-readable display name.                                               |
-| `info`            | ToolInfo Object         | —        | Metadata about the tool.                                                   |
-| `url`             | string                  | —        | URL to the tool's homepage or repository.                                  |
-| `commands`        | Command Object[]        | ✓        | List of commands. Must contain at least one entry.                         |
-| `parameters`      | Parameter Object[]      | ✓        | Flat list of all parameters across all commands.                           |
+| `interactive`     | boolean                 | —        | If `true`, invoking the root tool opens an interactive session or prompt.  |
+| `info`            | ToolInfo Object         | —        | Metadata about the tool, including the homepage URL.                       |
+| `commands`        | Command Object[]        | ✓        | List of commands and subcommands. Can be empty for tools without commands. |
+| `parameters`      | Parameter Object[]      | ✓        | Flat list of all parameters across root, command, and global scope.        |
 | `exclusionGroups` | ExclusionGroup Object[] | —        | Groups of mutually exclusive or required parameters.                       |
 | `metadata`        | ToolMetadata Object     | —        | Custom metadata.                                                           |
 
@@ -27,40 +27,39 @@ The root object of a Commandly flat description.
 
 ## Command Object
 
-| Field              | Type    | Required | Description                                                                              |
-| ------------------ | ------- | -------- | ---------------------------------------------------------------------------------------- |
-| `key`              | string  | ✓        | Unique identifier. Referenced by parameters via `commandKey`.                            |
-| `name`             | string  | ✓        | Command name as it appears in the CLI invocation.                                        |
-| `parentCommandKey` | string  | —        | Key of the parent command. Omit for root-level commands.                                 |
-| `description`      | string  | —        | Human-readable description of the command.                                               |
-| `isDefault`        | boolean | —        | If `true`, this command is invoked when no subcommand is specified. Defaults to `false`. |
-| `sortOrder`        | number  | —        | Display sort order.                                                                      |
-| `interactive`      | boolean | —        | If `true`, the command requires interactive user input at runtime. Defaults to `false`.  |
+| Field              | Type    | Required | Description                                                                             |
+| ------------------ | ------- | -------- | --------------------------------------------------------------------------------------- |
+| `key`              | string  | ✓        | Unique identifier. Referenced by parameters via `commandKey`.                           |
+| `name`             | string  | ✓        | Command name as it appears in the CLI invocation.                                       |
+| `parentCommandKey` | string  | —        | Key of the parent command. Omit for root-level commands.                                |
+| `description`      | string  | —        | Human-readable description of the command.                                              |
+| `interactive`      | boolean | —        | If `true`, the command requires interactive user input at runtime. Defaults to `false`. |
+| `sortOrder`        | number  | —        | Display sort order.                                                                     |
 
 ## Parameter Object
 
-| Field               | Type                         | Required | Description                                                                   |
-| ------------------- | ---------------------------- | -------- | ----------------------------------------------------------------------------- |
-| `key`               | string                       | ✓        | Unique identifier for the parameter.                                          |
-| `name`              | string                       | ✓        | Human-readable parameter name.                                                |
-| `parameterType`     | ParameterType                | ✓        | One of `Flag`, `Option`, or `Argument`.                                       |
-| `dataType`          | ParameterDataType            | ✓        | One of `String`, `Number`, `Boolean`, or `Enum`.                              |
-| `isRequired`        | boolean                      | —        | Whether the parameter must be provided.                                       |
-| `isRepeatable`      | boolean                      | —        | Whether the parameter can appear more than once.                              |
-| `isGlobal`          | boolean                      | —        | If `true`, the parameter applies to all commands regardless of `commandKey`.  |
-| `commandKey`        | string                       | —        | Key of the command this parameter belongs to. Omit for global parameters.     |
-| `description`       | string                       | —        | Human-readable description.                                                   |
-| `group`             | string                       | —        | Display group label for UI grouping.                                          |
-| `shortFlag`         | string                       | —        | Short flag form (e.g. `-o`). Used for `Flag` and `Option` types.              |
-| `longFlag`          | string                       | —        | Long flag form (e.g. `--output`). Used for `Flag` and `Option` types.         |
-| `position`          | number                       | —        | Positional index, starting from `1`. Required for `Argument` type parameters. |
-| `sortOrder`         | number                       | —        | Display sort order.                                                           |
-| `arraySeparator`    | string                       | —        | Separator used when a repeatable parameter is joined into a single token.     |
-| `keyValueSeparator` | string                       | —        | Character between the flag and its value. Defaults to a space.                |
-| `enum`              | ParameterEnumValues Object   | —        | Required when `dataType` is `Enum`.                                           |
-| `validations`       | ParameterValidation Object[] | —        | Validation rules applied to the parameter value.                              |
-| `dependencies`      | ParameterDependency Object[] | —        | Conditional relationships with other parameters.                              |
-| `metadata`          | ParameterMetadata Object     | —        | Custom metadata.                                                              |
+| Field               | Type                         | Required | Description                                                                              |
+| ------------------- | ---------------------------- | -------- | ---------------------------------------------------------------------------------------- |
+| `key`               | string                       | ✓        | Unique identifier for the parameter.                                                     |
+| `name`              | string                       | ✓        | Human-readable parameter name.                                                           |
+| `parameterType`     | ParameterType                | ✓        | One of `Flag`, `Option`, or `Argument`.                                                  |
+| `dataType`          | ParameterDataType            | ✓        | One of `String`, `Number`, `Boolean`, or `Enum`.                                         |
+| `isRequired`        | boolean                      | —        | Whether the parameter must be provided.                                                  |
+| `isRepeatable`      | boolean                      | —        | Whether the parameter can appear more than once.                                         |
+| `isGlobal`          | boolean                      | —        | If `true`, the parameter applies to all commands regardless of `commandKey`.             |
+| `commandKey`        | string                       | —        | Key of the command this parameter belongs to. Omit for root-level and global parameters. |
+| `description`       | string                       | —        | Human-readable description.                                                              |
+| `group`             | string                       | —        | Display group label for UI grouping.                                                     |
+| `shortFlag`         | string                       | —        | Short flag form (e.g. `-o`). Used for `Flag` and `Option` types.                         |
+| `longFlag`          | string                       | —        | Long flag form (e.g. `--output`). Used for `Flag` and `Option` types.                    |
+| `position`          | number                       | —        | Zero-based positional index. Required for `Argument` type parameters.                    |
+| `sortOrder`         | number                       | —        | Display sort order.                                                                      |
+| `arraySeparator`    | string                       | —        | Separator used when a repeatable parameter is joined into a single token.                |
+| `keyValueSeparator` | string                       | —        | Character between the flag and its value. Defaults to a space.                           |
+| `enum`              | ParameterEnumValues Object   | —        | Required when `dataType` is `Enum`.                                                      |
+| `validations`       | ParameterValidation Object[] | —        | Validation rules applied to the parameter value.                                         |
+| `dependencies`      | ParameterDependency Object[] | —        | Conditional relationships with other parameters.                                         |
+| `metadata`          | ParameterMetadata Object     | —        | Custom metadata.                                                                         |
 
 ## ParameterType
 

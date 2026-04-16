@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { MultiSelect } from "@/components/ui/multi-select";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { SupportedToolInputType, SupportedToolOutputType } from "@/lib/types";
 import { SettingsIcon } from "lucide-react";
@@ -44,15 +45,15 @@ export function ToolDetailsDialog() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-3">
-              <Label htmlFor="tool-name-full">Tool Name</Label>
+              <Label htmlFor="binary-name-full">Binary Name</Label>
               <Input
-                id="tool-name-full"
-                value={tool.name}
+                id="binary-name-full"
+                value={tool.binaryName}
                 onChange={(e) => {
                   const newName = e.target.value;
-                  const prevName = tool.name;
+                  const prevName = tool.binaryName;
                   updateTool({
-                    name: newName,
+                    binaryName: newName,
                     commands: tool.commands.map((cmd) =>
                       cmd.name === prevName ? { ...cmd, name: newName } : cmd,
                     ),
@@ -76,6 +77,14 @@ export function ToolDetailsDialog() {
               value={tool.info?.version}
               onChange={(e) => updateTool({ info: { ...tool.info, version: e.target.value } })}
             />
+          </div>
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="tool-interactive"
+              checked={tool.interactive ?? false}
+              onCheckedChange={(checked) => updateTool({ interactive: checked })}
+            />
+            <Label htmlFor="tool-interactive">Interactive</Label>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-3">

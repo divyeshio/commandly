@@ -1,21 +1,12 @@
 {
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
-  "name": "notify",
+  "binaryName": "notify",
   "displayName": "Notify",
-  "commands": [
-    {
-      "key": "notify",
-      "name": "Notify",
-      "description": "Stream output from files or pipes to notification providers.",
-      "isDefault": true,
-      "sortOrder": 0
-    }
-  ],
+  "commands": [],
   "parameters": [
     {
       "key": "bulk",
       "name": "Bulk",
-      "commandKey": "notify",
       "description": "Enable bulk processing.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -24,7 +15,6 @@
     {
       "key": "char-limit",
       "name": "Character Limit",
-      "commandKey": "notify",
       "description": "Maximum character limit per message.",
       "parameterType": "Option",
       "dataType": "Number",
@@ -43,7 +33,6 @@
     {
       "key": "config",
       "name": "Config",
-      "commandKey": "notify",
       "description": "Notify configuration file path.",
       "parameterType": "Option",
       "dataType": "String",
@@ -52,7 +41,6 @@
     {
       "key": "data",
       "name": "Data",
-      "commandKey": "notify",
       "description": "Input file to send to Notify.",
       "parameterType": "Option",
       "dataType": "String",
@@ -62,7 +50,6 @@
     {
       "key": "delay",
       "name": "Delay",
-      "commandKey": "notify",
       "description": "Delay in seconds between notifications.",
       "parameterType": "Option",
       "dataType": "Number",
@@ -81,7 +68,6 @@
     {
       "key": "id",
       "name": "ID",
-      "commandKey": "notify",
       "description": "Comma-separated notification IDs.",
       "parameterType": "Option",
       "dataType": "String",
@@ -91,7 +77,6 @@
     {
       "key": "msg-format",
       "name": "Message Format",
-      "commandKey": "notify",
       "description": "Custom message format.",
       "parameterType": "Option",
       "dataType": "String",
@@ -101,7 +86,6 @@
     {
       "key": "no-color",
       "name": "No Color",
-      "commandKey": "notify",
       "description": "Disable colored output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -111,7 +95,6 @@
     {
       "key": "provider-config",
       "name": "Provider Config",
-      "commandKey": "notify",
       "description": "Provider config file path.",
       "parameterType": "Option",
       "dataType": "String",
@@ -121,7 +104,6 @@
     {
       "key": "provider",
       "name": "Provider",
-      "commandKey": "notify",
       "description": "Comma-separated providers to send notifications to.",
       "parameterType": "Option",
       "dataType": "Enum",
@@ -182,7 +164,6 @@
     {
       "key": "proxy",
       "name": "Proxy",
-      "commandKey": "notify",
       "description": "HTTP or SOCKSv5 proxy to use.",
       "parameterType": "Option",
       "dataType": "String",
@@ -191,7 +172,6 @@
     {
       "key": "rate-limit",
       "name": "Rate Limit",
-      "commandKey": "notify",
       "description": "Maximum HTTP requests per second.",
       "parameterType": "Option",
       "dataType": "Number",
@@ -210,7 +190,6 @@
     {
       "key": "silent",
       "name": "Silent",
-      "commandKey": "notify",
       "description": "Enable silent mode.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -219,7 +198,6 @@
     {
       "key": "verbose",
       "name": "Verbose",
-      "commandKey": "notify",
       "description": "Enable verbose mode.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -228,7 +206,6 @@
     {
       "key": "version",
       "name": "Version",
-      "commandKey": "notify",
       "description": "Display the version.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -237,7 +214,6 @@
     {
       "key": "update",
       "name": "Update",
-      "commandKey": "notify",
       "description": "Update to the latest version.",
       "parameterType": "Flag",
       "dataType": "Boolean",
@@ -246,7 +222,6 @@
     {
       "key": "disable-update-check",
       "name": "Disable Update Check",
-      "commandKey": "notify",
       "description": "Disable automatic update checks.",
       "parameterType": "Flag",
       "dataType": "Boolean",

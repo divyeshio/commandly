@@ -25,7 +25,7 @@ export interface ContextSelection {
 export interface ToolBuilderState {
   tool: Tool;
   originalTool: Tool;
-  selectedCommand: Command;
+  selectedCommand: Command | null;
   selectedParameter: Parameter | null;
   contextSelection: ContextSelection;
   parameterValues: Record<string, ParameterValue>;
@@ -47,7 +47,7 @@ type Action =
   | { type: "UPDATE_COMMAND"; payload: { commandKey: string; updates: Partial<Command> } }
   | { type: "REMOVE_PARAMETER"; payload: string }
   | { type: "SET_DIALOG_OPEN"; payload: { dialog: DialogKey; open: boolean } }
-  | { type: "SET_SELECTED_COMMAND"; payload: Command }
+  | { type: "SET_SELECTED_COMMAND"; payload: Command | null }
   | { type: "SET_SELECTED_PARAMETER"; payload: Parameter | null }
   | { type: "SET_CONTEXT_SELECTION"; payload: ContextSelection }
   | { type: "CLEAR_CONTEXT_SELECTION" }
@@ -55,14 +55,16 @@ type Action =
   | { type: "ADD_EXCLUSION_GROUP"; payload: ExclusionGroup }
   | { type: "UPDATE_EXCLUSION_GROUP"; payload: ExclusionGroup }
   | { type: "REMOVE_EXCLUSION_GROUP"; payload: string }
-  | { type: "SET_PARAMETER_VALUE"; payload: { key: string; value: ParameterValue } };
+  | { type: "SET_PARAMETER_VALUE"; payload: { key: string; value: ParameterValue } }
+  | { type: "REORDER_COMMANDS"; payload: { commandKeys: string[]; parentCommandKey?: string } }
+  | { type: "REORDER_PARAMETERS"; payload: { parameterKeys: string[] } };
 
 function getDefaultState(tool: Tool): ToolBuilderState {
   const cleanTool = cleanupTool(tool);
   return {
     tool: cleanTool,
     originalTool: cleanTool,
-    selectedCommand: tool.commands[0] ?? ({} as Command),
+    selectedCommand: null,
     selectedParameter: null,
     contextSelection: { commandKeys: [], parameterKeys: [] },
     parameterValues: {},
@@ -83,24 +85,36 @@ function toolBuilderReducer(state: ToolBuilderState, action: Action): ToolBuilde
     case "UPDATE_TOOL":
       return { ...state, tool: cleanupTool({ ...state.tool, ...action.payload }) };
 
-    case "ADD_SUBCOMMAND":
+    case "ADD_SUBCOMMAND": {
       return {
         ...state,
-        tool: { ...state.tool, commands: [...state.tool.commands, action.payload] },
+        tool: {
+          ...state.tool,
+          commands: [...state.tool.commands, action.payload],
+        },
       };
+    }
 
     case "DELETE_COMMAND": {
       const subcommands = getAllSubcommands(action.payload, state.tool.commands);
       const commandsToDelete = [action.payload, ...subcommands.map((c) => c.key)];
       const newCommands = state.tool.commands.filter((cmd) => !commandsToDelete.includes(cmd.key));
+      const survivingParams = state.tool.parameters.filter(
+        (param) => !commandsToDelete.includes(param.commandKey || ""),
+      );
+      const newParams =
+        newCommands.length === 0
+          ? survivingParams.map((p) => {
+              const { commandKey: _, isGlobal: __, ...rest } = p;
+              return rest;
+            })
+          : survivingParams;
       return {
         ...state,
         tool: {
           ...state.tool,
           commands: newCommands,
-          parameters: state.tool.parameters.filter(
-            (param) => !commandsToDelete.includes(param.commandKey || ""),
-          ),
+          parameters: newParams,
           exclusionGroups: state.tool.exclusionGroups?.filter(
             (group) => !commandsToDelete.includes(group.commandKey || ""),
           ),
@@ -113,7 +127,7 @@ function toolBuilderReducer(state: ToolBuilderState, action: Action): ToolBuilde
         },
         selectedCommand:
           state.selectedCommand?.key === action.payload
-            ? (newCommands[0] ?? ({} as Command))
+            ? (newCommands[0] ?? null)
             : state.selectedCommand,
       };
     }
@@ -179,7 +193,7 @@ function toolBuilderReducer(state: ToolBuilderState, action: Action): ToolBuilde
             if (parameterData.isGlobal && parameterData.isGlobal !== param.isGlobal) {
               updatedParam.commandKey = undefined;
             }
-            if (!parameterData.isGlobal && param.isGlobal) {
+            if (!parameterData.isGlobal && param.isGlobal && state.tool.commands.length > 0) {
               updatedParam.commandKey = state.selectedCommand?.key;
             }
             return updatedParam;
@@ -225,6 +239,36 @@ function toolBuilderReducer(state: ToolBuilderState, action: Action): ToolBuilde
         parameterValues: { ...state.parameterValues, [action.payload.key]: action.payload.value },
       };
 
+    case "REORDER_COMMANDS": {
+      const { commandKeys, parentCommandKey: _parentCommandKey } = action.payload;
+      const commandMap = new Map(state.tool.commands.map((cmd) => [cmd.key, cmd]));
+      const siblingIndices = state.tool.commands
+        .map((cmd, i) => ({ cmd, i }))
+        .filter(({ cmd }) => commandKeys.includes(cmd.key))
+        .map(({ i }) => i);
+      const newCommands = [...state.tool.commands];
+      commandKeys.forEach((key, newIndex) => {
+        const cmd = commandMap.get(key)!;
+        newCommands[siblingIndices[newIndex]] = { ...cmd, sortOrder: newIndex };
+      });
+      return { ...state, tool: { ...state.tool, commands: newCommands } };
+    }
+
+    case "REORDER_PARAMETERS": {
+      const { parameterKeys } = action.payload;
+      const paramMap = new Map(state.tool.parameters.map((p) => [p.key, p]));
+      const siblingIndices = state.tool.parameters
+        .map((p, i) => ({ p, i }))
+        .filter(({ p }) => parameterKeys.includes(p.key))
+        .map(({ i }) => i);
+      const newParameters = [...state.tool.parameters];
+      parameterKeys.forEach((key, newIndex) => {
+        const param = paramMap.get(key)!;
+        newParameters[siblingIndices[newIndex]] = { ...param, sortOrder: newIndex };
+      });
+      return { ...state, tool: { ...state.tool, parameters: newParameters } };
+    }
+
     case "SET_CONTEXT_SELECTION":
       return { ...state, contextSelection: action.payload };
 
@@ -247,13 +291,16 @@ interface ToolBuilderContextValue extends ToolBuilderState {
   updateExclusionGroup: (updatedGroup: ExclusionGroup) => void;
   removeExclusionGroup: (groupKey: string) => void;
   setDialogOpen: (dialog: DialogKey, open: boolean) => void;
-  setSelectedCommand: (command: Command) => void;
+  setSelectedCommand: (command: Command | null) => void;
   setSelectedParameter: (parameter: Parameter | null) => void;
   setContextSelection: (selection: ContextSelection) => void;
   clearContextSelection: () => void;
   upsertParameter: (parameter: Parameter, originalKey?: string) => void;
   setParameterValue: (key: string, value: ParameterValue) => void;
+  reorderCommands: (commandKeys: string[], parentCommandKey?: string) => void;
+  reorderParameters: (parameterKeys: string[]) => void;
   getParametersForCommand: (commandKey: string) => Parameter[];
+  getRootParameters: () => Parameter[];
   getGlobalParameters: () => Parameter[];
   getExclusionGroupsForCommand: (commandKey: string) => ExclusionGroup[];
 }
@@ -313,7 +360,7 @@ export function ToolBuilderProvider({ tool, children, initialState }: ToolBuilde
         const newGroup: ExclusionGroup = {
           ...group,
           key: slugify(group.name),
-          commandKey: state.selectedCommand?.key,
+          commandKey: state.tool.commands.length > 0 ? state.selectedCommand?.key : undefined,
         };
         dispatch({ type: "ADD_EXCLUSION_GROUP", payload: newGroup });
         toast("Group Added", {
@@ -334,7 +381,7 @@ export function ToolBuilderProvider({ tool, children, initialState }: ToolBuilde
       setDialogOpen: (dialog: DialogKey, open: boolean) =>
         dispatch({ type: "SET_DIALOG_OPEN", payload: { dialog, open } }),
 
-      setSelectedCommand: (command: Command) =>
+      setSelectedCommand: (command: Command | null) =>
         dispatch({ type: "SET_SELECTED_COMMAND", payload: command }),
 
       setSelectedParameter: (parameter: Parameter | null) =>
@@ -361,8 +408,16 @@ export function ToolBuilderProvider({ tool, children, initialState }: ToolBuilde
       setParameterValue: (key: string, value: ParameterValue) =>
         dispatch({ type: "SET_PARAMETER_VALUE", payload: { key, value } }),
 
+      reorderCommands: (commandKeys: string[], parentCommandKey?: string) =>
+        dispatch({ type: "REORDER_COMMANDS", payload: { commandKeys, parentCommandKey } }),
+
+      reorderParameters: (parameterKeys: string[]) =>
+        dispatch({ type: "REORDER_PARAMETERS", payload: { parameterKeys } }),
+
       getParametersForCommand: (commandKey: string) =>
         state.tool.parameters.filter((p) => !p.isGlobal && p.commandKey === commandKey),
+
+      getRootParameters: () => state.tool.parameters.filter((p) => !p.commandKey && !p.isGlobal),
 
       getGlobalParameters: () => state.tool.parameters.filter((p) => p.isGlobal),
 

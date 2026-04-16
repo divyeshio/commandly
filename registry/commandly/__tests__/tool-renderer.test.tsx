@@ -3,7 +3,6 @@ import { ParameterRendererEntry } from "@/components/commandly/types/renderer";
 import { createNewParameter } from "@/components/commandly/utils/flat";
 import { defaultTool } from "@/lib/utils";
 import { render, screen } from "@testing-library/react";
-
 const baseCommand = { key: "my-tool", name: "my-tool", sortOrder: 0 };
 const baseTool = { ...defaultTool(), commands: [baseCommand] };
 
@@ -217,5 +216,158 @@ describe("ToolRenderer", () => {
     );
     expect(screen.getByTestId("custom-flag")).toBeInTheDocument();
     expect(screen.queryByRole("switch")).not.toBeInTheDocument();
+  });
+
+  it("renders root parameters for a tool with no commands", () => {
+    const rootTool = {
+      binaryName: "httpx",
+      displayName: "Httpx",
+      commands: [],
+      parameters: [
+        {
+          key: "list",
+          name: "List",
+          parameterType: "Option" as const,
+          dataType: "String" as const,
+          longFlag: "-list",
+        },
+        {
+          key: "verbose",
+          name: "Verbose",
+          parameterType: "Flag" as const,
+          dataType: "Boolean" as const,
+          longFlag: "--verbose",
+        },
+      ],
+    };
+    render(
+      <ToolRenderer
+        tool={rootTool}
+        catalog={defaultComponents()}
+        parameterValues={{}}
+        updateParameterValue={() => {}}
+      />,
+    );
+    expect(screen.getByText("List")).toBeInTheDocument();
+    expect(screen.getByText("Verbose")).toBeInTheDocument();
+  });
+
+  it("shows no parameters message for root-only tool with empty parameters", () => {
+    const emptyRootTool = {
+      binaryName: "httpx",
+      displayName: "Httpx",
+      commands: [],
+      parameters: [],
+    };
+    render(
+      <ToolRenderer
+        tool={emptyRootTool}
+        catalog={defaultComponents()}
+        parameterValues={{}}
+        updateParameterValue={() => {}}
+      />,
+    );
+    expect(screen.getByText(/No parameters available/)).toBeInTheDocument();
+  });
+
+  it("renders root parameters when tool has commands but selectedCommand is null", () => {
+    const tool = {
+      binaryName: "mycli",
+      displayName: "My CLI",
+      commands: [{ key: "sub", name: "sub", sortOrder: 0 }],
+      parameters: [
+        {
+          key: "verbose",
+          name: "Verbose",
+          parameterType: "Flag" as const,
+          dataType: "Boolean" as const,
+          longFlag: "--verbose",
+        },
+        {
+          key: "output",
+          name: "Output",
+          parameterType: "Option" as const,
+          dataType: "String" as const,
+          longFlag: "--output",
+          commandKey: "sub",
+        },
+      ],
+    };
+    render(
+      <ToolRenderer
+        tool={tool}
+        selectedCommand={null}
+        catalog={defaultComponents()}
+        parameterValues={{}}
+        updateParameterValue={() => {}}
+      />,
+    );
+    expect(screen.getByText("Verbose")).toBeInTheDocument();
+    expect(screen.queryByText("Output")).not.toBeInTheDocument();
+  });
+
+  it("renders global parameters when root is selected (selectedCommand is null)", () => {
+    const tool = {
+      binaryName: "mycli",
+      displayName: "My CLI",
+      commands: [{ key: "sub", name: "sub", sortOrder: 0 }],
+      parameters: [
+        {
+          key: "global-flag",
+          name: "GlobalFlag",
+          parameterType: "Flag" as const,
+          dataType: "Boolean" as const,
+          longFlag: "--global",
+          isGlobal: true,
+        },
+        {
+          key: "output",
+          name: "Output",
+          parameterType: "Option" as const,
+          dataType: "String" as const,
+          longFlag: "--output",
+          commandKey: "sub",
+        },
+      ],
+    };
+    render(
+      <ToolRenderer
+        tool={tool}
+        selectedCommand={null}
+        catalog={defaultComponents()}
+        parameterValues={{}}
+        updateParameterValue={() => {}}
+      />,
+    );
+    expect(screen.getByText("GlobalFlag")).toBeInTheDocument();
+    expect(screen.queryByText("Output")).not.toBeInTheDocument();
+  });
+
+  it("does not render info icon when description is empty or absent", () => {
+    const paramNoDesc = {
+      ...createNewParameter(false, "my-tool"),
+      key: "flag-no-desc",
+      name: "NoDesc",
+      parameterType: "Flag" as const,
+      dataType: "Boolean" as const,
+      description: undefined,
+    };
+    const paramEmptyDesc = {
+      ...createNewParameter(false, "my-tool"),
+      key: "flag-empty-desc",
+      name: "EmptyDesc",
+      parameterType: "Flag" as const,
+      dataType: "Boolean" as const,
+      description: "",
+    };
+    render(
+      <ToolRenderer
+        tool={{ ...baseTool, parameters: [paramNoDesc, paramEmptyDesc] }}
+        catalog={defaultComponents()}
+        parameterValues={{}}
+        updateParameterValue={() => {}}
+      />,
+    );
+    expect(screen.queryAllByRole("button")).toHaveLength(0);
   });
 });

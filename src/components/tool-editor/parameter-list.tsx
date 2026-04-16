@@ -3,12 +3,20 @@ import { ExclusionGroup, ParameterType } from "@/components/commandly/types/flat
 import { createNewParameter } from "@/components/commandly/utils/flat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Sortable,
+  SortableContent,
+  SortableItem,
+  SortableItemHandle,
+  SortableOverlay,
+} from "@/components/ui/sortable";
 import { cn } from "@/lib/utils";
 import {
   Edit2Icon,
   FileTextIcon,
   FlagIcon,
   GlobeIcon,
+  GripVerticalIcon,
   HashIcon,
   LayersIcon,
   PlusIcon,
@@ -46,16 +54,19 @@ export function ParameterList({
     selectedCommand,
     contextSelection,
     getGlobalParameters,
+    getRootParameters,
     getParametersForCommand,
     getExclusionGroupsForCommand,
     setSelectedParameter,
     setContextSelection,
     removeParameter,
+    reorderParameters,
   } = useToolBuilder();
 
   const lastSelectedIndexRef = useRef<number | null>(null);
 
   const globalParameters = getGlobalParameters();
+  const rootParameters = getRootParameters();
   const commandParameters = selectedCommand?.key
     ? getParametersForCommand(selectedCommand.key)
     : [];
@@ -63,7 +74,11 @@ export function ParameterList({
     ? getExclusionGroupsForCommand(selectedCommand.key)
     : [];
 
-  const parameters = isGlobal ? globalParameters : commandParameters;
+  const parameters = isGlobal
+    ? globalParameters
+    : selectedCommand
+      ? commandParameters
+      : rootParameters;
 
   const removedParameters = isGlobal
     ? pendingChanges
@@ -119,141 +134,172 @@ export function ParameterList({
         </Button>
       </div>
 
-      <div className="space-y-2">
-        {parameters.map((parameter, index) => {
-          const paramGroups = getParameterExclusionGroups(parameter.key);
-          const isContextSelected = contextSelection.parameterKeys.includes(parameter.key);
-          const isAdded = pendingChanges?.added.has(parameter.key);
-          const isUpdated = pendingChanges?.updated.has(parameter.key);
+      <Sortable
+        value={parameters}
+        getItemValue={(p) => p.key}
+        onValueChange={(newOrder) => reorderParameters(newOrder.map((p) => p.key))}
+      >
+        <SortableContent className="space-y-2">
+          {parameters.map((parameter, index) => {
+            const paramGroups = getParameterExclusionGroups(parameter.key);
+            const isContextSelected = contextSelection.parameterKeys.includes(parameter.key);
+            const isAdded = pendingChanges?.added.has(parameter.key);
+            const isUpdated = pendingChanges?.updated.has(parameter.key);
 
-          return (
-            <div
-              key={parameter.key}
-              className={cn(
-                "group cursor-pointer rounded border p-3 hover:bg-muted/50",
-                isAdded && "border-l-2 border-l-green-500",
-                isUpdated && "border-l-2 border-l-amber-500",
-                !isAdded && !isUpdated && isChatOpen && isContextSelected
-                  ? "border-primary bg-accent/30 ring-1 ring-primary"
-                  : !isAdded && !isUpdated
-                    ? "border-muted"
-                    : "",
-              )}
-              onClick={(e) => handleParameterClick(e, parameter.key, index)}
-            >
-              <div className="mb-2 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <ParameterIcon type={parameter.parameterType} />
-                  <span className="text-sm font-medium">
-                    {parameter.name}
-                    {(parameter.longFlag || parameter.shortFlag) && (
-                      <span className="ml-1 text-muted-foreground">
-                        ({[parameter.longFlag, parameter.shortFlag].filter(Boolean).join(", ")})
-                      </span>
-                    )}
-                  </span>
-                </div>
-                <div className="flex items-center gap-0.5">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setSelectedParameter(parameter);
-                    }}
-                  >
-                    <Edit2Icon className="h-3 w-3" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-6 w-6 p-0"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      removeParameter(parameter.key);
-                    }}
-                  >
-                    <Trash2Icon className="h-3 w-3 text-destructive" />
-                  </Button>
-                </div>
-              </div>
-              <div className="flex flex-wrap items-center gap-1">
-                {parameter.isRequired && (
-                  <Badge
-                    variant="destructive"
-                    className="text-xs"
-                  >
-                    required
-                  </Badge>
-                )}
-                <Badge
-                  variant="outline"
-                  className="text-xs"
-                >
-                  {parameter.parameterType}
-                </Badge>
-                <Badge
-                  variant="secondary"
-                  className="text-xs"
-                >
-                  {parameter.dataType}
-                </Badge>
-                {isGlobal && (
-                  <Badge
-                    variant="default"
-                    className="text-xs"
-                  >
-                    global
-                  </Badge>
-                )}
-                {paramGroups.map((group) => (
-                  <Badge
-                    key={group.key}
-                    variant="secondary"
-                    className="flex items-center gap-1 bg-muted text-xs"
-                  >
-                    <LayersIcon className="h-3 w-3" />
-                    {group.name}
-                  </Badge>
-                ))}
-                {isAdded && (
-                  <Badge
-                    variant="outline"
-                    className="border-green-500/40 bg-green-500/10 text-xs text-green-600 dark:text-green-400"
-                  >
-                    Added
-                  </Badge>
-                )}
-                {isUpdated && (
-                  <Badge
-                    variant="outline"
-                    className="border-amber-500/40 bg-amber-500/10 text-xs text-amber-600 dark:text-amber-400"
-                  >
-                    Updated
-                  </Badge>
-                )}
-              </div>
-            </div>
-          );
-        })}
-        {removedParameters.map((key) => (
-          <div
-            key={key}
-            className="rounded border border-l-2 border-muted border-l-red-500 p-3 opacity-60"
-          >
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-muted-foreground line-through">{key}</span>
-              <Badge
-                variant="outline"
-                className="border-red-500/40 bg-red-500/10 text-xs text-red-600 dark:text-red-400"
+            return (
+              <SortableItem
+                key={parameter.key}
+                value={parameter.key}
+                asChild
               >
-                Removed
-              </Badge>
-            </div>
+                <div
+                  className={cn(
+                    "group cursor-pointer rounded border p-3 hover:bg-muted/50",
+                    isAdded && "border-l-2 border-l-green-500",
+                    isUpdated && "border-l-2 border-l-amber-500",
+                    !isAdded && !isUpdated && isChatOpen && isContextSelected
+                      ? "border-primary bg-accent/30 ring-1 ring-primary"
+                      : !isAdded && !isUpdated
+                        ? "border-muted"
+                        : "",
+                  )}
+                  onClick={(e) => handleParameterClick(e, parameter.key, index)}
+                >
+                  <div className="mb-2 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <ParameterIcon type={parameter.parameterType} />
+                      <span className="text-sm font-medium">
+                        {parameter.name}
+                        {(parameter.longFlag || parameter.shortFlag) && (
+                          <span className="ml-1 text-muted-foreground">
+                            ({[parameter.longFlag, parameter.shortFlag].filter(Boolean).join(", ")})
+                          </span>
+                        )}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-0.5">
+                      <SortableItemHandle asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <GripVerticalIcon className="h-3 w-3" />
+                        </Button>
+                      </SortableItemHandle>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedParameter(parameter);
+                        }}
+                      >
+                        <Edit2Icon className="h-3 w-3" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-6 w-6 p-0"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removeParameter(parameter.key);
+                        }}
+                      >
+                        <Trash2Icon className="h-3 w-3 text-destructive" />
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-1">
+                    {parameter.isRequired && (
+                      <Badge
+                        variant="destructive"
+                        className="text-xs"
+                      >
+                        required
+                      </Badge>
+                    )}
+                    <Badge
+                      variant="outline"
+                      className="text-xs"
+                    >
+                      {parameter.parameterType}
+                    </Badge>
+                    <Badge
+                      variant="secondary"
+                      className="text-xs"
+                    >
+                      {parameter.dataType}
+                    </Badge>
+                    {isGlobal && (
+                      <Badge
+                        variant="default"
+                        className="text-xs"
+                      >
+                        global
+                      </Badge>
+                    )}
+                    {paramGroups.map((group) => (
+                      <Badge
+                        key={group.key}
+                        variant="secondary"
+                        className="flex items-center gap-1 bg-muted text-xs"
+                      >
+                        <LayersIcon className="h-3 w-3" />
+                        {group.name}
+                      </Badge>
+                    ))}
+                    {isAdded && (
+                      <Badge
+                        variant="outline"
+                        className="border-green-500/40 bg-green-500/10 text-xs text-green-600 dark:text-green-400"
+                      >
+                        Added
+                      </Badge>
+                    )}
+                    {isUpdated && (
+                      <Badge
+                        variant="outline"
+                        className="border-amber-500/40 bg-amber-500/10 text-xs text-amber-600 dark:text-amber-400"
+                      >
+                        Updated
+                      </Badge>
+                    )}
+                  </div>
+                </div>
+              </SortableItem>
+            );
+          })}
+        </SortableContent>
+        <SortableOverlay>
+          {({ value }) => {
+            const param = parameters.find((p) => p.key === value);
+            return (
+              <div className="rounded border bg-background p-3 text-sm font-medium">
+                {param?.name}
+              </div>
+            );
+          }}
+        </SortableOverlay>
+      </Sortable>
+      {removedParameters.map((key) => (
+        <div
+          key={key}
+          className="rounded border border-l-2 border-muted border-l-red-500 p-3 opacity-60"
+        >
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium text-muted-foreground line-through">{key}</span>
+            <Badge
+              variant="outline"
+              className="border-red-500/40 bg-red-500/10 text-xs text-red-600 dark:text-red-400"
+            >
+              Removed
+            </Badge>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 }

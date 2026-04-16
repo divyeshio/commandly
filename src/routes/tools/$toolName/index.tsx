@@ -5,7 +5,13 @@ import { slugify } from "@/components/commandly/utils/flat";
 import { SavedCommandsDialog } from "@/components/tool-editor/dialogs/saved-commands-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Command, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
+import {
+  Command,
+  CommandGroup,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+} from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -17,8 +23,15 @@ import {
 } from "@/lib/editor-utils";
 import { SavedCommand } from "@/lib/types";
 import { cn, defaultTool } from "@/lib/utils";
-import { createFileRoute } from "@tanstack/react-router";
-import { CheckIcon, ChevronsUpDownIcon, InfoIcon, SaveIcon, TerminalIcon } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  CheckIcon,
+  ChevronsUpDownIcon,
+  Edit2Icon,
+  InfoIcon,
+  SaveIcon,
+  TerminalIcon,
+} from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -55,15 +68,32 @@ export const Route = createFileRoute("/tools/$toolName/")({
 
 function RouteComponent() {
   const tool = Route.useLoaderData();
+  const { newTool } = Route.useSearch();
 
   const [parameterValues, setParameterValues] = useState({});
   const [savedCommands, setSavedCommands] = useState(() => {
     if (!tool) return [];
-    const toolId = tool.name;
+    const toolId = tool.binaryName;
     return getSavedCommandsFromStorage(toolId);
   });
   const [open, setOpen] = useState(false);
   const [savedCommandsOpen, setSavedCommandsOpen] = useState(false);
+  const hasUncategorizedParams =
+    tool?.parameters.some((p) => !p.commandKey && !p.isGlobal) ?? false;
+
+  const getCommandDepth = (key: string, depth = 0): number => {
+    const cmd = tool?.commands.find((c) => c.key === key);
+    if (!cmd?.parentCommandKey) return depth;
+    return getCommandDepth(cmd.parentCommandKey, depth + 1);
+  };
+
+  const getCommandLabel = (name: string): string => {
+    const cmd = tool?.commands.find((c) => c.name === name);
+    if (!cmd?.parentCommandKey) return name;
+    const parent = tool?.commands.find((c) => c.key === cmd.parentCommandKey);
+    return parent ? `${getCommandLabel(parent.name)} / ${name}` : name;
+  };
+
   const defaultCommandName = tool?.commands?.[0]?.name ?? "";
   const [selectedCommand, setSelectedCommand] = useQueryState("command", {
     defaultValue: defaultCommandName,
@@ -72,7 +102,7 @@ function RouteComponent() {
   if (!tool) return <div>Tool not found.</div>;
 
   const handleSaveCommand = (command: string) => {
-    const toolId = tool.name;
+    const toolId = tool.binaryName;
     const existingCommands = getSavedCommandsFromStorage(toolId);
     if (existingCommands.some((cmd) => cmd.command === command)) {
       toast.error("Command already exists", {
@@ -95,7 +125,7 @@ function RouteComponent() {
 
   const handleDeleteCommand = (commandKey: string) => {
     if (!tool) return;
-    const toolId = tool.name;
+    const toolId = tool.binaryName;
     removeSavedCommandFromStorage(toolId, commandKey);
     setSavedCommands(getSavedCommandsFromStorage(toolId));
   };
@@ -107,10 +137,10 @@ function RouteComponent() {
           <span
             className="font-mono text-lg font-medium"
             style={{
-              viewTransitionName: `tool-card-title-${tool.name}`,
+              viewTransitionName: `tool-card-title-${tool.binaryName}`,
             }}
           >
-            {tool.displayName ? `${tool.displayName} (${tool.name})` : `${tool.name}`}
+            {tool.displayName ? `${tool.displayName} (${tool.binaryName})` : `${tool.binaryName}`}
           </span>
           {tool.info?.description && (
             <Tooltip>
@@ -124,7 +154,22 @@ function RouteComponent() {
           )}
         </p>
         <Button
-          className="relative z-10 ml-auto"
+          className="relative z-10 ml-auto flex gap-2"
+          variant="outline"
+          size="sm"
+          asChild
+        >
+          <Link
+            to="/tools/$toolName/edit"
+            params={{ toolName: tool.binaryName }}
+            search={{ isLocal: !!newTool }}
+          >
+            <Edit2Icon className="h-4 w-4" />
+            Edit
+          </Link>
+        </Button>
+        <Button
+          className="relative z-10"
           variant="outline"
           size="sm"
           onClick={() => setSavedCommandsOpen(true)}
@@ -137,66 +182,105 @@ function RouteComponent() {
         <Card
           className="w-2xl max-w-4xl"
           style={{
-            viewTransitionName: `tool-card-${tool.name}`,
+            viewTransitionName: `tool-card-${tool.binaryName}`,
           }}
         >
           <CardHeader>
             <CardDescription hidden={true}></CardDescription>
             <CardTitle className="flex items-center gap-2">
-              <div className="flex items-center gap-4">
-                <span className="text-sm">Command</span>
-                <Popover
-                  open={open}
-                  onOpenChange={setOpen}
-                >
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      aria-expanded={open}
-                      className="w-48 justify-between"
-                    >
-                      {tool.commands.find((command) => command.name === selectedCommand)?.name}
-                      <ChevronsUpDownIcon className="opacity-50" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-48 p-0">
-                    <Command>
-                      <CommandList>
-                        <CommandGroup>
-                          {tool.commands.map((option) => (
-                            <CommandItem
-                              key={option.key}
-                              value={option.name}
-                              onSelect={(currentValue) => {
-                                setSelectedCommand(currentValue);
-                                setOpen(false);
-                              }}
-                            >
-                              {option.name}
-                              <CheckIcon
-                                className={cn(
-                                  "ml-auto h-4 w-4",
-                                  selectedCommand === option.name ? "opacity-100" : "opacity-0",
-                                )}
-                              />
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </CommandList>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
-              </div>
+              {(tool.commands.length > 0 || hasUncategorizedParams) && (
+                <div className="flex items-center gap-4">
+                  <span className="text-sm">Command</span>
+                  <Popover
+                    open={open}
+                    onOpenChange={setOpen}
+                  >
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        aria-expanded={open}
+                        className="w-48 justify-between"
+                      >
+                        <span className="truncate">
+                          {selectedCommand === ""
+                            ? tool.binaryName
+                            : getCommandLabel(selectedCommand)}
+                        </span>
+                        <ChevronsUpDownIcon className="opacity-50" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-48 p-0">
+                      <Command>
+                        <CommandList>
+                          {hasUncategorizedParams && (
+                            <CommandGroup>
+                              <CommandItem
+                                key="__none__"
+                                value=""
+                                onSelect={() => {
+                                  setSelectedCommand("");
+                                  setOpen(false);
+                                }}
+                              >
+                                <span className="font-mono">{tool.binaryName}</span>
+                                <CheckIcon
+                                  className={cn(
+                                    "ml-auto h-4 w-4",
+                                    selectedCommand === "" ? "opacity-100" : "opacity-0",
+                                  )}
+                                />
+                              </CommandItem>
+                            </CommandGroup>
+                          )}
+                          {hasUncategorizedParams && tool.commands.length > 0 && (
+                            <CommandSeparator />
+                          )}
+                          {tool.commands.length > 0 && (
+                            <CommandGroup>
+                              {tool.commands.map((option) => {
+                                const depth = getCommandDepth(option.key);
+                                return (
+                                  <CommandItem
+                                    key={option.key}
+                                    value={option.name}
+                                    onSelect={(currentValue) => {
+                                      setSelectedCommand(currentValue);
+                                      setOpen(false);
+                                    }}
+                                    style={{ paddingLeft: `${0.5 + depth * 1.25}rem` }}
+                                  >
+                                    {option.name}
+                                    <CheckIcon
+                                      className={cn(
+                                        "ml-auto h-4 w-4",
+                                        selectedCommand === option.name
+                                          ? "opacity-100"
+                                          : "opacity-0",
+                                      )}
+                                    />
+                                  </CommandItem>
+                                );
+                              })}
+                            </CommandGroup>
+                          )}
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              )}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <ScrollArea className="*:data-radix-scroll-area-viewport:max-h-[calc(100vh-260px)]">
               <div className="p-4">
                 <ToolRenderer
-                  selectedCommand={tool.commands.find(
-                    (command) => command.name === selectedCommand,
-                  )}
+                  selectedCommand={
+                    selectedCommand === ""
+                      ? null
+                      : tool.commands.find((command) => command.name === selectedCommand)
+                  }
                   tool={tool}
                   catalog={defaultComponents()}
                   parameterValues={parameterValues}
@@ -221,7 +305,11 @@ function RouteComponent() {
           </CardHeader>
           <CardContent className="space-y-4">
             <GeneratedCommand
-              selectedCommand={tool.commands.find((command) => command.name === selectedCommand)}
+              selectedCommand={
+                selectedCommand === ""
+                  ? null
+                  : tool.commands.find((command) => command.name === selectedCommand)
+              }
               tool={tool}
               parameterValues={parameterValues}
               onSaveCommand={handleSaveCommand}

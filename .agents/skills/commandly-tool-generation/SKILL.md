@@ -18,9 +18,9 @@ Generate and edit CLI tool definitions in the Commandly flat JSON schema format.
 ### Parsing Help Text
 
 1. Identify the tool name and any description/version info → populate `name`, `displayName`, `info`.
-2. Identify commands and subcommands → `commands[]` array with `key`, `name`, optional `parentCommandKey`.
+2. Identify commands and subcommands → `commands[]` array with `key`, `name`, optional `parentCommandKey`. If the tool has no subcommands, leave `commands` as an empty array `[]`.
 3. Map each flag/option/argument to a parameter → `parameters[]` array.
-4. Assign `commandKey` to non-global parameters.
+4. If commands exist, assign `commandKey` to non-global parameters. If no commands exist, parameters are **root parameters** — omit both `commandKey` and `isGlobal`.
 5. Output pure JSON — no code fences, no comments.
 6. Identify options which can take pre-defined values and create `Enum` parameters with `enum.values[]`. Note: "e.g." in help text does not necessarily mean the values are free-form — cross-check with documentation to determine if the full value set is known and fixed before using `Enum`.
 
@@ -33,7 +33,7 @@ Generate and edit CLI tool definitions in the Commandly flat JSON schema format.
 ### Creating from Scratch
 
 1. Use tool name as `name` (lowercase, hyphenated) and a display-friendly `displayName`.
-2. Create at minimum one command (use the tool name if there are no subcommands, mark `isDefault: true`).
+2. If the tool has subcommands, add them to `commands[]`. If it has no subcommands, use `commands: []`.
 3. Map all known parameters following the type rules below.
 
 ## Parameter Type Rules
@@ -53,15 +53,14 @@ Generate and edit CLI tool definitions in the Commandly flat JSON schema format.
 ## Key Rules
 
 1. Every `key` must be unique across the entire `parameters[]` array. It should be meaningful and derived from the parameter name or description.
-2. Non-global parameters **must** have `commandKey`. Global parameters **must not**.
-3. `name` should be user-friendly title case (e.g. `--output-file` → `"Output File"`).
-4. Descriptions in sentence case, trimmed.
-5. Do not add `defaultValue` — it does not exist in the schema.
-6. Do not add empty arrays/objects for optional properties (`validations`, `exclusionGroups`, `tags`, `dependencies`, `enum.values` when empty).
-7. Tool description/version live under `info: { description, version, url }` — never at top level. `version` is **required** and must reflect the current release (no `v` prefix, e.g. `"1.9.0"` not `"v1.9.0"`). To find the latest version, call `GET https://api.github.com/repos/{owner}/{repo}/releases/latest` and use the `tag_name` field with the leading `v` stripped. For tools with non-standard tag formats (e.g. curl uses `curl-8_19_0`), use the release `name` field instead. For date-based versioning (e.g. yt-dlp uses `2026.03.17`), use `tag_name` as-is.
-8. If only one command exists, do not mark all parameters as global.
-9. There must always be at least one command. If no subcommand is found, create one with the tool name.
-10. Output is pure JSON — no backticks, no trailing commas, proper indentation.
+2. When `commands` is non-empty: non-global parameters **must** have `commandKey`, global parameters **must** have `isGlobal: true` and no `commandKey`.
+3. When `commands` is empty: parameters are **root parameters** — they must **not** have `commandKey` or `isGlobal`. Do not create a dummy command matching the tool name.
+4. `name` should be user-friendly title case (e.g. `--output-file` → `"Output File"`).
+5. Descriptions in sentence case, trimmed.
+6. Do not add `defaultValue` — it does not exist in the schema.
+7. Do not add empty arrays/objects for optional properties (`validations`, `exclusionGroups`, `tags`, `dependencies`, `enum.values` when empty).
+8. Tool description/version live under `info: { description, version, url }` — never at top level. `version` is **required** and must reflect the current release (no `v` prefix, e.g. `"1.9.0"` not `"v1.9.0"`). To find the latest version, call `GET https://api.github.com/repos/{owner}/{repo}/releases/latest` and use the `tag_name` field with the leading `v` stripped. For tools with non-standard tag formats (e.g. curl uses `curl-8_19_0`), use the release `name` field instead. For date-based versioning (e.g. yt-dlp uses `2026.03.17`), use `tag_name` as-is.
+9. Output is pure JSON — no backticks, no trailing commas, proper indentation.
 
 ## Schema Reference
 

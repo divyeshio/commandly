@@ -1,20 +1,13 @@
 {
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
-  "name": "dnsx",
+  "binaryName": "dnsx",
   "displayName": "DNSX",
   "info": {
     "description": "A fast and multi-purpose DNS toolkit designed for running DNS queries.",
     "version": "1.2.3",
     "url": "https://github.com/projectdiscovery/dnsx"
   },
-  "commands": [
-    {
-      "name": "dnsx",
-      "description": "Root command for dnsx CLI.",
-      "sortOrder": 1,
-      "key": "dnsx"
-    }
-  ],
+  "commands": [],
   "parameters": [
     {
       "name": "List",
@@ -23,8 +16,7 @@
       "dataType": "String",
       "shortFlag": "-l",
       "longFlag": "-list",
-      "key": "list",
-      "commandKey": "dnsx"
+      "key": "list"
     },
     {
       "name": "Domain",
@@ -33,8 +25,7 @@
       "dataType": "String",
       "shortFlag": "-d",
       "longFlag": "-domain",
-      "key": "domain",
-      "commandKey": "dnsx"
+      "key": "domain"
     },
     {
       "name": "Wordlist",
@@ -43,8 +34,7 @@
       "dataType": "String",
       "shortFlag": "-w",
       "longFlag": "-wordlist",
-      "key": "wordlist",
-      "commandKey": "dnsx"
+      "key": "wordlist"
     },
     {
       "name": "A",
@@ -52,8 +42,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-a",
-      "key": "a",
-      "commandKey": "dnsx"
+      "key": "a"
     },
     {
       "name": "AAAA",
@@ -61,8 +50,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-aaaa",
-      "key": "aaaa",
-      "commandKey": "dnsx"
+      "key": "aaaa"
     },
     {
       "name": "CNAME",
@@ -70,8 +58,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-cname",
-      "key": "cname",
-      "commandKey": "dnsx"
+      "key": "cname"
     },
     {
       "name": "NS",
@@ -79,8 +66,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-ns",
-      "key": "ns",
-      "commandKey": "dnsx"
+      "key": "ns"
     },
     {
       "name": "TXT",
@@ -88,8 +74,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-txt",
-      "key": "txt",
-      "commandKey": "dnsx"
+      "key": "txt"
     },
     {
       "name": "SRV",
@@ -97,8 +82,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-srv",
-      "key": "srv",
-      "commandKey": "dnsx"
+      "key": "srv"
     },
     {
       "name": "PTR",
@@ -106,8 +90,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-ptr",
-      "key": "ptr",
-      "commandKey": "dnsx"
+      "key": "ptr"
     },
     {
       "name": "MX",
@@ -115,8 +98,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-mx",
-      "key": "mx",
-      "commandKey": "dnsx"
+      "key": "mx"
     },
     {
       "name": "SOA",
@@ -124,8 +106,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-soa",
-      "key": "soa",
-      "commandKey": "dnsx"
+      "key": "soa"
     },
     {
       "name": "ANY",
@@ -133,8 +114,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-any",
-      "key": "any",
-      "commandKey": "dnsx"
+      "key": "any"
     },
     {
       "name": "AXFR",
@@ -142,8 +122,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-axfr",
-      "key": "axfr",
-      "commandKey": "dnsx"
+      "key": "axfr"
     },
     {
       "name": "CAA",
@@ -151,8 +130,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-caa",
-      "key": "caa",
-      "commandKey": "dnsx"
+      "key": "caa"
     },
     {
       "name": "Recon",
@@ -160,8 +138,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-recon",
-      "key": "recon",
-      "commandKey": "dnsx"
+      "key": "recon"
     },
     {
       "name": "Exclude Type",
@@ -171,7 +148,6 @@
       "shortFlag": "-e",
       "longFlag": "-exclude-type",
       "key": "exclude-type",
-      "commandKey": "dnsx",
       "enum": {
         "allowMultiple": true,
         "values": [
@@ -229,8 +205,7 @@
       "dataType": "Boolean",
       "shortFlag": "-re",
       "longFlag": "-resp",
-      "key": "resp",
-      "commandKey": "dnsx"
+      "key": "resp"
     },
     {
       "name": "Response Only",
@@ -239,8 +214,7 @@
       "dataType": "Boolean",
       "shortFlag": "-ro",
       "longFlag": "-resp-only",
-      "key": "resp-only",
-      "commandKey": "dnsx"
+      "key": "resp-only"
     },
     {
       "name": "Response Code",
@@ -249,8 +223,7 @@
       "dataType": "String",
       "shortFlag": "-rc",
       "longFlag": "-rcode",
-      "key": "rcode",
-      "commandKey": "dnsx"
+      "key": "rcode"
     },
     {
       "name": "CDN",
@@ -258,8 +231,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-cdn",
-      "key": "cdn",
-      "commandKey": "dnsx"
+      "key": "cdn"
     },
     {
       "name": "ASN",
@@ -267,8 +239,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-asn",
-      "key": "asn",
-      "commandKey": "dnsx"
+      "key": "asn"
     },
     {
       "name": "Threads",
@@ -277,8 +248,7 @@
       "dataType": "Number",
       "shortFlag": "-t",
       "longFlag": "-threads",
-      "key": "threads",
-      "commandKey": "dnsx"
+      "key": "threads"
     },
     {
       "name": "Rate Limit",
@@ -287,8 +257,7 @@
       "dataType": "Number",
       "shortFlag": "-rl",
       "longFlag": "-rate-limit",
-      "key": "rate-limit",
-      "commandKey": "dnsx"
+      "key": "rate-limit"
     },
     {
       "name": "Update",
@@ -297,8 +266,7 @@
       "dataType": "Boolean",
       "shortFlag": "-up",
       "longFlag": "-update",
-      "key": "update",
-      "commandKey": "dnsx"
+      "key": "update"
     },
     {
       "name": "Disable Update Check",
@@ -307,8 +275,7 @@
       "dataType": "Boolean",
       "shortFlag": "-duc",
       "longFlag": "-disable-update-check",
-      "key": "disable-update-check",
-      "commandKey": "dnsx"
+      "key": "disable-update-check"
     },
     {
       "name": "Output",
@@ -317,8 +284,7 @@
       "dataType": "String",
       "shortFlag": "-o",
       "longFlag": "-output",
-      "key": "output",
-      "commandKey": "dnsx"
+      "key": "output"
     },
     {
       "name": "JSON Output",
@@ -327,8 +293,7 @@
       "dataType": "Boolean",
       "shortFlag": "-j",
       "longFlag": "-json",
-      "key": "json",
-      "commandKey": "dnsx"
+      "key": "json"
     },
     {
       "name": "Omit Raw",
@@ -337,8 +302,7 @@
       "dataType": "Boolean",
       "shortFlag": "-or",
       "longFlag": "-omit-raw",
-      "key": "or",
-      "commandKey": "dnsx"
+      "key": "or"
     },
     {
       "name": "Health Check",
@@ -346,8 +310,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-health-check",
-      "key": "health-check",
-      "commandKey": "dnsx"
+      "key": "health-check"
     },
     {
       "name": "Verbose",
@@ -356,8 +319,7 @@
       "dataType": "Boolean",
       "shortFlag": "-v",
       "longFlag": "-verbose",
-      "key": "verbose",
-      "commandKey": "dnsx"
+      "key": "verbose"
     },
     {
       "name": "No Color",
@@ -365,8 +327,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-no-color",
-      "key": "no-color",
-      "commandKey": "dnsx"
+      "key": "no-color"
     },
     {
       "name": "Silent",
@@ -374,8 +335,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-silent",
-      "key": "silent",
-      "commandKey": "dnsx"
+      "key": "silent"
     },
     {
       "name": "Version",
@@ -383,8 +343,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-version",
-      "key": "v",
-      "commandKey": "dnsx"
+      "key": "v"
     },
     {
       "name": "Show Config",
@@ -392,8 +351,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-sc",
-      "key": "sc",
-      "commandKey": "dnsx"
+      "key": "sc"
     }
   ]
 }
