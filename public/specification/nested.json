@@ -1,6 +1,9 @@
 {
   "type": "object",
   "properties": {
+    "$schema": {
+      "type": "string"
+    },
     "binaryName": {
       "description": "Unique binary name for the tool that it can be invoked from the command line (e.g. \"httpx\").",
       "type": "string"
