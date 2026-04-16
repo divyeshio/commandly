@@ -47,9 +47,9 @@ import { GeneratedCommand } from "@/components/commandly/generated-command";
 
 ```tsx
 const tool: Tool = {
-  name: "curl",
+  binaryName: "curl",
   displayName: "curl",
-  commands: [{ key: "curl", name: "curl", isDefault: true }],
+  commands: [{ key: "curl", name: "curl" }],
   parameters: [
     {
       key: "url",
@@ -90,12 +90,12 @@ const [values, setValues] = useState({})
 
 ### GeneratedCommand
 
-| Prop              | Type                             | Default            | Description                                                  |
-| ----------------- | -------------------------------- | ------------------ | ------------------------------------------------------------ |
-| `tool`            | `Tool`                           | —                  | The tool definition including name, commands, and parameters |
-| `selectedCommand` | `Command`                        | `tool.commands[0]` | The currently selected command to generate the string for    |
-| `parameterValues` | `Record<string, ParameterValue>` | —                  | Map of parameter key to current value                        |
-| `onSaveCommand`   | `(command: string) => void`      | —                  | Optional callback fired when the save button is clicked      |
+| Prop              | Type                             | Default            | Description                                                             |
+| ----------------- | -------------------------------- | ------------------ | ----------------------------------------------------------------------- |
+| `tool`            | `Tool`                           | —                  | The tool definition including `binaryName`, commands, and parameters    |
+| `selectedCommand` | `Command \| null`                | `tool.commands[0]` | The currently selected command, or `null` to render the root invocation |
+| `parameterValues` | `Record<string, ParameterValue>` | —                  | Map of parameter key to current value                                   |
+| `onSaveCommand`   | `(command: string) => void`      | —                  | Optional callback fired when the save button is clicked                 |
 
 ## Notes
 
@@ -104,3 +104,4 @@ const [values, setValues] = useState({})
 - Option parameters are joined using `keyValueSeparator` (defaults to a space)
 - Argument parameters are appended in order of their `position` field
 - Global parameters are included regardless of the selected command
+- Passing `selectedCommand={null}` includes root-level parameters and skips command path segments

@@ -417,8 +417,7 @@ export function ToolBuilderProvider({ tool, children, initialState }: ToolBuilde
       getParametersForCommand: (commandKey: string) =>
         state.tool.parameters.filter((p) => !p.isGlobal && p.commandKey === commandKey),
 
-      getRootParameters: () =>
-        state.tool.parameters.filter((p) => !p.commandKey && !p.isGlobal),
+      getRootParameters: () => state.tool.parameters.filter((p) => !p.commandKey && !p.isGlobal),
 
       getGlobalParameters: () => state.tool.parameters.filter((p) => p.isGlobal),
 

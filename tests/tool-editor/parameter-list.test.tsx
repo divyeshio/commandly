@@ -422,9 +422,21 @@ describe("ParameterList - Rendering & Structure", () => {
     });
 
     it("reorderParameters updates sortOrder in context", () => {
-      const p1 = createTestParameter({ key: "p1", name: "param-one", commandKey: "test-command-key" });
-      const p2 = createTestParameter({ key: "p2", name: "param-two", commandKey: "test-command-key" });
-      const p3 = createTestParameter({ key: "p3", name: "param-three", commandKey: "test-command-key" });
+      const p1 = createTestParameter({
+        key: "p1",
+        name: "param-one",
+        commandKey: "test-command-key",
+      });
+      const p2 = createTestParameter({
+        key: "p2",
+        name: "param-two",
+        commandKey: "test-command-key",
+      });
+      const p3 = createTestParameter({
+        key: "p3",
+        name: "param-three",
+        commandKey: "test-command-key",
+      });
       const state = baseTestState();
       state.tool = { ...state.tool!, parameters: [p1, p2, p3] };
       renderWithProvider(<ParameterList title="Parameters" />, state);

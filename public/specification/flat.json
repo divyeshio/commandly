@@ -9,6 +9,10 @@
       "description": "Human-readable display name for the tool (e.g. \"HTTPx\").",
       "type": "string"
     },
+    "interactive": {
+      "description": "Whether the root tool invocation opens an interactive session or prompt.",
+      "type": "boolean"
+    },
     "info": {
       "description": "General information about the tool such as description, version, and URL.",
       "$ref": "#/definitions/ToolInfo"

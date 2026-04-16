@@ -74,7 +74,11 @@ export function ParameterList({
     ? getExclusionGroupsForCommand(selectedCommand.key)
     : [];
 
-  const parameters = isGlobal ? globalParameters : selectedCommand ? commandParameters : rootParameters;
+  const parameters = isGlobal
+    ? globalParameters
+    : selectedCommand
+      ? commandParameters
+      : rootParameters;
 
   const removedParameters = isGlobal
     ? pendingChanges
@@ -123,11 +127,7 @@ export function ParameterList({
           {title} ({parameters.length})
         </h3>
         <Button
-          onClick={() =>
-            setSelectedParameter(
-              createNewParameter(isGlobal, selectedCommand?.key),
-            )
-          }
+          onClick={() => setSelectedParameter(createNewParameter(isGlobal, selectedCommand?.key))}
           size="sm"
         >
           <PlusIcon className="h-4 w-4" />
@@ -212,66 +212,66 @@ export function ParameterList({
                       </Button>
                     </div>
                   </div>
-              <div className="flex flex-wrap items-center gap-1">
-                {parameter.isRequired && (
-                  <Badge
-                    variant="destructive"
-                    className="text-xs"
-                  >
-                    required
-                  </Badge>
-                )}
-                <Badge
-                  variant="outline"
-                  className="text-xs"
-                >
-                  {parameter.parameterType}
-                </Badge>
-                <Badge
-                  variant="secondary"
-                  className="text-xs"
-                >
-                  {parameter.dataType}
-                </Badge>
-                {isGlobal && (
-                  <Badge
-                    variant="default"
-                    className="text-xs"
-                  >
-                    global
-                  </Badge>
-                )}
-                {paramGroups.map((group) => (
-                  <Badge
-                    key={group.key}
-                    variant="secondary"
-                    className="flex items-center gap-1 bg-muted text-xs"
-                  >
-                    <LayersIcon className="h-3 w-3" />
-                    {group.name}
-                  </Badge>
-                ))}
-                {isAdded && (
-                  <Badge
-                    variant="outline"
-                    className="border-green-500/40 bg-green-500/10 text-xs text-green-600 dark:text-green-400"
-                  >
-                    Added
-                  </Badge>
-                )}
-                {isUpdated && (
-                  <Badge
-                    variant="outline"
-                    className="border-amber-500/40 bg-amber-500/10 text-xs text-amber-600 dark:text-amber-400"
-                  >
-                    Updated
-                  </Badge>
-                )}
-              </div>
-            </div>
+                  <div className="flex flex-wrap items-center gap-1">
+                    {parameter.isRequired && (
+                      <Badge
+                        variant="destructive"
+                        className="text-xs"
+                      >
+                        required
+                      </Badge>
+                    )}
+                    <Badge
+                      variant="outline"
+                      className="text-xs"
+                    >
+                      {parameter.parameterType}
+                    </Badge>
+                    <Badge
+                      variant="secondary"
+                      className="text-xs"
+                    >
+                      {parameter.dataType}
+                    </Badge>
+                    {isGlobal && (
+                      <Badge
+                        variant="default"
+                        className="text-xs"
+                      >
+                        global
+                      </Badge>
+                    )}
+                    {paramGroups.map((group) => (
+                      <Badge
+                        key={group.key}
+                        variant="secondary"
+                        className="flex items-center gap-1 bg-muted text-xs"
+                      >
+                        <LayersIcon className="h-3 w-3" />
+                        {group.name}
+                      </Badge>
+                    ))}
+                    {isAdded && (
+                      <Badge
+                        variant="outline"
+                        className="border-green-500/40 bg-green-500/10 text-xs text-green-600 dark:text-green-400"
+                      >
+                        Added
+                      </Badge>
+                    )}
+                    {isUpdated && (
+                      <Badge
+                        variant="outline"
+                        className="border-amber-500/40 bg-amber-500/10 text-xs text-amber-600 dark:text-amber-400"
+                      >
+                        Updated
+                      </Badge>
+                    )}
+                  </div>
+                </div>
               </SortableItem>
-          );
-        })}
+            );
+          })}
         </SortableContent>
         <SortableOverlay>
           {({ value }) => {

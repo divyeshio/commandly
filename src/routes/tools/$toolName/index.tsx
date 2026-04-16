@@ -5,7 +5,13 @@ import { slugify } from "@/components/commandly/utils/flat";
 import { SavedCommandsDialog } from "@/components/tool-editor/dialogs/saved-commands-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Command, CommandGroup, CommandItem, CommandList, CommandSeparator } from "@/components/ui/command";
+import {
+  Command,
+  CommandGroup,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+} from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -18,7 +24,14 @@ import {
 import { SavedCommand } from "@/lib/types";
 import { cn, defaultTool } from "@/lib/utils";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { CheckIcon, ChevronsUpDownIcon, Edit2Icon, InfoIcon, SaveIcon, TerminalIcon } from "lucide-react";
+import {
+  CheckIcon,
+  ChevronsUpDownIcon,
+  Edit2Icon,
+  InfoIcon,
+  SaveIcon,
+  TerminalIcon,
+} from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -65,7 +78,8 @@ function RouteComponent() {
   });
   const [open, setOpen] = useState(false);
   const [savedCommandsOpen, setSavedCommandsOpen] = useState(false);
-  const hasUncategorizedParams = tool?.parameters.some((p) => !p.commandKey && !p.isGlobal) ?? false;
+  const hasUncategorizedParams =
+    tool?.parameters.some((p) => !p.commandKey && !p.isGlobal) ?? false;
 
   const getCommandDepth = (key: string, depth = 0): number => {
     const cmd = tool?.commands.find((c) => c.key === key);
@@ -240,7 +254,9 @@ function RouteComponent() {
                                     <CheckIcon
                                       className={cn(
                                         "ml-auto h-4 w-4",
-                                        selectedCommand === option.name ? "opacity-100" : "opacity-0",
+                                        selectedCommand === option.name
+                                          ? "opacity-100"
+                                          : "opacity-0",
                                       )}
                                     />
                                   </CommandItem>

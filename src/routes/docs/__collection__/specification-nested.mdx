@@ -8,10 +8,12 @@ Unlike the [Flat Schema](/docs/specification-schema), there are no `key` or `com
 
 | Field              | Type                                  | Required | Description                                                                          |
 | ------------------ | ------------------------------------- | -------- | ------------------------------------------------------------------------------------ |
-| `name`             | string                                | ✓        | Unique identifier for the tool.                                                      |
+| `binaryName`       | string                                | ✓        | Unique CLI binary name for the tool.                                                 |
 | `displayName`      | string                                | ✓        | Human-readable display name.                                                         |
+| `interactive`      | boolean                               | —        | If `true`, invoking the root tool opens an interactive session or prompt.            |
 | `info`             | ToolInfo Object                       | —        | Metadata about the tool. See [ToolInfo](/docs/specification-schema#toolinfo-object). |
 | `url`              | string                                | —        | URL to the tool's homepage or repository.                                            |
+| `rootParameters`   | NestedParameter Object[]              | ✓        | Parameters available on the root invocation when no command is selected.             |
 | `globalParameters` | NestedParameter Object[]              | ✓        | Parameters that apply across all commands.                                           |
 | `commands`         | NestedCommand Object[]                | ✓        | List of commands with embedded parameters and subcommands.                           |
 | `exclusionGroups`  | NestedExclusionGroup Object[] \| null | —        | Groups of mutually exclusive or required parameters.                                 |
@@ -20,15 +22,15 @@ Unlike the [Flat Schema](/docs/specification-schema), there are no `key` or `com
 
 ## NestedCommand Object
 
-| Field         | Type                     | Required | Description                                                                              |
-| ------------- | ------------------------ | -------- | ---------------------------------------------------------------------------------------- |
-| `name`        | string                   | ✓        | Command name as it appears in the CLI invocation.                                        |
-| `description` | string                   | —        | Human-readable description of the command.                                               |
-| `isDefault`   | boolean                  | —        | If `true`, this command is invoked when no subcommand is specified. Defaults to `false`. |
-| `sortOrder`   | number                   | —        | Display sort order. Defaults to `0`.                                                     |
-| `parameters`  | NestedParameter Object[] | ✓        | Parameters belonging to this command.                                                    |
-| `subcommands` | NestedCommand Object[]   | ✓        | Nested subcommands. Use an empty array if none.                                          |
-| `interactive` | boolean                  | —        | If `true`, the command requires interactive user input.                                  |
+| Field             | Type                          | Required | Description                                             |
+| ----------------- | ----------------------------- | -------- | ------------------------------------------------------- |
+| `name`            | string                        | ✓        | Command name as it appears in the CLI invocation.       |
+| `description`     | string                        | —        | Human-readable description of the command.              |
+| `interactive`     | boolean                       | —        | If `true`, the command requires interactive user input. |
+| `sortOrder`       | number                        | —        | Display sort order. Defaults to `0`.                    |
+| `parameters`      | NestedParameter Object[]      | ✓        | Parameters belonging to this command.                   |
+| `subcommands`     | NestedCommand Object[]        | ✓        | Nested subcommands. Use an empty array if none.         |
+| `exclusionGroups` | NestedExclusionGroup Object[] | —        | Exclusion groups scoped to this command.                |
 
 ## NestedParameter Object
 
@@ -46,7 +48,7 @@ Identical to the flat [Parameter Object](/docs/specification-schema#parameter-ob
 | `group`             | string                             | —        | Display group label.                                                                                                  |
 | `shortFlag`         | string                             | —        | Short flag form (e.g. `-o`).                                                                                          |
 | `longFlag`          | string                             | —        | Long flag form (e.g. `--output`).                                                                                     |
-| `position`          | number                             | —        | Positional index, starting from `1`. Required for `Argument` type.                                                    |
+| `position`          | number                             | —        | Zero-based positional index. Required for `Argument` type.                                                            |
 | `sortOrder`         | number                             | —        | Display sort order.                                                                                                   |
 | `arraySeparator`    | string                             | —        | Separator for repeatable parameters joined into a single token.                                                       |
 | `keyValueSeparator` | string                             | —        | Character between the flag and its value. Defaults to a space.                                                        |

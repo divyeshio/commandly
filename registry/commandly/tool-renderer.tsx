@@ -371,7 +371,8 @@ export function ToolRenderer({
   parameterValues,
   updateParameterValue,
 }: ToolRendererProps) {
-  const selectedCommand = providedCommand === undefined ? findDefaultCommand(tool) : providedCommand;
+  const selectedCommand =
+    providedCommand === undefined ? findDefaultCommand(tool) : providedCommand;
   const hasCommands = tool.commands.length > 0;
 
   const visibleParameters = useMemo(() => {

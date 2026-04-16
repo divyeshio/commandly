@@ -115,5 +115,6 @@ const customCatalog: ParameterRendererEntry[] = [
 
 - The default catalog renders `Flag` → checkbox, `Option` → text/number/select input, `Argument` → text input
 - Global parameters are shown regardless of the selected command
-- If no command is selected, the component auto-detects the default command by `isDefault` flag, then by name match, then falls back to the first command
+- If `selectedCommand` is omitted, the component first looks for a command whose `name` matches `tool.binaryName`, then falls back to the first command
+- If `selectedCommand` is explicitly `null`, the component renders root-level parameters plus any global parameters
 - Provide a custom `catalog` to render domain-specific parameter types differently

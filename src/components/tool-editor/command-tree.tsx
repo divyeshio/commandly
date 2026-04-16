@@ -12,7 +12,14 @@ import {
   SortableOverlay,
 } from "@/components/ui/sortable";
 import { cn } from "@/lib/utils";
-import { ChevronRightIcon, Edit2Icon, GripVerticalIcon, PlusIcon, TerminalIcon, Trash2Icon } from "lucide-react";
+import {
+  ChevronRightIcon,
+  Edit2Icon,
+  GripVerticalIcon,
+  PlusIcon,
+  TerminalIcon,
+  Trash2Icon,
+} from "lucide-react";
 import { useState } from "react";
 
 const ROOT_ID = "__root__";
@@ -42,15 +49,30 @@ function CommandActions({
         </SortableItemHandle>
       )}
       {onEdit && (
-        <Button variant="ghost" size="sm" className="h-5 w-5 p-0 opacity-0 group-hover:opacity-100" onClick={onEdit}>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-5 w-5 p-0 opacity-0 group-hover:opacity-100"
+          onClick={onEdit}
+        >
           <Edit2Icon className="h-3 w-3" />
         </Button>
       )}
-      <Button variant="ghost" size="sm" className="h-5 w-5 p-0 opacity-0 group-hover:opacity-100" onClick={onAdd}>
+      <Button
+        variant="ghost"
+        size="sm"
+        className="h-5 w-5 p-0 opacity-0 group-hover:opacity-100"
+        onClick={onAdd}
+      >
         <PlusIcon className="h-3 w-3" />
       </Button>
       {onDelete && (
-        <Button variant="ghost" size="sm" className="h-5 w-5 p-0 opacity-0 group-hover:opacity-100" onClick={onDelete}>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-5 w-5 p-0 opacity-0 group-hover:opacity-100"
+          onClick={onDelete}
+        >
           <Trash2Icon className="h-3 w-3 text-destructive" />
         </Button>
       )}
@@ -141,7 +163,10 @@ export function CommandTree({ isChatOpen = false }: { isChatOpen?: boolean }) {
       <span className="flex items-center gap-1.5">
         {command.name}
         {paramCount > 0 && (
-          <Badge variant="secondary" className="h-4 min-w-4 px-1 text-[10px] leading-none">
+          <Badge
+            variant="secondary"
+            className="h-4 min-w-4 px-1 text-[10px] leading-none"
+          >
             {paramCount}
           </Badge>
         )}
@@ -174,12 +199,18 @@ export function CommandTree({ isChatOpen = false }: { isChatOpen?: boolean }) {
             value={subcommands}
             getItemValue={(cmd) => cmd.key}
             onValueChange={(newOrder) =>
-              reorderCommands(newOrder.map((c) => c.key), command.key)
+              reorderCommands(
+                newOrder.map((c) => c.key),
+                command.key,
+              )
             }
           >
             <SortableContent withoutSlot>
               {subcommands.map((subcmd) => (
-                <SortableItem key={subcmd.key} value={subcmd.key}>
+                <SortableItem
+                  key={subcmd.key}
+                  value={subcmd.key}
+                >
                   {renderCommand(subcmd)}
                 </SortableItem>
               ))}
@@ -207,7 +238,7 @@ export function CommandTree({ isChatOpen = false }: { isChatOpen?: boolean }) {
           "group w-full px-2 py-1.5",
           isChatOpen && isContextSelected && "ring-1 ring-primary",
         )}
-        fileIcon={<ChevronRightIcon className="size-4 invisible" />}
+        fileIcon={<ChevronRightIcon className="invisible size-4" />}
         actions={actions}
         onClick={(e) => handleCommandClick(command, e)}
       >
@@ -225,12 +256,18 @@ export function CommandTree({ isChatOpen = false }: { isChatOpen?: boolean }) {
     <span className="flex items-center gap-1.5">
       {tool.binaryName}
       {rootParamCount > 0 && (
-        <Badge variant="secondary" className="h-4 min-w-4 px-1 text-[10px] leading-none">
+        <Badge
+          variant="secondary"
+          className="h-4 min-w-4 px-1 text-[10px] leading-none"
+        >
           {rootParamCount}
         </Badge>
       )}
       {globalParamCount > 0 && (
-        <Badge variant="outline" className="h-4 min-w-4 px-1 text-[10px] leading-none">
+        <Badge
+          variant="outline"
+          className="h-4 min-w-4 px-1 text-[10px] leading-none"
+        >
           {globalParamCount}
         </Badge>
       )}
@@ -259,12 +296,18 @@ export function CommandTree({ isChatOpen = false }: { isChatOpen?: boolean }) {
             value={rootCommands}
             getItemValue={(cmd) => cmd.key}
             onValueChange={(newOrder) =>
-              reorderCommands(newOrder.map((c) => c.key), undefined)
+              reorderCommands(
+                newOrder.map((c) => c.key),
+                undefined,
+              )
             }
           >
             <SortableContent withoutSlot>
               {rootCommands.map((command) => (
-                <SortableItem key={command.key} value={command.key}>
+                <SortableItem
+                  key={command.key}
+                  value={command.key}
+                >
                   {renderCommand(command)}
                 </SortableItem>
               ))}

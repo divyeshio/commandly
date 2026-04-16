@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { MultiSelect } from "@/components/ui/multi-select";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { SupportedToolInputType, SupportedToolOutputType } from "@/lib/types";
 import { SettingsIcon } from "lucide-react";
@@ -76,6 +77,14 @@ export function ToolDetailsDialog() {
               value={tool.info?.version}
               onChange={(e) => updateTool({ info: { ...tool.info, version: e.target.value } })}
             />
+          </div>
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="tool-interactive"
+              checked={tool.interactive ?? false}
+              onCheckedChange={(checked) => updateTool({ interactive: checked })}
+            />
+            <Label htmlFor="tool-interactive">Interactive</Label>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-3">

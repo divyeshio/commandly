@@ -16,7 +16,10 @@ describe("applyMergePatch", () => {
 
   it("removes top-level fields set to null in the patch", () => {
     const base = { ...defaultTool("curl"), info: { description: "A transfer tool" } };
-    const result = applyMergePatch(base as unknown as Parameters<typeof applyMergePatch>[0], { info: null } as unknown as Parameters<typeof applyMergePatch>[1]);
+    const result = applyMergePatch(
+      base as unknown as Parameters<typeof applyMergePatch>[0],
+      { info: null } as unknown as Parameters<typeof applyMergePatch>[1],
+    );
     expect((result as unknown as Record<string, unknown>).info).toBeUndefined();
   });
 

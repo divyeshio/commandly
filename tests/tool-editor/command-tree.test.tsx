@@ -770,9 +770,7 @@ describe("CommandTree", () => {
         capturedCtx.reorderCommands(reversedKeys, "my-cli-tool");
       });
 
-      const updated = capturedCtx.tool.commands.filter(
-        (c) => c.parentCommandKey === "my-cli-tool",
-      );
+      const updated = capturedCtx.tool.commands.filter((c) => c.parentCommandKey === "my-cli-tool");
       const first = updated.find((c) => c.sortOrder === 0);
       expect(first?.key).toBe(reversedKeys[0]);
     });

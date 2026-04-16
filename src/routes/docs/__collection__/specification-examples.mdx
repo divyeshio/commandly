@@ -7,7 +7,7 @@ A simple tool with one command, one flag, and one option.
 ```json
 {
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
-  "name": "curl",
+  "binaryName": "curl",
   "displayName": "Curl",
   "info": {
     "description": "curl is a command line tool for transferring data with URLs."
@@ -17,7 +17,6 @@ A simple tool with one command, one flag, and one option.
       "key": "curl",
       "name": "curl",
       "description": "Run curl to download files.",
-      "isDefault": true,
       "sortOrder": 1
     }
   ],
@@ -67,17 +66,17 @@ The same tool expressed using the nested format. Parameters are embedded inside 
 ```json
 {
   "$schema": "https://commandly.divyeshio.in/specification/nested.json",
-  "name": "curl",
+  "binaryName": "curl",
   "displayName": "Curl",
   "info": {
     "description": "curl is a command line tool for transferring data with URLs."
   },
+  "rootParameters": [],
   "globalParameters": [],
   "commands": [
     {
       "name": "curl",
       "description": "Run curl to download files.",
-      "isDefault": true,
       "sortOrder": 1,
       "subcommands": [],
       "parameters": [
@@ -122,13 +121,12 @@ A tool where parameters belong to different commands via `commandKey`, and one c
 ```json
 {
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
-  "name": "mytool",
+  "binaryName": "mytool",
   "displayName": "My Tool",
   "commands": [
     {
       "key": "mytool",
       "name": "mytool",
-      "isDefault": true,
       "sortOrder": 1
     },
     {

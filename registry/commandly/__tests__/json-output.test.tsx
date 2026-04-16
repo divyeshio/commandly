@@ -122,4 +122,15 @@ describe("convertToNestedStructure", () => {
     expect(result.exclusionGroups).toHaveLength(1);
     expect(result.exclusionGroups![0].parameters).toContain("--help");
   });
+
+  it("includes root interactive when enabled", () => {
+    const tool: Tool = {
+      ...defaultTool(),
+      interactive: true,
+    };
+
+    const result = convertToNestedStructure(tool);
+
+    expect(result.interactive).toBe(true);
+  });
 });
