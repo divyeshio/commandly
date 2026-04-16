@@ -1,20 +1,13 @@
 {
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
-  "name": "shuffledns",
+  "binaryName": "shuffledns",
   "displayName": "ShuffleDNS",
   "info": {
     "description": "MassDNS wrapper written in go to enumerate valid subdomains using active bruteforce as well as resolve subdomains with wildcard filtering and easy input-output support.",
     "version": "1.2.1",
     "url": "https://github.com/projectdiscovery/shuffledns"
   },
-  "commands": [
-    {
-      "name": "shuffledns",
-      "description": "shuffleDNS is a wrapper around massdns written in go that allows you to enumerate valid subdomains using active bruteforce as well as resolve subdomains with wildcard handling and easy input-output support.",
-      "sortOrder": 1,
-      "key": "shuffledns"
-    }
-  ],
+  "commands": [],
   "parameters": [
     {
       "name": "Domain",
@@ -25,8 +18,7 @@
       "shortFlag": "-d",
       "longFlag": "-domain",
       "sortOrder": 1,
-      "key": "domain",
-      "commandKey": "shuffledns"
+      "key": "domain"
     },
     {
       "name": "List",
@@ -36,8 +28,7 @@
       "shortFlag": "-l",
       "longFlag": "-list",
       "sortOrder": 2,
-      "key": "list",
-      "commandKey": "shuffledns"
+      "key": "list"
     },
     {
       "name": "Wordlist",
@@ -47,8 +38,7 @@
       "shortFlag": "-w",
       "longFlag": "-wordlist",
       "sortOrder": 3,
-      "key": "wordlist",
-      "commandKey": "shuffledns"
+      "key": "wordlist"
     },
     {
       "name": "Resolver",
@@ -58,8 +48,7 @@
       "shortFlag": "-r",
       "longFlag": "-resolver",
       "sortOrder": 4,
-      "key": "resolver",
-      "commandKey": "shuffledns"
+      "key": "resolver"
     },
     {
       "name": "Trusted Resolver",
@@ -69,8 +58,7 @@
       "shortFlag": "-tr",
       "longFlag": "-trusted-resolver",
       "sortOrder": 5,
-      "key": "trusted-resolver",
-      "commandKey": "shuffledns"
+      "key": "trusted-resolver"
     },
     {
       "name": "Raw Input",
@@ -80,8 +68,7 @@
       "shortFlag": "-ri",
       "longFlag": "-raw-input",
       "sortOrder": 6,
-      "key": "raw-input",
-      "commandKey": "shuffledns"
+      "key": "raw-input"
     },
     {
       "name": "Mode",
@@ -91,7 +78,6 @@
       "longFlag": "-mode",
       "sortOrder": 7,
       "key": "mode",
-      "commandKey": "shuffledns",
       "enum": {
         "values": [
           {
@@ -117,8 +103,7 @@
       "shortFlag": "-t",
       "longFlag": "-t",
       "sortOrder": 8,
-      "key": "t",
-      "commandKey": "shuffledns"
+      "key": "t"
     },
     {
       "name": "Update",
@@ -128,8 +113,7 @@
       "shortFlag": "-up",
       "longFlag": "-update",
       "sortOrder": 9,
-      "key": "update",
-      "commandKey": "shuffledns"
+      "key": "update"
     },
     {
       "name": "Disable Update Check",
@@ -139,8 +123,7 @@
       "shortFlag": "-duc",
       "longFlag": "-disable-update-check",
       "sortOrder": 10,
-      "key": "disable-update-check",
-      "commandKey": "shuffledns"
+      "key": "disable-update-check"
     },
     {
       "name": "Output",
@@ -150,8 +133,7 @@
       "shortFlag": "-o",
       "longFlag": "-output",
       "sortOrder": 11,
-      "key": "output",
-      "commandKey": "shuffledns"
+      "key": "output"
     },
     {
       "name": "JSON Output",
@@ -161,8 +143,7 @@
       "shortFlag": "-j",
       "longFlag": "-json",
       "sortOrder": 12,
-      "key": "json",
-      "commandKey": "shuffledns"
+      "key": "json"
     },
     {
       "name": "Wildcard Output",
@@ -172,8 +153,7 @@
       "shortFlag": "-wo",
       "longFlag": "-wildcard-output",
       "sortOrder": 13,
-      "key": "wildcard-output",
-      "commandKey": "shuffledns"
+      "key": "wildcard-output"
     },
     {
       "name": "Massdns",
@@ -183,8 +163,7 @@
       "shortFlag": "-m",
       "longFlag": "-massdns",
       "sortOrder": 14,
-      "key": "massdns",
-      "commandKey": "shuffledns"
+      "key": "massdns"
     },
     {
       "name": "Massdns Cmd",
@@ -194,8 +173,7 @@
       "shortFlag": "-mcmd",
       "longFlag": "-massdns-cmd",
       "sortOrder": 15,
-      "key": "massdns-cmd",
-      "commandKey": "shuffledns"
+      "key": "massdns-cmd"
     },
     {
       "name": "Directory",
@@ -204,8 +182,7 @@
       "dataType": "String",
       "longFlag": "-directory",
       "sortOrder": 16,
-      "key": "directory",
-      "commandKey": "shuffledns"
+      "key": "directory"
     },
     {
       "name": "Retries",
@@ -214,8 +191,7 @@
       "dataType": "Number",
       "longFlag": "-retries",
       "sortOrder": 17,
-      "key": "retries",
-      "commandKey": "shuffledns"
+      "key": "retries"
     },
     {
       "name": "Strict Wildcard",
@@ -225,8 +201,7 @@
       "shortFlag": "-sw",
       "longFlag": "-strict-wildcard",
       "sortOrder": 18,
-      "key": "strict-wildcard",
-      "commandKey": "shuffledns"
+      "key": "strict-wildcard"
     },
     {
       "name": "Wildcard Threads",
@@ -235,8 +210,7 @@
       "dataType": "Number",
       "longFlag": "-wt",
       "sortOrder": 19,
-      "key": "wt",
-      "commandKey": "shuffledns"
+      "key": "wt"
     },
     {
       "name": "Silent",
@@ -245,8 +219,7 @@
       "dataType": "Boolean",
       "longFlag": "-silent",
       "sortOrder": 20,
-      "key": "silent",
-      "commandKey": "shuffledns"
+      "key": "silent"
     },
     {
       "name": "Version",
@@ -255,8 +228,7 @@
       "dataType": "Boolean",
       "longFlag": "-version",
       "sortOrder": 21,
-      "key": "version",
-      "commandKey": "shuffledns"
+      "key": "version"
     },
     {
       "name": "Verbose",
@@ -265,8 +237,7 @@
       "dataType": "Boolean",
       "longFlag": "-v",
       "sortOrder": 22,
-      "key": "v",
-      "commandKey": "shuffledns"
+      "key": "v"
     },
     {
       "name": "No Color",
@@ -276,8 +247,7 @@
       "shortFlag": "-nc",
       "longFlag": "-no-color",
       "sortOrder": 23,
-      "key": "no-color",
-      "commandKey": "shuffledns"
+      "key": "no-color"
     }
   ]
 }

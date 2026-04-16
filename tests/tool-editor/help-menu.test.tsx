@@ -16,7 +16,7 @@ describe("HelpMenu", () => {
 
   it("does not render undefined when descriptions are missing", () => {
     const tool: Tool = {
-      name: "tool",
+      binaryName: "tool",
       displayName: "Tool",
       commands: [
         {
@@ -37,5 +37,23 @@ describe("HelpMenu", () => {
 
     expect(preview?.textContent).not.toContain("undefined");
     expect(preview?.textContent).toContain("tool");
+  });
+
+  it("does not render COMMANDS section when there are no commands", () => {
+    const tool: Tool = {
+      binaryName: "tool",
+      displayName: "Tool",
+      commands: [],
+      parameters: [],
+    };
+
+    render(
+      <ToolBuilderProvider tool={tool}>
+        <HelpMenu />
+      </ToolBuilderProvider>,
+    );
+
+    const preview = screen.getByText(/USAGE:/).closest("pre");
+    expect(preview?.textContent).not.toContain("COMMANDS:");
   });
 });

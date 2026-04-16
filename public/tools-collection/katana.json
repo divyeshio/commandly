@@ -1,20 +1,13 @@
 {
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
-  "name": "katana",
+  "binaryName": "katana",
   "displayName": "Katana",
   "info": {
     "description": "Katana is a fast crawler focused on execution in automation pipelines offering both headless and non-headless crawling.",
     "version": "1.5.0",
     "url": "https://github.com/projectdiscovery/katana"
   },
-  "commands": [
-    {
-      "name": "katana",
-      "description": "Primary command for katana crawler.",
-      "sortOrder": 0,
-      "key": "katana"
-    }
-  ],
+  "commands": [],
   "parameters": [
     {
       "name": "List",
@@ -24,8 +17,7 @@
       "isRepeatable": true,
       "shortFlag": "-u",
       "longFlag": "-list",
-      "key": "list",
-      "commandKey": "katana"
+      "key": "list"
     },
     {
       "name": "Resume",
@@ -33,8 +25,7 @@
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "-resume",
-      "key": "resume",
-      "commandKey": "katana"
+      "key": "resume"
     },
     {
       "name": "Exclude",
@@ -44,8 +35,7 @@
       "isRepeatable": true,
       "shortFlag": "-e",
       "longFlag": "-exclude",
-      "key": "exclude",
-      "commandKey": "katana"
+      "key": "exclude"
     },
     {
       "name": "Resolvers",
@@ -55,8 +45,7 @@
       "isRepeatable": true,
       "shortFlag": "-r",
       "longFlag": "-resolvers",
-      "key": "resolvers",
-      "commandKey": "katana"
+      "key": "resolvers"
     },
     {
       "name": "Depth",
@@ -65,8 +54,7 @@
       "dataType": "Number",
       "shortFlag": "-d",
       "longFlag": "-depth",
-      "key": "depth",
-      "commandKey": "katana"
+      "key": "depth"
     },
     {
       "name": "JS Crawl",
@@ -75,8 +63,7 @@
       "dataType": "Boolean",
       "shortFlag": "-jc",
       "longFlag": "-js-crawl",
-      "key": "js-crawl",
-      "commandKey": "katana"
+      "key": "js-crawl"
     },
     {
       "name": "JS Luice",
@@ -85,8 +72,7 @@
       "dataType": "Boolean",
       "shortFlag": "-jsl",
       "longFlag": "-jsluice",
-      "key": "jsluice",
-      "commandKey": "katana"
+      "key": "jsluice"
     },
     {
       "name": "Crawl Duration",
@@ -95,8 +81,7 @@
       "dataType": "String",
       "shortFlag": "-ct",
       "longFlag": "-crawl-duration",
-      "key": "crawl-duration",
-      "commandKey": "katana"
+      "key": "crawl-duration"
     },
     {
       "name": "Known Files",
@@ -106,7 +91,6 @@
       "shortFlag": "-kf",
       "longFlag": "-known-files",
       "key": "known-files",
-      "commandKey": "katana",
       "enum": {
         "values": [
           {
@@ -131,8 +115,7 @@
       "dataType": "Number",
       "shortFlag": "-mrs",
       "longFlag": "-max-response-size",
-      "key": "max-response-size",
-      "commandKey": "katana"
+      "key": "max-response-size"
     },
     {
       "name": "Timeout",
@@ -140,8 +123,7 @@
       "parameterType": "Option",
       "dataType": "Number",
       "longFlag": "-timeout",
-      "key": "timeout",
-      "commandKey": "katana"
+      "key": "timeout"
     },
     {
       "name": "Time Stable",
@@ -149,8 +131,7 @@
       "parameterType": "Option",
       "dataType": "Number",
       "longFlag": "-time-stable",
-      "key": "time-stable",
-      "commandKey": "katana"
+      "key": "time-stable"
     },
     {
       "name": "Automatic Form Fill",
@@ -159,8 +140,7 @@
       "dataType": "Boolean",
       "shortFlag": "-aff",
       "longFlag": "-automatic-form-fill",
-      "key": "automatic-form-fill",
-      "commandKey": "katana"
+      "key": "automatic-form-fill"
     },
     {
       "name": "Form Extraction",
@@ -169,8 +149,7 @@
       "dataType": "Boolean",
       "shortFlag": "-fx",
       "longFlag": "-form-extraction",
-      "key": "form-extraction",
-      "commandKey": "katana"
+      "key": "form-extraction"
     },
     {
       "name": "Retry",
@@ -178,8 +157,7 @@
       "parameterType": "Option",
       "dataType": "Number",
       "longFlag": "-retry",
-      "key": "retry",
-      "commandKey": "katana"
+      "key": "retry"
     },
     {
       "name": "Proxy",
@@ -187,8 +165,7 @@
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "-proxy",
-      "key": "proxy",
-      "commandKey": "katana"
+      "key": "proxy"
     },
     {
       "name": "Tech Detect",
@@ -197,8 +174,7 @@
       "dataType": "Boolean",
       "shortFlag": "-td",
       "longFlag": "-tech-detect",
-      "key": "tech-detect",
-      "commandKey": "katana"
+      "key": "tech-detect"
     },
     {
       "name": "Headers",
@@ -208,8 +184,7 @@
       "isRepeatable": true,
       "shortFlag": "-H",
       "longFlag": "-headers",
-      "key": "headers",
-      "commandKey": "katana"
+      "key": "headers"
     },
     {
       "name": "Config",
@@ -217,8 +192,7 @@
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "-config",
-      "key": "config",
-      "commandKey": "katana"
+      "key": "config"
     },
     {
       "name": "Form Config",
@@ -227,8 +201,7 @@
       "dataType": "String",
       "shortFlag": "-fc",
       "longFlag": "-form-config",
-      "key": "form-config",
-      "commandKey": "katana"
+      "key": "form-config"
     },
     {
       "name": "Field Config",
@@ -237,8 +210,7 @@
       "dataType": "String",
       "shortFlag": "-flc",
       "longFlag": "-field-config",
-      "key": "field-config",
-      "commandKey": "katana"
+      "key": "field-config"
     },
     {
       "name": "Strategy",
@@ -248,7 +220,6 @@
       "shortFlag": "-s",
       "longFlag": "-strategy",
       "key": "strategy",
-      "commandKey": "katana",
       "enum": {
         "values": [
           {
@@ -269,8 +240,7 @@
       "dataType": "Boolean",
       "shortFlag": "-iqp",
       "longFlag": "-ignore-query-params",
-      "key": "ignore-query-params",
-      "commandKey": "katana"
+      "key": "ignore-query-params"
     },
     {
       "name": "Filter Similar",
@@ -279,8 +249,7 @@
       "dataType": "Boolean",
       "shortFlag": "-fsu",
       "longFlag": "-filter-similar",
-      "key": "filter-similar",
-      "commandKey": "katana"
+      "key": "filter-similar"
     },
     {
       "name": "Filter Similar Threshold",
@@ -289,8 +258,7 @@
       "dataType": "Number",
       "shortFlag": "-fst",
       "longFlag": "-filter-similar-threshold",
-      "key": "filter-similar-threshold",
-      "commandKey": "katana"
+      "key": "filter-similar-threshold"
     },
     {
       "name": "TLS Impersonate",
@@ -299,8 +267,7 @@
       "dataType": "Boolean",
       "shortFlag": "-tlsi",
       "longFlag": "-tls-impersonate",
-      "key": "tls-impersonate",
-      "commandKey": "katana"
+      "key": "tls-impersonate"
     },
     {
       "name": "Disable Redirects",
@@ -309,8 +276,7 @@
       "dataType": "Boolean",
       "shortFlag": "-dr",
       "longFlag": "-disable-redirects",
-      "key": "disable-redirects",
-      "commandKey": "katana"
+      "key": "disable-redirects"
     },
     {
       "name": "Path Climb",
@@ -319,8 +285,7 @@
       "dataType": "Boolean",
       "shortFlag": "-pc",
       "longFlag": "-path-climb",
-      "key": "path-climb",
-      "commandKey": "katana"
+      "key": "path-climb"
     },
     {
       "name": "Knowledge Base",
@@ -329,8 +294,7 @@
       "dataType": "Boolean",
       "shortFlag": "-kb",
       "longFlag": "-knowledge-base",
-      "key": "knowledge-base",
-      "commandKey": "katana"
+      "key": "knowledge-base"
     },
     {
       "name": "Health Check",
@@ -339,8 +303,7 @@
       "dataType": "Boolean",
       "shortFlag": "-hc",
       "longFlag": "-health-check",
-      "key": "health-check",
-      "commandKey": "katana"
+      "key": "health-check"
     },
     {
       "name": "Error Log",
@@ -349,8 +312,7 @@
       "dataType": "String",
       "shortFlag": "-elog",
       "longFlag": "-error-log",
-      "key": "error-log",
-      "commandKey": "katana"
+      "key": "error-log"
     },
     {
       "name": "Pprof Server",
@@ -358,8 +320,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-pprof-server",
-      "key": "pprof-server",
-      "commandKey": "katana"
+      "key": "pprof-server"
     },
     {
       "name": "Headless",
@@ -368,8 +329,7 @@
       "dataType": "Boolean",
       "shortFlag": "-hl",
       "longFlag": "-headless",
-      "key": "headless",
-      "commandKey": "katana"
+      "key": "headless"
     },
     {
       "name": "Hybrid",
@@ -378,8 +338,7 @@
       "dataType": "Boolean",
       "shortFlag": "-hh",
       "longFlag": "-hybrid",
-      "key": "hybrid",
-      "commandKey": "katana"
+      "key": "hybrid"
     },
     {
       "name": "System Chrome",
@@ -388,8 +347,7 @@
       "dataType": "Boolean",
       "shortFlag": "-sc",
       "longFlag": "-system-chrome",
-      "key": "system-chrome",
-      "commandKey": "katana"
+      "key": "system-chrome"
     },
     {
       "name": "Show Browser",
@@ -398,8 +356,7 @@
       "dataType": "Boolean",
       "shortFlag": "-sb",
       "longFlag": "-show-browser",
-      "key": "show-browser",
-      "commandKey": "katana"
+      "key": "show-browser"
     },
     {
       "name": "Headless Options",
@@ -409,8 +366,7 @@
       "isRepeatable": true,
       "shortFlag": "-ho",
       "longFlag": "-headless-options",
-      "key": "headless-options",
-      "commandKey": "katana"
+      "key": "headless-options"
     },
     {
       "name": "No Sandbox",
@@ -419,8 +375,7 @@
       "dataType": "Boolean",
       "shortFlag": "-nos",
       "longFlag": "-no-sandbox",
-      "key": "no-sandbox",
-      "commandKey": "katana"
+      "key": "no-sandbox"
     },
     {
       "name": "Chrome Data Dir",
@@ -429,8 +384,7 @@
       "dataType": "String",
       "shortFlag": "-cdd",
       "longFlag": "-chrome-data-dir",
-      "key": "chrome-data-dir",
-      "commandKey": "katana"
+      "key": "chrome-data-dir"
     },
     {
       "name": "System Chrome Path",
@@ -439,8 +393,7 @@
       "dataType": "String",
       "shortFlag": "-scp",
       "longFlag": "-system-chrome-path",
-      "key": "system-chrome-path",
-      "commandKey": "katana"
+      "key": "system-chrome-path"
     },
     {
       "name": "No Incognito",
@@ -449,8 +402,7 @@
       "dataType": "Boolean",
       "shortFlag": "-noi",
       "longFlag": "-no-incognito",
-      "key": "no-incognito",
-      "commandKey": "katana"
+      "key": "no-incognito"
     },
     {
       "name": "Chrome WS URL",
@@ -459,8 +411,7 @@
       "dataType": "String",
       "shortFlag": "-cwu",
       "longFlag": "-chrome-ws-url",
-      "key": "chrome-ws-url",
-      "commandKey": "katana"
+      "key": "chrome-ws-url"
     },
     {
       "name": "XHR Extraction",
@@ -469,8 +420,7 @@
       "dataType": "Boolean",
       "shortFlag": "-xhr",
       "longFlag": "-xhr-extraction",
-      "key": "xhr-extraction",
-      "commandKey": "katana"
+      "key": "xhr-extraction"
     },
     {
       "name": "Max Failure Count",
@@ -479,8 +429,7 @@
       "dataType": "Number",
       "shortFlag": "-mfc",
       "longFlag": "-max-failure-count",
-      "key": "max-failure-count",
-      "commandKey": "katana"
+      "key": "max-failure-count"
     },
     {
       "name": "Enable Diagnostics",
@@ -489,8 +438,7 @@
       "dataType": "Boolean",
       "shortFlag": "-ed",
       "longFlag": "-enable-diagnostics",
-      "key": "enable-diagnostics",
-      "commandKey": "katana"
+      "key": "enable-diagnostics"
     },
     {
       "name": "Captcha Solver Provider",
@@ -499,8 +447,7 @@
       "dataType": "String",
       "shortFlag": "-csp",
       "longFlag": "-captcha-solver-provider",
-      "key": "captcha-solver-provider",
-      "commandKey": "katana"
+      "key": "captcha-solver-provider"
     },
     {
       "name": "Captcha Solver Key",
@@ -509,8 +456,7 @@
       "dataType": "String",
       "shortFlag": "-csk",
       "longFlag": "-captcha-solver-key",
-      "key": "captcha-solver-key",
-      "commandKey": "katana"
+      "key": "captcha-solver-key"
     },
     {
       "name": "Crawl Scope",
@@ -520,8 +466,7 @@
       "isRepeatable": true,
       "shortFlag": "-cs",
       "longFlag": "-crawl-scope",
-      "key": "crawl-scope",
-      "commandKey": "katana"
+      "key": "crawl-scope"
     },
     {
       "name": "Crawl Out Scope",
@@ -531,8 +476,7 @@
       "isRepeatable": true,
       "shortFlag": "-cos",
       "longFlag": "-crawl-out-scope",
-      "key": "crawl-out-scope",
-      "commandKey": "katana"
+      "key": "crawl-out-scope"
     },
     {
       "name": "Field Scope",
@@ -541,8 +485,7 @@
       "dataType": "String",
       "shortFlag": "-fs",
       "longFlag": "-field-scope",
-      "key": "field-scope",
-      "commandKey": "katana"
+      "key": "field-scope"
     },
     {
       "name": "No Scope",
@@ -551,8 +494,7 @@
       "dataType": "Boolean",
       "shortFlag": "-ns",
       "longFlag": "-no-scope",
-      "key": "no-scope",
-      "commandKey": "katana"
+      "key": "no-scope"
     },
     {
       "name": "Display Out Scope",
@@ -561,8 +503,7 @@
       "dataType": "Boolean",
       "shortFlag": "-do",
       "longFlag": "-display-out-scope",
-      "key": "display-out-scope",
-      "commandKey": "katana"
+      "key": "display-out-scope"
     },
     {
       "name": "Match Regex",
@@ -572,8 +513,7 @@
       "isRepeatable": true,
       "shortFlag": "-mr",
       "longFlag": "-match-regex",
-      "key": "match-regex",
-      "commandKey": "katana"
+      "key": "match-regex"
     },
     {
       "name": "Filter Regex",
@@ -583,8 +523,7 @@
       "isRepeatable": true,
       "shortFlag": "-fr",
       "longFlag": "-filter-regex",
-      "key": "filter-regex",
-      "commandKey": "katana"
+      "key": "filter-regex"
     },
     {
       "name": "Field",
@@ -594,7 +533,6 @@
       "shortFlag": "-f",
       "longFlag": "-field",
       "key": "field",
-      "commandKey": "katana",
       "enum": {
         "values": [
           {
@@ -664,7 +602,6 @@
       "shortFlag": "-sf",
       "longFlag": "-store-field",
       "key": "store-field",
-      "commandKey": "katana",
       "enum": {
         "values": [
           {
@@ -734,8 +671,7 @@
       "isRepeatable": true,
       "shortFlag": "-em",
       "longFlag": "-extension-match",
-      "key": "extension-match",
-      "commandKey": "katana"
+      "key": "extension-match"
     },
     {
       "name": "Extension Filter",
@@ -745,8 +681,7 @@
       "isRepeatable": true,
       "shortFlag": "-ef",
       "longFlag": "-extension-filter",
-      "key": "extension-filter",
-      "commandKey": "katana"
+      "key": "extension-filter"
     },
     {
       "name": "No Default Ext Filter",
@@ -755,8 +690,7 @@
       "dataType": "Boolean",
       "shortFlag": "-ndef",
       "longFlag": "-no-default-ext-filter",
-      "key": "no-default-ext-filter",
-      "commandKey": "katana"
+      "key": "no-default-ext-filter"
     },
     {
       "name": "Match Condition",
@@ -765,8 +699,7 @@
       "dataType": "String",
       "shortFlag": "-mdc",
       "longFlag": "-match-condition",
-      "key": "match-condition",
-      "commandKey": "katana"
+      "key": "match-condition"
     },
     {
       "name": "Filter Condition",
@@ -775,8 +708,7 @@
       "dataType": "String",
       "shortFlag": "-fdc",
       "longFlag": "-filter-condition",
-      "key": "filter-condition",
-      "commandKey": "katana"
+      "key": "filter-condition"
     },
     {
       "name": "Disable Unique Filter",
@@ -785,8 +717,7 @@
       "dataType": "Boolean",
       "shortFlag": "-duf",
       "longFlag": "-disable-unique-filter",
-      "key": "disable-unique-filter",
-      "commandKey": "katana"
+      "key": "disable-unique-filter"
     },
     {
       "name": "Filter Page Type",
@@ -797,7 +728,6 @@
       "shortFlag": "-fpt",
       "longFlag": "-filter-page-type",
       "key": "filter-page-type",
-      "commandKey": "katana",
       "enum": {
         "allowMultiple": true,
         "values": [
@@ -891,8 +821,7 @@
       "dataType": "Number",
       "shortFlag": "-c",
       "longFlag": "-concurrency",
-      "key": "concurrency",
-      "commandKey": "katana"
+      "key": "concurrency"
     },
     {
       "name": "Parallelism",
@@ -901,8 +830,7 @@
       "dataType": "Number",
       "shortFlag": "-p",
       "longFlag": "-parallelism",
-      "key": "parallelism",
-      "commandKey": "katana"
+      "key": "parallelism"
     },
     {
       "name": "Delay",
@@ -911,8 +839,7 @@
       "dataType": "Number",
       "shortFlag": "-rd",
       "longFlag": "-delay",
-      "key": "delay",
-      "commandKey": "katana"
+      "key": "delay"
     },
     {
       "name": "Rate Limit",
@@ -921,8 +848,7 @@
       "dataType": "Number",
       "shortFlag": "-rl",
       "longFlag": "-rate-limit",
-      "key": "rate-limit",
-      "commandKey": "katana"
+      "key": "rate-limit"
     },
     {
       "name": "Rate Limit Minute",
@@ -931,8 +857,7 @@
       "dataType": "Number",
       "shortFlag": "-rlm",
       "longFlag": "-rate-limit-minute",
-      "key": "rate-limit-minute",
-      "commandKey": "katana"
+      "key": "rate-limit-minute"
     },
     {
       "name": "Update",
@@ -941,8 +866,7 @@
       "dataType": "Boolean",
       "shortFlag": "-up",
       "longFlag": "-update",
-      "key": "update",
-      "commandKey": "katana"
+      "key": "update"
     },
     {
       "name": "Disable Update Check",
@@ -951,8 +875,7 @@
       "dataType": "Boolean",
       "shortFlag": "-duc",
       "longFlag": "-disable-update-check",
-      "key": "disable-update-check",
-      "commandKey": "katana"
+      "key": "disable-update-check"
     },
     {
       "name": "Output",
@@ -961,8 +884,7 @@
       "dataType": "String",
       "shortFlag": "-o",
       "longFlag": "-output",
-      "key": "output",
-      "commandKey": "katana"
+      "key": "output"
     },
     {
       "name": "Output Template",
@@ -971,8 +893,7 @@
       "dataType": "String",
       "shortFlag": "-ot",
       "longFlag": "-output-template",
-      "key": "output-template",
-      "commandKey": "katana"
+      "key": "output-template"
     },
     {
       "name": "Store Response",
@@ -981,8 +902,7 @@
       "dataType": "Boolean",
       "shortFlag": "-sr",
       "longFlag": "-store-response",
-      "key": "store-response",
-      "commandKey": "katana"
+      "key": "store-response"
     },
     {
       "name": "Store Response Dir",
@@ -991,8 +911,7 @@
       "dataType": "String",
       "shortFlag": "-srd",
       "longFlag": "-store-response-dir",
-      "key": "store-response-dir",
-      "commandKey": "katana"
+      "key": "store-response-dir"
     },
     {
       "name": "No Clobber",
@@ -1001,8 +920,7 @@
       "dataType": "Boolean",
       "shortFlag": "-ncb",
       "longFlag": "-no-clobber",
-      "key": "no-clobber",
-      "commandKey": "katana"
+      "key": "no-clobber"
     },
     {
       "name": "Store Field Dir",
@@ -1011,8 +929,7 @@
       "dataType": "String",
       "shortFlag": "-sfd",
       "longFlag": "-store-field-dir",
-      "key": "store-field-dir",
-      "commandKey": "katana"
+      "key": "store-field-dir"
     },
     {
       "name": "Omit Raw",
@@ -1021,8 +938,7 @@
       "dataType": "Boolean",
       "shortFlag": "-or",
       "longFlag": "-omit-raw",
-      "key": "omit-raw",
-      "commandKey": "katana"
+      "key": "omit-raw"
     },
     {
       "name": "Omit Body",
@@ -1031,8 +947,7 @@
       "dataType": "Boolean",
       "shortFlag": "-ob",
       "longFlag": "-omit-body",
-      "key": "omit-body",
-      "commandKey": "katana"
+      "key": "omit-body"
     },
     {
       "name": "List Output Fields",
@@ -1041,8 +956,7 @@
       "dataType": "Boolean",
       "shortFlag": "-lof",
       "longFlag": "-list-output-fields",
-      "key": "list-output-fields",
-      "commandKey": "katana"
+      "key": "list-output-fields"
     },
     {
       "name": "Exclude Output Fields",
@@ -1052,8 +966,7 @@
       "isRepeatable": true,
       "shortFlag": "-eof",
       "longFlag": "-exclude-output-fields",
-      "key": "exclude-output-fields",
-      "commandKey": "katana"
+      "key": "exclude-output-fields"
     },
     {
       "name": "JSONL Output",
@@ -1062,8 +975,7 @@
       "dataType": "Boolean",
       "shortFlag": "-j",
       "longFlag": "-jsonl",
-      "key": "jsonl",
-      "commandKey": "katana"
+      "key": "jsonl"
     },
     {
       "name": "No Color",
@@ -1072,8 +984,7 @@
       "dataType": "Boolean",
       "shortFlag": "-nc",
       "longFlag": "-no-color",
-      "key": "no-color",
-      "commandKey": "katana"
+      "key": "no-color"
     },
     {
       "name": "Silent",
@@ -1081,8 +992,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-silent",
-      "key": "silent",
-      "commandKey": "katana"
+      "key": "silent"
     },
     {
       "name": "Verbose",
@@ -1091,8 +1001,7 @@
       "dataType": "Boolean",
       "shortFlag": "-v",
       "longFlag": "-verbose",
-      "key": "verbose",
-      "commandKey": "katana"
+      "key": "verbose"
     },
     {
       "name": "Debug",
@@ -1100,8 +1009,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-debug",
-      "key": "debug",
-      "commandKey": "katana"
+      "key": "debug"
     },
     {
       "name": "Version",
@@ -1109,8 +1017,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-version",
-      "key": "version",
-      "commandKey": "katana"
+      "key": "version"
     }
   ]
 }

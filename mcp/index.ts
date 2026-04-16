@@ -59,7 +59,7 @@ server.registerTool(
     const tools = loadToolsFromCollection();
 
     const toolsList = tools.map((tool) => ({
-      name: tool.name,
+      binaryName: tool.binaryName,
       displayName: tool.displayName,
       description: tool.info?.description || "",
       metadata: tool.metadata,

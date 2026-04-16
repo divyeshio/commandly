@@ -44,15 +44,15 @@ export function ToolDetailsDialog() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-3">
-              <Label htmlFor="tool-name-full">Tool Name</Label>
+              <Label htmlFor="binary-name-full">Binary Name</Label>
               <Input
-                id="tool-name-full"
-                value={tool.name}
+                id="binary-name-full"
+                value={tool.binaryName}
                 onChange={(e) => {
                   const newName = e.target.value;
-                  const prevName = tool.name;
+                  const prevName = tool.binaryName;
                   updateTool({
-                    name: newName,
+                    binaryName: newName,
                     commands: tool.commands.map((cmd) =>
                       cmd.name === prevName ? { ...cmd, name: newName } : cmd,
                     ),

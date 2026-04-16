@@ -73,13 +73,17 @@ export const convertToNestedStructure = (tool: Tool): NestedTool => {
       }),
     }));
 
+  const rootParameters =
+    tool.commands.length === 0 ? tool.parameters.filter((p) => !p.commandKey && !p.isGlobal) : [];
+
   return {
     $schema: "https://commandly.divyeshio.in/specification/nested.json",
-    name: tool.name,
+    binaryName: tool.binaryName,
     url: tool.info?.url,
     displayName: tool.displayName,
     info: tool.info,
     metadata: tool.metadata,
+    rootParameters: rootParameters.map(convertParameter),
     globalParameters: globalParameters.map(convertParameter),
     commands: buildNestedCommands(tool.commands),
     exclusionGroups: nestedExclusionGroups,

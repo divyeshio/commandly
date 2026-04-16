@@ -13,6 +13,7 @@ export const slugify = (text: string): string => {
 };
 
 export const getCommandPath = (command: Command, tool: Tool): string => {
+  const allCommands = tool.commands;
   const findCommandPath = (
     targetKey: string,
     commands: Command[],
@@ -23,7 +24,7 @@ export const getCommandPath = (command: Command, tool: Tool): string => {
         return [...path, cmd.name];
       }
 
-      const childCommands = commands.filter((c) => c.parentCommandKey === cmd.key);
+      const childCommands = allCommands.filter((c) => c.parentCommandKey === cmd.key);
       if (childCommands.length > 0) {
         const subPath = findCommandPath(targetKey, childCommands, [...path, cmd.name]);
         if (subPath) {
@@ -73,7 +74,7 @@ export const sanitizeToolJSON = (tool: Tool) => {
 export const exportToStructuredJSON = (tool: Tool) => {
   return {
     $schema: SCHEMA_URL,
-    name: tool.name,
+    name: tool.binaryName,
     displayName: tool.displayName,
     info: tool.info,
     commands: tool.commands.map((cmd) => ({ ...cmd })),

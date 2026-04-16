@@ -1,19 +1,13 @@
 {
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
-  "name": "cdncheck",
+  "binaryName": "cdncheck",
   "displayName": "CDNCheck",
   "info": {
     "description": "cdncheck is a tool for identifying the technology associated with dns / ip network addresses.",
     "version": "1.2.27",
     "url": "https://github.com/projectdiscovery/cdncheck"
   },
-  "commands": [
-    {
-      "name": "cdncheck",
-      "sortOrder": 1,
-      "key": "cdncheck"
-    }
-  ],
+  "commands": [],
   "parameters": [
     {
       "name": "Input",
@@ -24,8 +18,7 @@
       "shortFlag": "-i",
       "longFlag": "-input",
       "sortOrder": 1,
-      "key": "input",
-      "commandKey": "cdncheck"
+      "key": "input"
     },
     {
       "name": "CDN",
@@ -34,8 +27,7 @@
       "dataType": "Boolean",
       "longFlag": "-cdn",
       "sortOrder": 2,
-      "key": "cdn",
-      "commandKey": "cdncheck"
+      "key": "cdn"
     },
     {
       "name": "Cloud",
@@ -44,8 +36,7 @@
       "dataType": "Boolean",
       "longFlag": "-cloud",
       "sortOrder": 3,
-      "key": "cloud",
-      "commandKey": "cdncheck"
+      "key": "cloud"
     },
     {
       "name": "WAF",
@@ -54,8 +45,7 @@
       "dataType": "Boolean",
       "longFlag": "-waf",
       "sortOrder": 4,
-      "key": "waf",
-      "commandKey": "cdncheck"
+      "key": "waf"
     },
     {
       "name": "Match CDN",
@@ -67,7 +57,6 @@
       "longFlag": "-match-cdn",
       "sortOrder": 5,
       "key": "match-cdn",
-      "commandKey": "cdncheck",
       "enum": {
         "allowMultiple": true,
         "values": [
@@ -100,7 +89,6 @@
       "longFlag": "-match-cloud",
       "sortOrder": 6,
       "key": "match-cloud",
-      "commandKey": "cdncheck",
       "enum": {
         "values": [
           {
@@ -128,7 +116,6 @@
       "longFlag": "-match-waf",
       "sortOrder": 7,
       "key": "match-waf",
-      "commandKey": "cdncheck",
       "enum": {
         "values": [
           {
@@ -160,7 +147,6 @@
       "longFlag": "-filter-cdn",
       "sortOrder": 8,
       "key": "filter-cdn",
-      "commandKey": "cdncheck",
       "enum": {
         "allowMultiple": true,
         "values": [
@@ -193,7 +179,6 @@
       "longFlag": "-filter-cloud",
       "sortOrder": 9,
       "key": "filter-cloud",
-      "commandKey": "cdncheck",
       "enum": {
         "allowMultiple": true,
         "values": [
@@ -222,7 +207,6 @@
       "longFlag": "-filter-waf",
       "sortOrder": 10,
       "key": "filter-waf",
-      "commandKey": "cdncheck",
       "enum": {
         "values": [
           {
@@ -251,8 +235,7 @@
       "dataType": "Boolean",
       "longFlag": "-resp",
       "sortOrder": 11,
-      "key": "resp",
-      "commandKey": "cdncheck"
+      "key": "resp"
     },
     {
       "name": "Output",
@@ -262,8 +245,7 @@
       "shortFlag": "-o",
       "longFlag": "-output",
       "sortOrder": 12,
-      "key": "output",
-      "commandKey": "cdncheck"
+      "key": "output"
     },
     {
       "name": "Verbose",
@@ -273,8 +255,7 @@
       "shortFlag": "-v",
       "longFlag": "-verbose",
       "sortOrder": 13,
-      "key": "verbose",
-      "commandKey": "cdncheck"
+      "key": "verbose"
     },
     {
       "name": "JSONL Output",
@@ -283,8 +264,7 @@
       "dataType": "Boolean",
       "longFlag": "-jsonl",
       "sortOrder": 14,
-      "key": "jsonl",
-      "commandKey": "cdncheck"
+      "key": "jsonl"
     },
     {
       "name": "No Color",
@@ -294,8 +274,7 @@
       "shortFlag": "-nc",
       "longFlag": "-no-color",
       "sortOrder": 15,
-      "key": "no-color",
-      "commandKey": "cdncheck"
+      "key": "no-color"
     },
     {
       "name": "Version",
@@ -304,8 +283,7 @@
       "dataType": "Boolean",
       "longFlag": "-version",
       "sortOrder": 16,
-      "key": "version",
-      "commandKey": "cdncheck"
+      "key": "version"
     },
     {
       "name": "Silent",
@@ -314,8 +292,7 @@
       "dataType": "Boolean",
       "longFlag": "-silent",
       "sortOrder": 17,
-      "key": "silent",
-      "commandKey": "cdncheck"
+      "key": "silent"
     },
     {
       "name": "Resolver",
@@ -326,8 +303,7 @@
       "shortFlag": "-r",
       "longFlag": "-resolver",
       "sortOrder": 18,
-      "key": "resolver",
-      "commandKey": "cdncheck"
+      "key": "resolver"
     },
     {
       "name": "Exclude",
@@ -337,8 +313,7 @@
       "shortFlag": "-e",
       "longFlag": "-exclude",
       "sortOrder": 19,
-      "key": "exclude",
-      "commandKey": "cdncheck"
+      "key": "exclude"
     },
     {
       "name": "Retry",
@@ -347,8 +322,7 @@
       "dataType": "Number",
       "longFlag": "-retry",
       "sortOrder": 20,
-      "key": "retry",
-      "commandKey": "cdncheck"
+      "key": "retry"
     },
     {
       "name": "Update",
@@ -358,8 +332,7 @@
       "shortFlag": "-up",
       "longFlag": "-update",
       "sortOrder": 21,
-      "key": "update",
-      "commandKey": "cdncheck"
+      "key": "update"
     },
     {
       "name": "Disable Update Check",
@@ -369,8 +342,7 @@
       "shortFlag": "-duc",
       "longFlag": "-disable-update-check",
       "sortOrder": 22,
-      "key": "disable-update-check",
-      "commandKey": "cdncheck"
+      "key": "disable-update-check"
     }
   ],
   "exclusionGroups": [

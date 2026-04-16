@@ -29,7 +29,7 @@ function makeTextMessage(role: "user" | "assistant", text: string, id?: string):
 function makeTool(name: string): Tool {
   return {
     key: crypto.randomUUID(),
-    name,
+    binaryName: name,
     displayName: name,
     description: "",
     version: "1.0.0",
@@ -225,7 +225,7 @@ describe("toChatMessage", () => {
     expect(result.toolCalls![0].toolName).toBe("tavilyExtract");
     expect(result.toolCalls![1].toolName).toBe("editTool");
     expect(result.toolCalls![2].toolName).toBe("applyToolDefinition");
-    expect(result.toolCalls![2].previewTool!.name).toBe("preview");
+    expect(result.toolCalls![2].previewTool!.binaryName).toBe("preview");
     expect(result.content).toBe("I've updated the tool based on the docs.");
   });
 });

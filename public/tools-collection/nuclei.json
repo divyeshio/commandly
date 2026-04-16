@@ -1,20 +1,13 @@
 {
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
-  "name": "nuclei",
+  "binaryName": "nuclei",
   "displayName": "Nuclei",
   "info": {
     "description": "Nuclei is a fast, template based vulnerability scanner focusing on extensive configurability, massive extensibility and ease of use.",
     "version": "3.7.1",
     "url": "https://github.com/projectdiscovery/nuclei"
   },
-  "commands": [
-    {
-      "name": "nuclei",
-      "description": "Run nuclei vulnerability scanner.",
-      "sortOrder": 1,
-      "key": "nuclei"
-    }
-  ],
+  "commands": [],
   "parameters": [
     {
       "name": "Target",
@@ -24,8 +17,7 @@
       "isRepeatable": true,
       "shortFlag": "-u",
       "longFlag": "-target",
-      "key": "target",
-      "commandKey": "nuclei"
+      "key": "target"
     },
     {
       "name": "List",
@@ -34,8 +26,7 @@
       "dataType": "String",
       "shortFlag": "-l",
       "longFlag": "-list",
-      "key": "list",
-      "commandKey": "nuclei"
+      "key": "list"
     },
     {
       "name": "Exclude Hosts",
@@ -45,8 +36,7 @@
       "isRepeatable": true,
       "shortFlag": "-eh",
       "longFlag": "-exclude-hosts",
-      "key": "exclude-hosts",
-      "commandKey": "nuclei"
+      "key": "exclude-hosts"
     },
     {
       "name": "Resume",
@@ -54,8 +44,7 @@
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "-resume",
-      "key": "resume",
-      "commandKey": "nuclei"
+      "key": "resume"
     },
     {
       "name": "Scan All IPs",
@@ -64,8 +53,7 @@
       "dataType": "Boolean",
       "shortFlag": "-sa",
       "longFlag": "-scan-all-ips",
-      "key": "scan-all-ips",
-      "commandKey": "nuclei"
+      "key": "scan-all-ips"
     },
     {
       "name": "IP Version",
@@ -93,8 +81,7 @@
           }
         ]
       },
-      "key": "ip-version",
-      "commandKey": "nuclei"
+      "key": "ip-version"
     },
     {
       "name": "Input Mode",
@@ -149,8 +136,7 @@
           }
         ]
       },
-      "key": "input-mode",
-      "commandKey": "nuclei"
+      "key": "input-mode"
     },
     {
       "name": "Required Only",
@@ -159,8 +145,7 @@
       "dataType": "Boolean",
       "shortFlag": "-ro",
       "longFlag": "-required-only",
-      "key": "required-only",
-      "commandKey": "nuclei"
+      "key": "required-only"
     },
     {
       "name": "Skip Format Validation",
@@ -169,8 +154,7 @@
       "dataType": "Boolean",
       "shortFlag": "-sfv",
       "longFlag": "-skip-format-validation",
-      "key": "skip-format-validation",
-      "commandKey": "nuclei"
+      "key": "skip-format-validation"
     },
     {
       "name": "New Templates",
@@ -179,8 +163,7 @@
       "dataType": "Boolean",
       "shortFlag": "-nt",
       "longFlag": "-new-templates",
-      "key": "new-templates",
-      "commandKey": "nuclei"
+      "key": "new-templates"
     },
     {
       "name": "New Templates Version",
@@ -190,8 +173,7 @@
       "isRepeatable": true,
       "shortFlag": "-ntv",
       "longFlag": "-new-templates-version",
-      "key": "new-templates-version",
-      "commandKey": "nuclei"
+      "key": "new-templates-version"
     },
     {
       "name": "Automatic Scan",
@@ -200,8 +182,7 @@
       "dataType": "Boolean",
       "shortFlag": "-as",
       "longFlag": "-automatic-scan",
-      "key": "automatic-scan",
-      "commandKey": "nuclei"
+      "key": "automatic-scan"
     },
     {
       "name": "Templates",
@@ -211,8 +192,7 @@
       "isRepeatable": true,
       "shortFlag": "-t",
       "longFlag": "-templates",
-      "key": "templates",
-      "commandKey": "nuclei"
+      "key": "templates"
     },
     {
       "name": "Template URL",
@@ -222,8 +202,7 @@
       "isRepeatable": true,
       "shortFlag": "-turl",
       "longFlag": "-template-url",
-      "key": "template-url",
-      "commandKey": "nuclei"
+      "key": "template-url"
     },
     {
       "name": "Prompt",
@@ -232,8 +211,7 @@
       "dataType": "String",
       "shortFlag": "-ai",
       "longFlag": "-prompt",
-      "key": "prompt",
-      "commandKey": "nuclei"
+      "key": "prompt"
     },
     {
       "name": "Workflows",
@@ -243,8 +221,7 @@
       "isRepeatable": true,
       "shortFlag": "-w",
       "longFlag": "-workflows",
-      "key": "workflows",
-      "commandKey": "nuclei"
+      "key": "workflows"
     },
     {
       "name": "Workflow URL",
@@ -254,8 +231,7 @@
       "isRepeatable": true,
       "shortFlag": "-wurl",
       "longFlag": "-workflow-url",
-      "key": "workflow-url",
-      "commandKey": "nuclei"
+      "key": "workflow-url"
     },
     {
       "name": "Validate",
@@ -263,8 +239,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-validate",
-      "key": "validate",
-      "commandKey": "nuclei"
+      "key": "validate"
     },
     {
       "name": "No Strict Syntax",
@@ -273,8 +248,7 @@
       "dataType": "Boolean",
       "shortFlag": "-nss",
       "longFlag": "-no-strict-syntax",
-      "key": "no-strict-syntax",
-      "commandKey": "nuclei"
+      "key": "no-strict-syntax"
     },
     {
       "name": "Template Display",
@@ -283,8 +257,7 @@
       "dataType": "Boolean",
       "shortFlag": "-td",
       "longFlag": "-template-display",
-      "key": "template-display",
-      "commandKey": "nuclei"
+      "key": "template-display"
     },
     {
       "name": "List Templates",
@@ -292,8 +265,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-tl",
-      "key": "list-templates",
-      "commandKey": "nuclei"
+      "key": "list-templates"
     },
     {
       "name": "List Tags",
@@ -301,8 +273,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-tgl",
-      "key": "list-tags",
-      "commandKey": "nuclei"
+      "key": "list-tags"
     },
     {
       "name": "Sign",
@@ -310,8 +281,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-sign",
-      "key": "sign",
-      "commandKey": "nuclei"
+      "key": "sign"
     },
     {
       "name": "Code",
@@ -319,8 +289,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-code",
-      "key": "code",
-      "commandKey": "nuclei"
+      "key": "code"
     },
     {
       "name": "Disable Unsigned Templates",
@@ -329,8 +298,7 @@
       "dataType": "Boolean",
       "shortFlag": "-dut",
       "longFlag": "-disable-unsigned-templates",
-      "key": "disable-unsigned-templates",
-      "commandKey": "nuclei"
+      "key": "disable-unsigned-templates"
     },
     {
       "name": "Enable Self Contained",
@@ -339,8 +307,7 @@
       "dataType": "Boolean",
       "shortFlag": "-esc",
       "longFlag": "-enable-self-contained",
-      "key": "enable-self-contained",
-      "commandKey": "nuclei"
+      "key": "enable-self-contained"
     },
     {
       "name": "Enable Global Matchers",
@@ -349,8 +316,7 @@
       "dataType": "Boolean",
       "shortFlag": "-egm",
       "longFlag": "-enable-global-matchers",
-      "key": "enable-global-matchers",
-      "commandKey": "nuclei"
+      "key": "enable-global-matchers"
     },
     {
       "name": "File",
@@ -358,8 +324,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-file",
-      "key": "file",
-      "commandKey": "nuclei"
+      "key": "file"
     },
     {
       "name": "Author",
@@ -369,8 +334,7 @@
       "isRepeatable": true,
       "shortFlag": "-a",
       "longFlag": "-author",
-      "key": "author",
-      "commandKey": "nuclei"
+      "key": "author"
     },
     {
       "name": "Tags",
@@ -379,8 +343,7 @@
       "dataType": "String",
       "isRepeatable": true,
       "longFlag": "-tags",
-      "key": "tags",
-      "commandKey": "nuclei"
+      "key": "tags"
     },
     {
       "name": "Exclude Tags",
@@ -390,8 +353,7 @@
       "isRepeatable": true,
       "shortFlag": "-etags",
       "longFlag": "-exclude-tags",
-      "key": "exclude-tags",
-      "commandKey": "nuclei"
+      "key": "exclude-tags"
     },
     {
       "name": "Include Tags",
@@ -401,8 +363,7 @@
       "isRepeatable": true,
       "shortFlag": "-itags",
       "longFlag": "-include-tags",
-      "key": "include-tags",
-      "commandKey": "nuclei"
+      "key": "include-tags"
     },
     {
       "name": "Template ID",
@@ -412,8 +373,7 @@
       "isRepeatable": true,
       "shortFlag": "-id",
       "longFlag": "-template-id",
-      "key": "template-id",
-      "commandKey": "nuclei"
+      "key": "template-id"
     },
     {
       "name": "Exclude Id",
@@ -423,8 +383,7 @@
       "isRepeatable": true,
       "shortFlag": "-eid",
       "longFlag": "-exclude-id",
-      "key": "exclude-id",
-      "commandKey": "nuclei"
+      "key": "exclude-id"
     },
     {
       "name": "Include Templates",
@@ -434,8 +393,7 @@
       "isRepeatable": true,
       "shortFlag": "-it",
       "longFlag": "-include-templates",
-      "key": "include-templates",
-      "commandKey": "nuclei"
+      "key": "include-templates"
     },
     {
       "name": "Exclude Templates",
@@ -445,8 +403,7 @@
       "isRepeatable": true,
       "shortFlag": "-et",
       "longFlag": "-exclude-templates",
-      "key": "exclude-templates",
-      "commandKey": "nuclei"
+      "key": "exclude-templates"
     },
     {
       "name": "Exclude Matchers",
@@ -456,8 +413,7 @@
       "isRepeatable": true,
       "shortFlag": "-em",
       "longFlag": "-exclude-matchers",
-      "key": "exclude-matchers",
-      "commandKey": "nuclei"
+      "key": "exclude-matchers"
     },
     {
       "name": "Severity",
@@ -513,8 +469,7 @@
           }
         ]
       },
-      "key": "severity",
-      "commandKey": "nuclei"
+      "key": "severity"
     },
     {
       "name": "Exclude Severity",
@@ -570,8 +525,7 @@
           }
         ]
       },
-      "key": "exclude-severity",
-      "commandKey": "nuclei"
+      "key": "exclude-severity"
     },
     {
       "name": "Type",
@@ -662,8 +616,7 @@
           }
         ]
       },
-      "key": "type",
-      "commandKey": "nuclei"
+      "key": "type"
     },
     {
       "name": "Exclude Type",
@@ -754,8 +707,7 @@
           }
         ]
       },
-      "key": "exclude-type",
-      "commandKey": "nuclei"
+      "key": "exclude-type"
     },
     {
       "name": "Template Condition",
@@ -765,8 +717,7 @@
       "isRepeatable": true,
       "shortFlag": "-tc",
       "longFlag": "-template-condition",
-      "key": "template-condition",
-      "commandKey": "nuclei"
+      "key": "template-condition"
     },
     {
       "name": "Output",
@@ -775,8 +726,7 @@
       "dataType": "String",
       "shortFlag": "-o",
       "longFlag": "-output",
-      "key": "output",
-      "commandKey": "nuclei"
+      "key": "output"
     },
     {
       "name": "Store Response",
@@ -785,8 +735,7 @@
       "dataType": "Boolean",
       "shortFlag": "-sresp",
       "longFlag": "-store-resp",
-      "key": "store-resp",
-      "commandKey": "nuclei"
+      "key": "store-resp"
     },
     {
       "name": "Store Response Dir",
@@ -795,8 +744,7 @@
       "dataType": "String",
       "shortFlag": "-srd",
       "longFlag": "-store-resp-dir",
-      "key": "store-resp-dir",
-      "commandKey": "nuclei"
+      "key": "store-resp-dir"
     },
     {
       "name": "Silent",
@@ -804,8 +752,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-silent",
-      "key": "silent",
-      "commandKey": "nuclei"
+      "key": "silent"
     },
     {
       "name": "No Color",
@@ -814,8 +761,7 @@
       "dataType": "Boolean",
       "shortFlag": "-nc",
       "longFlag": "-no-color",
-      "key": "no-color",
-      "commandKey": "nuclei"
+      "key": "no-color"
     },
     {
       "name": "JSONL",
@@ -824,8 +770,7 @@
       "dataType": "Boolean",
       "shortFlag": "-j",
       "longFlag": "-jsonl",
-      "key": "jsonl",
-      "commandKey": "nuclei"
+      "key": "jsonl"
     },
     {
       "name": "Include RR",
@@ -834,8 +779,7 @@
       "dataType": "Boolean",
       "shortFlag": "-irr",
       "longFlag": "-include-rr",
-      "key": "include-rr",
-      "commandKey": "nuclei"
+      "key": "include-rr"
     },
     {
       "name": "Omit Raw",
@@ -844,8 +788,7 @@
       "dataType": "Boolean",
       "shortFlag": "-or",
       "longFlag": "-omit-raw",
-      "key": "omit-raw",
-      "commandKey": "nuclei"
+      "key": "omit-raw"
     },
     {
       "name": "Omit Template",
@@ -854,8 +797,7 @@
       "dataType": "Boolean",
       "shortFlag": "-ot",
       "longFlag": "-omit-template",
-      "key": "omit-template",
-      "commandKey": "nuclei"
+      "key": "omit-template"
     },
     {
       "name": "No Meta",
@@ -864,8 +806,7 @@
       "dataType": "Boolean",
       "shortFlag": "-nm",
       "longFlag": "-no-meta",
-      "key": "no-meta",
-      "commandKey": "nuclei"
+      "key": "no-meta"
     },
     {
       "name": "Timestamp",
@@ -874,8 +815,7 @@
       "dataType": "Boolean",
       "shortFlag": "-ts",
       "longFlag": "-timestamp",
-      "key": "timestamp",
-      "commandKey": "nuclei"
+      "key": "timestamp"
     },
     {
       "name": "Report DB",
@@ -884,8 +824,7 @@
       "dataType": "String",
       "shortFlag": "-rdb",
       "longFlag": "-report-db",
-      "key": "report-db",
-      "commandKey": "nuclei"
+      "key": "report-db"
     },
     {
       "name": "Matcher Status",
@@ -894,8 +833,7 @@
       "dataType": "Boolean",
       "shortFlag": "-ms",
       "longFlag": "-matcher-status",
-      "key": "matcher-status",
-      "commandKey": "nuclei"
+      "key": "matcher-status"
     },
     {
       "name": "Markdown Export",
@@ -904,8 +842,7 @@
       "dataType": "String",
       "shortFlag": "-me",
       "longFlag": "-markdown-export",
-      "key": "markdown-export",
-      "commandKey": "nuclei"
+      "key": "markdown-export"
     },
     {
       "name": "Sarif Export",
@@ -914,8 +851,7 @@
       "dataType": "String",
       "shortFlag": "-se",
       "longFlag": "-sarif-export",
-      "key": "sarif-export",
-      "commandKey": "nuclei"
+      "key": "sarif-export"
     },
     {
       "name": "JSON Export",
@@ -924,8 +860,7 @@
       "dataType": "String",
       "shortFlag": "-je",
       "longFlag": "-json-export",
-      "key": "json-export",
-      "commandKey": "nuclei"
+      "key": "json-export"
     },
     {
       "name": "JSONL Export",
@@ -934,8 +869,7 @@
       "dataType": "String",
       "shortFlag": "-jle",
       "longFlag": "-jsonl-export",
-      "key": "jsonl-export",
-      "commandKey": "nuclei"
+      "key": "jsonl-export"
     },
     {
       "name": "Redact",
@@ -945,8 +879,7 @@
       "isRepeatable": true,
       "shortFlag": "-rd",
       "longFlag": "-redact",
-      "key": "redact",
-      "commandKey": "nuclei"
+      "key": "redact"
     },
     {
       "name": "Config",
@@ -954,8 +887,7 @@
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "-config",
-      "key": "config",
-      "commandKey": "nuclei"
+      "key": "config"
     },
     {
       "name": "Profile",
@@ -964,8 +896,7 @@
       "dataType": "String",
       "shortFlag": "-tp",
       "longFlag": "-profile",
-      "key": "profile",
-      "commandKey": "nuclei"
+      "key": "profile"
     },
     {
       "name": "Profile List",
@@ -974,8 +905,7 @@
       "dataType": "Boolean",
       "shortFlag": "-tpl",
       "longFlag": "-profile-list",
-      "key": "profile-list",
-      "commandKey": "nuclei"
+      "key": "profile-list"
     },
     {
       "name": "Follow Redirects",
@@ -984,8 +914,7 @@
       "dataType": "Boolean",
       "shortFlag": "-fr",
       "longFlag": "-follow-redirects",
-      "key": "follow-redirects",
-      "commandKey": "nuclei"
+      "key": "follow-redirects"
     },
     {
       "name": "Follow Host Redirects",
@@ -994,8 +923,7 @@
       "dataType": "Boolean",
       "shortFlag": "-fhr",
       "longFlag": "-follow-host-redirects",
-      "key": "follow-host-redirects",
-      "commandKey": "nuclei"
+      "key": "follow-host-redirects"
     },
     {
       "name": "Max Redirects",
@@ -1004,8 +932,7 @@
       "dataType": "Number",
       "shortFlag": "-mr",
       "longFlag": "-max-redirects",
-      "key": "max-redirects",
-      "commandKey": "nuclei"
+      "key": "max-redirects"
     },
     {
       "name": "Disable Redirects",
@@ -1014,8 +941,7 @@
       "dataType": "Boolean",
       "shortFlag": "-dr",
       "longFlag": "-disable-redirects",
-      "key": "disable-redirects",
-      "commandKey": "nuclei"
+      "key": "disable-redirects"
     },
     {
       "name": "Report Config",
@@ -1024,8 +950,7 @@
       "dataType": "String",
       "shortFlag": "-rc",
       "longFlag": "-report-config",
-      "key": "report-config",
-      "commandKey": "nuclei"
+      "key": "report-config"
     },
     {
       "name": "Header",
@@ -1035,8 +960,7 @@
       "isRepeatable": true,
       "shortFlag": "-H",
       "longFlag": "-header",
-      "key": "header",
-      "commandKey": "nuclei"
+      "key": "header"
     },
     {
       "name": "Var",
@@ -1045,8 +969,7 @@
       "dataType": "String",
       "shortFlag": "-V",
       "longFlag": "-var",
-      "key": "var",
-      "commandKey": "nuclei"
+      "key": "var"
     },
     {
       "name": "Resolvers",
@@ -1055,8 +978,7 @@
       "dataType": "String",
       "shortFlag": "-r",
       "longFlag": "-resolvers",
-      "key": "resolvers",
-      "commandKey": "nuclei"
+      "key": "resolvers"
     },
     {
       "name": "System Resolvers",
@@ -1065,8 +987,7 @@
       "dataType": "Boolean",
       "shortFlag": "-sr",
       "longFlag": "-system-resolvers",
-      "key": "system-resolvers",
-      "commandKey": "nuclei"
+      "key": "system-resolvers"
     },
     {
       "name": "Disable Clustering",
@@ -1075,8 +996,7 @@
       "dataType": "Boolean",
       "shortFlag": "-dc",
       "longFlag": "-disable-clustering",
-      "key": "disable-clustering",
-      "commandKey": "nuclei"
+      "key": "disable-clustering"
     },
     {
       "name": "Passive",
@@ -1084,8 +1004,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-passive",
-      "key": "passive",
-      "commandKey": "nuclei"
+      "key": "passive"
     },
     {
       "name": "Force HTTP/2",
@@ -1094,8 +1013,7 @@
       "dataType": "Boolean",
       "shortFlag": "-fh2",
       "longFlag": "-force-http2",
-      "key": "force-http2",
-      "commandKey": "nuclei"
+      "key": "force-http2"
     },
     {
       "name": "Env Vars",
@@ -1104,8 +1022,7 @@
       "dataType": "Boolean",
       "shortFlag": "-ev",
       "longFlag": "-env-vars",
-      "key": "env-vars",
-      "commandKey": "nuclei"
+      "key": "env-vars"
     },
     {
       "name": "Client Cert",
@@ -1114,8 +1031,7 @@
       "dataType": "String",
       "shortFlag": "-cc",
       "longFlag": "-client-cert",
-      "key": "client-cert",
-      "commandKey": "nuclei"
+      "key": "client-cert"
     },
     {
       "name": "Client Key",
@@ -1124,8 +1040,7 @@
       "dataType": "String",
       "shortFlag": "-ck",
       "longFlag": "-client-key",
-      "key": "client-key",
-      "commandKey": "nuclei"
+      "key": "client-key"
     },
     {
       "name": "Client CA",
@@ -1134,8 +1049,7 @@
       "dataType": "String",
       "shortFlag": "-ca",
       "longFlag": "-client-ca",
-      "key": "client-ca",
-      "commandKey": "nuclei"
+      "key": "client-ca"
     },
     {
       "name": "Show Match Line",
@@ -1144,8 +1058,7 @@
       "dataType": "Boolean",
       "shortFlag": "-sml",
       "longFlag": "-show-match-line",
-      "key": "show-match-line",
-      "commandKey": "nuclei"
+      "key": "show-match-line"
     },
     {
       "name": "Ztls",
@@ -1153,8 +1066,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-ztls",
-      "key": "ztls",
-      "commandKey": "nuclei"
+      "key": "ztls"
     },
     {
       "name": "Sni",
@@ -1162,8 +1074,7 @@
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "-sni",
-      "key": "sni",
-      "commandKey": "nuclei"
+      "key": "sni"
     },
     {
       "name": "Dialer Keep Alive",
@@ -1172,8 +1083,7 @@
       "dataType": "String",
       "shortFlag": "-dka",
       "longFlag": "-dialer-keep-alive",
-      "key": "dialer-keep-alive",
-      "commandKey": "nuclei"
+      "key": "dialer-keep-alive"
     },
     {
       "name": "Allow Local File Access",
@@ -1182,8 +1092,7 @@
       "dataType": "Boolean",
       "shortFlag": "-lfa",
       "longFlag": "-allow-local-file-access",
-      "key": "allow-local-file-access",
-      "commandKey": "nuclei"
+      "key": "allow-local-file-access"
     },
     {
       "name": "Restrict Local Network Access",
@@ -1192,8 +1101,7 @@
       "dataType": "Boolean",
       "shortFlag": "-lna",
       "longFlag": "-restrict-local-network-access",
-      "key": "restrict-local-network-access",
-      "commandKey": "nuclei"
+      "key": "restrict-local-network-access"
     },
     {
       "name": "Interface",
@@ -1202,8 +1110,7 @@
       "dataType": "String",
       "shortFlag": "-i",
       "longFlag": "-interface",
-      "key": "interface",
-      "commandKey": "nuclei"
+      "key": "interface"
     },
     {
       "name": "Attack Type",
@@ -1237,8 +1144,7 @@
           }
         ]
       },
-      "key": "attack-type",
-      "commandKey": "nuclei"
+      "key": "attack-type"
     },
     {
       "name": "Source IP",
@@ -1247,8 +1153,7 @@
       "dataType": "String",
       "shortFlag": "-sip",
       "longFlag": "-source-ip",
-      "key": "source-ip",
-      "commandKey": "nuclei"
+      "key": "source-ip"
     },
     {
       "name": "Response Size Read",
@@ -1257,8 +1162,7 @@
       "dataType": "Number",
       "shortFlag": "-rsr",
       "longFlag": "-response-size-read",
-      "key": "response-size-read",
-      "commandKey": "nuclei"
+      "key": "response-size-read"
     },
     {
       "name": "Response Size Save",
@@ -1267,8 +1171,7 @@
       "dataType": "Number",
       "shortFlag": "-rss",
       "longFlag": "-response-size-save",
-      "key": "response-size-save",
-      "commandKey": "nuclei"
+      "key": "response-size-save"
     },
     {
       "name": "Reset",
@@ -1276,8 +1179,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-reset",
-      "key": "reset",
-      "commandKey": "nuclei"
+      "key": "reset"
     },
     {
       "name": "TLS Impersonate",
@@ -1286,8 +1188,7 @@
       "dataType": "Boolean",
       "shortFlag": "-tlsi",
       "longFlag": "-tls-impersonate",
-      "key": "tls-impersonate",
-      "commandKey": "nuclei"
+      "key": "tls-impersonate"
     },
     {
       "name": "HTTP API Endpoint",
@@ -1296,8 +1197,7 @@
       "dataType": "String",
       "shortFlag": "-hae",
       "longFlag": "-http-api-endpoint",
-      "key": "http-api-endpoint",
-      "commandKey": "nuclei"
+      "key": "http-api-endpoint"
     },
     {
       "name": "Interactsh Server",
@@ -1306,8 +1206,7 @@
       "dataType": "String",
       "shortFlag": "-iserver",
       "longFlag": "-interactsh-server",
-      "key": "interactsh-server",
-      "commandKey": "nuclei"
+      "key": "interactsh-server"
     },
     {
       "name": "Interactsh Token",
@@ -1316,8 +1215,7 @@
       "dataType": "String",
       "shortFlag": "-itoken",
       "longFlag": "-interactsh-token",
-      "key": "interactsh-token",
-      "commandKey": "nuclei"
+      "key": "interactsh-token"
     },
     {
       "name": "Interactions Cache Size",
@@ -1325,8 +1223,7 @@
       "parameterType": "Option",
       "dataType": "Number",
       "longFlag": "-interactions-cache-size",
-      "key": "interactions-cache-size",
-      "commandKey": "nuclei"
+      "key": "interactions-cache-size"
     },
     {
       "name": "Interactions Eviction",
@@ -1334,8 +1231,7 @@
       "parameterType": "Option",
       "dataType": "Number",
       "longFlag": "-interactions-eviction",
-      "key": "interactions-eviction",
-      "commandKey": "nuclei"
+      "key": "interactions-eviction"
     },
     {
       "name": "Interactions Poll Duration",
@@ -1343,8 +1239,7 @@
       "parameterType": "Option",
       "dataType": "Number",
       "longFlag": "-interactions-poll-duration",
-      "key": "interactions-poll-duration",
-      "commandKey": "nuclei"
+      "key": "interactions-poll-duration"
     },
     {
       "name": "Interactions Cooldown Period",
@@ -1352,8 +1247,7 @@
       "parameterType": "Option",
       "dataType": "Number",
       "longFlag": "-interactions-cooldown-period",
-      "key": "interactions-cooldown-period",
-      "commandKey": "nuclei"
+      "key": "interactions-cooldown-period"
     },
     {
       "name": "No Interactsh",
@@ -1362,8 +1256,7 @@
       "dataType": "Boolean",
       "shortFlag": "-ni",
       "longFlag": "-no-interactsh",
-      "key": "no-interactsh",
-      "commandKey": "nuclei"
+      "key": "no-interactsh"
     },
     {
       "name": "Fuzzing Type",
@@ -1404,8 +1297,7 @@
           }
         ]
       },
-      "key": "fuzzing-type",
-      "commandKey": "nuclei"
+      "key": "fuzzing-type"
     },
     {
       "name": "Fuzzing Mode",
@@ -1432,8 +1324,7 @@
           }
         ]
       },
-      "key": "fuzzing-mode",
-      "commandKey": "nuclei"
+      "key": "fuzzing-mode"
     },
     {
       "name": "Fuzz",
@@ -1441,8 +1332,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-fuzz",
-      "key": "fuzz",
-      "commandKey": "nuclei"
+      "key": "fuzz"
     },
     {
       "name": "DAST",
@@ -1450,8 +1340,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-dast",
-      "key": "dast",
-      "commandKey": "nuclei"
+      "key": "dast"
     },
     {
       "name": "DAST Server",
@@ -1460,8 +1349,7 @@
       "dataType": "Boolean",
       "shortFlag": "-dts",
       "longFlag": "-dast-server",
-      "key": "dast-server",
-      "commandKey": "nuclei"
+      "key": "dast-server"
     },
     {
       "name": "DAST Report",
@@ -1470,8 +1358,7 @@
       "dataType": "Boolean",
       "shortFlag": "-dtr",
       "longFlag": "-dast-report",
-      "key": "dast-report",
-      "commandKey": "nuclei"
+      "key": "dast-report"
     },
     {
       "name": "DAST Server Token",
@@ -1480,8 +1367,7 @@
       "dataType": "String",
       "shortFlag": "-dtst",
       "longFlag": "-dast-server-token",
-      "key": "dast-server-token",
-      "commandKey": "nuclei"
+      "key": "dast-server-token"
     },
     {
       "name": "DAST Server Address",
@@ -1490,8 +1376,7 @@
       "dataType": "String",
       "shortFlag": "-dtsa",
       "longFlag": "-dast-server-address",
-      "key": "dast-server-address",
-      "commandKey": "nuclei"
+      "key": "dast-server-address"
     },
     {
       "name": "Display Fuzz Points",
@@ -1499,8 +1384,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-dfp",
-      "key": "display-fuzz-points",
-      "commandKey": "nuclei"
+      "key": "display-fuzz-points"
     },
     {
       "name": "Fuzz Param Frequency",
@@ -1508,8 +1392,7 @@
       "parameterType": "Option",
       "dataType": "Number",
       "longFlag": "-fuzz-param-frequency",
-      "key": "fuzz-param-frequency",
-      "commandKey": "nuclei"
+      "key": "fuzz-param-frequency"
     },
     {
       "name": "Fuzz Aggression",
@@ -1543,8 +1426,7 @@
           }
         ]
       },
-      "key": "fuzz-aggression",
-      "commandKey": "nuclei"
+      "key": "fuzz-aggression"
     },
     {
       "name": "Fuzz Scope",
@@ -1554,8 +1436,7 @@
       "isRepeatable": true,
       "shortFlag": "-cs",
       "longFlag": "-fuzz-scope",
-      "key": "fuzz-scope",
-      "commandKey": "nuclei"
+      "key": "fuzz-scope"
     },
     {
       "name": "Fuzz Out Scope",
@@ -1565,8 +1446,7 @@
       "isRepeatable": true,
       "shortFlag": "-cos",
       "longFlag": "-fuzz-out-scope",
-      "key": "fuzz-out-scope",
-      "commandKey": "nuclei"
+      "key": "fuzz-out-scope"
     },
     {
       "name": "Uncover",
@@ -1575,8 +1455,7 @@
       "dataType": "Boolean",
       "shortFlag": "-uc",
       "longFlag": "-uncover",
-      "key": "uncover",
-      "commandKey": "nuclei"
+      "key": "uncover"
     },
     {
       "name": "Uncover Query",
@@ -1586,8 +1465,7 @@
       "isRepeatable": true,
       "shortFlag": "-uq",
       "longFlag": "-uncover-query",
-      "key": "uncover-query",
-      "commandKey": "nuclei"
+      "key": "uncover-query"
     },
     {
       "name": "Uncover Engine",
@@ -1597,8 +1475,7 @@
       "isRepeatable": true,
       "shortFlag": "-ue",
       "longFlag": "-uncover-engine",
-      "key": "uncover-engine",
-      "commandKey": "nuclei"
+      "key": "uncover-engine"
     },
     {
       "name": "Uncover Field",
@@ -1607,8 +1484,7 @@
       "dataType": "String",
       "shortFlag": "-uf",
       "longFlag": "-uncover-field",
-      "key": "uncover-field",
-      "commandKey": "nuclei"
+      "key": "uncover-field"
     },
     {
       "name": "Uncover Limit",
@@ -1617,8 +1493,7 @@
       "dataType": "Number",
       "shortFlag": "-ul",
       "longFlag": "-uncover-limit",
-      "key": "uncover-limit",
-      "commandKey": "nuclei"
+      "key": "uncover-limit"
     },
     {
       "name": "Uncover Rate Limit",
@@ -1627,8 +1502,7 @@
       "dataType": "Number",
       "shortFlag": "-ur",
       "longFlag": "-uncover-ratelimit",
-      "key": "uncover-ratelimit",
-      "commandKey": "nuclei"
+      "key": "uncover-ratelimit"
     },
     {
       "name": "Rate Limit",
@@ -1637,8 +1511,7 @@
       "dataType": "Number",
       "shortFlag": "-rl",
       "longFlag": "-rate-limit",
-      "key": "rate-limit",
-      "commandKey": "nuclei"
+      "key": "rate-limit"
     },
     {
       "name": "Rate Limit Duration",
@@ -1647,8 +1520,7 @@
       "dataType": "String",
       "shortFlag": "-rld",
       "longFlag": "-rate-limit-duration",
-      "key": "rate-limit-duration",
-      "commandKey": "nuclei"
+      "key": "rate-limit-duration"
     },
     {
       "name": "Rate Limit Minute",
@@ -1657,8 +1529,7 @@
       "dataType": "Number",
       "shortFlag": "-rlm",
       "longFlag": "-rate-limit-minute",
-      "key": "rate-limit-minute",
-      "commandKey": "nuclei"
+      "key": "rate-limit-minute"
     },
     {
       "name": "Bulk Size",
@@ -1667,8 +1538,7 @@
       "dataType": "Number",
       "shortFlag": "-bs",
       "longFlag": "-bulk-size",
-      "key": "bulk-size",
-      "commandKey": "nuclei"
+      "key": "bulk-size"
     },
     {
       "name": "Concurrency",
@@ -1677,8 +1547,7 @@
       "dataType": "Number",
       "shortFlag": "-c",
       "longFlag": "-concurrency",
-      "key": "concurrency",
-      "commandKey": "nuclei"
+      "key": "concurrency"
     },
     {
       "name": "Headless Bulk Size",
@@ -1687,8 +1556,7 @@
       "dataType": "Number",
       "shortFlag": "-hbs",
       "longFlag": "-headless-bulk-size",
-      "key": "headless-bulk-size",
-      "commandKey": "nuclei"
+      "key": "headless-bulk-size"
     },
     {
       "name": "Headless Concurrency",
@@ -1696,8 +1564,7 @@
       "parameterType": "Option",
       "dataType": "Number",
       "longFlag": "-headless-concurrency",
-      "key": "headless-concurrency",
-      "commandKey": "nuclei"
+      "key": "headless-concurrency"
     },
     {
       "name": "JS Concurrency",
@@ -1706,8 +1573,7 @@
       "dataType": "Number",
       "shortFlag": "-jsc",
       "longFlag": "-js-concurrency",
-      "key": "js-concurrency",
-      "commandKey": "nuclei"
+      "key": "js-concurrency"
     },
     {
       "name": "Payload Concurrency",
@@ -1716,8 +1582,7 @@
       "dataType": "Number",
       "shortFlag": "-pc",
       "longFlag": "-payload-concurrency",
-      "key": "payload-concurrency",
-      "commandKey": "nuclei"
+      "key": "payload-concurrency"
     },
     {
       "name": "Probe Concurrency",
@@ -1726,8 +1591,7 @@
       "dataType": "Number",
       "shortFlag": "-prc",
       "longFlag": "-probe-concurrency",
-      "key": "probe-concurrency",
-      "commandKey": "nuclei"
+      "key": "probe-concurrency"
     },
     {
       "name": "Timeout",
@@ -1735,8 +1599,7 @@
       "parameterType": "Option",
       "dataType": "Number",
       "longFlag": "-timeout",
-      "key": "timeout",
-      "commandKey": "nuclei"
+      "key": "timeout"
     },
     {
       "name": "Retries",
@@ -1744,8 +1607,7 @@
       "parameterType": "Option",
       "dataType": "Number",
       "longFlag": "-retries",
-      "key": "retries",
-      "commandKey": "nuclei"
+      "key": "retries"
     },
     {
       "name": "Leave Default Ports",
@@ -1754,8 +1616,7 @@
       "dataType": "Boolean",
       "shortFlag": "-ldp",
       "longFlag": "-leave-default-ports",
-      "key": "leave-default-ports",
-      "commandKey": "nuclei"
+      "key": "leave-default-ports"
     },
     {
       "name": "Max Host Error",
@@ -1764,8 +1625,7 @@
       "dataType": "Number",
       "shortFlag": "-mhe",
       "longFlag": "-max-host-error",
-      "key": "max-host-error",
-      "commandKey": "nuclei"
+      "key": "max-host-error"
     },
     {
       "name": "Track Error",
@@ -1775,8 +1635,7 @@
       "isRepeatable": true,
       "shortFlag": "-te",
       "longFlag": "-track-error",
-      "key": "track-error",
-      "commandKey": "nuclei"
+      "key": "track-error"
     },
     {
       "name": "No MHE",
@@ -1785,8 +1644,7 @@
       "dataType": "Boolean",
       "shortFlag": "-nmhe",
       "longFlag": "-no-mhe",
-      "key": "no-mhe",
-      "commandKey": "nuclei"
+      "key": "no-mhe"
     },
     {
       "name": "Project",
@@ -1794,8 +1652,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-project",
-      "key": "project",
-      "commandKey": "nuclei"
+      "key": "project"
     },
     {
       "name": "Project Path",
@@ -1803,8 +1660,7 @@
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "-project-path",
-      "key": "project-path",
-      "commandKey": "nuclei"
+      "key": "project-path"
     },
     {
       "name": "Stop At First Match",
@@ -1813,8 +1669,7 @@
       "dataType": "Boolean",
       "shortFlag": "-spm",
       "longFlag": "-stop-at-first-match",
-      "key": "stop-at-first-match",
-      "commandKey": "nuclei"
+      "key": "stop-at-first-match"
     },
     {
       "name": "Stream",
@@ -1822,8 +1677,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-stream",
-      "key": "stream",
-      "commandKey": "nuclei"
+      "key": "stream"
     },
     {
       "name": "Scan Strategy",
@@ -1857,8 +1711,7 @@
           }
         ]
       },
-      "key": "scan-strategy",
-      "commandKey": "nuclei"
+      "key": "scan-strategy"
     },
     {
       "name": "Input Read Timeout",
@@ -1867,8 +1720,7 @@
       "dataType": "String",
       "shortFlag": "-irt",
       "longFlag": "-input-read-timeout",
-      "key": "input-read-timeout",
-      "commandKey": "nuclei"
+      "key": "input-read-timeout"
     },
     {
       "name": "No HTTPX",
@@ -1877,8 +1729,7 @@
       "dataType": "Boolean",
       "shortFlag": "-nh",
       "longFlag": "-no-httpx",
-      "key": "no-httpx",
-      "commandKey": "nuclei"
+      "key": "no-httpx"
     },
     {
       "name": "No Stdin",
@@ -1886,8 +1737,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-no-stdin",
-      "key": "no-stdin",
-      "commandKey": "nuclei"
+      "key": "no-stdin"
     },
     {
       "name": "Headless",
@@ -1895,8 +1745,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-headless",
-      "key": "headless",
-      "commandKey": "nuclei"
+      "key": "headless"
     },
     {
       "name": "Page Timeout",
@@ -1904,8 +1753,7 @@
       "parameterType": "Option",
       "dataType": "Number",
       "longFlag": "-page-timeout",
-      "key": "page-timeout",
-      "commandKey": "nuclei"
+      "key": "page-timeout"
     },
     {
       "name": "Show Browser",
@@ -1914,8 +1762,7 @@
       "dataType": "Boolean",
       "shortFlag": "-sb",
       "longFlag": "-show-browser",
-      "key": "show-browser",
-      "commandKey": "nuclei"
+      "key": "show-browser"
     },
     {
       "name": "Headless Options",
@@ -1925,8 +1772,7 @@
       "isRepeatable": true,
       "shortFlag": "-ho",
       "longFlag": "-headless-options",
-      "key": "headless-options",
-      "commandKey": "nuclei"
+      "key": "headless-options"
     },
     {
       "name": "System Chrome",
@@ -1935,8 +1781,7 @@
       "dataType": "Boolean",
       "shortFlag": "-sc",
       "longFlag": "-system-chrome",
-      "key": "system-chrome",
-      "commandKey": "nuclei"
+      "key": "system-chrome"
     },
     {
       "name": "List Headless Action",
@@ -1945,8 +1790,7 @@
       "dataType": "Boolean",
       "shortFlag": "-lha",
       "longFlag": "-list-headless-action",
-      "key": "list-headless-action",
-      "commandKey": "nuclei"
+      "key": "list-headless-action"
     },
     {
       "name": "Debug",
@@ -1954,8 +1798,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-debug",
-      "key": "debug",
-      "commandKey": "nuclei"
+      "key": "debug"
     },
     {
       "name": "Debug Request",
@@ -1964,8 +1807,7 @@
       "dataType": "Boolean",
       "shortFlag": "-dreq",
       "longFlag": "-debug-req",
-      "key": "debug-req",
-      "commandKey": "nuclei"
+      "key": "debug-req"
     },
     {
       "name": "Debug Response",
@@ -1974,8 +1816,7 @@
       "dataType": "Boolean",
       "shortFlag": "-dresp",
       "longFlag": "-debug-resp",
-      "key": "debug-resp",
-      "commandKey": "nuclei"
+      "key": "debug-resp"
     },
     {
       "name": "Proxy",
@@ -1985,8 +1826,7 @@
       "isRepeatable": true,
       "shortFlag": "-p",
       "longFlag": "-proxy",
-      "key": "proxy",
-      "commandKey": "nuclei"
+      "key": "proxy"
     },
     {
       "name": "Proxy Internal",
@@ -1995,8 +1835,7 @@
       "dataType": "Boolean",
       "shortFlag": "-pi",
       "longFlag": "-proxy-internal",
-      "key": "proxy-internal",
-      "commandKey": "nuclei"
+      "key": "proxy-internal"
     },
     {
       "name": "List DSL Function",
@@ -2005,8 +1844,7 @@
       "dataType": "Boolean",
       "shortFlag": "-ldf",
       "longFlag": "-list-dsl-function",
-      "key": "list-dsl-function",
-      "commandKey": "nuclei"
+      "key": "list-dsl-function"
     },
     {
       "name": "Trace Log",
@@ -2015,8 +1853,7 @@
       "dataType": "String",
       "shortFlag": "-tlog",
       "longFlag": "-trace-log",
-      "key": "trace-log",
-      "commandKey": "nuclei"
+      "key": "trace-log"
     },
     {
       "name": "Error Log",
@@ -2025,8 +1862,7 @@
       "dataType": "String",
       "shortFlag": "-elog",
       "longFlag": "-error-log",
-      "key": "error-log",
-      "commandKey": "nuclei"
+      "key": "error-log"
     },
     {
       "name": "Version",
@@ -2034,8 +1870,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-version",
-      "key": "version",
-      "commandKey": "nuclei"
+      "key": "version"
     },
     {
       "name": "Hang Monitor",
@@ -2044,8 +1879,7 @@
       "dataType": "Boolean",
       "shortFlag": "-hm",
       "longFlag": "-hang-monitor",
-      "key": "hang-monitor",
-      "commandKey": "nuclei"
+      "key": "hang-monitor"
     },
     {
       "name": "Verbose",
@@ -2054,8 +1888,7 @@
       "dataType": "Boolean",
       "shortFlag": "-v",
       "longFlag": "-verbose",
-      "key": "verbose",
-      "commandKey": "nuclei"
+      "key": "verbose"
     },
     {
       "name": "Profile Mem",
@@ -2063,8 +1896,7 @@
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "-profile-mem",
-      "key": "profile-mem",
-      "commandKey": "nuclei"
+      "key": "profile-mem"
     },
     {
       "name": "Vv",
@@ -2072,8 +1904,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-vv",
-      "key": "vv",
-      "commandKey": "nuclei"
+      "key": "vv"
     },
     {
       "name": "Show Var Dump",
@@ -2082,8 +1913,7 @@
       "dataType": "Boolean",
       "shortFlag": "-svd",
       "longFlag": "-show-var-dump",
-      "key": "show-var-dump",
-      "commandKey": "nuclei"
+      "key": "show-var-dump"
     },
     {
       "name": "Var Dump Limit",
@@ -2092,8 +1922,7 @@
       "dataType": "Number",
       "shortFlag": "-vdl",
       "longFlag": "-var-dump-limit",
-      "key": "var-dump-limit",
-      "commandKey": "nuclei"
+      "key": "var-dump-limit"
     },
     {
       "name": "Enable Pprof",
@@ -2102,8 +1931,7 @@
       "dataType": "Boolean",
       "shortFlag": "-ep",
       "longFlag": "-enable-pprof",
-      "key": "enable-pprof",
-      "commandKey": "nuclei"
+      "key": "enable-pprof"
     },
     {
       "name": "Templates Version",
@@ -2112,8 +1940,7 @@
       "dataType": "Boolean",
       "shortFlag": "-tv",
       "longFlag": "-templates-version",
-      "key": "templates-version",
-      "commandKey": "nuclei"
+      "key": "templates-version"
     },
     {
       "name": "Health Check",
@@ -2122,8 +1949,7 @@
       "dataType": "Boolean",
       "shortFlag": "-hc",
       "longFlag": "-health-check",
-      "key": "health-check",
-      "commandKey": "nuclei"
+      "key": "health-check"
     },
     {
       "name": "Update",
@@ -2132,8 +1958,7 @@
       "dataType": "Boolean",
       "shortFlag": "-up",
       "longFlag": "-update",
-      "key": "update",
-      "commandKey": "nuclei"
+      "key": "update"
     },
     {
       "name": "Update Templates",
@@ -2142,8 +1967,7 @@
       "dataType": "Boolean",
       "shortFlag": "-ut",
       "longFlag": "-update-templates",
-      "key": "update-templates",
-      "commandKey": "nuclei"
+      "key": "update-templates"
     },
     {
       "name": "Update Template Dir",
@@ -2152,8 +1976,7 @@
       "dataType": "String",
       "shortFlag": "-ud",
       "longFlag": "-update-template-dir",
-      "key": "update-template-dir",
-      "commandKey": "nuclei"
+      "key": "update-template-dir"
     },
     {
       "name": "Disable Update Check",
@@ -2162,8 +1985,7 @@
       "dataType": "Boolean",
       "shortFlag": "-duc",
       "longFlag": "-disable-update-check",
-      "key": "disable-update-check",
-      "commandKey": "nuclei"
+      "key": "disable-update-check"
     },
     {
       "name": "Stats",
@@ -2171,8 +1993,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-stats",
-      "key": "stats",
-      "commandKey": "nuclei"
+      "key": "stats"
     },
     {
       "name": "Stats Json",
@@ -2181,8 +2002,7 @@
       "dataType": "Boolean",
       "shortFlag": "-sj",
       "longFlag": "-stats-json",
-      "key": "stats-json",
-      "commandKey": "nuclei"
+      "key": "stats-json"
     },
     {
       "name": "Stats Interval",
@@ -2191,8 +2011,7 @@
       "dataType": "Number",
       "shortFlag": "-si",
       "longFlag": "-stats-interval",
-      "key": "stats-interval",
-      "commandKey": "nuclei"
+      "key": "stats-interval"
     },
     {
       "name": "Metrics Port",
@@ -2201,8 +2020,7 @@
       "dataType": "Number",
       "shortFlag": "-mp",
       "longFlag": "-metrics-port",
-      "key": "metrics-port",
-      "commandKey": "nuclei"
+      "key": "metrics-port"
     },
     {
       "name": "Http Stats",
@@ -2211,8 +2029,7 @@
       "dataType": "Boolean",
       "shortFlag": "-hps",
       "longFlag": "-http-stats",
-      "key": "http-stats",
-      "commandKey": "nuclei"
+      "key": "http-stats"
     },
     {
       "name": "Auth",
@@ -2220,8 +2037,7 @@
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-auth",
-      "key": "auth",
-      "commandKey": "nuclei"
+      "key": "auth"
     },
     {
       "name": "Team Id",
@@ -2230,8 +2046,7 @@
       "dataType": "String",
       "shortFlag": "-tid",
       "longFlag": "-team-id",
-      "key": "team-id",
-      "commandKey": "nuclei"
+      "key": "team-id"
     },
     {
       "name": "Cloud Upload",
@@ -2240,8 +2055,7 @@
       "dataType": "Boolean",
       "shortFlag": "-cup",
       "longFlag": "-cloud-upload",
-      "key": "cloud-upload",
-      "commandKey": "nuclei"
+      "key": "cloud-upload"
     },
     {
       "name": "Scan Id",
@@ -2250,8 +2064,7 @@
       "dataType": "String",
       "shortFlag": "-sid",
       "longFlag": "-scan-id",
-      "key": "scan-id",
-      "commandKey": "nuclei"
+      "key": "scan-id"
     },
     {
       "name": "Scan Name",
@@ -2260,8 +2073,7 @@
       "dataType": "String",
       "shortFlag": "-sname",
       "longFlag": "-scan-name",
-      "key": "scan-name",
-      "commandKey": "nuclei"
+      "key": "scan-name"
     },
     {
       "name": "Dashboard",
@@ -2270,8 +2082,7 @@
       "dataType": "Boolean",
       "shortFlag": "-pd",
       "longFlag": "-dashboard",
-      "key": "dashboard",
-      "commandKey": "nuclei"
+      "key": "dashboard"
     },
     {
       "name": "Dashboard Upload",
@@ -2280,8 +2091,7 @@
       "dataType": "String",
       "shortFlag": "-pdu",
       "longFlag": "-dashboard-upload",
-      "key": "dashboard-upload",
-      "commandKey": "nuclei"
+      "key": "dashboard-upload"
     },
     {
       "name": "Secret File",
@@ -2291,8 +2101,7 @@
       "isRepeatable": true,
       "shortFlag": "-sf",
       "longFlag": "-secret-file",
-      "key": "secret-file",
-      "commandKey": "nuclei"
+      "key": "secret-file"
     },
     {
       "name": "Prefetch Secrets",
@@ -2301,8 +2110,7 @@
       "dataType": "Boolean",
       "shortFlag": "-ps",
       "longFlag": "-prefetch-secrets",
-      "key": "prefetch-secrets",
-      "commandKey": "nuclei"
+      "key": "prefetch-secrets"
     }
   ]
 }

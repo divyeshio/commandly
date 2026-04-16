@@ -1,8 +1,8 @@
 # Commandly Tool JSON Examples
 
-## 1. Simple single-command tool (curl)
+## 1. Simple tool with no subcommands (curl)
 
-Demonstrates: single default command, Flag / Option / Argument parameter types, `keyValueSeparator`.
+Demonstrates: root parameters (no commands, no `commandKey`), Flag / Option / Argument parameter types, `keyValueSeparator`.
 
 ```json
 {
@@ -13,15 +13,7 @@ Demonstrates: single default command, Flag / Option / Argument parameter types, 
     "description": "curl is a command line tool and library for transferring data with URLs.",
     "url": "https://curl.se/"
   },
-  "commands": [
-    {
-      "key": "curl",
-      "name": "curl",
-      "description": "Run curl to download files.",
-      "isDefault": true,
-      "sortOrder": 1
-    }
-  ],
+  "commands": [],
   "parameters": [
     {
       "key": "target",
@@ -31,8 +23,7 @@ Demonstrates: single default command, Flag / Option / Argument parameter types, 
       "dataType": "String",
       "isRequired": true,
       "position": 1,
-      "sortOrder": 5,
-      "commandKey": "curl"
+      "sortOrder": 5
     },
     {
       "key": "output",
@@ -43,8 +34,7 @@ Demonstrates: single default command, Flag / Option / Argument parameter types, 
       "shortFlag": "-o",
       "longFlag": "--output",
       "keyValueSeparator": " ",
-      "sortOrder": 4,
-      "commandKey": "curl"
+      "sortOrder": 4
     },
     {
       "key": "location",
@@ -54,8 +44,7 @@ Demonstrates: single default command, Flag / Option / Argument parameter types, 
       "dataType": "Boolean",
       "shortFlag": "-L",
       "longFlag": "--location",
-      "sortOrder": 1,
-      "commandKey": "curl"
+      "sortOrder": 1
     },
     {
       "key": "silent",
@@ -65,8 +54,7 @@ Demonstrates: single default command, Flag / Option / Argument parameter types, 
       "dataType": "Boolean",
       "shortFlag": "-s",
       "longFlag": "--silent",
-      "sortOrder": 2,
-      "commandKey": "curl"
+      "sortOrder": 2
     }
   ]
 }
@@ -104,7 +92,7 @@ Demonstrates: `dataType: "Enum"`, `enum.values[]`, `isRepeatable`.
       }
     ]
   },
-  "commandKey": "nuclei"
+  "sortOrder": 1
 }
 ```
 

@@ -25,7 +25,7 @@ export function ToolCard({
     <Card
       className="flex h-72 w-72 flex-col gap-0 overflow-hidden py-3 hover:shadow-md"
       style={{
-        viewTransitionName: `tool-card-${tool.name}`,
+        viewTransitionName: `tool-card-${tool.binaryName}`,
       }}
     >
       <CardHeader className="flex items-center justify-between border-b [.border-b]:pb-1">
@@ -33,7 +33,7 @@ export function ToolCard({
           <span
             className="font-mono"
             style={{
-              viewTransitionName: `tool-card-title-${tool.name}`,
+              viewTransitionName: `tool-card-title-${tool.binaryName}`,
             }}
           >
             {tool.displayName}
@@ -69,7 +69,7 @@ export function ToolCard({
             >
               <Link
                 to="/tools/$toolName/edit"
-                params={{ toolName: tool.name! }}
+                params={{ toolName: tool.binaryName! }}
                 search={{ isLocal: isLocal }}
               >
                 <Edit2Icon className="size-4" />
@@ -94,8 +94,8 @@ export function ToolCard({
       </CardHeader>
       <Link
         to="/tools/$toolName"
-        params={{ toolName: tool.name! }}
-        search={{ newTool: isLocal ? tool.name : undefined }}
+        params={{ toolName: tool.binaryName! }}
+        search={{ newTool: isLocal ? tool.binaryName : undefined }}
         preload="intent"
         className="flex min-h-0 flex-1 flex-col overflow-hidden"
       >

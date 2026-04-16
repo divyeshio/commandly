@@ -40,11 +40,11 @@ function RouteComponent() {
   const { isLocal } = Route.useSearch();
 
   const [savedCommands, setSavedCommands] = useState<SavedCommand[]>(() =>
-    tool ? getSavedCommandsFromStorage(tool.name) : [],
+    tool ? getSavedCommandsFromStorage(tool.binaryName) : [],
   );
 
   const handleSaveCommand = (command: string) => {
-    const toolId = tool!.name;
+    const toolId = tool!.binaryName;
     const existingCommands = getSavedCommandsFromStorage(toolId);
     if (existingCommands.some((cmd) => cmd.command === command)) {
       toast.error("Command already exists", {
@@ -62,7 +62,7 @@ function RouteComponent() {
   };
 
   const handleDeleteSavedCommand = (commandKey: string) => {
-    const toolId = tool!.name;
+    const toolId = tool!.binaryName;
     removeSavedCommandFromStorage(toolId, commandKey);
     setSavedCommands(getSavedCommandsFromStorage(toolId));
   };
@@ -73,7 +73,7 @@ function RouteComponent() {
         tool={tool!}
         isNewTool={!!isLocal}
         onSave={(tool) => {
-          localStorage.setItem(`tool-${tool.name}`, JSON.stringify(tool));
+          localStorage.setItem(`tool-${tool.binaryName}`, JSON.stringify(tool));
         }}
         savedCommands={savedCommands}
         onSaveCommand={handleSaveCommand}

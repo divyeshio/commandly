@@ -7,32 +7,44 @@ import { toast } from "sonner";
 
 interface GeneratedCommandProps {
   tool: Tool;
-  selectedCommand?: Command;
+  selectedCommand?: Command | null;
   parameterValues: Record<string, ParameterValue>;
   onSaveCommand?: (command: string) => void;
 }
 
 export function GeneratedCommand({
   tool,
-  selectedCommand,
+  selectedCommand: providedCommand,
   parameterValues,
   onSaveCommand,
 }: GeneratedCommandProps) {
-  selectedCommand = selectedCommand || tool.commands[0];
+  const selectedCommand = providedCommand === undefined ? tool.commands[0] : providedCommand;
+  const hasCommands = tool.commands.length > 0;
   const [generatedCommand, setGeneratedCommand] = useState("");
 
   const globalParameters = useMemo(() => {
     return tool.parameters?.filter((p) => p.isGlobal) || [];
   }, [tool]);
 
+  const rootParameters = useMemo(() => {
+    if (hasCommands && selectedCommand) return [];
+    return tool.parameters?.filter((p) => !p.commandKey && !p.isGlobal) || [];
+  }, [tool, hasCommands, selectedCommand]);
+
   const currentParameters = useMemo(() => {
+    if (!selectedCommand) return [];
     return tool?.parameters?.filter((p) => p.commandKey === selectedCommand?.key) || [];
   }, [tool, selectedCommand]);
 
   const generateCommand = useCallback(() => {
-    if (!selectedCommand) return;
-    const commandPath = getCommandPath(selectedCommand, tool);
-    let command = tool.name == commandPath ? tool.name : `${tool.name} ${commandPath}`;
+    let command = tool.binaryName;
+
+    if (hasCommands && selectedCommand) {
+      const commandPath = getCommandPath(selectedCommand, tool);
+      if (tool.binaryName !== commandPath) {
+        command = `${tool.binaryName} ${commandPath}`;
+      }
+    }
 
     const parametersWithValues: Array<{
       param: Parameter;
@@ -40,6 +52,13 @@ export function GeneratedCommand({
     }> = [];
 
     globalParameters.forEach((param) => {
+      const value = parameterValues[param.key];
+      if (value !== undefined && value !== "" && value !== false) {
+        parametersWithValues.push({ param, value });
+      }
+    });
+
+    rootParameters.forEach((param) => {
       const value = parameterValues[param.key];
       if (value !== undefined && value !== "" && value !== false) {
         parametersWithValues.push({ param, value });
@@ -95,7 +114,15 @@ export function GeneratedCommand({
     });
 
     setGeneratedCommand(command);
-  }, [tool, parameterValues, selectedCommand, globalParameters, currentParameters]);
+  }, [
+    tool,
+    parameterValues,
+    selectedCommand,
+    hasCommands,
+    globalParameters,
+    rootParameters,
+    currentParameters,
+  ]);
 
   useEffect(() => {
     generateCommand();
@@ -108,12 +135,7 @@ export function GeneratedCommand({
 
   return (
     <div>
-      {tool.commands.length === 0 ? (
-        <div className="py-8 text-center">
-          <TerminalIcon className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
-          <p className="text-muted-foreground">No commands available for this tool.</p>
-        </div>
-      ) : generatedCommand ? (
+      {generatedCommand ? (
         <div className="space-y-4">
           <div className="rounded bg-muted p-4 font-mono text-sm">{generatedCommand}</div>
           <div className="flex gap-2">

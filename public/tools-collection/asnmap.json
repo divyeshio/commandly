@@ -1,20 +1,13 @@
 {
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
-  "name": "asnmap",
+  "binaryName": "asnmap",
   "displayName": "ASNMap",
   "info": {
     "description": "Go CLI and Library for quickly mapping organization network ranges using ASN information.",
     "version": "1.1.1",
     "url": "https://github.com/projectdiscovery/asnmap"
   },
-  "commands": [
-    {
-      "name": "asnmap",
-      "description": "Map organization network ranges using ASN information.",
-      "sortOrder": 1,
-      "key": "asnmap"
-    }
-  ],
+  "commands": [],
   "parameters": [
     {
       "name": "ASN",
@@ -27,8 +20,7 @@
       "sortOrder": 1,
       "arraySeparator": ",",
       "keyValueSeparator": " ",
-      "key": "asn",
-      "commandKey": "asnmap"
+      "key": "asn"
     },
     {
       "name": "IP",
@@ -41,8 +33,7 @@
       "sortOrder": 2,
       "arraySeparator": ",",
       "keyValueSeparator": " ",
-      "key": "ip",
-      "commandKey": "asnmap"
+      "key": "ip"
     },
     {
       "name": "Domain",
@@ -55,8 +46,7 @@
       "sortOrder": 3,
       "arraySeparator": ",",
       "keyValueSeparator": " ",
-      "key": "domain",
-      "commandKey": "asnmap"
+      "key": "domain"
     },
     {
       "name": "Org",
@@ -68,8 +58,7 @@
       "sortOrder": 4,
       "arraySeparator": ",",
       "keyValueSeparator": " ",
-      "key": "org",
-      "commandKey": "asnmap"
+      "key": "org"
     },
     {
       "name": "File",
@@ -82,8 +71,7 @@
       "sortOrder": 5,
       "arraySeparator": ",",
       "keyValueSeparator": " ",
-      "key": "file",
-      "commandKey": "asnmap"
+      "key": "file"
     },
     {
       "name": "Config",
@@ -93,8 +81,7 @@
       "longFlag": "-config",
       "sortOrder": 6,
       "keyValueSeparator": " ",
-      "key": "config",
-      "commandKey": "asnmap"
+      "key": "config"
     },
     {
       "name": "Resolvers",
@@ -107,8 +94,7 @@
       "sortOrder": 7,
       "arraySeparator": ",",
       "keyValueSeparator": " ",
-      "key": "resolvers",
-      "commandKey": "asnmap"
+      "key": "resolvers"
     },
     {
       "name": "Update",
@@ -118,8 +104,7 @@
       "shortFlag": "-up",
       "longFlag": "-update",
       "sortOrder": 8,
-      "key": "update",
-      "commandKey": "asnmap"
+      "key": "update"
     },
     {
       "name": "Disable Update Check",
@@ -129,8 +114,7 @@
       "shortFlag": "-duc",
       "longFlag": "-disable-update-check",
       "sortOrder": 9,
-      "key": "disable-update-check",
-      "commandKey": "asnmap"
+      "key": "disable-update-check"
     },
     {
       "name": "Output File",
@@ -141,8 +125,7 @@
       "longFlag": "-output",
       "sortOrder": 10,
       "keyValueSeparator": " ",
-      "key": "output",
-      "commandKey": "asnmap"
+      "key": "output"
     },
     {
       "name": "JSON Output",
@@ -152,8 +135,7 @@
       "shortFlag": "-j",
       "longFlag": "-json",
       "sortOrder": 11,
-      "key": "json",
-      "commandKey": "asnmap"
+      "key": "json"
     },
     {
       "name": "CSV Output",
@@ -163,8 +145,7 @@
       "shortFlag": "-c",
       "longFlag": "-csv",
       "sortOrder": 12,
-      "key": "csv",
-      "commandKey": "asnmap"
+      "key": "csv"
     },
     {
       "name": "IPv6 Output",
@@ -173,8 +154,7 @@
       "dataType": "Boolean",
       "longFlag": "-v6",
       "sortOrder": 13,
-      "key": "v6",
-      "commandKey": "asnmap"
+      "key": "v6"
     },
     {
       "name": "Verbose Output",
@@ -184,8 +164,7 @@
       "shortFlag": "-v",
       "longFlag": "-verbose",
       "sortOrder": 14,
-      "key": "verbose",
-      "commandKey": "asnmap"
+      "key": "verbose"
     },
     {
       "name": "Silent",
@@ -194,8 +173,7 @@
       "dataType": "Boolean",
       "longFlag": "-silent",
       "sortOrder": 15,
-      "key": "silent",
-      "commandKey": "asnmap"
+      "key": "silent"
     },
     {
       "name": "Version",
@@ -204,8 +182,7 @@
       "dataType": "Boolean",
       "longFlag": "-version",
       "sortOrder": 16,
-      "key": "version",
-      "commandKey": "asnmap"
+      "key": "version"
     }
   ]
 }
