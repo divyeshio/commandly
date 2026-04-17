@@ -1,8 +1,21 @@
-import { Parameter, ParameterValue, Tool, Command } from "@/components/commandly/types/flat";
-import { getCommandPath } from "@/components/commandly/utils/flat";
+import { ParameterValue, Tool, Command } from "@/components/commandly/types/flat";
+import { generateCommand } from "@/components/commandly/utils/flat";
 import { Button } from "@/components/ui/button";
+import { CardHeader, CardTitle } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { cn } from "@/lib/utils";
 import { TerminalIcon, CopyIcon, SaveIcon } from "lucide-react";
-import { useCallback, useEffect, useState, useMemo } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ComponentProps,
+  type ReactNode,
+} from "react";
 import { toast } from "sonner";
 
 interface GeneratedCommandProps {
@@ -10,163 +23,204 @@ interface GeneratedCommandProps {
   selectedCommand?: Command | null;
   parameterValues: Record<string, ParameterValue>;
   onSaveCommand?: (command: string) => void;
+  useLongFlag?: boolean;
+  children?: ReactNode;
 }
 
-export function GeneratedCommand({
+interface GeneratedCommandContextValue {
+  generatedCommand: string;
+  useLongFlag: boolean;
+  setUseLongFlag: (value: boolean) => void;
+  supportsFlagPreference: boolean;
+  onCopyCommand: () => void;
+  onSaveCommand?: (command: string) => void;
+}
+
+const GeneratedCommandContext = createContext<GeneratedCommandContextValue | null>(null);
+
+function useGeneratedCommandContext() {
+  const context = useContext(GeneratedCommandContext);
+
+  if (!context) {
+    throw new Error("GeneratedCommand compound components must be used within GeneratedCommand.");
+  }
+
+  return context;
+}
+
+function GeneratedCommandRoot({
   tool,
   selectedCommand: providedCommand,
   parameterValues,
   onSaveCommand,
+  useLongFlag = false,
+  children,
 }: GeneratedCommandProps) {
-  const selectedCommand = providedCommand === undefined ? tool.commands[0] : providedCommand;
-  const hasCommands = tool.commands.length > 0;
-  const [generatedCommand, setGeneratedCommand] = useState("");
-
-  const globalParameters = useMemo(() => {
-    return tool.parameters?.filter((p) => p.isGlobal) || [];
-  }, [tool]);
-
-  const rootParameters = useMemo(() => {
-    if (hasCommands && selectedCommand) return [];
-    return tool.parameters?.filter((p) => !p.commandKey && !p.isGlobal) || [];
-  }, [tool, hasCommands, selectedCommand]);
-
-  const currentParameters = useMemo(() => {
-    if (!selectedCommand) return [];
-    return tool?.parameters?.filter((p) => p.commandKey === selectedCommand?.key) || [];
-  }, [tool, selectedCommand]);
-
-  const generateCommand = useCallback(() => {
-    let command = tool.binaryName;
-
-    if (hasCommands && selectedCommand) {
-      const commandPath = getCommandPath(selectedCommand, tool);
-      if (tool.binaryName !== commandPath) {
-        command = `${tool.binaryName} ${commandPath}`;
-      }
-    }
-
-    const parametersWithValues: Array<{
-      param: Parameter;
-      value: ParameterValue;
-    }> = [];
-
-    globalParameters.forEach((param) => {
-      const value = parameterValues[param.key];
-      if (value !== undefined && value !== "" && value !== false) {
-        parametersWithValues.push({ param, value });
-      }
-    });
-
-    rootParameters.forEach((param) => {
-      const value = parameterValues[param.key];
-      if (value !== undefined && value !== "" && value !== false) {
-        parametersWithValues.push({ param, value });
-      }
-    });
-
-    currentParameters.forEach((param) => {
-      const value = parameterValues[param.key];
-      if (value !== undefined && value !== "" && value !== false && !param.isGlobal) {
-        parametersWithValues.push({ param, value });
-      }
-    });
-
-    const positionalParams = parametersWithValues
-      .filter(({ param }) => param.parameterType === "Argument")
-      .sort((a, b) => (a.param.position || 0) - (b.param.position || 0));
-
-    parametersWithValues.forEach(({ param, value }) => {
-      if (param.parameterType === "Flag") {
-        if (value === true) {
-          const flag = param.shortFlag || param.longFlag;
-          if (flag) command += ` ${flag}`;
-        } else if (param.isRepeatable && typeof value === "number" && value > 0) {
-          const flag = param.shortFlag || param.longFlag;
-          if (flag) command += ` ${flag}`.repeat(value);
-        }
-      } else if (param.parameterType === "Option") {
-        const flag = param.shortFlag || param.longFlag;
-        if (flag) {
-          const separator = param.keyValueSeparator ?? " ";
-          if (Array.isArray(value)) {
-            const entries = value.filter((v) => v !== "");
-            if (entries.length > 0) {
-              if (param.arraySeparator) {
-                command += ` ${flag}${separator}${entries.join(param.arraySeparator)}`;
-              } else {
-                entries.forEach((v) => {
-                  command += ` ${flag}${separator}${v}`;
-                });
-              }
-            }
-          } else {
-            command += ` ${flag}${separator}${value}`;
-          }
-        }
-      }
-    });
-
-    positionalParams.forEach(({ value }) => {
-      if (!Array.isArray(value)) {
-        command += ` ${value}`;
-      }
-    });
-
-    setGeneratedCommand(command);
-  }, [
-    tool,
-    parameterValues,
-    selectedCommand,
-    hasCommands,
-    globalParameters,
-    rootParameters,
-    currentParameters,
-  ]);
+  const [prefersLongFlag, setPrefersLongFlag] = useState(useLongFlag);
+  const supportsFlagPreference = useMemo(
+    () =>
+      tool.parameters.some(
+        (parameter) =>
+          parameter.parameterType !== "Argument" &&
+          Boolean(parameter.shortFlag) &&
+          Boolean(parameter.longFlag),
+      ),
+    [tool.parameters],
+  );
 
   useEffect(() => {
-    generateCommand();
-  }, [generateCommand]);
+    setPrefersLongFlag(useLongFlag);
+  }, [useLongFlag]);
 
-  const copyCommand = () => {
+  const generatedCommand = useMemo(
+    () =>
+      generateCommand(tool, parameterValues, {
+        selectedCommand: providedCommand,
+        useLongFlag: prefersLongFlag,
+      }),
+    [tool, parameterValues, providedCommand, prefersLongFlag],
+  );
+
+  const copyCommand = useCallback(() => {
     navigator.clipboard.writeText(generatedCommand);
     toast("Command copied!");
-  };
+  }, [generatedCommand]);
+
+  const contextValue = useMemo(
+    () => ({
+      generatedCommand,
+      useLongFlag: prefersLongFlag,
+      setUseLongFlag: setPrefersLongFlag,
+      supportsFlagPreference,
+      onCopyCommand: copyCommand,
+      onSaveCommand,
+    }),
+    [generatedCommand, prefersLongFlag, supportsFlagPreference, copyCommand, onSaveCommand],
+  );
 
   return (
-    <div className="min-w-0">
+    <GeneratedCommandContext.Provider value={contextValue}>
       {generatedCommand ? (
-        <div className="space-y-4">
-          <div className="overflow-x-auto rounded bg-muted p-4 font-mono text-sm">
-            <div className="min-w-max whitespace-nowrap">{generatedCommand}</div>
+        (children ?? (
+          <div className="min-w-0 space-y-4">
+            <GeneratedCommandOutput />
+            <GeneratedCommandActions />
           </div>
-          <div className="flex flex-col gap-2 sm:flex-row">
-            <Button
-              onClick={copyCommand}
-              variant="outline"
-              className="w-full sm:flex-1"
-            >
-              <CopyIcon className="mr-2 h-4 w-4" />
-              Copy Command
-            </Button>
-            {onSaveCommand && (
-              <Button
-                onClick={() => onSaveCommand(generatedCommand)}
-                variant="outline"
-                className="w-full sm:flex-1"
-              >
-                <SaveIcon className="mr-2 h-4 w-4" />
-                Save Command
-              </Button>
-            )}
-          </div>
-        </div>
+        ))
       ) : (
-        <div className="py-8 text-center">
-          <TerminalIcon className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
-          <p className="text-muted-foreground">Configure parameters to generate the command.</p>
-        </div>
+        <GeneratedCommandEmptyState />
+      )}
+    </GeneratedCommandContext.Provider>
+  );
+}
+
+function GeneratedCommandToolbar({ className, ...props }: ComponentProps<"div">) {
+  return (
+    <div
+      className={cn("flex flex-wrap items-center justify-end gap-2", className)}
+      {...props}
+    />
+  );
+}
+
+function GeneratedCommandHeader({
+  children,
+  className,
+  ...props
+}: ComponentProps<typeof CardHeader>) {
+  return (
+    <CardHeader
+      className={cn("flex flex-row items-center justify-between gap-3 space-y-0", className)}
+      {...props}
+    >
+      <CardTitle className="flex items-center gap-2">
+        <TerminalIcon className="h-5 w-5" />
+        Generated Command
+      </CardTitle>
+      {children}
+    </CardHeader>
+  );
+}
+
+function GeneratedCommandFlagPreference({
+  className,
+  ...props
+}: Omit<ComponentProps<typeof Switch>, "checked" | "onCheckedChange">) {
+  const { supportsFlagPreference, useLongFlag, setUseLongFlag } = useGeneratedCommandContext();
+
+  if (!supportsFlagPreference) return null;
+
+  return (
+    <Label className="shrink-0 gap-2 text-xs text-muted-foreground">
+      <span className="font-mono tracking-[0.12em] uppercase">Long flags</span>
+      <Switch
+        checked={useLongFlag}
+        onCheckedChange={setUseLongFlag}
+        aria-label="Long flags"
+        className={className}
+        {...props}
+      />
+    </Label>
+  );
+}
+
+function GeneratedCommandOutput({ className, ...props }: ComponentProps<"div">) {
+  const { generatedCommand } = useGeneratedCommandContext();
+
+  return (
+    <div
+      className={cn("overflow-x-auto rounded bg-muted p-4 font-mono text-sm", className)}
+      {...props}
+    >
+      <div className="min-w-max whitespace-nowrap">{generatedCommand}</div>
+    </div>
+  );
+}
+
+function GeneratedCommandActions({ className, ...props }: ComponentProps<"div">) {
+  const { generatedCommand, onCopyCommand, onSaveCommand } = useGeneratedCommandContext();
+
+  return (
+    <div
+      className={cn("flex flex-col gap-2 sm:flex-row", className)}
+      {...props}
+    >
+      <Button
+        onClick={onCopyCommand}
+        variant="outline"
+        className="w-full sm:flex-1"
+      >
+        <CopyIcon className="mr-2 h-4 w-4" />
+        Copy Command
+      </Button>
+      {onSaveCommand && (
+        <Button
+          onClick={() => onSaveCommand(generatedCommand)}
+          variant="outline"
+          className="w-full sm:flex-1"
+        >
+          <SaveIcon className="mr-2 h-4 w-4" />
+          Save Command
+        </Button>
       )}
     </div>
   );
 }
+
+function GeneratedCommandEmptyState() {
+  return (
+    <div className="py-8 text-center">
+      <TerminalIcon className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
+      <p className="text-muted-foreground">Configure parameters to generate the command.</p>
+    </div>
+  );
+}
+
+export const GeneratedCommand = Object.assign(GeneratedCommandRoot, {
+  Header: GeneratedCommandHeader,
+  Toolbar: GeneratedCommandToolbar,
+  FlagPreference: GeneratedCommandFlagPreference,
+  Output: GeneratedCommandOutput,
+  Actions: GeneratedCommandActions,
+  EmptyState: GeneratedCommandEmptyState,
+});

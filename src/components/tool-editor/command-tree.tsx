@@ -289,6 +289,7 @@ export function CommandTree({ isChatOpen = false }: { isChatOpen?: boolean }) {
           element={rootElement}
           isSelect={isRootSelected}
           className="group px-2 py-1.5 font-medium"
+          hasChildren={rootCommands.length > 0}
           actions={<CommandActions onAdd={() => handleAddSubcommand()} />}
           onClick={handleRootClick}
         >

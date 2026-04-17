@@ -62,7 +62,7 @@ export function SavedCommandsDialog({
               savedCommands.map((savedCommand) => (
                 <div
                   key={savedCommand.key}
-                  className="space-y-3 rounded-lg border p-3"
+                  className="min-w-0 space-y-3 rounded-lg border p-3"
                 >
                   <div className="flex items-center justify-end gap-2">
                     <Button
@@ -80,9 +80,9 @@ export function SavedCommandsDialog({
                       <Trash2Icon className="h-4 w-4" />
                     </Button>
                   </div>
-                  <pre className="rounded bg-muted p-3 font-mono text-sm">
-                    {savedCommand.command}
-                  </pre>
+                  <div className="overflow-x-auto rounded bg-muted p-3 font-mono text-sm">
+                    <div className="min-w-max whitespace-nowrap">{savedCommand.command}</div>
+                  </div>
                 </div>
               ))}
           </div>

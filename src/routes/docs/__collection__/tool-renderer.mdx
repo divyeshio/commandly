@@ -90,10 +90,10 @@ const customCatalog: ParameterRendererEntry[] = [
 
 | Prop                   | Type                                           | Default               | Description                                                     |
 | ---------------------- | ---------------------------------------------- | --------------------- | --------------------------------------------------------------- |
-| `tool`                 | `Tool`                                         | —                     | The tool definition to render inputs for                        |
+| `tool`                 | `Tool`                                         | -                     | The tool definition to render inputs for                        |
 | `selectedCommand`      | `Command`                                      | Auto-detected default | The command whose parameters should be shown                    |
-| `parameterValues`      | `Record<string, ParameterValue>`               | —                     | Current values keyed by parameter key                           |
-| `updateParameterValue` | `(key: string, value: ParameterValue) => void` | —                     | Callback to update a parameter's value                          |
+| `parameterValues`      | `Record<string, ParameterValue>`               | -                     | Current values keyed by parameter key                           |
+| `updateParameterValue` | `(key: string, value: ParameterValue) => void` | -                     | Callback to update a parameter's value                          |
 | `catalog`              | `ParameterRendererEntry[]`                     | `defaultComponents()` | Ordered list of renderer entries; first matching condition wins |
 
 ### ParameterRendererEntry

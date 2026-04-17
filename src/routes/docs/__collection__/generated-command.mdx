@@ -41,6 +41,7 @@ Displays a real-time generated CLI command string with copy and save functionali
 
 ```tsx
 import { GeneratedCommand } from "@/components/commandly/generated-command";
+import { Card, CardContent } from "@/components/ui/card";
 ```
 
 ### Basic Usage
@@ -65,25 +66,33 @@ const tool: Tool = {
 
 const [values, setValues] = useState({})
 
-<GeneratedCommand
-  tool={tool}
-  selectedCommand={tool.commands[0]}
-  parameterValues={values}
-  onSaveCommand={(cmd) => console.log(cmd)}
-/>
+<Card>
+  <GeneratedCommand
+    tool={tool}
+    selectedCommand={tool.commands[0]}
+    parameterValues={values}
+    onSaveCommand={(cmd) => console.log(cmd)}
+  >
+    <GeneratedCommand.Header>
+      <GeneratedCommand.FlagPreference />
+    </GeneratedCommand.Header>
+    <CardContent className="space-y-4">
+      <GeneratedCommand.Output />
+      <GeneratedCommand.Actions />
+    </CardContent>
+  </GeneratedCommand>
+</Card>
 ```
 
-### With Save Handler
+### Output Only
 
 ```tsx
 <GeneratedCommand
   tool={tool}
   parameterValues={values}
-  onSaveCommand={(cmd) => {
-    navigator.clipboard.writeText(cmd);
-    toast.success("Command saved!");
-  }}
 />
+  <GeneratedCommand.Output />
+</GeneratedCommand>
 ```
 
 ## API Reference
@@ -92,10 +101,23 @@ const [values, setValues] = useState({})
 
 | Prop              | Type                             | Default            | Description                                                             |
 | ----------------- | -------------------------------- | ------------------ | ----------------------------------------------------------------------- |
-| `tool`            | `Tool`                           | —                  | The tool definition including `binaryName`, commands, and parameters    |
+| `tool`            | `Tool`                           | -                  | The tool definition including `binaryName`, commands, and parameters    |
 | `selectedCommand` | `Command \| null`                | `tool.commands[0]` | The currently selected command, or `null` to render the root invocation |
-| `parameterValues` | `Record<string, ParameterValue>` | —                  | Map of parameter key to current value                                   |
-| `onSaveCommand`   | `(command: string) => void`      | —                  | Optional callback fired when the save button is clicked                 |
+| `parameterValues` | `Record<string, ParameterValue>` | -                  | Map of parameter key to current value                                   |
+| `onSaveCommand`   | `(command: string) => void`      | -                  | Optional callback fired when the save button is clicked                 |
+| `useLongFlag`     | `boolean`                        | `false`            | Initial flag preference for generated flags and options                 |
+| `children`        | `ReactNode`                      | -                  | Optional composed layout using the exported subcomponents               |
+
+### Compound Components
+
+| Component                         | Description                                                              |
+| --------------------------------- | ------------------------------------------------------------------------ |
+| `GeneratedCommand.Header`         | Renders the `Generated Command` header row                               |
+| `GeneratedCommand.FlagPreference` | Renders the inline long-flag switch when both short and long flags exist |
+| `GeneratedCommand.Toolbar`        | Optional layout wrapper for custom controls inside the command body      |
+| `GeneratedCommand.Output`         | Renders the scrollable generated command text                            |
+| `GeneratedCommand.Actions`        | Renders the copy and save buttons                                        |
+| `GeneratedCommand.EmptyState`     | Renders the empty state when no command can be produced                  |
 
 ## Notes
 
@@ -105,3 +127,4 @@ const [values, setValues] = useState({})
 - Argument parameters are appended in order of their `position` field
 - Global parameters are included regardless of the selected command
 - Passing `selectedCommand={null}` includes root-level parameters and skips command path segments
+- `GeneratedCommand.Header` and `GeneratedCommand.FlagPreference` must be rendered inside the `GeneratedCommand` root to access shared state

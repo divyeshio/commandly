@@ -5,7 +5,7 @@ import {
   ExclusionGroup,
   ParameterValue,
 } from "@/components/commandly/types/flat";
-import { cleanupTool, getAllSubcommands, slugify } from "@/components/commandly/utils/flat";
+import { getAllSubcommands, slugify, fixTool } from "@/components/commandly/utils/flat";
 import {
   createContext,
   useContext,
@@ -60,7 +60,7 @@ type Action =
   | { type: "REORDER_PARAMETERS"; payload: { parameterKeys: string[] } };
 
 function getDefaultState(tool: Tool): ToolBuilderState {
-  const cleanTool = cleanupTool(tool);
+  const cleanTool = fixTool(tool);
   return {
     tool: cleanTool,
     originalTool: cleanTool,
@@ -83,7 +83,7 @@ function toolBuilderReducer(state: ToolBuilderState, action: Action): ToolBuilde
       return getDefaultState(action.payload);
 
     case "UPDATE_TOOL":
-      return { ...state, tool: cleanupTool({ ...state.tool, ...action.payload }) };
+      return { ...state, tool: fixTool({ ...state.tool, ...action.payload }) };
 
     case "ADD_SUBCOMMAND": {
       return {

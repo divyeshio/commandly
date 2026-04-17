@@ -95,7 +95,7 @@ export function ToolCard({
       <Link
         to="/tools/$toolName"
         params={{ toolName: tool.binaryName! }}
-        search={{ newTool: isLocal ? tool.binaryName : undefined }}
+        search={{ isLocal: isLocal }}
         preload="intent"
         className="flex min-h-0 flex-1 flex-col overflow-hidden"
       >

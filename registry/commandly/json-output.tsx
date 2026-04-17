@@ -140,7 +140,7 @@ export function JsonOutput({ tool, originalTool, onApply }: JsonTypeComponentPro
                   <ChevronsUpDownIcon className="opacity-50" />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-[var(--radix-popover-trigger-width)] min-w-40 p-0 sm:w-48">
+              <PopoverContent className="w-(--radix-popover-trigger-width) min-w-40 p-0 sm:w-48">
                 <UICommand>
                   <CommandList>
                     <CommandGroup>

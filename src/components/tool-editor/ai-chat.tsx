@@ -26,6 +26,7 @@ import {
   createTavilyExtractTool,
   createTavilySearchTool,
 } from "./tools";
+import { PROMPT_PILLS } from "@/components/ai-chat/tool-rules";
 import {
   ChainOfThought,
   ChainOfThoughtContent,
@@ -110,21 +111,6 @@ import {
 } from "lucide-react";
 import { useMemo, useState, useSyncExternalStore } from "react";
 import { toast } from "sonner";
-
-const PROMPT_PILLS = [
-  {
-    label: "Sorting & Grouping",
-    text: "Sort all parameters, grouping similar ones together (e.g., output options, filter options, connection options). Update parameter names and descriptions to be consistent within each group. Anything related to verbose, debug, or logging should be at the end",
-  },
-  {
-    label: "Update from docs",
-    text: "Update this tool's description, parameter descriptions, and types to accurately reflect the official documentation. Make descriptions concise and in sentence case.",
-  },
-  {
-    label: "Fix types & validation",
-    text: "Fix parameter types (string, number, boolean, array), mark required parameters correctly, and add appropriate validation rules where needed.",
-  },
-];
 
 const MODEL_MAX_TOKENS: Record<string, number> = {
   "claude-opus-4-7": 200000,
@@ -289,17 +275,14 @@ function useAIChat(
         },
       );
 
-      const applyToolDefinitionDef = createApplyToolDefinitionTool(
-        () => {},
-        function onApplyExecuted() {
-          const preview = store.getPendingPreview();
-          if (preview) {
-            onApply(replaceKey(preview) as Tool);
-            store.setPendingPreview(null);
-          }
-          onStreamingTool?.(null);
-        },
-      );
+      const applyToolDefinitionDef = createApplyToolDefinitionTool(function onApplyExecuted() {
+        const preview = store.getPendingPreview();
+        if (preview) {
+          onApply(replaceKey(preview) as Tool);
+          store.setPendingPreview(null);
+        }
+        onStreamingTool?.(null);
+      });
 
       const tools = {
         editTool: editToolDef,
@@ -869,7 +852,7 @@ export function AIChatPanel({
               <Suggestion
                 key={pill.label}
                 suggestion={pill.text}
-                onClick={chat.sendMessage}
+                onClick={chat.setInput}
                 disabled={chat.isStreaming}
                 className="text-xs"
               >

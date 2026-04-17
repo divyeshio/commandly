@@ -14,7 +14,6 @@ import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
-
 export function replaceKey(tool: Tool): Tool {
   // Deep clone the tool to avoid mutating the original
   const clone = JSON.parse(JSON.stringify(tool));
@@ -150,25 +149,3 @@ export function replaceKey(tool: Tool): Tool {
   const finalClone = JSON.parse(JSON.stringify(clone));
   return finalClone;
 }
-
-export const defaultTool = (toolName?: string, displayName?: string): Tool => {
-  const finalToolName = toolName || "my-tool";
-  return {
-    binaryName: finalToolName,
-    displayName: displayName || "My Tool",
-    commands: [],
-    parameters: [
-      {
-        key: "--help",
-        name: "Help",
-        description: "Displays help menu of tool",
-        parameterType: "Flag",
-        dataType: "String",
-        isRequired: false,
-        shortFlag: "-h",
-        longFlag: "--help",
-        isRepeatable: false,
-      },
-    ],
-  };
-};

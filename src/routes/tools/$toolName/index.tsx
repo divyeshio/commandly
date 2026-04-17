@@ -22,16 +22,9 @@ import {
   removeSavedCommandFromStorage,
 } from "@/lib/editor-utils";
 import { SavedCommand } from "@/lib/types";
-import { cn, defaultTool } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  CheckIcon,
-  ChevronsUpDownIcon,
-  Edit2Icon,
-  InfoIcon,
-  SaveIcon,
-  TerminalIcon,
-} from "lucide-react";
+import { CheckIcon, ChevronsUpDownIcon, Edit2Icon, InfoIcon, SaveIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -39,18 +32,23 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/tools/$toolName/")({
   component: RouteComponent,
   validateSearch: (search) => ({
-    newTool: typeof search.newTool === "string" ? search.newTool : undefined,
+    isLocal: search.isLocal === true,
   }),
-  loaderDeps: ({ search: { newTool } }) => ({
-    newTool,
+  loaderDeps: ({ search: { isLocal } }) => ({
+    isLocal,
   }),
-  loader: async ({ params: { toolName }, deps: { newTool } }) => {
-    if (newTool) {
-      const newToolData = localStorage.getItem(`tool-${newTool}`);
-      if (newToolData) {
-        return JSON.parse(newToolData) as Tool;
+  loader: async ({ params: { toolName }, deps: { isLocal } }) => {
+    if (isLocal) {
+      const localData = localStorage.getItem(`tool-${toolName}`);
+      if (localData) {
+        return JSON.parse(localData) as Tool;
       } else {
-        return defaultTool() as Tool;
+        return {
+          binaryName: toolName,
+          displayName: toolName,
+          commands: [],
+          parameters: [],
+        } as Tool;
       }
     } else {
       return await fetchToolDetails(toolName);
@@ -68,7 +66,7 @@ export const Route = createFileRoute("/tools/$toolName/")({
 
 function RouteComponent() {
   const tool = Route.useLoaderData();
-  const { newTool } = Route.useSearch();
+  const { isLocal } = Route.useSearch();
 
   const [parameterValues, setParameterValues] = useState({});
   const [savedCommands, setSavedCommands] = useState(() => {
@@ -163,7 +161,7 @@ function RouteComponent() {
             <Link
               to="/tools/$toolName/edit"
               params={{ toolName: tool.binaryName }}
-              search={{ isLocal: !!newTool }}
+              search={{ isLocal: !!isLocal }}
             >
               <Edit2Icon className="h-4 w-4" />
               Edit
@@ -299,24 +297,24 @@ function RouteComponent() {
         </Card>
 
         <Card className="w-full max-w-full lg:h-full lg:w-3xl">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <TerminalIcon className="h-5 w-5" />
-              Generated Command
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <GeneratedCommand
-              selectedCommand={
-                selectedCommand === ""
-                  ? null
-                  : tool.commands.find((command) => command.name === selectedCommand)
-              }
-              tool={tool}
-              parameterValues={parameterValues}
-              onSaveCommand={handleSaveCommand}
-            />
-          </CardContent>
+          <GeneratedCommand
+            selectedCommand={
+              selectedCommand === ""
+                ? null
+                : tool.commands.find((command) => command.name === selectedCommand)
+            }
+            tool={tool}
+            parameterValues={parameterValues}
+            onSaveCommand={handleSaveCommand}
+          >
+            <GeneratedCommand.Header>
+              <GeneratedCommand.FlagPreference />
+            </GeneratedCommand.Header>
+            <CardContent className="space-y-4">
+              <GeneratedCommand.Output />
+              <GeneratedCommand.Actions />
+            </CardContent>
+          </GeneratedCommand>
         </Card>
       </div>
       <SavedCommandsDialog

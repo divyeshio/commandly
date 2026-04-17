@@ -230,7 +230,7 @@ export const ContextContentFooter = ({
 const TokensWithCost = ({ tokens, costText }: { tokens?: number; costText?: string }) => (
   <span>
     {tokens === undefined
-      ? "—"
+      ? "-"
       : new Intl.NumberFormat("en-US", {
           notation: "compact",
         }).format(tokens)}

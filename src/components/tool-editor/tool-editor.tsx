@@ -8,6 +8,7 @@ import { ParameterList } from "./parameter-list";
 import { PreviewTabs } from "./preview-tabs";
 import { ToolBuilderProvider, useToolBuilder } from "./tool-editor.context";
 import { Tool } from "@/components/commandly/types/flat";
+import { fixTool } from "@/components/commandly/utils/flat";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { SavedCommand } from "@/lib/types";
@@ -119,7 +120,7 @@ function ToolEditorContent({
   })();
 
   const handleContribute = async () => {
-    const json = JSON.stringify(tool, null, 2);
+    const json = JSON.stringify(fixTool(tool, { removeMetadata: true }), null, 2);
     const filePath = `public/tools-collection/${tool.binaryName}.json`;
 
     if (isNewTool) {
@@ -239,7 +240,7 @@ function ToolEditorContent({
       </div>
 
       <div className="flex min-h-0 flex-1 overflow-hidden">
-        <div className="flex w-72 shrink-0 flex-col overflow-hidden">
+        <div className="flex w-72 shrink-0 flex-col overflow-hidden pt-2">
           <CommandTree isChatOpen={chatOpen} />
         </div>
 
