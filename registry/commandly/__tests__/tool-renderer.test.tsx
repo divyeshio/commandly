@@ -1,10 +1,10 @@
+import { defaultTool } from "../../../tests/test-utils";
 import { ToolRenderer, defaultComponents } from "../tool-renderer";
 import { ParameterRendererEntry } from "@/components/commandly/types/renderer";
-import { createNewParameter } from "@/components/commandly/utils/flat";
-import { defaultTool } from "@/lib/utils";
 import { render, screen } from "@testing-library/react";
 const baseCommand = { key: "my-tool", name: "my-tool", sortOrder: 0 };
 const baseTool = { ...defaultTool(), commands: [baseCommand] };
+const baseParam = { commandKey: "my-tool" };
 
 describe("ToolRenderer", () => {
   it("renders no parameters message if none", () => {
@@ -21,7 +21,7 @@ describe("ToolRenderer", () => {
 
   it("renders a Flag parameter as a switch", () => {
     const param = {
-      ...createNewParameter(false, "my-tool"),
+      ...baseParam,
       key: "verbose",
       name: "Verbose",
       parameterType: "Flag" as const,
@@ -41,7 +41,7 @@ describe("ToolRenderer", () => {
 
   it("renders an Argument parameter as an input", () => {
     const param = {
-      ...createNewParameter(false, "my-tool"),
+      ...baseParam,
       key: "target",
       name: "Target",
       parameterType: "Argument" as const,
@@ -61,7 +61,7 @@ describe("ToolRenderer", () => {
 
   it("renders an Option/Enum parameter as a select", () => {
     const param = {
-      ...createNewParameter(false, "my-tool"),
+      ...baseParam,
       key: "format",
       name: "Format",
       parameterType: "Option" as const,
@@ -82,7 +82,7 @@ describe("ToolRenderer", () => {
 
   it("renders an Option/Boolean parameter as a switch", () => {
     const param = {
-      ...createNewParameter(false, "my-tool"),
+      ...baseParam,
       key: "enabled",
       name: "Enabled",
       parameterType: "Option" as const,
@@ -102,7 +102,7 @@ describe("ToolRenderer", () => {
 
   it("renders an Option/String parameter as a text input", () => {
     const param = {
-      ...createNewParameter(false, "my-tool"),
+      ...baseParam,
       key: "output",
       name: "Output",
       parameterType: "Option" as const,
@@ -122,7 +122,7 @@ describe("ToolRenderer", () => {
 
   it("renders a repeatable Option with an 'Add another' button", () => {
     const param = {
-      ...createNewParameter(false, "my-tool"),
+      ...baseParam,
       key: "header",
       name: "Header",
       parameterType: "Option" as const,
@@ -143,7 +143,7 @@ describe("ToolRenderer", () => {
 
   it("renders multiple rows for a repeatable Option with array value", () => {
     const param = {
-      ...createNewParameter(false, "my-tool"),
+      ...baseParam,
       key: "header",
       name: "Header",
       parameterType: "Option" as const,
@@ -166,7 +166,7 @@ describe("ToolRenderer", () => {
 
   it("renders an allowMultiple Enum parameter without crashing when value is an array (repeatable-to-non-repeatable transition)", () => {
     const param = {
-      ...createNewParameter(false, "my-tool"),
+      ...baseParam,
       key: "format",
       name: "Format",
       parameterType: "Option" as const,
@@ -196,7 +196,7 @@ describe("ToolRenderer", () => {
 
   it("custom catalog entry takes precedence over built-in", () => {
     const param = {
-      ...createNewParameter(false, "my-tool"),
+      ...baseParam,
       key: "verbose",
       name: "Verbose",
       parameterType: "Flag" as const,
@@ -345,7 +345,7 @@ describe("ToolRenderer", () => {
 
   it("does not render info icon when description is empty or absent", () => {
     const paramNoDesc = {
-      ...createNewParameter(false, "my-tool"),
+      ...baseParam,
       key: "flag-no-desc",
       name: "NoDesc",
       parameterType: "Flag" as const,
@@ -353,7 +353,7 @@ describe("ToolRenderer", () => {
       description: undefined,
     };
     const paramEmptyDesc = {
-      ...createNewParameter(false, "my-tool"),
+      ...baseParam,
       key: "flag-empty-desc",
       name: "EmptyDesc",
       parameterType: "Flag" as const,

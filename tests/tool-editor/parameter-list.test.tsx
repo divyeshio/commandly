@@ -1,3 +1,4 @@
+import { defaultTool } from "../test-utils";
 import { Parameter, ExclusionGroup } from "@/components/commandly/types/flat";
 import { ParameterList } from "@/components/tool-editor/parameter-list";
 import {
@@ -5,7 +6,6 @@ import {
   ToolBuilderState,
   useToolBuilder,
 } from "@/components/tool-editor/tool-editor.context";
-import { defaultTool } from "@/lib/utils";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { ReactNode } from "react";
 

@@ -1,5 +1,6 @@
 import { GeneratedCommand } from "../generated-command";
-import { render, screen } from "@testing-library/react";
+import { generateCommand } from "@/components/commandly/utils/flat";
+import { fireEvent, render, screen } from "@testing-library/react";
 
 const testTool = {
   binaryName: "tool",
@@ -321,5 +322,263 @@ describe("GeneratedCommand", () => {
     );
     const output = screen.getByText(/mycli/);
     expect(output.textContent).toBe("mycli config get app.name");
+  });
+
+  it("renders long flags when useLongFlag is enabled", () => {
+    const tool = {
+      binaryName: "curl",
+      displayName: "Curl",
+      commands: [{ key: "curl", name: "curl", sortOrder: 1 }],
+      parameters: [
+        {
+          key: "request",
+          name: "Request",
+          commandKey: "curl",
+          parameterType: "Option" as const,
+          dataType: "String" as const,
+          shortFlag: "-X",
+          longFlag: "--request",
+          sortOrder: 1,
+        },
+      ],
+    };
+
+    render(
+      <GeneratedCommand
+        tool={tool}
+        parameterValues={{ request: "POST" }}
+        useLongFlag={true}
+      />,
+    );
+
+    const output = screen.getByText(/curl/);
+    expect(output.textContent).toBe("curl --request POST");
+  });
+
+  it("toggles between short and long flags from the UI", () => {
+    const tool = {
+      binaryName: "curl",
+      displayName: "Curl",
+      commands: [{ key: "curl", name: "curl", sortOrder: 1 }],
+      parameters: [
+        {
+          key: "request",
+          name: "Request",
+          commandKey: "curl",
+          parameterType: "Option" as const,
+          dataType: "String" as const,
+          shortFlag: "-X",
+          longFlag: "--request",
+          sortOrder: 1,
+        },
+      ],
+    };
+
+    render(
+      <GeneratedCommand
+        tool={tool}
+        parameterValues={{ request: "POST" }}
+      >
+        <GeneratedCommand.Header>
+          <GeneratedCommand.FlagPreference />
+        </GeneratedCommand.Header>
+        <GeneratedCommand.Output />
+        <GeneratedCommand.Actions />
+      </GeneratedCommand>,
+    );
+
+    expect(screen.getByText("curl -X POST")).toBeInTheDocument();
+    expect(screen.getByText(/generated command/i)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("switch", { name: /long flags/i }));
+
+    expect(screen.getByText("curl --request POST")).toBeInTheDocument();
+  });
+
+  it("allows composing a custom toolbar without affecting default actions", () => {
+    const tool = {
+      binaryName: "curl",
+      displayName: "Curl",
+      commands: [{ key: "curl", name: "curl", sortOrder: 1 }],
+      parameters: [
+        {
+          key: "request",
+          name: "Request",
+          commandKey: "curl",
+          parameterType: "Option" as const,
+          dataType: "String" as const,
+          shortFlag: "-X",
+          longFlag: "--request",
+          sortOrder: 1,
+        },
+      ],
+    };
+
+    render(
+      <GeneratedCommand
+        tool={tool}
+        parameterValues={{ request: "POST" }}
+      >
+        <GeneratedCommand.Header>
+          <span>Custom Controls</span>
+        </GeneratedCommand.Header>
+        <GeneratedCommand.Toolbar>
+          <GeneratedCommand.FlagPreference />
+        </GeneratedCommand.Toolbar>
+        <GeneratedCommand.Output />
+        <GeneratedCommand.Actions />
+      </GeneratedCommand>,
+    );
+
+    expect(screen.getByText("Custom Controls")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /copy command/i })).toBeInTheDocument();
+  });
+
+  it("still allows rendering only the output without header or preference", () => {
+    const tool = {
+      binaryName: "curl",
+      displayName: "Curl",
+      commands: [{ key: "curl", name: "curl", sortOrder: 1 }],
+      parameters: [
+        {
+          key: "request",
+          name: "Request",
+          commandKey: "curl",
+          parameterType: "Option" as const,
+          dataType: "String" as const,
+          shortFlag: "-X",
+          longFlag: "--request",
+          sortOrder: 1,
+        },
+      ],
+    };
+
+    render(
+      <GeneratedCommand
+        tool={tool}
+        parameterValues={{ request: "POST" }}
+      >
+        <GeneratedCommand.Output />
+      </GeneratedCommand>,
+    );
+
+    expect(screen.getByText("curl -X POST")).toBeInTheDocument();
+    expect(screen.queryByText(/generated command/i)).not.toBeInTheDocument();
+    expect(screen.queryByRole("switch", { name: /long flags/i })).not.toBeInTheDocument();
+  });
+});
+
+describe("generateCommand", () => {
+  it("prefers short flags by default", () => {
+    const command = generateCommand(
+      {
+        binaryName: "curl",
+        displayName: "Curl",
+        commands: [{ key: "curl", name: "curl", sortOrder: 1 }],
+        parameters: [
+          {
+            key: "request",
+            name: "Request",
+            commandKey: "curl",
+            parameterType: "Option",
+            dataType: "String",
+            shortFlag: "-X",
+            longFlag: "--request",
+            sortOrder: 1,
+          },
+          {
+            key: "verbose",
+            name: "Verbose",
+            commandKey: "curl",
+            parameterType: "Flag",
+            dataType: "Boolean",
+            shortFlag: "-v",
+            longFlag: "--verbose",
+            sortOrder: 2,
+          },
+        ],
+      },
+      { request: "POST", verbose: true },
+    );
+
+    expect(command).toBe("curl -X POST -v");
+  });
+
+  it("can prefer long flags for flags and options", () => {
+    const command = generateCommand(
+      {
+        binaryName: "curl",
+        displayName: "Curl",
+        commands: [{ key: "curl", name: "curl", sortOrder: 1 }],
+        parameters: [
+          {
+            key: "request",
+            name: "Request",
+            commandKey: "curl",
+            parameterType: "Option",
+            dataType: "String",
+            shortFlag: "-X",
+            longFlag: "--request",
+            sortOrder: 1,
+          },
+          {
+            key: "verbose",
+            name: "Verbose",
+            commandKey: "curl",
+            parameterType: "Flag",
+            dataType: "Boolean",
+            shortFlag: "-v",
+            longFlag: "--verbose",
+            sortOrder: 2,
+          },
+        ],
+      },
+      { request: "POST", verbose: true },
+      { useLongFlag: true },
+    );
+
+    expect(command).toBe("curl --request POST --verbose");
+  });
+
+  it("matches root and global parameter handling when no command is selected", () => {
+    const command = generateCommand(
+      {
+        binaryName: "mycli",
+        displayName: "My CLI",
+        commands: [{ key: "sub", name: "sub", sortOrder: 0 }],
+        parameters: [
+          {
+            key: "verbose",
+            name: "Verbose",
+            parameterType: "Flag",
+            dataType: "Boolean",
+            longFlag: "--verbose",
+            isGlobal: true,
+            sortOrder: 1,
+          },
+          {
+            key: "config",
+            name: "Config",
+            parameterType: "Option",
+            dataType: "String",
+            longFlag: "--config",
+            sortOrder: 2,
+          },
+          {
+            key: "output",
+            name: "Output",
+            parameterType: "Option",
+            dataType: "String",
+            commandKey: "sub",
+            longFlag: "--output",
+            sortOrder: 3,
+          },
+        ],
+      },
+      { verbose: true, config: "app.json", output: "ignored.txt" },
+      { selectedCommand: null },
+    );
+
+    expect(command).toBe("mycli --verbose --config app.json");
   });
 });

@@ -1,3 +1,4 @@
+import { defaultTool } from "../test-utils";
 import { Command, Tool } from "@/components/commandly/types/flat";
 import { CommandTree } from "@/components/tool-editor/command-tree";
 import {
@@ -5,7 +6,6 @@ import {
   ToolBuilderState,
   useToolBuilder,
 } from "@/components/tool-editor/tool-editor.context";
-import { defaultTool } from "@/lib/utils";
 import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
 import { ReactNode } from "react";
 
@@ -673,6 +673,26 @@ describe("CommandTree", () => {
       });
 
       expect(screen.getByText("empty-tool")).toBeInTheDocument();
+    });
+
+    it("does not render expansion arrow on root when there are no commands", () => {
+      const tool = defaultTool("empty-tool", "Empty Tool");
+      renderWithProvider(<CommandTree />, {
+        tool,
+        selectedCommand: null,
+      });
+
+      const rootTrigger = getRootTrigger();
+      const chevronButton = rootTrigger.querySelector("[data-state]");
+      expect(chevronButton).toBeNull();
+    });
+
+    it("renders expansion arrow on root when there are commands", () => {
+      renderWithProvider(<CommandTree />, complexToolState());
+
+      const rootTrigger = getRootTrigger();
+      const chevronButton = rootTrigger.querySelector("[data-state]");
+      expect(chevronButton).not.toBeNull();
     });
 
     it("handles invalid command hierarchies gracefully", () => {

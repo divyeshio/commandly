@@ -1,12 +1,11 @@
+import { defaultTool } from "../../test-utils";
 import { Parameter, Command } from "@/components/commandly/types/flat";
-import { createNewParameter } from "@/components/commandly/utils/flat";
 import { ParameterDetailsDialog } from "@/components/tool-editor/dialogs/parameter-details-dialog";
 import {
   ToolBuilderProvider,
   ToolBuilderState,
   useToolBuilder,
 } from "@/components/tool-editor/tool-editor.context";
-import { defaultTool } from "@/lib/utils";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 
 const createTestParameter = (overrides: Partial<Parameter> = {}): Parameter => ({
@@ -144,7 +143,7 @@ describe("ParameterDetailsDialog - Form Fields", () => {
     const parameterTypeSelect = selectElements[0];
     const dataTypeSelect = selectElements[1];
 
-    // Switch to Flag — dataType is auto-set to Boolean, only Boolean is in the list
+    // Switch to Flag - dataType is auto-set to Boolean, only Boolean is in the list
     act(() => {
       fireEvent.click(parameterTypeSelect);
     });
@@ -154,7 +153,7 @@ describe("ParameterDetailsDialog - Form Fields", () => {
     expect(screen.getByText("Flag")).toBeInTheDocument();
     expect(screen.getByText("Boolean")).toBeInTheDocument();
 
-    // Switch back to Option — change data type to Enum
+    // Switch back to Option - change data type to Enum
     act(() => {
       fireEvent.click(parameterTypeSelect);
     });
@@ -404,7 +403,7 @@ describe("ParameterDetailsDialog - Dependencies Section", () => {
     const initState: Partial<ToolBuilderState> = {
       ...createTestState(testParameter),
     };
-    // Only this parameter — no others available
+    // Only this parameter - no others available
     initState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
 
     renderWithProvider(initState);
@@ -710,7 +709,14 @@ describe("ParameterDetailsDialog - Enum Section", () => {
   });
 
   it("shows Add label for new parameters and Save Changes for existing ones", () => {
-    const newParameter = createNewParameter(false, "test-command-key");
+    const newParameter: Parameter = {
+      key: "",
+      name: "",
+      commandKey: "test-command-key",
+      parameterType: "Option",
+      dataType: "String",
+      longFlag: "",
+    };
     renderWithProvider(createTestState(newParameter));
 
     expect(screen.queryByRole("button", { name: "Save Changes" })).not.toBeInTheDocument();

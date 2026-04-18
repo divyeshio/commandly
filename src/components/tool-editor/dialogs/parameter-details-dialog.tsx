@@ -11,7 +11,7 @@ import {
   ParameterValidationType,
 } from "@/components/commandly/types/flat";
 import { TagsInput } from "@/components/commandly/ui/tags-input";
-import { createNewParameter, slugify } from "@/components/commandly/utils/flat";
+import { slugify } from "@/components/commandly/utils/flat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -76,7 +76,16 @@ export function ParameterDetailsDialog({
   const isNewParameter = !parameter;
 
   const [internalParameter, setParameter] = useState<Parameter>(
-    () => parameter ?? createNewParameter(isGlobal, commandKey),
+    () =>
+      parameter ?? {
+        key: "",
+        name: "",
+        commandKey: isGlobal ? undefined : commandKey,
+        parameterType: "Option" as ParameterType,
+        dataType: "String" as ParameterDataType,
+        ...(isGlobal ? { isGlobal: true as const } : {}),
+        longFlag: "",
+      },
   );
   const [hasChanges, setHasChanges] = useState(false);
   const enumValueIdsRef = useRef<string[]>(

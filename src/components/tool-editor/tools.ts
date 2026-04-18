@@ -1,5 +1,6 @@
 import { Tool } from "@/components/commandly/types/flat";
-import { cleanupTool, exportToStructuredJSON } from "@/components/commandly/utils/flat";
+import { exportToStructuredJSON } from "@/components/commandly/utils/flat";
+import { fixTool } from "@/components/commandly/utils/flat";
 import { tool } from "ai";
 import { JSONPath } from "jsonpath-plus";
 import { z } from "zod";
@@ -11,7 +12,7 @@ export function applyMergePatch(base: Tool, patch: Partial<Tool>): Tool {
       delete (merged as Record<string, unknown>)[k];
     }
   }
-  return cleanupTool(merged);
+  return fixTool(merged);
 }
 
 export function createEditTool(getBase: () => Tool, onPreview: (tool: Tool) => void) {
@@ -23,7 +24,7 @@ export function createEditTool(getBase: () => Tool, onPreview: (tool: Tool) => v
       patch: z
         .record(z.string(), z.any())
         .describe(
-          "Partial<Tool> merge patch — only include top-level fields being changed. Arrays (parameters, commands) must be included in full when modified.",
+          "Partial<Tool> merge patch - only include top-level fields being changed. Arrays (parameters, commands) must be included in full when modified.",
         ),
     }),
     execute: async ({ summary, patch }) => {
@@ -35,7 +36,7 @@ export function createEditTool(getBase: () => Tool, onPreview: (tool: Tool) => v
   });
 }
 
-export function createApplyToolDefinitionTool(onApplied: () => void, onApply: () => void) {
+export function createApplyToolDefinitionTool(onApply: () => void) {
   return tool({
     description:
       "Finalize all edits and present them to the user for approval. Call this exactly once after all editTool calls are complete. This is always the last tool call.",
@@ -44,7 +45,6 @@ export function createApplyToolDefinitionTool(onApplied: () => void, onApply: ()
     }),
     needsApproval: true,
     execute: async () => {
-      onApplied();
       onApply();
       return { success: true };
     },
@@ -100,24 +100,11 @@ export function createTavilySearchTool(apiKey: string) {
 
 export function createTavilyExtractTool(apiKey: string) {
   return tool({
-    description:
-      "Extract content from one or more web page URLs. For large pages, use startOffset and maxChars to read in chunks — call again with the next startOffset when hasMore is true.",
+    description: "Extract content from one or more web page URLs.",
     inputSchema: z.object({
       urls: z.array(z.string()).describe("URLs to extract content from"),
-      startOffset: z
-        .number()
-        .optional()
-        .describe(
-          "Character offset to start reading from (default 0). Use nextOffset from a previous response to continue.",
-        ),
-      maxChars: z
-        .number()
-        .optional()
-        .describe(
-          "Max characters to return per URL (default 6000). Reduce if content is too large to process at once.",
-        ),
     }),
-    execute: async ({ urls, startOffset = 0, maxChars = 6000 }) => {
+    execute: async ({ urls }) => {
       const resp = await fetch("https://api.tavily.com/extract", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -131,10 +118,7 @@ export function createTavilyExtractTool(apiKey: string) {
         results:
           data.results?.map((r) => ({
             url: r.url,
-            raw_content: r.raw_content.slice(startOffset, startOffset + maxChars),
-            totalChars: r.raw_content.length,
-            hasMore: r.raw_content.length > startOffset + maxChars,
-            nextOffset: startOffset + maxChars,
+            raw_content: r.raw_content,
           })) ?? [],
       };
     },

@@ -1,8 +1,8 @@
+import { defaultTool } from "../../../tests/test-utils";
 import { JsonOutput } from "../json-output";
 import type { Tool } from "@/components/commandly/types/flat";
 import { exportToStructuredJSON } from "@/components/commandly/utils/flat";
 import { convertToNestedStructure } from "@/components/commandly/utils/nested";
-import { defaultTool } from "@/lib/utils";
 import { render, screen } from "@testing-library/react";
 import { OnUrlUpdateFunction, withNuqsTestingAdapter } from "nuqs/adapters/testing";
 
@@ -32,7 +32,7 @@ describe("JsonOutput", () => {
     });
 
     expect(screen.getByRole("combobox")).toBeInTheDocument();
-    expect(screen.getByText(/\"binaryName\"|\"name\"/)).toBeInTheDocument();
+    expect(screen.getByText(/"binaryName"|"name"/)).toBeInTheDocument();
   });
 });
 

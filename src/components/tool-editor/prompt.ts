@@ -1,3 +1,10 @@
+import {
+  SORTING_RULES,
+  GROUPING_RULES,
+  TYPE_FIX_RULES,
+  VALIDATION_RULES,
+} from "@/components/ai-chat/tool-rules";
+
 export const generatePrompt = (
   jsonSchema: string,
   options?: {
@@ -12,7 +19,7 @@ export const generatePrompt = (
   const selectedParameters = options?.context?.selectedParameters ?? [];
   const hasFocusedContext = selectedCommands.length > 0 || selectedParameters.length > 0;
   const focusedContextBlock = hasFocusedContext
-    ? `\n<focused_context>\nIMPORTANT: Focus your changes EXCLUSIVELY on the items listed below. Do not modify any other commands or parameters — preserve them exactly as-is.\n${
+    ? `\n<focused_context>\nIMPORTANT: Focus your changes EXCLUSIVELY on the items listed below. Do not modify any other commands or parameters - preserve them exactly as-is.\n${
         selectedCommands.length > 0
           ? `Commands:\n${selectedCommands.map((c) => `  - ${c.name} (key: ${c.key})`).join("\n")}\n`
           : ""
@@ -61,29 +68,42 @@ ${jsonSchema}
 19. **Short Flags:** If short flag is not present then do not add it to the parameter object.
 20. Ensure all enum values are correctly parsed and included in the output JSON. Enum values must use the shape \`"enum": { "values": [...], "allowMultiple": false, "separator": "," }\` where \`allowMultiple\` and \`separator\` are optional (default false and "," respectively).
 21. Ensure all dependencies and validations are correctly parsed and included in the output JSON.
-22. Do not add a \`defaultValue\` field to parameters — this property does not exist in the schema.
-23. Tool description and version must be nested under an \`info\` object: \`{ "info": { "description": "...", "version": "..." } }\`. Do not add top-level \`description\` or \`version\` fields.
+22. Tool description and version must be nested under an \`info\` object: \`{ "info": { "description": "...", "version": "..." } }\`. Do not add top-level \`description\` or \`version\` fields.
 </parsing_rules>
 
 <capabilities>
-You can:
-1. Read the current tool JSON using \`readTool\` — always call this first before making any edits to understand the current structure. For large tools, use the \`fields\` parameter to read only specific sections (e.g. \`["parameters"]\` or \`["commands"]\`).
-2. Parse CLI help text and produce a complete tool JSON from scratch.
-3. Modify an existing tool definition incrementally using \`editTool\` — can be called multiple times for separate logical groups of changes.
-4. Call \`applyToolDefinition\` exactly once when all edits are complete to present the final changes to the user for approval. This is always the last tool call — do not call any other tool after it.
-5. Answer questions about CLI tool structure.
-6. Search the web for CLI documentation when needed. For large pages, use \`startOffset\` and \`maxChars\` parameters on \`tavilyExtract\` to read content in chunks.
+You have access to the following tools:
+1. \`readTool\` - Read the current tool JSON to inspect its structure or verify changes. Always call this first before making any edits. Use the \`jsonPath\` parameter to read only specific sections (e.g. \`$.parameters\`, \`$.commands\`, \`$.info\`).
+2. \`editTool\` - Apply a JSON merge patch (RFC 7396) to incrementally edit the tool definition. Can be called multiple times for separate logical groups of changes.
+3. \`applyToolDefinition\` - Finalize all edits and present them to the user for approval. Call this exactly once after all editTool calls are complete. This is always the last tool call - do not call any other tool after it.
+4. \`tavilySearch\` - Search the web for CLI tool documentation, help text, or related information. Use when you need to find official docs or usage examples.
+5. \`tavilyExtract\` - Extract content from one or more web page URLs.
 </capabilities>
+
+<sorting_and_grouping_rules>
+${SORTING_RULES}
+
+Grouping guidelines:
+${GROUPING_RULES}
+</sorting_and_grouping_rules>
+
+<type_fix_rules>
+${TYPE_FIX_RULES}
+</type_fix_rules>
+
+<validation_rules>
+${VALIDATION_RULES}
+</validation_rules>
 
 <output_rules>
 - Always call \`readTool\` first to inspect the current tool before making any changes.
 - Use \`editTool\` to apply incremental JSON merge patches (RFC 7396). Only include the fields that changed. When modifying arrays (parameters, commands), include the complete updated array.
 - You may call \`editTool\` multiple times for separate logical groups of changes. After a batch of edits, call \`readTool\` to verify the result before continuing.
 - Always include a concise \`summary\` on each \`editTool\` call describing what that specific edit changes.
-- When modifying an existing tool, preserve all other fields, keys, and structure exactly as-is — including validations, exclusionGroups, dependencies, enum, tags, and any other existing data.
+- When modifying an existing tool, preserve all other fields, keys, and structure exactly as-is - including validations, exclusionGroups, dependencies, enum, tags, and any other existing data.
 - Do not add empty arrays or objects for optional properties (e.g. do not include \`"validations": []\`, \`"exclusionGroups": []\`, \`"tags": []\`, \`"dependencies": []\`, or \`"enum": { "values": [] }\` unless already present).
 - After all edits are complete and verified with \`readTool\`, call \`applyToolDefinition\` once with an overall summary of all changes. Do NOT call any other tool after \`applyToolDefinition\`.
-- For large help text pages: process in sections — read a chunk using \`startOffset\` + \`maxChars\`, apply the relevant \`editTool\` patch, then continue with the next chunk. Do not try to process everything at once.
+- For large help text pages: process in sections - break the text into logical groups and create a separate \`editTool\` patch for each section. Do not try to process everything at once.
 - If the user asks a question without requesting changes, answer in plain text without calling any tool.
 - All parameter keys must be unique. They should be meaningful and derived from the parameter name or description.
 - All descriptions should be in sentence case.

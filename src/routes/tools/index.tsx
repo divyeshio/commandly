@@ -76,11 +76,15 @@ function RouteComponent() {
   const [newToolDialogOpen, setNewToolDialogOpen] = useState(false);
   const [newToolName, setNewToolName] = useState("");
   const [newToolDisplayName, setNewToolDisplayName] = useState("");
+  const [newToolDescription, setNewToolDescription] = useState("");
+  const [newToolUrl, setNewToolUrl] = useState("");
   const [displayNameEdited, setDisplayNameEdited] = useState(false);
 
   const handleNewTool = () => {
     setNewToolName("");
     setNewToolDisplayName("");
+    setNewToolDescription("");
+    setNewToolUrl("");
     setDisplayNameEdited(false);
     setNewToolDialogOpen(true);
   };
@@ -95,7 +99,17 @@ function RouteComponent() {
   const handleCreateTool = () => {
     const name = slugify(newToolName.trim());
     const displayName = newToolDisplayName.trim() || newToolName.trim();
-    const newTool: Tool = { binaryName: name, displayName, commands: [], parameters: [] };
+    const description = newToolDescription.trim();
+    const url = newToolUrl.trim();
+    const info =
+      description || url ? { ...(description && { description }), ...(url && { url }) } : undefined;
+    const newTool: Tool = {
+      binaryName: name,
+      displayName,
+      commands: [],
+      parameters: [],
+      ...(info && { info }),
+    };
     localStorage.setItem(`tool-${name}`, JSON.stringify(newTool));
     setNewToolDialogOpen(false);
     navigation({
@@ -179,6 +193,24 @@ function RouteComponent() {
                     setNewToolDisplayName(e.target.value);
                     setDisplayNameEdited(true);
                   }}
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="new-tool-description">Description</Label>
+                <Input
+                  id="new-tool-description"
+                  value={newToolDescription}
+                  onChange={(e) => setNewToolDescription(e.target.value)}
+                  placeholder="Optional"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="new-tool-url">URL</Label>
+                <Input
+                  id="new-tool-url"
+                  value={newToolUrl}
+                  onChange={(e) => setNewToolUrl(e.target.value)}
+                  placeholder="https://example.com (optional)"
                 />
               </div>
             </div>

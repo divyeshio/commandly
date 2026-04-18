@@ -1,6 +1,5 @@
 import { useToolBuilder } from "./tool-editor.context";
 import { ExclusionGroup, ParameterType } from "@/components/commandly/types/flat";
-import { createNewParameter } from "@/components/commandly/utils/flat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -127,7 +126,15 @@ export function ParameterList({
           {title} ({parameters.length})
         </h3>
         <Button
-          onClick={() => setSelectedParameter(createNewParameter(isGlobal, selectedCommand?.key))}
+          onClick={() =>
+            setSelectedParameter({
+              key: "",
+              name: "",
+              parameterType: "Option",
+              dataType: "String",
+              ...(isGlobal ? { isGlobal: true as const } : { commandKey: selectedCommand?.key }),
+            })
+          }
           size="sm"
         >
           <PlusIcon className="h-4 w-4" />

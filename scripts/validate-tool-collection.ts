@@ -2,7 +2,12 @@ import { readFileSync, writeFileSync } from "fs";
 import { basename, resolve } from "path";
 
 import type { Tool } from "@/components/commandly/types/flat";
-import { sanitizeToolJSON } from "@/components/commandly/utils/flat";
+import { fixTool } from "@/components/commandly/utils/flat";
+import {
+  validateTool,
+  formatValidationErrors,
+  hasErrors,
+} from "@/components/commandly/utils/tool-validation";
 import Ajv from "ajv";
 
 const schemaPath = resolve("public/specification/flat.json");
@@ -35,7 +40,7 @@ for (const file of files) {
   try {
     tool = JSON.parse(raw) as Tool;
   } catch (e) {
-    errors.push(`❌ \`${file}\`: Invalid JSON — ${(e as Error).message}`);
+    errors.push(`❌ \`${file}\`: Invalid JSON - ${(e as Error).message}`);
     continue;
   }
 
@@ -54,27 +59,14 @@ for (const file of files) {
     continue;
   }
 
-  if (!Array.isArray(tool.commands)) {
-    errors.push(`❌ \`${file}\`: \`commands\` must be an array.`);
+  const toolErrors = validateTool(tool);
+  if (hasErrors(toolErrors)) {
+    errors.push(`❌ \`${file}\`:\n${formatValidationErrors(toolErrors)}`);
     continue;
   }
 
-  const hasCommands = tool.commands.length > 0;
-  for (const param of tool.parameters) {
-    if (!hasCommands && (param.commandKey || param.isGlobal)) {
-      errors.push(
-        `❌ \`${file}\`: Parameter \`${param.key}\` must not have \`commandKey\` or \`isGlobal\` when there are no commands.`,
-      );
-    }
-    if (hasCommands && !param.commandKey && !param.isGlobal) {
-      errors.push(
-        `❌ \`${file}\`: Parameter \`${param.key}\` must have \`commandKey\` or \`isGlobal\` when commands exist.`,
-      );
-    }
-  }
-
-  const sanitized = sanitizeToolJSON(tool);
-  const output = JSON.stringify(sanitized, null, 2);
+  const fixed = fixTool(tool, { addSchema: true, removeMetadata: true });
+  const output = JSON.stringify(fixed, null, 2);
 
   if (output !== raw.trimEnd()) {
     writeFileSync(file, output + "\n", "utf-8");

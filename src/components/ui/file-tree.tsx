@@ -307,6 +307,7 @@ type FolderProps = {
   isSelectable?: boolean
   isSelect?: boolean
   actions?: React.ReactNode
+  hasChildren?: boolean
   onClick?: (e: React.MouseEvent) => void
 } & React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
 
@@ -322,6 +323,7 @@ const Folder = forwardRef<
         isSelectable = true,
         isSelect,
         actions,
+      hasChildren = true,
       onClick: onClickProp,
       children,
       ...props
@@ -370,17 +372,19 @@ const Folder = forwardRef<
                 }
               }}
             >
-              <span
-                role="button"
-                className="inline-flex shrink-0 items-center justify-center transition-transform duration-200 data-[state=open]:rotate-90"
-                data-state={expandedItems?.includes(value) ? "open" : "closed"}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  handleExpand(value)
-                }}
-              >
-                <ChevronRightIcon className="size-4" />
-              </span>
+              {hasChildren && (
+                <span
+                  role="button"
+                  className="inline-flex shrink-0 items-center justify-center transition-transform duration-200 data-[state=open]:rotate-90"
+                  data-state={expandedItems?.includes(value) ? "open" : "closed"}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleExpand(value)
+                  }}
+                >
+                  <ChevronRightIcon className="size-4" />
+                </span>
+              )}
               {expandedItems?.includes(value)
                 ? (openIcon ?? <FolderOpenIcon className="size-4" />)
                 : (closeIcon ?? <FolderIcon className="size-4" />)}
@@ -393,17 +397,19 @@ const Folder = forwardRef<
             </div>
           </AccordionPrimitive.Trigger>
         </AccordionPrimitive.Header>
-        <AccordionPrimitive.Content className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down relative h-full overflow-hidden text-sm">
-          {element && indicator && <TreeIndicator aria-hidden="true" />}
-          <AccordionPrimitive.Root
-            dir={direction}
-            type="multiple"
-            className="ml-5 flex flex-col gap-1 py-1 rtl:mr-5"
-            value={expandedItems}
-          >
-            {children}
-          </AccordionPrimitive.Root>
-        </AccordionPrimitive.Content>
+        {hasChildren && (
+          <AccordionPrimitive.Content className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down relative h-full overflow-hidden text-sm">
+            {element && indicator && <TreeIndicator aria-hidden="true" />}
+            <AccordionPrimitive.Root
+              dir={direction}
+              type="multiple"
+              className="ml-5 flex flex-col gap-1 py-1 rtl:mr-5"
+              value={expandedItems}
+            >
+              {children}
+            </AccordionPrimitive.Root>
+          </AccordionPrimitive.Content>
+        )}
       </AccordionPrimitive.Item>
     )
   }

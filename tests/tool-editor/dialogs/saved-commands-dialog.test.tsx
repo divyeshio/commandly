@@ -58,6 +58,26 @@ describe("SavedCommandsDialog - Rendering", () => {
     expect(screen.getByText("curl -X GET https://api.example.com")).toBeInTheDocument();
     expect(screen.getByText("npm install --save-dev vitest")).toBeInTheDocument();
   });
+
+  it("renders long commands inside a horizontal scroll container", () => {
+    const longCommand =
+      "curl https://example.com/really/long/path/that/should/not/wrap/inside/the/saved/commands/dialog?with=query&and=more-values";
+
+    render(
+      <SavedCommandsDialog
+        open={true}
+        onOpenChange={vi.fn()}
+        savedCommands={[{ key: "long-cmd", command: longCommand }]}
+        onDeleteCommand={vi.fn()}
+      />,
+    );
+
+    const commandText = screen.getByText(longCommand);
+    const scrollContainer = commandText.parentElement;
+
+    expect(scrollContainer).toHaveClass("overflow-x-auto");
+    expect(commandText).toHaveClass("min-w-max", "whitespace-nowrap");
+  });
 });
 
 describe("SavedCommandsDialog - Interactions", () => {

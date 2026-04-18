@@ -2,15 +2,16 @@
 
 ## Tool (root)
 
-| Field             | Type             | Required | Notes                                          |
-| ----------------- | ---------------- | -------- | ---------------------------------------------- |
-| `name`            | string           | ✓        | Lowercase, hyphenated CLI name (e.g. `"curl"`) |
-| `displayName`     | string           | ✓        | Human-friendly title (e.g. `"Curl"`)           |
-| `info`            | ToolInfo         |          | Description, version, URL                      |
-| `commands`        | Command[]        | ✓        | Can be empty for tools with no subcommands     |
-| `parameters`      | Parameter[]      | ✓        | Can be empty array                             |
-| `exclusionGroups` | ExclusionGroup[] |          | Omit if unused                                 |
-| `metadata`        | ToolMetadata     |          | Omit if unused                                 |
+| Field             | Type             | Required | Notes                                         |
+| ----------------- | ---------------- | -------- | --------------------------------------------- |
+| `binaryName`      | string           | ✓        | Lowercase CLI binary name (e.g. `"curl"`)     |
+| `displayName`     | string           | ✓        | Human-friendly title (e.g. `"Curl"`)          |
+| `interactive`     | boolean          |          | True if invoking the root tool opens a prompt |
+| `info`            | ToolInfo         |          | Description, version, URL                     |
+| `commands`        | Command[]        | ✓        | Can be empty for tools with no subcommands    |
+| `parameters`      | Parameter[]      | ✓        | Can be empty array                            |
+| `exclusionGroups` | ExclusionGroup[] |          | Omit if unused                                |
+| `metadata`        | ToolMetadata     |          | Omit if unused                                |
 
 ## ToolInfo
 
@@ -29,7 +30,6 @@
 | `parentCommandKey` | string  |          | For subcommands; key of parent               |
 | `description`      | string  |          |                                              |
 | `interactive`      | boolean |          | True if command opens interactive session    |
-| `isDefault`        | boolean |          | True for the root/default command            |
 | `sortOrder`        | number  |          | Display order                                |
 
 ## Parameter
@@ -48,7 +48,7 @@
 | `isGlobal`          | boolean               |          | True if applies to all commands; must not be set when commands is empty                                   |
 | `shortFlag`         | string                |          | e.g. `"-o"`. Omit if none.                                                                                |
 | `longFlag`          | string                |          | e.g. `"--output"`. Preserve exact prefix.                                                                 |
-| `position`          | number                |          | 1-based; only for `Argument` type                                                                         |
+| `position`          | number                |          | Zero-based; only for `Argument` type                                                                      |
 | `sortOrder`         | number                |          | Display order                                                                                             |
 | `arraySeparator`    | string                |          | For array-valued options                                                                                  |
 | `keyValueSeparator` | string                |          | `" "` or `"="`                                                                                            |
@@ -121,7 +121,7 @@ Valid `exclusionType` values: `"mutual_exclusive"`, `"required_one_of"`
 
 ## $schema
 
-Always include at the top of tool JSON files in the tools-collection:
+Tool JSON files stored in `tools-collection` should include this top-level field. The validation script can inject it automatically:
 
 ```json
 "$schema": "https://commandly.divyeshio.in/specification/flat.json"

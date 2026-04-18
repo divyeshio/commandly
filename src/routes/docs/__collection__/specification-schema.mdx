@@ -10,20 +10,20 @@ The root object of a Commandly flat description.
 | ----------------- | ----------------------- | -------- | -------------------------------------------------------------------------- |
 | `binaryName`      | string                  | ✓        | Unique CLI binary name for the tool, such as `httpx` or `curl`.            |
 | `displayName`     | string                  | ✓        | Human-readable display name.                                               |
-| `interactive`     | boolean                 | —        | If `true`, invoking the root tool opens an interactive session or prompt.  |
-| `info`            | ToolInfo Object         | —        | Metadata about the tool, including the homepage URL.                       |
+| `interactive`     | boolean                 | -        | If `true`, invoking the root tool opens an interactive session or prompt.  |
+| `info`            | ToolInfo Object         | -        | Metadata about the tool, including the homepage URL.                       |
 | `commands`        | Command Object[]        | ✓        | List of commands and subcommands. Can be empty for tools without commands. |
 | `parameters`      | Parameter Object[]      | ✓        | Flat list of all parameters across root, command, and global scope.        |
-| `exclusionGroups` | ExclusionGroup Object[] | —        | Groups of mutually exclusive or required parameters.                       |
-| `metadata`        | ToolMetadata Object     | —        | Custom metadata.                                                           |
+| `exclusionGroups` | ExclusionGroup Object[] | -        | Groups of mutually exclusive or required parameters.                       |
+| `metadata`        | ToolMetadata Object     | -        | Custom metadata.                                                           |
 
 ## ToolInfo Object
 
 | Field         | Type   | Required | Description                               |
 | ------------- | ------ | -------- | ----------------------------------------- |
-| `description` | string | —        | Short description of the tool.            |
-| `version`     | string | —        | Tool version string.                      |
-| `url`         | string | —        | URL to the tool's homepage or repository. |
+| `description` | string | -        | Short description of the tool.            |
+| `version`     | string | -        | Tool version string.                      |
+| `url`         | string | -        | URL to the tool's homepage or repository. |
 
 ## Command Object
 
@@ -31,10 +31,10 @@ The root object of a Commandly flat description.
 | ------------------ | ------- | -------- | --------------------------------------------------------------------------------------- |
 | `key`              | string  | ✓        | Unique identifier. Referenced by parameters via `commandKey`.                           |
 | `name`             | string  | ✓        | Command name as it appears in the CLI invocation.                                       |
-| `parentCommandKey` | string  | —        | Key of the parent command. Omit for root-level commands.                                |
-| `description`      | string  | —        | Human-readable description of the command.                                              |
-| `interactive`      | boolean | —        | If `true`, the command requires interactive user input at runtime. Defaults to `false`. |
-| `sortOrder`        | number  | —        | Display sort order.                                                                     |
+| `parentCommandKey` | string  | -        | Key of the parent command. Omit for root-level commands.                                |
+| `description`      | string  | -        | Human-readable description of the command.                                              |
+| `interactive`      | boolean | -        | If `true`, the command requires interactive user input at runtime. Defaults to `false`. |
+| `sortOrder`        | number  | -        | Display sort order.                                                                     |
 
 ## Parameter Object
 
@@ -44,22 +44,22 @@ The root object of a Commandly flat description.
 | `name`              | string                       | ✓        | Human-readable parameter name.                                                           |
 | `parameterType`     | ParameterType                | ✓        | One of `Flag`, `Option`, or `Argument`.                                                  |
 | `dataType`          | ParameterDataType            | ✓        | One of `String`, `Number`, `Boolean`, or `Enum`.                                         |
-| `isRequired`        | boolean                      | —        | Whether the parameter must be provided.                                                  |
-| `isRepeatable`      | boolean                      | —        | Whether the parameter can appear more than once.                                         |
-| `isGlobal`          | boolean                      | —        | If `true`, the parameter applies to all commands regardless of `commandKey`.             |
-| `commandKey`        | string                       | —        | Key of the command this parameter belongs to. Omit for root-level and global parameters. |
-| `description`       | string                       | —        | Human-readable description.                                                              |
-| `group`             | string                       | —        | Display group label for UI grouping.                                                     |
-| `shortFlag`         | string                       | —        | Short flag form (e.g. `-o`). Used for `Flag` and `Option` types.                         |
-| `longFlag`          | string                       | —        | Long flag form (e.g. `--output`). Used for `Flag` and `Option` types.                    |
-| `position`          | number                       | —        | Zero-based positional index. Required for `Argument` type parameters.                    |
-| `sortOrder`         | number                       | —        | Display sort order.                                                                      |
-| `arraySeparator`    | string                       | —        | Separator used when a repeatable parameter is joined into a single token.                |
-| `keyValueSeparator` | string                       | —        | Character between the flag and its value. Defaults to a space.                           |
-| `enum`              | ParameterEnumValues Object   | —        | Required when `dataType` is `Enum`.                                                      |
-| `validations`       | ParameterValidation Object[] | —        | Validation rules applied to the parameter value.                                         |
-| `dependencies`      | ParameterDependency Object[] | —        | Conditional relationships with other parameters.                                         |
-| `metadata`          | ParameterMetadata Object     | —        | Custom metadata.                                                                         |
+| `isRequired`        | boolean                      | -        | Whether the parameter must be provided.                                                  |
+| `isRepeatable`      | boolean                      | -        | Whether the parameter can appear more than once.                                         |
+| `isGlobal`          | boolean                      | -        | If `true`, the parameter applies to all commands regardless of `commandKey`.             |
+| `commandKey`        | string                       | -        | Key of the command this parameter belongs to. Omit for root-level and global parameters. |
+| `description`       | string                       | -        | Human-readable description.                                                              |
+| `group`             | string                       | -        | Display group label for UI grouping.                                                     |
+| `shortFlag`         | string                       | -        | Short flag form (e.g. `-o`). Used for `Flag` and `Option` types.                         |
+| `longFlag`          | string                       | -        | Long flag form (e.g. `--output`). Used for `Flag` and `Option` types.                    |
+| `position`          | number                       | -        | Zero-based positional index. Required for `Argument` type parameters.                    |
+| `sortOrder`         | number                       | -        | Display sort order.                                                                      |
+| `arraySeparator`    | string                       | -        | Separator used when a repeatable parameter is joined into a single token.                |
+| `keyValueSeparator` | string                       | -        | Character between the flag and its value. Defaults to a space.                           |
+| `enum`              | ParameterEnumValues Object   | -        | Required when `dataType` is `Enum`.                                                      |
+| `validations`       | ParameterValidation Object[] | -        | Validation rules applied to the parameter value.                                         |
+| `dependencies`      | ParameterDependency Object[] | -        | Conditional relationships with other parameters.                                         |
+| `metadata`          | ParameterMetadata Object     | -        | Custom metadata.                                                                         |
 
 ## ParameterType
 
@@ -83,8 +83,8 @@ The root object of a Commandly flat description.
 | Field           | Type                        | Required | Description                                                      |
 | --------------- | --------------------------- | -------- | ---------------------------------------------------------------- |
 | `values`        | ParameterEnumValue Object[] | ✓        | Ordered list of allowed values.                                  |
-| `allowMultiple` | boolean                     | —        | Whether multiple values can be selected simultaneously.          |
-| `separator`     | string                      | —        | Separator used when multiple values are combined into one token. |
+| `allowMultiple` | boolean                     | -        | Whether multiple values can be selected simultaneously.          |
+| `separator`     | string                      | -        | Separator used when multiple values are combined into one token. |
 
 ## ParameterEnumValue Object
 
@@ -92,9 +92,9 @@ The root object of a Commandly flat description.
 | ------------- | ------- | -------- | ------------------------------------------ |
 | `value`       | string  | ✓        | The raw value passed to the CLI.           |
 | `displayName` | string  | ✓        | Human-readable label shown in the UI.      |
-| `description` | string  | —        | Description of what this value does.       |
-| `isDefault`   | boolean | —        | Whether this value is selected by default. |
-| `sortOrder`   | number  | —        | Display sort order.                        |
+| `description` | string  | -        | Description of what this value does.       |
+| `isDefault`   | boolean | -        | Whether this value is selected by default. |
+| `sortOrder`   | number  | -        | Display sort order.                        |
 
 ## ExclusionGroup Object
 
@@ -102,9 +102,9 @@ Defines a group of parameters that are mutually exclusive or where exactly one m
 
 | Field           | Type          | Required | Description                                     |
 | --------------- | ------------- | -------- | ----------------------------------------------- |
-| `key`           | string        | —        | Unique identifier for the group.                |
+| `key`           | string        | -        | Unique identifier for the group.                |
 | `name`          | string        | ✓        | Human-readable group name.                      |
-| `commandKey`    | string        | —        | Key of the command this group applies to.       |
+| `commandKey`    | string        | -        | Key of the command this group applies to.       |
 | `exclusionType` | ExclusionType | ✓        | One of `mutual_exclusive` or `required_one_of`. |
 | `parameterKeys` | string[]      | ✓        | Keys of the parameters belonging to this group. |
 
@@ -144,7 +144,7 @@ Defines a conditional relationship between two parameters.
 | `parameterKey`          | string                  | ✓        | Key of the parameter this dependency rule applies to.                                                                                           |
 | `dependsOnParameterKey` | string                  | ✓        | Key of the parameter being depended upon.                                                                                                       |
 | `dependencyType`        | ParameterDependencyType | ✓        | One of `requires` or `conflicts_with`.                                                                                                          |
-| `conditionValue`        | string                  | —        | Specific value of `dependsOnParameter` that activates this dependency. If omitted, the dependency applies whenever `dependsOnParameter` is set. |
+| `conditionValue`        | string                  | -        | Specific value of `dependsOnParameter` that activates this dependency. If omitted, the dependency applies whenever `dependsOnParameter` is set. |
 
 ## ParameterDependencyType
 
@@ -157,4 +157,4 @@ Defines a conditional relationship between two parameters.
 
 | Field  | Type     | Required | Description                                                                                   |
 | ------ | -------- | -------- | --------------------------------------------------------------------------------------------- |
-| `tags` | string[] | —        | Custom string tags. Used to annotate parameters (e.g. `"non-configurable"`, `"output-file"`). |
+| `tags` | string[] | -        | Custom string tags. Used to annotate parameters (e.g. `"non-configurable"`, `"output-file"`). |

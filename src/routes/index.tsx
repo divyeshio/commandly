@@ -1,11 +1,6 @@
 import { ToolRenderer } from "@/components/commandly/tool-renderer";
-import type {
-  Tool,
-  ParameterType,
-  Parameter,
-  ParameterValue,
-} from "@/components/commandly/types/flat";
-import { getCommandPath } from "@/components/commandly/utils/flat";
+import type { Tool, ParameterType } from "@/components/commandly/types/flat";
+import { generateCommand } from "@/components/commandly/utils/flat";
 import { TextMarquee } from "@/components/text-marquee";
 import { ToolBuilderProvider, useToolBuilder } from "@/components/tool-editor/tool-editor.context";
 import { Badge } from "@/components/ui/badge";
@@ -402,53 +397,10 @@ function DemoToolEditor() {
 function CompactGeneratedCommand() {
   const { tool, selectedCommand, parameterValues } = useToolBuilder();
 
-  const command = useMemo(() => {
-    let cmd = tool.binaryName;
-    const sc = selectedCommand ?? tool.commands[0];
-
-    if (sc) {
-      const path = getCommandPath(sc, tool);
-      if (tool.binaryName !== path) cmd = `${tool.binaryName} ${path}`;
-    }
-
-    const allParams = [
-      ...tool.parameters.filter((p) => p.isGlobal),
-      ...(sc
-        ? tool.parameters.filter((p) => p.commandKey === sc.key)
-        : tool.parameters.filter((p) => !p.commandKey && !p.isGlobal)),
-    ];
-
-    const positional: { param: Parameter; value: ParameterValue }[] = [];
-
-    allParams.forEach((param) => {
-      const value = parameterValues[param.key];
-      if (value === undefined || value === "" || value === false) return;
-
-      if (param.parameterType === "Argument") {
-        positional.push({ param, value });
-        return;
-      }
-
-      if (param.parameterType === "Flag" && value === true) {
-        const flag = param.shortFlag || param.longFlag;
-        if (flag) cmd += ` ${flag}`;
-      } else if (param.parameterType === "Option") {
-        const flag = param.shortFlag || param.longFlag;
-        if (flag) {
-          const sep = param.keyValueSeparator ?? " ";
-          cmd += ` ${flag}${sep}${Array.isArray(value) ? value.join(" ") : value}`;
-        }
-      }
-    });
-
-    positional
-      .sort((a, b) => (a.param.position || 0) - (b.param.position || 0))
-      .forEach(({ value }) => {
-        if (!Array.isArray(value)) cmd += ` ${value}`;
-      });
-
-    return cmd;
-  }, [tool, selectedCommand, parameterValues]);
+  const command = useMemo(
+    () => generateCommand(tool, parameterValues, { selectedCommand, useLongFlag: true }),
+    [tool, selectedCommand, parameterValues],
+  );
 
   return (
     <div className="flex items-center gap-2 rounded-lg border border-border/60 bg-muted/30 px-3 py-2 font-mono text-sm">

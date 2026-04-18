@@ -3,7 +3,7 @@
     <img src="public/apple-touch-icon.png" alt="commandly" width="200px">
 </div>
 
-<h4 align="center">CLI -> UI. A user-friendly way to generate CLI commands using UI. Quickly turn help text from any CLI tool into UI using AI.</h4>
+<h4 align="center">CLI -> UI. Browse tool definitions, edit command schemas, and generate runnable CLI commands from a visual interface.</h4>
      
 <p align="center">
   <a href="#features">Features</a> •
@@ -16,7 +16,6 @@
 
 <h1 align="center">
   <img src="public/images/ui.png" alt="commandly-ui" width="720px">
-  <img src="public/images/tool-editor.png" alt="commandly-tool-editor" width="720px">
   <br>
 </h1>
 
@@ -27,18 +26,23 @@
 - JSON Output - Nested, Flat.
 - Generate Help Menu
 - Generate Command
-- Saved Commands - using localstorage
+- Saved Commands
 - Exclusion Groups
 - JSON specification
 - AI Generation - Quickly turn help text from any CLI tool into UI.
 
+## Specification
+
+- [Flat](https://commandly.divyeshio.in/docs/specification-schema)
+- [Nested](https://commandly.divyeshio.in/docs/specification-nested)
+
 ## 🎯 Motivation
 
-Complex CLI tools with tons of commands and options can be overwhelming. Instead of wrestling with documentation or asking ChatGPT, why not just use a UI?
+Complex CLI tools with tons of commands and options can be overwhelming. Commandly gives those tools a visual layer so you can browse them, edit them, and generate the exact command you need without memorizing every flag.
 
-LLMs work best with structured data. Imagine having all your CLI commands and options neatly organized in a single JSON file.
+LLMs work best with structured data. Commandly keeps CLI definitions in a structured JSON format that is easy to inspect, validate, contribute, and reuse.
 
-Plus, building this to work with MCPs. Eventually, LLMs should be able to access all these tool details whenever they need them.
+The same structure also makes the project useful for MCP and agent workflows, where tools need a reliable schema instead of loose help text.
 
 ## 💪🏻 Contributing
 
@@ -46,9 +50,9 @@ Development - Please read the [contributing guide](/CONTRIBUTING.md).
 
 For adding new tools:
 
-1. Create/Design tool locally
-2. Copy **Flat** JSON Output
-3. Raise a PR, adding JSON file to public/tools-collection.
+1. Create or edit a tool in the browser
+2. Copy the **Flat** JSON output
+3. Raise a PR with the JSON file in `tools-collection`
 
 ## 📜 License
 
