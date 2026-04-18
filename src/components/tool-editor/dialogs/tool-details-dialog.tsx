@@ -1,5 +1,4 @@
 import { useToolBuilder } from "../tool-editor.context";
-import { ToolMetadata } from "@/components/commandly/types/flat";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,21 +9,9 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { MultiSelect } from "@/components/ui/multi-select";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { SupportedToolInputType, SupportedToolOutputType } from "@/lib/types";
 import { SettingsIcon } from "lucide-react";
-
-const supportedInputOptions = [
-  { value: "StandardInput", label: "Standard Input" },
-  { value: "Parameter", label: "Parameter" },
-];
-
-const supportedOutputOptions = [
-  { value: "StandardOutput", label: "Standard Output" },
-  { value: "File", label: "File" },
-];
 
 export function ToolDetailsDialog() {
   const { tool, dialogs, setDialogOpen, updateTool } = useToolBuilder();
@@ -85,44 +72,6 @@ export function ToolDetailsDialog() {
               onCheckedChange={(checked) => updateTool({ interactive: checked })}
             />
             <Label htmlFor="tool-interactive">Interactive</Label>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="flex flex-col gap-3">
-              <Label htmlFor="tool-name-full">Supported Input</Label>
-              <MultiSelect
-                options={supportedInputOptions}
-                onValueChange={(value) =>
-                  updateTool({
-                    metadata: {
-                      ...tool.metadata,
-                      supportedInput: value.map((v) => v as SupportedToolInputType),
-                    } as ToolMetadata,
-                  })
-                }
-                defaultValue={tool.metadata?.supportedInput}
-                placeholder="Select input types"
-                variant="default"
-                maxCount={0}
-              />
-            </div>
-            <div className="flex flex-col gap-3">
-              <Label htmlFor="tool-display-name">Supported Output</Label>
-              <MultiSelect
-                options={supportedOutputOptions}
-                onValueChange={(value) =>
-                  updateTool({
-                    metadata: {
-                      ...tool.metadata,
-                      supportedOutput: value.map((v) => v as SupportedToolOutputType),
-                    } as ToolMetadata,
-                  })
-                }
-                defaultValue={tool.metadata?.supportedOutput}
-                placeholder="Select output types"
-                variant="default"
-                maxCount={0}
-              />
-            </div>
           </div>
 
           <div className="flex flex-col gap-3">

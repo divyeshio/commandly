@@ -1,3 +1,4 @@
+import { defaultTool } from "../test-utils";
 import { Tool } from "@/components/commandly/types/flat";
 import { ToolDetailsDialog } from "@/components/tool-editor/dialogs/tool-details-dialog";
 import ToolEditor from "@/components/tool-editor/tool-editor";
@@ -6,9 +7,8 @@ import {
   ToolBuilderState,
   useToolBuilder,
 } from "@/components/tool-editor/tool-editor.context";
-import { defaultTool } from "@/lib/utils";
 import { useBlocker } from "@tanstack/react-router";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { withNuqsTestingAdapter, type OnUrlUpdateFunction } from "nuqs/adapters/testing";
 import { ReactNode } from "react";
 import { vi } from "vitest";
@@ -20,6 +20,13 @@ const { useBlockerMock } = vi.hoisted(() => ({
 vi.mock("@tanstack/react-router", () => ({
   useBlocker: useBlockerMock,
 }));
+
+const clipboardWriteText = vi.fn(() => Promise.resolve());
+
+Object.defineProperty(navigator, "clipboard", {
+  value: { writeText: clipboardWriteText },
+  configurable: true,
+});
 
 let capturedCtx: ReturnType<typeof useToolBuilder>;
 
@@ -43,6 +50,7 @@ function renderWithProvider(ui: ReactNode, initialState: Partial<ToolBuilderStat
 describe("ToolEditor", () => {
   beforeEach(() => {
     vi.mocked(useBlocker).mockReset();
+    clipboardWriteText.mockClear();
   });
 
   it("renders tool name and displayName", () => {
@@ -113,5 +121,44 @@ describe("ToolEditor", () => {
     expect(useBlocker).toHaveBeenLastCalledWith(
       expect.objectContaining({ enableBeforeUnload: true }),
     );
+  });
+
+  it("cleans default separator fields before contributing", async () => {
+    const onUrlUpdate = vi.fn<OnUrlUpdateFunction>();
+    const windowOpen = vi.spyOn(window, "open").mockImplementation(() => null);
+
+    render(
+      <ToolEditor
+        tool={{
+          ...defaultTool("test-tool", "Test Tool"),
+          parameters: [
+            {
+              key: "output",
+              name: "Output",
+              parameterType: "Option",
+              dataType: "String",
+              longFlag: "--output",
+              keyValueSeparator: " ",
+              arraySeparator: ",",
+            },
+          ],
+        }}
+      />,
+      {
+        wrapper: withNuqsTestingAdapter({
+          searchParams: "?test-tool=test-tool",
+          onUrlUpdate,
+        }),
+      },
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: /contribute/i }));
+
+    await waitFor(() => expect(clipboardWriteText).toHaveBeenCalledTimes(1));
+    const copiedJson = clipboardWriteText.mock.calls[0][0];
+    expect(copiedJson).not.toContain('"keyValueSeparator": " "');
+    expect(copiedJson).not.toContain('"arraySeparator": ","');
+
+    windowOpen.mockRestore();
   });
 });

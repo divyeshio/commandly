@@ -1,5 +1,6 @@
 import { GeneratedCommand } from "@/components/commandly/generated-command";
 import type { Tool } from "@/components/commandly/types/flat";
+import { Card, CardContent } from "@/components/ui/card";
 import { useState } from "react";
 
 const sampleTool: Tool = {
@@ -61,12 +62,22 @@ export function GeneratedCommandDemo() {
 
   return (
     <div className="w-full max-w-xl">
-      <GeneratedCommand
-        tool={sampleTool}
-        selectedCommand={sampleTool.commands[0]}
-        parameterValues={parameterValues}
-        onSaveCommand={(cmd) => console.log("Saved:", cmd)}
-      />
+      <Card>
+        <GeneratedCommand
+          tool={sampleTool}
+          selectedCommand={sampleTool.commands[0]}
+          parameterValues={parameterValues}
+          onSaveCommand={(cmd) => console.log("Saved:", cmd)}
+        >
+          <GeneratedCommand.Header>
+            <GeneratedCommand.FlagPreference />
+          </GeneratedCommand.Header>
+          <CardContent className="space-y-4">
+            <GeneratedCommand.Output />
+            <GeneratedCommand.Actions />
+          </CardContent>
+        </GeneratedCommand>
+      </Card>
     </div>
   );
 }

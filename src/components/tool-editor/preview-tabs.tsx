@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { TerminalIcon, WandSparklesIcon } from "lucide-react";
+import { WandSparklesIcon } from "lucide-react";
 import { useState } from "react";
 
 interface PreviewTabsProps {
@@ -57,7 +57,7 @@ export function PreviewTabs({ onSaveCommand, streamingTool, isAIGenerating }: Pr
                     variant="secondary"
                     className="text-xs"
                   >
-                    AI preview — not yet applied
+                    AI preview - not yet applied
                   </Badge>
                 </div>
                 <ScrollArea className="min-h-0 flex-1">
@@ -102,20 +102,20 @@ export function PreviewTabs({ onSaveCommand, streamingTool, isAIGenerating }: Pr
 
             <div className="shrink-0">
               <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <TerminalIcon className="h-5 w-5" />
-                    Generated Command
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <GeneratedCommand
-                    tool={tool}
-                    selectedCommand={selectedCommand}
-                    parameterValues={parameterValues}
-                    onSaveCommand={onSaveCommand}
-                  />
-                </CardContent>
+                <GeneratedCommand
+                  tool={tool}
+                  selectedCommand={selectedCommand}
+                  parameterValues={parameterValues}
+                  onSaveCommand={onSaveCommand}
+                >
+                  <GeneratedCommand.Header>
+                    <GeneratedCommand.FlagPreference />
+                  </GeneratedCommand.Header>
+                  <CardContent className="space-y-4">
+                    <GeneratedCommand.Output />
+                    <GeneratedCommand.Actions />
+                  </CardContent>
+                </GeneratedCommand>
               </Card>
             </div>
           </TabsContent>

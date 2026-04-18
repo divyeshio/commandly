@@ -54,6 +54,7 @@ import { GeneratedCommand } from "@/components/commandly/generated-command";
 import { JsonOutput } from "@/components/commandly/json-output";
 import { ToolRenderer } from "@/components/commandly/tool-renderer";
 import type { Tool, Parameter, ParameterValue } from "@/components/commandly/lib/types/flat";
+import { Card, CardContent } from "@/components/ui/card";
 ```
 
 ### Using All Three Together
@@ -70,7 +71,17 @@ const [values, setValues] = useState<Record<string, ParameterValue>>({})
     }
   />
   <div className="flex flex-col gap-4">
-    <GeneratedCommand tool={tool} parameterValues={values} />
+    <Card>
+      <GeneratedCommand tool={tool} parameterValues={values}>
+        <GeneratedCommand.Header>
+          <GeneratedCommand.FlagPreference />
+        </GeneratedCommand.Header>
+        <CardContent className="space-y-4">
+          <GeneratedCommand.Output />
+          <GeneratedCommand.Actions />
+        </CardContent>
+      </GeneratedCommand>
+    </Card>
     <JsonOutput tool={tool} />
   </div>
 </div>
@@ -81,3 +92,4 @@ const [values, setValues] = useState<Record<string, ParameterValue>>({})
 - All three components share the same `Tool` type from `lib/types/flat.ts`
 - The `lib/utils/` helpers handle conversion between flat and nested structures
 - Individual components (`generated-command`, `json-output`, `tool-renderer`) can also be installed separately
+- `GeneratedCommand` can be used as a composed card layout or as a minimal output-only renderer

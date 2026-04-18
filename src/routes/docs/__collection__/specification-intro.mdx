@@ -11,9 +11,9 @@ The Commandly specification defines a standard, language-agnostic JSON format fo
 
 Two formats are available:
 
-**Flat** — Commands and parameters are stored as flat arrays. Each parameter references its parent command via a `commandKey` field. This is the primary format used by the Commandly editor, renderer components, and the tools collection.
+**Flat** - Commands and parameters are stored as flat arrays. Each parameter references its parent command via a `commandKey` field. This is the primary format used by the Commandly editor, renderer components, and the tools collection.
 
-**Nested** — Parameters and subcommands are embedded directly inside each command object. More human-readable and mirrors how most CLI tools present their help output. Useful for authoring tools by hand.
+**Nested** - Parameters and subcommands are embedded directly inside each command object. More human-readable and mirrors how most CLI tools present their help output. Useful for authoring tools by hand.
 
 See [Flat Schema](/docs/specification-schema) and [Nested Schema](/docs/specification-nested) for the full object reference.
 

@@ -1,5 +1,5 @@
+import { defaultTool } from "../test-utils";
 import { applyMergePatch } from "@/components/tool-editor/tools";
-import { defaultTool } from "@/lib/utils";
 
 describe("applyMergePatch", () => {
   it("merges top-level scalar fields into base", () => {
