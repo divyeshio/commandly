@@ -67,7 +67,6 @@ function RootComponent() {
     <ThemeProvider
       themes={["light", "dark", "system"]}
       defaultTheme="dark"
-      disableTransitionOnChange
       attribute="class"
     >
       <RootDocument>
@@ -213,7 +212,7 @@ function Navbar() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html>
+    <html suppressHydrationWarning>
       <head>
         <script src="/spa-redirect.js"></script>
         <HeadContent />

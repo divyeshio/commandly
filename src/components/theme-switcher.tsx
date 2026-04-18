@@ -1,14 +1,19 @@
 import { Button } from "./ui/button";
 import { MoonIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export type Theme = "dark" | "light" | "system";
 
 export function ThemeSwitcher() {
   const ref = useRef<HTMLButtonElement>(null);
+  const [mounted, setMounted] = useState(false);
 
   const { theme, setTheme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const toggleDarkMode = async (theme: Theme) => {
     /**
@@ -54,8 +59,10 @@ export function ThemeSwitcher() {
       className="rounded-full"
       onClick={() => (theme === "dark" ? toggleDarkMode("light") : toggleDarkMode("dark"))}
       ref={ref}
+      aria-label="Toggle theme"
+      suppressHydrationWarning
     >
-      {theme === "dark" ? (
+      {mounted && theme === "dark" ? (
         <MoonIcon className="scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
       ) : (
         <SunIcon className="scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
