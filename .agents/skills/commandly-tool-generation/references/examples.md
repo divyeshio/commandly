@@ -7,7 +7,7 @@ Demonstrates: root parameters (no commands, no `commandKey`), Flag / Option / Ar
 ```json
 {
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
-  "name": "curl",
+  "binaryName": "curl",
   "displayName": "Curl",
   "info": {
     "description": "curl is a command line tool and library for transferring data with URLs.",
@@ -22,7 +22,7 @@ Demonstrates: root parameters (no commands, no `commandKey`), Flag / Option / Ar
       "parameterType": "Argument",
       "dataType": "String",
       "isRequired": true,
-      "position": 1,
+      "position": 0,
       "sortOrder": 5
     },
     {
@@ -73,7 +73,7 @@ Demonstrates: `dataType: "Enum"`, `enum.values[]`, `isRepeatable`.
   "dataType": "Enum",
   "isRepeatable": true,
   "shortFlag": "-iv",
-  "longFlag": "-ip-version",
+  "longFlag": "--ip-version",
   "enum": {
     "values": [
       {
@@ -98,12 +98,12 @@ Demonstrates: `dataType: "Enum"`, `enum.values[]`, `isRepeatable`.
 
 ## 3. Multi-command tool (git-style)
 
-Demonstrates: multiple commands, `parentCommandKey` for subcommands, global parameters.
+Demonstrates: multiple commands, command-scoped parameters, global parameters.
 
 ```json
 {
   "$schema": "https://commandly.divyeshio.in/specification/flat.json",
-  "name": "git",
+  "binaryName": "git",
   "displayName": "Git",
   "info": {
     "description": "Git is a free and open source distributed version control system.",
@@ -111,24 +111,16 @@ Demonstrates: multiple commands, `parentCommandKey` for subcommands, global para
   },
   "commands": [
     {
-      "key": "git",
-      "name": "git",
-      "isDefault": true,
-      "sortOrder": 1
-    },
-    {
       "key": "commit",
       "name": "commit",
       "description": "Record changes to the repository.",
-      "parentCommandKey": "git",
-      "sortOrder": 2
+      "sortOrder": 1
     },
     {
       "key": "push",
       "name": "push",
       "description": "Update remote refs.",
-      "parentCommandKey": "git",
-      "sortOrder": 3
+      "sortOrder": 2
     }
   ],
   "parameters": [

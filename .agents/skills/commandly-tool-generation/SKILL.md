@@ -17,7 +17,7 @@ Generate and edit CLI tool definitions in the Commandly flat JSON schema format.
 
 ### Parsing Help Text
 
-1. Identify the tool name and any description/version info → populate `name`, `displayName`, `info`.
+1. Identify the tool name and any description/version info → populate `binaryName`, `displayName`, optional `interactive`, and `info`.
 2. Identify commands and subcommands → `commands[]` array with `key`, `name`, optional `parentCommandKey`. If the tool has no subcommands, leave `commands` as an empty array `[]`.
 3. Map each flag/option/argument to a parameter → `parameters[]` array.
 4. If commands exist, assign `commandKey` to non-global parameters. If no commands exist, parameters are **root parameters** — omit both `commandKey` and `isGlobal`.
@@ -32,7 +32,7 @@ Generate and edit CLI tool definitions in the Commandly flat JSON schema format.
 
 ### Creating from Scratch
 
-1. Use tool name as `name` (lowercase, hyphenated) and a display-friendly `displayName`.
+1. Use the CLI binary as `binaryName` (lowercase, hyphenated where appropriate) and a display-friendly `displayName`.
 2. If the tool has subcommands, add them to `commands[]`. If it has no subcommands, use `commands: []`.
 3. Map all known parameters following the type rules below.
 
@@ -44,23 +44,25 @@ Generate and edit CLI tool definitions in the Commandly flat JSON schema format.
 | `--output <file>`            | `Option`        | `String`          | Add `longFlag`, optionally `shortFlag` |
 | `--count <n>`                | `Option`        | `Number`          |                                        |
 | `--format <list\|json>`      | `Option`        | `Enum`            | Use `enum.values[]`                    |
-| `<positional>`               | `Argument`      | `String`/`Number` | Set `position` (1-based)               |
+| `<positional>`               | `Argument`      | `String`/`Number` | Set `position` (zero-based)            |
 
 - **Short flag**: single dash + letter (e.g. `-o`). Include only if present.
 - **Long flag**: double dash + word (e.g. `--output`). Preserve exact prefix.
-- **Aliases**: If a param has multiple forms, the first is `name`/primary flag, rest go in `aliases` (rare in Commandly; prefer `shortFlag` + `longFlag`).
+- Do not invent extra alias fields. Use `shortFlag` and `longFlag` only; if the CLI exposes more variants than the schema supports, keep the canonical forms and mention the edge case in `description` only when it materially affects usage.
 
 ## Key Rules
 
 1. Every `key` must be unique across the entire `parameters[]` array. It should be meaningful and derived from the parameter name or description.
 2. When `commands` is non-empty: non-global parameters **must** have `commandKey`, global parameters **must** have `isGlobal: true` and no `commandKey`.
 3. When `commands` is empty: parameters are **root parameters** — they must **not** have `commandKey` or `isGlobal`. Do not create a dummy command matching the tool name.
-4. `name` should be user-friendly title case (e.g. `--output-file` → `"Output File"`).
+4. Parameter `name` should be user-friendly title case (e.g. `--output-file` → `"Output File"`). Command `name` should match the actual CLI token used in the command path.
 5. Descriptions in sentence case, trimmed.
 6. Do not add `defaultValue` — it does not exist in the schema.
-7. Do not add empty arrays/objects for optional properties (`validations`, `exclusionGroups`, `tags`, `dependencies`, `enum.values` when empty).
-8. Tool description/version live under `info: { description, version, url }` — never at top level. `version` is **required** and must reflect the current release (no `v` prefix, e.g. `"1.9.0"` not `"v1.9.0"`). To find the latest version, call `GET https://api.github.com/repos/{owner}/{repo}/releases/latest` and use the `tag_name` field with the leading `v` stripped. For tools with non-standard tag formats (e.g. curl uses `curl-8_19_0`), use the release `name` field instead. For date-based versioning (e.g. yt-dlp uses `2026.03.17`), use `tag_name` as-is.
-9. Output is pure JSON — no backticks, no trailing commas, proper indentation.
+7. Do not add empty arrays/objects for optional properties (`validations`, `dependencies`, `exclusionGroups`, `metadata`, `enum`, `metadata.tags`).
+8. Tool description/version live under `info: { description, version, url }` — never at top level. `version` is optional in the schema, but when you include it, use the current release string without a leading `v` unless the upstream project uses a non-semver date or custom release format.
+9. Positional argument `position` is zero-based.
+10. Persisted tool JSON files should include `$schema: "https://commandly.divyeshio.in/specification/flat.json"`. The validation script can auto-fix this when missing.
+11. Output is pure JSON — no backticks, no trailing commas, proper indentation.
 
 ## Schema Reference
 

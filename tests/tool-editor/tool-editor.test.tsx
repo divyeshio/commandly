@@ -21,7 +21,7 @@ vi.mock("@tanstack/react-router", () => ({
   useBlocker: useBlockerMock,
 }));
 
-const clipboardWriteText = vi.fn(() => Promise.resolve());
+const clipboardWriteText = vi.fn<(text: string) => Promise<void>>(() => Promise.resolve());
 
 Object.defineProperty(navigator, "clipboard", {
   value: { writeText: clipboardWriteText },
