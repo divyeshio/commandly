@@ -3,7 +3,7 @@
     <img src="public/apple-touch-icon.png" alt="commandly" width="200px">
 </div>
 
-<h4 align="center">CLI -> UI. Browse tool definitions, edit command schemas, and generate runnable CLI commands from a visual interface.</h4>
+<h4 align="center">CLI -> JSON -> UI. Browse tool definitions, edit command schemas, and generate runnable CLI commands from a visual interface.</h4>
      
 <p align="center">
   <a href="#features">Features</a> •
