@@ -803,7 +803,7 @@
 
     "@tanstack/router-utils": ["@tanstack/router-utils@1.161.8", "", { "dependencies": { "@babel/core": "^7.28.5", "@babel/generator": "^7.28.5", "@babel/parser": "^7.28.5", "@babel/types": "^7.28.5", "ansis": "^4.1.0", "babel-dead-code-elimination": "^1.0.12", "diff": "^8.0.2", "pathe": "^2.0.3", "tinyglobby": "^0.2.15" } }, "sha512-xyiLWEKjfBAVhauDSSjXxyf7s8elU6SM+V050sbkofvGmIIvkwPFtDsX7Gvwh14kBd6iCwAT+RiPvXTxAptY0Q=="],
 
-    "@tanstack/setup": ["@tanstack/setup@github:tanstack/router#79ac49e", { "dependencies": { "bun": "^1.3.13" } }, "TanStack-router-79ac49e"],
+    "@tanstack/setup": ["@tanstack/setup@github:tanstack/router#79ac49e", { "dependencies": { "bun": "^1.3.13" } }, "TanStack-router-79ac49e", "sha512-cGLDr8iq9fQFCWFmQ6FviGKUrfW801I6mzSzguFN0PAHtKh+U/x5PyR+tx5bKQkh/2oCL60euFoFAm2t1ncG5g=="],
 
     "@tanstack/start-client-core": ["@tanstack/start-client-core@1.168.2", "", { "dependencies": { "@tanstack/router-core": "1.169.2", "@tanstack/start-fn-stubs": "1.161.6", "@tanstack/start-storage-context": "1.166.35", "seroval": "^1.5.4" } }, "sha512-/bckv9k/yxY4VmSY2V2MeX7NBsS5uqGvdSPs5WIvW3Uv35DXPrdiumKXTNJeZRNRMtxrM+YfxQPjXLx3C7ykvg=="],
 
