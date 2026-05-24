@@ -40,6 +40,16 @@
     }
   },
   {
+    "binaryName": "ffuf",
+    "displayName": "ffuf",
+    "description": "A fast web fuzzer written in Go.",
+    "info": {
+      "description": "A fast web fuzzer written in Go.",
+      "version": "2.1.0",
+      "url": "https://github.com/ffuf/ffuf"
+    }
+  },
+  {
     "binaryName": "gospider",
     "displayName": "GoSpider",
     "description": "Fast web spider written in Go.",

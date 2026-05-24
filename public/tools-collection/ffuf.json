@@ -1,0 +1,779 @@
+{
+  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
+  "binaryName": "ffuf",
+  "displayName": "ffuf",
+  "info": {
+    "description": "A fast web fuzzer written in Go.",
+    "version": "2.1.0",
+    "url": "https://github.com/ffuf/ffuf"
+  },
+  "commands": [],
+  "parameters": [
+    {
+      "key": "url",
+      "name": "URL",
+      "parameterType": "Option",
+      "dataType": "String",
+      "shortFlag": "-u",
+      "description": "Target URL.",
+      "isRequired": true,
+      "group": "HTTP"
+    },
+    {
+      "key": "header",
+      "name": "Header",
+      "parameterType": "Option",
+      "dataType": "String",
+      "shortFlag": "-H",
+      "description": "Header \"Name: Value\", separated by colon. Multiple -H flags are accepted.",
+      "isRepeatable": true,
+      "group": "HTTP"
+    },
+    {
+      "key": "method",
+      "name": "Method",
+      "parameterType": "Option",
+      "dataType": "String",
+      "shortFlag": "-X",
+      "description": "HTTP method to use.",
+      "group": "HTTP"
+    },
+    {
+      "key": "cookie",
+      "name": "Cookie",
+      "parameterType": "Option",
+      "dataType": "String",
+      "shortFlag": "-b",
+      "description": "Cookie data \"NAME1=VALUE1; NAME2=VALUE2\" for copy as curl functionality.",
+      "group": "HTTP"
+    },
+    {
+      "key": "client-cert",
+      "name": "Client Certificate",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-cc",
+      "description": "Client cert for authentication. Client key needs to be defined as well.",
+      "group": "HTTP"
+    },
+    {
+      "key": "client-key",
+      "name": "Client Key",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-ck",
+      "description": "Client key for authentication. Client certificate needs to be defined as well.",
+      "group": "HTTP"
+    },
+    {
+      "key": "data",
+      "name": "POST Data",
+      "parameterType": "Option",
+      "dataType": "String",
+      "shortFlag": "-d",
+      "description": "POST data.",
+      "group": "HTTP"
+    },
+    {
+      "key": "http2",
+      "name": "HTTP2",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "longFlag": "-http2",
+      "description": "Use HTTP2 protocol.",
+      "group": "HTTP"
+    },
+    {
+      "key": "ignore-body",
+      "name": "Ignore Body",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "longFlag": "-ignore-body",
+      "description": "Do not fetch the response content.",
+      "group": "HTTP"
+    },
+    {
+      "key": "follow-redirects",
+      "name": "Follow Redirects",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "shortFlag": "-r",
+      "description": "Follow redirects.",
+      "group": "HTTP"
+    },
+    {
+      "key": "raw",
+      "name": "Raw",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "longFlag": "-raw",
+      "description": "Do not encode URI.",
+      "group": "HTTP"
+    },
+    {
+      "key": "recursion",
+      "name": "Recursion",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "longFlag": "-recursion",
+      "description": "Scan recursively. Only FUZZ keyword is supported, and URL must end in it.",
+      "group": "HTTP"
+    },
+    {
+      "key": "recursion-depth",
+      "name": "Recursion Depth",
+      "parameterType": "Option",
+      "dataType": "Number",
+      "longFlag": "-recursion-depth",
+      "description": "Maximum recursion depth.",
+      "group": "HTTP"
+    },
+    {
+      "key": "recursion-strategy",
+      "name": "Recursion Strategy",
+      "parameterType": "Option",
+      "dataType": "Enum",
+      "longFlag": "-recursion-strategy",
+      "description": "Recursion strategy.",
+      "group": "HTTP",
+      "enum": {
+        "values": [
+          {
+            "value": "default",
+            "displayName": "Default",
+            "description": "Redirect-based recursion.",
+            "isDefault": true,
+            "sortOrder": 1
+          },
+          {
+            "value": "greedy",
+            "displayName": "Greedy",
+            "description": "Recurse on all matches.",
+            "sortOrder": 2
+          }
+        ]
+      }
+    },
+    {
+      "key": "replay-proxy",
+      "name": "Replay Proxy",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-replay-proxy",
+      "description": "Replay matched requests using this proxy.",
+      "group": "HTTP"
+    },
+    {
+      "key": "sni",
+      "name": "SNI",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-sni",
+      "description": "Target TLS SNI, does not support FUZZ keyword.",
+      "group": "HTTP"
+    },
+    {
+      "key": "timeout",
+      "name": "Timeout",
+      "parameterType": "Option",
+      "dataType": "Number",
+      "longFlag": "-timeout",
+      "description": "HTTP request timeout in seconds.",
+      "group": "HTTP"
+    },
+    {
+      "key": "proxy",
+      "name": "Proxy",
+      "parameterType": "Option",
+      "dataType": "String",
+      "shortFlag": "-x",
+      "description": "Proxy URL (SOCKS5 or HTTP). For example: http://127.0.0.1:8080 or socks5://127.0.0.1:8080.",
+      "group": "HTTP"
+    },
+    {
+      "key": "version",
+      "name": "Version",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "shortFlag": "-V",
+      "description": "Show version information.",
+      "group": "General"
+    },
+    {
+      "key": "autocalibrate",
+      "name": "Auto-Calibrate",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "longFlag": "-ac",
+      "description": "Automatically calibrate filtering options.",
+      "group": "General"
+    },
+    {
+      "key": "autocalibrate-custom",
+      "name": "Auto-Calibrate String",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-acc",
+      "description": "Custom auto-calibration string. Can be used multiple times. Implies -ac.",
+      "isRepeatable": true,
+      "group": "General"
+    },
+    {
+      "key": "autocalibrate-per-host",
+      "name": "Auto-Calibrate Per Host",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "longFlag": "-ach",
+      "description": "Per host autocalibration.",
+      "group": "General"
+    },
+    {
+      "key": "autocalibrate-keyword",
+      "name": "Auto-Calibrate Keyword",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-ack",
+      "description": "Autocalibration keyword.",
+      "group": "General"
+    },
+    {
+      "key": "autocalibrate-strategy",
+      "name": "Auto-Calibrate Strategy",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-acs",
+      "description": "Custom auto-calibration strategies. Can be used multiple times. Implies -ac.",
+      "isRepeatable": true,
+      "group": "General"
+    },
+    {
+      "key": "colorize",
+      "name": "Colorize",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "shortFlag": "-c",
+      "description": "Colorize output.",
+      "group": "General"
+    },
+    {
+      "key": "config",
+      "name": "Config File",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-config",
+      "description": "Load configuration from a file.",
+      "group": "General"
+    },
+    {
+      "key": "json-output",
+      "name": "JSON Output",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "longFlag": "-json",
+      "description": "JSON output, printing newline-delimited JSON records.",
+      "group": "General"
+    },
+    {
+      "key": "maxtime",
+      "name": "Max Time",
+      "parameterType": "Option",
+      "dataType": "Number",
+      "longFlag": "-maxtime",
+      "description": "Maximum running time in seconds for entire process.",
+      "group": "General"
+    },
+    {
+      "key": "maxtime-job",
+      "name": "Max Time Per Job",
+      "parameterType": "Option",
+      "dataType": "Number",
+      "longFlag": "-maxtime-job",
+      "description": "Maximum running time in seconds per job.",
+      "group": "General"
+    },
+    {
+      "key": "noninteractive",
+      "name": "Non-Interactive",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "longFlag": "-noninteractive",
+      "description": "Disable the interactive console functionality.",
+      "group": "General"
+    },
+    {
+      "key": "delay",
+      "name": "Delay",
+      "parameterType": "Option",
+      "dataType": "String",
+      "shortFlag": "-p",
+      "description": "Seconds of delay between requests, or a range of random delay. For example \"0.1\" or \"0.1-2.0\".",
+      "group": "General"
+    },
+    {
+      "key": "rate",
+      "name": "Rate",
+      "parameterType": "Option",
+      "dataType": "Number",
+      "longFlag": "-rate",
+      "description": "Rate of requests per second.",
+      "group": "General"
+    },
+    {
+      "key": "silent",
+      "name": "Silent",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "shortFlag": "-s",
+      "description": "Do not print additional information (silent mode).",
+      "group": "General"
+    },
+    {
+      "key": "stop-all-errors",
+      "name": "Stop on All Errors",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "longFlag": "-sa",
+      "description": "Stop on all error cases. Implies -sf and -se.",
+      "group": "General"
+    },
+    {
+      "key": "scraperfile",
+      "name": "Scraper File",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-scraperfile",
+      "description": "Custom scraper file path.",
+      "group": "General"
+    },
+    {
+      "key": "scrapers",
+      "name": "Scrapers",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-scrapers",
+      "description": "Active scraper groups.",
+      "group": "General"
+    },
+    {
+      "key": "stop-on-errors",
+      "name": "Stop on Spurious Errors",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "longFlag": "-se",
+      "description": "Stop on spurious errors.",
+      "group": "General"
+    },
+    {
+      "key": "search",
+      "name": "Search",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-search",
+      "description": "Search for a FFUFHASH payload from ffuf history.",
+      "group": "General"
+    },
+    {
+      "key": "stop-on-forbidden",
+      "name": "Stop on Forbidden",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "longFlag": "-sf",
+      "description": "Stop when > 95% of responses return 403 Forbidden.",
+      "group": "General"
+    },
+    {
+      "key": "threads",
+      "name": "Threads",
+      "parameterType": "Option",
+      "dataType": "Number",
+      "shortFlag": "-t",
+      "description": "Number of concurrent threads.",
+      "group": "General"
+    },
+    {
+      "key": "verbose",
+      "name": "Verbose",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "shortFlag": "-v",
+      "description": "Verbose output, printing full URL and redirect location with the results.",
+      "group": "General"
+    },
+    {
+      "key": "match-codes",
+      "name": "Match Codes",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-mc",
+      "description": "Match HTTP status codes, or \"all\" for everything.",
+      "group": "Matcher"
+    },
+    {
+      "key": "match-lines",
+      "name": "Match Lines",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-ml",
+      "description": "Match amount of lines in response.",
+      "group": "Matcher"
+    },
+    {
+      "key": "match-mode",
+      "name": "Match Mode",
+      "parameterType": "Option",
+      "dataType": "Enum",
+      "longFlag": "-mmode",
+      "description": "Matcher set operator.",
+      "group": "Matcher",
+      "enum": {
+        "values": [
+          {
+            "value": "or",
+            "displayName": "Or",
+            "isDefault": true,
+            "sortOrder": 1
+          },
+          {
+            "value": "and",
+            "displayName": "And",
+            "sortOrder": 2
+          }
+        ]
+      }
+    },
+    {
+      "key": "match-regexp",
+      "name": "Match Regexp",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-mr",
+      "description": "Match regexp.",
+      "group": "Matcher"
+    },
+    {
+      "key": "match-size",
+      "name": "Match Size",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-ms",
+      "description": "Match HTTP response size.",
+      "group": "Matcher"
+    },
+    {
+      "key": "match-time",
+      "name": "Match Time",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-mt",
+      "description": "Match how many milliseconds to the first response byte, either greater or less than. E.g. >100 or <100.",
+      "group": "Matcher"
+    },
+    {
+      "key": "match-words",
+      "name": "Match Words",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-mw",
+      "description": "Match amount of words in response.",
+      "group": "Matcher"
+    },
+    {
+      "key": "filter-codes",
+      "name": "Filter Codes",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-fc",
+      "description": "Filter HTTP status codes from response. Comma separated list of codes and ranges.",
+      "group": "Filter"
+    },
+    {
+      "key": "filter-lines",
+      "name": "Filter Lines",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-fl",
+      "description": "Filter by amount of lines in response. Comma separated list of line counts and ranges.",
+      "group": "Filter"
+    },
+    {
+      "key": "filter-mode",
+      "name": "Filter Mode",
+      "parameterType": "Option",
+      "dataType": "Enum",
+      "longFlag": "-fmode",
+      "description": "Filter set operator.",
+      "group": "Filter",
+      "enum": {
+        "values": [
+          {
+            "value": "or",
+            "displayName": "Or",
+            "isDefault": true,
+            "sortOrder": 1
+          },
+          {
+            "value": "and",
+            "displayName": "And",
+            "sortOrder": 2
+          }
+        ]
+      }
+    },
+    {
+      "key": "filter-regexp",
+      "name": "Filter Regexp",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-fr",
+      "description": "Filter regexp.",
+      "group": "Filter"
+    },
+    {
+      "key": "filter-size",
+      "name": "Filter Size",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-fs",
+      "description": "Filter HTTP response size. Comma separated list of sizes and ranges.",
+      "group": "Filter"
+    },
+    {
+      "key": "filter-time",
+      "name": "Filter Time",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-ft",
+      "description": "Filter by number of milliseconds to the first response byte, either greater or less than. E.g. >100 or <100.",
+      "group": "Filter"
+    },
+    {
+      "key": "filter-words",
+      "name": "Filter Words",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-fw",
+      "description": "Filter by amount of words in response. Comma separated list of word counts and ranges.",
+      "group": "Filter"
+    },
+    {
+      "key": "dirsearch-compat",
+      "name": "DirSearch Compatibility",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "shortFlag": "-D",
+      "description": "DirSearch wordlist compatibility mode. Used in conjunction with -e flag.",
+      "group": "Input"
+    },
+    {
+      "key": "extensions",
+      "name": "Extensions",
+      "parameterType": "Option",
+      "dataType": "String",
+      "shortFlag": "-e",
+      "description": "Comma separated list of extensions. Extends FUZZ keyword.",
+      "group": "Input"
+    },
+    {
+      "key": "encoders",
+      "name": "Encoders",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-enc",
+      "description": "Encoders for keywords, e.g. 'FUZZ:urlencode b64encode'.",
+      "group": "Input"
+    },
+    {
+      "key": "ignore-comments",
+      "name": "Ignore Comments",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "longFlag": "-ic",
+      "description": "Ignore wordlist comments.",
+      "group": "Input"
+    },
+    {
+      "key": "input-cmd",
+      "name": "Input Command",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-input-cmd",
+      "description": "Command producing the input. --input-num is required when using this method. Overrides -w.",
+      "group": "Input"
+    },
+    {
+      "key": "input-num",
+      "name": "Input Number",
+      "parameterType": "Option",
+      "dataType": "Number",
+      "longFlag": "-input-num",
+      "description": "Number of inputs to test. Used in conjunction with --input-cmd.",
+      "group": "Input"
+    },
+    {
+      "key": "input-shell",
+      "name": "Input Shell",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-input-shell",
+      "description": "Shell to be used for running command.",
+      "group": "Input"
+    },
+    {
+      "key": "mode",
+      "name": "Mode",
+      "parameterType": "Option",
+      "dataType": "Enum",
+      "longFlag": "-mode",
+      "description": "Multi-wordlist operation mode.",
+      "group": "Input",
+      "enum": {
+        "values": [
+          {
+            "value": "clusterbomb",
+            "displayName": "Cluster Bomb",
+            "isDefault": true,
+            "sortOrder": 1
+          },
+          {
+            "value": "pitchfork",
+            "displayName": "Pitchfork",
+            "sortOrder": 2
+          },
+          {
+            "value": "sniper",
+            "displayName": "Sniper",
+            "sortOrder": 3
+          }
+        ]
+      }
+    },
+    {
+      "key": "request",
+      "name": "Request File",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-request",
+      "description": "File containing the raw HTTP request.",
+      "group": "Input"
+    },
+    {
+      "key": "request-proto",
+      "name": "Request Protocol",
+      "parameterType": "Option",
+      "dataType": "Enum",
+      "longFlag": "-request-proto",
+      "description": "Protocol to use along with raw request.",
+      "group": "Input",
+      "enum": {
+        "values": [
+          {
+            "value": "https",
+            "displayName": "HTTPS",
+            "isDefault": true,
+            "sortOrder": 1
+          },
+          {
+            "value": "http",
+            "displayName": "HTTP",
+            "sortOrder": 2
+          }
+        ]
+      }
+    },
+    {
+      "key": "wordlist",
+      "name": "Wordlist",
+      "parameterType": "Option",
+      "dataType": "String",
+      "shortFlag": "-w",
+      "description": "Wordlist file path and (optional) keyword separated by colon. E.g. '/path/to/wordlist:KEYWORD'.",
+      "isRepeatable": true,
+      "group": "Input"
+    },
+    {
+      "key": "debug-log",
+      "name": "Debug Log",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-debug-log",
+      "description": "Write all of the internal logging to the specified file.",
+      "group": "Output"
+    },
+    {
+      "key": "output",
+      "name": "Output File",
+      "parameterType": "Option",
+      "dataType": "String",
+      "shortFlag": "-o",
+      "description": "Write output to file.",
+      "group": "Output"
+    },
+    {
+      "key": "output-dir",
+      "name": "Output Directory",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-od",
+      "description": "Directory path to store matched results to.",
+      "group": "Output"
+    },
+    {
+      "key": "output-format",
+      "name": "Output Format",
+      "parameterType": "Option",
+      "dataType": "Enum",
+      "longFlag": "-of",
+      "description": "Output file format.",
+      "group": "Output",
+      "enum": {
+        "values": [
+          {
+            "value": "json",
+            "displayName": "JSON",
+            "isDefault": true,
+            "sortOrder": 1
+          },
+          {
+            "value": "ejson",
+            "displayName": "EJSON",
+            "sortOrder": 2
+          },
+          {
+            "value": "html",
+            "displayName": "HTML",
+            "sortOrder": 3
+          },
+          {
+            "value": "md",
+            "displayName": "Markdown",
+            "sortOrder": 4
+          },
+          {
+            "value": "csv",
+            "displayName": "CSV",
+            "sortOrder": 5
+          },
+          {
+            "value": "ecsv",
+            "displayName": "ECSV",
+            "sortOrder": 6
+          },
+          {
+            "value": "all",
+            "displayName": "All",
+            "sortOrder": 7
+          }
+        ]
+      }
+    },
+    {
+      "key": "no-empty-output",
+      "name": "No Empty Output",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "longFlag": "-or",
+      "description": "Don't create the output file if we don't have results.",
+      "group": "Output"
+    }
+  ]
+}
