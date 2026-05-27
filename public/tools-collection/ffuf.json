@@ -17,7 +17,38 @@
       "shortFlag": "-u",
       "description": "Target URL.",
       "isRequired": true,
-      "group": "HTTP"
+      "group": "HTTP",
+      "sortOrder": 1
+    },
+    {
+      "key": "method",
+      "name": "Method",
+      "parameterType": "Option",
+      "dataType": "String",
+      "shortFlag": "-X",
+      "description": "HTTP method to use.",
+      "group": "HTTP",
+      "sortOrder": 2
+    },
+    {
+      "key": "data",
+      "name": "POST Data",
+      "parameterType": "Option",
+      "dataType": "String",
+      "shortFlag": "-d",
+      "description": "POST data.",
+      "group": "HTTP",
+      "sortOrder": 3
+    },
+    {
+      "key": "cookie",
+      "name": "Cookie",
+      "parameterType": "Option",
+      "dataType": "String",
+      "shortFlag": "-b",
+      "description": "Cookie data \"NAME1=VALUE1; NAME2=VALUE2\" for copy as curl functionality.",
+      "group": "HTTP",
+      "sortOrder": 4
     },
     {
       "key": "header",
@@ -27,25 +58,8 @@
       "shortFlag": "-H",
       "description": "Header \"Name: Value\", separated by colon. Multiple -H flags are accepted.",
       "isRepeatable": true,
-      "group": "HTTP"
-    },
-    {
-      "key": "method",
-      "name": "Method",
-      "parameterType": "Option",
-      "dataType": "String",
-      "shortFlag": "-X",
-      "description": "HTTP method to use.",
-      "group": "HTTP"
-    },
-    {
-      "key": "cookie",
-      "name": "Cookie",
-      "parameterType": "Option",
-      "dataType": "String",
-      "shortFlag": "-b",
-      "description": "Cookie data \"NAME1=VALUE1; NAME2=VALUE2\" for copy as curl functionality.",
-      "group": "HTTP"
+      "group": "HTTP",
+      "sortOrder": 5
     },
     {
       "key": "client-cert",
@@ -54,7 +68,8 @@
       "dataType": "String",
       "longFlag": "-cc",
       "description": "Client cert for authentication. Client key needs to be defined as well.",
-      "group": "HTTP"
+      "group": "HTTP",
+      "sortOrder": 6
     },
     {
       "key": "client-key",
@@ -63,34 +78,28 @@
       "dataType": "String",
       "longFlag": "-ck",
       "description": "Client key for authentication. Client certificate needs to be defined as well.",
-      "group": "HTTP"
+      "group": "HTTP",
+      "sortOrder": 7
     },
     {
-      "key": "data",
-      "name": "POST Data",
+      "key": "proxy",
+      "name": "Proxy",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-d",
-      "description": "POST data.",
-      "group": "HTTP"
+      "shortFlag": "-x",
+      "description": "Proxy URL (SOCKS5 or HTTP). For example: http://127.0.0.1:8080 or socks5://127.0.0.1:8080.",
+      "group": "HTTP",
+      "sortOrder": 8
     },
     {
-      "key": "http2",
-      "name": "HTTP2",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "-http2",
-      "description": "Use HTTP2 protocol.",
-      "group": "HTTP"
-    },
-    {
-      "key": "ignore-body",
-      "name": "Ignore Body",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "-ignore-body",
-      "description": "Do not fetch the response content.",
-      "group": "HTTP"
+      "key": "replay-proxy",
+      "name": "Replay Proxy",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-replay-proxy",
+      "description": "Replay matched requests using this proxy.",
+      "group": "HTTP",
+      "sortOrder": 9
     },
     {
       "key": "follow-redirects",
@@ -99,7 +108,38 @@
       "dataType": "Boolean",
       "shortFlag": "-r",
       "description": "Follow redirects.",
-      "group": "HTTP"
+      "group": "HTTP",
+      "sortOrder": 10
+    },
+    {
+      "key": "timeout",
+      "name": "Timeout",
+      "parameterType": "Option",
+      "dataType": "Number",
+      "longFlag": "-timeout",
+      "description": "HTTP request timeout in seconds.",
+      "group": "HTTP",
+      "sortOrder": 11
+    },
+    {
+      "key": "http2",
+      "name": "HTTP2",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "longFlag": "-http2",
+      "description": "Use HTTP2 protocol.",
+      "group": "HTTP",
+      "sortOrder": 12
+    },
+    {
+      "key": "sni",
+      "name": "SNI",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-sni",
+      "description": "Target TLS SNI, does not support FUZZ keyword.",
+      "group": "HTTP",
+      "sortOrder": 13
     },
     {
       "key": "raw",
@@ -108,7 +148,18 @@
       "dataType": "Boolean",
       "longFlag": "-raw",
       "description": "Do not encode URI.",
-      "group": "HTTP"
+      "group": "HTTP",
+      "sortOrder": 14
+    },
+    {
+      "key": "ignore-body",
+      "name": "Ignore Body",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "longFlag": "-ignore-body",
+      "description": "Do not fetch the response content.",
+      "group": "HTTP",
+      "sortOrder": 15
     },
     {
       "key": "recursion",
@@ -117,7 +168,8 @@
       "dataType": "Boolean",
       "longFlag": "-recursion",
       "description": "Scan recursively. Only FUZZ keyword is supported, and URL must end in it.",
-      "group": "HTTP"
+      "group": "HTTP",
+      "sortOrder": 16
     },
     {
       "key": "recursion-depth",
@@ -126,7 +178,8 @@
       "dataType": "Number",
       "longFlag": "-recursion-depth",
       "description": "Maximum recursion depth.",
-      "group": "HTTP"
+      "group": "HTTP",
+      "sortOrder": 17
     },
     {
       "key": "recursion-strategy",
@@ -136,6 +189,7 @@
       "longFlag": "-recursion-strategy",
       "description": "Recursion strategy.",
       "group": "HTTP",
+      "sortOrder": 18,
       "enum": {
         "values": [
           {
@@ -155,49 +209,54 @@
       }
     },
     {
-      "key": "replay-proxy",
-      "name": "Replay Proxy",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "-replay-proxy",
-      "description": "Replay matched requests using this proxy.",
-      "group": "HTTP"
-    },
-    {
-      "key": "sni",
-      "name": "SNI",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "-sni",
-      "description": "Target TLS SNI, does not support FUZZ keyword.",
-      "group": "HTTP"
-    },
-    {
-      "key": "timeout",
-      "name": "Timeout",
+      "key": "threads",
+      "name": "Threads",
       "parameterType": "Option",
       "dataType": "Number",
-      "longFlag": "-timeout",
-      "description": "HTTP request timeout in seconds.",
-      "group": "HTTP"
+      "shortFlag": "-t",
+      "description": "Number of concurrent threads.",
+      "group": "General",
+      "sortOrder": 19
     },
     {
-      "key": "proxy",
-      "name": "Proxy",
+      "key": "rate",
+      "name": "Rate",
+      "parameterType": "Option",
+      "dataType": "Number",
+      "longFlag": "-rate",
+      "description": "Rate of requests per second.",
+      "group": "General",
+      "sortOrder": 20
+    },
+    {
+      "key": "delay",
+      "name": "Delay",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-x",
-      "description": "Proxy URL (SOCKS5 or HTTP). For example: http://127.0.0.1:8080 or socks5://127.0.0.1:8080.",
-      "group": "HTTP"
+      "shortFlag": "-p",
+      "description": "Seconds of delay between requests, or a range of random delay. For example \"0.1\" or \"0.1-2.0\".",
+      "group": "General",
+      "sortOrder": 21
     },
     {
-      "key": "version",
-      "name": "Version",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-V",
-      "description": "Show version information.",
-      "group": "General"
+      "key": "maxtime",
+      "name": "Max Time",
+      "parameterType": "Option",
+      "dataType": "Number",
+      "longFlag": "-maxtime",
+      "description": "Maximum running time in seconds for entire process.",
+      "group": "General",
+      "sortOrder": 22
+    },
+    {
+      "key": "maxtime-job",
+      "name": "Max Time Per Job",
+      "parameterType": "Option",
+      "dataType": "Number",
+      "longFlag": "-maxtime-job",
+      "description": "Maximum running time in seconds per job.",
+      "group": "General",
+      "sortOrder": 23
     },
     {
       "key": "autocalibrate",
@@ -206,7 +265,8 @@
       "dataType": "Boolean",
       "longFlag": "-ac",
       "description": "Automatically calibrate filtering options.",
-      "group": "General"
+      "group": "General",
+      "sortOrder": 24
     },
     {
       "key": "autocalibrate-custom",
@@ -216,7 +276,8 @@
       "longFlag": "-acc",
       "description": "Custom auto-calibration string. Can be used multiple times. Implies -ac.",
       "isRepeatable": true,
-      "group": "General"
+      "group": "General",
+      "sortOrder": 25
     },
     {
       "key": "autocalibrate-per-host",
@@ -225,7 +286,8 @@
       "dataType": "Boolean",
       "longFlag": "-ach",
       "description": "Per host autocalibration.",
-      "group": "General"
+      "group": "General",
+      "sortOrder": 26
     },
     {
       "key": "autocalibrate-keyword",
@@ -234,7 +296,8 @@
       "dataType": "String",
       "longFlag": "-ack",
       "description": "Autocalibration keyword.",
-      "group": "General"
+      "group": "General",
+      "sortOrder": 27
     },
     {
       "key": "autocalibrate-strategy",
@@ -244,88 +307,8 @@
       "longFlag": "-acs",
       "description": "Custom auto-calibration strategies. Can be used multiple times. Implies -ac.",
       "isRepeatable": true,
-      "group": "General"
-    },
-    {
-      "key": "colorize",
-      "name": "Colorize",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-c",
-      "description": "Colorize output.",
-      "group": "General"
-    },
-    {
-      "key": "config",
-      "name": "Config File",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "-config",
-      "description": "Load configuration from a file.",
-      "group": "General"
-    },
-    {
-      "key": "json-output",
-      "name": "JSON Output",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "-json",
-      "description": "JSON output, printing newline-delimited JSON records.",
-      "group": "General"
-    },
-    {
-      "key": "maxtime",
-      "name": "Max Time",
-      "parameterType": "Option",
-      "dataType": "Number",
-      "longFlag": "-maxtime",
-      "description": "Maximum running time in seconds for entire process.",
-      "group": "General"
-    },
-    {
-      "key": "maxtime-job",
-      "name": "Max Time Per Job",
-      "parameterType": "Option",
-      "dataType": "Number",
-      "longFlag": "-maxtime-job",
-      "description": "Maximum running time in seconds per job.",
-      "group": "General"
-    },
-    {
-      "key": "noninteractive",
-      "name": "Non-Interactive",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "-noninteractive",
-      "description": "Disable the interactive console functionality.",
-      "group": "General"
-    },
-    {
-      "key": "delay",
-      "name": "Delay",
-      "parameterType": "Option",
-      "dataType": "String",
-      "shortFlag": "-p",
-      "description": "Seconds of delay between requests, or a range of random delay. For example \"0.1\" or \"0.1-2.0\".",
-      "group": "General"
-    },
-    {
-      "key": "rate",
-      "name": "Rate",
-      "parameterType": "Option",
-      "dataType": "Number",
-      "longFlag": "-rate",
-      "description": "Rate of requests per second.",
-      "group": "General"
-    },
-    {
-      "key": "silent",
-      "name": "Silent",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-s",
-      "description": "Do not print additional information (silent mode).",
-      "group": "General"
+      "group": "General",
+      "sortOrder": 28
     },
     {
       "key": "stop-all-errors",
@@ -334,25 +317,8 @@
       "dataType": "Boolean",
       "longFlag": "-sa",
       "description": "Stop on all error cases. Implies -sf and -se.",
-      "group": "General"
-    },
-    {
-      "key": "scraperfile",
-      "name": "Scraper File",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "-scraperfile",
-      "description": "Custom scraper file path.",
-      "group": "General"
-    },
-    {
-      "key": "scrapers",
-      "name": "Scrapers",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "-scrapers",
-      "description": "Active scraper groups.",
-      "group": "General"
+      "group": "General",
+      "sortOrder": 29
     },
     {
       "key": "stop-on-errors",
@@ -361,16 +327,8 @@
       "dataType": "Boolean",
       "longFlag": "-se",
       "description": "Stop on spurious errors.",
-      "group": "General"
-    },
-    {
-      "key": "search",
-      "name": "Search",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "-search",
-      "description": "Search for a FFUFHASH payload from ffuf history.",
-      "group": "General"
+      "group": "General",
+      "sortOrder": 30
     },
     {
       "key": "stop-on-forbidden",
@@ -379,16 +337,48 @@
       "dataType": "Boolean",
       "longFlag": "-sf",
       "description": "Stop when > 95% of responses return 403 Forbidden.",
-      "group": "General"
+      "group": "General",
+      "sortOrder": 31
     },
     {
-      "key": "threads",
-      "name": "Threads",
+      "key": "scrapers",
+      "name": "Scrapers",
       "parameterType": "Option",
-      "dataType": "Number",
-      "shortFlag": "-t",
-      "description": "Number of concurrent threads.",
-      "group": "General"
+      "dataType": "String",
+      "longFlag": "-scrapers",
+      "description": "Active scraper groups.",
+      "group": "General",
+      "sortOrder": 32
+    },
+    {
+      "key": "scraperfile",
+      "name": "Scraper File",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-scraperfile",
+      "description": "Custom scraper file path.",
+      "group": "General",
+      "sortOrder": 33
+    },
+    {
+      "key": "colorize",
+      "name": "Colorize",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "shortFlag": "-c",
+      "description": "Colorize output.",
+      "group": "General",
+      "sortOrder": 34
+    },
+    {
+      "key": "silent",
+      "name": "Silent",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "shortFlag": "-s",
+      "description": "Do not print additional information (silent mode).",
+      "group": "General",
+      "sortOrder": 35
     },
     {
       "key": "verbose",
@@ -397,7 +387,58 @@
       "dataType": "Boolean",
       "shortFlag": "-v",
       "description": "Verbose output, printing full URL and redirect location with the results.",
-      "group": "General"
+      "group": "General",
+      "sortOrder": 36
+    },
+    {
+      "key": "json-output",
+      "name": "JSON Output",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "longFlag": "-json",
+      "description": "JSON output, printing newline-delimited JSON records.",
+      "group": "General",
+      "sortOrder": 37
+    },
+    {
+      "key": "config",
+      "name": "Config File",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-config",
+      "description": "Load configuration from a file.",
+      "group": "General",
+      "sortOrder": 38
+    },
+    {
+      "key": "search",
+      "name": "Search",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-search",
+      "description": "Search for a FFUFHASH payload from ffuf history.",
+      "group": "General",
+      "sortOrder": 39
+    },
+    {
+      "key": "noninteractive",
+      "name": "Non-Interactive",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "longFlag": "-noninteractive",
+      "description": "Disable the interactive console functionality.",
+      "group": "General",
+      "sortOrder": 40
+    },
+    {
+      "key": "version",
+      "name": "Version",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "shortFlag": "-V",
+      "description": "Show version information.",
+      "group": "General",
+      "sortOrder": 41
     },
     {
       "key": "match-codes",
@@ -406,7 +447,18 @@
       "dataType": "String",
       "longFlag": "-mc",
       "description": "Match HTTP status codes, or \"all\" for everything.",
-      "group": "Matcher"
+      "group": "Matcher",
+      "sortOrder": 42
+    },
+    {
+      "key": "match-size",
+      "name": "Match Size",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-ms",
+      "description": "Match HTTP response size.",
+      "group": "Matcher",
+      "sortOrder": 43
     },
     {
       "key": "match-lines",
@@ -415,7 +467,38 @@
       "dataType": "String",
       "longFlag": "-ml",
       "description": "Match amount of lines in response.",
-      "group": "Matcher"
+      "group": "Matcher",
+      "sortOrder": 44
+    },
+    {
+      "key": "match-words",
+      "name": "Match Words",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-mw",
+      "description": "Match amount of words in response.",
+      "group": "Matcher",
+      "sortOrder": 45
+    },
+    {
+      "key": "match-time",
+      "name": "Match Time",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-mt",
+      "description": "Match how many milliseconds to the first response byte, either greater or less than. E.g. >100 or <100.",
+      "group": "Matcher",
+      "sortOrder": 46
+    },
+    {
+      "key": "match-regexp",
+      "name": "Match Regexp",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-mr",
+      "description": "Match regexp.",
+      "group": "Matcher",
+      "sortOrder": 47
     },
     {
       "key": "match-mode",
@@ -425,6 +508,7 @@
       "longFlag": "-mmode",
       "description": "Matcher set operator.",
       "group": "Matcher",
+      "sortOrder": 48,
       "enum": {
         "values": [
           {
@@ -442,49 +526,24 @@
       }
     },
     {
-      "key": "match-regexp",
-      "name": "Match Regexp",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "-mr",
-      "description": "Match regexp.",
-      "group": "Matcher"
-    },
-    {
-      "key": "match-size",
-      "name": "Match Size",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "-ms",
-      "description": "Match HTTP response size.",
-      "group": "Matcher"
-    },
-    {
-      "key": "match-time",
-      "name": "Match Time",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "-mt",
-      "description": "Match how many milliseconds to the first response byte, either greater or less than. E.g. >100 or <100.",
-      "group": "Matcher"
-    },
-    {
-      "key": "match-words",
-      "name": "Match Words",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "-mw",
-      "description": "Match amount of words in response.",
-      "group": "Matcher"
-    },
-    {
       "key": "filter-codes",
       "name": "Filter Codes",
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "-fc",
       "description": "Filter HTTP status codes from response. Comma separated list of codes and ranges.",
-      "group": "Filter"
+      "group": "Filter",
+      "sortOrder": 49
+    },
+    {
+      "key": "filter-size",
+      "name": "Filter Size",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-fs",
+      "description": "Filter HTTP response size. Comma separated list of sizes and ranges.",
+      "group": "Filter",
+      "sortOrder": 50
     },
     {
       "key": "filter-lines",
@@ -493,7 +552,38 @@
       "dataType": "String",
       "longFlag": "-fl",
       "description": "Filter by amount of lines in response. Comma separated list of line counts and ranges.",
-      "group": "Filter"
+      "group": "Filter",
+      "sortOrder": 51
+    },
+    {
+      "key": "filter-words",
+      "name": "Filter Words",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-fw",
+      "description": "Filter by amount of words in response. Comma separated list of word counts and ranges.",
+      "group": "Filter",
+      "sortOrder": 52
+    },
+    {
+      "key": "filter-time",
+      "name": "Filter Time",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-ft",
+      "description": "Filter by number of milliseconds to the first response byte, either greater or less than. E.g. >100 or <100.",
+      "group": "Filter",
+      "sortOrder": 53
+    },
+    {
+      "key": "filter-regexp",
+      "name": "Filter Regexp",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-fr",
+      "description": "Filter regexp.",
+      "group": "Filter",
+      "sortOrder": 54
     },
     {
       "key": "filter-mode",
@@ -503,6 +593,7 @@
       "longFlag": "-fmode",
       "description": "Filter set operator.",
       "group": "Filter",
+      "sortOrder": 55,
       "enum": {
         "values": [
           {
@@ -520,49 +611,15 @@
       }
     },
     {
-      "key": "filter-regexp",
-      "name": "Filter Regexp",
+      "key": "wordlist",
+      "name": "Wordlist",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "-fr",
-      "description": "Filter regexp.",
-      "group": "Filter"
-    },
-    {
-      "key": "filter-size",
-      "name": "Filter Size",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "-fs",
-      "description": "Filter HTTP response size. Comma separated list of sizes and ranges.",
-      "group": "Filter"
-    },
-    {
-      "key": "filter-time",
-      "name": "Filter Time",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "-ft",
-      "description": "Filter by number of milliseconds to the first response byte, either greater or less than. E.g. >100 or <100.",
-      "group": "Filter"
-    },
-    {
-      "key": "filter-words",
-      "name": "Filter Words",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "-fw",
-      "description": "Filter by amount of words in response. Comma separated list of word counts and ranges.",
-      "group": "Filter"
-    },
-    {
-      "key": "dirsearch-compat",
-      "name": "DirSearch Compatibility",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-D",
-      "description": "DirSearch wordlist compatibility mode. Used in conjunction with -e flag.",
-      "group": "Input"
+      "shortFlag": "-w",
+      "description": "Wordlist file path and (optional) keyword separated by colon. E.g. '/path/to/wordlist:KEYWORD'.",
+      "isRepeatable": true,
+      "group": "Input",
+      "sortOrder": 56
     },
     {
       "key": "extensions",
@@ -571,52 +628,18 @@
       "dataType": "String",
       "shortFlag": "-e",
       "description": "Comma separated list of extensions. Extends FUZZ keyword.",
-      "group": "Input"
+      "group": "Input",
+      "sortOrder": 57
     },
     {
-      "key": "encoders",
-      "name": "Encoders",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "-enc",
-      "description": "Encoders for keywords, e.g. 'FUZZ:urlencode b64encode'.",
-      "group": "Input"
-    },
-    {
-      "key": "ignore-comments",
-      "name": "Ignore Comments",
+      "key": "dirsearch-compat",
+      "name": "DirSearch Compatibility",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-ic",
-      "description": "Ignore wordlist comments.",
-      "group": "Input"
-    },
-    {
-      "key": "input-cmd",
-      "name": "Input Command",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "-input-cmd",
-      "description": "Command producing the input. --input-num is required when using this method. Overrides -w.",
-      "group": "Input"
-    },
-    {
-      "key": "input-num",
-      "name": "Input Number",
-      "parameterType": "Option",
-      "dataType": "Number",
-      "longFlag": "-input-num",
-      "description": "Number of inputs to test. Used in conjunction with --input-cmd.",
-      "group": "Input"
-    },
-    {
-      "key": "input-shell",
-      "name": "Input Shell",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "-input-shell",
-      "description": "Shell to be used for running command.",
-      "group": "Input"
+      "shortFlag": "-D",
+      "description": "DirSearch wordlist compatibility mode. Used in conjunction with -e flag.",
+      "group": "Input",
+      "sortOrder": 58
     },
     {
       "key": "mode",
@@ -626,6 +649,7 @@
       "longFlag": "-mode",
       "description": "Multi-wordlist operation mode.",
       "group": "Input",
+      "sortOrder": 59,
       "enum": {
         "values": [
           {
@@ -648,13 +672,34 @@
       }
     },
     {
+      "key": "encoders",
+      "name": "Encoders",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-enc",
+      "description": "Encoders for keywords, e.g. 'FUZZ:urlencode b64encode'.",
+      "group": "Input",
+      "sortOrder": 60
+    },
+    {
+      "key": "ignore-comments",
+      "name": "Ignore Comments",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "longFlag": "-ic",
+      "description": "Ignore wordlist comments.",
+      "group": "Input",
+      "sortOrder": 61
+    },
+    {
       "key": "request",
       "name": "Request File",
       "parameterType": "Option",
       "dataType": "String",
       "longFlag": "-request",
       "description": "File containing the raw HTTP request.",
-      "group": "Input"
+      "group": "Input",
+      "sortOrder": 62
     },
     {
       "key": "request-proto",
@@ -664,6 +709,7 @@
       "longFlag": "-request-proto",
       "description": "Protocol to use along with raw request.",
       "group": "Input",
+      "sortOrder": 63,
       "enum": {
         "values": [
           {
@@ -681,23 +727,34 @@
       }
     },
     {
-      "key": "wordlist",
-      "name": "Wordlist",
+      "key": "input-cmd",
+      "name": "Input Command",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-w",
-      "description": "Wordlist file path and (optional) keyword separated by colon. E.g. '/path/to/wordlist:KEYWORD'.",
-      "isRepeatable": true,
-      "group": "Input"
+      "longFlag": "-input-cmd",
+      "description": "Command producing the input. --input-num is required when using this method. Overrides -w.",
+      "group": "Input",
+      "sortOrder": 64
     },
     {
-      "key": "debug-log",
-      "name": "Debug Log",
+      "key": "input-num",
+      "name": "Input Number",
+      "parameterType": "Option",
+      "dataType": "Number",
+      "longFlag": "-input-num",
+      "description": "Number of inputs to test. Used in conjunction with --input-cmd.",
+      "group": "Input",
+      "sortOrder": 65
+    },
+    {
+      "key": "input-shell",
+      "name": "Input Shell",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "-debug-log",
-      "description": "Write all of the internal logging to the specified file.",
-      "group": "Output"
+      "longFlag": "-input-shell",
+      "description": "Shell to be used for running command.",
+      "group": "Input",
+      "sortOrder": 66
     },
     {
       "key": "output",
@@ -706,16 +763,8 @@
       "dataType": "String",
       "shortFlag": "-o",
       "description": "Write output to file.",
-      "group": "Output"
-    },
-    {
-      "key": "output-dir",
-      "name": "Output Directory",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "-od",
-      "description": "Directory path to store matched results to.",
-      "group": "Output"
+      "group": "Output",
+      "sortOrder": 67
     },
     {
       "key": "output-format",
@@ -725,6 +774,7 @@
       "longFlag": "-of",
       "description": "Output file format.",
       "group": "Output",
+      "sortOrder": 68,
       "enum": {
         "values": [
           {
@@ -767,13 +817,34 @@
       }
     },
     {
+      "key": "output-dir",
+      "name": "Output Directory",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-od",
+      "description": "Directory path to store matched results to.",
+      "group": "Output",
+      "sortOrder": 69
+    },
+    {
       "key": "no-empty-output",
       "name": "No Empty Output",
       "parameterType": "Flag",
       "dataType": "Boolean",
       "longFlag": "-or",
       "description": "Don't create the output file if we don't have results.",
-      "group": "Output"
+      "group": "Output",
+      "sortOrder": 70
+    },
+    {
+      "key": "debug-log",
+      "name": "Debug Log",
+      "parameterType": "Option",
+      "dataType": "String",
+      "longFlag": "-debug-log",
+      "description": "Write all of the internal logging to the specified file.",
+      "group": "Output",
+      "sortOrder": 71
     }
   ]
 }
