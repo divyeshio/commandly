@@ -1,25 +1,22 @@
 {
-  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
+  "$schema": "https://commandly.divyeshio.in/specification/tool.json",
   "binaryName": "notify",
   "displayName": "Notify",
   "commands": [],
   "parameters": [
     {
-      "key": "bulk",
-      "name": "Bulk",
+      "key": "-bulk",
+      "displayName": "Bulk",
       "description": "Enable bulk processing.",
       "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "-bulk"
+      "dataType": "Boolean"
     },
     {
-      "key": "char-limit",
-      "name": "Character Limit",
+      "key": "-char-limit",
+      "displayName": "Character Limit",
       "description": "Maximum character limit per message.",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-cl",
-      "longFlag": "-char-limit",
       "validations": [
         {
           "key": "min_value-1",
@@ -28,33 +25,34 @@
           "errorMessage": "Character limit must be at least 1.",
           "parameterKey": "char-limit"
         }
+      ],
+      "aliases": [
+        "-cl"
       ]
     },
     {
-      "key": "config",
-      "name": "Config",
+      "key": "-config",
+      "displayName": "Config",
       "description": "Notify configuration file path.",
       "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "-config"
+      "dataType": "String"
     },
     {
-      "key": "data",
-      "name": "Data",
+      "key": "-data",
+      "displayName": "Data",
       "description": "Input file to send to Notify.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-i",
-      "longFlag": "-data"
+      "aliases": [
+        "-i"
+      ]
     },
     {
-      "key": "delay",
-      "name": "Delay",
+      "key": "-delay",
+      "displayName": "Delay",
       "description": "Delay in seconds between notifications.",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-d",
-      "longFlag": "-delay",
       "validations": [
         {
           "key": "min_value-0",
@@ -63,52 +61,54 @@
           "errorMessage": "Delay must be at least 0.",
           "parameterKey": "delay"
         }
+      ],
+      "aliases": [
+        "-d"
       ]
     },
     {
-      "key": "id",
-      "name": "ID",
+      "key": "-id",
+      "displayName": "ID",
       "description": "Comma-separated notification IDs.",
       "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "-id",
-      "arraySeparator": ","
+      "dataType": "String"
     },
     {
-      "key": "msg-format",
-      "name": "Message Format",
+      "key": "-msg-format",
+      "displayName": "Message Format",
       "description": "Custom message format.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-mf",
-      "longFlag": "-msg-format"
+      "aliases": [
+        "-mf"
+      ]
     },
     {
-      "key": "no-color",
-      "name": "No Color",
+      "key": "-no-color",
+      "displayName": "No Color",
       "description": "Disable colored output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-nc",
-      "longFlag": "-no-color"
+      "aliases": [
+        "-nc"
+      ]
     },
     {
-      "key": "provider-config",
-      "name": "Provider Config",
+      "key": "-provider-config",
+      "displayName": "Provider Config",
       "description": "Provider config file path.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-pc",
-      "longFlag": "-provider-config"
+      "aliases": [
+        "-pc"
+      ]
     },
     {
-      "key": "provider",
-      "name": "Provider",
+      "key": "-provider",
+      "displayName": "Provider",
       "description": "Comma-separated providers to send notifications to.",
       "parameterType": "Option",
       "dataType": "Enum",
-      "shortFlag": "-p",
-      "longFlag": "-provider",
       "enum": {
         "values": [
           {
@@ -159,24 +159,24 @@
         ],
         "allowMultiple": true,
         "separator": ","
-      }
+      },
+      "aliases": [
+        "-p"
+      ]
     },
     {
-      "key": "proxy",
-      "name": "Proxy",
+      "key": "-proxy",
+      "displayName": "Proxy",
       "description": "HTTP or SOCKSv5 proxy to use.",
       "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "-proxy"
+      "dataType": "String"
     },
     {
-      "key": "rate-limit",
-      "name": "Rate Limit",
+      "key": "-rate-limit",
+      "displayName": "Rate Limit",
       "description": "Maximum HTTP requests per second.",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-rl",
-      "longFlag": "-rate-limit",
       "validations": [
         {
           "key": "min_value-1",
@@ -185,52 +185,70 @@
           "errorMessage": "Rate limit must be at least 1.",
           "parameterKey": "rate-limit"
         }
+      ],
+      "aliases": [
+        "-rl"
       ]
     },
     {
-      "key": "silent",
-      "name": "Silent",
+      "key": "-silent",
+      "displayName": "Silent",
       "description": "Enable silent mode.",
       "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "-silent"
+      "dataType": "Boolean"
     },
     {
-      "key": "verbose",
-      "name": "Verbose",
+      "key": "-verbose",
+      "displayName": "Verbose",
       "description": "Enable verbose mode.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-verbose"
+      "aliases": [
+        "-v"
+      ]
     },
     {
-      "key": "version",
-      "name": "Version",
+      "key": "-version",
+      "displayName": "Version",
       "description": "Display the version.",
       "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "-version"
+      "dataType": "Boolean"
     },
     {
-      "key": "update",
-      "name": "Update",
+      "key": "-update",
+      "displayName": "Update",
       "description": "Update to the latest version.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-update"
+      "aliases": [
+        "-up"
+      ]
     },
     {
-      "key": "disable-update-check",
-      "name": "Disable Update Check",
+      "key": "-disable-update-check",
+      "displayName": "Disable Update Check",
       "description": "Disable automatic update checks.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-duc",
-      "longFlag": "-disable-update-check"
+      "aliases": [
+        "-duc"
+      ]
     }
   ],
   "info": {
     "url": "https://github.com/projectdiscovery/notify",
-    "description": "Stream output from files or pipes to notification providers."
+    "description": "Stream output from files or pipes to notification providers.",
+    "version": "1.0.7"
+  },
+  "installation": {
+    "sources": [
+      {
+        "key": "go-install",
+        "method": "package_manager",
+        "manager": "go",
+        "command": "go install -v github.com/projectdiscovery/notify/cmd/notify@latest",
+        "url": "https://docs.projectdiscovery.io/opensource/notify/install"
+      }
+    ]
   }
 }

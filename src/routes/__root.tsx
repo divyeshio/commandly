@@ -4,9 +4,8 @@ import { NotFound } from "@/components/not-found";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import type { QueryClient } from "@tanstack/react-query";
 /// <reference types="vite/client" />
-import { HeadContent, Outlet, Scripts, createRootRouteWithContext } from "@tanstack/react-router";
+import { HeadContent, Outlet, Scripts, createRootRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { MenuIcon, TerminalIcon } from "lucide-react";
 import { ThemeProvider } from "next-themes";
@@ -15,9 +14,7 @@ import * as React from "react";
 import { useState } from "react";
 import { Toaster } from "sonner";
 
-export const Route = createRootRouteWithContext<{
-  queryClient: QueryClient;
-}>()({
+export const Route = createRootRoute({
   head: () => ({
     meta: [
       {
@@ -225,8 +222,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           <main className="w-full">{children}</main>
           <Toaster />
         </NuqsAdapter>
-        {/* <TanStackRouterDevtools position="bottom-right" />
-        <ReactQueryDevtools buttonPosition="bottom-left" /> */}
         <Scripts />
       </body>
     </html>

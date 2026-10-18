@@ -1,62 +1,58 @@
 {
-  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
+  "$schema": "https://commandly.divyeshio.in/specification/tool.json",
   "binaryName": "cdncheck",
   "displayName": "CDNCheck",
   "info": {
     "description": "cdncheck is a tool for identifying the technology associated with dns / ip network addresses.",
-    "version": "1.2.27",
+    "version": "1.3.2",
     "url": "https://github.com/projectdiscovery/cdncheck"
   },
   "commands": [],
   "parameters": [
     {
-      "name": "Input",
+      "displayName": "Input",
       "description": "List of IP / DNS to process",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-i",
-      "longFlag": "-input",
       "sortOrder": 1,
-      "key": "input"
+      "key": "-input",
+      "aliases": [
+        "-i"
+      ]
     },
     {
-      "name": "CDN",
+      "displayName": "CDN",
       "description": "Display only CDN in CLI output",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-cdn",
       "sortOrder": 2,
-      "key": "cdn"
+      "key": "-cdn"
     },
     {
-      "name": "Cloud",
+      "displayName": "Cloud",
       "description": "Display only cloud in CLI output",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-cloud",
       "sortOrder": 3,
-      "key": "cloud"
+      "key": "-cloud"
     },
     {
-      "name": "WAF",
+      "displayName": "WAF",
       "description": "Display only WAF in CLI output",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-waf",
       "sortOrder": 4,
-      "key": "waf"
+      "key": "-waf"
     },
     {
-      "name": "Match CDN",
+      "displayName": "Match CDN",
       "description": "Match host with specified CDN provider (cloudfront, fastly, google, leaseweb)",
       "parameterType": "Option",
       "dataType": "Enum",
       "isRepeatable": true,
-      "shortFlag": "-mcdn",
-      "longFlag": "-match-cdn",
       "sortOrder": 5,
-      "key": "match-cdn",
+      "key": "-match-cdn",
       "enum": {
         "allowMultiple": true,
         "values": [
@@ -77,18 +73,19 @@
             "displayName": "Leaseweb"
           }
         ]
-      }
+      },
+      "aliases": [
+        "-mcdn"
+      ]
     },
     {
-      "name": "Match Cloud",
+      "displayName": "Match Cloud",
       "description": "Match host with specified cloud provider (aws, google, oracle)",
       "parameterType": "Option",
       "dataType": "Enum",
       "isRepeatable": true,
-      "shortFlag": "-mcloud",
-      "longFlag": "-match-cloud",
       "sortOrder": 6,
-      "key": "match-cloud",
+      "key": "-match-cloud",
       "enum": {
         "values": [
           {
@@ -104,18 +101,19 @@
             "displayName": "Oracle"
           }
         ]
-      }
+      },
+      "aliases": [
+        "-mcloud"
+      ]
     },
     {
-      "name": "Match WAF",
+      "displayName": "Match WAF",
       "description": "Match host with specified WAF provider (cloudflare, incapsula, sucuri, akamai)",
       "parameterType": "Option",
       "dataType": "Enum",
       "isRepeatable": true,
-      "shortFlag": "-mwaf",
-      "longFlag": "-match-waf",
       "sortOrder": 7,
-      "key": "match-waf",
+      "key": "-match-waf",
       "enum": {
         "values": [
           {
@@ -135,18 +133,19 @@
             "displayName": "Akamai"
           }
         ]
-      }
+      },
+      "aliases": [
+        "-mwaf"
+      ]
     },
     {
-      "name": "Filter CDN",
+      "displayName": "Filter CDN",
       "description": "Filter host with specified CDN provider (cloudfront, fastly, google, leaseweb)",
       "parameterType": "Option",
       "dataType": "Enum",
       "isRepeatable": true,
-      "shortFlag": "-fcdn",
-      "longFlag": "-filter-cdn",
       "sortOrder": 8,
-      "key": "filter-cdn",
+      "key": "-filter-cdn",
       "enum": {
         "allowMultiple": true,
         "values": [
@@ -167,18 +166,19 @@
             "displayName": "Leaseweb"
           }
         ]
-      }
+      },
+      "aliases": [
+        "-fcdn"
+      ]
     },
     {
-      "name": "Filter Cloud",
+      "displayName": "Filter Cloud",
       "description": "Filter host with specified cloud provider (aws, google, oracle)",
       "parameterType": "Option",
       "dataType": "Enum",
       "isRepeatable": true,
-      "shortFlag": "-fcloud",
-      "longFlag": "-filter-cloud",
       "sortOrder": 9,
-      "key": "filter-cloud",
+      "key": "-filter-cloud",
       "enum": {
         "allowMultiple": true,
         "values": [
@@ -195,18 +195,19 @@
             "displayName": "Oracle"
           }
         ]
-      }
+      },
+      "aliases": [
+        "-fcloud"
+      ]
     },
     {
-      "name": "Filter WAF",
+      "displayName": "Filter WAF",
       "description": "Filter host with specified WAF provider (cloudflare, incapsula, sucuri, akamai)",
       "parameterType": "Option",
       "dataType": "Enum",
       "isRepeatable": true,
-      "shortFlag": "-fwaf",
-      "longFlag": "-filter-waf",
       "sortOrder": 10,
-      "key": "filter-waf",
+      "key": "-filter-waf",
       "enum": {
         "values": [
           {
@@ -226,147 +227,165 @@
             "displayName": "Akamai"
           }
         ]
-      }
+      },
+      "aliases": [
+        "-fwaf"
+      ]
     },
     {
-      "name": "Response Technology",
+      "displayName": "Response Technology",
       "description": "Display technology name in CLI output",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-resp",
       "sortOrder": 11,
-      "key": "resp"
+      "key": "-resp"
     },
     {
-      "name": "Output",
+      "displayName": "Output",
       "description": "Write output in plain format to file",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-o",
-      "longFlag": "-output",
       "sortOrder": 12,
-      "key": "output"
+      "key": "-output",
+      "aliases": [
+        "-o"
+      ]
     },
     {
-      "name": "Verbose",
+      "displayName": "Verbose",
       "description": "Display verbose output",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-v",
-      "longFlag": "-verbose",
       "sortOrder": 13,
-      "key": "verbose"
+      "key": "-verbose",
+      "aliases": [
+        "-v"
+      ]
     },
     {
-      "name": "JSONL Output",
+      "displayName": "JSONL Output",
       "description": "Write output in JSON Lines format",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-jsonl",
       "sortOrder": 14,
-      "key": "jsonl"
+      "key": "-jsonl",
+      "aliases": [
+        "-j"
+      ]
     },
     {
-      "name": "No Color",
+      "displayName": "No Color",
       "description": "Disable colors in CLI output",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-nc",
-      "longFlag": "-no-color",
       "sortOrder": 15,
-      "key": "no-color"
+      "key": "-no-color",
+      "aliases": [
+        "-nc"
+      ]
     },
     {
-      "name": "Version",
+      "displayName": "Version",
       "description": "Display version of the project",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-version",
       "sortOrder": 16,
-      "key": "version"
+      "key": "-version"
     },
     {
-      "name": "Silent",
+      "displayName": "Silent",
       "description": "Only display results in output",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-silent",
       "sortOrder": 17,
-      "key": "silent"
+      "key": "-silent"
     },
     {
-      "name": "Resolver",
+      "displayName": "Resolver",
       "description": "List of resolvers to use (file or comma separated)",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-r",
-      "longFlag": "-resolver",
       "sortOrder": 18,
-      "key": "resolver"
+      "key": "-resolver",
+      "aliases": [
+        "-r"
+      ]
     },
     {
-      "name": "Exclude",
+      "displayName": "Exclude",
       "description": "Exclude detected IP from output",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-e",
-      "longFlag": "-exclude",
       "sortOrder": 19,
-      "key": "exclude"
+      "key": "-exclude",
+      "aliases": [
+        "-e"
+      ]
     },
     {
-      "name": "Retry",
+      "displayName": "Retry",
       "description": "Maximum number of retries for DNS resolution (must be at least 1)",
       "parameterType": "Option",
       "dataType": "Number",
-      "longFlag": "-retry",
       "sortOrder": 20,
-      "key": "retry"
+      "key": "-retry"
     },
     {
-      "name": "Update",
+      "displayName": "Update",
       "description": "Update cdncheck to latest version",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-up",
-      "longFlag": "-update",
       "sortOrder": 21,
-      "key": "update"
+      "key": "-update",
+      "aliases": [
+        "-up"
+      ]
     },
     {
-      "name": "Disable Update Check",
+      "displayName": "Disable Update Check",
       "description": "Disable automatic cdncheck update check",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-duc",
-      "longFlag": "-disable-update-check",
       "sortOrder": 22,
-      "key": "disable-update-check"
+      "key": "-disable-update-check",
+      "aliases": [
+        "-duc"
+      ]
     }
   ],
   "exclusionGroups": [
     {
-      "name": "Detection",
+      "displayName": "Detection",
       "exclusionType": "mutual_exclusive",
       "key": "detection",
-      "commandKey": "cdncheck",
       "parameterKeys": [
-        "cdn",
-        "cloud",
-        "waf"
+        "-cdn",
+        "-cloud",
+        "-waf"
       ]
     },
     {
-      "name": "Filter",
+      "displayName": "Filter",
       "exclusionType": "mutual_exclusive",
       "key": "filter",
-      "commandKey": "cdncheck",
       "parameterKeys": [
-        "filter-cdn",
-        "filter-cloud",
-        "filter-waf"
+        "-filter-cdn",
+        "-filter-cloud",
+        "-filter-waf"
       ]
     }
-  ]
+  ],
+  "installation": {
+    "sources": [
+      {
+        "key": "go-install",
+        "method": "package_manager",
+        "manager": "go",
+        "command": "go install -v github.com/projectdiscovery/cdncheck/cmd/cdncheck@latest",
+        "url": "https://github.com/projectdiscovery/cdncheck#installation",
+        "note": "Requires Go 1.19."
+      }
+    ]
+  }
 }

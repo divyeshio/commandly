@@ -1,2742 +1,2610 @@
 {
-  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
+  "$schema": "https://commandly.divyeshio.in/specification/tool.json",
   "binaryName": "curl",
-  "displayName": "Curl",
+  "displayName": "curl",
   "info": {
-    "description": "curl is a command line tool and library for transferring data with URLs.",
-    "version": "8.19.0",
-    "url": "https://curl.se/"
+    "description": "curl is a tool for transferring data from or to a server using URLs.",
+    "version": "8.7.1",
+    "url": "https://curl.se"
   },
-  "commands": [],
+  "installation": {
+    "sources": [
+      {
+        "key": "apt",
+        "method": "package_manager",
+        "manager": "apt",
+        "command": "sudo apt install curl",
+        "url": "https://curl.se/download.html",
+        "os": [
+          "linux"
+        ],
+        "note": "Packaged in the default Debian and Ubuntu repositories."
+      },
+      {
+        "key": "dnf",
+        "method": "package_manager",
+        "manager": "dnf",
+        "command": "sudo dnf install curl",
+        "url": "https://curl.se/download.html",
+        "os": [
+          "linux"
+        ],
+        "note": "Packaged in the default Fedora repositories."
+      },
+      {
+        "key": "brew",
+        "method": "package_manager",
+        "manager": "brew",
+        "command": "brew install curl",
+        "url": "https://curl.se/download.html",
+        "os": [
+          "linux",
+          "macos"
+        ]
+      },
+      {
+        "key": "winget",
+        "method": "package_manager",
+        "manager": "winget",
+        "command": "winget install cURL.cURL",
+        "url": "https://curl.se/download.html",
+        "os": [
+          "windows"
+        ]
+      },
+      {
+        "key": "scoop",
+        "method": "package_manager",
+        "manager": "scoop",
+        "command": "scoop install curl",
+        "url": "https://curl.se/download.html",
+        "os": [
+          "windows"
+        ]
+      },
+      {
+        "key": "chocolatey",
+        "method": "package_manager",
+        "manager": "choco",
+        "command": "choco install curl",
+        "url": "https://curl.se/download.html",
+        "os": [
+          "windows"
+        ]
+      },
+      {
+        "key": "windows-binary",
+        "method": "binary",
+        "command": "https://curl.se/windows/",
+        "url": "https://curl.se/windows/",
+        "os": [
+          "windows"
+        ],
+        "note": "Official curl-for-Windows builds published by the curl project."
+      },
+      {
+        "key": "curl-container",
+        "method": "docker",
+        "command": "podman run quay.io/curl/curl:latest",
+        "url": "https://curl.se/download.html",
+        "note": "Official curl container image."
+      }
+    ]
+  },
   "parameters": [
     {
-      "name": "Target",
-      "description": "URL to download.",
+      "key": "url",
+      "displayName": "URL",
       "parameterType": "Argument",
       "dataType": "String",
-      "isRequired": true,
-      "sortOrder": 5,
-      "position": 1,
-      "key": "target"
+      "position": 0,
+      "sortOrder": 0,
+      "description": "One or more URLs to transfer."
     },
     {
-      "name": "Output",
-      "description": "Write to file instead of stdout.",
+      "key": "--abstract-unix-socket",
+      "displayName": "Abstract Unix Socket",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-o",
-      "longFlag": "--output",
-      "keyValueSeparator": " ",
-      "sortOrder": 4,
-      "key": "output"
-    },
-    {
-      "name": "Location",
-      "description": "Follow redirects.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-L",
-      "longFlag": "--location",
       "sortOrder": 1,
-      "key": "location"
+      "description": "Connect through an abstract Unix domain socket, instead of using the network.",
+      "group": "connection"
     },
     {
-      "name": "Silent",
-      "description": "Silent mode.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-s",
-      "longFlag": "--silent",
+      "key": "--alt-svc",
+      "displayName": "Alt SVC",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 2,
-      "key": "silent"
+      "description": "Enable the alt-svc parser.",
+      "group": "http",
+      "isRepeatable": true
     },
     {
-      "name": "Insecure",
-      "description": "Allow insecure server connections.",
+      "key": "--anyauth",
+      "displayName": "Anyauth",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-k",
-      "longFlag": "--insecure",
       "sortOrder": 3,
-      "key": "insecure"
+      "description": "Figure out authentication method automatically, and use the most secure one the remote site claims to support.",
+      "group": "auth"
     },
     {
-      "name": "Config",
-      "description": "Read config from a file.",
+      "key": "--append",
+      "displayName": "Append",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 4,
+      "description": "When used in an upload, this option makes curl append to the target file instead of overwriting it.",
+      "group": "ftp",
+      "aliases": [
+        "-a"
+      ]
+    },
+    {
+      "key": "--aws-sigv4",
+      "displayName": "AWS SigV4",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-K",
-      "longFlag": "--config",
-      "keyValueSeparator": " ",
+      "sortOrder": 5,
+      "description": "Use AWS V4 signature authentication in the transfer.",
+      "group": "auth"
+    },
+    {
+      "key": "--basic",
+      "displayName": "Basic",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 6,
-      "key": "config"
+      "description": "Use HTTP Basic authentication with the remote host.",
+      "group": "auth"
     },
     {
-      "name": "Dump Header",
-      "description": "Write the received headers to <filename>.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "shortFlag": "-D",
-      "longFlag": "--dump-header",
-      "keyValueSeparator": " ",
+      "key": "--ca-native",
+      "displayName": "CA Native",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 7,
-      "key": "dump-header"
+      "description": "Use the CA store from the native operating system to verify the peer.",
+      "group": "tls"
     },
     {
-      "name": "Request",
-      "description": "Specify request method to use.",
+      "key": "--cacert",
+      "displayName": "CA Cert",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-X",
-      "longFlag": "--request",
-      "keyValueSeparator": " ",
       "sortOrder": 8,
-      "key": "request"
+      "description": "Use the specified certificate file to verify the peer.",
+      "group": "tls"
     },
     {
-      "name": "Header",
-      "description": "Pass custom header(s) to server.",
+      "key": "--capath",
+      "displayName": "CA Path",
       "parameterType": "Option",
       "dataType": "String",
-      "isRepeatable": true,
-      "shortFlag": "-H",
-      "longFlag": "--header",
-      "keyValueSeparator": " ",
       "sortOrder": 9,
-      "key": "header"
+      "description": "Use the specified certificate directory to verify the peer.",
+      "group": "tls"
     },
     {
-      "name": "Data",
-      "description": "HTTP POST data.",
+      "key": "--cert",
+      "displayName": "Cert",
       "parameterType": "Option",
       "dataType": "String",
-      "isRepeatable": true,
-      "shortFlag": "-d",
-      "longFlag": "--data",
-      "keyValueSeparator": " ",
       "sortOrder": 10,
-      "key": "data"
+      "description": "Use the specified client certificate file when getting a file with HTTPS, FTPS or another SSL-based protocol.",
+      "group": "tls",
+      "aliases": [
+        "-E"
+      ]
     },
     {
-      "name": "User",
-      "description": "Server user and password.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "shortFlag": "-u",
-      "longFlag": "--user",
-      "keyValueSeparator": " ",
+      "key": "--cert-status",
+      "displayName": "Cert Status",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 11,
-      "key": "user"
+      "description": "Verify the status of the server certificate by using the Certificate Status Request (aka.",
+      "group": "tls"
     },
     {
-      "name": "User Agent",
-      "description": "Send User-Agent <name> to server.",
+      "key": "--cert-type",
+      "displayName": "Cert Type",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-A",
-      "longFlag": "--user-agent",
-      "keyValueSeparator": " ",
       "sortOrder": 12,
-      "key": "user-agent"
+      "description": "Set type of the provided client certificate.",
+      "group": "tls"
     },
     {
-      "name": "Verbose",
-      "description": "Make the operation more talkative.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-v",
-      "longFlag": "--verbose",
+      "key": "--ciphers",
+      "displayName": "Ciphers",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 13,
-      "key": "verbose"
+      "description": "Specifies which ciphers to use in the connection.",
+      "group": "tls"
     },
     {
-      "name": "Fail",
-      "description": "Fail fast with no output on HTTP errors.",
+      "key": "--compressed",
+      "displayName": "Compressed",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-f",
-      "longFlag": "--fail",
       "sortOrder": 14,
-      "key": "fail"
+      "description": "Request a compressed response using one of the algorithms curl supports, and automatically decompress the content.",
+      "group": "http"
     },
     {
-      "name": "Head",
-      "description": "Show document info only.",
+      "key": "--compressed-ssh",
+      "displayName": "Compressed SSH",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-I",
-      "longFlag": "--head",
       "sortOrder": 15,
-      "key": "head"
+      "description": "Enables built-in SSH compression.",
+      "group": "scp"
     },
     {
-      "name": "Get",
-      "description": "Put the post data in the URL and use GET.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-G",
-      "longFlag": "--get",
+      "key": "--config",
+      "displayName": "Config",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 16,
-      "key": "get"
+      "description": "Specify a text file to read curl arguments from.",
+      "group": "curl",
+      "aliases": [
+        "-K"
+      ],
+      "isRepeatable": true
     },
     {
-      "name": "Form",
-      "description": "Specify multipart MIME data.",
+      "key": "--connect-timeout",
+      "displayName": "Connect Timeout",
       "parameterType": "Option",
       "dataType": "String",
-      "isRepeatable": true,
-      "shortFlag": "-F",
-      "longFlag": "--form",
-      "keyValueSeparator": " ",
       "sortOrder": 17,
-      "key": "form"
+      "description": "Maximum time in seconds that you allow curl's connection to take.",
+      "group": "connection"
     },
     {
-      "name": "Proxy",
-      "description": "Use this proxy.",
+      "key": "--connect-to",
+      "displayName": "Connect To",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-x",
-      "longFlag": "--proxy",
-      "keyValueSeparator": " ",
       "sortOrder": 18,
-      "key": "proxy"
+      "description": "For a request intended for the \"HOST1:PORT1\" pair, connect to \"HOST2:PORT2\" instead.",
+      "group": "connection",
+      "isRepeatable": true
     },
     {
-      "name": "Max Time",
-      "description": "Maximum time allowed for transfer.",
+      "key": "--continue-at",
+      "displayName": "Continue At",
       "parameterType": "Option",
-      "dataType": "Number",
-      "shortFlag": "-m",
-      "longFlag": "--max-time",
-      "keyValueSeparator": " ",
+      "dataType": "String",
       "sortOrder": 19,
-      "key": "max-time"
+      "description": "Resume a previous transfer from the given byte offset.",
+      "group": "connection",
+      "aliases": [
+        "-C"
+      ]
     },
     {
-      "name": "Connect Timeout",
-      "description": "Maximum time allowed to connect.",
+      "key": "--cookie",
+      "displayName": "Cookie",
       "parameterType": "Option",
-      "dataType": "Number",
-      "longFlag": "--connect-timeout",
-      "keyValueSeparator": " ",
+      "dataType": "String",
       "sortOrder": 20,
-      "key": "connect-timeout"
+      "description": "Pass the data to the HTTP server in the Cookie header.",
+      "group": "http",
+      "aliases": [
+        "-b"
+      ],
+      "isRepeatable": true
     },
     {
-      "name": "Retry",
-      "description": "Retry request if transient problems occur.",
+      "key": "--cookie-jar",
+      "displayName": "Cookie Jar",
       "parameterType": "Option",
-      "dataType": "Number",
-      "longFlag": "--retry",
-      "keyValueSeparator": " ",
+      "dataType": "String",
       "sortOrder": 21,
-      "key": "retry"
+      "description": "Specify to which file you want curl to write all cookies after a completed operation.",
+      "group": "http",
+      "aliases": [
+        "-c"
+      ]
     },
     {
-      "name": "Output Directory",
-      "description": "Directory to save files in.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--output-dir",
-      "keyValueSeparator": " ",
+      "key": "--create-dirs",
+      "displayName": "Create Dirs",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 22,
-      "key": "output-dir"
+      "description": "When used in conjunction with the --output option, curl creates the necessary local directory hierarchy as needed.",
+      "group": "curl"
     },
     {
-      "name": "Remote Name",
-      "description": "Write output to file named as remote file.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-O",
-      "longFlag": "--remote-name",
+      "key": "--create-file-mode",
+      "displayName": "Create File Mode",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 23,
-      "key": "remote-name"
+      "description": "When curl is used to create files remotely using one of the supported protocols, this option allows the user to set which 'mode' to set on the file at creation time, instead of the default 0644.",
+      "group": "file"
     },
     {
-      "name": "Show Headers",
-      "description": "Show response headers in output.",
+      "key": "--crlf",
+      "displayName": "CRLF",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-i",
-      "longFlag": "--show-headers",
       "sortOrder": 24,
-      "key": "show-headers"
+      "description": "Convert line feeds to carriage return plus line feeds in upload.",
+      "group": "ftp"
     },
     {
-      "name": "Help",
-      "description": "Get help for commands.",
+      "key": "--crlfile",
+      "displayName": "CRL File",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-h",
-      "longFlag": "--help",
-      "keyValueSeparator": " ",
       "sortOrder": 25,
-      "key": "help"
+      "description": "Provide a file using PEM format with a Certificate Revocation List that may specify peer certificates that are to be considered revoked.",
+      "group": "tls"
     },
     {
-      "name": "Version",
-      "description": "Show version number and quit.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-V",
-      "longFlag": "--version",
+      "key": "--curves",
+      "displayName": "Curves",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 26,
-      "key": "version"
+      "description": "Set specific curves to use during SSL session establishment according to RFC 8422, 5.1.",
+      "group": "tls"
     },
     {
-      "name": "URL",
-      "description": "URL(s) to work with.",
+      "key": "--data",
+      "displayName": "Data",
       "parameterType": "Option",
       "dataType": "String",
-      "isRepeatable": true,
-      "longFlag": "--url",
-      "keyValueSeparator": " ",
       "sortOrder": 27,
-      "key": "url"
+      "description": "Sends the specified data in a POST request to the HTTP server, in the same way that a browser does when a user has filled in an HTML form and presses the submit button.",
+      "group": "http",
+      "aliases": [
+        "-d"
+      ],
+      "isRepeatable": true
     },
     {
-      "name": "Upload File",
-      "description": "Transfer local FILE to destination.",
+      "key": "--data-ascii",
+      "displayName": "Data ASCII",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-T",
-      "longFlag": "--upload-file",
-      "keyValueSeparator": " ",
       "sortOrder": 28,
-      "key": "upload-file"
+      "description": "This option is just an alias for --data.",
+      "group": "http",
+      "isRepeatable": true
     },
     {
-      "name": "Abstract Unix Socket",
-      "description": "Connect via abstract Unix domain socket.",
+      "key": "--data-binary",
+      "displayName": "Data Binary",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--abstract-unix-socket",
-      "keyValueSeparator": " ",
       "sortOrder": 29,
-      "key": "abstract-unix-socket"
+      "description": "Post data exactly as specified with no extra processing whatsoever.",
+      "group": "http",
+      "isRepeatable": true
     },
     {
-      "name": "Alt-Svc",
-      "description": "Enable alt-svc with this cache file.",
+      "key": "--data-raw",
+      "displayName": "Data Raw",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--alt-svc",
-      "keyValueSeparator": " ",
       "sortOrder": 30,
-      "key": "alt-svc"
+      "description": "Post data similarly to --data but without the special interpretation of the @ character.",
+      "group": "http",
+      "isRepeatable": true
     },
     {
-      "name": "Anyauth",
-      "description": "Pick any authentication method.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--anyauth",
+      "key": "--data-urlencode",
+      "displayName": "Data URL Encode",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 31,
-      "key": "anyauth"
+      "description": "Post data, similar to the other --data options with the exception that this performs URL-encoding.",
+      "group": "http",
+      "isRepeatable": true
     },
     {
-      "name": "Append",
-      "description": "Append to target file when uploading.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-a",
-      "longFlag": "--append",
+      "key": "--delegation",
+      "displayName": "Delegation",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 32,
-      "key": "append"
+      "description": "Set LEVEL what curl is allowed to delegate when it comes to user credentials.",
+      "group": "auth"
     },
     {
-      "name": "AWS SigV4",
-      "description": "AWS V4 signature auth.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--aws-sigv4",
-      "keyValueSeparator": " ",
+      "key": "--digest",
+      "displayName": "Digest",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 33,
-      "key": "aws-sigv4"
+      "description": "Enables HTTP Digest authentication.",
+      "group": "auth"
     },
     {
-      "name": "Basic",
-      "description": "HTTP Basic Authentication.",
+      "key": "--disable",
+      "displayName": "Disable",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--basic",
       "sortOrder": 34,
-      "key": "basic"
+      "description": "If used as the first parameter on the command line, the curlrc config file is not read or used.",
+      "group": "curl",
+      "aliases": [
+        "-q"
+      ]
     },
     {
-      "name": "CA Native",
-      "description": "Load CA certs from the OS.",
+      "key": "--disable-eprt",
+      "displayName": "Disable EPRT",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--ca-native",
       "sortOrder": 35,
-      "key": "ca-native"
+      "description": "Disable the use of the EPRT and LPRT commands when doing active FTP transfers.",
+      "group": "ftp"
     },
     {
-      "name": "Cacert",
-      "description": "CA certificate to verify peer against.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--cacert",
-      "keyValueSeparator": " ",
+      "key": "--disable-epsv",
+      "displayName": "Disable EPSV",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 36,
-      "key": "cacert"
+      "description": "Disable the use of the EPSV command when doing passive FTP transfers.",
+      "group": "ftp"
     },
     {
-      "name": "Capath",
-      "description": "CA directory to verify peer against.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--capath",
-      "keyValueSeparator": " ",
+      "key": "--disallow-username-in-url",
+      "displayName": "Disallow Username In URL",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 37,
-      "key": "capath"
+      "description": "Exit with error if passed a URL containing a username.",
+      "group": "curl"
     },
     {
-      "name": "Cert",
-      "description": "Client certificate file and password.",
+      "key": "--dns-interface",
+      "displayName": "DNS Interface",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-E",
-      "longFlag": "--cert",
-      "keyValueSeparator": " ",
       "sortOrder": 38,
-      "key": "cert"
+      "description": "Send outgoing DNS requests through the given interface.",
+      "group": "dns"
     },
     {
-      "name": "Cert Status",
-      "description": "Verify server cert status OCSP-staple.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--cert-status",
+      "key": "--dns-ipv4-addr",
+      "displayName": "DNS IPv4 Addr",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 39,
-      "key": "cert-status"
+      "description": "Bind to a specific IP address when making IPv4 DNS requests, so that the DNS requests originate from this address.",
+      "group": "dns"
     },
     {
-      "name": "Cert Type",
-      "description": "Certificate type (DER/PEM/ENG/PROV/P12).",
+      "key": "--dns-ipv6-addr",
+      "displayName": "DNS IPv6 Addr",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--cert-type",
-      "keyValueSeparator": " ",
       "sortOrder": 40,
-      "key": "cert-type"
+      "description": "Bind to a specific IP address when making IPv6 DNS requests, so that the DNS requests originate from this address.",
+      "group": "dns"
     },
     {
-      "name": "Ciphers",
-      "description": "TLS 1.2 (1.1, 1.0) ciphers to use.",
+      "key": "--dns-servers",
+      "displayName": "DNS Servers",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--ciphers",
-      "keyValueSeparator": " ",
       "sortOrder": 41,
-      "key": "ciphers"
+      "description": "Set the list of DNS servers to be used instead of the system default.",
+      "group": "dns"
     },
     {
-      "name": "Compressed",
-      "description": "Request compressed response.",
+      "key": "--doh-cert-status",
+      "displayName": "DoH Cert Status",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--compressed",
       "sortOrder": 42,
-      "key": "compressed"
+      "description": "Same as --cert-status but used for DoH (DNS-over-HTTPS).",
+      "group": "dns"
     },
     {
-      "name": "Compressed SSH",
-      "description": "Enable SSH compression.",
+      "key": "--doh-insecure",
+      "displayName": "DoH Insecure",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--compressed-ssh",
       "sortOrder": 43,
-      "key": "compressed-ssh"
+      "description": "Same as --insecure but used for DoH (DNS-over-HTTPS).",
+      "group": "dns"
     },
     {
-      "name": "Connect To",
-      "description": "Connect to host2 instead of host1.",
+      "key": "--doh-url",
+      "displayName": "DoH URL",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--connect-to",
-      "keyValueSeparator": " ",
       "sortOrder": 44,
-      "key": "connect-to"
+      "description": "Specifies which DNS-over-HTTPS (DoH) server to use to resolve hostnames, instead of using the default name resolver mechanism.",
+      "group": "dns"
     },
     {
-      "name": "Continue At",
-      "description": "Resumed transfer offset.",
+      "key": "--dump-header",
+      "displayName": "Dump Header",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-C",
-      "longFlag": "--continue-at",
-      "keyValueSeparator": " ",
       "sortOrder": 45,
-      "key": "continue-at"
+      "description": "Write the received protocol headers to the specified file.",
+      "group": "ftp",
+      "aliases": [
+        "-D"
+      ]
     },
     {
-      "name": "Cookie",
-      "description": "Send cookies from string/load from file.",
+      "key": "--egd-file",
+      "displayName": "EGD File",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-b",
-      "longFlag": "--cookie",
-      "keyValueSeparator": " ",
       "sortOrder": 46,
-      "key": "cookie"
+      "description": "Deprecated option (added in 7.84.0).",
+      "group": "tls"
     },
     {
-      "name": "Cookie Jar",
-      "description": "Save cookies to <filename> after operation.",
+      "key": "--engine",
+      "displayName": "Engine",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-c",
-      "longFlag": "--cookie-jar",
-      "keyValueSeparator": " ",
       "sortOrder": 47,
-      "key": "cookie-jar"
+      "description": "Select the OpenSSL crypto engine to use for cipher operations.",
+      "group": "tls"
     },
     {
-      "name": "Create Dirs",
-      "description": "Create necessary local directory hierarchy.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--create-dirs",
+      "key": "--etag-compare",
+      "displayName": "ETag Compare",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 48,
-      "key": "create-dirs"
+      "description": "Make a conditional HTTP request for the specific ETag read from the given file by sending a custom If-None-Match header using the stored ETag.",
+      "group": "http"
     },
     {
-      "name": "Create File Mode",
-      "description": "File mode for created files.",
+      "key": "--etag-save",
+      "displayName": "ETag Save",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--create-file-mode",
-      "keyValueSeparator": " ",
       "sortOrder": 49,
-      "key": "create-file-mode"
+      "description": "Save an HTTP ETag to the specified file.",
+      "group": "http"
     },
     {
-      "name": "CRLF",
-      "description": "Convert LF to CRLF in upload.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--crlf",
+      "key": "--expect100-timeout",
+      "displayName": "Expect100 Timeout",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 50,
-      "key": "crlf"
+      "description": "Maximum time in seconds that you allow curl to wait for a 100-continue response when curl emits an Expects: 100-continue header in its request.",
+      "group": "http"
     },
     {
-      "name": "CRL File",
-      "description": "Certificate Revocation list.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--crlfile",
-      "keyValueSeparator": " ",
+      "key": "--fail",
+      "displayName": "Fail",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 51,
-      "key": "crlfile"
+      "description": "Fail fast with no output at all on server errors.",
+      "group": "http",
+      "aliases": [
+        "-f"
+      ]
     },
     {
-      "name": "Curves",
-      "description": "(EC) TLS key exchange algorithms to request.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--curves",
-      "keyValueSeparator": " ",
+      "key": "--fail-early",
+      "displayName": "Fail Early",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 52,
-      "key": "curves"
+      "description": "Fail and exit on the first detected transfer error.",
+      "group": "curl"
     },
     {
-      "name": "Data ASCII",
-      "description": "HTTP POST ASCII data.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "isRepeatable": true,
-      "longFlag": "--data-ascii",
-      "keyValueSeparator": " ",
+      "key": "--fail-with-body",
+      "displayName": "Fail With Body",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 53,
-      "key": "data-ascii"
+      "description": "Return an error on server errors where the HTTP response code is 400 or greater).",
+      "group": "http"
     },
     {
-      "name": "Data Binary",
-      "description": "HTTP POST binary data.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "isRepeatable": true,
-      "longFlag": "--data-binary",
-      "keyValueSeparator": " ",
+      "key": "--false-start",
+      "displayName": "False Start",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 54,
-      "key": "data-binary"
+      "description": "Use false start during the TLS handshake.",
+      "group": "tls"
     },
     {
-      "name": "Data Raw",
-      "description": "HTTP POST data, '@' allowed.",
+      "key": "--form",
+      "displayName": "Form",
       "parameterType": "Option",
       "dataType": "String",
-      "isRepeatable": true,
-      "longFlag": "--data-raw",
-      "keyValueSeparator": " ",
       "sortOrder": 55,
-      "key": "data-raw"
+      "description": "For the HTTP protocol family, emulate a filled-in form in which a user has pressed the submit button.",
+      "group": "http",
+      "aliases": [
+        "-F"
+      ],
+      "isRepeatable": true
     },
     {
-      "name": "Data URL Encode",
-      "description": "HTTP POST data URL encoded.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "isRepeatable": true,
-      "longFlag": "--data-urlencode",
-      "keyValueSeparator": " ",
+      "key": "--form-escape",
+      "displayName": "Form Escape",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 56,
-      "key": "data-urlencode"
+      "description": "Pass on names of multipart form fields and files using backslash-escaping instead of percent-encoding.",
+      "group": "http"
     },
     {
-      "name": "Delegation",
-      "description": "GSS-API delegation permission.",
+      "key": "--form-string",
+      "displayName": "Form String",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--delegation",
-      "keyValueSeparator": " ",
       "sortOrder": 57,
-      "key": "delegation"
+      "description": "Similar to --form except that the value string for the named parameter is used literally.",
+      "group": "http",
+      "isRepeatable": true
     },
     {
-      "name": "Digest",
-      "description": "HTTP Digest Authentication.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--digest",
+      "key": "--ftp-account",
+      "displayName": "FTP Account",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 58,
-      "key": "digest"
+      "description": "When an FTP server asks for \"account data\" after username and password has been provided, this data is sent off using the ACCT command.",
+      "group": "auth"
     },
     {
-      "name": "Disable",
-      "description": "Disable .curlrc.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-q",
-      "longFlag": "--disable",
+      "key": "--ftp-alternative-to-user",
+      "displayName": "FTP Alternative To User",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 59,
-      "key": "disable"
+      "description": "If authenticating with the USER and PASS commands fails, send this command.",
+      "group": "ftp"
     },
     {
-      "name": "Disable EPRT",
-      "description": "Inhibit using EPRT or LPRT.",
+      "key": "--ftp-create-dirs",
+      "displayName": "FTP Create Dirs",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--disable-eprt",
       "sortOrder": 60,
-      "key": "disable-eprt"
+      "description": "When an FTP or SFTP URL/operation uses a path that does not currently exist on the server, the standard behavior of curl is to fail.",
+      "group": "curl"
     },
     {
-      "name": "Disable EPSV",
-      "description": "Inhibit using EPSV.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--disable-epsv",
+      "key": "--ftp-method",
+      "displayName": "FTP Method",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 61,
-      "key": "disable-epsv"
+      "description": "Control what method curl should use to reach a file on an FTP(S) server.",
+      "group": "ftp"
     },
     {
-      "name": "Disallow Username in URL",
-      "description": "Disallow username in URL.",
+      "key": "--ftp-pasv",
+      "displayName": "FTP PASV",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--disallow-username-in-url",
       "sortOrder": 62,
-      "key": "disallow-username-in-url"
+      "description": "Use passive mode for the data connection.",
+      "group": "ftp"
     },
     {
-      "name": "DNS Interface",
-      "description": "Interface to use for DNS requests.",
+      "key": "--ftp-port",
+      "displayName": "FTP Port",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--dns-interface",
-      "keyValueSeparator": " ",
       "sortOrder": 63,
-      "key": "dns-interface"
+      "description": "Reverses the default initiator/listener roles when connecting with FTP.",
+      "group": "ftp",
+      "aliases": [
+        "-P"
+      ]
     },
     {
-      "name": "DNS IPv4 Address",
-      "description": "IPv4 address to use for DNS requests.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--dns-ipv4-addr",
-      "keyValueSeparator": " ",
+      "key": "--ftp-pret",
+      "displayName": "FTP Pret",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 64,
-      "key": "dns-ipv4-addr"
+      "description": "Send a PRET command before PASV (and EPSV).",
+      "group": "ftp"
     },
     {
-      "name": "DNS IPv6 Address",
-      "description": "IPv6 address to use for DNS requests.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--dns-ipv6-addr",
-      "keyValueSeparator": " ",
+      "key": "--ftp-skip-pasv-ip",
+      "displayName": "FTP Skip PASV IP",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 65,
-      "key": "dns-ipv6-addr"
+      "description": "Do not use the IP address the server suggests in its response to curl's PASV command when curl connects the data connection.",
+      "group": "ftp"
     },
     {
-      "name": "DNS Servers",
-      "description": "DNS server addrs to use.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--dns-servers",
-      "keyValueSeparator": " ",
+      "key": "--ftp-ssl-ccc",
+      "displayName": "FTP SSL CCC",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 66,
-      "key": "dns-servers"
+      "description": "Use CCC (Clear Command Channel) Shuts down the SSL/TLS layer after authenticating.",
+      "group": "ftp"
     },
     {
-      "name": "DoH Cert Status",
-      "description": "Verify DoH server cert status OCSP-staple.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--doh-cert-status",
+      "key": "--ftp-ssl-ccc-mode",
+      "displayName": "FTP SSL CCC Mode",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 67,
-      "key": "doh-cert-status"
+      "description": "Sets the CCC mode.",
+      "group": "ftp"
     },
     {
-      "name": "DoH Insecure",
-      "description": "Allow insecure DoH server connections.",
+      "key": "--ftp-ssl-control",
+      "displayName": "FTP SSL Control",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--doh-insecure",
       "sortOrder": 68,
-      "key": "doh-insecure"
+      "description": "Require SSL/TLS for the FTP login, clear for transfer.",
+      "group": "ftp"
     },
     {
-      "name": "DoH URL",
-      "description": "Resolve hostnames over DoH.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--doh-url",
-      "keyValueSeparator": " ",
+      "key": "--get",
+      "displayName": "Get",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 69,
-      "key": "doh-url"
+      "description": "When used, this option makes all data specified with --data, --data-binary or --data-urlencode to be used in an HTTP GET request instead of the POST request that otherwise would be used.",
+      "group": "http",
+      "aliases": [
+        "-G"
+      ]
     },
     {
-      "name": "Dump CA Embed",
-      "description": "Write the embedded CA bundle to standard output.",
+      "key": "--globoff",
+      "displayName": "Globoff",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--dump-ca-embed",
       "sortOrder": 70,
-      "key": "dump-ca-embed"
+      "description": "Switch off the URL globbing function.",
+      "group": "curl",
+      "aliases": [
+        "-g"
+      ]
     },
     {
-      "name": "Ech",
-      "description": "Configure ECH.",
+      "key": "--happy-eyeballs-timeout-ms",
+      "displayName": "Happy Eyeballs Timeout Ms",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--ech",
-      "keyValueSeparator": " ",
       "sortOrder": 71,
-      "key": "ech"
+      "description": "Happy Eyeballs is an algorithm that attempts to connect to both IPv4 and IPv6 addresses for dual-stack hosts, giving IPv6 a head-start of the specified number of milliseconds.",
+      "group": "connection"
     },
     {
-      "name": "EGD File",
-      "description": "EGD socket path for random data.",
+      "key": "--haproxy-clientip",
+      "displayName": "Haproxy Clientip",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--egd-file",
-      "keyValueSeparator": " ",
       "sortOrder": 72,
-      "key": "egd-file"
+      "description": "Sets a client IP in HAProxy PROXY protocol v1 header at the beginning of the connection.",
+      "group": "http"
     },
     {
-      "name": "Engine",
-      "description": "Crypto engine to use.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--engine",
-      "keyValueSeparator": " ",
+      "key": "--haproxy-protocol",
+      "displayName": "Haproxy Protocol",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 73,
-      "key": "engine"
+      "description": "Send a HAProxy PROXY protocol v1 header at the beginning of the connection.",
+      "group": "http"
     },
     {
-      "name": "ETag Compare",
-      "description": "Load ETag from file.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--etag-compare",
-      "keyValueSeparator": " ",
+      "key": "--head",
+      "displayName": "Head",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 74,
-      "key": "etag-compare"
+      "description": "Fetch the headers only!",
+      "group": "file",
+      "aliases": [
+        "-I"
+      ]
     },
     {
-      "name": "ETag Save",
-      "description": "Parse incoming ETag and save to a file.",
+      "key": "--header",
+      "displayName": "Header",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--etag-save",
-      "keyValueSeparator": " ",
       "sortOrder": 75,
-      "key": "etag-save"
+      "description": "Extra header to include in information sent.",
+      "group": "http",
+      "aliases": [
+        "-H"
+      ],
+      "isRepeatable": true
     },
     {
-      "name": "Expect100 Timeout",
-      "description": "How long to wait for 100-continue.",
-      "parameterType": "Option",
-      "dataType": "Number",
-      "longFlag": "--expect100-timeout",
-      "keyValueSeparator": " ",
+      "key": "--help",
+      "displayName": "Help",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 76,
-      "key": "expect100-timeout"
+      "description": "Usage help.",
+      "group": "curl",
+      "aliases": [
+        "-h"
+      ]
     },
     {
-      "name": "Fail Early",
-      "description": "Fail on first transfer error.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--fail-early",
+      "key": "--hostpubmd5",
+      "displayName": "Hostpubmd5",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 77,
-      "key": "fail-early"
+      "description": "Pass a string containing 32 hexadecimal digits.",
+      "group": "scp"
     },
     {
-      "name": "Fail With Body",
-      "description": "Fail on HTTP errors but save the body.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--fail-with-body",
+      "key": "--hostpubsha256",
+      "displayName": "Hostpubsha256",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 78,
-      "key": "fail-with-body"
+      "description": "Pass a string containing a Base64-encoded SHA256 hash of the remote host's public key.",
+      "group": "scp"
     },
     {
-      "name": "False Start",
-      "description": "Enable TLS False Start.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--false-start",
+      "key": "--hsts",
+      "displayName": "Hsts",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 79,
-      "key": "false-start"
+      "description": "Enable HSTS for the transfer.",
+      "group": "http",
+      "isRepeatable": true
     },
     {
-      "name": "Follow",
-      "description": "Follow redirects per spec.",
+      "key": "--http0.9",
+      "displayName": "Http0 9",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--follow",
       "sortOrder": 80,
-      "key": "follow"
+      "description": "Accept an HTTP version 0.9 response.",
+      "group": "http"
     },
     {
-      "name": "Form Escape",
-      "description": "Escape form fields using backslash.",
+      "key": "--http1.0",
+      "displayName": "HTTP/1 0",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--form-escape",
       "sortOrder": 81,
-      "key": "form-escape"
+      "description": "Use HTTP version 1.0 instead of using its internally preferred HTTP version.",
+      "group": "http",
+      "aliases": [
+        "-0"
+      ]
     },
     {
-      "name": "Form String",
-      "description": "Specify multipart MIME data.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "isRepeatable": true,
-      "longFlag": "--form-string",
-      "keyValueSeparator": " ",
+      "key": "--http1.1",
+      "displayName": "HTTP/1 1",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 82,
-      "key": "form-string"
+      "description": "Use HTTP version 1.1.",
+      "group": "http"
     },
     {
-      "name": "FTP Account",
-      "description": "Account data string.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--ftp-account",
-      "keyValueSeparator": " ",
+      "key": "--http2",
+      "displayName": "HTTP/2",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 83,
-      "key": "ftp-account"
-    },
-    {
-      "name": "FTP Alternative User",
-      "description": "String to replace USER [name].",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--ftp-alternative-to-user",
-      "keyValueSeparator": " ",
-      "sortOrder": 84,
-      "key": "ftp-alternative-to-user"
-    },
-    {
-      "name": "FTP Create Dirs",
-      "description": "Create the remote dirs if not present.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--ftp-create-dirs",
-      "sortOrder": 85,
-      "key": "ftp-create-dirs"
-    },
-    {
-      "name": "FTP Method",
-      "description": "Control CWD usage.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--ftp-method",
-      "keyValueSeparator": " ",
-      "sortOrder": 86,
-      "key": "ftp-method"
-    },
-    {
-      "name": "FTP Passive",
-      "description": "Send PASV/EPSV instead of PORT.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--ftp-pasv",
-      "sortOrder": 87,
-      "key": "ftp-pasv"
-    },
-    {
-      "name": "FTP Port",
-      "description": "Send PORT instead of PASV.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "shortFlag": "-P",
-      "longFlag": "--ftp-port",
-      "keyValueSeparator": " ",
-      "sortOrder": 88,
-      "key": "ftp-port"
-    },
-    {
-      "name": "FTP PRET",
-      "description": "Send PRET before PASV.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--ftp-pret",
-      "sortOrder": 89,
-      "key": "ftp-pret"
-    },
-    {
-      "name": "FTP Skip Passive IP",
-      "description": "Skip the IP address for PASV.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--ftp-skip-pasv-ip",
-      "sortOrder": 90,
-      "key": "ftp-skip-pasv-ip"
-    },
-    {
-      "name": "FTP SSL CCC",
-      "description": "Send CCC after authenticating.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--ftp-ssl-ccc",
-      "sortOrder": 91,
-      "key": "ftp-ssl-ccc"
-    },
-    {
-      "name": "FTP SSL CCC Mode",
-      "description": "Set CCC mode.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--ftp-ssl-ccc-mode",
-      "keyValueSeparator": " ",
-      "sortOrder": 92,
-      "key": "ftp-ssl-ccc-mode"
-    },
-    {
-      "name": "FTP SSL Control",
-      "description": "Require TLS for login, clear for transfer.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--ftp-ssl-control",
-      "sortOrder": 93,
-      "key": "ftp-ssl-control"
-    },
-    {
-      "name": "Globoff",
-      "description": "Disable URL globbing with {} and [].",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-g",
-      "longFlag": "--globoff",
-      "sortOrder": 94,
-      "key": "globoff"
-    },
-    {
-      "name": "Happy Eyeballs Timeout (ms)",
-      "description": "Time for IPv6 before IPv4.",
-      "parameterType": "Option",
-      "dataType": "Number",
-      "longFlag": "--happy-eyeballs-timeout-ms",
-      "keyValueSeparator": " ",
-      "sortOrder": 95,
-      "key": "happy-eyeballs-timeout-ms"
-    },
-    {
-      "name": "HAProxy Client IP",
-      "description": "Set address in HAProxy PROXY.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--haproxy-clientip",
-      "keyValueSeparator": " ",
-      "sortOrder": 96,
-      "key": "haproxy-clientip"
-    },
-    {
-      "name": "HAProxy Protocol",
-      "description": "Send HAProxy PROXY protocol v1 header.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--haproxy-protocol",
-      "sortOrder": 97,
-      "key": "haproxy-protocol"
-    },
-    {
-      "name": "Host Pubkey MD5",
-      "description": "Acceptable MD5 hash of host public key.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--hostpubmd5",
-      "keyValueSeparator": " ",
-      "sortOrder": 98,
-      "key": "hostpubmd5"
-    },
-    {
-      "name": "Host Pubkey SHA256",
-      "description": "Acceptable SHA256 hash of host public key.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--hostpubsha256",
-      "keyValueSeparator": " ",
-      "sortOrder": 99,
-      "key": "hostpubsha256"
-    },
-    {
-      "name": "HSTS",
-      "description": "Enable HSTS with this cache file.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--hsts",
-      "keyValueSeparator": " ",
-      "sortOrder": 100,
-      "key": "hsts"
-    },
-    {
-      "name": "HTTP 0.9",
-      "description": "Allow HTTP/0.9 responses.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--http0.9",
-      "sortOrder": 101,
-      "key": "http09"
-    },
-    {
-      "name": "HTTP 1.0",
-      "description": "Use HTTP/1.0.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-0",
-      "longFlag": "--http1.0",
-      "sortOrder": 102,
-      "key": "http10"
-    },
-    {
-      "name": "HTTP 1.1",
-      "description": "Use HTTP/1.1.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--http1.1",
-      "sortOrder": 103,
-      "key": "http11"
-    },
-    {
-      "name": "HTTP/2",
       "description": "Use HTTP/2.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--http2",
-      "sortOrder": 104,
-      "key": "http2"
+      "group": "http"
     },
     {
-      "name": "HTTP/2 Prior Knowledge",
-      "description": "Use HTTP/2 without HTTP/1.1 Upgrade.",
+      "key": "--http2-prior-knowledge",
+      "displayName": "HTTP/2 Prior Knowledge",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--http2-prior-knowledge",
-      "sortOrder": 105,
-      "key": "http2-prior-knowledge"
+      "sortOrder": 84,
+      "description": "Issue a non-TLS HTTP requests using HTTP/2 directly without HTTP/1.1 Upgrade.",
+      "group": "http"
     },
     {
-      "name": "HTTP/3",
-      "description": "Use HTTP/3.",
+      "key": "--http3",
+      "displayName": "HTTP/3",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--http3",
-      "sortOrder": 106,
-      "key": "http3"
+      "sortOrder": 85,
+      "description": "Attempt HTTP/3 to the host in the URL, but fallback to earlier HTTP versions if the HTTP/3 connection establishment fails.",
+      "group": "http"
     },
     {
-      "name": "HTTP/3 Only",
-      "description": "Use HTTP/3 only.",
+      "key": "--http3-only",
+      "displayName": "HTTP/3 Only",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--http3-only",
-      "sortOrder": 107,
-      "key": "http3-only"
+      "sortOrder": 86,
+      "description": "Instructs curl to use HTTP/3 to the host in the URL, with no fallback to earlier HTTP versions.",
+      "group": "http"
     },
     {
-      "name": "Ignore Content Length",
-      "description": "Ignore the size of the remote resource.",
+      "key": "--ignore-content-length",
+      "displayName": "Ignore Content Length",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--ignore-content-length",
-      "sortOrder": 108,
-      "key": "ignore-content-length"
+      "sortOrder": 87,
+      "description": "For HTTP, Ignore the Content-Length header.",
+      "group": "ftp"
     },
     {
-      "name": "Interface",
-      "description": "Use network interface.",
+      "key": "--include",
+      "displayName": "Include",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 88,
+      "description": "Include response headers in the output.",
+      "group": "verbose",
+      "aliases": [
+        "-i"
+      ]
+    },
+    {
+      "key": "--insecure",
+      "displayName": "Insecure",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 89,
+      "description": "By default, every secure connection curl makes is verified to be secure before the transfer takes place.",
+      "group": "scp",
+      "aliases": [
+        "-k"
+      ]
+    },
+    {
+      "key": "--interface",
+      "displayName": "Interface",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--interface",
-      "keyValueSeparator": " ",
-      "sortOrder": 109,
-      "key": "interface"
+      "sortOrder": 90,
+      "description": "Perform an operation using a specified interface.",
+      "group": "connection"
     },
     {
-      "name": "IP TOS",
-      "description": "Set IP Type of Service or Traffic Class.",
+      "key": "--ipfs-gateway",
+      "displayName": "Ipfs Gateway",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--ip-tos",
-      "keyValueSeparator": " ",
-      "sortOrder": 110,
-      "key": "ip-tos"
+      "sortOrder": 91,
+      "description": "Specify which gateway to use for IPFS and IPNS URLs."
     },
     {
-      "name": "IPFS Gateway",
-      "description": "Gateway for IPFS.",
+      "key": "--ipv4",
+      "displayName": "IPv4",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 92,
+      "description": "Use IPv4 addresses only when resolving hostnames, and not for example try IPv6.",
+      "group": "connection",
+      "aliases": [
+        "-4"
+      ]
+    },
+    {
+      "key": "--ipv6",
+      "displayName": "IPv6",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 93,
+      "description": "Use IPv6 addresses only when resolving hostnames, and not for example try IPv4.",
+      "group": "connection",
+      "aliases": [
+        "-6"
+      ]
+    },
+    {
+      "key": "--json",
+      "displayName": "JSON",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--ipfs-gateway",
-      "keyValueSeparator": " ",
-      "sortOrder": 111,
-      "key": "ipfs-gateway"
+      "sortOrder": 94,
+      "description": "Sends the specified JSON data in a POST request to the HTTP server.",
+      "group": "http",
+      "isRepeatable": true
     },
     {
-      "name": "IPv4",
-      "description": "Resolve names to IPv4 addresses.",
+      "key": "--junk-session-cookies",
+      "displayName": "Junk Session Cookies",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-4",
-      "longFlag": "--ipv4",
-      "sortOrder": 112,
-      "key": "ipv4"
+      "sortOrder": 95,
+      "description": "When curl is told to read cookies from a given file, this option makes it discard all \"session cookies\".",
+      "group": "http",
+      "aliases": [
+        "-j"
+      ]
     },
     {
-      "name": "IPv6",
-      "description": "Resolve names to IPv6 addresses.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-6",
-      "longFlag": "--ipv6",
-      "sortOrder": 113,
-      "key": "ipv6"
-    },
-    {
-      "name": "JSON",
-      "description": "HTTP POST JSON.",
+      "key": "--keepalive-time",
+      "displayName": "Keepalive Time",
       "parameterType": "Option",
       "dataType": "String",
-      "isRepeatable": true,
-      "longFlag": "--json",
-      "keyValueSeparator": " ",
-      "sortOrder": 114,
-      "key": "json"
+      "sortOrder": 96,
+      "description": "Set the time a connection needs to remain idle before sending keepalive probes and the time between individual keepalive probes.",
+      "group": "connection"
     },
     {
-      "name": "Junk Session Cookies",
-      "description": "Ignore session cookies read from file.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-j",
-      "longFlag": "--junk-session-cookies",
-      "sortOrder": 115,
-      "key": "junk-session-cookies"
-    },
-    {
-      "name": "Keepalive Count",
-      "description": "Maximum number of keepalive probes.",
+      "key": "--key",
+      "displayName": "Key",
       "parameterType": "Option",
-      "dataType": "Number",
-      "longFlag": "--keepalive-cnt",
-      "keyValueSeparator": " ",
-      "sortOrder": 116,
-      "key": "keepalive-cnt"
-    },
-    {
-      "name": "Keepalive Time",
-      "description": "Interval time for keepalive probes.",
-      "parameterType": "Option",
-      "dataType": "Number",
-      "longFlag": "--keepalive-time",
-      "keyValueSeparator": " ",
-      "sortOrder": 117,
-      "key": "keepalive-time"
-    },
-    {
-      "name": "Key",
+      "dataType": "String",
+      "sortOrder": 97,
       "description": "Private key filename.",
+      "group": "ssh"
+    },
+    {
+      "key": "--key-type",
+      "displayName": "Key Type",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--key",
-      "keyValueSeparator": " ",
+      "sortOrder": 98,
+      "description": "Private key file type.",
+      "group": "tls"
+    },
+    {
+      "key": "--krb",
+      "displayName": "Krb",
+      "parameterType": "Option",
+      "dataType": "String",
+      "sortOrder": 99,
+      "description": "Enable Kerberos authentication and use.",
+      "group": "ftp"
+    },
+    {
+      "key": "--libcurl",
+      "displayName": "Libcurl",
+      "parameterType": "Option",
+      "dataType": "String",
+      "sortOrder": 100,
+      "description": "Append this option to any ordinary curl command line, and you get libcurl-using C source code written to the file that does the equivalent of what your command-line operation does!",
+      "group": "curl"
+    },
+    {
+      "key": "--limit-rate",
+      "displayName": "Limit Rate",
+      "parameterType": "Option",
+      "dataType": "String",
+      "sortOrder": 101,
+      "description": "Specify the maximum transfer rate you want curl to use - for both downloads and uploads.",
+      "group": "connection"
+    },
+    {
+      "key": "--list-only",
+      "displayName": "List Only",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 102,
+      "description": "When listing an FTP directory, force a name-only view.",
+      "group": "ftp",
+      "aliases": [
+        "-l"
+      ]
+    },
+    {
+      "key": "--local-port",
+      "displayName": "Local Port",
+      "parameterType": "Option",
+      "dataType": "String",
+      "sortOrder": 103,
+      "description": "Set a preferred single number or range (FROM-TO) of local port numbers to use for the connection(s).",
+      "group": "connection"
+    },
+    {
+      "key": "--location",
+      "displayName": "Location",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 104,
+      "description": "If the server reports that the requested page has moved to a different location (indicated with a Location: header and a 3XX response code), this option makes curl redo the request on the new place.",
+      "group": "http",
+      "aliases": [
+        "-L"
+      ]
+    },
+    {
+      "key": "--location-trusted",
+      "displayName": "Location Trusted",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 105,
+      "description": "Like --location, but allows sending the name + password to all hosts that the site may redirect to.",
+      "group": "auth"
+    },
+    {
+      "key": "--login-options",
+      "displayName": "Login Options",
+      "parameterType": "Option",
+      "dataType": "String",
+      "sortOrder": 106,
+      "description": "Specify the login options to use during server authentication.",
+      "group": "auth"
+    },
+    {
+      "key": "--mail-auth",
+      "displayName": "Mail Auth",
+      "parameterType": "Option",
+      "dataType": "String",
+      "sortOrder": 107,
+      "description": "Specify a single address.",
+      "group": "smtp"
+    },
+    {
+      "key": "--mail-from",
+      "displayName": "Mail From",
+      "parameterType": "Option",
+      "dataType": "String",
+      "sortOrder": 108,
+      "description": "Specify a single address that the given mail should get sent from.",
+      "group": "smtp"
+    },
+    {
+      "key": "--mail-rcpt",
+      "displayName": "Mail Rcpt",
+      "parameterType": "Option",
+      "dataType": "String",
+      "sortOrder": 109,
+      "description": "Specify a single email address, username or mailing list name.",
+      "group": "smtp",
+      "isRepeatable": true
+    },
+    {
+      "key": "--mail-rcpt-allowfails",
+      "displayName": "Mail Rcpt Allowfails",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 110,
+      "description": "When sending data to multiple recipients, by default curl aborts SMTP conversation if at least one of the recipients causes RCPT TO command to return an error.",
+      "group": "smtp"
+    },
+    {
+      "key": "--manual",
+      "displayName": "Manual",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 111,
+      "description": "Manual.",
+      "group": "curl",
+      "aliases": [
+        "-M"
+      ]
+    },
+    {
+      "key": "--max-filesize",
+      "displayName": "Max Filesize",
+      "parameterType": "Option",
+      "dataType": "String",
+      "sortOrder": 112,
+      "description": "Specify the maximum size (in bytes) of a file to download.",
+      "group": "connection"
+    },
+    {
+      "key": "--max-redirs",
+      "displayName": "Max Redirs",
+      "parameterType": "Option",
+      "dataType": "String",
+      "sortOrder": 113,
+      "description": "Set maximum number of redirections to follow.",
+      "group": "http"
+    },
+    {
+      "key": "--max-time",
+      "displayName": "Max Time",
+      "parameterType": "Option",
+      "dataType": "String",
+      "sortOrder": 114,
+      "description": "Set maximum time in seconds that you allow each transfer to take.",
+      "group": "connection",
+      "aliases": [
+        "-m"
+      ]
+    },
+    {
+      "key": "--metalink",
+      "displayName": "Metalink",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 115,
+      "description": "This option was previously used to specify a Metalink resource.",
+      "group": "misc"
+    },
+    {
+      "key": "--negotiate",
+      "displayName": "Negotiate",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 116,
+      "description": "Enable Negotiate (SPNEGO) authentication.",
+      "group": "auth"
+    },
+    {
+      "key": "--netrc",
+      "displayName": "Netrc",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 117,
+      "description": "Make curl scan the .netrc file in the user's home directory for login name and password.",
+      "group": "curl",
+      "aliases": [
+        "-n"
+      ]
+    },
+    {
+      "key": "--netrc-file",
+      "displayName": "Netrc File",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 118,
-      "key": "key"
+      "description": "Set the netrc file to use.",
+      "group": "curl"
     },
     {
-      "name": "Key Type",
-      "description": "Private key file type (DER/PEM/ENG).",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--key-type",
-      "keyValueSeparator": " ",
+      "key": "--netrc-optional",
+      "displayName": "Netrc Optional",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 119,
-      "key": "key-type"
+      "description": "Similar to --netrc, but this option makes the .netrc usage optional and not mandatory as the --netrc option does.",
+      "group": "curl"
     },
     {
-      "name": "Knownhosts",
-      "description": "Specify knownhosts path.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--knownhosts",
-      "keyValueSeparator": " ",
+      "key": "--next",
+      "displayName": "Next",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 120,
-      "key": "knownhosts"
+      "description": "Use a separate operation for the following URL and associated options.",
+      "group": "curl",
+      "aliases": [
+        "-:"
+      ],
+      "isRepeatable": true
     },
     {
-      "name": "Krb",
-      "description": "Enable Kerberos with security <level>.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--krb",
-      "keyValueSeparator": " ",
+      "key": "--no-alpn",
+      "displayName": "No Alpn",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 121,
-      "key": "krb"
-    },
-    {
-      "name": "Libcurl",
-      "description": "Generate libcurl code for this command line.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--libcurl",
-      "keyValueSeparator": " ",
-      "sortOrder": 122,
-      "key": "libcurl"
-    },
-    {
-      "name": "Limit Rate",
-      "description": "Limit transfer speed to RATE.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--limit-rate",
-      "keyValueSeparator": " ",
-      "sortOrder": 123,
-      "key": "limit-rate"
-    },
-    {
-      "name": "List Only",
-      "description": "List only mode.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-l",
-      "longFlag": "--list-only",
-      "sortOrder": 124,
-      "key": "list-only"
-    },
-    {
-      "name": "Local Port",
-      "description": "Use a local port number within RANGE.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--local-port",
-      "keyValueSeparator": " ",
-      "sortOrder": 125,
-      "key": "local-port"
-    },
-    {
-      "name": "Location Trusted",
-      "description": "As --location, but send secrets to other hosts.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--location-trusted",
-      "sortOrder": 126,
-      "key": "location-trusted"
-    },
-    {
-      "name": "Login Options",
-      "description": "Server login options.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--login-options",
-      "keyValueSeparator": " ",
-      "sortOrder": 127,
-      "key": "login-options"
-    },
-    {
-      "name": "Mail Auth",
-      "description": "Originator address of the original email.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--mail-auth",
-      "keyValueSeparator": " ",
-      "sortOrder": 128,
-      "key": "mail-auth"
-    },
-    {
-      "name": "Mail From",
-      "description": "Mail from this address.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--mail-from",
-      "keyValueSeparator": " ",
-      "sortOrder": 129,
-      "key": "mail-from"
-    },
-    {
-      "name": "Mail Recipients",
-      "description": "Mail to this address.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "isRepeatable": true,
-      "longFlag": "--mail-rcpt",
-      "keyValueSeparator": " ",
-      "sortOrder": 130,
-      "key": "mail-rcpt"
-    },
-    {
-      "name": "Mail RCPT Allow Fails",
-      "description": "Allow RCPT TO command to fail.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--mail-rcpt-allowfails",
-      "sortOrder": 131,
-      "key": "mail-rcpt-allowfails"
-    },
-    {
-      "name": "Manual",
-      "description": "Display the full manual.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-M",
-      "longFlag": "--manual",
-      "sortOrder": 132,
-      "key": "manual"
-    },
-    {
-      "name": "Max File Size",
-      "description": "Maximum file size to download.",
-      "parameterType": "Option",
-      "dataType": "Number",
-      "longFlag": "--max-filesize",
-      "keyValueSeparator": " ",
-      "sortOrder": 133,
-      "key": "max-filesize"
-    },
-    {
-      "name": "Max Redirects",
-      "description": "Maximum number of redirects allowed.",
-      "parameterType": "Option",
-      "dataType": "Number",
-      "longFlag": "--max-redirs",
-      "keyValueSeparator": " ",
-      "sortOrder": 134,
-      "key": "max-redirs"
-    },
-    {
-      "name": "Metalink",
-      "description": "Process given URLs as metalink XML file.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--metalink",
-      "sortOrder": 135,
-      "key": "metalink"
-    },
-    {
-      "name": "Mptcp",
-      "description": "Enable Multipath TCP.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--mptcp",
-      "sortOrder": 136,
-      "key": "mptcp"
-    },
-    {
-      "name": "Negotiate",
-      "description": "Use HTTP Negotiate (SPNEGO) authentication.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--negotiate",
-      "sortOrder": 137,
-      "key": "negotiate"
-    },
-    {
-      "name": "Netrc",
-      "description": "Must read .netrc for username and password.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-n",
-      "longFlag": "--netrc",
-      "sortOrder": 138,
-      "key": "netrc"
-    },
-    {
-      "name": "Netrc File",
-      "description": "Specify FILE for netrc.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--netrc-file",
-      "keyValueSeparator": " ",
-      "sortOrder": 139,
-      "key": "netrc-file"
-    },
-    {
-      "name": "Netrc Optional",
-      "description": "Use either .netrc or URL.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--netrc-optional",
-      "sortOrder": 140,
-      "key": "netrc-optional"
-    },
-    {
-      "name": "Next",
-      "description": "Make next URL use separate options.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-:",
-      "longFlag": "--next",
-      "sortOrder": 141,
-      "key": "next"
-    },
-    {
-      "name": "No ALPN",
       "description": "Disable the ALPN TLS extension.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--no-alpn",
-      "sortOrder": 142,
-      "key": "no-alpn"
+      "group": "http"
     },
     {
-      "name": "No Buffer",
-      "description": "Disable buffering of the output stream.",
+      "key": "--no-buffer",
+      "displayName": "No Buffer",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-N",
-      "longFlag": "--no-buffer",
-      "sortOrder": 143,
-      "key": "no-buffer"
+      "sortOrder": 122,
+      "description": "Disables the buffering of the output stream.",
+      "group": "curl",
+      "aliases": [
+        "-N"
+      ]
     },
     {
-      "name": "No Clobber",
-      "description": "Do not overwrite files that already exist.",
+      "key": "--no-clobber",
+      "displayName": "No Clobber",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--no-clobber",
-      "sortOrder": 144,
-      "key": "no-clobber"
+      "sortOrder": 123,
+      "description": "When used in conjunction with the --output, --remote-header-name, --remote-name, or --remote-name-all options, curl avoids overwriting files that already exist.",
+      "group": "curl"
     },
     {
-      "name": "No Keepalive",
-      "description": "Disable TCP keepalive on the connection.",
+      "key": "--no-keepalive",
+      "displayName": "No Keepalive",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--no-keepalive",
-      "sortOrder": 145,
-      "key": "no-keepalive"
+      "sortOrder": 124,
+      "description": "Disables the use of keepalive messages on the TCP connection.",
+      "group": "connection"
     },
     {
-      "name": "No NPN",
-      "description": "Disable the NPN TLS extension.",
+      "key": "--no-npn",
+      "displayName": "No Npn",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--no-npn",
-      "sortOrder": 146,
-      "key": "no-npn"
+      "sortOrder": 125,
+      "description": "curl never uses NPN, this option has no effect (added in 7.86.0).",
+      "group": "http"
     },
     {
-      "name": "No Progress Meter",
-      "description": "Do not show the progress meter.",
+      "key": "--no-progress-meter",
+      "displayName": "No Progress Meter",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--no-progress-meter",
-      "sortOrder": 147,
-      "key": "no-progress-meter"
+      "sortOrder": 126,
+      "description": "Option to switch off the progress meter output without muting or otherwise affecting warning and informational messages like --silent does.",
+      "group": "verbose"
     },
     {
-      "name": "No Session ID",
-      "description": "Disable SSL session-ID reusing.",
+      "key": "--no-sessionid",
+      "displayName": "No Sessionid",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--no-sessionid",
-      "sortOrder": 148,
-      "key": "no-sessionid"
+      "sortOrder": 127,
+      "description": "Disable curl's use of SSL session-ID caching.",
+      "group": "tls"
     },
     {
-      "name": "Noproxy",
-      "description": "List of hosts which do not use proxy.",
+      "key": "--noproxy",
+      "displayName": "Noproxy",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--noproxy",
-      "keyValueSeparator": " ",
-      "sortOrder": 149,
-      "key": "noproxy"
+      "sortOrder": 128,
+      "description": "Comma-separated list of hosts for which not to use a proxy, if one is specified.",
+      "group": "proxy"
     },
     {
-      "name": "NTLM",
-      "description": "HTTP NTLM authentication.",
+      "key": "--ntlm",
+      "displayName": "Ntlm",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--ntlm",
-      "sortOrder": 150,
-      "key": "ntlm"
+      "sortOrder": 129,
+      "description": "Use NTLM authentication.",
+      "group": "auth"
     },
     {
-      "name": "NTLM WB",
-      "description": "HTTP NTLM authentication with winbind.",
+      "key": "--ntlm-wb",
+      "displayName": "Ntlm Wb",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--ntlm-wb",
-      "sortOrder": 151,
-      "key": "ntlm-wb"
+      "sortOrder": 130,
+      "description": "Enables NTLM much in the style --ntlm does, but hand over the authentication to the separate binary \"ntlmauth\" application that is executed when needed.",
+      "group": "auth"
     },
     {
-      "name": "OAuth2 Bearer",
-      "description": "OAuth 2 Bearer Token.",
+      "key": "--oauth2-bearer",
+      "displayName": "Oauth2 Bearer",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--oauth2-bearer",
-      "keyValueSeparator": " ",
-      "sortOrder": 152,
-      "key": "oauth2-bearer"
+      "sortOrder": 131,
+      "description": "Specify the Bearer Token for OAUTH 2.0 server authentication.",
+      "group": "auth"
     },
     {
-      "name": "Output Null",
-      "description": "Discard response data into the void.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--out-null",
-      "sortOrder": 153,
-      "key": "out-null"
-    },
-    {
-      "name": "Parallel",
-      "description": "Perform transfers in parallel.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-Z",
-      "longFlag": "--parallel",
-      "sortOrder": 154,
-      "key": "parallel"
-    },
-    {
-      "name": "Parallel Immediate",
-      "description": "Do not wait for multiplexing.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--parallel-immediate",
-      "sortOrder": 155,
-      "key": "parallel-immediate"
-    },
-    {
-      "name": "Parallel Max",
-      "description": "Maximum concurrency for parallel transfers.",
+      "key": "--output",
+      "displayName": "Output",
       "parameterType": "Option",
-      "dataType": "Number",
-      "longFlag": "--parallel-max",
-      "keyValueSeparator": " ",
-      "sortOrder": 156,
-      "key": "parallel-max"
+      "dataType": "String",
+      "sortOrder": 132,
+      "description": "Write output to the given file instead of stdout.",
+      "group": "curl",
+      "aliases": [
+        "-o"
+      ],
+      "isRepeatable": true
     },
     {
-      "name": "Parallel Max Host",
-      "description": "Maximum connections to a single host.",
+      "key": "--output-dir",
+      "displayName": "Output Dir",
       "parameterType": "Option",
-      "dataType": "Number",
-      "longFlag": "--parallel-max-host",
-      "keyValueSeparator": " ",
-      "sortOrder": 157,
-      "key": "parallel-max-host"
+      "dataType": "String",
+      "sortOrder": 133,
+      "description": "Specify the directory in which files should be stored, when --remote-name or --output are used.",
+      "group": "curl"
     },
     {
-      "name": "Pass",
+      "key": "--parallel",
+      "displayName": "Parallel",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 134,
+      "description": "Makes curl perform its transfers in parallel as compared to the regular serial manner.",
+      "group": "connection",
+      "aliases": [
+        "-Z"
+      ]
+    },
+    {
+      "key": "--parallel-immediate",
+      "displayName": "Parallel Immediate",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 135,
+      "description": "When doing parallel transfers, this option instructs curl that it should rather prefer opening up more connections in parallel at once rather than waiting to see if new transfers can be added as multiplexed streams on another connection.",
+      "group": "connection"
+    },
+    {
+      "key": "--parallel-max",
+      "displayName": "Parallel Max",
+      "parameterType": "Option",
+      "dataType": "String",
+      "sortOrder": 136,
+      "description": "When asked to do parallel transfers, using --parallel, this option controls the maximum amount of transfers to do simultaneously.",
+      "group": "connection"
+    },
+    {
+      "key": "--pass",
+      "displayName": "Pass",
+      "parameterType": "Option",
+      "dataType": "String",
+      "sortOrder": 137,
       "description": "Passphrase for the private key.",
+      "group": "auth"
+    },
+    {
+      "key": "--path-as-is",
+      "displayName": "Path As Is",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 138,
+      "description": "Do not handle sequences of /../ or /./ in the given URL path.",
+      "group": "curl"
+    },
+    {
+      "key": "--pinnedpubkey",
+      "displayName": "Pinnedpubkey",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--pass",
-      "keyValueSeparator": " ",
+      "sortOrder": 139,
+      "description": "Use the specified public key file (or hashes) to verify the peer.",
+      "group": "tls"
+    },
+    {
+      "key": "--post301",
+      "displayName": "Post301",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 140,
+      "description": "Respect RFC 7231/6.4.2 and do not convert POST requests into GET requests when following a 301 redirect.",
+      "group": "http"
+    },
+    {
+      "key": "--post302",
+      "displayName": "Post302",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 141,
+      "description": "Respect RFC 7231/6.4.3 and do not convert POST requests into GET requests when following a 302 redirect.",
+      "group": "http"
+    },
+    {
+      "key": "--post303",
+      "displayName": "Post303",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 142,
+      "description": "Violate RFC 7231/6.4.4 and do not convert POST requests into GET requests when following 303 redirect.",
+      "group": "http"
+    },
+    {
+      "key": "--progress-bar",
+      "displayName": "Progress Bar",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 143,
+      "description": "Make curl display transfer progress as a simple progress bar instead of the standard, more informational, meter.",
+      "group": "verbose",
+      "aliases": [
+        "-#"
+      ]
+    },
+    {
+      "key": "--proto",
+      "displayName": "Proto",
+      "parameterType": "Option",
+      "dataType": "String",
+      "sortOrder": 144,
+      "description": "Limit what protocols to allow for transfers.",
+      "group": "connection"
+    },
+    {
+      "key": "--proto-default",
+      "displayName": "Proto Default",
+      "parameterType": "Option",
+      "dataType": "String",
+      "sortOrder": 145,
+      "description": "Use protocol for any provided URL missing a scheme.",
+      "group": "connection"
+    },
+    {
+      "key": "--proto-redir",
+      "displayName": "Proto Redir",
+      "parameterType": "Option",
+      "dataType": "String",
+      "sortOrder": 146,
+      "description": "Limit what protocols to allow on redirects.",
+      "group": "connection"
+    },
+    {
+      "key": "--proxy-anyauth",
+      "displayName": "Proxy Anyauth",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 147,
+      "description": "Automatically pick a suitable authentication method when communicating with the given HTTP proxy.",
+      "group": "auth"
+    },
+    {
+      "key": "--proxy-basic",
+      "displayName": "Proxy Basic",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 148,
+      "description": "Use HTTP Basic authentication when communicating with the given proxy.",
+      "group": "auth"
+    },
+    {
+      "key": "--proxy-ca-native",
+      "displayName": "Proxy CA Native",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 149,
+      "description": "Use the CA store from the native operating system to verify the HTTPS proxy.",
+      "group": "tls"
+    },
+    {
+      "key": "--proxy-cacert",
+      "displayName": "Proxy CA Cert",
+      "parameterType": "Option",
+      "dataType": "String",
+      "sortOrder": 150,
+      "description": "Same as --cacert but used in HTTPS proxy context.",
+      "group": "proxy"
+    },
+    {
+      "key": "--proxy-capath",
+      "displayName": "Proxy CA Path",
+      "parameterType": "Option",
+      "dataType": "String",
+      "sortOrder": 151,
+      "description": "Same as --capath but used in HTTPS proxy context.",
+      "group": "proxy"
+    },
+    {
+      "key": "--proxy-cert",
+      "displayName": "Proxy Cert",
+      "parameterType": "Option",
+      "dataType": "String",
+      "sortOrder": 152,
+      "description": "Same as --cert but used in HTTPS proxy context.",
+      "group": "proxy"
+    },
+    {
+      "key": "--proxy-cert-type",
+      "displayName": "Proxy Cert Type",
+      "parameterType": "Option",
+      "dataType": "String",
+      "sortOrder": 153,
+      "description": "Same as --cert-type but used in HTTPS proxy context.",
+      "group": "proxy"
+    },
+    {
+      "key": "--proxy-ciphers",
+      "displayName": "Proxy Ciphers",
+      "parameterType": "Option",
+      "dataType": "String",
+      "sortOrder": 154,
+      "description": "Same as --ciphers but used in HTTPS proxy context.",
+      "group": "proxy"
+    },
+    {
+      "key": "--proxy-crlfile",
+      "displayName": "Proxy CRL File",
+      "parameterType": "Option",
+      "dataType": "String",
+      "sortOrder": 155,
+      "description": "Same as --crlfile but used in HTTPS proxy context.",
+      "group": "proxy"
+    },
+    {
+      "key": "--proxy-digest",
+      "displayName": "Proxy Digest",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 156,
+      "description": "Use HTTP Digest authentication when communicating with the given proxy.",
+      "group": "proxy"
+    },
+    {
+      "key": "--proxy-header",
+      "displayName": "Proxy Header",
+      "parameterType": "Option",
+      "dataType": "String",
+      "sortOrder": 157,
+      "description": "Extra header to include in the request when sending HTTP to a proxy.",
+      "group": "proxy",
+      "isRepeatable": true
+    },
+    {
+      "key": "--proxy-http2",
+      "displayName": "Proxy HTTP/2",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 158,
-      "key": "pass"
+      "description": "Negotiate HTTP/2 with an HTTPS proxy.",
+      "group": "http"
     },
     {
-      "name": "Path As Is",
-      "description": "Do not squash .. sequences in URL path.",
+      "key": "--proxy-insecure",
+      "displayName": "Proxy Insecure",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--path-as-is",
       "sortOrder": 159,
-      "key": "path-as-is"
+      "description": "Same as --insecure but used in HTTPS proxy context.",
+      "group": "proxy"
     },
     {
-      "name": "Pinnedpubkey",
-      "description": "Public key to verify peer against.",
+      "key": "--proxy-key",
+      "displayName": "Proxy Key",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--pinnedpubkey",
-      "keyValueSeparator": " ",
       "sortOrder": 160,
-      "key": "pinnedpubkey"
+      "description": "Same as --key but used in HTTPS proxy context.",
+      "group": "proxy"
     },
     {
-      "name": "Post 301",
-      "description": "Do not switch to GET after a 301 redirect.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--post301",
+      "key": "--proxy-key-type",
+      "displayName": "Proxy Key Type",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 161,
-      "key": "post301"
+      "description": "Same as --key-type but used in HTTPS proxy context.",
+      "group": "proxy"
     },
     {
-      "name": "Post 302",
-      "description": "Do not switch to GET after a 302 redirect.",
+      "key": "--proxy-negotiate",
+      "displayName": "Proxy Negotiate",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--post302",
       "sortOrder": 162,
-      "key": "post302"
+      "description": "Use HTTP Negotiate (SPNEGO) authentication when communicating with the given proxy.",
+      "group": "auth"
     },
     {
-      "name": "Post 303",
-      "description": "Do not switch to GET after a 303 redirect.",
+      "key": "--proxy-ntlm",
+      "displayName": "Proxy Ntlm",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--post303",
       "sortOrder": 163,
-      "key": "post303"
+      "description": "Use HTTP NTLM authentication when communicating with the given proxy.",
+      "group": "auth"
     },
     {
-      "name": "Preproxy",
-      "description": "Use this proxy first.",
+      "key": "--proxy-pass",
+      "displayName": "Proxy Pass",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--preproxy",
-      "keyValueSeparator": " ",
       "sortOrder": 164,
-      "key": "preproxy"
+      "description": "Same as --pass but used in HTTPS proxy context.",
+      "group": "auth"
     },
     {
-      "name": "Progress Bar",
-      "description": "Display transfer progress as a bar.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-#",
-      "longFlag": "--progress-bar",
+      "key": "--proxy-pinnedpubkey",
+      "displayName": "Proxy Pinnedpubkey",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 165,
-      "key": "progress-bar"
+      "description": "Use the specified public key file (or hashes) to verify the proxy.",
+      "group": "proxy"
     },
     {
-      "name": "Proto",
-      "description": "Enable/disable PROTOCOLS.",
+      "key": "--proxy-service-name",
+      "displayName": "Proxy Service Name",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--proto",
-      "keyValueSeparator": " ",
       "sortOrder": 166,
-      "key": "proto"
+      "description": "Set the service name for proxy negotiation.",
+      "group": "proxy"
     },
     {
-      "name": "Proto Default",
-      "description": "Use PROTOCOL for any URL missing a scheme.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--proto-default",
-      "keyValueSeparator": " ",
+      "key": "--proxy-ssl-allow-beast",
+      "displayName": "Proxy SSL Allow Beast",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 167,
-      "key": "proto-default"
+      "description": "Same as --ssl-allow-beast but used in HTTPS proxy context.",
+      "group": "proxy"
     },
     {
-      "name": "Proto Redirect",
-      "description": "Enable/disable PROTOCOLS on redirect.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--proto-redir",
-      "keyValueSeparator": " ",
+      "key": "--proxy-ssl-auto-client-cert",
+      "displayName": "Proxy SSL Auto Client Cert",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 168,
-      "key": "proto-redir"
+      "description": "Same as --ssl-auto-client-cert but used in HTTPS proxy context.",
+      "group": "proxy"
     },
     {
-      "name": "Proxy anyauth",
-      "description": "Pick any proxy authentication method.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--proxy-anyauth",
+      "key": "--proxy-tls13-ciphers",
+      "displayName": "Proxy Tls13 Ciphers",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 169,
-      "key": "proxy-anyauth"
+      "description": "Specify which cipher suites to use in the connection to your HTTPS proxy when it negotiates TLS 1.3.",
+      "group": "proxy"
     },
     {
-      "name": "Proxy basic",
-      "description": "Use Basic authentication on the proxy.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--proxy-basic",
+      "key": "--proxy-tlsauthtype",
+      "displayName": "Proxy Tlsauthtype",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 170,
-      "key": "proxy-basic"
+      "description": "Same as --tlsauthtype but used in HTTPS proxy context.",
+      "group": "auth"
     },
     {
-      "name": "Proxy CA Native",
-      "description": "Load CA certs from the OS to verify proxy.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--proxy-ca-native",
+      "key": "--proxy-tlspassword",
+      "displayName": "Proxy Tlspassword",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 171,
-      "key": "proxy-ca-native"
+      "description": "Same as --tlspassword but used in HTTPS proxy context.",
+      "group": "auth"
     },
     {
-      "name": "Proxy CA Cert",
-      "description": "CA certificates to verify proxy against.",
+      "key": "--proxy-tlsuser",
+      "displayName": "Proxy Tlsuser",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--proxy-cacert",
-      "keyValueSeparator": " ",
       "sortOrder": 172,
-      "key": "proxy-cacert"
+      "description": "Same as --tlsuser but used in HTTPS proxy context.",
+      "group": "auth"
     },
     {
-      "name": "Proxy CA Path",
-      "description": "CA directory to verify proxy against.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--proxy-capath",
-      "keyValueSeparator": " ",
+      "key": "--proxy-tlsv1",
+      "displayName": "Proxy TLSv1",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 173,
-      "key": "proxy-capath"
+      "description": "Same as --tlsv1 but used in HTTPS proxy context.",
+      "group": "auth"
     },
     {
-      "name": "Proxy cert",
-      "description": "Set client certificate for proxy.",
+      "key": "--proxy-user",
+      "displayName": "Proxy User",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--proxy-cert",
-      "keyValueSeparator": " ",
       "sortOrder": 174,
-      "key": "proxy-cert"
+      "description": "Specify the username and password to use for proxy authentication.",
+      "group": "auth",
+      "aliases": [
+        "-U"
+      ]
     },
     {
-      "name": "Proxy Cert Type",
-      "description": "Client certificate type for HTTPS proxy.",
+      "key": "--proxy1.0",
+      "displayName": "Proxy1 0",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--proxy-cert-type",
-      "keyValueSeparator": " ",
       "sortOrder": 175,
-      "key": "proxy-cert-type"
+      "description": "Use the specified HTTP 1.0 proxy.",
+      "group": "proxy"
     },
     {
-      "name": "Proxy Ciphers",
-      "description": "TLS 1.2 (1.1, 1.0) ciphers to use for proxy.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--proxy-ciphers",
-      "keyValueSeparator": " ",
+      "key": "--proxytunnel",
+      "displayName": "Proxytunnel",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 176,
-      "key": "proxy-ciphers"
+      "description": "When an HTTP proxy is used --proxy, this option makes curl tunnel the traffic through the proxy.",
+      "group": "proxy",
+      "aliases": [
+        "-p"
+      ]
     },
     {
-      "name": "Proxy CRL File",
-      "description": "Set a CRL list for proxy.",
+      "key": "--pubkey",
+      "displayName": "Pubkey",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--proxy-crlfile",
-      "keyValueSeparator": " ",
       "sortOrder": 177,
-      "key": "proxy-crlfile"
+      "description": "Public key filename.",
+      "group": "auth"
     },
     {
-      "name": "Proxy digest",
-      "description": "Digest auth with the proxy.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--proxy-digest",
+      "key": "--quote",
+      "displayName": "Quote",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 178,
-      "key": "proxy-digest"
+      "description": "Send an arbitrary command to the remote FTP or SFTP server.",
+      "group": "ftp",
+      "aliases": [
+        "-Q"
+      ],
+      "isRepeatable": true
     },
     {
-      "name": "Proxy Header",
-      "description": "Pass custom header(s) to proxy.",
+      "key": "--random-file",
+      "displayName": "Random File",
       "parameterType": "Option",
       "dataType": "String",
-      "isRepeatable": true,
-      "longFlag": "--proxy-header",
-      "keyValueSeparator": " ",
       "sortOrder": 179,
-      "key": "proxy-header"
+      "description": "Deprecated option.",
+      "group": "misc"
     },
     {
-      "name": "Proxy HTTP/2",
-      "description": "Use HTTP/2 with HTTPS proxy.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--proxy-http2",
+      "key": "--range",
+      "displayName": "Range",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 180,
-      "key": "proxy-http2"
+      "description": "Retrieve a byte range (i.e.",
+      "group": "file",
+      "aliases": [
+        "-r"
+      ]
     },
     {
-      "name": "Proxy insecure",
-      "description": "Skip HTTPS proxy cert verification.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--proxy-insecure",
+      "key": "--rate",
+      "displayName": "Rate",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 181,
-      "key": "proxy-insecure"
+      "description": "Specify the maximum transfer frequency you allow curl to use - in number of transfer starts per time unit (sometimes called request rate).",
+      "group": "connection"
     },
     {
-      "name": "Proxy key",
-      "description": "Private key for HTTPS proxy.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--proxy-key",
-      "keyValueSeparator": " ",
+      "key": "--raw",
+      "displayName": "Raw",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 182,
-      "key": "proxy-key"
+      "description": "When used, it disables all internal HTTP decoding of content or transfer encodings and instead makes them passed on unaltered, raw.",
+      "group": "http"
     },
     {
-      "name": "Proxy Key Type",
-      "description": "Private key file type for proxy.",
+      "key": "--referer",
+      "displayName": "Referer",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--proxy-key-type",
-      "keyValueSeparator": " ",
       "sortOrder": 183,
-      "key": "proxy-key-type"
+      "description": "Set the referrer URL in the HTTP request.",
+      "group": "http",
+      "aliases": [
+        "-e"
+      ]
     },
     {
-      "name": "Proxy Negotiate",
-      "description": "HTTP Negotiate (SPNEGO) auth with the proxy.",
+      "key": "--remote-header-name",
+      "displayName": "Remote Header Name",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--proxy-negotiate",
       "sortOrder": 184,
-      "key": "proxy-negotiate"
+      "description": "Tell the --remote-name option to use the server-specified Content-Disposition filename instead of extracting a filename from the URL.",
+      "group": "output",
+      "aliases": [
+        "-J"
+      ]
     },
     {
-      "name": "Proxy NTLM",
-      "description": "NTLM authentication with the proxy.",
+      "key": "--remote-name",
+      "displayName": "Remote Name",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--proxy-ntlm",
       "sortOrder": 185,
-      "key": "proxy-ntlm"
+      "description": "Write output to a local file named like the remote file we get.",
+      "group": "output",
+      "aliases": [
+        "-O"
+      ],
+      "isRepeatable": true
     },
     {
-      "name": "Proxy Password",
-      "description": "Passphrase for private key for HTTPS proxy.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--proxy-pass",
-      "keyValueSeparator": " ",
+      "key": "--remote-name-all",
+      "displayName": "Remote Name All",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 186,
-      "key": "proxy-pass"
+      "description": "Change the default action for all given URLs to be dealt with as if --remote-name were used for each one.",
+      "group": "output"
     },
     {
-      "name": "Proxy Pinned Public Key",
-      "description": "FILE/HASHES public key to verify proxy with.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--proxy-pinnedpubkey",
-      "keyValueSeparator": " ",
+      "key": "--remote-time",
+      "displayName": "Remote Time",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 187,
-      "key": "proxy-pinnedpubkey"
+      "description": "Makes curl attempt to figure out the timestamp of the remote file that is getting downloaded, and if that is available make the local file get that same timestamp.",
+      "group": "output",
+      "aliases": [
+        "-R"
+      ]
     },
     {
-      "name": "Proxy Service Name",
-      "description": "SPNEGO proxy service name.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--proxy-service-name",
-      "keyValueSeparator": " ",
+      "key": "--remove-on-error",
+      "displayName": "Remove On Error",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 188,
-      "key": "proxy-service-name"
+      "description": "Remove output file if an error occurs.",
+      "group": "curl"
     },
     {
-      "name": "Proxy SSL Allow BEAST",
-      "description": "Allow this security flaw for HTTPS proxy.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--proxy-ssl-allow-beast",
+      "key": "--request",
+      "displayName": "Request",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 189,
-      "key": "proxy-ssl-allow-beast"
+      "description": "Change the method to use when starting the transfer.",
+      "group": "connection",
+      "aliases": [
+        "-X"
+      ]
     },
     {
-      "name": "Proxy SSL Auto Client Cert",
-      "description": "Auto client certificate for proxy.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--proxy-ssl-auto-client-cert",
+      "key": "--request-target",
+      "displayName": "Request Target",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 190,
-      "key": "proxy-ssl-auto-client-cert"
+      "description": "Use an alternative target (path) instead of using the path as provided in the URL.",
+      "group": "http"
     },
     {
-      "name": "Proxy TLS 1.3 Ciphers",
-      "description": "TLS 1.3 proxy cipher suites.",
+      "key": "--resolve",
+      "displayName": "Resolve",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--proxy-tls13-ciphers",
-      "keyValueSeparator": " ",
       "sortOrder": 191,
-      "key": "proxy-tls13-ciphers"
+      "description": "Provide a custom address for a specific host and port pair.",
+      "group": "connection",
+      "isRepeatable": true
     },
     {
-      "name": "Proxy TLS Auth Type",
-      "description": "TLS authentication type for HTTPS proxy.",
+      "key": "--retry",
+      "displayName": "Retry",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--proxy-tlsauthtype",
-      "keyValueSeparator": " ",
       "sortOrder": 192,
-      "key": "proxy-tlsauthtype"
+      "description": "If a transient error is returned when curl tries to perform a transfer, it retries this number of times before giving up.",
+      "group": "curl"
     },
     {
-      "name": "Proxy TLS Password",
-      "description": "TLS password for HTTPS proxy.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--proxy-tlspassword",
-      "keyValueSeparator": " ",
+      "key": "--retry-all-errors",
+      "displayName": "Retry All Errors",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 193,
-      "key": "proxy-tlspassword"
+      "description": "Retry on any error.",
+      "group": "curl"
     },
     {
-      "name": "Proxy TLS User",
-      "description": "TLS username for HTTPS proxy.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--proxy-tlsuser",
-      "keyValueSeparator": " ",
+      "key": "--retry-connrefused",
+      "displayName": "Retry Connrefused",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 194,
-      "key": "proxy-tlsuser"
+      "description": "In addition to the other conditions, consider ECONNREFUSED as a transient error too for --retry.",
+      "group": "curl"
     },
     {
-      "name": "Proxy TLS v1",
-      "description": "TLSv1 for HTTPS proxy.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--proxy-tlsv1",
+      "key": "--retry-delay",
+      "displayName": "Retry Delay",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 195,
-      "key": "proxy-tlsv1"
+      "description": "Make curl sleep this amount of time before each retry when a transfer has failed with a transient error (it changes the default backoff time algorithm between retries).",
+      "group": "curl"
     },
     {
-      "name": "Proxy User",
-      "description": "Proxy user and password.",
+      "key": "--retry-max-time",
+      "displayName": "Retry Max Time",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-U",
-      "longFlag": "--proxy-user",
-      "keyValueSeparator": " ",
       "sortOrder": 196,
-      "key": "proxy-user"
+      "description": "The retry timer is reset before the first transfer attempt.",
+      "group": "curl"
     },
     {
-      "name": "Proxy 1.0",
-      "description": "Use HTTP/1.0 proxy on given port.",
+      "key": "--sasl-authzid",
+      "displayName": "Sasl Authzid",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--proxy1.0",
-      "keyValueSeparator": " ",
       "sortOrder": 197,
-      "key": "proxy10"
+      "description": "Use this authorization identity (authzid), during SASL PLAIN authentication, in addition to the authentication identity (authcid) as specified by --user.",
+      "group": "auth"
     },
     {
-      "name": "Proxytunnel",
-      "description": "HTTP proxy tunnel (using CONNECT).",
+      "key": "--sasl-ir",
+      "displayName": "Sasl Ir",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-p",
-      "longFlag": "--proxytunnel",
       "sortOrder": 198,
-      "key": "proxytunnel"
+      "description": "Enable initial response in SASL authentication.",
+      "group": "auth"
     },
     {
-      "name": "Pubkey",
-      "description": "SSH Public key filename.",
+      "key": "--service-name",
+      "displayName": "Service Name",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--pubkey",
-      "keyValueSeparator": " ",
       "sortOrder": 199,
-      "key": "pubkey"
+      "description": "Set the service name for SPNEGO.",
+      "group": "misc"
     },
     {
-      "name": "Quote",
-      "description": "Send command(s) to server before transfer.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "isRepeatable": true,
-      "shortFlag": "-Q",
-      "longFlag": "--quote",
-      "keyValueSeparator": " ",
+      "key": "--show-error",
+      "displayName": "Show Error",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 200,
-      "key": "quote"
+      "description": "When used with --silent, it makes curl show an error message if it fails.",
+      "group": "curl",
+      "aliases": [
+        "-S"
+      ]
     },
     {
-      "name": "Random File",
-      "description": "File for reading random data from.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--random-file",
-      "keyValueSeparator": " ",
+      "key": "--silent",
+      "displayName": "Silent",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 201,
-      "key": "random-file"
+      "description": "Silent or quiet mode.",
+      "group": "verbose",
+      "aliases": [
+        "-s"
+      ]
     },
     {
-      "name": "Range",
-      "description": "Retrieve only the bytes within RANGE.",
+      "key": "--socks4",
+      "displayName": "Socks4",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-r",
-      "longFlag": "--range",
-      "keyValueSeparator": " ",
       "sortOrder": 202,
-      "key": "range"
+      "description": "Use the specified SOCKS4 proxy.",
+      "group": "proxy"
     },
     {
-      "name": "Rate",
-      "description": "Request rate for serial transfers.",
+      "key": "--socks4a",
+      "displayName": "Socks4a",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--rate",
-      "keyValueSeparator": " ",
       "sortOrder": 203,
-      "key": "rate"
+      "description": "Use the specified SOCKS4a proxy.",
+      "group": "proxy"
     },
     {
-      "name": "Raw",
-      "description": "Do HTTP raw; no transfer decoding.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--raw",
+      "key": "--socks5",
+      "displayName": "Socks5",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 204,
-      "key": "raw"
+      "description": "Use the specified SOCKS5 proxy - but resolve the hostname locally.",
+      "group": "proxy"
     },
     {
-      "name": "Referer",
-      "description": "Referrer URL.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "shortFlag": "-e",
-      "longFlag": "--referer",
-      "keyValueSeparator": " ",
+      "key": "--socks5-basic",
+      "displayName": "Socks5 Basic",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 205,
-      "key": "referer"
+      "description": "Use username/password authentication when connecting to a SOCKS5 proxy.",
+      "group": "auth"
     },
     {
-      "name": "Remote Header Name",
-      "description": "Use the header-provided filename.",
+      "key": "--socks5-gssapi",
+      "displayName": "Socks5 Gssapi",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-J",
-      "longFlag": "--remote-header-name",
       "sortOrder": 206,
-      "key": "remote-header-name"
+      "description": "Use GSS-API authentication when connecting to a SOCKS5 proxy.",
+      "group": "auth"
     },
     {
-      "name": "Remote Name All",
-      "description": "Use the remote filename for all URLs.",
+      "key": "--socks5-gssapi-nec",
+      "displayName": "Socks5 Gssapi Nec",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--remote-name-all",
       "sortOrder": 207,
-      "key": "remote-name-all"
+      "description": "As part of the GSS-API negotiation a protection mode is negotiated.",
+      "group": "auth"
     },
     {
-      "name": "Remote Time",
-      "description": "Set remote file's time on local output.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-R",
-      "longFlag": "--remote-time",
+      "key": "--socks5-gssapi-service",
+      "displayName": "Socks5 Gssapi Service",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 208,
-      "key": "remote-time"
+      "description": "Set the service name for a socks server.",
+      "group": "auth"
     },
     {
-      "name": "Remove On Error",
-      "description": "Remove output file on errors.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--remove-on-error",
+      "key": "--socks5-hostname",
+      "displayName": "Socks5 Hostname",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 209,
-      "key": "remove-on-error"
+      "description": "Use the specified SOCKS5 proxy (and let the proxy resolve the hostname).",
+      "group": "proxy"
     },
     {
-      "name": "Request Target",
-      "description": "Specify the target for this request.",
+      "key": "--speed-limit",
+      "displayName": "Speed Limit",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--request-target",
-      "keyValueSeparator": " ",
       "sortOrder": 210,
-      "key": "request-target"
+      "description": "If a transfer is slower than this set speed (in bytes per second) for a given number of seconds, it gets aborted.",
+      "group": "connection",
+      "aliases": [
+        "-Y"
+      ]
     },
     {
-      "name": "Resolve",
-      "description": "Resolve host+port to address.",
+      "key": "--speed-time",
+      "displayName": "Speed Time",
       "parameterType": "Option",
       "dataType": "String",
-      "isRepeatable": true,
-      "longFlag": "--resolve",
-      "keyValueSeparator": " ",
       "sortOrder": 211,
-      "key": "resolve"
+      "description": "If a transfer runs slower than speed-limit bytes per second during a speed-time period, the transfer is aborted.",
+      "group": "connection",
+      "aliases": [
+        "-y"
+      ]
     },
     {
-      "name": "Retry All Errors",
-      "description": "Retry all errors (with --retry).",
+      "key": "--ssl",
+      "displayName": "SSL",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--retry-all-errors",
       "sortOrder": 212,
-      "key": "retry-all-errors",
-      "dependencies": [
-        {
-          "key": "dep-retry-all-errors-retry",
-          "parameterKey": "retry-all-errors",
-          "dependsOnParameterKey": "retry",
-          "dependencyType": "requires"
-        }
-      ]
+      "description": "Warning: this is considered an insecure option.",
+      "group": "tls"
     },
     {
-      "name": "Retry Connection Refused",
-      "description": "Retry on connection refused (with --retry).",
+      "key": "--ssl-allow-beast",
+      "displayName": "SSL Allow Beast",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--retry-connrefused",
       "sortOrder": 213,
-      "key": "retry-connrefused",
-      "dependencies": [
-        {
-          "key": "dep-retry-connrefused-retry",
-          "parameterKey": "retry-connrefused",
-          "dependsOnParameterKey": "retry",
-          "dependencyType": "requires"
-        }
-      ]
+      "description": "Do not work around a security flaw in the SSL3 and TLS1.0 protocols known as BEAST.",
+      "group": "tls"
     },
     {
-      "name": "Retry Delay",
-      "description": "Wait time between retries.",
-      "parameterType": "Option",
-      "dataType": "Number",
-      "longFlag": "--retry-delay",
-      "keyValueSeparator": " ",
+      "key": "--ssl-auto-client-cert",
+      "displayName": "SSL Auto Client Cert",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 214,
-      "key": "retry-delay",
-      "dependencies": [
-        {
-          "key": "dep-retry-delay-retry",
-          "parameterKey": "retry-delay",
-          "dependsOnParameterKey": "retry",
-          "dependencyType": "requires"
-        }
-      ]
+      "description": "(Schannel) Automatically locate and use a client certificate for authentication, when requested by the server.",
+      "group": "tls"
     },
     {
-      "name": "Retry Max Time",
-      "description": "Retry only within this period.",
-      "parameterType": "Option",
-      "dataType": "Number",
-      "longFlag": "--retry-max-time",
-      "keyValueSeparator": " ",
+      "key": "--ssl-no-revoke",
+      "displayName": "SSL No Revoke",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 215,
-      "key": "retry-max-time",
-      "dependencies": [
-        {
-          "key": "dep-retry-max-time-retry",
-          "parameterKey": "retry-max-time",
-          "dependsOnParameterKey": "retry",
-          "dependencyType": "requires"
-        }
-      ]
+      "description": "(Schannel) Disable certificate revocation checks.",
+      "group": "tls"
     },
     {
-      "name": "SASL Auth ID",
-      "description": "Identity for SASL PLAIN authentication.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--sasl-authzid",
-      "keyValueSeparator": " ",
+      "key": "--ssl-reqd",
+      "displayName": "SSL Reqd",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 216,
-      "key": "sasl-authzid"
+      "description": "Require SSL/TLS for the connection.",
+      "group": "tls"
     },
     {
-      "name": "SASL IR",
-      "description": "Initial response in SASL authentication.",
+      "key": "--ssl-revoke-best-effort",
+      "displayName": "SSL Revoke Best Effort",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--sasl-ir",
       "sortOrder": 217,
-      "key": "sasl-ir"
+      "description": "(Schannel) Ignore certificate revocation checks when they failed due to missing/offline distribution points for the revocation check lists.",
+      "group": "tls"
     },
     {
-      "name": "Service Name",
-      "description": "SPNEGO service name.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--service-name",
-      "keyValueSeparator": " ",
-      "sortOrder": 218,
-      "key": "service-name"
-    },
-    {
-      "name": "Show Error",
-      "description": "Show error even when -s is used.",
+      "key": "--sslv2",
+      "displayName": "Sslv2",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-S",
-      "longFlag": "--show-error",
-      "sortOrder": 219,
-      "key": "show-error",
-      "dependencies": [
-        {
-          "key": "dep-show-error-silent",
-          "parameterKey": "show-error",
-          "dependsOnParameterKey": "silent",
-          "dependencyType": "requires"
-        }
+      "sortOrder": 218,
+      "description": "This option previously asked curl to use SSLv2, but is now ignored (added in 7.77.0).",
+      "group": "tls",
+      "aliases": [
+        "-2"
       ]
     },
     {
-      "name": "Sigalgs",
-      "description": "TLS signature algorithms to use.",
+      "key": "--sslv3",
+      "displayName": "SSLv3",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 219,
+      "description": "This option previously asked curl to use SSLv3, but is now ignored (added in 7.77.0).",
+      "group": "tls",
+      "aliases": [
+        "-3"
+      ]
+    },
+    {
+      "key": "--stderr",
+      "displayName": "Stderr",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--sigalgs",
-      "keyValueSeparator": " ",
       "sortOrder": 220,
-      "key": "sigalgs"
+      "description": "Redirect all writes to stderr to the specified file instead.",
+      "group": "verbose"
     },
     {
-      "name": "Skip Existing",
-      "description": "Skip download if local file already exists.",
+      "key": "--styled-output",
+      "displayName": "Styled Output",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--skip-existing",
       "sortOrder": 221,
-      "key": "skip-existing"
+      "description": "Enable automatic use of bold font styles when writing HTTP headers to the terminal.",
+      "group": "verbose"
     },
     {
-      "name": "SOCKS4",
-      "description": "SOCKS4 proxy on given host + port.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--socks4",
-      "keyValueSeparator": " ",
+      "key": "--suppress-connect-headers",
+      "displayName": "Suppress Connect Headers",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 222,
-      "key": "socks4"
+      "description": "When --proxytunnel is used and a CONNECT request is made do not output proxy CONNECT response headers.",
+      "group": "proxy"
     },
     {
-      "name": "SOCKS4a",
-      "description": "SOCKS4a proxy on given host + port.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--socks4a",
-      "keyValueSeparator": " ",
+      "key": "--tcp-fastopen",
+      "displayName": "TCP Fastopen",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 223,
-      "key": "socks4a"
+      "description": "Enable use of TCP Fast Open (RFC 7413).",
+      "group": "connection"
     },
     {
-      "name": "SOCKS5",
-      "description": "SOCKS5 proxy on given host + port.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--socks5",
-      "keyValueSeparator": " ",
+      "key": "--tcp-nodelay",
+      "displayName": "TCP Nodelay",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 224,
-      "key": "socks5"
+      "description": "Turn on the TCP_NODELAY option.",
+      "group": "connection"
     },
     {
-      "name": "SOCKS5 Basic",
-      "description": "Username/password auth for SOCKS5 proxies.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--socks5-basic",
+      "key": "--telnet-option",
+      "displayName": "Telnet Option",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 225,
-      "key": "socks5-basic"
+      "description": "Pass options to the telnet protocol.",
+      "group": "telnet",
+      "aliases": [
+        "-t"
+      ],
+      "isRepeatable": true
     },
     {
-      "name": "SOCKS5 GSSAPI",
-      "description": "Enable GSS-API auth for SOCKS5 proxies.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--socks5-gssapi",
+      "key": "--tftp-blksize",
+      "displayName": "Tftp Blksize",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 226,
-      "key": "socks5-gssapi"
+      "description": "Set the TFTP BLKSIZE option (must be 512 or larger).",
+      "group": "tftp"
     },
     {
-      "name": "SOCKS5 GSSAPI NEC",
-      "description": "Compatibility with NEC SOCKS5 server.",
+      "key": "--tftp-no-options",
+      "displayName": "Tftp No Options",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--socks5-gssapi-nec",
       "sortOrder": 227,
-      "key": "socks5-gssapi-nec"
+      "description": "Do not to send TFTP options requests.",
+      "group": "tftp"
     },
     {
-      "name": "SOCKS5 GSSAPI Service",
-      "description": "SOCKS5 proxy service name for GSS-API.",
+      "key": "--time-cond",
+      "displayName": "Time Cond",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--socks5-gssapi-service",
-      "keyValueSeparator": " ",
       "sortOrder": 228,
-      "key": "socks5-gssapi-service"
+      "description": "Request a file that has been modified later than the given time and date, or one that has been modified before that time.",
+      "group": "ftp",
+      "aliases": [
+        "-z"
+      ]
     },
     {
-      "name": "SOCKS5 Hostname",
-      "description": "SOCKS5 proxy, pass hostname to proxy.",
+      "key": "--tls-max",
+      "displayName": "TLS Max",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--socks5-hostname",
-      "keyValueSeparator": " ",
       "sortOrder": 229,
-      "key": "socks5-hostname"
+      "description": "VERSION defines maximum supported TLS version.",
+      "group": "tls"
     },
     {
-      "name": "Speed Limit",
-      "description": "Stop transfers slower than this.",
+      "key": "--tls13-ciphers",
+      "displayName": "Tls13 Ciphers",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-Y",
-      "longFlag": "--speed-limit",
-      "keyValueSeparator": " ",
       "sortOrder": 230,
-      "key": "speed-limit"
+      "description": "Specifies which cipher suites to use in the connection if it negotiates TLS 1.3.",
+      "group": "tls"
     },
     {
-      "name": "Speed Time",
-      "description": "Trigger 'speed-limit' abort after this time.",
+      "key": "--tlsauthtype",
+      "displayName": "Tlsauthtype",
       "parameterType": "Option",
-      "dataType": "Number",
-      "shortFlag": "-y",
-      "longFlag": "--speed-time",
-      "keyValueSeparator": " ",
+      "dataType": "String",
       "sortOrder": 231,
-      "key": "speed-time"
+      "description": "Set TLS authentication type.",
+      "group": "auth"
     },
     {
-      "name": "SSL",
-      "description": "Try enabling TLS.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--ssl",
+      "key": "--tlspassword",
+      "displayName": "Tlspassword",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 232,
-      "key": "ssl"
+      "description": "Set password for use with the TLS authentication method specified with --tlsauthtype.",
+      "group": "auth"
     },
     {
-      "name": "SSL Allow BEAST",
-      "description": "Allow security flaw to improve interop.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--ssl-allow-beast",
+      "key": "--tlsuser",
+      "displayName": "Tlsuser",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 233,
-      "key": "ssl-allow-beast"
+      "description": "Set username for use with the TLS authentication method specified with --tlsauthtype.",
+      "group": "auth"
     },
     {
-      "name": "SSL Auto Client Cert",
-      "description": "Use auto client certificate (Schannel).",
+      "key": "--tlsv1",
+      "displayName": "TLSv1",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--ssl-auto-client-cert",
       "sortOrder": 234,
-      "key": "ssl-auto-client-cert"
+      "description": "Use at least TLS version 1.x when negotiating with a remote TLS server.",
+      "group": "tls",
+      "aliases": [
+        "-1"
+      ]
     },
     {
-      "name": "SSL No Revoke",
-      "description": "Disable cert revocation checks (Schannel).",
+      "key": "--tlsv1.0",
+      "displayName": "TLSv1 0",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--ssl-no-revoke",
       "sortOrder": 235,
-      "key": "ssl-no-revoke"
+      "description": "Forces curl to use TLS version 1.0 or later when connecting to a remote TLS server.",
+      "group": "tls"
     },
     {
-      "name": "SSL Required",
-      "description": "Require SSL/TLS.",
+      "key": "--tlsv1.1",
+      "displayName": "TLSv1 1",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--ssl-reqd",
       "sortOrder": 236,
-      "key": "ssl-reqd"
+      "description": "Forces curl to use TLS version 1.1 or later when connecting to a remote TLS server.",
+      "group": "tls"
     },
     {
-      "name": "SSL Revoke Best Effort",
-      "description": "Ignore missing cert CRL dist points.",
+      "key": "--tlsv1.2",
+      "displayName": "TLSv1 2",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--ssl-revoke-best-effort",
       "sortOrder": 237,
-      "key": "ssl-revoke-best-effort"
+      "description": "Forces curl to use TLS version 1.2 or later when connecting to a remote TLS server.",
+      "group": "tls"
     },
     {
-      "name": "SSL Sessions",
-      "description": "Load/save SSL session tickets from/to this file.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--ssl-sessions",
-      "keyValueSeparator": " ",
+      "key": "--tlsv1.3",
+      "displayName": "TLSv1 3",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 238,
-      "key": "ssl-sessions"
+      "description": "Forces curl to use TLS version 1.3 or later when connecting to a remote TLS server.",
+      "group": "tls"
     },
     {
-      "name": "SSLv2",
-      "description": "SSLv2.",
+      "key": "--tr-encoding",
+      "displayName": "Tr Encoding",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-2",
-      "longFlag": "--sslv2",
       "sortOrder": 239,
-      "key": "sslv2"
+      "description": "Request a compressed Transfer-Encoding response using one of the algorithms curl supports, and uncompress the data while receiving it.",
+      "group": "http"
     },
     {
-      "name": "SSLv3",
-      "description": "SSLv3.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-3",
-      "longFlag": "--sslv3",
+      "key": "--trace",
+      "displayName": "Trace",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 240,
-      "key": "sslv3"
+      "description": "Save a full trace dump of all incoming and outgoing data, including descriptive information, in the given output file.",
+      "group": "verbose"
     },
     {
-      "name": "Stderr",
-      "description": "Where to redirect stderr.",
+      "key": "--trace-ascii",
+      "displayName": "Trace ASCII",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--stderr",
-      "keyValueSeparator": " ",
       "sortOrder": 241,
-      "key": "stderr"
+      "description": "Save a full trace dump of all incoming and outgoing data, including descriptive information, in the given output file.",
+      "group": "verbose"
     },
     {
-      "name": "Styled Output",
-      "description": "Enable styled output for HTTP headers.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--styled-output",
+      "key": "--trace-config",
+      "displayName": "Trace Config",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 242,
-      "key": "styled-output"
+      "description": "Set configuration for trace output.",
+      "group": "verbose",
+      "isRepeatable": true
     },
     {
-      "name": "Suppress Connect Headers",
-      "description": "Suppress proxy CONNECT response headers.",
+      "key": "--trace-ids",
+      "displayName": "Trace IDS",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--suppress-connect-headers",
       "sortOrder": 243,
-      "key": "suppress-connect-headers"
+      "description": "Prepends the transfer and connection identifiers to each trace or verbose line that curl displays.",
+      "group": "verbose"
     },
     {
-      "name": "TCP Fast Open",
-      "description": "Use TCP Fast Open.",
+      "key": "--trace-time",
+      "displayName": "Trace Time",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--tcp-fastopen",
       "sortOrder": 244,
-      "key": "tcp-fastopen"
+      "description": "Prepends a time stamp to each trace or verbose line that curl displays.",
+      "group": "verbose"
     },
     {
-      "name": "TCP No Delay",
-      "description": "Set TCP_NODELAY.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--tcp-nodelay",
+      "key": "--unix-socket",
+      "displayName": "Unix Socket",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 245,
-      "key": "tcp-nodelay"
+      "description": "Connect through this Unix domain socket, instead of using the network.",
+      "group": "connection"
     },
     {
-      "name": "Telnet Option",
-      "description": "Set telnet option.",
+      "key": "--upload-file",
+      "displayName": "Upload File",
       "parameterType": "Option",
       "dataType": "String",
-      "isRepeatable": true,
-      "shortFlag": "-t",
-      "longFlag": "--telnet-option",
-      "keyValueSeparator": " ",
       "sortOrder": 246,
-      "key": "telnet-option"
+      "description": "Upload the specified local file to the remote URL.",
+      "group": "upload",
+      "aliases": [
+        "-T"
+      ],
+      "isRepeatable": true
     },
     {
-      "name": "TFTP Block Size",
-      "description": "Set TFTP BLKSIZE option.",
+      "key": "--url",
+      "displayName": "URL",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--tftp-blksize",
-      "keyValueSeparator": " ",
       "sortOrder": 247,
-      "key": "tftp-blksize"
+      "description": "Specify a URL to fetch.",
+      "group": "curl",
+      "isRepeatable": true
     },
     {
-      "name": "TFTP No Options",
-      "description": "Do not send any TFTP options.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--tftp-no-options",
+      "key": "--url-query",
+      "displayName": "URL Query",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 248,
-      "key": "tftp-no-options"
+      "description": "Add a piece of data, usually a name + value pair, to the end of the URL query part.",
+      "group": "http",
+      "isRepeatable": true
     },
     {
-      "name": "Time Condition",
-      "description": "Transfer based on a time condition.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "shortFlag": "-z",
-      "longFlag": "--time-cond",
-      "keyValueSeparator": " ",
+      "key": "--use-ascii",
+      "displayName": "Use ASCII",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 249,
-      "key": "time-cond"
+      "description": "Enable ASCII transfer mode.",
+      "group": "misc",
+      "aliases": [
+        "-B"
+      ]
     },
     {
-      "name": "TLS Early Data",
-      "description": "Allow use of TLSv1.3 early data (0RTT).",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--tls-earlydata",
+      "key": "--user",
+      "displayName": "User",
+      "parameterType": "Option",
+      "dataType": "String",
       "sortOrder": 250,
-      "key": "tls-earlydata"
+      "description": "Specify the username and password to use for server authentication.",
+      "group": "auth",
+      "aliases": [
+        "-u"
+      ]
     },
     {
-      "name": "TLS Max",
-      "description": "Maximum allowed TLS version.",
+      "key": "--user-agent",
+      "displayName": "User Agent",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--tls-max",
-      "keyValueSeparator": " ",
       "sortOrder": 251,
-      "key": "tls-max"
+      "description": "Specify the User-Agent string to send to the HTTP server.",
+      "group": "http",
+      "aliases": [
+        "-A"
+      ]
     },
     {
-      "name": "TLS 1.3 Ciphers",
-      "description": "TLS 1.3 cipher suites to use.",
+      "key": "--variable",
+      "displayName": "Variable",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--tls13-ciphers",
-      "keyValueSeparator": " ",
       "sortOrder": 252,
-      "key": "tls13-ciphers"
+      "description": "Set a variable with \"name=content\" or \"name@file\" (where \"file\" can be stdin if set to a single dash (\"-\")).",
+      "group": "curl",
+      "isRepeatable": true
     },
     {
-      "name": "TLS Auth Type",
-      "description": "TLS authentication type.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--tlsauthtype",
-      "keyValueSeparator": " ",
+      "key": "--verbose",
+      "displayName": "Verbose",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 253,
-      "key": "tlsauthtype"
+      "description": "Makes curl verbose during the operation.",
+      "group": "verbose",
+      "aliases": [
+        "-v"
+      ]
     },
     {
-      "name": "TLS Password",
-      "description": "TLS password.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--tlspassword",
-      "keyValueSeparator": " ",
+      "key": "--version",
+      "displayName": "Version",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
       "sortOrder": 254,
-      "key": "tlspassword"
+      "description": "Displays information about curl and the libcurl version it uses.",
+      "group": "curl",
+      "aliases": [
+        "-V"
+      ]
     },
     {
-      "name": "TLS User",
-      "description": "TLS username.",
+      "key": "--write-out",
+      "displayName": "Write Out",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--tlsuser",
-      "keyValueSeparator": " ",
       "sortOrder": 255,
-      "key": "tlsuser"
+      "description": "Make curl display information on stdout after a completed transfer.",
+      "group": "verbose",
+      "aliases": [
+        "-w"
+      ]
     },
     {
-      "name": "TLS v1",
-      "description": "TLSv1.0 or greater.",
+      "key": "--xattr",
+      "displayName": "Xattr",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-1",
-      "longFlag": "--tlsv1",
       "sortOrder": 256,
-      "key": "tlsv1"
-    },
-    {
-      "name": "TLS v1.0",
-      "description": "TLSv1.0 or greater.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--tlsv1.0",
-      "sortOrder": 257,
-      "key": "tlsv10"
-    },
-    {
-      "name": "TLS v1.1",
-      "description": "TLSv1.1 or greater.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--tlsv1.1",
-      "sortOrder": 258,
-      "key": "tlsv11"
-    },
-    {
-      "name": "TLS v1.2",
-      "description": "TLSv1.2 or greater.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--tlsv1.2",
-      "sortOrder": 259,
-      "key": "tlsv12"
-    },
-    {
-      "name": "TLS v1.3",
-      "description": "TLSv1.3 or greater.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--tlsv1.3",
-      "sortOrder": 260,
-      "key": "tlsv13"
-    },
-    {
-      "name": "Transfer-Encoding",
-      "description": "Request compressed transfer encoding.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--tr-encoding",
-      "sortOrder": 261,
-      "key": "tr-encoding"
-    },
-    {
-      "name": "Trace",
-      "description": "Write a debug trace to FILE.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--trace",
-      "keyValueSeparator": " ",
-      "sortOrder": 262,
-      "key": "trace"
-    },
-    {
-      "name": "Trace ASCII",
-      "description": "Like --trace, but without hex output.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--trace-ascii",
-      "keyValueSeparator": " ",
-      "sortOrder": 263,
-      "key": "trace-ascii"
-    },
-    {
-      "name": "Trace Config",
-      "description": "Details to log in trace/verbose output.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--trace-config",
-      "keyValueSeparator": " ",
-      "sortOrder": 264,
-      "key": "trace-config"
-    },
-    {
-      "name": "Trace IDs",
-      "description": "Transfer + connection ids in verbose output.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--trace-ids",
-      "sortOrder": 265,
-      "key": "trace-ids"
-    },
-    {
-      "name": "Trace Time",
-      "description": "Add time stamps to trace/verbose output.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--trace-time",
-      "sortOrder": 266,
-      "key": "trace-time"
-    },
-    {
-      "name": "Unix Socket",
-      "description": "Connect through this Unix domain socket.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--unix-socket",
-      "keyValueSeparator": " ",
-      "sortOrder": 267,
-      "key": "unix-socket"
-    },
-    {
-      "name": "Upload Flags",
-      "description": "IMAP upload behavior.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--upload-flags",
-      "keyValueSeparator": " ",
-      "sortOrder": 268,
-      "key": "upload-flags"
-    },
-    {
-      "name": "URL Query",
-      "description": "Add a URL query part.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "isRepeatable": true,
-      "longFlag": "--url-query",
-      "keyValueSeparator": " ",
-      "sortOrder": 269,
-      "key": "url-query"
-    },
-    {
-      "name": "Use ASCII",
-      "description": "Use ASCII/text transfer.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-B",
-      "longFlag": "--use-ascii",
-      "sortOrder": 270,
-      "key": "use-ascii"
-    },
-    {
-      "name": "Variable",
-      "description": "Set variable.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "isRepeatable": true,
-      "longFlag": "--variable",
-      "keyValueSeparator": " ",
-      "sortOrder": 271,
-      "key": "variable"
-    },
-    {
-      "name": "VLAN Priority",
-      "description": "Set VLAN priority.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "longFlag": "--vlan-priority",
-      "keyValueSeparator": " ",
-      "sortOrder": 272,
-      "key": "vlan-priority"
-    },
-    {
-      "name": "Write Out",
-      "description": "Output FORMAT after completion.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "shortFlag": "-w",
-      "longFlag": "--write-out",
-      "keyValueSeparator": " ",
-      "sortOrder": 273,
-      "key": "write-out"
-    },
-    {
-      "name": "Xattr",
-      "description": "Store metadata in extended file attributes.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "--xattr",
-      "sortOrder": 274,
-      "key": "xattr"
+      "description": "When saving output to a file, tell curl to store file metadata in extended file attributes.",
+      "group": "misc"
     }
-  ]
+  ],
+  "commands": []
 }

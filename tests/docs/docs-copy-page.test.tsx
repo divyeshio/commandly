@@ -1,6 +1,12 @@
 import { DocsCopyPage } from "@/components/docs/docs-copy-page";
 import { fireEvent, render, screen } from "@testing-library/react";
+import { toast } from "sonner";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+
+vi.mock("sonner", () => ({ toast: { error: vi.fn() } }));
+
+const SOURCE_URL =
+  "https://raw.githubusercontent.com/divyeshio/commandly/refs/heads/main/src/routes/docs/__collection__/tool-renderer.mdx";
 
 describe("DocsCopyPage", () => {
   const writeText = vi.fn().mockResolvedValue(undefined);
@@ -29,30 +35,29 @@ describe("DocsCopyPage", () => {
       text: vi.fn().mockResolvedValue("# Fetched\n\nLive docs"),
     });
 
-    render(
-      <DocsCopyPage
-        page={"# Title\n\nSome docs"}
-        sourceUrl="https://raw.githubusercontent.com/divyeshio/commandly/refs/heads/main/src/routes/docs/__collection__/tool-renderer.mdx"
-      />,
-    );
+    render(<DocsCopyPage sourceUrl={SOURCE_URL} />);
 
     fireEvent.click(screen.getByRole("button", { name: /copy page/i }));
 
     await vi.waitFor(() => {
-      expect(fetchMock).toHaveBeenCalledWith(
-        "https://raw.githubusercontent.com/divyeshio/commandly/refs/heads/main/src/routes/docs/__collection__/tool-renderer.mdx",
-      );
+      expect(fetchMock).toHaveBeenCalledWith(SOURCE_URL);
       expect(writeText).toHaveBeenCalledWith("# Fetched\n\nLive docs");
     });
   });
 
+  it("reports a failure instead of copying a placeholder when the source is unreachable", async () => {
+    fetchMock.mockRejectedValue(new Error("offline"));
+
+    render(<DocsCopyPage sourceUrl={SOURCE_URL} />);
+
+    fireEvent.click(screen.getByRole("button", { name: /copy page/i }));
+
+    await vi.waitFor(() => expect(writeText).not.toHaveBeenCalled());
+    expect(toast.error).toHaveBeenCalledWith("Copy failed", expect.anything());
+  });
+
   it("renders the secondary copy actions menu", async () => {
-    render(
-      <DocsCopyPage
-        page={"# Title\n\nSome docs"}
-        sourceUrl="https://raw.githubusercontent.com/divyeshio/commandly/refs/heads/main/src/routes/docs/__collection__/tool-renderer.mdx"
-      />,
-    );
+    render(<DocsCopyPage sourceUrl={SOURCE_URL} />);
 
     const trigger = screen.getByRole("button", { name: /open copy actions/i });
     fireEvent.pointerDown(trigger, { button: 0, ctrlKey: false });

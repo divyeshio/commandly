@@ -2,11 +2,11 @@
 
 ## 1. Simple tool with no subcommands (curl)
 
-Demonstrates: root parameters (no commands, no `commandKey`), Flag / Option / Argument parameter types, `keyValueSeparator`.
+Demonstrates: a tool with no commands, Flag / Option / Argument parameter types, `keyValueSeparator`.
 
 ```json
 {
-  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
+  "$schema": "https://commandly.divyeshio.in/specification/tool.json",
   "binaryName": "curl",
   "displayName": "Curl",
   "info": {
@@ -17,7 +17,7 @@ Demonstrates: root parameters (no commands, no `commandKey`), Flag / Option / Ar
   "parameters": [
     {
       "key": "target",
-      "name": "Target",
+      "displayName": "Target",
       "description": "URL to download.",
       "parameterType": "Argument",
       "dataType": "String",
@@ -26,34 +26,31 @@ Demonstrates: root parameters (no commands, no `commandKey`), Flag / Option / Ar
       "sortOrder": 5
     },
     {
-      "key": "output",
-      "name": "Output",
+      "key": "--output",
+      "displayName": "Output",
       "description": "Write to file instead of stdout.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-o",
-      "longFlag": "--output",
+      "aliases": ["-o"],
       "keyValueSeparator": " ",
       "sortOrder": 4
     },
     {
-      "key": "location",
-      "name": "Location",
+      "key": "--location",
+      "displayName": "Location",
       "description": "Follow redirects.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-L",
-      "longFlag": "--location",
+      "aliases": ["-L"],
       "sortOrder": 1
     },
     {
-      "key": "silent",
-      "name": "Silent",
+      "key": "--silent",
+      "displayName": "Silent",
       "description": "Silent mode.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-s",
-      "longFlag": "--silent",
+      "aliases": ["-s"],
       "sortOrder": 2
     }
   ]
@@ -66,14 +63,13 @@ Demonstrates: `dataType: "Enum"`, `enum.values[]`, `isRepeatable`.
 
 ```json
 {
-  "key": "ip-version",
-  "name": "Ip Version",
+  "key": "--ip-version",
+  "displayName": "IP Version",
   "description": "IP version to scan of hostname (4,6) - (default 4).",
   "parameterType": "Option",
   "dataType": "Enum",
   "isRepeatable": true,
-  "shortFlag": "-iv",
-  "longFlag": "--ip-version",
+  "aliases": ["-iv"],
   "enum": {
     "values": [
       {
@@ -98,73 +94,119 @@ Demonstrates: `dataType: "Enum"`, `enum.values[]`, `isRepeatable`.
 
 ## 3. Multi-command tool (git-style)
 
-Demonstrates: multiple commands, command-scoped parameters, global parameters.
+Demonstrates: multiple commands, each owning its parameters, a nested subcommand, and a tool-level recursive parameter that applies to every command.
 
 ```json
 {
-  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
+  "$schema": "https://commandly.divyeshio.in/specification/tool.json",
   "binaryName": "git",
   "displayName": "Git",
   "info": {
     "description": "Git is a free and open source distributed version control system.",
     "url": "https://git-scm.com/"
   },
-  "commands": [
-    {
-      "key": "commit",
-      "name": "commit",
-      "description": "Record changes to the repository.",
-      "sortOrder": 1
-    },
-    {
-      "key": "push",
-      "name": "push",
-      "description": "Update remote refs.",
-      "sortOrder": 2
-    }
-  ],
   "parameters": [
     {
-      "key": "verbose",
-      "name": "Verbose",
+      "key": "--verbose",
+      "displayName": "Verbose",
       "description": "Be more verbose.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-v",
-      "longFlag": "--verbose",
-      "isGlobal": true
+      "aliases": ["-v"],
+      "recursive": true
+    }
+  ],
+  "commands": [
+    {
+      "key": "commit",
+      "displayName": "commit",
+      "description": "Record changes to the repository.",
+      "sortOrder": 1,
+      "parameters": [
+        {
+          "key": "--message",
+          "displayName": "Message",
+          "description": "Use the given message as the commit message.",
+          "parameterType": "Option",
+          "dataType": "String",
+          "aliases": ["-m"],
+          "keyValueSeparator": " ",
+          "isRequired": true
+        },
+        {
+          "key": "--all",
+          "displayName": "All",
+          "description": "Stage all tracked modified/deleted files.",
+          "parameterType": "Flag",
+          "dataType": "Boolean",
+          "aliases": ["-a"]
+        }
+      ]
     },
     {
-      "key": "commit-message",
-      "name": "Message",
-      "description": "Use the given message as the commit message.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "shortFlag": "-m",
-      "longFlag": "--message",
-      "keyValueSeparator": " ",
-      "isRequired": true,
-      "commandKey": "commit"
+      "key": "push",
+      "displayName": "push",
+      "description": "Update remote refs.",
+      "sortOrder": 2,
+      "parameters": [
+        {
+          "key": "--force",
+          "displayName": "Force",
+          "description": "Force update refs.",
+          "parameterType": "Flag",
+          "dataType": "Boolean",
+          "aliases": ["-f"]
+        }
+      ]
     },
     {
-      "key": "commit-all",
-      "name": "All",
-      "description": "Stage all tracked modified/deleted files.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-a",
-      "longFlag": "--all",
-      "commandKey": "commit"
-    },
-    {
-      "key": "push-force",
-      "name": "Force",
-      "description": "Force update refs.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-f",
-      "longFlag": "--force",
-      "commandKey": "push"
+      "key": "remote",
+      "displayName": "remote",
+      "description": "Manage the set of tracked repositories.",
+      "sortOrder": 3,
+      "commands": [
+        {
+          "key": "remote-add",
+          "displayName": "add",
+          "description": "Add a remote named <name> for the repository.",
+          "parameters": [
+            {
+              "key": "name",
+              "displayName": "Name",
+              "description": "Name of the remote.",
+              "parameterType": "Argument",
+              "dataType": "String",
+              "position": 0,
+              "isRequired": true
+            },
+            {
+              "key": "url",
+              "displayName": "URL",
+              "description": "URL of the remote repository.",
+              "parameterType": "Argument",
+              "dataType": "String",
+              "position": 1,
+              "isRequired": true
+            }
+          ]
+        },
+        {
+          "key": "remote-remove",
+          "displayName": "remove",
+          "description": "Remove the remote named <name>.",
+          "parameters": [
+            {
+              "key": "name",
+              "displayName": "Name",
+              "description": "Name of the remote to remove.",
+              "parameterType": "Argument",
+              "dataType": "String",
+              "position": 0,
+              "isRequired": true
+            }
+          ]
+        }
+      ]
     }
   ]
 }
@@ -175,37 +217,45 @@ Demonstrates: multiple commands, command-scoped parameters, global parameters.
 Demonstrates: `validations[]`, `dependencies[]`.
 
 ```json
-{
-  "key": "port",
-  "name": "Port",
-  "description": "Port number to connect to.",
-  "parameterType": "Option",
-  "dataType": "Number",
-  "shortFlag": "-p",
-  "longFlag": "--port",
-  "keyValueSeparator": " ",
-  "commandKey": "connect",
-  "validations": [
-    {
-      "key": "port-min",
-      "validationType": "min_value",
-      "validationValue": "1",
-      "errorMessage": "Port must be at least 1."
-    },
-    {
-      "key": "port-max",
-      "validationType": "max_value",
-      "validationValue": "65535",
-      "errorMessage": "Port must not exceed 65535."
-    }
-  ],
-  "dependencies": [
-    {
-      "key": "port-requires-host",
-      "parameterKey": "port",
-      "dependsOnParameterKey": "host",
-      "dependencyType": "requires"
-    }
-  ]
-}
+[
+  {
+    "key": "--host",
+    "displayName": "Host",
+    "description": "Host to connect to.",
+    "parameterType": "Option",
+    "dataType": "String",
+    "aliases": ["-h"]
+  },
+  {
+    "key": "--port",
+    "displayName": "Port",
+    "description": "Port number to connect to.",
+    "parameterType": "Option",
+    "dataType": "Number",
+    "aliases": ["-p"],
+    "keyValueSeparator": " ",
+    "validations": [
+      {
+        "key": "port-min",
+        "validationType": "min_value",
+        "validationValue": "1",
+        "errorMessage": "Port must be at least 1."
+      },
+      {
+        "key": "port-max",
+        "validationType": "max_value",
+        "validationValue": "65535",
+        "errorMessage": "Port must not exceed 65535."
+      }
+    ],
+    "dependencies": [
+      {
+        "key": "port-requires-host",
+        "parameterKey": "--port",
+        "dependsOnParameterKey": "--host",
+        "dependencyType": "requires"
+      }
+    ]
+  }
+]
 ```

@@ -1,6 +1,5 @@
-import { SCHEMA_URL } from "@/components/ai-chat/tool-rules";
-import type { Tool, Parameter } from "@/components/commandly/types/flat";
-import { fixTool } from "@/components/commandly/utils/flat";
+import type { Tool, Parameter } from "@/components/commandly/types/tool";
+import { fixTool, SCHEMA_URL } from "@/components/commandly/utils/tool-file";
 
 function baseTool(overrides?: Partial<Tool>): Tool {
   return {
@@ -15,7 +14,7 @@ function baseTool(overrides?: Partial<Tool>): Tool {
 function baseParam(overrides?: Partial<Parameter>): Parameter {
   return {
     key: "param-1",
-    name: "Param 1",
+    displayName: "Param 1",
     parameterType: "Option",
     dataType: "String",
     ...overrides,
@@ -47,12 +46,36 @@ describe("fixTool", () => {
     expect(fixed.parameters[0]).not.toHaveProperty("isRepeatable");
   });
 
-  it("removes isGlobal: false from parameters", () => {
+  it("removes recursive: false from parameters", () => {
     const tool = baseTool({
-      parameters: [baseParam({ key: "p1", isGlobal: false })],
+      parameters: [baseParam({ key: "p1", recursive: false })],
     });
     const fixed = fixTool(tool);
-    expect(fixed.parameters[0]).not.toHaveProperty("isGlobal");
+    expect(fixed.parameters[0]).not.toHaveProperty("recursive");
+  });
+
+  it("removes an empty aliases array from parameters", () => {
+    const tool = baseTool({
+      parameters: [baseParam({ key: "p1", aliases: [] })],
+    });
+    const fixed = fixTool(tool);
+    expect(fixed.parameters[0]).not.toHaveProperty("aliases");
+  });
+
+  it("removes an empty installation section", () => {
+    const tool = baseTool({ installation: { sources: [] } });
+    const fixed = fixTool(tool);
+    expect(fixed).not.toHaveProperty("installation");
+  });
+
+  it("preserves a populated installation section", () => {
+    const tool = baseTool({
+      installation: {
+        sources: [{ key: "brew", method: "package_manager", command: "brew install x" }],
+      },
+    });
+    const fixed = fixTool(tool);
+    expect(fixed.installation?.sources).toHaveLength(1);
   });
 
   it("removes default keyValueSeparator from parameters", () => {
@@ -135,7 +158,7 @@ describe("fixTool", () => {
     const tool = baseTool({
       parameters: [baseParam({ key: "p1" }), baseParam({ key: "p2" })],
       exclusionGroups: [
-        { name: "Group", exclusionType: "mutual_exclusive", parameterKeys: ["p1", "p2"] },
+        { displayName: "Group", exclusionType: "mutual_exclusive", parameterKeys: ["p1", "p2"] },
       ],
     });
     const fixed = fixTool(tool);
@@ -156,7 +179,7 @@ describe("fixTool", () => {
 
   it("removes interactive: false from commands", () => {
     const tool = baseTool({
-      commands: [{ key: "run", name: "Run", interactive: false }],
+      commands: [{ key: "run", displayName: "Run", interactive: false }],
     });
     const fixed = fixTool(tool);
     expect(fixed.commands[0]).not.toHaveProperty("interactive");
@@ -202,20 +225,6 @@ describe("fixTool", () => {
     });
     const fixed = fixTool(tool, { removeMetadata: true });
     expect(fixed.parameters[0]).not.toHaveProperty("metadata");
-  });
-
-  it("moves top-level description into info object", () => {
-    const tool = { ...baseTool(), description: "A test tool" } as Tool & { description?: string };
-    const fixed = fixTool(tool as Tool);
-    expect(fixed.info?.description).toBe("A test tool");
-    expect((fixed as unknown as Record<string, unknown>)["description"]).toBeUndefined();
-  });
-
-  it("moves top-level version into info object", () => {
-    const tool = { ...baseTool(), version: "1.0.0" } as Tool & { version?: string };
-    const fixed = fixTool(tool as Tool);
-    expect(fixed.info?.version).toBe("1.0.0");
-    expect((fixed as unknown as Record<string, unknown>)["version"]).toBeUndefined();
   });
 
   it("does not mutate the original tool", () => {

@@ -1,77 +1,12 @@
-import { defaultTool } from "../../test-utils";
-import { Parameter, Command } from "@/components/commandly/types/flat";
-import { ParameterDetailsDialog } from "@/components/tool-editor/dialogs/parameter-details-dialog";
+import { createTestCommand, createTestParameter, defaultTool } from "../../test-utils";
 import {
-  ToolBuilderProvider,
-  ToolBuilderState,
-  useToolBuilder,
-} from "@/components/tool-editor/tool-editor.context";
-import { render, screen, fireEvent, act } from "@testing-library/react";
-
-const createTestParameter = (overrides: Partial<Parameter> = {}): Parameter => ({
-  key: "test-param-key",
-  name: "test-param",
-  commandKey: "test-command-key",
-  description: "Test parameter description",
-  parameterType: "Option",
-  dataType: "String",
-  isRequired: false,
-  isRepeatable: false,
-  isGlobal: false,
-  longFlag: "--test",
-  ...overrides,
-});
-
-const createTestCommand = (overrides: Partial<Command> = {}): Command => ({
-  key: "test-command-key",
-  name: "test-command",
-  description: "Test command description",
-  sortOrder: 0,
-  ...overrides,
-});
-
-const createTestState = (
-  parameter: Parameter | null,
-  toolName: string = "test-tool",
-  command?: Command,
-): Partial<ToolBuilderState> => ({
-  tool: { ...defaultTool(toolName, "Test tool"), binaryName: toolName },
-  selectedCommand: command || createTestCommand(),
-  selectedParameter: parameter,
-});
-
-// Captures the latest context value after each render
-let capturedCtx: ReturnType<typeof useToolBuilder>;
-function ContextCapture() {
-  capturedCtx = useToolBuilder();
-  return null;
-}
-
-function DialogWrapper() {
-  const { selectedParameter, upsertParameter, setSelectedParameter } = useToolBuilder();
-  if (!selectedParameter) return null;
-  return (
-    <ParameterDetailsDialog
-      parameter={selectedParameter.key ? selectedParameter : undefined}
-      onSave={(param) => {
-        upsertParameter(param, selectedParameter.key || undefined);
-        setSelectedParameter(null);
-      }}
-    />
-  );
-}
-
-function renderWithProvider(initialState: Partial<ToolBuilderState>) {
-  return render(
-    <ToolBuilderProvider
-      tool={initialState.tool ?? defaultTool("test-tool", "Test tool")}
-      initialState={initialState}
-    >
-      <DialogWrapper />
-      <ContextCapture />
-    </ToolBuilderProvider>,
-  );
-}
+  capturedCtx,
+  createTestState,
+  renderWithProvider,
+} from "./parameter-details-dialog.harness";
+import { getCommandParameters } from "@/components/commandly/utils/tool";
+import { ToolBuilderState } from "@/components/tool-editor/tool-editor.context";
+import { act, fireEvent, screen } from "@testing-library/react";
 
 describe("ParameterDetailsDialog - Dialog Lifecycle", () => {
   beforeEach(() => {
@@ -104,7 +39,7 @@ describe("ParameterDetailsDialog - Form Fields", () => {
 
   it("displays and updates basic form fields", () => {
     const testParameter = createTestParameter({
-      name: "my-parameter",
+      displayName: "my-parameter",
       description: "Initial description",
       parameterType: "Option",
       dataType: "String",
@@ -173,7 +108,7 @@ describe("ParameterDetailsDialog - Form Fields", () => {
   it("handles switch toggles for boolean properties", () => {
     const testParameter = createTestParameter({
       isRequired: false,
-      isGlobal: false,
+      recursive: false,
       isRepeatable: false,
     });
 
@@ -183,32 +118,33 @@ describe("ParameterDetailsDialog - Form Fields", () => {
     const requiredSwitch = switches.find((s) =>
       s.closest("div")?.textContent?.includes("Required"),
     );
-    const globalSwitch = switches.find((s) => s.closest("div")?.textContent?.includes("Global"));
+    const recursiveSwitch = switches.find((s) =>
+      s.closest("div")?.textContent?.includes("Inherited by subcommands"),
+    );
     const repeatableSwitch = switches.find((s) =>
       s.closest("div")?.textContent?.includes("Repeatable"),
     );
 
     // Initial state
     expect(requiredSwitch).not.toBeChecked();
-    expect(globalSwitch).not.toBeChecked();
+    expect(recursiveSwitch).not.toBeChecked();
     expect(repeatableSwitch).not.toBeChecked();
 
     // Toggle switches
     act(() => {
       fireEvent.click(requiredSwitch!);
-      fireEvent.click(globalSwitch!);
+      fireEvent.click(recursiveSwitch!);
       fireEvent.click(repeatableSwitch!);
     });
 
     expect(requiredSwitch).toBeChecked();
-    expect(globalSwitch).toBeChecked();
+    expect(recursiveSwitch).toBeChecked();
     expect(repeatableSwitch).toBeChecked();
   });
 
   it("validates empty parameter name", () => {
     const testParameter = createTestParameter();
     const initState = { ...createTestState(testParameter) };
-    initState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
     renderWithProvider(initState);
 
     const nameInput = screen.getByDisplayValue("test-param");
@@ -231,9 +167,10 @@ describe("ParameterDetailsDialog - Parameter Type Specific Fields", () => {
     const flagParameter = createTestParameter({ parameterType: "Flag", dataType: "Boolean" });
     renderWithProvider(createTestState(flagParameter));
 
-    // Flag type shows flag fields but not key-value separator
-    expect(screen.getByText("Short Flag (include prefix)")).toBeInTheDocument();
-    expect(screen.getByText("Long Flag (include prefix)")).toBeInTheDocument();
+    const aliasesLabel = /Short names and other aliases/;
+
+    // Flag type shows alias fields but not key-value separator
+    expect(screen.getByText(aliasesLabel)).toBeInTheDocument();
     expect(screen.queryByText("Key-Value Separator")).not.toBeInTheDocument();
 
     // Switch to Option type
@@ -248,8 +185,7 @@ describe("ParameterDetailsDialog - Parameter Type Specific Fields", () => {
     });
 
     // Option type shows all fields including key-value separator
-    expect(screen.getByText("Short Flag (include prefix)")).toBeInTheDocument();
-    expect(screen.getByText("Long Flag (include prefix)")).toBeInTheDocument();
+    expect(screen.getByText(aliasesLabel)).toBeInTheDocument();
     expect(screen.getByText("Key-Value Separator")).toBeInTheDocument();
 
     // Switch to Argument type
@@ -260,9 +196,8 @@ describe("ParameterDetailsDialog - Parameter Type Specific Fields", () => {
       fireEvent.click(screen.getByRole("option", { name: "Argument" }));
     });
 
-    // Argument type hides flag fields
-    expect(screen.queryByText("Short Flag (include prefix)")).not.toBeInTheDocument();
-    expect(screen.queryByText("Long Flag (include prefix)")).not.toBeInTheDocument();
+    // Argument type hides alias fields
+    expect(screen.queryByText(aliasesLabel)).not.toBeInTheDocument();
     expect(screen.queryByText("Key-Value Separator")).not.toBeInTheDocument();
   });
 
@@ -404,7 +339,6 @@ describe("ParameterDetailsDialog - Dependencies Section", () => {
       ...createTestState(testParameter),
     };
     // Only this parameter - no others available
-    initState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
 
     renderWithProvider(initState);
 
@@ -412,8 +346,51 @@ describe("ParameterDetailsDialog - Dependencies Section", () => {
     const dependenciesAddButton = addButtons[0];
 
     expect(dependenciesAddButton).toBeDisabled();
-    expect(capturedCtx.tool.parameters).toHaveLength(1);
-    expect(capturedCtx.tool.parameters[0]).toEqual(testParameter);
+    expect(getCommandParameters(capturedCtx.tool, "test-command-key")).toHaveLength(1);
+    expect(getCommandParameters(capturedCtx.tool, "test-command-key")[0]).toEqual(testParameter);
+  });
+
+  it("keeps a newly added dependency when its target parameter is picked", () => {
+    const testParameter = createTestParameter();
+    const otherParameters = [
+      createTestParameter({
+        key: "other-param-key",
+        displayName: "other-param",
+        aliases: ["--other"],
+      }),
+      createTestParameter({
+        key: "second-param-key",
+        displayName: "second-param",
+        aliases: ["--second"],
+      }),
+    ];
+    const initState = createTestState(testParameter, "test-tool", {
+      ...createTestCommand(),
+      parameters: otherParameters,
+    });
+
+    renderWithProvider(initState);
+
+    const dependenciesAddButton = screen.getAllByRole("button", { name: "Add" })[0];
+    expect(dependenciesAddButton).not.toBeDisabled();
+
+    act(() => {
+      fireEvent.click(dependenciesAddButton);
+    });
+
+    const comboboxCount = screen.getAllByRole("combobox").length;
+    expect(comboboxCount).toBeGreaterThan(2);
+
+    const dependsOnSelect = screen.getAllByRole("combobox")[comboboxCount - 1];
+    act(() => {
+      fireEvent.click(dependsOnSelect);
+    });
+    act(() => {
+      fireEvent.click(screen.getByRole("option", { name: "second-param" }));
+    });
+
+    expect(screen.getAllByRole("combobox")).toHaveLength(comboboxCount);
+    expect(screen.getByText("second-param")).toBeInTheDocument();
   });
 });
 
@@ -425,7 +402,6 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
   it("enables save button when changes are made but keeps store unchanged until saved", () => {
     const testParameter = createTestParameter();
     const initState = { ...createTestState(testParameter) };
-    initState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
     renderWithProvider(initState);
 
     const saveButton = screen.getByRole("button", { name: "Save Changes" });
@@ -439,19 +415,18 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
 
     expect(saveButton).not.toBeDisabled();
     // Context selectedParameter should still have the original name (not yet saved)
-    expect(capturedCtx.selectedParameter?.name).toBe("test-param");
+    expect(capturedCtx.selectedParameter?.displayName).toBe("test-param");
   });
 
   it("cancels changes, closes dialog, and preserves original store state", () => {
     const testParameter = createTestParameter({
-      name: "original-param",
+      displayName: "original-param",
       description: "Original description",
       isRequired: false,
     });
     const initState: Partial<ToolBuilderState> = {
       ...createTestState(testParameter),
     };
-    initState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
 
     renderWithProvider(initState);
 
@@ -475,47 +450,48 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(capturedCtx.selectedParameter).toBeNull();
 
-    const originalParameter = capturedCtx.tool.parameters.find((p) => p.key === testParameter.key);
-    expect(originalParameter?.name).toBe("original-param");
+    const originalParameter = getCommandParameters(capturedCtx.tool, "test-command-key").find(
+      (p) => p.key === testParameter.key,
+    );
+    expect(originalParameter?.displayName).toBe("original-param");
     expect(originalParameter?.description).toBe("Original description");
     expect(originalParameter?.isRequired).toBe(false);
   });
 
   it("saves changes, closes dialog, and updates context with new values", () => {
     const testParameter = createTestParameter({
-      name: "original-param",
+      displayName: "original-param",
       description: "Original description",
       isRequired: false,
-      isGlobal: false,
+      recursive: false,
       parameterType: "Option",
       dataType: "String",
     });
     const initState: Partial<ToolBuilderState> = {
       ...createTestState(testParameter),
     };
-    initState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
 
     renderWithProvider(initState);
 
     const nameInput = screen.getByDisplayValue("original-param");
     const descriptionTextarea = screen.getByDisplayValue("Original description");
     const requiredSwitch = screen.getByRole("switch", { name: /required/i });
-    const globalSwitch = screen.getByRole("switch", { name: /global/i });
+    const recursiveSwitch = screen.getByRole("switch", { name: /inherited by subcommands/i });
 
     act(() => {
       fireEvent.change(nameInput, { target: { value: "updated-param" } });
       fireEvent.change(descriptionTextarea, { target: { value: "Updated description" } });
       fireEvent.click(requiredSwitch);
-      fireEvent.click(globalSwitch);
+      fireEvent.click(recursiveSwitch);
     });
 
     expect(screen.getByDisplayValue("updated-param")).toBeInTheDocument();
     expect(screen.getByDisplayValue("Updated description")).toBeInTheDocument();
     expect(requiredSwitch).toBeChecked();
-    expect(globalSwitch).toBeChecked();
+    expect(recursiveSwitch).toBeChecked();
 
     // Context should still have original values (not saved yet)
-    expect(capturedCtx.selectedParameter?.name).toBe("original-param");
+    expect(capturedCtx.selectedParameter?.displayName).toBe("original-param");
     expect(capturedCtx.selectedParameter?.isRequired).toBe(false);
 
     const saveButton = screen.getByRole("button", { name: "Save Changes" });
@@ -528,12 +504,14 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(capturedCtx.selectedParameter).toBeNull();
 
-    const updatedParameter = capturedCtx.tool.parameters.find((p) => p.name === "updated-param");
+    const updatedParameter = getCommandParameters(capturedCtx.tool, "test-command-key").find(
+      (p) => p.displayName === "updated-param",
+    );
     expect(updatedParameter).toBeDefined();
-    expect(updatedParameter?.name).toBe("updated-param");
+    expect(updatedParameter?.displayName).toBe("updated-param");
     expect(updatedParameter?.description).toBe("Updated description");
     expect(updatedParameter?.isRequired).toBe(true);
-    expect(updatedParameter?.isGlobal).toBe(true);
+    expect(updatedParameter?.recursive).toBe(true);
   });
 
   it("verifies context state is updated correctly after save", () => {
@@ -541,7 +519,6 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     const initState: Partial<ToolBuilderState> = {
       ...createTestState(testParameter),
     };
-    initState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
 
     renderWithProvider(initState);
 
@@ -559,8 +536,10 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(capturedCtx.selectedParameter).toBeNull();
 
-    const updatedParameter = capturedCtx.tool.parameters.find((p) => p.name === "modified-param");
-    expect(updatedParameter?.name).toBe("modified-param");
+    const updatedParameter = getCommandParameters(capturedCtx.tool, "test-command-key").find(
+      (p) => p.displayName === "modified-param",
+    );
+    expect(updatedParameter?.displayName).toBe("modified-param");
     expect(updatedParameter?.description).toBe("Test parameter description");
   });
 
@@ -569,7 +548,6 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
     const initState: Partial<ToolBuilderState> = {
       ...createTestState(testParameter),
     };
-    initState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
 
     const { unmount } = renderWithProvider(initState);
 
@@ -591,7 +569,6 @@ describe("ParameterDetailsDialog - State Management & Dialog Actions", () => {
 
     // Re-render fresh with the same parameter
     const reopenState = { ...createTestState(testParameter) };
-    reopenState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
     renderWithProvider(reopenState);
 
     expect(screen.getByDisplayValue("test-param")).toBeInTheDocument();
@@ -606,15 +583,14 @@ describe("ParameterDetailsDialog - UI/UX", () => {
 
   it("pre-fills all fields with selected parameter values", () => {
     const testParameter = createTestParameter({
-      name: "test-parameter",
+      displayName: "test-parameter",
       parameterType: "Option",
       dataType: "String",
-      longFlag: "--test-flag",
-      shortFlag: "-t",
+      aliases: ["-t", "--test-flag"],
       description: "Test description",
       isRequired: true,
       isRepeatable: true,
-      isGlobal: true,
+      recursive: true,
       keyValueSeparator: "=",
       metadata: { tags: ["tag1", "tag2"] },
     });
@@ -625,8 +601,8 @@ describe("ParameterDetailsDialog - UI/UX", () => {
     expect(screen.getByDisplayValue("test-parameter")).toBeInTheDocument();
     expect(screen.getByText("Option")).toBeInTheDocument();
     expect(screen.getByText("String")).toBeInTheDocument();
-    expect(screen.getByDisplayValue("--test-flag")).toBeInTheDocument();
-    expect(screen.getByDisplayValue("-t")).toBeInTheDocument();
+    expect(screen.getByText("--test-flag")).toBeInTheDocument();
+    expect(screen.getByText("-t")).toBeInTheDocument();
     expect(screen.getByDisplayValue("Test description")).toBeInTheDocument();
     expect(screen.getByDisplayValue("=")).toBeInTheDocument();
 
@@ -638,42 +614,45 @@ describe("ParameterDetailsDialog - UI/UX", () => {
     const repeatableSwitch = switches.find((s) =>
       s.closest("div")?.textContent?.includes("Repeatable"),
     );
-    const globalSwitch = switches.find((s) => s.closest("div")?.textContent?.includes("Global"));
+    const recursiveSwitch = switches.find((s) =>
+      s.closest("div")?.textContent?.includes("Inherited by subcommands"),
+    );
 
     expect(requiredSwitch).toBeChecked();
     expect(repeatableSwitch).toBeChecked();
-    expect(globalSwitch).toBeChecked();
+    expect(recursiveSwitch).toBeChecked();
 
     // Confirm context matches
-    expect(capturedCtx.selectedParameter?.name).toBe("test-parameter");
+    expect(capturedCtx.selectedParameter?.displayName).toBe("test-parameter");
     expect(capturedCtx.selectedParameter?.isRequired).toBe(true);
-    expect(capturedCtx.selectedParameter?.isGlobal).toBe(true);
+    expect(capturedCtx.selectedParameter?.recursive).toBe(true);
   });
 
-  it("displays correct parameter icon and global badge based on type and properties", () => {
-    const globalParameter = createTestParameter({
+  it("displays correct parameter icon and root badge based on type and properties", () => {
+    const rootParameter = createTestParameter({
       parameterType: "Flag",
-      isGlobal: true,
     });
 
-    renderWithProvider(createTestState(globalParameter));
+    renderWithProvider({
+      tool: { ...defaultTool("test-tool", "Test tool"), parameters: [rootParameter] },
+      selectedCommandKey: null,
+      selectedParameter: rootParameter,
+    });
 
     const dialogTitle = screen.getByText("test-param").closest("h2");
     expect(dialogTitle?.querySelector("svg")).toBeInTheDocument();
-    expect(screen.getByText("global")).toBeInTheDocument();
+    expect(screen.getByText("root")).toBeInTheDocument();
   });
 
   it("updates context with parameter type changes after save", () => {
     const testParameter = createTestParameter({
       parameterType: "Option",
       keyValueSeparator: "=",
-      longFlag: "--test",
-      shortFlag: "-t",
+      aliases: ["-t", "--test"],
     });
     const initState: Partial<ToolBuilderState> = {
       ...createTestState(testParameter),
     };
-    initState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
 
     renderWithProvider(initState);
 
@@ -695,231 +674,123 @@ describe("ParameterDetailsDialog - UI/UX", () => {
       fireEvent.click(saveButton);
     });
 
-    const updatedParameter = capturedCtx.tool.parameters.find((p) => p.key === testParameter.key);
+    const updatedParameter = getCommandParameters(capturedCtx.tool, "test-command-key").find(
+      (p) => p.key === testParameter.key,
+    );
     expect(updatedParameter).toBeDefined();
     expect(updatedParameter?.parameterType).toBe("Flag");
-    expect(updatedParameter?.longFlag).toBe("--test");
-    expect(updatedParameter?.shortFlag).toBe("-t");
+    expect(updatedParameter?.aliases).toEqual(["-t", "--test"]);
   });
 });
 
-describe("ParameterDetailsDialog - Enum Section", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
-  it("shows Add label for new parameters and Save Changes for existing ones", () => {
-    const newParameter: Parameter = {
-      key: "",
-      name: "",
-      commandKey: "test-command-key",
-      parameterType: "Option",
-      dataType: "String",
-      longFlag: "",
-    };
-    renderWithProvider(createTestState(newParameter));
-
-    expect(screen.queryByRole("button", { name: "Save Changes" })).not.toBeInTheDocument();
-    // Submit button shows "Add" for new params; it's disabled since no name/longFlag yet
-    // Dependencies and Validations sections also have "Add" buttons but those are enabled
-    const addButtons = screen.getAllByRole("button", { name: "Add" });
-    const submitAddButton = addButtons.find((btn) => btn.hasAttribute("disabled"));
-    expect(submitAddButton).toBeDefined();
-  });
-
-  it("renders Value and Display Name column headers when enum values exist", () => {
-    const testParameter = createTestParameter({
-      dataType: "Enum",
-      enum: {
-        values: [{ value: "opt1", displayName: "Option 1", isDefault: false, sortOrder: 0 }],
-        allowMultiple: false,
-      },
-    });
-
-    renderWithProvider(createTestState(testParameter));
-
-    expect(screen.getByText("Value")).toBeInTheDocument();
-    expect(screen.getByText("Display Name")).toBeInTheDocument();
-  });
-
-  it("does not render column headers when there are no enum values", () => {
-    const testParameter = createTestParameter({
-      dataType: "Enum",
-      enum: { values: [], allowMultiple: false },
-    });
-
-    renderWithProvider(createTestState(testParameter));
-
-    expect(screen.queryByText("Value")).not.toBeInTheDocument();
-    expect(screen.queryByText("Display Name")).not.toBeInTheDocument();
-  });
-
-  it("renders Default label next to each isDefault switch in enum rows", () => {
-    const testParameter = createTestParameter({
-      dataType: "Enum",
-      enum: {
-        values: [
-          { value: "a", displayName: "A", isDefault: false, sortOrder: 0 },
-          { value: "b", displayName: "B", isDefault: false, sortOrder: 1 },
-        ],
-        allowMultiple: false,
-      },
-    });
-
-    renderWithProvider(createTestState(testParameter));
-
-    const defaultLabels = screen.getAllByText("Default");
-    // 1 invisible alignment spacer + 1 per enum row = 3 total
-    expect(defaultLabels).toHaveLength(3);
-  });
-
-  it("makes isDefault selection mutually exclusive across enum value rows", () => {
-    const testParameter = createTestParameter({
-      dataType: "Enum",
-      enum: {
-        values: [
-          { value: "one", displayName: "One", isDefault: true, sortOrder: 0 },
-          { value: "two", displayName: "Two", isDefault: false, sortOrder: 1 },
-        ],
-        allowMultiple: false,
-      },
-    });
-    const initState = { ...createTestState(testParameter) };
-    initState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
-
-    renderWithProvider(initState);
-
-    const defaultSwitches = screen
-      .getAllByRole("switch")
-      .filter((s) => s.closest("div")?.textContent?.trim() === "Default");
-
-    expect(defaultSwitches).toHaveLength(2);
-    expect(defaultSwitches[0]).toBeChecked();
-    expect(defaultSwitches[1]).not.toBeChecked();
-
-    act(() => {
-      fireEvent.click(defaultSwitches[1]);
-    });
-
-    expect(defaultSwitches[0]).not.toBeChecked();
-    expect(defaultSwitches[1]).toBeChecked();
-  });
-
-  it("shows Separator label when allowMultiple is enabled", () => {
-    const testParameter = createTestParameter({
-      dataType: "Enum",
-      enum: {
-        values: [{ value: "x", displayName: "X", isDefault: false, sortOrder: 0 }],
-        allowMultiple: true,
-        separator: ",",
-      },
-    });
-
-    renderWithProvider(createTestState(testParameter));
-
-    expect(screen.getByText("Separator")).toBeInTheDocument();
-  });
-
-  it("does not show Separator label when allowMultiple is disabled", () => {
-    const testParameter = createTestParameter({
-      dataType: "Enum",
-      enum: {
-        values: [{ value: "x", displayName: "X", isDefault: false, sortOrder: 0 }],
-        allowMultiple: false,
-      },
-    });
-
-    renderWithProvider(createTestState(testParameter));
-
-    expect(screen.queryByText("Separator")).not.toBeInTheDocument();
-  });
-
-  it("blocks save when enum values list is empty", () => {
-    const testParameter = createTestParameter({
-      dataType: "Enum",
-      enum: { values: [], allowMultiple: false },
-    });
-    const initState = { ...createTestState(testParameter) };
-    initState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
-
-    renderWithProvider(initState);
-
-    const saveButton = screen.getByRole("button", { name: "Save Changes" });
-    const descriptionInput = screen.getByDisplayValue("Test parameter description");
-
-    act(() => {
-      fireEvent.change(descriptionInput, { target: { value: "Updated" } });
-    });
-
-    expect(saveButton).toBeDisabled();
-  });
-
-  it("blocks save when any enum value has an empty value string", () => {
-    const testParameter = createTestParameter({
-      dataType: "Enum",
-      enum: {
-        values: [{ value: "valid", displayName: "Valid", isDefault: false, sortOrder: 0 }],
-        allowMultiple: false,
-      },
-    });
-    const initState = { ...createTestState(testParameter) };
-    initState.tool = { ...defaultTool("test-tool", "Test tool"), parameters: [testParameter] };
-
-    renderWithProvider(initState);
-
-    const saveButton = screen.getByRole("button", { name: "Save Changes" });
-
-    const descriptionInput = screen.getByDisplayValue("Test parameter description");
-    act(() => {
-      fireEvent.change(descriptionInput, { target: { value: "Updated" } });
-    });
-
-    expect(saveButton).not.toBeDisabled();
-
-    const valueInput = screen.getByDisplayValue("valid");
-    act(() => {
-      fireEvent.change(valueInput, { target: { value: "" } });
-    });
-
-    expect(saveButton).toBeDisabled();
-  });
-});
-
-describe("ParameterDetailsDialog - Bug: Flag Update Duplication", () => {
-  it("should update existing parameter when long flag is changed, not create a new one", async () => {
+describe("ParameterDetailsDialog - Parameter Key Stability", () => {
+  it("keeps the parameter key when only its aliases change", async () => {
     const originalParam = createTestParameter({
-      key: "original-param",
-      name: "original-param",
-      longFlag: "--original",
+      key: "output",
+      displayName: "Output",
+      aliases: ["-o"],
     });
 
     const initialState = createTestState(originalParam);
-    if (initialState.tool) {
-      initialState.tool.parameters = [originalParam];
-    }
 
     renderWithProvider(initialState);
 
-    const longFlagInput = screen.getByPlaceholderText("--verbose");
+    const aliasInput = screen.getByPlaceholderText("Add short names, e.g. -o");
     const saveButton = screen.getByText("Save Changes");
 
-    // Change the long flag - this will trigger slugify and change the 'key'
     act(() => {
-      fireEvent.change(longFlagInput, { target: { value: "--updated" } });
+      fireEvent.click(screen.getByRole("button", { name: "Remove -o option" }));
+    });
+    act(() => {
+      fireEvent.change(aliasInput, { target: { value: "--output-file" } });
+      fireEvent.keyDown(aliasInput, { key: "Enter" });
     });
 
-    // Save changes
     act(() => {
       fireEvent.click(saveButton);
     });
 
-    // Check the final state in the tool via the captured context
-    const parameters = capturedCtx.tool.parameters;
+    const parameters = getCommandParameters(capturedCtx.tool, "test-command-key");
 
-    // IT SHOULD STILL ONLY HAVE ONE PARAMETER, but the bug causes it to have 2
-    // We expect 1 in a healthy system. This test should FAIL now (length will be 2) if fixed later.
     expect(parameters).toHaveLength(1);
-    expect(parameters[0].longFlag).toBe("--updated");
-    expect(parameters[0].key).toBe("updated");
+    expect(parameters[0].aliases).toEqual(["--output-file"]);
+    expect(parameters[0].key).toBe("output");
+  });
+
+  it("saves the authored key independently of the display name", async () => {
+    const originalParam = createTestParameter({
+      key: "output",
+      displayName: "Output File",
+      aliases: ["-o"],
+    });
+
+    const initialState = createTestState(originalParam);
+
+    renderWithProvider(initialState);
+
+    const nameInput = screen.getByDisplayValue("Output File");
+    const keyInput = screen.getByDisplayValue("output");
+    act(() => {
+      fireEvent.change(nameInput, { target: { value: "Destination" } });
+      fireEvent.change(keyInput, { target: { value: "--destination" } });
+    });
+
+    act(() => {
+      fireEvent.click(screen.getByText("Save Changes"));
+    });
+
+    const parameters = getCommandParameters(capturedCtx.tool, "test-command-key");
+    expect(parameters).toHaveLength(1);
+    expect(parameters[0].displayName).toBe("Destination");
+    expect(parameters[0].key).toBe("--destination");
+  });
+
+  it("renaming only the display name leaves the key untouched", async () => {
+    const originalParam = createTestParameter({
+      key: "output",
+      displayName: "Output File",
+      aliases: ["-o"],
+    });
+
+    const initialState = createTestState(originalParam);
+
+    renderWithProvider(initialState);
+
+    const nameInput = screen.getByDisplayValue("Output File");
+    act(() => {
+      fireEvent.change(nameInput, { target: { value: "Destination" } });
+    });
+
+    act(() => {
+      fireEvent.click(screen.getByText("Save Changes"));
+    });
+
+    const parameters = getCommandParameters(capturedCtx.tool, "test-command-key");
+    expect(parameters).toHaveLength(1);
+    expect(parameters[0].displayName).toBe("Destination");
+    expect(parameters[0].key).toBe("output");
+  });
+
+  it("disables save when the key collides with a sibling parameter", () => {
+    const testParameter = createTestParameter({ key: "--output", displayName: "Output" });
+    const sibling = createTestParameter({
+      key: "--verbose",
+      displayName: "Verbose",
+      aliases: [],
+    });
+
+    renderWithProvider(
+      createTestState(testParameter, "test-tool", {
+        ...createTestCommand(),
+        parameters: [sibling],
+      }),
+    );
+
+    const keyInput = screen.getByDisplayValue("--output");
+    act(() => {
+      fireEvent.change(keyInput, { target: { value: "--verbose" } });
+    });
+
+    expect(screen.getByRole("button", { name: "Save Changes" })).toBeDisabled();
   });
 });

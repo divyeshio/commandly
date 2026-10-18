@@ -1,4 +1,4 @@
-import { Tool } from "@/components/commandly/types/flat";
+import { Tool } from "@/components/commandly/types/tool";
 import { getToolName, isReasoningUIPart, isTextUIPart, isToolUIPart, type UIMessage } from "ai";
 
 export interface ToolCallEntry {

@@ -1,4 +1,5 @@
-import type { Tool } from "@/components/commandly/types/flat";
+import type { Tool } from "@/components/commandly/types/tool";
+import { notFound } from "@tanstack/react-router";
 import { createIsomorphicFn } from "@tanstack/react-start";
 
 const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/divyeshio/commandly/refs/heads/main";
@@ -17,11 +18,17 @@ export const fetchToolsList = createIsomorphicFn()
     return response.json() as Promise<Partial<Tool>[]>;
   });
 
+/**
+ * Loads one tool's definition. A tool that is not published is a missing resource rather than a
+ * failure, so it raises the router's not-found signal and the route renders the not-found UI;
+ * anything else still surfaces as an error.
+ */
 export async function fetchToolDetails(toolName: string): Promise<Tool> {
   const url = import.meta.env.DEV
     ? `/tools-collection/${toolName}.json`
     : `${GITHUB_RAW_BASE}/public/tools-collection/${toolName}.json`;
   const response = await fetch(url);
-  if (!response.ok) throw new Error("Fetch failed");
+  if (response.status === 404) throw notFound();
+  if (!response.ok) throw new Error(`Could not load tool "${toolName}" (${response.status})`);
   return response.json();
 }

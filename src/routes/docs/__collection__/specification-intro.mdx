@@ -7,29 +7,28 @@ The Commandly specification defines a standard, language-agnostic JSON format fo
 - Power AI-assisted tool configuration
 - Programtically call cli tools from code
 
-## Formats
+## Format
 
-Two formats are available:
+Commands own their parameters, so the hierarchy is expressed by nesting. This mirrors how most CLI tools present their help output, and it means a parameter's `key` only needs to be unique among its own command's parameters - the same flag can appear on sibling commands without renaming.
 
-**Flat** - Commands and parameters are stored as flat arrays. Each parameter references its parent command via a `commandKey` field. This is the primary format used by the Commandly editor, renderer components, and the tools collection.
+A parameter with `recursive: true` is **inherited** by every command beneath the one it belongs to. A parameter on the tool's own `parameters` array with `recursive: true` is inherited by the whole tree.
 
-**Nested** - Parameters and subcommands are embedded directly inside each command object. More human-readable and mirrors how most CLI tools present their help output. Useful for authoring tools by hand.
-
-See [Flat Schema](/docs/specification-schema) and [Nested Schema](/docs/specification-nested) for the full object reference.
+See [Schema Reference](/docs/specification-schema) for the full object reference.
 
 ## JSON Schema
 
-Machine-readable JSON Schema files for both formats are published at:
+A machine-readable JSON Schema is published at:
 
-- **Flat**: `https://commandly.divyeshio.in/specification/flat.json`
-- **Nested**: `https://commandly.divyeshio.in/specification/nested.json`
+- `https://commandly.divyeshio.in/specification/tool.json`
 
 Add `$schema` to your tool JSON file to enable editor autocomplete and validation:
 
 ```json
 {
-  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
-  "name": "mytool",
-  "displayName": "My Tool"
+  "$schema": "https://commandly.divyeshio.in/specification/tool.json",
+  "binaryName": "mytool",
+  "displayName": "My Tool",
+  "parameters": [],
+  "commands": []
 }
 ```

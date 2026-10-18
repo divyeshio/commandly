@@ -1,10 +1,8 @@
-export const SCHEMA_URL = "https://commandly.divyeshio.in/specification/flat.json";
-
 export const SORTING_RULES = `1. Sort all parameters, grouping similar ones together (e.g., output options, filter options, connection options)
 2. Update parameter names and descriptions to be consistent within each group
 3. Parameters related to verbose, debug, or logging should be at the end
 4. Positional arguments should be sorted by their position field
-5. Global parameters should be listed before command-specific parameters`;
+5. The tool's own parameters should be listed before command parameters`;
 
 export const GROUPING_RULES = `1. Group similar parameters using the group field (e.g., Output, Filter, Connection, Debug)
 2. Output-related parameters (format, output, json, csv) should be grouped together
@@ -21,18 +19,18 @@ export const TYPE_FIX_RULES = `1. Flags (boolean switches) must have parameterTy
 7. If a parameter uses key=value syntax, set keyValueSeparator
 8. Mark parameters as isRequired when they must be provided`;
 
-export const VALIDATION_RULES = `1. All parameter keys must be unique across the tool
-2. All command keys must be unique across the tool
-3. Parameters with isGlobal must not have commandKey
-4. Parameters without isGlobal must have commandKey when multiple commands exist
-5. Enum parameters must have at least one enum value
-6. Enum values must have both value and displayName
-7. Validation keys must be unique within a parameter
-8. Dependency parameterKey and dependsOnParameterKey must reference existing parameters
-9. Exclusion group parameterKeys must reference existing parameters
-10. Descriptions should be in sentence case
-11. Do not add empty arrays or objects for optional properties
-12. Tool description and version must be nested under an info object`;
+export const VALIDATION_RULES = `1. All command keys must be unique across the tool
+2. Subcommands nest inside their parent command's commands array
+3. Parameter keys must be unique among their own command's parameters, and among the tool's own parameters
+4. Parameters are nested inside the command that accepts them
+5. A parameter with recursive: true is inherited by every command beneath the one it belongs to
+6. Enum parameters must have at least one enum value
+7. Enum values must have both value and displayName
+8. Validation keys must be unique within a parameter
+9. Dependency parameterKey and dependsOnParameterKey must reference existing parameters
+10. Exclusion group parameterKeys must reference existing parameters
+11. Descriptions should be in sentence case
+12. Do not add empty arrays or objects for optional properties`;
 
 export const PROMPT_PILLS = [
   {

@@ -1,5 +1,5 @@
-import { defaultTool } from "../../test-utils";
-import { Command } from "@/components/commandly/types/flat";
+import { createTestCommand, defaultTool } from "../../test-utils";
+import { Command } from "@/components/commandly/types/tool";
 import { CommandDialog } from "@/components/tool-editor/dialogs/command-dialog";
 import {
   ToolBuilderProvider,
@@ -8,20 +8,12 @@ import {
 import { render, screen, fireEvent } from "@testing-library/react";
 import { ReactNode } from "react";
 
-const createTestCommand = (overrides: Partial<Command> = {}): Command => ({
-  key: "test-command-key",
-  name: "test-command",
-  description: "Test command description",
-  sortOrder: 0,
-  ...overrides,
-});
-
 const createTestState = (
   command: Command,
   toolName: string = "test-tool",
 ): Partial<ToolBuilderState> => ({
   tool: { ...defaultTool(toolName, "Test tool"), binaryName: toolName, commands: [command] },
-  selectedCommand: command,
+  selectedCommandKey: command.key,
 });
 
 function renderWithProvider(ui: ReactNode, initialState: Partial<ToolBuilderState>) {
@@ -57,7 +49,7 @@ describe("CommandDialog - Rendering & Structure", () => {
     );
 
     expect(screen.getByText("Edit Command Settings")).toBeInTheDocument();
-    expect(screen.getByLabelText("Command Name")).toBeInTheDocument();
+    expect(screen.getByLabelText("Display Name")).toBeInTheDocument();
     expect(screen.getByLabelText("Interactive")).toBeInTheDocument();
     expect(screen.getByLabelText("Description")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Save Changes" })).toBeInTheDocument();
@@ -154,7 +146,7 @@ describe("CommandDialog - Form Fields", () => {
   });
 
   it("displays current command name in the input", () => {
-    const command = createTestCommand({ name: "my-command" });
+    const command = createTestCommand({ displayName: "my-command" });
     renderWithProvider(
       <CommandDialog
         isOpen={true}
@@ -166,7 +158,7 @@ describe("CommandDialog - Form Fields", () => {
       createTestState(command),
     );
 
-    const nameInput = screen.getByLabelText("Command Name") as HTMLInputElement;
+    const nameInput = screen.getByLabelText("Display Name") as HTMLInputElement;
     expect(nameInput.value).toBe("my-command");
   });
 
@@ -183,7 +175,7 @@ describe("CommandDialog - Form Fields", () => {
       createTestState(command),
     );
 
-    const nameInput = screen.getByLabelText("Command Name");
+    const nameInput = screen.getByLabelText("Display Name");
     fireEvent.change(nameInput, { target: { value: "new-command" } });
 
     expect((nameInput as HTMLInputElement).value).toBe("new-command");
@@ -237,7 +229,7 @@ describe("CommandDialog - Form Fields", () => {
       testState,
     );
 
-    const nameInput = screen.getByLabelText("Command Name") as HTMLInputElement;
+    const nameInput = screen.getByLabelText("Display Name") as HTMLInputElement;
     expect(nameInput.value).toBe("");
   });
 });
@@ -253,7 +245,7 @@ describe("CommandDialog - Save Functionality", () => {
   it("calls onSave with updated command and closes dialog when Save Changes is clicked", () => {
     const command = createTestCommand({
       key: "original-command-key",
-      name: "original-command",
+      displayName: "original-command",
     });
     renderWithProvider(
       <CommandDialog
@@ -266,7 +258,7 @@ describe("CommandDialog - Save Functionality", () => {
       createTestState(command),
     );
 
-    const nameInput = screen.getByLabelText("Command Name");
+    const nameInput = screen.getByLabelText("Display Name");
     fireEvent.change(nameInput, { target: { value: "updated-command" } });
 
     fireEvent.click(screen.getByRole("button", { name: "Save Changes" }));
@@ -274,7 +266,7 @@ describe("CommandDialog - Save Functionality", () => {
     expect(mockOnSave).toHaveBeenCalledWith(
       expect.objectContaining({
         key: "original-command-key",
-        name: "updated-command",
+        displayName: "updated-command",
         description: "Test command description",
         sortOrder: 0,
       }),
@@ -285,7 +277,7 @@ describe("CommandDialog - Save Functionality", () => {
   it("saves all modified fields correctly", () => {
     const command = createTestCommand({
       key: "original-command-key",
-      name: "original-command",
+      displayName: "original-command",
     });
     renderWithProvider(
       <CommandDialog
@@ -298,7 +290,7 @@ describe("CommandDialog - Save Functionality", () => {
       createTestState(command),
     );
 
-    fireEvent.change(screen.getByLabelText("Command Name"), { target: { value: "new-name" } });
+    fireEvent.change(screen.getByLabelText("Display Name"), { target: { value: "new-name" } });
     fireEvent.change(screen.getByLabelText("Description"), {
       target: { value: "New description" },
     });
@@ -307,7 +299,7 @@ describe("CommandDialog - Save Functionality", () => {
 
     expect(mockOnSave).toHaveBeenCalledWith(
       expect.objectContaining({
-        name: "new-name",
+        displayName: "new-name",
         description: "New description",
       }),
     );
@@ -316,7 +308,7 @@ describe("CommandDialog - Save Functionality", () => {
   it("preserves key when saving in edit mode", () => {
     const command = createTestCommand({
       key: "parent-command-key",
-      name: "parent-command",
+      displayName: "parent-command",
     });
     renderWithProvider(
       <CommandDialog
@@ -329,13 +321,13 @@ describe("CommandDialog - Save Functionality", () => {
       createTestState(command),
     );
 
-    fireEvent.change(screen.getByLabelText("Command Name"), {
+    fireEvent.change(screen.getByLabelText("Display Name"), {
       target: { value: "updated-parent" },
     });
     fireEvent.click(screen.getByRole("button", { name: "Save Changes" }));
 
     expect(mockOnSave).toHaveBeenCalledWith(
-      expect.objectContaining({ key: "parent-command-key", name: "updated-parent" }),
+      expect.objectContaining({ key: "parent-command-key", displayName: "updated-parent" }),
     );
   });
 
@@ -351,13 +343,13 @@ describe("CommandDialog - Save Functionality", () => {
       testState,
     );
 
-    fireEvent.change(screen.getByLabelText("Command Name"), {
+    fireEvent.change(screen.getByLabelText("Display Name"), {
       target: { value: "My New Command" },
     });
     fireEvent.click(screen.getByRole("button", { name: "Add" }));
 
     expect(mockOnSave).toHaveBeenCalledWith(
-      expect.objectContaining({ name: "My New Command", key: "my-new-command" }),
+      expect.objectContaining({ displayName: "My New Command", key: "my-new-command" }),
     );
     expect(mockOnOpenChange).toHaveBeenCalledWith(false);
   });
@@ -390,7 +382,7 @@ describe("CommandDialog - Save Functionality", () => {
       testState,
     );
 
-    fireEvent.change(screen.getByLabelText("Command Name"), { target: { value: "new-cmd" } });
+    fireEvent.change(screen.getByLabelText("Display Name"), { target: { value: "new-cmd" } });
 
     const addButton = screen.getByRole("button", { name: "Add" });
     expect(addButton).not.toBeDisabled();
@@ -418,7 +410,7 @@ describe("CommandDialog - UI Elements and Layout", () => {
       createTestState(command),
     );
 
-    expect(screen.getByLabelText("Command Name")).toBeInTheDocument();
+    expect(screen.getByLabelText("Display Name")).toBeInTheDocument();
     expect(screen.getByLabelText("Interactive")).toBeInTheDocument();
     expect(screen.getByLabelText("Description")).toBeInTheDocument();
   });
@@ -441,5 +433,74 @@ describe("CommandDialog - UI Elements and Layout", () => {
 
     const title = screen.getByText("Edit Command Settings");
     expect(title).toHaveClass("flex", "items-center", "gap-2");
+  });
+});
+
+describe("CommandDialog - Command Key", () => {
+  const mockOnOpenChange = vi.fn();
+  const mockOnSave = vi.fn();
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("preserves the authored key when the display name changes", () => {
+    const command = createTestCommand({ key: "authored-key", displayName: "Original" });
+    renderWithProvider(
+      <CommandDialog
+        isOpen={true}
+        onOpenChange={mockOnOpenChange}
+        command={command}
+        toolName="test-tool"
+        onSave={mockOnSave}
+      />,
+      createTestState(command),
+    );
+
+    fireEvent.change(screen.getByLabelText("Display Name"), { target: { value: "Renamed" } });
+    fireEvent.click(screen.getByRole("button", { name: "Save Changes" }));
+
+    expect(mockOnSave).toHaveBeenCalledWith(
+      expect.objectContaining({ key: "authored-key", displayName: "Renamed" }),
+    );
+  });
+
+  it("accepts a written key independently of the display name", () => {
+    const command = createTestCommand({ key: "original-key", displayName: "Original" });
+    renderWithProvider(
+      <CommandDialog
+        isOpen={true}
+        onOpenChange={mockOnOpenChange}
+        command={command}
+        toolName="test-tool"
+        onSave={mockOnSave}
+      />,
+      createTestState(command),
+    );
+
+    fireEvent.change(screen.getByLabelText("Key"), { target: { value: "New Key" } });
+    fireEvent.click(screen.getByRole("button", { name: "Save Changes" }));
+
+    expect(mockOnSave).toHaveBeenCalledWith(
+      expect.objectContaining({ key: "new-key", displayName: "Original" }),
+    );
+  });
+
+  it("shows the derived key as a placeholder for a new command", () => {
+    renderWithProvider(
+      <CommandDialog
+        isOpen={true}
+        onOpenChange={mockOnOpenChange}
+        toolName="test-tool"
+        onSave={mockOnSave}
+      />,
+      createTestState(createTestCommand()),
+    );
+
+    fireEvent.change(screen.getByLabelText("Display Name"), {
+      target: { value: "My New Command" },
+    });
+
+    expect(screen.getByLabelText("Key")).toHaveAttribute("placeholder", "my-new-command");
   });
 });

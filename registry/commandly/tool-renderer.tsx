@@ -1,9 +1,16 @@
-import { ParameterValue } from "@/components/commandly/types/flat";
-import { Command, Tool } from "@/components/commandly/types/flat";
 import {
   ParameterRenderContext,
   ParameterRendererEntry,
 } from "@/components/commandly/types/renderer";
+import { Command, ParameterValue, Tool } from "@/components/commandly/types/tool";
+import { getFlagForms } from "@/components/commandly/utils/generate-command";
+import {
+  excludedParameters,
+  getDefaultCommand,
+  requiredParameterKeys,
+  resolveApplicableParameters,
+  resolveExclusionGroups,
+} from "@/components/commandly/utils/tool";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,21 +31,12 @@ import { cn } from "@/lib/utils";
 import { CheckIcon, ChevronsUpDownIcon, InfoIcon, PlusIcon, XIcon } from "lucide-react";
 import React, { useMemo } from "react";
 
-const findDefaultCommand = (tool: Tool): Command | null => {
-  const nameMatchCommand = tool.commands.find(
-    (command) => command.name.toLowerCase() === tool.binaryName.toLowerCase(),
-  );
-  if (nameMatchCommand) return nameMatchCommand;
-
-  return tool.commands.length > 0 ? tool.commands[0] : null;
-};
-
 interface ParameterLabelProps {
   name: string;
-  longFlag?: string;
-  shortFlag?: string;
+  flags?: string[];
   isRequired?: boolean;
-  isGlobal?: boolean;
+  recursive?: boolean;
+  excludedBy?: string;
   description?: string;
   className?: string;
   children?: React.ReactNode;
@@ -46,10 +44,10 @@ interface ParameterLabelProps {
 
 function ParameterLabel({
   name,
-  longFlag,
-  shortFlag,
+  flags,
   isRequired,
-  isGlobal,
+  recursive,
+  excludedBy,
   description,
   className,
   children,
@@ -57,11 +55,7 @@ function ParameterLabel({
   return (
     <Label className={className}>
       {name}
-      {(longFlag || shortFlag) && (
-        <span className="ml-1 text-muted-foreground">
-          ({[longFlag, shortFlag].filter(Boolean).join(", ")})
-        </span>
-      )}
+      {!!flags?.length && <span className="ml-1 text-muted-foreground">({flags.join(", ")})</span>}
       {isRequired && <span className="ml-1 text-destructive">*</span>}
       {description?.trim() && (
         <Tooltip>
@@ -74,39 +68,62 @@ function ParameterLabel({
         </Tooltip>
       )}
       {children}
-      {isGlobal && (
+      {recursive && (
         <Badge
           variant="outline"
           className="ml-2 text-xs"
         >
-          global
+          recursive
+        </Badge>
+      )}
+      {excludedBy && (
+        <Badge
+          variant="outline"
+          className="ml-2 text-xs"
+        >
+          excluded by {excludedBy}
         </Badge>
       )}
     </Label>
   );
 }
 
-function FlagInput({ parameter, value, onUpdate }: ParameterRenderContext) {
+function FlagInput({
+  parameter,
+  flags,
+  value,
+  onUpdate,
+  isRequired,
+  excludedBy,
+}: ParameterRenderContext) {
   return (
     <div className="flex items-center space-x-2">
       <Switch
         checked={value === "true" || value === true}
         onCheckedChange={onUpdate}
+        disabled={!!excludedBy}
       />
       <ParameterLabel
         className="flex-1 select-auto"
-        name={parameter.name}
-        longFlag={parameter.longFlag}
-        shortFlag={parameter.shortFlag}
-        isRequired={parameter.isRequired}
-        isGlobal={parameter.isGlobal}
+        name={parameter.displayName}
+        flags={flags}
+        isRequired={isRequired}
+        recursive={parameter.recursive}
+        excludedBy={excludedBy}
         description={parameter.description}
       />
     </div>
   );
 }
 
-function OptionEnumInput({ parameter, value, onUpdate }: ParameterRenderContext) {
+function OptionEnumInput({
+  parameter,
+  flags,
+  value,
+  onUpdate,
+  isRequired,
+  excludedBy,
+}: ParameterRenderContext) {
   const [open, setOpen] = React.useState(false);
   const separator = parameter.enum?.separator || ",";
   const options =
@@ -118,11 +135,11 @@ function OptionEnumInput({ parameter, value, onUpdate }: ParameterRenderContext)
   const label = (
     <ParameterLabel
       className="select-auto"
-      name={parameter.name}
-      longFlag={parameter.longFlag}
-      shortFlag={parameter.shortFlag}
-      isRequired={parameter.isRequired}
-      isGlobal={parameter.isGlobal}
+      name={parameter.displayName}
+      flags={flags}
+      isRequired={isRequired}
+      recursive={parameter.recursive}
+      excludedBy={excludedBy}
       description={parameter.description}
     />
   );
@@ -141,6 +158,7 @@ function OptionEnumInput({ parameter, value, onUpdate }: ParameterRenderContext)
           defaultValue={selected}
           onValueChange={(vals) => onUpdate(vals.join(separator))}
           placeholder="Select options"
+          disabled={!!excludedBy}
         />
       </div>
     );
@@ -159,6 +177,7 @@ function OptionEnumInput({ parameter, value, onUpdate }: ParameterRenderContext)
             role="combobox"
             aria-expanded={open}
             className="w-full justify-between font-normal"
+            disabled={!!excludedBy}
           >
             {options.find((o) => o.value === value)?.label ?? "Select an option"}
             <ChevronsUpDownIcon className="opacity-50" />
@@ -200,36 +219,51 @@ function OptionEnumInput({ parameter, value, onUpdate }: ParameterRenderContext)
   );
 }
 
-function OptionBooleanInput({ parameter, value, onUpdate }: ParameterRenderContext) {
+function OptionBooleanInput({
+  parameter,
+  flags,
+  value,
+  onUpdate,
+  isRequired,
+  excludedBy,
+}: ParameterRenderContext) {
   return (
     <div className="flex items-center space-x-2">
       <Switch
         checked={value === "true" || value === true}
         onCheckedChange={(checked) => onUpdate(checked.toString())}
+        disabled={!!excludedBy}
       />
       <ParameterLabel
         className="flex-1 select-auto"
-        name={parameter.name}
-        longFlag={parameter.longFlag}
-        shortFlag={parameter.shortFlag}
-        isRequired={parameter.isRequired}
-        isGlobal={parameter.isGlobal}
+        name={parameter.displayName}
+        flags={flags}
+        isRequired={isRequired}
+        recursive={parameter.recursive}
+        excludedBy={excludedBy}
         description={parameter.description}
       />
     </div>
   );
 }
 
-function OptionTextInput({ parameter, value, onUpdate }: ParameterRenderContext) {
+function OptionTextInput({
+  parameter,
+  flags,
+  value,
+  onUpdate,
+  isRequired,
+  excludedBy,
+}: ParameterRenderContext) {
   return (
     <div className="space-y-2">
       <ParameterLabel
         className="flex-1 select-auto"
-        name={parameter.name}
-        longFlag={parameter.longFlag}
-        shortFlag={parameter.shortFlag}
-        isRequired={parameter.isRequired}
-        isGlobal={parameter.isGlobal}
+        name={parameter.displayName}
+        flags={flags}
+        isRequired={isRequired}
+        recursive={parameter.recursive}
+        excludedBy={excludedBy}
         description={parameter.description}
       />
       <Input
@@ -237,17 +271,25 @@ function OptionTextInput({ parameter, value, onUpdate }: ParameterRenderContext)
         value={parameter.dataType === "Number" ? (value as number) : (value as string)}
         onChange={(e) => onUpdate(e.target.value)}
         placeholder="Enter value"
+        disabled={!!excludedBy}
       />
     </div>
   );
 }
 
-function ArgumentInput({ parameter, value, onUpdate }: ParameterRenderContext) {
+function ArgumentInput({
+  parameter,
+  value,
+  onUpdate,
+  isRequired,
+  excludedBy,
+}: ParameterRenderContext) {
   return (
     <div className="space-y-2">
       <ParameterLabel
-        name={parameter.name}
-        isRequired={parameter.isRequired}
+        name={parameter.displayName}
+        isRequired={isRequired}
+        excludedBy={excludedBy}
         description={parameter.description}
       >
         <Badge
@@ -263,49 +305,45 @@ function ArgumentInput({ parameter, value, onUpdate }: ParameterRenderContext) {
         value={parameter.dataType === "Number" ? (value as number) : (value as string)}
         onChange={(e) => onUpdate(e.target.value)}
         placeholder="Enter value"
+        disabled={!!excludedBy}
       />
     </div>
   );
 }
 
 interface RepeatableWrapperProps {
-  parameter: ParameterRenderContext["parameter"];
-  value: ParameterRenderContext["value"];
-  onUpdate: ParameterRenderContext["onUpdate"];
+  context: ParameterRenderContext;
   renderEntry: ParameterRendererEntry["component"];
 }
 
-function RepeatableWrapper({ parameter, value, onUpdate, renderEntry }: RepeatableWrapperProps) {
-  const toArray = (v: ParameterRenderContext["value"]): string[] => {
-    if (Array.isArray(v)) return v;
-    if (v !== undefined && v !== "" && v !== false) return [String(v)];
+function RepeatableWrapper({ context, renderEntry }: RepeatableWrapperProps) {
+  const toArray = (value: ParameterValue): string[] => {
+    if (Array.isArray(value)) return value;
+    if (value !== undefined && value !== "" && value !== false) return [String(value)];
     return [""];
   };
 
-  const values = toArray(value);
+  const values = toArray(context.value);
 
-  const updateAt = (index: number, val: ParameterRenderContext["value"]) => {
+  const updateAt = (index: number, value: ParameterValue) => {
     const next = [...values];
-    next[index] = String(val);
-    onUpdate(next);
+    next[index] = String(value);
+    context.onUpdate(next);
   };
 
-  const addRow = () => onUpdate([...values, ""]);
+  const addRow = () => context.onUpdate([...values, ""]);
 
-  const removeAt = (index: number) => {
-    const next = values.filter((_, i) => i !== index);
-    onUpdate(next);
-  };
+  const removeAt = (index: number) => context.onUpdate(values.filter((_, i) => i !== index));
 
   return (
     <div className="space-y-2">
-      {values.map((val, index) => (
+      {values.map((value, index) => (
         <div
           key={index}
           className="flex items-start gap-2"
         >
           <div className="flex-1">
-            {renderEntry({ parameter, value: val, onUpdate: (v) => updateAt(index, v) })}
+            {renderEntry({ ...context, value, onUpdate: (v) => updateAt(index, v) })}
           </div>
           {index > 0 && (
             <Button
@@ -326,6 +364,7 @@ function RepeatableWrapper({ parameter, value, onUpdate, renderEntry }: Repeatab
         size="sm"
         className="h-7 px-2 text-muted-foreground"
         onClick={addRow}
+        disabled={!!context.excludedBy}
       >
         <PlusIcon className="mr-1 h-3.5 w-3.5" />
         Add another
@@ -371,47 +410,58 @@ export function ToolRenderer({
   parameterValues,
   updateParameterValue,
 }: ToolRendererProps) {
-  const selectedCommand =
-    providedCommand === undefined ? findDefaultCommand(tool) : providedCommand;
-  const hasCommands = tool.commands.length > 0;
+  const selectedCommand = providedCommand === undefined ? getDefaultCommand(tool) : providedCommand;
 
-  const visibleParameters = useMemo(() => {
-    if (!hasCommands || !selectedCommand) {
-      return tool.parameters.filter((p) => !p.commandKey || p.isGlobal);
-    }
-    return tool.parameters.filter(
-      (param) => param.commandKey === selectedCommand?.key || param.isGlobal,
-    );
-  }, [tool, hasCommands, selectedCommand]);
+  const visibleParameters = useMemo(
+    () => resolveApplicableParameters(tool, selectedCommand),
+    [tool, selectedCommand],
+  );
+
+  const exclusionGroups = useMemo(
+    () => resolveExclusionGroups(tool, selectedCommand),
+    [tool, selectedCommand],
+  );
+  const excluded = useMemo(
+    () => excludedParameters(exclusionGroups, parameterValues),
+    [exclusionGroups, parameterValues],
+  );
+  const required = useMemo(
+    () => requiredParameterKeys(exclusionGroups, parameterValues),
+    [exclusionGroups, parameterValues],
+  );
 
   return (
-    <React.Fragment>
-      <div className="space-y-4">
-        {visibleParameters.length > 0 ? (
-          visibleParameters.map((parameter) => {
-            const value = parameterValues[parameter.key] ?? "";
-            const onUpdate = (val: ParameterValue) => updateParameterValue(parameter.key, val);
-            const entry = catalog.find((e) => e.condition(parameter));
-            if (!entry) return null;
-            return (
-              <React.Fragment key={parameter.key}>
-                {parameter.isRepeatable ? (
-                  <RepeatableWrapper
-                    parameter={parameter}
-                    value={value}
-                    onUpdate={onUpdate}
-                    renderEntry={entry.component}
-                  />
-                ) : (
-                  entry.component({ parameter, value, onUpdate })
-                )}
-              </React.Fragment>
-            );
-          })
-        ) : (
-          <p className="text-sm text-muted-foreground">No parameters available for this command.</p>
-        )}
-      </div>
-    </React.Fragment>
+    <div className="space-y-4">
+      {visibleParameters.length > 0 ? (
+        visibleParameters.map((parameter) => {
+          const entry = catalog.find((e) => e.condition(parameter));
+          if (!entry) return null;
+
+          const context: ParameterRenderContext = {
+            parameter,
+            flags: getFlagForms(parameter),
+            value: parameterValues[parameter.key] ?? "",
+            onUpdate: (value) => updateParameterValue(parameter.key, value),
+            isRequired: parameter.isRequired || required.has(parameter.key),
+            excludedBy: excluded.get(parameter.key)?.displayName,
+          };
+
+          return (
+            <React.Fragment key={parameter.key}>
+              {parameter.isRepeatable ? (
+                <RepeatableWrapper
+                  context={context}
+                  renderEntry={entry.component}
+                />
+              ) : (
+                entry.component(context)
+              )}
+            </React.Fragment>
+          );
+        })
+      ) : (
+        <p className="text-sm text-muted-foreground">No parameters available for this command.</p>
+      )}
+    </div>
   );
 }

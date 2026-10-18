@@ -1,17 +1,17 @@
+import { CommandTree } from "@/components/commandly/command-tree";
 import { ToolRenderer } from "@/components/commandly/tool-renderer";
-import type { Tool, ParameterType } from "@/components/commandly/types/flat";
-import { generateCommand } from "@/components/commandly/utils/flat";
+import type { Tool, ParameterType } from "@/components/commandly/types/tool";
+import { generateCommand, getFlagForms } from "@/components/commandly/utils/generate-command";
+import { getCommandParameters } from "@/components/commandly/utils/tool";
 import { TextMarquee } from "@/components/text-marquee";
 import { ToolBuilderProvider, useToolBuilder } from "@/components/tool-editor/tool-editor.context";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Tree, Folder, File } from "@/components/ui/file-tree";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRightIcon,
   BracesIcon,
-  ChevronRightIcon,
   CodeIcon,
   FileTextIcon,
   FlagIcon,
@@ -99,7 +99,7 @@ const DEMO_TOOL: Tool = {
   parameters: [
     {
       key: "url",
-      name: "URL",
+      displayName: "URL",
       description: "URL to fetch",
       parameterType: "Argument",
       dataType: "String",
@@ -108,77 +108,70 @@ const DEMO_TOOL: Tool = {
       sortOrder: 0,
     },
     {
-      key: "request",
-      name: "Request Method",
+      key: "--request",
+      displayName: "Request Method",
       description: "HTTP method to use",
       parameterType: "Option",
       dataType: "String",
-      shortFlag: "-X",
-      longFlag: "--request",
+      aliases: ["-X"],
       keyValueSeparator: " ",
       sortOrder: 1,
     },
     {
-      key: "header",
-      name: "Header",
+      key: "--header",
+      displayName: "Header",
       description: "Pass custom header(s) to the server",
       parameterType: "Option",
       dataType: "String",
-      shortFlag: "-H",
-      longFlag: "--header",
+      aliases: ["-H"],
       keyValueSeparator: " ",
       sortOrder: 2,
     },
     {
-      key: "data",
-      name: "Data",
+      key: "--data",
+      displayName: "Data",
       description: "Send data in a POST request",
       parameterType: "Option",
       dataType: "String",
-      shortFlag: "-d",
-      longFlag: "--data",
+      aliases: ["-d"],
       keyValueSeparator: " ",
       sortOrder: 3,
     },
     {
-      key: "output",
-      name: "Output",
+      key: "--output",
+      displayName: "Output",
       description: "Write output to file instead of stdout",
       parameterType: "Option",
       dataType: "String",
-      shortFlag: "-o",
-      longFlag: "--output",
+      aliases: ["-o"],
       keyValueSeparator: " ",
       sortOrder: 4,
     },
     {
-      key: "follow-redirects",
-      name: "Follow Redirects",
+      key: "--location",
+      displayName: "Follow Redirects",
       description: "Follow redirects",
       parameterType: "Flag",
       dataType: "Boolean",
-      shortFlag: "-L",
-      longFlag: "--location",
+      aliases: ["-L"],
       sortOrder: 5,
     },
     {
-      key: "verbose",
-      name: "Verbose",
+      key: "--verbose",
+      displayName: "Verbose",
       description: "Make the operation more talkative",
       parameterType: "Flag",
       dataType: "Boolean",
-      shortFlag: "-v",
-      longFlag: "--verbose",
+      aliases: ["-v"],
       sortOrder: 6,
     },
     {
-      key: "silent",
-      name: "Silent",
+      key: "--silent",
+      displayName: "Silent",
       description: "Silent mode, don't show progress or errors",
       parameterType: "Flag",
       dataType: "Boolean",
-      shortFlag: "-s",
-      longFlag: "--silent",
+      aliases: ["-s"],
       sortOrder: 7,
     },
   ],
@@ -198,129 +191,28 @@ function ParameterIcon({ type }: { type: ParameterType }) {
 }
 
 function ReadOnlyCommandTree() {
-  const { tool, selectedCommand, setSelectedCommand, setContextSelection } = useToolBuilder();
-  const rootCommands = tool.commands.filter((cmd) => !cmd.parentCommandKey);
-  const isRootSelected = selectedCommand === null;
-  const rootParamCount = tool.parameters.filter((p) => !p.commandKey && !p.isGlobal).length;
-  const globalParamCount = tool.parameters.filter((p) => p.isGlobal).length;
-
-  const handleRootClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setSelectedCommand(null);
-    setContextSelection({ commandKeys: [], parameterKeys: [] });
-  };
-
-  const handleCommandClick = (command: (typeof tool.commands)[0], e: React.MouseEvent) => {
-    e.stopPropagation();
-    setSelectedCommand(command);
-    setContextSelection({ commandKeys: [command.key], parameterKeys: [] });
-  };
-
-  const rootElement = (
-    <span className="flex items-center gap-1.5">
-      {tool.binaryName}
-      {rootParamCount > 0 && (
-        <Badge
-          variant="secondary"
-          className="h-4 min-w-4 px-1 text-[10px] leading-none"
-        >
-          {rootParamCount}
-        </Badge>
-      )}
-      {globalParamCount > 0 && (
-        <Badge
-          variant="outline"
-          className="h-4 min-w-4 px-1 text-[10px] leading-none"
-        >
-          {globalParamCount}
-        </Badge>
-      )}
-    </span>
-  );
-
-  const renderCommand = (command: (typeof tool.commands)[0]) => {
-    const subcommands = tool.commands.filter((c) => c.parentCommandKey === command.key);
-    const isSelected = selectedCommand?.key === command.key;
-    const paramCount = tool.parameters.filter((p) => p.commandKey === command.key).length;
-
-    const nameElement = (
-      <span className="flex items-center gap-1.5">
-        {command.name}
-        {paramCount > 0 && (
-          <Badge
-            variant="secondary"
-            className="h-4 min-w-4 px-1 text-[10px] leading-none"
-          >
-            {paramCount}
-          </Badge>
-        )}
-      </span>
-    );
-
-    if (subcommands.length > 0) {
-      return (
-        <Folder
-          key={command.key}
-          value={command.key}
-          element={nameElement}
-          isSelect={isSelected}
-          className="px-2 py-1.5"
-          onClick={(e: React.MouseEvent) => handleCommandClick(command, e)}
-        >
-          {subcommands.map((subcmd) => renderCommand(subcmd))}
-        </Folder>
-      );
-    }
-
-    return (
-      <File
-        key={command.key}
-        value={command.key}
-        isSelect={isSelected}
-        className="w-full px-2 py-1.5"
-        fileIcon={<ChevronRightIcon className="invisible size-4" />}
-        onClick={(e: React.MouseEvent) => handleCommandClick(command, e)}
-      >
-        {nameElement}
-      </File>
-    );
-  };
+  const { tool, selectedCommand, setSelectedCommandKey, setContextSelection } = useToolBuilder();
 
   return (
-    <Tree
+    <CommandTree
       className="flex-1 border-r border-muted"
-      initialExpandedItems={["__root__", ...rootCommands.map((c) => c.key)]}
-      indicator
-      sort="none"
-      openIcon={<TerminalIcon className="size-4" />}
-      closeIcon={<TerminalIcon className="size-4" />}
-    >
-      <Folder
-        value="__root__"
-        element={rootElement}
-        isSelect={isRootSelected}
-        className="px-2 py-1.5 font-medium"
-        onClick={handleRootClick}
-      >
-        {rootCommands.map((cmd) => renderCommand(cmd))}
-      </Folder>
-    </Tree>
+      tool={tool}
+      selectedCommand={selectedCommand}
+      onSelectCommand={(command) => {
+        setSelectedCommandKey(command?.key ?? null);
+        setContextSelection({
+          commandKeys: command ? [command.key] : [],
+          parameterRefs: [],
+        });
+      }}
+    />
   );
 }
 
-function ReadOnlyParameterList({ title, isGlobal = false }: { title: string; isGlobal?: boolean }) {
-  const { selectedCommand, getGlobalParameters, getRootParameters, getParametersForCommand } =
-    useToolBuilder();
-  const globalParameters = getGlobalParameters();
-  const rootParameters = getRootParameters();
-  const commandParameters = selectedCommand?.key
-    ? getParametersForCommand(selectedCommand.key)
-    : [];
-  const parameters = isGlobal
-    ? globalParameters
-    : selectedCommand
-      ? commandParameters
-      : rootParameters;
+function ReadOnlyParameterList({ title }: { title: string }) {
+  const { tool, selectedCommandKey } = useToolBuilder();
+  const isRootParameter = selectedCommandKey === null;
+  const parameters = getCommandParameters(tool, selectedCommandKey);
 
   if (parameters.length === 0) return null;
 
@@ -328,7 +220,7 @@ function ReadOnlyParameterList({ title, isGlobal = false }: { title: string; isG
     <div>
       <div className="mb-4 flex items-center justify-between">
         <h3 className="flex items-center gap-2 text-lg font-semibold">
-          {isGlobal && <GlobeIcon className="h-5 w-5" />}
+          {isRootParameter && <GlobeIcon className="h-5 w-5" />}
           {title} ({parameters.length})
         </h3>
       </div>
@@ -341,10 +233,10 @@ function ReadOnlyParameterList({ title, isGlobal = false }: { title: string; isG
             <div className="mb-2 flex items-center gap-2">
               <ParameterIcon type={parameter.parameterType} />
               <span className="text-sm font-medium">
-                {parameter.name}
-                {(parameter.longFlag || parameter.shortFlag) && (
+                {parameter.displayName}
+                {!!getFlagForms(parameter).length && (
                   <span className="ml-1 text-muted-foreground">
-                    ({[parameter.longFlag, parameter.shortFlag].filter(Boolean).join(", ")})
+                    ({getFlagForms(parameter).join(", ")})
                   </span>
                 )}
               </span>
@@ -370,12 +262,12 @@ function ReadOnlyParameterList({ title, isGlobal = false }: { title: string; isG
               >
                 {parameter.dataType}
               </Badge>
-              {isGlobal && (
+              {parameter.recursive && (
                 <Badge
-                  variant="default"
+                  variant="outline"
                   className="text-xs"
                 >
-                  global
+                  inherited
                 </Badge>
               )}
             </div>
@@ -398,7 +290,7 @@ function CompactGeneratedCommand() {
   const { tool, selectedCommand, parameterValues } = useToolBuilder();
 
   const command = useMemo(
-    () => generateCommand(tool, parameterValues, { selectedCommand, useLongFlag: true }),
+    () => generateCommand(tool, parameterValues, { selectedCommand }),
     [tool, selectedCommand, parameterValues],
   );
 
@@ -455,10 +347,12 @@ function DemoToolEditorContent() {
                 <ScrollArea className="h-full">
                   <div className="flex flex-col gap-4 pr-3 pb-4">
                     <ReadOnlyParameterList
-                      title="Global Parameters"
-                      isGlobal={true}
+                      title={
+                        selectedCommand
+                          ? `${selectedCommand.displayName} Parameters`
+                          : "Tool Parameters"
+                      }
                     />
-                    <ReadOnlyParameterList title="Command Parameters" />
                   </div>
                 </ScrollArea>
               </div>
@@ -556,7 +450,7 @@ const FEATURES: {
   {
     icon: <BracesIcon className="h-6 w-6" />,
     title: "Structured JSON Output",
-    desc: "Every tool definition is a portable JSON file, flat or nested, ready for automation, sharing, or version control.",
+    desc: "Every tool definition is a portable JSON file, ready for automation, sharing, or version control.",
   },
   {
     icon: <MonitorIcon className="h-6 w-6" />,

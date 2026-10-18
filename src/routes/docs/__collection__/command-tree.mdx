@@ -1,0 +1,71 @@
+# Command Tree
+
+A searchable tree for navigating a tool's commands and subcommands.
+
+<ComponentPreview name="command-tree" />
+
+## Installation
+
+<CodeTabs defaultValue="cli">
+  <TabsList>
+    <TabsTrigger value="cli">CLI</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+  <TabsContent value="cli">
+    <CodeBlockCommand
+      __pnpm__="pnpm dlx shadcn@latest add https://commandly.divyeshio.in/r/command-tree.json"
+      __npm__="npx shadcn@latest add https://commandly.divyeshio.in/r/command-tree.json"
+      __yarn__="yarn dlx shadcn@latest add https://commandly.divyeshio.in/r/command-tree.json"
+      __bun__="bunx --bun shadcn@latest add https://commandly.divyeshio.in/r/command-tree.json"
+    />
+  </TabsContent>
+  <TabsContent value="manual">
+    <Steps>
+      <Step>
+        Copy `command-tree.tsx` into `components/commandly/`, along with `types/tool.ts` and
+        `utils/tool.ts`.
+      </Step>
+      <Step>Update import paths to match your project setup.</Step>
+    </Steps>
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { CommandTree } from "@/components/commandly/command-tree";
+```
+
+### Basic Usage
+
+```tsx
+const [selectedCommand, setSelectedCommand] = useState(() => getDefaultCommand(tool));
+
+// The tree scrolls internally, so give it a bounded height.
+<div className="h-96">
+  <CommandTree
+    tool={tool}
+    selectedCommand={selectedCommand}
+    onSelectCommand={setSelectedCommand}
+  />
+</div>;
+```
+
+## API Reference
+
+### CommandTree
+
+| Prop              | Type                                 | Default | Description                                            |
+| ----------------- | ------------------------------------ | ------- | ------------------------------------------------------ |
+| `tool`            | `Tool`                               | -       | The tool definition whose commands are listed          |
+| `selectedCommand` | `Command \| null`                    | -       | The command to highlight; `null` highlights the root   |
+| `onSelectCommand` | `(command: Command \| null) => void` | -       | Called with the chosen command, or `null` for the root |
+| `className`       | `string`                             | -       | Additional classes for the tree container              |
+
+## Notes
+
+- The search box matches a command on the path it is invoked with, plus its description and aliases, so a nested command can be found without expanding its parents
+- Each command row counts its own parameters; the root row counts the tool's own parameters and, in outline, the ones inherited through `recursive`
+- Clicking anywhere on a branch row both selects that command and toggles its subtree; the chevron turns down while the subtree is open
+- The tree fills the height its container gives it and scrolls its own command list, so a tool with hundreds of commands does not scroll the page
+- An interactive command is marked with a keyboard icon
