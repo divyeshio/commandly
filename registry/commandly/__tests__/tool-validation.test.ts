@@ -1,4 +1,4 @@
-import type { Tool, Parameter } from "@/components/commandly/types/flat";
+import type { Tool, Parameter } from "@/components/commandly/types/tool";
 import {
   validateTool,
   formatValidationErrors,
@@ -18,9 +18,10 @@ function baseTool(overrides?: Partial<Tool>): Tool {
 function baseParam(overrides?: Partial<Parameter>): Parameter {
   return {
     key: "param-1",
-    name: "Param 1",
+    displayName: "Param 1",
     parameterType: "Option",
     dataType: "String",
+    aliases: ["--param-1"],
     ...overrides,
   };
 }
@@ -60,8 +61,8 @@ describe("validateTool", () => {
     const errors = validateTool(
       baseTool({
         commands: [
-          { key: "cmd", name: "Cmd" },
-          { key: "cmd", name: "Cmd 2" },
+          { key: "cmd", displayName: "Cmd" },
+          { key: "cmd", displayName: "Cmd 2" },
         ],
       }),
     );
@@ -70,58 +71,101 @@ describe("validateTool", () => {
     );
   });
 
-  it("reports parameter missing commandKey when commands exist", () => {
+  it("reports a command parameter that is not attached to any command", () => {
     const errors = validateTool(
       baseTool({
-        commands: [{ key: "run", name: "Run" }],
-        parameters: [baseParam({ key: "p1" })],
+        commands: [{ key: "run", displayName: "Run", parameters: [baseParam({ key: "p1" })] }],
+        parameters: [],
+      }),
+    );
+    expect(errors.filter((e) => e.severity === "error")).toHaveLength(0);
+  });
+
+  it("reports a duplicate parameter key within a command", () => {
+    const errors = validateTool(
+      baseTool({
+        commands: [
+          {
+            key: "run",
+            displayName: "Run",
+            parameters: [baseParam({ key: "dup" }), baseParam({ key: "dup" })],
+          },
+        ],
       }),
     );
     expect(errors).toContainEqual(
       expect.objectContaining({
-        message: expect.stringContaining("must have commandKey or isGlobal"),
+        message: expect.stringContaining('Duplicate parameter key "dup"'),
       }),
     );
   });
 
-  it("reports parameter with commandKey when no commands exist", () => {
+  it("allows the same parameter key in sibling commands", () => {
+    const errors = validateTool(
+      baseTool({
+        commands: [
+          { key: "add", displayName: "add", parameters: [baseParam({ key: "quiet" })] },
+          { key: "am", displayName: "am", parameters: [baseParam({ key: "quiet" })] },
+        ],
+      }),
+    );
+    expect(errors.filter((e) => e.severity === "error")).toHaveLength(0);
+  });
+
+  it("does not require aliases on a parameter", () => {
     const errors = validateTool(
       baseTool({
         commands: [],
-        parameters: [baseParam({ key: "p1", commandKey: "run" })],
+        parameters: [baseParam({ key: "p1", aliases: [] })],
       }),
     );
-    expect(errors).toContainEqual(
-      expect.objectContaining({
-        message: expect.stringContaining("must not have commandKey or isGlobal"),
-      }),
-    );
+    expect(errors.filter((e) => e.severity === "error")).toHaveLength(0);
   });
 
-  it("reports parameter with both isGlobal and commandKey", () => {
+  it("does not require aliases for positional arguments", () => {
     const errors = validateTool(
       baseTool({
-        commands: [{ key: "run", name: "Run" }],
-        parameters: [baseParam({ key: "p1", isGlobal: true, commandKey: "run" })],
+        commands: [],
+        parameters: [
+          baseParam({
+            key: "p1",
+            parameterType: "Argument",
+            dataType: "String",
+            aliases: undefined,
+          }),
+        ],
       }),
     );
-    expect(errors).toContainEqual(
-      expect.objectContaining({
-        message: expect.stringContaining("both isGlobal and commandKey"),
-      }),
-    );
+    expect(errors.filter((e) => e.severity === "error")).toHaveLength(0);
   });
 
-  it("reports parameter referencing non-existent command", () => {
+  it("reports a dependency referencing a parameter outside the command", () => {
     const errors = validateTool(
       baseTool({
-        commands: [{ key: "run", name: "Run" }],
-        parameters: [baseParam({ key: "p1", commandKey: "missing" })],
+        commands: [
+          {
+            key: "run",
+            displayName: "Run",
+            parameters: [
+              baseParam({
+                key: "p1",
+                dependencies: [
+                  {
+                    key: "d1",
+                    parameterKey: "p1",
+                    dependsOnParameterKey: "missing",
+                    dependencyType: "requires",
+                  },
+                ],
+              }),
+            ],
+          },
+        ],
       }),
     );
     expect(errors).toContainEqual(
       expect.objectContaining({
-        message: expect.stringContaining('non-existent command "missing"'),
+        message: expect.stringContaining('non-existent parameter "missing"'),
       }),
     );
   });
@@ -205,7 +249,7 @@ describe("validateTool", () => {
         parameters: [baseParam({ key: "p1" }), baseParam({ key: "p2" })],
         exclusionGroups: [
           {
-            name: "Group",
+            displayName: "Group",
             exclusionType: "mutual_exclusive",
             parameterKeys: ["p1", "missing"],
           },
@@ -225,7 +269,7 @@ describe("validateTool", () => {
         parameters: [baseParam({ key: "p1" })],
         exclusionGroups: [
           {
-            name: "Group",
+            displayName: "Group",
             exclusionType: "mutual_exclusive",
             parameterKeys: ["p1"],
           },
@@ -239,26 +283,61 @@ describe("validateTool", () => {
     );
   });
 
-  it("reports command referencing non-existent parent", () => {
+  it("reports duplicate command keys across the nested tree", () => {
     const errors = validateTool(
       baseTool({
-        commands: [{ key: "sub", name: "Sub", parentCommandKey: "missing" }],
+        commands: [
+          { key: "config", displayName: "Config", commands: [{ key: "get", displayName: "Get" }] },
+          { key: "get", displayName: "Other Get" },
+        ],
       }),
     );
     expect(errors).toContainEqual(
       expect.objectContaining({
-        message: expect.stringContaining('non-existent parent command "missing"'),
+        message: expect.stringContaining('Duplicate command key "get"'),
       }),
     );
   });
 
-  it("accepts valid tool with commands and global/command parameters", () => {
+  it("validates parameters declared on nested commands", () => {
     const errors = validateTool(
       baseTool({
-        commands: [{ key: "run", name: "Run" }],
+        commands: [
+          {
+            key: "config",
+            displayName: "Config",
+            commands: [{ key: "get", displayName: "Get", parameters: [baseParam({ key: "" })] }],
+          },
+        ],
+      }),
+    );
+    expect(errors).toContainEqual(
+      expect.objectContaining({
+        path: "commands[0].commands[0].parameters[0].key",
+      }),
+    );
+  });
+
+  it("accepts a valid tool with commands and parameters", () => {
+    const errors = validateTool(
+      baseTool({
+        commands: [
+          { key: "run", displayName: "Run", parameters: [baseParam({ key: "target" })] },
+          {
+            key: "start",
+            displayName: "start",
+            parameters: [
+              baseParam({
+                key: "verbose",
+                recursive: true,
+                parameterType: "Flag",
+                dataType: "Boolean",
+              }),
+            ],
+          },
+        ],
         parameters: [
-          baseParam({ key: "verbose", isGlobal: true, parameterType: "Flag", dataType: "Boolean" }),
-          baseParam({ key: "target", commandKey: "run" }),
+          baseParam({ key: "help", recursive: true, parameterType: "Flag", dataType: "Boolean" }),
         ],
       }),
     );

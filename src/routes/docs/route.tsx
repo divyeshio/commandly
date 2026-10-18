@@ -1,4 +1,4 @@
-import { docsNav } from "@/components/docs/nav";
+import { docsNav, type DocNavItem } from "@/components/docs/nav";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -21,6 +21,38 @@ export const Route = createFileRoute("/docs")({
   component: DocsLayout,
 });
 
+const NAV_LINK_PROPS = {
+  resetScroll: true,
+  activeOptions: { exact: true },
+  activeProps: { className: "bg-sidebar-accent font-medium" },
+};
+
+function DocsNavLink({ item, onNavigate }: { item: DocNavItem; onNavigate: () => void }) {
+  return (
+    <SidebarMenuButton asChild>
+      {item.name === null ? (
+        <Link
+          {...NAV_LINK_PROPS}
+          to="/docs"
+          onClick={onNavigate}
+        >
+          {item.title}
+        </Link>
+      ) : (
+        <Link
+          {...NAV_LINK_PROPS}
+          preload="intent"
+          to="/docs/$componentName"
+          params={{ componentName: item.name }}
+          onClick={onNavigate}
+        >
+          {item.title}
+        </Link>
+      )}
+    </SidebarMenuButton>
+  );
+}
+
 function DocsSidebarContent() {
   const { isMobile, setOpenMobile } = useSidebar();
 
@@ -32,24 +64,13 @@ function DocsSidebarContent() {
           <SidebarGroupContent>
             <SidebarMenu>
               {section.items.map((item) => (
-                <SidebarMenuItem key={item.name}>
-                  <SidebarMenuButton asChild>
-                    <Link
-                      resetScroll={true}
-                      preload="intent"
-                      to="/docs/$componentName"
-                      params={{ componentName: item.name }}
-                      activeProps={{
-                        className: "bg-sidebar-accent font-medium",
-                      }}
-                      activeOptions={{ exact: true }}
-                      onClick={() => {
-                        if (isMobile) setOpenMobile(false);
-                      }}
-                    >
-                      {item.title}
-                    </Link>
-                  </SidebarMenuButton>
+                <SidebarMenuItem key={item.title}>
+                  <DocsNavLink
+                    item={item}
+                    onNavigate={() => {
+                      if (isMobile) setOpenMobile(false);
+                    }}
+                  />
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>

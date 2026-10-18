@@ -15,7 +15,7 @@ describe("PreviewTabs", () => {
     expect(screen.getByText(/Help/, { selector: "button" })).toBeInTheDocument();
   });
 
-  it("shows the long flag toggle in the generated command preview", () => {
+  it("shows the alias picker in the generated command preview", () => {
     render(
       <ToolBuilderProvider tool={defaultTool("tool", "Tool")}>
         <PreviewTabs />
@@ -23,6 +23,6 @@ describe("PreviewTabs", () => {
     );
 
     expect(screen.getByText(/generated command/i)).toBeInTheDocument();
-    expect(screen.getByRole("switch", { name: /long flags/i })).toBeInTheDocument();
+    expect(screen.getByRole("combobox", { name: /flag style/i })).toBeInTheDocument();
   });
 });

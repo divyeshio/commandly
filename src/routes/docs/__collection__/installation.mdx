@@ -1,0 +1,83 @@
+# Installation
+
+Renders a tool's documented installation sources, grouped by install method.
+
+<ComponentPreview name="installation" />
+
+## Installation
+
+<CodeTabs defaultValue="cli">
+  <TabsList>
+    <TabsTrigger value="cli">CLI</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+  <TabsContent value="cli">
+    <CodeBlockCommand
+      __pnpm__="pnpm dlx shadcn@latest add https://commandly.divyeshio.in/r/installation.json"
+      __npm__="npx shadcn@latest add https://commandly.divyeshio.in/r/installation.json"
+      __yarn__="yarn dlx shadcn@latest add https://commandly.divyeshio.in/r/installation.json"
+      __bun__="bunx --bun shadcn@latest add https://commandly.divyeshio.in/r/installation.json"
+    />
+  </TabsContent>
+  <TabsContent value="manual">
+    <Steps>
+      <Step>
+        Copy `installation.tsx` into `components/commandly/`, along with `types/tool.ts` and
+        `utils/clipboard.ts`.
+      </Step>
+      <Step>
+        Add the `tabs` component from the shadcn registry, which a method with several sources uses
+        to switch between them.
+      </Step>
+      <Step>Update import paths to match your project setup.</Step>
+    </Steps>
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { InstallationSection } from "@/components/commandly/installation";
+```
+
+### Basic Usage
+
+```tsx
+const installation: Installation = {
+  sources: [
+    {
+      key: "brew",
+      method: "package_manager",
+      manager: "brew",
+      command: "brew install curl",
+      url: "https://formulae.brew.sh/formula/curl",
+      os: ["macos", "linux"],
+    },
+    {
+      key: "docker",
+      method: "docker",
+      command: "docker run --rm curlimages/curl https://example.com",
+    },
+  ],
+};
+
+<InstallationSection installation={installation} />;
+```
+
+## API Reference
+
+### InstallationSection
+
+| Prop           | Type           | Default | Description                                                  |
+| -------------- | -------------- | ------- | ------------------------------------------------------------ |
+| `installation` | `Installation` | -       | The tool's installation sources; renders nothing without any |
+| `className`    | `string`       | -       | Additional classes for the section                           |
+
+## Notes
+
+- Sources are grouped under the method they use, in the order of `INSTALLATION_METHODS` rather than the order they appear in the tool
+- A method with more than one source switches between them with tabs, labelled by package manager, or by the source key read as a title when there is no manager; a method with a single source renders its card directly
+- The manager badge is only shown when a tab does not already name it, and the declared operating systems are not rendered
+- A source's note is shown alongside its command, and its docs URL becomes an external link
+- The copy button confirms in place and resets after a moment
+- Nothing renders when the tool documents no installation sources

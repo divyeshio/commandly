@@ -1,311 +1,383 @@
 {
-  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
+  "$schema": "https://commandly.divyeshio.in/specification/tool.json",
   "binaryName": "subfinder",
   "displayName": "Subfinder",
   "info": {
     "description": "Subfinder is a subdomain discovery tool that discovers subdomains for websites by using passive online sources.",
-    "version": "2.13.0",
+    "version": "2.17.0",
     "url": "https://github.com/projectdiscovery/subfinder"
   },
   "commands": [],
   "parameters": [
     {
-      "name": "Target Domain",
+      "displayName": "Target Domain",
       "description": "Domains to find subdomains for",
-      "longFlag": "-domain",
-      "shortFlag": "-d",
       "parameterType": "Option",
       "dataType": "String",
       "arraySeparator": ",",
       "isRepeatable": true,
-      "key": "domain"
+      "key": "-domain",
+      "aliases": [
+        "-d"
+      ]
     },
     {
-      "name": "Sources",
+      "displayName": "Sources",
       "description": "Specific sources to use for discovery (-s crtsh,github). Use -ls to display all available sources.",
-      "longFlag": "-sources",
-      "shortFlag": "-s",
       "parameterType": "Option",
       "dataType": "String",
       "arraySeparator": ",",
       "isRepeatable": true,
-      "key": "sources"
+      "key": "-sources",
+      "aliases": [
+        "-s"
+      ]
     },
     {
-      "name": "Recursive",
+      "displayName": "Recursive",
       "description": "Use only sources that can handle subdomains recursively rather than both recursive and non-recursive sources",
-      "longFlag": "-recursive",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "key": "recursive"
+      "key": "-recursive"
     },
     {
-      "name": "Target Domains List",
+      "displayName": "Target Domains List",
       "description": "File containing list of domains for subdomain discovery",
-      "longFlag": "-list",
-      "shortFlag": "-dL",
       "parameterType": "Option",
       "dataType": "String",
-      "key": "list"
+      "key": "-list",
+      "aliases": [
+        "-dL"
+      ]
     },
     {
-      "name": "Output Directory",
+      "displayName": "Output Directory",
       "description": "Directory to write output (-dL only)",
-      "longFlag": "-output-dir",
-      "shortFlag": "-oD",
       "parameterType": "Option",
       "dataType": "String",
-      "key": "output-dir"
+      "key": "-output-dir",
+      "aliases": [
+        "-oD"
+      ]
     },
     {
-      "name": "Report Statistics",
-      "description": "Report source statistics",
-      "longFlag": "-stats",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "key": "stats"
-    },
-    {
-      "name": "Timeout",
+      "displayName": "Timeout",
       "description": "Seconds to wait before timing out (default 30)",
-      "longFlag": "-timeout",
       "parameterType": "Option",
       "dataType": "Number",
-      "key": "timeout"
+      "key": "-timeout"
     },
     {
-      "name": "Resolvers File",
+      "displayName": "Resolvers File",
       "description": "File containing list of resolvers to use",
-      "longFlag": "-rlist",
-      "shortFlag": "-rL",
       "parameterType": "Option",
       "dataType": "String",
-      "key": "rlist"
+      "key": "-rlist",
+      "aliases": [
+        "-rL"
+      ]
     },
     {
-      "name": "Update",
+      "displayName": "Update",
       "description": "Update subfinder to latest version",
-      "longFlag": "-update",
-      "shortFlag": "-up",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "key": "update"
+      "key": "-update",
+      "aliases": [
+        "-up"
+      ]
     },
     {
-      "name": "Version",
+      "displayName": "Version",
       "description": "Show version of subfinder",
-      "longFlag": "-version",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "key": "version"
+      "key": "-version"
     },
     {
-      "name": "Exclude IPs",
+      "displayName": "Exclude IPs",
       "description": "Exclude IPs from the list of domains",
-      "longFlag": "-exclude-ip",
-      "shortFlag": "-ei",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "key": "exclude-ip"
+      "key": "-exclude-ip",
+      "aliases": [
+        "-ei"
+      ]
     },
     {
-      "name": "Proxy",
+      "displayName": "Proxy",
       "description": "Http proxy to use with subfinder",
-      "longFlag": "-proxy",
       "parameterType": "Option",
       "dataType": "String",
-      "key": "proxy"
+      "key": "-proxy"
     },
     {
-      "name": "No Color",
+      "displayName": "No Color",
       "description": "Disable color in output",
-      "longFlag": "-no-color",
-      "shortFlag": "-nc",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "key": "no-color"
+      "key": "-no-color",
+      "aliases": [
+        "-nc"
+      ]
     },
     {
-      "name": "Match",
+      "displayName": "Match",
       "description": "Subdomain or list of subdomain to match (file or comma separated)",
-      "longFlag": "-match",
-      "shortFlag": "-m",
       "parameterType": "Option",
       "dataType": "String",
       "arraySeparator": ",",
       "isRepeatable": true,
-      "key": "match"
+      "key": "-match",
+      "aliases": [
+        "-m"
+      ]
     },
     {
-      "name": "Include IP",
+      "displayName": "Include IP",
       "description": "Include host IP in output (-active only)",
-      "longFlag": "-ip",
-      "shortFlag": "-oI",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "key": "ip"
+      "key": "-ip",
+      "aliases": [
+        "-oI"
+      ]
     },
     {
-      "name": "Active Domains Only",
+      "displayName": "Active Domains Only",
       "description": "Display active subdomains only",
-      "longFlag": "-active",
-      "shortFlag": "-nW",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "key": "active"
+      "key": "-active",
+      "aliases": [
+        "-nW"
+      ]
     },
     {
-      "name": "Rate Limits",
-      "description": "Maximum number of http requests to send per second for providers in key=value format (-rls hackertarget=10/m)",
-      "longFlag": "-rate-limits",
-      "shortFlag": "-rls",
+      "displayName": "Rate Limits",
+      "description": "Maximum number of http requests to send per second for providers in key=value format (-rls \"hackertarget=10/s,shodan=15/s\")",
       "parameterType": "Option",
       "dataType": "String",
       "keyValueSeparator": "=",
-      "key": "rate-limits"
+      "key": "-rls"
     },
     {
-      "name": "Disable Update Check",
+      "displayName": "Disable Update Check",
       "description": "Disable automatic subfinder update check",
-      "longFlag": "-disable-update-check",
-      "shortFlag": "-duc",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "key": "disable-update-check"
+      "key": "-disable-update-check",
+      "aliases": [
+        "-duc"
+      ]
     },
     {
-      "name": "Collect Sources",
+      "displayName": "Collect Sources",
       "description": "Include all sources in the output (-json only)",
-      "longFlag": "-collect-sources",
-      "shortFlag": "-cs",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "key": "collect-sources"
+      "key": "-collect-sources",
+      "aliases": [
+        "-cs"
+      ]
     },
     {
-      "name": "Output File",
+      "displayName": "Output File",
       "description": "File to write output to",
-      "longFlag": "-output",
-      "shortFlag": "-o",
       "parameterType": "Option",
       "dataType": "String",
-      "key": "output"
+      "key": "-output",
+      "aliases": [
+        "-o"
+      ]
     },
     {
-      "name": "Verbose Output",
+      "displayName": "Verbose Output",
       "description": "Show verbose output",
-      "longFlag": "-v",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "key": "v"
+      "key": "-v"
     },
     {
-      "name": "Resolvers",
+      "displayName": "Resolvers",
       "description": "Comma separated list of resolvers to use",
-      "longFlag": "-r",
       "parameterType": "Option",
       "dataType": "String",
       "arraySeparator": ",",
       "isRepeatable": true,
-      "key": "r"
+      "key": "-r"
     },
     {
-      "name": "Json",
+      "displayName": "Json",
       "description": "Write output in JSONL(ines) format",
-      "longFlag": "-json",
-      "shortFlag": "-oJ",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "key": "json"
+      "key": "-json",
+      "aliases": [
+        "-oJ"
+      ]
     },
     {
-      "name": "Configuration File",
+      "displayName": "Configuration File",
       "description": "Subfinder config file",
-      "longFlag": "-config",
       "parameterType": "Option",
       "dataType": "String",
-      "key": "config"
+      "key": "-config"
     },
     {
-      "name": "Rate Limit",
+      "displayName": "Rate Limit",
       "description": "Maximum number of http requests to send per second (global)",
-      "longFlag": "-rate-limit",
-      "shortFlag": "-rl",
       "parameterType": "Option",
       "dataType": "Number",
-      "key": "rate-limit"
+      "key": "-rate-limit",
+      "aliases": [
+        "-rl"
+      ]
     },
     {
-      "name": "Filter",
+      "displayName": "Filter",
       "description": "Subdomain or list of subdomain to filter (file or comma separated)",
-      "longFlag": "-filter",
-      "shortFlag": "-f",
       "parameterType": "Option",
       "dataType": "String",
       "arraySeparator": ",",
       "isRepeatable": true,
-      "key": "filter"
+      "key": "-filter",
+      "aliases": [
+        "-f"
+      ]
     },
     {
-      "name": "Silent",
+      "displayName": "Silent",
       "description": "Show only subdomains in output",
-      "longFlag": "-silent",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "key": "silent"
+      "key": "-silent"
     },
     {
-      "name": "All Sources",
+      "displayName": "All Sources",
       "description": "Use all sources for enumeration (slow)",
-      "longFlag": "-all",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "key": "all"
+      "key": "-all"
     },
     {
-      "name": "List Sources",
+      "displayName": "List Sources",
       "description": "List all available sources",
-      "longFlag": "-list-sources",
-      "shortFlag": "-ls",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "key": "list-sources"
+      "key": "-list-sources",
+      "aliases": [
+        "-ls"
+      ]
     },
     {
-      "name": "Exclude Sources",
+      "displayName": "Exclude Sources",
       "description": "Sources to exclude from enumeration (-es alienvault,zoomeyeapi)",
-      "longFlag": "-exclude-sources",
-      "shortFlag": "-es",
       "parameterType": "Option",
       "dataType": "String",
       "arraySeparator": ",",
       "isRepeatable": true,
-      "key": "exclude-sources"
+      "key": "-exclude-sources",
+      "aliases": [
+        "-es"
+      ]
     },
     {
-      "name": "Max Time",
+      "displayName": "Max Time",
       "description": "Minutes to wait for enumeration results (default 10)",
-      "longFlag": "-max-time",
       "parameterType": "Option",
       "dataType": "Number",
-      "key": "max-time"
+      "key": "-max-time"
     },
     {
-      "name": "Threads",
+      "displayName": "Threads",
       "description": "Number of concurrent goroutines for resolving (-active only) (default 10)",
-      "longFlag": "-t",
       "parameterType": "Option",
       "dataType": "Number",
-      "key": "t"
+      "key": "-t"
     },
     {
-      "name": "Provider Configuration File",
+      "displayName": "Provider Configuration File",
       "description": "Provider config file",
-      "longFlag": "-provider-config",
-      "shortFlag": "-pc",
       "parameterType": "Option",
       "dataType": "String",
-      "key": "provider-config"
+      "key": "-provider-config",
+      "aliases": [
+        "-pc"
+      ]
+    },
+    {
+      "displayName": "Match Regex",
+      "description": "Regex or list of regex to match on output subdomain (cli, file)",
+      "parameterType": "Option",
+      "dataType": "String",
+      "arraySeparator": ",",
+      "isRepeatable": true,
+      "key": "-match-regex"
+    },
+    {
+      "displayName": "Filter Regex",
+      "description": "Regex or list of regex to filter on output subdomain (cli, file)",
+      "parameterType": "Option",
+      "dataType": "String",
+      "arraySeparator": ",",
+      "isRepeatable": true,
+      "key": "-filter-regex"
+    },
+    {
+      "displayName": "Max Results",
+      "description": "Limit the number of results per source (0 = unlimited; honored by paginating sources)",
+      "parameterType": "Option",
+      "dataType": "Number",
+      "key": "-max-results",
+      "aliases": [
+        "-mr"
+      ]
+    },
+    {
+      "displayName": "Response Size Read",
+      "description": "Max response body size to read in bytes from passive sources (0 = unlimited)",
+      "parameterType": "Option",
+      "dataType": "Number",
+      "key": "-response-size-read",
+      "aliases": [
+        "-rsr"
+      ]
     }
-  ]
+  ],
+  "installation": {
+    "sources": [
+      {
+        "key": "go-install",
+        "method": "package_manager",
+        "manager": "go",
+        "command": "go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest",
+        "url": "https://docs.projectdiscovery.io/opensource/subfinder/install"
+      },
+      {
+        "key": "brew",
+        "method": "package_manager",
+        "manager": "brew",
+        "command": "brew install subfinder",
+        "url": "https://docs.projectdiscovery.io/opensource/subfinder/install",
+        "os": [
+          "linux",
+          "macos"
+        ]
+      },
+      {
+        "key": "docker",
+        "method": "docker",
+        "command": "docker pull projectdiscovery/subfinder:latest",
+        "url": "https://docs.projectdiscovery.io/opensource/subfinder/install"
+      },
+      {
+        "key": "release-binary",
+        "method": "binary",
+        "command": "https://github.com/projectdiscovery/subfinder/releases",
+        "url": "https://docs.projectdiscovery.io/opensource/subfinder/install",
+        "note": "Download the latest binary for your OS and unzip it."
+      }
+    ]
+  }
 }

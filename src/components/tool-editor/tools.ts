@@ -1,6 +1,5 @@
-import { Tool } from "@/components/commandly/types/flat";
-import { exportToStructuredJSON } from "@/components/commandly/utils/flat";
-import { fixTool } from "@/components/commandly/utils/flat";
+import { Tool } from "@/components/commandly/types/tool";
+import { exportToStructuredJSON, fixTool } from "@/components/commandly/utils/tool-file";
 import { tool } from "ai";
 import { JSONPath } from "jsonpath-plus";
 import { z } from "zod";
@@ -68,7 +67,8 @@ export function createReadTool(getCurrent: () => Tool) {
       const current = getCurrent();
       const exported = exportToStructuredJSON(current);
       const path = jsonPath && jsonPath !== "$" ? jsonPath : "$";
-      const matches = JSONPath({ path, json: exported as object });
+      // jsonpath-plus types every result as `unknown`; the option-object form always returns matches.
+      const matches = JSONPath({ path, json: exported as object }) as unknown[];
       const result = matches.length === 1 ? matches[0] : matches;
       return { result, jsonPath: path };
     },

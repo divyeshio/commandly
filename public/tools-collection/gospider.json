@@ -1,5 +1,5 @@
 {
-  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
+  "$schema": "https://commandly.divyeshio.in/specification/tool.json",
   "binaryName": "gospider",
   "displayName": "GoSpider",
   "info": {
@@ -10,341 +10,365 @@
   "commands": [],
   "parameters": [
     {
-      "name": "Site",
+      "displayName": "Site",
       "description": "Site to crawl.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-s",
-      "longFlag": "--site",
       "sortOrder": 1,
-      "key": "site"
+      "key": "--site",
+      "aliases": [
+        "-s"
+      ]
     },
     {
-      "name": "Sites",
+      "displayName": "Sites",
       "description": "Site list to crawl.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-S",
-      "longFlag": "--sites",
       "sortOrder": 2,
-      "key": "sites"
+      "key": "--sites",
+      "aliases": [
+        "-S"
+      ]
     },
     {
-      "name": "Proxy",
+      "displayName": "Proxy",
       "description": "Proxy (ex: http://127.0.0.1:8080).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-p",
-      "longFlag": "--proxy",
       "sortOrder": 3,
-      "key": "proxy"
+      "key": "--proxy",
+      "aliases": [
+        "-p"
+      ]
     },
     {
-      "name": "Output",
+      "displayName": "Output",
       "description": "Output folder.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-o",
-      "longFlag": "--output",
       "sortOrder": 4,
-      "key": "output"
+      "key": "--output",
+      "aliases": [
+        "-o"
+      ]
     },
     {
-      "name": "User Agent",
+      "displayName": "User Agent",
       "description": "User agent to use.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-u",
-      "longFlag": "--user-agent",
       "sortOrder": 5,
-      "key": "user-agent"
+      "key": "--user-agent",
+      "aliases": [
+        "-u"
+      ]
     },
     {
-      "name": "Cookie",
+      "displayName": "Cookie",
       "description": "Cookie to use (testA=a; testB=b).",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--cookie",
       "sortOrder": 6,
-      "key": "cookie"
+      "key": "--cookie"
     },
     {
-      "name": "Header",
+      "displayName": "Header",
       "description": "Header to use. Use multiple flag to set multiple headers.",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-H",
-      "longFlag": "--header",
       "sortOrder": 7,
-      "key": "header"
+      "key": "--header",
+      "aliases": [
+        "-H"
+      ]
     },
     {
-      "name": "Burp",
+      "displayName": "Burp",
       "description": "Load headers and cookie from burp raw http request.",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--burp",
       "sortOrder": 8,
-      "key": "burp"
+      "key": "--burp"
     },
     {
-      "name": "Blacklist",
+      "displayName": "Blacklist",
       "description": "Blacklist URL regex.",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--blacklist",
       "sortOrder": 9,
-      "key": "blacklist"
+      "key": "--blacklist"
     },
     {
-      "name": "Whitelist",
+      "displayName": "Whitelist",
       "description": "Whitelist URL regex.",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--whitelist",
       "sortOrder": 10,
-      "key": "whitelist"
+      "key": "--whitelist"
     },
     {
-      "name": "Whitelist Domain",
+      "displayName": "Whitelist Domain",
       "description": "Whitelist domain.",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--whitelist-domain",
       "sortOrder": 11,
-      "key": "whitelist-domain"
+      "key": "--whitelist-domain"
     },
     {
-      "name": "Threads",
+      "displayName": "Threads",
       "description": "Number of threads (run sites in parallel).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-t",
-      "longFlag": "--threads",
       "sortOrder": 12,
-      "key": "threads"
+      "key": "--threads",
+      "aliases": [
+        "-t"
+      ]
     },
     {
-      "name": "Concurrent",
+      "displayName": "Concurrent",
       "description": "The number of the maximum allowed concurrent requests of the matching domains.",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-c",
-      "longFlag": "--concurrent",
       "sortOrder": 13,
-      "key": "concurrent"
+      "key": "--concurrent",
+      "aliases": [
+        "-c"
+      ]
     },
     {
-      "name": "Depth",
+      "displayName": "Depth",
       "description": "MaxDepth limits the recursion depth of visited URLs. Set it to 0 for infinite recursion.",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-d",
-      "longFlag": "--depth",
       "sortOrder": 14,
-      "key": "depth"
+      "key": "--depth",
+      "aliases": [
+        "-d"
+      ]
     },
     {
-      "name": "Delay",
+      "displayName": "Delay",
       "description": "Duration to wait before creating a new request to the matching domains (seconds).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-k",
-      "longFlag": "--delay",
       "sortOrder": 15,
-      "key": "delay"
+      "key": "--delay",
+      "aliases": [
+        "-k"
+      ]
     },
     {
-      "name": "Random Delay",
+      "displayName": "Random Delay",
       "description": "Extra randomized duration to wait added to delay before creating a new request (seconds).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-K",
-      "longFlag": "--random-delay",
       "sortOrder": 16,
-      "key": "random-delay"
+      "key": "--random-delay",
+      "aliases": [
+        "-K"
+      ]
     },
     {
-      "name": "Timeout",
+      "displayName": "Timeout",
       "description": "Request timeout (seconds).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-m",
-      "longFlag": "--timeout",
       "sortOrder": 17,
-      "key": "timeout"
+      "key": "--timeout",
+      "aliases": [
+        "-m"
+      ]
     },
     {
-      "name": "Base",
+      "displayName": "Base",
       "description": "Disable all and only use HTML content.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--base",
       "sortOrder": 18,
-      "key": "base"
+      "key": "--base"
     },
     {
-      "name": "JavaScript",
+      "displayName": "JavaScript",
       "description": "Enable linkfinder in javascript file.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--js",
       "sortOrder": 19,
-      "key": "javascript"
+      "key": "--js"
     },
     {
-      "name": "Include Subdomains",
+      "displayName": "Include Subdomains",
       "description": "Include subdomains.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--subs",
       "sortOrder": 20,
-      "key": "include-subdomains"
+      "key": "--subs"
     },
     {
-      "name": "Sitemap",
+      "displayName": "Sitemap",
       "description": "Try to crawl sitemap.xml.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--sitemap",
       "sortOrder": 21,
-      "key": "sitemap"
+      "key": "--sitemap"
     },
     {
-      "name": "Robots",
+      "displayName": "Robots",
       "description": "Try to crawl robots.txt.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--robots",
       "sortOrder": 22,
-      "key": "robots"
+      "key": "--robots"
     },
     {
-      "name": "Other Source",
+      "displayName": "Other Source",
       "description": "Find URLs from third-party sources (Archive.org, CommonCrawl.org, VirusTotal.com, AlienVault.com).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-a",
-      "longFlag": "--other-source",
       "sortOrder": 23,
-      "key": "other-source"
+      "key": "--other-source",
+      "aliases": [
+        "-a"
+      ]
     },
     {
-      "name": "Include Third-Party Subdomains",
+      "displayName": "Include Third-Party Subdomains",
       "description": "Include subdomains crawled from third-party sources. Default is main domain.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-w",
-      "longFlag": "--include-subs",
       "sortOrder": 24,
-      "key": "include-subdomains-from-third-party"
+      "key": "--include-subs",
+      "aliases": [
+        "-w"
+      ]
     },
     {
-      "name": "Include Other Source URLs",
+      "displayName": "Include Other Source URLs",
       "description": "Also include other-source URLs (still crawl and request).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-r",
-      "longFlag": "--include-other-source",
       "sortOrder": 25,
-      "key": "include-other-source-urls"
+      "key": "--include-other-source",
+      "aliases": [
+        "-r"
+      ]
     },
     {
-      "name": "Debug",
+      "displayName": "Debug",
       "description": "Turn on debug mode.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--debug",
       "sortOrder": 26,
-      "key": "debug"
+      "key": "--debug"
     },
     {
-      "name": "JSON Output",
+      "displayName": "JSON Output",
       "description": "Enable JSON output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--json",
       "sortOrder": 27,
-      "key": "json-output"
+      "key": "--json"
     },
     {
-      "name": "Verbose",
+      "displayName": "Verbose",
       "description": "Turn on verbose.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-v",
-      "longFlag": "--verbose",
       "sortOrder": 28,
-      "key": "verbose"
+      "key": "--verbose",
+      "aliases": [
+        "-v"
+      ]
     },
     {
-      "name": "Length",
+      "displayName": "Length",
       "description": "Turn on length.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-l",
-      "longFlag": "--length",
       "sortOrder": 29,
-      "key": "length"
+      "key": "--length",
+      "aliases": [
+        "-l"
+      ]
     },
     {
-      "name": "Filter Length",
+      "displayName": "Filter Length",
       "description": "Turn on length filter.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-L",
-      "longFlag": "--filter-length",
       "sortOrder": 30,
-      "key": "filter-length"
+      "key": "--filter-length",
+      "aliases": [
+        "-L"
+      ]
     },
     {
-      "name": "Raw",
+      "displayName": "Raw",
       "description": "Turn on raw.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-R",
-      "longFlag": "--raw",
       "sortOrder": 31,
-      "key": "raw"
+      "key": "--raw",
+      "aliases": [
+        "-R"
+      ]
     },
     {
-      "name": "Quiet",
+      "displayName": "Quiet",
       "description": "Suppress all the output and only show URL.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-q",
-      "longFlag": "--quiet",
       "sortOrder": 32,
-      "key": "quiet"
+      "key": "--quiet",
+      "aliases": [
+        "-q"
+      ]
     },
     {
-      "name": "No Redirect",
+      "displayName": "No Redirect",
       "description": "Disable redirect.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--no-redirect",
       "sortOrder": 33,
-      "key": "no-redirect"
+      "key": "--no-redirect"
     },
     {
-      "name": "Version",
+      "displayName": "Version",
       "description": "Check version.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--version",
       "sortOrder": 34,
-      "key": "version"
+      "key": "--version"
     },
     {
-      "name": "Help",
+      "displayName": "Help",
       "description": "Help for gospider.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-h",
-      "longFlag": "--help",
       "sortOrder": 35,
-      "key": "help"
+      "key": "--help",
+      "aliases": [
+        "-h"
+      ]
     }
-  ]
+  ],
+  "installation": {
+    "sources": [
+      {
+        "key": "go-install",
+        "method": "package_manager",
+        "manager": "go",
+        "command": "GO111MODULE=on go install github.com/jaeles-project/gospider@latest",
+        "url": "https://github.com/jaeles-project/gospider#installation"
+      },
+      {
+        "key": "docker",
+        "method": "docker",
+        "command": "git clone https://github.com/jaeles-project/gospider.git\ndocker build -t gospider:latest gospider\ndocker run -t gospider -h",
+        "url": "https://github.com/jaeles-project/gospider#installation"
+      }
+    ]
+  }
 }

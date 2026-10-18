@@ -7,19 +7,39 @@ import { SavedCommandsDialog } from "./dialogs/saved-commands-dialog";
 import { ParameterList } from "./parameter-list";
 import { PreviewTabs } from "./preview-tabs";
 import { ToolBuilderProvider, useToolBuilder } from "./tool-editor.context";
-import { Tool } from "@/components/commandly/types/flat";
-import { fixTool } from "@/components/commandly/utils/flat";
+import { Tool } from "@/components/commandly/types/tool";
+import { getCommandParameters } from "@/components/commandly/utils/tool";
+import { fixTool } from "@/components/commandly/utils/tool-file";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { SavedCommand } from "@/lib/types";
 import { useBlocker } from "@tanstack/react-router";
 import { SaveIcon, Edit2Icon, LayersIcon, GitPullRequestIcon, SparklesIcon } from "lucide-react";
 import { parseAsBoolean, useQueryState } from "nuqs";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
 const GITHUB_REPO = "divyeshio/commandly";
 const MAX_URL_JSON_LENGTH = 4000;
+
+/** Which of an owner's parameters the AI added, changed or removed relative to the loaded tool. */
+function diffParameters(before: Tool["parameters"], after: Tool["parameters"]) {
+  const beforeByKey = new Map(before.map((parameter) => [parameter.key, parameter]));
+  const afterByKey = new Map(after.map((parameter) => [parameter.key, parameter]));
+
+  const added = new Set([...afterByKey.keys()].filter((key) => !beforeByKey.has(key)));
+  const removed = new Set([...beforeByKey.keys()].filter((key) => !afterByKey.has(key)));
+  const updated = new Set(
+    [...afterByKey]
+      .filter(([key, parameter]) => {
+        const previous = beforeByKey.get(key);
+        return previous !== undefined && JSON.stringify(previous) !== JSON.stringify(parameter);
+      })
+      .map(([key]) => key),
+  );
+
+  return added.size || removed.size || updated.size ? { added, updated, removed } : undefined;
+}
 
 interface ToolEditorProps {
   tool: Tool;
@@ -73,6 +93,7 @@ function ToolEditorContent({
     setDialogOpen,
     initializeTool,
     selectedParameter,
+    selectedCommand,
     upsertParameter,
     setSelectedParameter,
   } = useToolBuilder();
@@ -81,7 +102,8 @@ function ToolEditorContent({
   const [isAIGenerating, setIsAIGenerating] = useState(false);
 
   const [initialToolJson, setInitialToolJson] = useState(() => JSON.stringify(tool));
-  const isDirty = JSON.stringify(tool) !== initialToolJson;
+  const toolJson = useMemo(() => JSON.stringify(tool), [tool]);
+  const isDirty = toolJson !== initialToolJson;
   const isValid = (tool.binaryName ?? "").trim() !== "" && (tool.displayName ?? "").trim() !== "";
   const shouldBlockNavigation = isDirty || isAIGenerating;
 
@@ -98,26 +120,15 @@ function ToolEditorContent({
     enableBeforeUnload: shouldBlockNavigation,
   });
 
-  const pendingChanges = (() => {
-    const currentParams = (streamingTool ?? tool).parameters;
-    const origParams = originalTool.parameters;
-    const origKeys = new Set(origParams.map((p) => p.key));
-    const currKeys = new Set(currentParams.map((p) => p.key));
-    const added = new Set([...currKeys].filter((k) => !origKeys.has(k)));
-    const removed = new Set([...origKeys].filter((k) => !currKeys.has(k)));
-    const updated = new Set(
-      currentParams
-        .filter((p) => origKeys.has(p.key))
-        .filter((p) => {
-          const orig = origParams.find((op) => op.key === p.key)!;
-          return JSON.stringify(p) !== JSON.stringify(orig);
-        })
-        .map((p) => p.key),
-    );
-    return added.size > 0 || removed.size > 0 || updated.size > 0
-      ? { added, removed, updated }
-      : undefined;
-  })();
+  const selectedCommandKey = selectedCommand?.key ?? null;
+  const pendingChanges = useMemo(
+    () =>
+      diffParameters(
+        getCommandParameters(originalTool, selectedCommandKey),
+        getCommandParameters(streamingTool ?? tool, selectedCommandKey),
+      ),
+    [originalTool, tool, streamingTool, selectedCommandKey],
+  );
 
   const handleContribute = async () => {
     const json = JSON.stringify(fixTool(tool, { removeMetadata: true }), null, 2);
@@ -250,14 +261,11 @@ function ToolEditorContent({
               <ScrollArea className="h-full">
                 <div className="flex flex-col gap-4 pr-3 pb-4">
                   <ParameterList
-                    title="Global Parameters"
-                    isGlobal={true}
-                    isChatOpen={chatOpen}
-                    pendingChanges={pendingChanges}
-                  />
-                  <ParameterList
-                    title="Command Parameters"
-                    isGlobal={false}
+                    title={
+                      selectedCommand
+                        ? `${selectedCommand.displayName} Parameters`
+                        : "Root Parameters"
+                    }
                     isChatOpen={chatOpen}
                     pendingChanges={pendingChanges}
                   />
@@ -285,7 +293,6 @@ function ToolEditorContent({
       {selectedParameter && (
         <ParameterDetailsDialog
           parameter={selectedParameter.key ? selectedParameter : undefined}
-          isGlobal={selectedParameter.isGlobal}
           onSave={(param) => {
             upsertParameter(param, selectedParameter.key || undefined);
             setSelectedParameter(null);

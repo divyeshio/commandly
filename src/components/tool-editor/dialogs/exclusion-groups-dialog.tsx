@@ -1,5 +1,6 @@
 import { useToolBuilder } from "../tool-editor.context";
-import { ExclusionGroup } from "@/components/commandly/types/flat";
+import { ExclusionGroup } from "@/components/commandly/types/tool";
+import { getCommandParameters, getExclusionGroups } from "@/components/commandly/utils/tool";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -16,10 +17,9 @@ import { useState } from "react";
 
 export function ExclusionGroupsDialog() {
   const {
-    selectedCommand,
+    tool,
+    selectedCommandKey,
     dialogs,
-    getExclusionGroupsForCommand,
-    getParametersForCommand,
     setDialogOpen,
     addExclusionGroup,
     updateExclusionGroup,
@@ -27,23 +27,21 @@ export function ExclusionGroupsDialog() {
   } = useToolBuilder();
 
   const open = dialogs.exclusionGroups;
-  const commandKey = selectedCommand?.key;
-  const exclusionGroups = commandKey ? getExclusionGroupsForCommand(commandKey) : [];
-  const parameters = commandKey ? getParametersForCommand(commandKey) : [];
+  const exclusionGroups = getExclusionGroups(tool, selectedCommandKey);
+  const parameters = getCommandParameters(tool, selectedCommandKey);
 
   const [editingGroup, setEditingGroup] = useState<Partial<ExclusionGroup> | undefined>();
 
   const handleAddGroup = () => {
     setEditingGroup({
-      name: "",
+      displayName: "",
       exclusionType: "mutual_exclusive",
       parameterKeys: [],
-      commandKey: selectedCommand?.key,
     });
   };
 
   const handleSaveGroup = () => {
-    if (!editingGroup?.name || !editingGroup.exclusionType) return;
+    if (!editingGroup?.displayName || !editingGroup.exclusionType) return;
 
     if (editingGroup.key) {
       updateExclusionGroup(editingGroup as ExclusionGroup);
@@ -70,7 +68,7 @@ export function ExclusionGroupsDialog() {
               className="flex items-center justify-between rounded border p-3"
             >
               <div>
-                <h4 className="font-medium">{group.name}</h4>
+                <h4 className="font-medium">{group.displayName}</h4>
                 <div className="mt-1 flex gap-1">
                   {group.parameterKeys.map((key) => {
                     const param = parameters.find((p) => p.key === key);
@@ -80,7 +78,7 @@ export function ExclusionGroupsDialog() {
                           key={key}
                           className="rounded bg-muted px-1.5 py-0.5 text-xs"
                         >
-                          {param.name}
+                          {param.displayName}
                         </span>
                       )
                     );
@@ -98,7 +96,9 @@ export function ExclusionGroupsDialog() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => removeExclusionGroup(group.key!)}
+                  onClick={() => {
+                    if (group.key) removeExclusionGroup(group.key);
+                  }}
                 >
                   <TrashIcon className="h-4 w-4" />
                 </Button>
@@ -121,8 +121,10 @@ export function ExclusionGroupsDialog() {
               <div className="space-y-2">
                 <Label>Name</Label>
                 <Input
-                  value={editingGroup.name}
-                  onChange={(e) => setEditingGroup({ ...editingGroup, name: e.target.value })}
+                  value={editingGroup.displayName}
+                  onChange={(e) =>
+                    setEditingGroup({ ...editingGroup, displayName: e.target.value })
+                  }
                   placeholder="Group name"
                 />
               </div>
@@ -170,7 +172,7 @@ export function ExclusionGroupsDialog() {
                           key={param.key}
                           value={param.key}
                         >
-                          {param.name}
+                          {param.displayName}
                         </SelectItem>
                       ))}
                   </SelectContent>
@@ -185,7 +187,7 @@ export function ExclusionGroupsDialog() {
                           key={key}
                           className="flex items-center gap-1 rounded bg-muted px-2 py-1 text-sm"
                         >
-                          {param.name}
+                          {param.displayName}
                           <Button
                             variant="ghost"
                             size="sm"

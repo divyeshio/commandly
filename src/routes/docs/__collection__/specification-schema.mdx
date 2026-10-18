@@ -1,21 +1,22 @@
-# Flat Schema
+# Schema Reference
 
-The flat format stores all commands and parameters as top-level arrays within the tool document. Cross-references are expressed via `key` and `commandKey` fields. This is the primary format used by the tools collection.
+Each command owns its parameters, so the hierarchy is expressed by nesting. A parameter belongs to exactly one command, and its `key` only needs to be unique among that command's parameters - so the same flag can appear on sibling commands. A parameter with `recursive: true` is inherited by every command beneath the one it belongs to.
 
 ## Tool Object
 
-The root object of a Commandly flat description.
+The root object of a Commandly tool description.
 
-| Field             | Type                    | Required | Description                                                                |
-| ----------------- | ----------------------- | -------- | -------------------------------------------------------------------------- |
-| `binaryName`      | string                  | ✓        | Unique CLI binary name for the tool, such as `httpx` or `curl`.            |
-| `displayName`     | string                  | ✓        | Human-readable display name.                                               |
-| `interactive`     | boolean                 | -        | If `true`, invoking the root tool opens an interactive session or prompt.  |
-| `info`            | ToolInfo Object         | -        | Metadata about the tool, including the homepage URL.                       |
-| `commands`        | Command Object[]        | ✓        | List of commands and subcommands. Can be empty for tools without commands. |
-| `parameters`      | Parameter Object[]      | ✓        | Flat list of all parameters across root, command, and global scope.        |
-| `exclusionGroups` | ExclusionGroup Object[] | -        | Groups of mutually exclusive or required parameters.                       |
-| `metadata`        | ToolMetadata Object     | -        | Custom metadata.                                                           |
+| Field             | Type                    | Required | Description                                                                  |
+| ----------------- | ----------------------- | -------- | ---------------------------------------------------------------------------- |
+| `binaryName`      | string                  | ✓        | Unique CLI binary name for the tool, such as `httpx` or `curl`.              |
+| `displayName`     | string                  | ✓        | Human-readable display name.                                                 |
+| `interactive`     | boolean                 | -        | If `true`, invoking the root tool opens an interactive session or prompt.    |
+| `info`            | ToolInfo Object         | -        | Metadata about the tool, including the homepage URL.                         |
+| `installation`    | Installation Object     | -        | Structured installation sources for the tool.                                |
+| `commands`        | Command Object[]        | ✓        | Top-level commands. Subcommands are nested on their parent.                  |
+| `parameters`      | Parameter Object[]      | ✓        | Parameters accepted by the tool itself, before a command is chosen.          |
+| `exclusionGroups` | ExclusionGroup Object[] | -        | Groups of the tool's own parameters that are mutually exclusive or required. |
+| `metadata`        | ToolMetadata Object     | -        | Custom metadata.                                                             |
 
 ## ToolInfo Object
 
@@ -25,41 +26,73 @@ The root object of a Commandly flat description.
 | `version`     | string | -        | Tool version string.                      |
 | `url`         | string | -        | URL to the tool's homepage or repository. |
 
+## Installation Object
+
+Structured installation instructions for the tool.
+
+| Field     | Type                 | Required | Description                              |
+| --------- | -------------------- | -------- | ---------------------------------------- |
+| `sources` | InstallationSource[] | ✓        | The documented ways to install the tool. |
+
+## InstallationSource Object
+
+A single documented way to install the tool.
+
+| Field     | Type               | Required | Description                                                                                |
+| --------- | ------------------ | -------- | ------------------------------------------------------------------------------------------ |
+| `key`     | string             | ✓        | Unique identifier for this source within the tool.                                         |
+| `method`  | InstallationMethod | ✓        | How the tool is installed.                                                                 |
+| `manager` | string             | -        | Package manager name. Only set when `method` is `package_manager` (e.g. `"brew"`, `"go"`). |
+| `command` | string             | ✓        | The command that installs the tool.                                                        |
+| `url`     | string             | -        | Documentation URL describing this installation method.                                     |
+| `os`      | string[]           | -        | Platforms this source applies to: `linux`, `macos`, or `windows`. Omit when unrestricted.  |
+| `note`    | string             | -        | Additional context, such as prerequisites or platform restrictions.                        |
+
+## InstallationMethod
+
+| Value             | Description                                                          |
+| ----------------- | -------------------------------------------------------------------- |
+| `package_manager` | Installed with a package manager such as `brew`, `go`, `pip`, `npm`. |
+| `binary`          | A prebuilt release binary is downloaded and unpacked.                |
+| `docker`          | The tool is pulled and run as a container image.                     |
+| `script`          | The tool is installed by running a vendor-provided script.           |
+
 ## Command Object
 
-| Field              | Type    | Required | Description                                                                             |
-| ------------------ | ------- | -------- | --------------------------------------------------------------------------------------- |
-| `key`              | string  | ✓        | Unique identifier. Referenced by parameters via `commandKey`.                           |
-| `name`             | string  | ✓        | Command name as it appears in the CLI invocation.                                       |
-| `parentCommandKey` | string  | -        | Key of the parent command. Omit for root-level commands.                                |
-| `description`      | string  | -        | Human-readable description of the command.                                              |
-| `interactive`      | boolean | -        | If `true`, the command requires interactive user input at runtime. Defaults to `false`. |
-| `sortOrder`        | number  | -        | Display sort order.                                                                     |
+| Field             | Type               | Required | Description                                                                                  |
+| ----------------- | ------------------ | -------- | -------------------------------------------------------------------------------------------- |
+| `key`             | string             | ✓        | Unique identifier for this command within the tool.                                          |
+| `displayName`     | string             | ✓        | Human-readable display name of the command.                                                  |
+| `aliases`         | string[]           | -        | Alternate spellings that invoke this command in place of `displayName`.                      |
+| `description`     | string             | -        | Human-readable description of the command.                                                   |
+| `interactive`     | boolean            | -        | If `true`, the command requires interactive user input at runtime. Defaults to `false`.      |
+| `sortOrder`       | number             | -        | Display sort order.                                                                          |
+| `parameters`      | Parameter Object[] | -        | Parameters accepted by this command. Keys are unique among them. Omit for grouping commands. |
+| `exclusionGroups` | ExclusionGroup[]   | -        | Groups of this command's parameters with mutual exclusion or required-one-of constraints.    |
+| `commands`        | Command Object[]   | -        | Subcommands nested beneath this command.                                                     |
 
 ## Parameter Object
 
-| Field               | Type                         | Required | Description                                                                              |
-| ------------------- | ---------------------------- | -------- | ---------------------------------------------------------------------------------------- |
-| `key`               | string                       | ✓        | Unique identifier for the parameter.                                                     |
-| `name`              | string                       | ✓        | Human-readable parameter name.                                                           |
-| `parameterType`     | ParameterType                | ✓        | One of `Flag`, `Option`, or `Argument`.                                                  |
-| `dataType`          | ParameterDataType            | ✓        | One of `String`, `Number`, `Boolean`, or `Enum`.                                         |
-| `isRequired`        | boolean                      | -        | Whether the parameter must be provided.                                                  |
-| `isRepeatable`      | boolean                      | -        | Whether the parameter can appear more than once.                                         |
-| `isGlobal`          | boolean                      | -        | If `true`, the parameter applies to all commands regardless of `commandKey`.             |
-| `commandKey`        | string                       | -        | Key of the command this parameter belongs to. Omit for root-level and global parameters. |
-| `description`       | string                       | -        | Human-readable description.                                                              |
-| `group`             | string                       | -        | Display group label for UI grouping.                                                     |
-| `shortFlag`         | string                       | -        | Short flag form (e.g. `-o`). Used for `Flag` and `Option` types.                         |
-| `longFlag`          | string                       | -        | Long flag form (e.g. `--output`). Used for `Flag` and `Option` types.                    |
-| `position`          | number                       | -        | Zero-based positional index. Required for `Argument` type parameters.                    |
-| `sortOrder`         | number                       | -        | Display sort order.                                                                      |
-| `arraySeparator`    | string                       | -        | Separator used when a repeatable parameter is joined into a single token.                |
-| `keyValueSeparator` | string                       | -        | Character between the flag and its value. Defaults to a space.                           |
-| `enum`              | ParameterEnumValues Object   | -        | Required when `dataType` is `Enum`.                                                      |
-| `validations`       | ParameterValidation Object[] | -        | Validation rules applied to the parameter value.                                         |
-| `dependencies`      | ParameterDependency Object[] | -        | Conditional relationships with other parameters.                                         |
-| `metadata`          | ParameterMetadata Object     | -        | Custom metadata.                                                                         |
+| Field               | Type                         | Required | Description                                                                                                                                                                                        |
+| ------------------- | ---------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `key`               | string                       | ✓        | Unique identifier among its command's parameters. For flags and options this is the full flag, dashes included (e.g. `"--output"`, `"-list"`); positional arguments use a plain name.              |
+| `displayName`       | string                       | ✓        | Human-readable parameter name.                                                                                                                                                                     |
+| `parameterType`     | ParameterType                | ✓        | One of `Flag`, `Option`, or `Argument`.                                                                                                                                                            |
+| `dataType`          | ParameterDataType            | ✓        | One of `String`, `Number`, `Boolean`, or `Enum`.                                                                                                                                                   |
+| `isRequired`        | boolean                      | -        | Whether the parameter must be provided.                                                                                                                                                            |
+| `isRepeatable`      | boolean                      | -        | Whether the parameter can appear more than once.                                                                                                                                                   |
+| `recursive`         | boolean                      | -        | If `true`, the parameter is inherited by every command beneath the one it belongs to. A parameter on `Tool.parameters` with `recursive: true` is inherited by the whole tree. Defaults to `false`. |
+| `description`       | string                       | -        | Human-readable description.                                                                                                                                                                        |
+| `group`             | string                       | -        | Display group label for UI grouping.                                                                                                                                                               |
+| `aliases`           | string[]                     | -        | Short names and other spellings for `Flag` and `Option` types (e.g. `["-o"]`). The full flag is `key`.                                                                                             |
+| `position`          | number                       | -        | Zero-based positional index that orders `Argument` parameters. Optional; defaults to 0.                                                                                                            |
+| `sortOrder`         | number                       | -        | Display sort order.                                                                                                                                                                                |
+| `arraySeparator`    | string                       | -        | Separator used when a repeatable parameter is joined into a single token.                                                                                                                          |
+| `keyValueSeparator` | string                       | -        | Character between the flag and its value. Defaults to a space.                                                                                                                                     |
+| `enum`              | ParameterEnumValues Object   | -        | Required when `dataType` is `Enum`.                                                                                                                                                                |
+| `validations`       | ParameterValidation Object[] | -        | Validation rules applied to the parameter value.                                                                                                                                                   |
+| `dependencies`      | ParameterDependency Object[] | -        | Conditional relationships with other parameters.                                                                                                                                                   |
+| `metadata`          | ParameterMetadata Object     | -        | Custom metadata.                                                                                                                                                                                   |
 
 ## ParameterType
 
@@ -98,13 +131,12 @@ The root object of a Commandly flat description.
 
 ## ExclusionGroup Object
 
-Defines a group of parameters that are mutually exclusive or where exactly one must be chosen.
+Defines a group of parameters that are mutually exclusive or where exactly one must be chosen. Declare groups on the command that owns the parameters, or on the tool for its own parameters.
 
 | Field           | Type          | Required | Description                                     |
 | --------------- | ------------- | -------- | ----------------------------------------------- |
 | `key`           | string        | -        | Unique identifier for the group.                |
-| `name`          | string        | ✓        | Human-readable group name.                      |
-| `commandKey`    | string        | -        | Key of the command this group applies to.       |
+| `displayName`   | string        | ✓        | Human-readable group name.                      |
 | `exclusionType` | ExclusionType | ✓        | One of `mutual_exclusive` or `required_one_of`. |
 | `parameterKeys` | string[]      | ✓        | Keys of the parameters belonging to this group. |
 

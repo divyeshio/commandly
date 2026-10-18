@@ -9,9 +9,9 @@ import {
   ParameterType,
   ParameterValidation,
   ParameterValidationType,
-} from "@/components/commandly/types/flat";
+} from "@/components/commandly/types/tool";
 import { TagsInput } from "@/components/commandly/ui/tags-input";
-import { slugify } from "@/components/commandly/utils/flat";
+import { getCommandParameters, slugify } from "@/components/commandly/utils/tool";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -61,30 +61,23 @@ const DATA_TYPE_OPTIONS: Record<ParameterType, ParameterDataType[]> = {
 
 interface ParameterDetailsDialogProps {
   parameter?: Parameter;
-  isGlobal?: boolean;
   onSave: (parameter: Parameter) => void;
 }
 
-export function ParameterDetailsDialog({
-  parameter,
-  isGlobal = false,
-  onSave,
-}: ParameterDetailsDialogProps) {
-  const { selectedCommand, tool, setSelectedParameter } = useToolBuilder();
+export function ParameterDetailsDialog({ parameter, onSave }: ParameterDetailsDialogProps) {
+  const { selectedCommandKey, tool, setSelectedParameter } = useToolBuilder();
 
-  const commandKey = selectedCommand?.key;
+  const isRootParameter = selectedCommandKey === null;
   const isNewParameter = !parameter;
 
   const [internalParameter, setParameter] = useState<Parameter>(
     () =>
       parameter ?? {
         key: "",
-        name: "",
-        commandKey: isGlobal ? undefined : commandKey,
+        displayName: "",
         parameterType: "Option" as ParameterType,
         dataType: "String" as ParameterDataType,
-        ...(isGlobal ? { isGlobal: true as const } : {}),
-        longFlag: "",
+        aliases: [],
       },
   );
   const [hasChanges, setHasChanges] = useState(false);
@@ -92,11 +85,11 @@ export function ParameterDetailsDialog({
     (parameter?.enum?.values ?? []).map(() => Math.random().toString(36).slice(2, 9)),
   );
 
-  const availableParameters = tool.parameters.filter((p) => {
-    if (parameter && p.key === parameter.key) return false;
-    if (parameter?.isGlobal) return p.isGlobal;
-    return p.isGlobal || p.commandKey === commandKey;
-  });
+  const siblingParameters = getCommandParameters(tool, selectedCommandKey);
+
+  const availableParameters = siblingParameters.filter(
+    (p) => !parameter || p.key !== parameter.key,
+  );
 
   const getParameterIcon = (parameterType: string) => {
     switch (parameterType) {
@@ -121,23 +114,7 @@ export function ParameterDetailsDialog({
   };
 
   const updateParameter = (updates: Partial<Parameter>) => {
-    setParameter((prev) => {
-      const next = { ...prev, ...updates };
-      if (updates.name || updates.longFlag) {
-        let generatedKey = slugify(next.longFlag || next.name);
-
-        const existingParam = tool.parameters.find(
-          (p) => p.key === generatedKey && p.key !== parameter?.key,
-        );
-        // If duplicate exists and parameter is not global, prefix with command key
-        if (existingParam && !next.isGlobal && commandKey) {
-          generatedKey = `${commandKey}-${generatedKey}`;
-        }
-
-        next.key = generatedKey;
-      }
-      return next;
-    });
+    setParameter((prev) => ({ ...prev, ...updates }));
     setHasChanges(true);
   };
 
@@ -158,16 +135,16 @@ export function ParameterDetailsDialog({
   };
 
   const updateDependency = (dependencyKey: string, updates: Partial<ParameterDependency>) => {
-    if (!parameter) return;
-    const updatedDependencies = parameter.dependencies?.map((dep) =>
+    const updatedDependencies = internalParameter.dependencies?.map((dep) =>
       dep.key === dependencyKey ? { ...dep, ...updates } : dep,
     );
     updateParameter({ dependencies: updatedDependencies });
   };
 
   const removeDependency = (dependencyKey: string) => {
-    if (!parameter) return;
-    const updatedDependencies = parameter.dependencies?.filter((dep) => dep.key !== dependencyKey);
+    const updatedDependencies = internalParameter.dependencies?.filter(
+      (dep) => dep.key !== dependencyKey,
+    );
     updateParameter({ dependencies: updatedDependencies });
   };
 
@@ -205,17 +182,24 @@ export function ParameterDetailsDialog({
   const canSaveChanges = () => {
     if (!hasChanges) return false;
 
-    if (!internalParameter.name.trim() || !internalParameter.longFlag?.trim()) {
+    const aliases = (internalParameter.aliases ?? []).filter((alias) => alias.trim());
+
+    if (!internalParameter.displayName.trim()) {
       return false;
     }
-    if (
+    if (!internalParameter.key.trim()) {
+      return false;
+    }
+    const siblingKeys = new Set(availableParameters.map((sibling) => sibling.key));
+    const siblingAliases = new Set(availableParameters.flatMap((sibling) => sibling.aliases ?? []));
+    const clashes =
+      [internalParameter.key, ...aliases].some(
+        (form) => siblingKeys.has(form) || siblingAliases.has(form),
+      ) ||
       availableParameters.some(
-        (p) =>
-          p.name.trim() === internalParameter.name.trim() ||
-          internalParameter.longFlag == p.longFlag ||
-          (internalParameter.shortFlag && internalParameter.shortFlag == p.shortFlag),
-      )
-    ) {
+        (sibling) => sibling.displayName.trim() === internalParameter.displayName.trim(),
+      );
+    if (clashes) {
       return false;
     }
 
@@ -236,13 +220,13 @@ export function ParameterDetailsDialog({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             {getParameterIcon(internalParameter.parameterType)}
-            {internalParameter.name}
-            {internalParameter.isGlobal && (
+            {internalParameter.displayName}
+            {isRootParameter && (
               <Badge
                 variant="default"
                 className="text-xs"
               >
-                global
+                root
               </Badge>
             )}
           </DialogTitle>
@@ -253,12 +237,24 @@ export function ParameterDetailsDialog({
           {/* Basic Info */}
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-2">
-              <Label>
-                Parameter Name<span className="ml-1 text-destructive">*</span>
+              <Label htmlFor="param-display-name">
+                Display Name<span className="ml-1 text-destructive">*</span>
               </Label>
               <Input
-                value={internalParameter.name}
-                onChange={(e) => updateParameter({ name: e.target.value })}
+                id="param-display-name"
+                value={internalParameter.displayName}
+                onChange={(e) => updateParameter({ displayName: e.target.value })}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="param-key">
+                Key<span className="ml-1 text-destructive">*</span>
+              </Label>
+              <Input
+                id="param-key"
+                value={internalParameter.key}
+                onChange={(e) => updateParameter({ key: e.target.value })}
+                placeholder="--output"
               />
             </div>
           </div>
@@ -268,12 +264,13 @@ export function ParameterDetailsDialog({
               <Label>Parameter Type</Label>
               <Select
                 value={internalParameter.parameterType}
-                onValueChange={(value: ParameterType) => {
-                  if (value === "Flag") {
-                    updateParameter({ parameterType: value, dataType: "Boolean" });
+                onValueChange={(value) => {
+                  const parameterType = value as ParameterType;
+                  if (parameterType === "Flag") {
+                    updateParameter({ parameterType, dataType: "Boolean" });
                   } else {
                     updateParameter({
-                      parameterType: value,
+                      parameterType,
                       ...(internalParameter.parameterType === "Flag" ? { dataType: "String" } : {}),
                     });
                   }
@@ -293,7 +290,7 @@ export function ParameterDetailsDialog({
               <Label>Data Type</Label>
               <Select
                 value={internalParameter.dataType}
-                onValueChange={(value: ParameterDataType) => updateParameter({ dataType: value })}
+                onValueChange={(value) => updateParameter({ dataType: value as ParameterDataType })}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue />
@@ -312,35 +309,23 @@ export function ParameterDetailsDialog({
             </div>
             <div className="flex items-center space-x-2 pt-6">
               <Switch
-                id="isGlobal"
-                checked={internalParameter.isGlobal}
-                onCheckedChange={(checked) => updateParameter({ isGlobal: checked })}
+                id="recursive"
+                checked={internalParameter.recursive ?? false}
+                onCheckedChange={(checked) => updateParameter({ recursive: checked })}
               />
-              <Label htmlFor="isGlobal">Global</Label>
+              <Label htmlFor="recursive">Inherited by subcommands</Label>
             </div>
           </div>
 
           {(internalParameter.parameterType === "Flag" ||
             internalParameter.parameterType === "Option") && (
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col gap-2">
-                <Label>Short Flag (include prefix)</Label>
-                <Input
-                  value={internalParameter.shortFlag}
-                  onChange={(e) => updateParameter({ shortFlag: e.target.value })}
-                  placeholder="-v"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <Label>
-                  Long Flag (include prefix) <span className="ml-1 text-destructive">*</span>
-                </Label>
-                <Input
-                  value={internalParameter.longFlag}
-                  onChange={(e) => updateParameter({ longFlag: e.target.value })}
-                  placeholder="--verbose"
-                />
-              </div>
+            <div className="flex flex-col gap-2">
+              <Label>Short names and other aliases</Label>
+              <TagsInput
+                value={internalParameter.aliases ?? []}
+                onValueChange={(aliases) => updateParameter({ aliases })}
+                placeholder="Add short names, e.g. -o"
+              />
             </div>
           )}
 
@@ -459,9 +444,9 @@ export function ParameterDetailsDialog({
                   >
                     <Select
                       value={dependency.dependencyType}
-                      onValueChange={(value: ParameterDependencyType) =>
+                      onValueChange={(value) =>
                         updateDependency(dependency.key, {
-                          dependencyType: value,
+                          dependencyType: value as ParameterDependencyType,
                         })
                       }
                     >
@@ -490,8 +475,8 @@ export function ParameterDetailsDialog({
                             key={param.key}
                             value={param.key}
                           >
-                            {param.name}
-                            {param.isGlobal && " (global)"}
+                            {param.displayName}
+                            {param.recursive && " (inherited)"}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -535,9 +520,10 @@ export function ParameterDetailsDialog({
                   >
                     <Select
                       value={validation.validationType}
-                      onValueChange={(value: ParameterValidationType) => {
+                      onValueChange={(value) => {
+                        const validationType = value as ParameterValidationType;
                         const updatedValidations = internalParameter.validations?.map((v) =>
-                          v.key === validation.key ? { ...v, validationType: value } : v,
+                          v.key === validation.key ? { ...v, validationType } : v,
                         );
                         updateParameter({
                           validations: updatedValidations,

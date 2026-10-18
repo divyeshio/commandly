@@ -9,7 +9,7 @@ import {
   upsertMessage,
 } from "../ai-chat/ai-chat-persistence";
 import { MODEL_GROUPS, type ReasoningEffort } from "../ai-chat/model-picker";
-import type { Tool } from "@/components/commandly/types/flat";
+import type { Tool } from "@/components/commandly/types/tool";
 import type { LanguageModelUsage, UIMessage } from "ai";
 import { isToolUIPart, getToolName, type InferUITools, type Tool as AISDKTool } from "ai";
 
@@ -156,7 +156,7 @@ export class ChatStore {
   }
 
   private fetchSchema(): void {
-    fetch("/specification/flat.json")
+    fetch("/specification/tool.json")
       .then((r) => r.json())
       .then((data: object) => {
         this.schema = data;

@@ -1,111 +1,115 @@
 {
-  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
+  "$schema": "https://commandly.divyeshio.in/specification/tool.json",
   "binaryName": "httpx",
   "displayName": "Httpx",
   "info": {
     "description": "Httpx is a fast and multi-purpose HTTP toolkit that allows running multiple probes using the retryablehttp library.",
-    "version": "1.9.0",
+    "version": "1.12.0",
     "url": "https://github.com/projectdiscovery/httpx"
   },
   "commands": [],
   "parameters": [
     {
-      "name": "List",
+      "displayName": "List",
       "description": "Input file containing list of hosts to process.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-l",
-      "longFlag": "-list",
       "sortOrder": 1,
-      "key": "list"
+      "key": "-list",
+      "aliases": [
+        "-l"
+      ]
     },
     {
-      "name": "Request",
+      "displayName": "Request",
       "description": "File containing raw request.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-rr",
-      "longFlag": "-request",
       "sortOrder": 2,
-      "key": "request"
+      "key": "-request",
+      "aliases": [
+        "-rr"
+      ]
     },
     {
-      "name": "Target",
+      "displayName": "Target",
       "description": "Input target host(s) to probe.",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-u",
-      "longFlag": "-target",
       "sortOrder": 3,
-      "key": "target"
+      "key": "-target",
+      "aliases": [
+        "-u"
+      ]
     },
     {
-      "name": "Input Mode",
+      "displayName": "Input Mode",
       "description": "Mode of input file (burp).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-im",
-      "longFlag": "-input-mode",
       "sortOrder": 4,
-      "key": "input-mode"
+      "key": "-input-mode",
+      "aliases": [
+        "-im"
+      ]
     },
     {
-      "name": "Status Code",
+      "displayName": "Status Code",
       "description": "Display response status-code.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-sc",
-      "longFlag": "-status-code",
       "sortOrder": 5,
-      "key": "status-code"
+      "key": "-status-code",
+      "aliases": [
+        "-sc"
+      ]
     },
     {
-      "name": "Content Length",
+      "displayName": "Content Length",
       "description": "Display response content-length.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-cl",
-      "longFlag": "-content-length",
       "sortOrder": 6,
-      "key": "content-length"
+      "key": "-content-length",
+      "aliases": [
+        "-cl"
+      ]
     },
     {
-      "name": "Content Type",
+      "displayName": "Content Type",
       "description": "Display response content-type.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-ct",
-      "longFlag": "-content-type",
       "sortOrder": 7,
-      "key": "content-type"
+      "key": "-content-type",
+      "aliases": [
+        "-ct"
+      ]
     },
     {
-      "name": "Location",
+      "displayName": "Location",
       "description": "Display response redirect location.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-location",
       "sortOrder": 8,
-      "key": "location"
+      "key": "-location"
     },
     {
-      "name": "Favicon",
+      "displayName": "Favicon",
       "description": "Display mmh3 hash for '/favicon.ico' file.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-favicon",
       "sortOrder": 9,
-      "key": "favicon"
+      "key": "-favicon"
     },
     {
-      "name": "Hash",
+      "displayName": "Hash",
       "description": "Display response body hash (supported: md5,mmh3,simhash,sha1,sha256,sha512).",
       "parameterType": "Option",
       "dataType": "Enum",
-      "longFlag": "-hash",
       "sortOrder": 10,
-      "key": "hash",
+      "key": "-hash",
       "enum": {
         "values": [
           {
@@ -136,359 +140,351 @@
       }
     },
     {
-      "name": "Jarm",
+      "displayName": "Jarm",
       "description": "Display jarm fingerprint hash.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-jarm",
       "sortOrder": 11,
-      "key": "jarm"
+      "key": "-jarm"
     },
     {
-      "name": "Response Time",
+      "displayName": "Response Time",
       "description": "Display response time.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-rt",
-      "longFlag": "-response-time",
       "sortOrder": 12,
-      "key": "response-time"
+      "key": "-response-time",
+      "aliases": [
+        "-rt"
+      ]
     },
     {
-      "name": "Line Count",
+      "displayName": "Line Count",
       "description": "Display response body line count.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-lc",
-      "longFlag": "-line-count",
       "sortOrder": 13,
-      "key": "line-count"
+      "key": "-line-count",
+      "aliases": [
+        "-lc"
+      ]
     },
     {
-      "name": "Word Count",
+      "displayName": "Word Count",
       "description": "Display response body word count.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-wc",
-      "longFlag": "-word-count",
       "sortOrder": 14,
-      "key": "word-count"
+      "key": "-word-count",
+      "aliases": [
+        "-wc"
+      ]
     },
     {
-      "name": "Title",
+      "displayName": "Title",
       "description": "Display page title.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-title",
       "sortOrder": 15,
-      "key": "title"
+      "key": "-title"
     },
     {
-      "name": "Body Preview",
+      "displayName": "Body Preview",
       "description": "Display first N characters of response body (default 100).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-bp",
-      "longFlag": "-body-preview",
       "sortOrder": 16,
-      "key": "body-preview"
+      "key": "-body-preview",
+      "aliases": [
+        "-bp"
+      ]
     },
     {
-      "name": "Server",
+      "displayName": "Server",
       "description": "Display server name.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-server",
-      "longFlag": "-web-server",
       "sortOrder": 17,
-      "key": "web-server"
+      "key": "-web-server",
+      "aliases": [
+        "-server"
+      ]
     },
     {
-      "name": "Tech Detect",
+      "displayName": "Tech Detect",
       "description": "Display technology in use based on wappalyzer dataset.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-td",
-      "longFlag": "-tech-detect",
       "sortOrder": 18,
-      "key": "tech-detect"
+      "key": "-tech-detect",
+      "aliases": [
+        "-td"
+      ]
     },
     {
-      "name": "Custom Fingerprint File",
+      "displayName": "Custom Fingerprint File",
       "description": "Path to a custom fingerprint file for technology detection.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-cff",
-      "longFlag": "-custom-fingerprint-file",
       "sortOrder": 19,
-      "key": "custom-fingerprint-file"
+      "key": "-custom-fingerprint-file",
+      "aliases": [
+        "-cff"
+      ]
     },
     {
-      "name": "CPE",
-      "description": "Display CPE (Common Platform Enumeration) based on awesome-search-queries.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "-cpe",
-      "sortOrder": 20,
-      "key": "cpe"
-    },
-    {
-      "name": "Wordpress",
-      "description": "Display WordPress plugins and themes.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-wp",
-      "longFlag": "-wordpress",
-      "sortOrder": 21,
-      "key": "wordpress"
-    },
-    {
-      "name": "Method",
+      "displayName": "Method",
       "description": "Display http request method.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-method",
       "sortOrder": 22,
-      "key": "method"
+      "key": "-method"
     },
     {
-      "name": "WebSocket",
+      "displayName": "WebSocket",
       "description": "Display server using websocket.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-ws",
-      "longFlag": "-websocket",
       "sortOrder": 23,
-      "key": "websocket"
+      "key": "-websocket",
+      "aliases": [
+        "-ws"
+      ]
     },
     {
-      "name": "IP",
+      "displayName": "IP",
       "description": "Display host ip.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-ip",
       "sortOrder": 24,
-      "key": "ip"
+      "key": "-ip"
     },
     {
-      "name": "CNAME",
+      "displayName": "CNAME",
       "description": "Display host cname.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-cname",
       "sortOrder": 25,
-      "key": "cname"
+      "key": "-cname"
     },
     {
-      "name": "Extract FQDN",
+      "displayName": "Extract FQDN",
       "description": "Get domain and subdomains from response body and header in jsonl/csv output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-efqdn",
-      "longFlag": "-extract-fqdn",
       "sortOrder": 26,
-      "key": "extract-fqdn"
+      "key": "-extract-fqdn",
+      "aliases": [
+        "-efqdn"
+      ]
     },
     {
-      "name": "ASN",
+      "displayName": "ASN",
       "description": "Display host asn information.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-asn",
       "sortOrder": 27,
-      "key": "asn"
+      "key": "-asn"
     },
     {
-      "name": "CDN",
+      "displayName": "CDN",
       "description": "Display cdn/waf in use (default true).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-cdn",
       "sortOrder": 28,
-      "key": "cdn"
+      "key": "-cdn"
     },
     {
-      "name": "Probe",
+      "displayName": "Probe",
       "description": "Display probe status.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-probe",
       "sortOrder": 29,
-      "key": "probe"
+      "key": "-probe"
     },
     {
-      "name": "Screenshot",
+      "displayName": "Screenshot",
       "description": "Enable saving screenshot of the page using headless browser.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-ss",
-      "longFlag": "-screenshot",
       "sortOrder": 30,
-      "key": "screenshot"
+      "key": "-screenshot",
+      "aliases": [
+        "-ss"
+      ]
     },
     {
-      "name": "System Chrome",
+      "displayName": "System Chrome",
       "description": "Enable using local installed chrome for screenshot.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-system-chrome",
       "sortOrder": 31,
-      "key": "system-chrome"
+      "key": "-system-chrome"
     },
     {
-      "name": "Headless Options",
+      "displayName": "Headless Options",
       "description": "Start headless chrome with additional options.",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-ho",
-      "longFlag": "-headless-options",
       "sortOrder": 32,
-      "key": "headless-options"
+      "key": "-headless-options",
+      "aliases": [
+        "-ho"
+      ]
     },
     {
-      "name": "Exclude Screenshot Bytes",
+      "displayName": "Exclude Screenshot Bytes",
       "description": "Enable excluding screenshot bytes from json output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-esb",
-      "longFlag": "-exclude-screenshot-bytes",
       "sortOrder": 33,
-      "key": "exclude-screenshot-bytes"
+      "key": "-exclude-screenshot-bytes",
+      "aliases": [
+        "-esb"
+      ]
     },
     {
-      "name": "No Screenshot Full Page",
+      "displayName": "No Screenshot Full Page",
       "description": "Disable saving full page screenshot.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-no-screenshot-full-page",
       "sortOrder": 34,
-      "key": "no-screenshot-full-page"
+      "key": "-no-screenshot-full-page"
     },
     {
-      "name": "Exclude Headless Body",
+      "displayName": "Exclude Headless Body",
       "description": "Enable excluding headless header from json output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-ehb",
-      "longFlag": "-exclude-headless-body",
       "sortOrder": 35,
-      "key": "exclude-headless-body"
+      "key": "-exclude-headless-body",
+      "aliases": [
+        "-ehb"
+      ]
     },
     {
-      "name": "Screenshot Timeout",
+      "displayName": "Screenshot Timeout",
       "description": "Set timeout for screenshot in seconds (default 10s).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-st",
-      "longFlag": "-screenshot-timeout",
       "sortOrder": 36,
-      "key": "screenshot-timeout"
+      "key": "-screenshot-timeout",
+      "aliases": [
+        "-st"
+      ]
     },
     {
-      "name": "Screenshot Idle",
+      "displayName": "Screenshot Idle",
       "description": "Set idle time before taking screenshot in seconds (default 1s).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-sid",
-      "longFlag": "-screenshot-idle",
       "sortOrder": 37,
-      "key": "screenshot-idle"
+      "key": "-screenshot-idle",
+      "aliases": [
+        "-sid"
+      ]
     },
     {
-      "name": "JavaScript Code",
+      "displayName": "JavaScript Code",
       "description": "Execute JavaScript code after navigation.",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-jsc",
-      "longFlag": "-javascript-code",
       "sortOrder": 38,
-      "key": "javascript-code"
+      "key": "-javascript-code",
+      "aliases": [
+        "-jsc"
+      ]
     },
     {
-      "name": "Match Code",
+      "displayName": "Match Code",
       "description": "Match response with specified status code (-mc 200,302).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-mc",
-      "longFlag": "-match-code",
       "sortOrder": 39,
-      "key": "match-code"
+      "key": "-match-code",
+      "aliases": [
+        "-mc"
+      ]
     },
     {
-      "name": "Match Length",
+      "displayName": "Match Length",
       "description": "Match response with specified content length (-ml 100,102).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-ml",
-      "longFlag": "-match-length",
       "sortOrder": 40,
-      "key": "match-length"
+      "key": "-match-length",
+      "aliases": [
+        "-ml"
+      ]
     },
     {
-      "name": "Match Line Count",
+      "displayName": "Match Line Count",
       "description": "Match response body with specified line count (-mlc 423,532).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-mlc",
-      "longFlag": "-match-line-count",
       "sortOrder": 41,
-      "key": "match-line-count"
+      "key": "-match-line-count",
+      "aliases": [
+        "-mlc"
+      ]
     },
     {
-      "name": "Match Word Count",
+      "displayName": "Match Word Count",
       "description": "Match response body with specified word count (-mwc 43,55).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-mwc",
-      "longFlag": "-match-word-count",
       "sortOrder": 42,
-      "key": "match-word-count"
+      "key": "-match-word-count",
+      "aliases": [
+        "-mwc"
+      ]
     },
     {
-      "name": "Match Favicon",
+      "displayName": "Match Favicon",
       "description": "Match response with specified favicon hash (-mfc 1494302000).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-mfc",
-      "longFlag": "-match-favicon",
       "sortOrder": 43,
-      "key": "match-favicon"
+      "key": "-match-favicon",
+      "aliases": [
+        "-mfc"
+      ]
     },
     {
-      "name": "Match String",
+      "displayName": "Match String",
       "description": "Match response with specified string (-ms admin).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-ms",
-      "longFlag": "-match-string",
       "sortOrder": 44,
-      "key": "match-string"
+      "key": "-match-string",
+      "aliases": [
+        "-ms"
+      ]
     },
     {
-      "name": "Match Regex",
+      "displayName": "Match Regex",
       "description": "Match response with specified regex (-mr admin).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-mr",
-      "longFlag": "-match-regex",
       "sortOrder": 45,
-      "key": "match-regex"
+      "key": "-match-regex",
+      "aliases": [
+        "-mr"
+      ]
     },
     {
-      "name": "Match CDN",
+      "displayName": "Match CDN",
       "description": "Match host with specified cdn provider (cloudfront, fastly, google).",
       "parameterType": "Option",
       "dataType": "Enum",
       "isRepeatable": true,
-      "shortFlag": "-mcdn",
-      "longFlag": "-match-cdn",
       "sortOrder": 46,
-      "key": "match-cdn",
+      "key": "-match-cdn",
       "enum": {
         "allowMultiple": true,
         "values": [
@@ -557,49 +553,53 @@
             "displayName": "CDNetworks"
           }
         ]
-      }
+      },
+      "aliases": [
+        "-mcdn"
+      ]
     },
     {
-      "name": "Match Response Time",
+      "displayName": "Match Response Time",
       "description": "Match response with specified response time in seconds (-mrt '< 1').",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-mrt",
-      "longFlag": "-match-response-time",
       "sortOrder": 47,
-      "key": "match-response-time"
+      "key": "-match-response-time",
+      "aliases": [
+        "-mrt"
+      ]
     },
     {
-      "name": "Match Condition",
+      "displayName": "Match Condition",
       "description": "Match response with dsl expression condition.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-mdc",
-      "longFlag": "-match-condition",
       "sortOrder": 48,
-      "key": "match-condition"
+      "key": "-match-condition",
+      "aliases": [
+        "-mdc"
+      ]
     },
     {
-      "name": "Extract Regex",
+      "displayName": "Extract Regex",
       "description": "Display response content with matched regex.",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-er",
-      "longFlag": "-extract-regex",
       "sortOrder": 49,
-      "key": "extract-regex"
+      "key": "-extract-regex",
+      "aliases": [
+        "-er"
+      ]
     },
     {
-      "name": "Extract Preset",
+      "displayName": "Extract Preset",
       "description": "Display response content matched by a pre-defined regex (ipv4,mail,url).",
       "parameterType": "Option",
       "dataType": "Enum",
       "isRepeatable": true,
-      "shortFlag": "-ep",
-      "longFlag": "-extract-preset",
       "sortOrder": 50,
-      "key": "extract-preset",
+      "key": "-extract-preset",
       "enum": {
         "values": [
           {
@@ -615,28 +615,30 @@
             "displayName": "URL"
           }
         ]
-      }
+      },
+      "aliases": [
+        "-ep"
+      ]
     },
     {
-      "name": "Filter Code",
+      "displayName": "Filter Code",
       "description": "Filter response with specified status code (-fc 403,401).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-fc",
-      "longFlag": "-filter-code",
       "sortOrder": 51,
-      "key": "filter-code"
+      "key": "-filter-code",
+      "aliases": [
+        "-fc"
+      ]
     },
     {
-      "name": "Filter Page Type",
+      "displayName": "Filter Page Type",
       "description": "Filter response with specified page type.",
       "parameterType": "Option",
       "dataType": "Enum",
       "isRepeatable": true,
-      "shortFlag": "-fpt",
-      "longFlag": "-filter-page-type",
       "sortOrder": 52,
-      "key": "filter-page-type",
+      "key": "-filter-page-type",
       "enum": {
         "values": [
           {
@@ -720,101 +722,110 @@
             "displayName": "Other"
           }
         ]
-      }
+      },
+      "aliases": [
+        "-fpt"
+      ]
     },
     {
-      "name": "Filter Error Page",
+      "displayName": "Filter Error Page",
       "description": "Filter response with ML based error page detection.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-fep",
-      "longFlag": "-filter-error-page",
       "sortOrder": 53,
-      "key": "filter-error-page"
+      "key": "-filter-error-page",
+      "aliases": [
+        "-fep"
+      ]
     },
     {
-      "name": "Filter Duplicates",
+      "displayName": "Filter Duplicates",
       "description": "Filter out near-duplicate responses (only first response is retained).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-fd",
-      "longFlag": "-filter-duplicates",
       "sortOrder": 54,
-      "key": "filter-duplicates"
+      "key": "-filter-duplicates",
+      "aliases": [
+        "-fd"
+      ]
     },
     {
-      "name": "Filter Length",
+      "displayName": "Filter Length",
       "description": "Filter response with specified content length (-fl 23,33).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-fl",
-      "longFlag": "-filter-length",
       "sortOrder": 55,
-      "key": "filter-length"
+      "key": "-filter-length",
+      "aliases": [
+        "-fl"
+      ]
     },
     {
-      "name": "Filter Line Count",
+      "displayName": "Filter Line Count",
       "description": "Filter response body with specified line count (-flc 423,532).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-flc",
-      "longFlag": "-filter-line-count",
       "sortOrder": 56,
-      "key": "filter-line-count"
+      "key": "-filter-line-count",
+      "aliases": [
+        "-flc"
+      ]
     },
     {
-      "name": "Filter Word Count",
+      "displayName": "Filter Word Count",
       "description": "Filter response body with specified word count (-fwc 423,532).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-fwc",
-      "longFlag": "-filter-word-count",
       "sortOrder": 57,
-      "key": "filter-word-count"
+      "key": "-filter-word-count",
+      "aliases": [
+        "-fwc"
+      ]
     },
     {
-      "name": "Filter Favicon",
+      "displayName": "Filter Favicon",
       "description": "Filter response with specified favicon hash (-ffc 1494302000).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-ffc",
-      "longFlag": "-filter-favicon",
       "sortOrder": 58,
-      "key": "filter-favicon"
+      "key": "-filter-favicon",
+      "aliases": [
+        "-ffc"
+      ]
     },
     {
-      "name": "Filter String",
+      "displayName": "Filter String",
       "description": "Filter response with specified string (-fs admin).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-fs",
-      "longFlag": "-filter-string",
       "sortOrder": 59,
-      "key": "filter-string"
+      "key": "-filter-string",
+      "aliases": [
+        "-fs"
+      ]
     },
     {
-      "name": "Filter Regex",
+      "displayName": "Filter Regex",
       "description": "Filter response with specified regex (-fe admin).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-fe",
-      "longFlag": "-filter-regex",
       "sortOrder": 60,
-      "key": "filter-regex"
+      "key": "-filter-regex",
+      "aliases": [
+        "-fe"
+      ]
     },
     {
-      "name": "Filter CDN",
+      "displayName": "Filter CDN",
       "description": "Filter host with specified cdn provider (cloudfront, fastly, google).",
       "parameterType": "Option",
       "dataType": "Enum",
       "isRepeatable": true,
-      "shortFlag": "-fcdn",
-      "longFlag": "-filter-cdn",
       "sortOrder": 61,
-      "key": "filter-cdn",
+      "key": "-filter-cdn",
       "enum": {
         "allowMultiple": true,
         "values": [
@@ -883,358 +894,361 @@
             "displayName": "CDNetworks"
           }
         ]
-      }
+      },
+      "aliases": [
+        "-fcdn"
+      ]
     },
     {
-      "name": "Filter Response Time",
+      "displayName": "Filter Response Time",
       "description": "Filter response with specified response time in seconds (-frt '> 1').",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-frt",
-      "longFlag": "-filter-response-time",
       "sortOrder": 62,
-      "key": "filter-response-time"
+      "key": "-filter-response-time",
+      "aliases": [
+        "-frt"
+      ]
     },
     {
-      "name": "Filter Condition",
+      "displayName": "Filter Condition",
       "description": "Filter response with dsl expression condition.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-fdc",
-      "longFlag": "-filter-condition",
       "sortOrder": 63,
-      "key": "filter-condition"
+      "key": "-filter-condition",
+      "aliases": [
+        "-fdc"
+      ]
     },
     {
-      "name": "Strip",
+      "displayName": "Strip",
       "description": "Strips all tags in response. Supported formats: html,xml (default html).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-strip",
       "sortOrder": 64,
-      "key": "strip"
+      "key": "-strip"
     },
     {
-      "name": "List Output Fields",
+      "displayName": "List Output Fields",
       "description": "List of fields to output (comma separated).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-lof",
-      "longFlag": "-list-output-fields",
       "sortOrder": 65,
-      "key": "list-output-fields"
+      "key": "-list-output-fields",
+      "aliases": [
+        "-lof"
+      ]
     },
     {
-      "name": "Exclude Output Fields",
+      "displayName": "Exclude Output Fields",
       "description": "Exclude output fields output based on a condition.",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-eof",
-      "longFlag": "-exclude-output-fields",
       "sortOrder": 66,
-      "key": "exclude-output-fields"
+      "key": "-exclude-output-fields",
+      "aliases": [
+        "-eof"
+      ]
     },
     {
-      "name": "Threads",
+      "displayName": "Threads",
       "description": "Number of threads to use (default 50).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-t",
-      "longFlag": "-threads",
       "sortOrder": 67,
-      "key": "threads"
+      "key": "-threads",
+      "aliases": [
+        "-t"
+      ]
     },
     {
-      "name": "Rate Limit",
+      "displayName": "Rate Limit",
       "description": "Maximum requests to send per second (default 150).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-rl",
-      "longFlag": "-rate-limit",
       "sortOrder": 68,
-      "key": "rate-limit"
+      "key": "-rate-limit",
+      "aliases": [
+        "-rl"
+      ]
     },
     {
-      "name": "Rate Limit Minute",
+      "displayName": "Rate Limit Minute",
       "description": "Maximum number of requests to send per minute.",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-rlm",
-      "longFlag": "-rate-limit-minute",
       "sortOrder": 69,
-      "key": "rate-limit-minute"
+      "key": "-rate-limit-minute",
+      "aliases": [
+        "-rlm"
+      ]
     },
     {
-      "name": "Probe All IPs",
+      "displayName": "Probe All IPs",
       "description": "Probe all the ips associated with same host.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-pa",
-      "longFlag": "-probe-all-ips",
       "sortOrder": 70,
-      "key": "probe-all-ips"
+      "key": "-probe-all-ips",
+      "aliases": [
+        "-pa"
+      ]
     },
     {
-      "name": "Ports",
+      "displayName": "Ports",
       "description": "Ports to probe (nmap syntax: eg http:1,2-10,11,https:80).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-p",
-      "longFlag": "-ports",
       "sortOrder": 71,
-      "key": "ports"
+      "key": "-ports",
+      "aliases": [
+        "-p"
+      ]
     },
     {
-      "name": "Path",
+      "displayName": "Path",
       "description": "Path or list of paths to probe (comma-separated, file).",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "-path",
       "sortOrder": 72,
-      "key": "path"
+      "key": "-path"
     },
     {
-      "name": "TLS Probe",
+      "displayName": "TLS Probe",
       "description": "Send http probes on the extracted TLS domains (dns_name).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-tls-probe",
       "sortOrder": 73,
-      "key": "tls-probe"
+      "key": "-tls-probe"
     },
     {
-      "name": "CSP Probe",
+      "displayName": "CSP Probe",
       "description": "Send http probes on the extracted CSP domains.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-csp-probe",
       "sortOrder": 74,
-      "key": "csp-probe"
+      "key": "-csp-probe"
     },
     {
-      "name": "TLS Grab",
+      "displayName": "TLS Grab",
       "description": "Perform TLS(SSL) data grabbing.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-tls-grab",
       "sortOrder": 75,
-      "key": "tls-grab"
+      "key": "-tls-grab"
     },
     {
-      "name": "Pipeline",
+      "displayName": "Pipeline",
       "description": "Probe and display server supporting HTTP1.1 pipeline.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-pipeline",
       "sortOrder": 76,
-      "key": "pipeline"
+      "key": "-pipeline"
     },
     {
-      "name": "HTTP/2",
+      "displayName": "HTTP/2",
       "description": "Probe and display server supporting HTTP2.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-http2",
       "sortOrder": 77,
-      "key": "http2"
+      "key": "-http2"
     },
     {
-      "name": "Vhost",
+      "displayName": "Vhost",
       "description": "Probe and display server supporting VHOST.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-vhost",
       "sortOrder": 78,
-      "key": "vhost"
+      "key": "-vhost"
     },
     {
-      "name": "List DSL Variables",
+      "displayName": "List DSL Variables",
       "description": "List json output field keys name that support dsl matcher/filter.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-ldv",
-      "longFlag": "-list-dsl-variables",
       "sortOrder": 79,
-      "key": "list-dsl-variables"
+      "key": "-list-dsl-variables",
+      "aliases": [
+        "-ldv"
+      ]
     },
     {
-      "name": "Update",
+      "displayName": "Update",
       "description": "Update httpx to latest version.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-up",
-      "longFlag": "-update",
       "sortOrder": 80,
-      "key": "update"
+      "key": "-update",
+      "aliases": [
+        "-up"
+      ]
     },
     {
-      "name": "Disable Update Check",
+      "displayName": "Disable Update Check",
       "description": "Disable automatic httpx update check.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-duc",
-      "longFlag": "-disable-update-check",
       "sortOrder": 81,
-      "key": "disable-update-check"
+      "key": "-disable-update-check",
+      "aliases": [
+        "-duc"
+      ]
     },
     {
-      "name": "Output",
+      "displayName": "Output",
       "description": "File to write output results.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-o",
-      "longFlag": "-output",
       "sortOrder": 82,
-      "key": "output"
+      "key": "-output",
+      "aliases": [
+        "-o"
+      ]
     },
     {
-      "name": "Output All",
+      "displayName": "Output All",
       "description": "Filename to write output results in all formats.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-oa",
-      "longFlag": "-output-all",
       "sortOrder": 83,
-      "key": "output-all"
+      "key": "-output-all",
+      "aliases": [
+        "-oa"
+      ]
     },
     {
-      "name": "Store Response",
+      "displayName": "Store Response",
       "description": "Store http response to output directory.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-sr",
-      "longFlag": "-store-response",
       "sortOrder": 84,
-      "key": "store-response"
+      "key": "-store-response",
+      "aliases": [
+        "-sr"
+      ]
     },
     {
-      "name": "Store Response Dir",
+      "displayName": "Store Response Dir",
       "description": "Store http response to custom directory.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-srd",
-      "longFlag": "-store-response-dir",
       "sortOrder": 85,
-      "key": "store-response-dir"
+      "key": "-store-response-dir",
+      "aliases": [
+        "-srd"
+      ]
     },
     {
-      "name": "Omit Body",
+      "displayName": "Omit Body",
       "description": "Omit response body in output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-ob",
-      "longFlag": "-omit-body",
       "sortOrder": 86,
-      "key": "omit-body"
+      "key": "-omit-body",
+      "aliases": [
+        "-ob"
+      ]
     },
     {
-      "name": "CSV",
+      "displayName": "CSV",
       "description": "Store output in csv format.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-csv",
       "sortOrder": 87,
-      "key": "csv"
+      "key": "-csv"
     },
     {
-      "name": "CSV Output Encoding",
+      "displayName": "CSV Output Encoding",
       "description": "Define output encoding.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-csvo",
-      "longFlag": "-csv-output-encoding",
       "sortOrder": 88,
-      "key": "csv-output-encoding"
+      "key": "-csv-output-encoding",
+      "aliases": [
+        "-csvo"
+      ]
     },
     {
-      "name": "JSON",
+      "displayName": "JSON",
       "description": "Store output in JSONL(ines) format.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-j",
-      "longFlag": "-json",
       "sortOrder": 89,
-      "key": "json"
+      "key": "-json",
+      "aliases": [
+        "-j"
+      ]
     },
     {
-      "name": "Markdown",
-      "description": "Store output in Markdown table format.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-md",
-      "longFlag": "-markdown",
-      "sortOrder": 90,
-      "key": "markdown"
-    },
-    {
-      "name": "Include Response Header",
+      "displayName": "Include Response Header",
       "description": "Include http response (headers) in JSON output (-json only).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-irh",
-      "longFlag": "-include-response-header",
       "sortOrder": 91,
-      "key": "include-response-header"
+      "key": "-include-response-header",
+      "aliases": [
+        "-irh"
+      ]
     },
     {
-      "name": "Include Response",
+      "displayName": "Include Response",
       "description": "Include http request/response (headers + body) in JSON output (-json only).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-irr",
-      "longFlag": "-include-response",
       "sortOrder": 92,
-      "key": "include-response"
+      "key": "-include-response",
+      "aliases": [
+        "-irr"
+      ]
     },
     {
-      "name": "Include Response Base64",
+      "displayName": "Include Response Base64",
       "description": "Include base64 encoded http request/response in JSON output (-json only).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-irrb",
-      "longFlag": "-include-response-base64",
       "sortOrder": 93,
-      "key": "include-response-base64"
+      "key": "-include-response-base64",
+      "aliases": [
+        "-irrb"
+      ]
     },
     {
-      "name": "Include Chain",
+      "displayName": "Include Chain",
       "description": "Include redirect http chain in JSON output (-json only).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-include-chain",
       "sortOrder": 94,
-      "key": "include-chain"
+      "key": "-include-chain"
     },
     {
-      "name": "Store Chain",
+      "displayName": "Store Chain",
       "description": "Include http redirect chain in responses (-sr only).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-store-chain",
       "sortOrder": 95,
-      "key": "store-chain"
+      "key": "-store-chain"
     },
     {
-      "name": "Store Vision Recon Cluster",
+      "displayName": "Store Vision Recon Cluster",
       "description": "Include visual recon clusters (-ss and -sr only).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-svrc",
-      "longFlag": "-store-vision-recon-cluster",
       "sortOrder": 96,
-      "key": "store-vision-recon-cluster"
+      "key": "-store-vision-recon-cluster",
+      "aliases": [
+        "-svrc"
+      ]
     },
     {
-      "name": "Protocol",
+      "displayName": "Protocol",
       "description": "Protocol to use.",
       "parameterType": "Option",
       "dataType": "Enum",
-      "shortFlag": "-pr",
-      "longFlag": "-protocol",
       "sortOrder": 97,
-      "key": "protocol",
+      "key": "-protocol",
       "enum": {
         "values": [
           {
@@ -1254,47 +1268,51 @@
             "displayName": "HTTP/3 (experimental)"
           }
         ]
-      }
+      },
+      "aliases": [
+        "-pr"
+      ]
     },
     {
-      "name": "Filter Error Page Path",
+      "displayName": "Filter Error Page Path",
       "description": "Path to store filtered error pages (default \"filtered_error_page.json\").",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-fepp",
-      "longFlag": "-filter-error-page-path",
       "sortOrder": 98,
-      "key": "filter-error-page-path"
+      "key": "-filter-error-page-path",
+      "aliases": [
+        "-fepp"
+      ]
     },
     {
-      "name": "Result DB",
+      "displayName": "Result DB",
       "description": "Store results in database.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-rdb",
-      "longFlag": "-result-db",
       "sortOrder": 99,
-      "key": "result-db"
+      "key": "-result-db",
+      "aliases": [
+        "-rdb"
+      ]
     },
     {
-      "name": "Result DB Config",
+      "displayName": "Result DB Config",
       "description": "Path to database config file.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-rdbc",
-      "longFlag": "-result-db-config",
       "sortOrder": 100,
-      "key": "result-db-config"
+      "key": "-result-db-config",
+      "aliases": [
+        "-rdbc"
+      ]
     },
     {
-      "name": "Result DB Type",
+      "displayName": "Result DB Type",
       "description": "Database type (mongodb, postgres, mysql).",
       "parameterType": "Option",
       "dataType": "Enum",
-      "shortFlag": "-rdbt",
-      "longFlag": "-result-db-type",
       "sortOrder": 101,
-      "key": "result-db-type",
+      "key": "-result-db-type",
       "enum": {
         "values": [
           {
@@ -1310,472 +1328,480 @@
             "displayName": "MySQL"
           }
         ]
-      }
+      },
+      "aliases": [
+        "-rdbt"
+      ]
     },
     {
-      "name": "Result DB Connection",
+      "displayName": "Result DB Connection",
       "description": "Database connection string.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-rdbcs",
-      "longFlag": "-result-db-conn",
       "sortOrder": 102,
-      "key": "result-db-conn"
+      "key": "-result-db-conn",
+      "aliases": [
+        "-rdbcs"
+      ]
     },
     {
-      "name": "Result DB Name",
+      "displayName": "Result DB Name",
       "description": "Database name (default \"httpx\").",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-rdbn",
-      "longFlag": "-result-db-name",
       "sortOrder": 103,
-      "key": "result-db-name"
+      "key": "-result-db-name",
+      "aliases": [
+        "-rdbn"
+      ]
     },
     {
-      "name": "Result DB Table",
+      "displayName": "Result DB Table",
       "description": "Table/collection name (default \"results\").",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-rdbtb",
-      "longFlag": "-result-db-table",
       "sortOrder": 104,
-      "key": "result-db-table"
+      "key": "-result-db-table",
+      "aliases": [
+        "-rdbtb"
+      ]
     },
     {
-      "name": "Result DB Batch Size",
+      "displayName": "Result DB Batch Size",
       "description": "Batch size for database inserts (default 100).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-rdbbs",
-      "longFlag": "-result-db-batch-size",
       "sortOrder": 105,
-      "key": "result-db-batch-size"
+      "key": "-result-db-batch-size",
+      "aliases": [
+        "-rdbbs"
+      ]
     },
     {
-      "name": "Result DB Omit Raw",
+      "displayName": "Result DB Omit Raw",
       "description": "Omit raw request/response data from database.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-rdbor",
-      "longFlag": "-result-db-omit-raw",
       "sortOrder": 106,
-      "key": "result-db-omit-raw"
+      "key": "-result-db-omit-raw",
+      "aliases": [
+        "-rdbor"
+      ]
     },
     {
-      "name": "Config",
+      "displayName": "Config",
       "description": "Path to the httpx configuration file (default $HOME/.config/httpx/config.yaml).",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "-config",
       "sortOrder": 107,
-      "key": "config"
+      "key": "-config"
     },
     {
-      "name": "Resolvers",
+      "displayName": "Resolvers",
       "description": "List of custom resolver (file or comma separated).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-r",
-      "longFlag": "-resolvers",
       "sortOrder": 108,
-      "key": "resolvers"
+      "key": "-resolvers",
+      "aliases": [
+        "-r"
+      ]
     },
     {
-      "name": "Allow",
+      "displayName": "Allow",
       "description": "Allowed list of IP/CIDR's to process (file or comma separated).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "longFlag": "-allow",
       "sortOrder": 109,
-      "key": "allow"
+      "key": "-allow"
     },
     {
-      "name": "Deny",
+      "displayName": "Deny",
       "description": "Denied list of IP/CIDR's to process (file or comma separated).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "longFlag": "-deny",
       "sortOrder": 110,
-      "key": "deny"
+      "key": "-deny"
     },
     {
-      "name": "SNI Name",
+      "displayName": "SNI Name",
       "description": "Custom TLS SNI name.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-sni",
-      "longFlag": "-sni-name",
       "sortOrder": 111,
-      "key": "sni-name"
+      "key": "-sni-name",
+      "aliases": [
+        "-sni"
+      ]
     },
     {
-      "name": "Random Agent",
+      "displayName": "Random Agent",
       "description": "Enable Random User-Agent to use (default true).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-random-agent",
       "sortOrder": 112,
-      "key": "random-agent"
+      "key": "-random-agent"
     },
     {
-      "name": "Auto Referer",
+      "displayName": "Auto Referer",
       "description": "Set the Referer header to the current URL.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-auto-referer",
       "sortOrder": 113,
-      "key": "auto-referer"
+      "key": "-auto-referer"
     },
     {
-      "name": "Header",
+      "displayName": "Header",
       "description": "Custom http headers to send with request.",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-H",
-      "longFlag": "-header",
       "sortOrder": 114,
-      "key": "header"
+      "key": "-header",
+      "aliases": [
+        "-H"
+      ]
     },
     {
-      "name": "Proxy",
+      "displayName": "Proxy",
       "description": "Http proxy to use (eg http://127.0.0.1:8080).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-http-proxy",
-      "longFlag": "-proxy",
       "sortOrder": 115,
-      "key": "proxy"
+      "key": "-proxy",
+      "aliases": [
+        "-http-proxy"
+      ]
     },
     {
-      "name": "Unsafe",
+      "displayName": "Unsafe",
       "description": "Send raw requests skipping golang normalization.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-unsafe",
       "sortOrder": 116,
-      "key": "unsafe"
+      "key": "-unsafe"
     },
     {
-      "name": "Resume",
+      "displayName": "Resume",
       "description": "Resume scan using resume.cfg.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-resume",
       "sortOrder": 117,
-      "key": "resume"
+      "key": "-resume"
     },
     {
-      "name": "Follow Redirects",
+      "displayName": "Follow Redirects",
       "description": "Follow http redirects.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-fr",
-      "longFlag": "-follow-redirects",
       "sortOrder": 118,
-      "key": "follow-redirects"
+      "key": "-follow-redirects",
+      "aliases": [
+        "-fr"
+      ]
     },
     {
-      "name": "Max Redirects",
+      "displayName": "Max Redirects",
       "description": "Max number of redirects to follow per host (default 10).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-maxr",
-      "longFlag": "-max-redirects",
       "sortOrder": 119,
-      "key": "max-redirects"
+      "key": "-max-redirects",
+      "aliases": [
+        "-maxr"
+      ]
     },
     {
-      "name": "Follow Host Redirects",
+      "displayName": "Follow Host Redirects",
       "description": "Follow redirects on the same host.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-fhr",
-      "longFlag": "-follow-host-redirects",
       "sortOrder": 120,
-      "key": "follow-host-redirects"
+      "key": "-follow-host-redirects",
+      "aliases": [
+        "-fhr"
+      ]
     },
     {
-      "name": "Respect HSTS",
+      "displayName": "Respect HSTS",
       "description": "Respect HSTS response headers for redirect requests.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-rhsts",
-      "longFlag": "-respect-hsts",
       "sortOrder": 121,
-      "key": "respect-hsts"
+      "key": "-respect-hsts",
+      "aliases": [
+        "-rhsts"
+      ]
     },
     {
-      "name": "Vhost Input",
+      "displayName": "Vhost Input",
       "description": "Get a list of vhosts as input.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-vhost-input",
       "sortOrder": 122,
-      "key": "vhost-input"
+      "key": "-vhost-input"
     },
     {
-      "name": "X",
+      "displayName": "X",
       "description": "Request methods to probe, use 'all' to probe all HTTP methods.",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "-x",
       "sortOrder": 123,
-      "key": "x"
+      "key": "-x"
     },
     {
-      "name": "Body",
+      "displayName": "Body",
       "description": "Post body to include in http request.",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "-body",
       "sortOrder": 124,
-      "key": "body"
+      "key": "-body"
     },
     {
-      "name": "Stream",
+      "displayName": "Stream",
       "description": "Stream mode - start elaborating input targets without sorting.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-s",
-      "longFlag": "-stream",
       "sortOrder": 125,
-      "key": "stream"
+      "key": "-stream",
+      "aliases": [
+        "-s"
+      ]
     },
     {
-      "name": "Skip Dedupe",
+      "displayName": "Skip Dedupe",
       "description": "Disable dedupe input items (only used with stream mode).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-sd",
-      "longFlag": "-skip-dedupe",
       "sortOrder": 126,
-      "key": "skip-dedupe"
+      "key": "-skip-dedupe",
+      "aliases": [
+        "-sd"
+      ]
     },
     {
-      "name": "Leave Default Ports",
+      "displayName": "Leave Default Ports",
       "description": "Leave default http/https ports in host header (eg. http://host:80 - https://host:443).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-ldp",
-      "longFlag": "-leave-default-ports",
       "sortOrder": 127,
-      "key": "leave-default-ports"
+      "key": "-leave-default-ports",
+      "aliases": [
+        "-ldp"
+      ]
     },
     {
-      "name": "Ztls",
+      "displayName": "Ztls",
       "description": "Use ztls library with autofallback to standard one for tls13.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-ztls",
       "sortOrder": 128,
-      "key": "ztls"
+      "key": "-ztls"
     },
     {
-      "name": "No Decode",
+      "displayName": "No Decode",
       "description": "Avoid decoding body.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-no-decode",
       "sortOrder": 129,
-      "key": "no-decode"
+      "key": "-no-decode"
     },
     {
-      "name": "TLS Impersonate",
+      "displayName": "TLS Impersonate",
       "description": "Enable experimental client hello (ja3) tls randomization.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-tlsi",
-      "longFlag": "-tls-impersonate",
       "sortOrder": 130,
-      "key": "tls-impersonate"
+      "key": "-tls-impersonate",
+      "aliases": [
+        "-tlsi"
+      ]
     },
     {
-      "name": "No Stdin",
+      "displayName": "No Stdin",
       "description": "Disable Stdin processing.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-no-stdin",
       "sortOrder": 131,
-      "key": "no-stdin"
+      "key": "-no-stdin"
     },
     {
-      "name": "HTTP API Endpoint",
+      "displayName": "HTTP API Endpoint",
       "description": "Experimental http api endpoint.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-hae",
-      "longFlag": "-http-api-endpoint",
       "sortOrder": 132,
-      "key": "http-api-endpoint"
+      "key": "-http-api-endpoint",
+      "aliases": [
+        "-hae"
+      ]
     },
     {
-      "name": "Secret File",
+      "displayName": "Secret File",
       "description": "Path to the secret file for authentication.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-sf",
-      "longFlag": "-secret-file",
       "sortOrder": 133,
-      "key": "secret-file"
+      "key": "-secret-file",
+      "aliases": [
+        "-sf"
+      ]
     },
     {
-      "name": "Health Check",
+      "displayName": "Health Check",
       "description": "Run diagnostic check up.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-hc",
-      "longFlag": "-health-check",
       "sortOrder": 134,
-      "key": "health-check"
+      "key": "-health-check",
+      "aliases": [
+        "-hc"
+      ]
     },
     {
-      "name": "Debug",
+      "displayName": "Debug",
       "description": "Display request/response content in cli.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-debug",
       "sortOrder": 135,
-      "key": "debug"
+      "key": "-debug"
     },
     {
-      "name": "Debug Request",
+      "displayName": "Debug Request",
       "description": "Display request content in cli.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-debug-req",
       "sortOrder": 136,
-      "key": "debug-req"
+      "key": "-debug-req"
     },
     {
-      "name": "Debug Response",
+      "displayName": "Debug Response",
       "description": "Display response content in cli.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-debug-resp",
       "sortOrder": 137,
-      "key": "debug-resp"
+      "key": "-debug-resp"
     },
     {
-      "name": "Version",
+      "displayName": "Version",
       "description": "Display httpx version.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-version",
       "sortOrder": 138,
-      "key": "version"
+      "key": "-version"
     },
     {
-      "name": "Stats",
+      "displayName": "Stats",
       "description": "Display scan statistic.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-stats",
       "sortOrder": 139,
-      "key": "stats"
+      "key": "-stats"
     },
     {
-      "name": "Profile Mem",
+      "displayName": "Profile Mem",
       "description": "Optional httpx memory profile dump file.",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "-profile-mem",
       "sortOrder": 140,
-      "key": "profile-mem"
+      "key": "-profile-mem"
     },
     {
-      "name": "Silent",
+      "displayName": "Silent",
       "description": "Silent mode.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-silent",
       "sortOrder": 141,
-      "key": "silent"
+      "key": "-silent"
     },
     {
-      "name": "Verbose",
+      "displayName": "Verbose",
       "description": "Verbose mode.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-v",
-      "longFlag": "-verbose",
       "sortOrder": 142,
-      "key": "verbose"
+      "key": "-verbose",
+      "aliases": [
+        "-v"
+      ]
     },
     {
-      "name": "Stats Interval",
+      "displayName": "Stats Interval",
       "description": "Number of seconds to wait between showing a statistics update (default: 5).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-si",
-      "longFlag": "-stats-interval",
       "sortOrder": 143,
-      "key": "stats-interval"
+      "key": "-stats-interval",
+      "aliases": [
+        "-si"
+      ]
     },
     {
-      "name": "No Color",
+      "displayName": "No Color",
       "description": "Disable colors in cli output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-nc",
-      "longFlag": "-no-color",
       "sortOrder": 144,
-      "key": "no-color"
+      "key": "-no-color",
+      "aliases": [
+        "-nc"
+      ]
     },
     {
-      "name": "Trace",
+      "displayName": "Trace",
       "description": "Trace.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-tr",
-      "longFlag": "-trace",
       "sortOrder": 145,
-      "key": "trace"
+      "key": "-trace",
+      "aliases": [
+        "-tr"
+      ]
     },
     {
-      "name": "No Fallback",
+      "displayName": "No Fallback",
       "description": "Display both probed protocol (HTTPS and HTTP).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-nf",
-      "longFlag": "-no-fallback",
       "sortOrder": 146,
-      "key": "no-fallback"
+      "key": "-no-fallback",
+      "aliases": [
+        "-nf"
+      ]
     },
     {
-      "name": "No Fallback Scheme",
+      "displayName": "No Fallback Scheme",
       "description": "Probe with protocol scheme specified in input.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-nfs",
-      "longFlag": "-no-fallback-scheme",
       "sortOrder": 147,
-      "key": "no-fallback-scheme"
+      "key": "-no-fallback-scheme",
+      "aliases": [
+        "-nfs"
+      ]
     },
     {
-      "name": "Max Host Error",
+      "displayName": "Max Host Error",
       "description": "Max error count per host before skipping remaining path/s (default 30).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-maxhr",
-      "longFlag": "-max-host-error",
       "sortOrder": 148,
-      "key": "max-host-error"
+      "key": "-max-host-error",
+      "aliases": [
+        "-maxhr"
+      ]
     },
     {
-      "name": "Exclude",
+      "displayName": "Exclude",
       "description": "Exclude host matching specified filter ('cdn', 'private-ips', cidr, ip, regex).",
       "parameterType": "Option",
       "dataType": "Enum",
       "isRepeatable": true,
-      "shortFlag": "-e",
-      "longFlag": "-exclude",
       "sortOrder": 149,
-      "key": "exclude",
+      "key": "-exclude",
       "enum": {
         "values": [
           {
@@ -1799,123 +1825,176 @@
             "displayName": "Regex"
           }
         ]
-      }
+      },
+      "aliases": [
+        "-e"
+      ]
     },
     {
-      "name": "Retries",
+      "displayName": "Retries",
       "description": "Number of retries.",
       "parameterType": "Option",
       "dataType": "Number",
-      "longFlag": "-retries",
       "sortOrder": 150,
-      "key": "retries"
+      "key": "-retries"
     },
     {
-      "name": "Timeout",
+      "displayName": "Timeout",
       "description": "Timeout in seconds (default 10).",
       "parameterType": "Option",
       "dataType": "Number",
-      "longFlag": "-timeout",
       "sortOrder": 151,
-      "key": "timeout"
+      "key": "-timeout"
     },
     {
-      "name": "Delay",
+      "displayName": "Delay",
       "description": "Duration between each http request (eg: 200ms, 1s) (default -1ns).",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "-delay",
       "sortOrder": 152,
-      "key": "delay"
+      "key": "-delay"
     },
     {
-      "name": "Response Size to Save",
+      "displayName": "Response Size to Save",
       "description": "Max response size to save in bytes (default 2147483647).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-rsts",
-      "longFlag": "-response-size-to-save",
       "sortOrder": 153,
-      "key": "response-size-to-save"
+      "key": "-response-size-to-save",
+      "aliases": [
+        "-rsts"
+      ]
     },
     {
-      "name": "Response Size to Read",
+      "displayName": "Response Size to Read",
       "description": "Max response size to read in bytes (default 2147483647).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-rstr",
-      "longFlag": "-response-size-to-read",
       "sortOrder": 154,
-      "key": "response-size-to-read"
+      "key": "-response-size-to-read",
+      "aliases": [
+        "-rstr"
+      ]
     },
     {
-      "name": "Auth",
+      "displayName": "Auth",
       "description": "Configure projectdiscovery cloud (pdcp) api key (default true).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-auth",
       "sortOrder": 155,
-      "key": "auth"
+      "key": "-auth"
     },
     {
-      "name": "Auth Config",
+      "displayName": "Auth Config",
       "description": "Configure projectdiscovery cloud (pdcp) api key credential file.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-ac",
-      "longFlag": "-auth-config",
       "sortOrder": 156,
-      "key": "auth-config"
+      "key": "-auth-config",
+      "aliases": [
+        "-ac"
+      ]
     },
     {
-      "name": "Dashboard",
+      "displayName": "Dashboard",
       "description": "Upload / view output in projectdiscovery cloud (pdcp) UI dashboard.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-pd",
-      "longFlag": "-dashboard",
       "sortOrder": 157,
-      "key": "dashboard"
+      "key": "-dashboard",
+      "aliases": [
+        "-pd"
+      ]
     },
     {
-      "name": "Team ID",
+      "displayName": "Team ID",
       "description": "Upload asset results to given team id (optional).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-tid",
-      "longFlag": "-team-id",
       "sortOrder": 158,
-      "key": "team-id"
+      "key": "-team-id",
+      "aliases": [
+        "-tid"
+      ]
     },
     {
-      "name": "Asset ID",
+      "displayName": "Asset ID",
       "description": "Upload new assets to existing asset id (optional).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-aid",
-      "longFlag": "-asset-id",
       "sortOrder": 159,
-      "key": "asset-id"
+      "key": "-asset-id",
+      "aliases": [
+        "-aid"
+      ]
     },
     {
-      "name": "Asset Name",
+      "displayName": "Asset Name",
       "description": "Assets group name to set (optional).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-aname",
-      "longFlag": "-asset-name",
       "sortOrder": 160,
-      "key": "asset-name"
+      "key": "-asset-name",
+      "aliases": [
+        "-aname"
+      ]
     },
     {
-      "name": "Dashboard Upload",
+      "displayName": "Dashboard Upload",
       "description": "Upload httpx output file (jsonl) in projectdiscovery cloud (pdcp) UI dashboard.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-pdu",
-      "longFlag": "-dashboard-upload",
       "sortOrder": 161,
-      "key": "dashboard-upload"
+      "key": "-dashboard-upload",
+      "aliases": [
+        "-pdu"
+      ]
+    },
+    {
+      "displayName": "Knowledge Base",
+      "description": "Enable knowledge base classification.",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 162,
+      "key": "-knowledge-base",
+      "aliases": [
+        "-kb"
+      ]
     }
-  ]
+  ],
+  "installation": {
+    "sources": [
+      {
+        "key": "go-install",
+        "method": "package_manager",
+        "manager": "go",
+        "command": "go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest",
+        "url": "https://docs.projectdiscovery.io/opensource/httpx/install"
+      },
+      {
+        "key": "brew",
+        "method": "package_manager",
+        "manager": "brew",
+        "command": "brew install httpx",
+        "url": "https://docs.projectdiscovery.io/opensource/httpx/install",
+        "os": [
+          "linux",
+          "macos"
+        ]
+      },
+      {
+        "key": "docker",
+        "method": "docker",
+        "command": "docker pull projectdiscovery/httpx:latest",
+        "url": "https://docs.projectdiscovery.io/opensource/httpx/install"
+      },
+      {
+        "key": "release-binary",
+        "method": "binary",
+        "command": "https://github.com/projectdiscovery/httpx/releases",
+        "url": "https://docs.projectdiscovery.io/opensource/httpx/install",
+        "note": "Download the latest binary for your OS and unzip it."
+      }
+    ]
+  }
 }
