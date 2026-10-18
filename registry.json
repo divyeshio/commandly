@@ -8,13 +8,20 @@
       "type": "registry:block",
       "title": "Basic UI",
       "description": "Basic components to render previews, command generation and json output",
-      "dependencies": ["react", "lucide-react", "sonner"],
+      "dependencies": ["react", "lucide-react", "sonner", "class-variance-authority"],
       "registryDependencies": [
+        "badge",
         "button",
+        "card",
+        "collapsible",
+        "command",
         "dialog",
         "input",
         "label",
+        "popover",
         "select",
+        "separator",
+        "switch",
         "textarea",
         "tabs",
         "tooltip",
@@ -22,6 +29,11 @@
         "hover-card"
       ],
       "files": [
+        {
+          "path": "src/components/ui/multi-select.tsx",
+          "type": "registry:file",
+          "target": "components/ui/multi-select.tsx"
+        },
         {
           "path": "registry/commandly/generated-command.tsx",
           "type": "registry:component",
@@ -33,9 +45,24 @@
           "target": "components/commandly/json-output.tsx"
         },
         {
+          "path": "registry/commandly/json-tree.tsx",
+          "type": "registry:component",
+          "target": "components/commandly/json-tree.tsx"
+        },
+        {
           "path": "registry/commandly/tool-renderer.tsx",
           "type": "registry:component",
           "target": "components/commandly/tool-renderer.tsx"
+        },
+        {
+          "path": "registry/commandly/command-tree.tsx",
+          "type": "registry:component",
+          "target": "components/commandly/command-tree.tsx"
+        },
+        {
+          "path": "registry/commandly/installation.tsx",
+          "type": "registry:component",
+          "target": "components/commandly/installation.tsx"
         },
         {
           "target": "components/commandly/types/renderer.ts",
@@ -43,23 +70,38 @@
           "type": "registry:file"
         },
         {
-          "target": "components/commandly/types/flat.ts",
-          "path": "registry/commandly/types/flat.ts",
+          "target": "components/commandly/types/tool.ts",
+          "path": "registry/commandly/types/tool.ts",
           "type": "registry:file"
         },
         {
-          "target": "components/commandly/types/nested.ts",
-          "path": "registry/commandly/types/nested.ts",
+          "target": "components/commandly/utils/tool.ts",
+          "path": "registry/commandly/utils/tool.ts",
           "type": "registry:file"
         },
         {
-          "target": "components/commandly/utils/flat.ts",
-          "path": "registry/commandly/utils/flat.ts",
+          "target": "components/commandly/utils/generate-command.ts",
+          "path": "registry/commandly/utils/generate-command.ts",
           "type": "registry:file"
         },
         {
-          "target": "components/commandly/utils/nested.ts",
-          "path": "registry/commandly/utils/nested.ts",
+          "target": "components/commandly/utils/tool-file.ts",
+          "path": "registry/commandly/utils/tool-file.ts",
+          "type": "registry:file"
+        },
+        {
+          "target": "components/commandly/utils/diff.ts",
+          "path": "registry/commandly/utils/diff.ts",
+          "type": "registry:file"
+        },
+        {
+          "target": "components/commandly/utils/clipboard.ts",
+          "path": "registry/commandly/utils/clipboard.ts",
+          "type": "registry:file"
+        },
+        {
+          "target": "components/commandly/utils/json-tree.ts",
+          "path": "registry/commandly/utils/json-tree.ts",
           "type": "registry:file"
         }
       ]
@@ -70,7 +112,7 @@
       "title": "Generated Command",
       "description": "A component that generates CLI commands based on tool configuration and parameter values with copy and save functionality.",
       "dependencies": ["react", "lucide-react", "sonner"],
-      "registryDependencies": ["button"],
+      "registryDependencies": ["button", "card", "label", "select"],
       "files": [
         {
           "path": "registry/commandly/generated-command.tsx",
@@ -78,23 +120,23 @@
           "target": "components/commandly/generated-command.tsx"
         },
         {
-          "target": "components/commandly/types/flat.ts",
-          "path": "registry/commandly/types/flat.ts",
+          "target": "components/commandly/types/tool.ts",
+          "path": "registry/commandly/types/tool.ts",
           "type": "registry:file"
         },
         {
-          "target": "components/commandly/types/nested.ts",
-          "path": "registry/commandly/types/nested.ts",
+          "target": "components/commandly/utils/tool.ts",
+          "path": "registry/commandly/utils/tool.ts",
           "type": "registry:file"
         },
         {
-          "target": "components/commandly/utils/flat.ts",
-          "path": "registry/commandly/utils/flat.ts",
+          "target": "components/commandly/utils/generate-command.ts",
+          "path": "registry/commandly/utils/generate-command.ts",
           "type": "registry:file"
         },
         {
-          "target": "components/commandly/utils/nested.ts",
-          "path": "registry/commandly/utils/nested.ts",
+          "target": "components/commandly/utils/clipboard.ts",
+          "path": "registry/commandly/utils/clipboard.ts",
           "type": "registry:file"
         }
       ]
@@ -103,9 +145,9 @@
       "name": "json-output",
       "type": "registry:component",
       "title": "JSON Output",
-      "description": "A component for displaying formatted JSON output with syntax highlighting and copy functionality.",
-      "dependencies": ["react"],
-      "registryDependencies": ["button", "scroll-area"],
+      "description": "A component for displaying a tool definition as a collapsible JSON tree with search, copy, and diff functionality.",
+      "dependencies": ["react", "lucide-react", "sonner"],
+      "registryDependencies": ["badge", "button", "card", "scroll-area", "textarea"],
       "files": [
         {
           "path": "registry/commandly/json-output.tsx",
@@ -113,23 +155,88 @@
           "target": "components/commandly/json-output.tsx"
         },
         {
-          "target": "components/commandly/types/flat.ts",
-          "path": "registry/commandly/types/flat.ts",
+          "path": "registry/commandly/json-tree.tsx",
+          "type": "registry:component",
+          "target": "components/commandly/json-tree.tsx"
+        },
+        {
+          "target": "components/commandly/types/tool.ts",
+          "path": "registry/commandly/types/tool.ts",
           "type": "registry:file"
         },
         {
-          "target": "components/commandly/types/nested.ts",
-          "path": "registry/commandly/types/nested.ts",
+          "target": "components/commandly/utils/tool.ts",
+          "path": "registry/commandly/utils/tool.ts",
           "type": "registry:file"
         },
         {
-          "target": "components/commandly/utils/flat.ts",
-          "path": "registry/commandly/utils/flat.ts",
+          "target": "components/commandly/utils/tool-file.ts",
+          "path": "registry/commandly/utils/tool-file.ts",
           "type": "registry:file"
         },
         {
-          "target": "components/commandly/utils/nested.ts",
-          "path": "registry/commandly/utils/nested.ts",
+          "target": "components/commandly/utils/diff.ts",
+          "path": "registry/commandly/utils/diff.ts",
+          "type": "registry:file"
+        },
+        {
+          "target": "components/commandly/utils/clipboard.ts",
+          "path": "registry/commandly/utils/clipboard.ts",
+          "type": "registry:file"
+        },
+        {
+          "target": "components/commandly/utils/json-tree.ts",
+          "path": "registry/commandly/utils/json-tree.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "command-tree",
+      "type": "registry:component",
+      "title": "Command Tree",
+      "description": "A searchable command tree for navigating a tool's commands and subcommands.",
+      "dependencies": ["react", "lucide-react"],
+      "registryDependencies": ["badge", "collapsible", "input", "scroll-area"],
+      "files": [
+        {
+          "path": "registry/commandly/command-tree.tsx",
+          "type": "registry:component",
+          "target": "components/commandly/command-tree.tsx"
+        },
+        {
+          "target": "components/commandly/types/tool.ts",
+          "path": "registry/commandly/types/tool.ts",
+          "type": "registry:file"
+        },
+        {
+          "target": "components/commandly/utils/tool.ts",
+          "path": "registry/commandly/utils/tool.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "installation",
+      "type": "registry:component",
+      "title": "Installation Section",
+      "description": "Renders a tool's structured installation sources grouped by install method.",
+      "dependencies": ["react", "lucide-react"],
+      "registryDependencies": ["badge", "button", "tabs"],
+      "files": [
+        {
+          "path": "registry/commandly/installation.tsx",
+          "type": "registry:component",
+          "target": "components/commandly/installation.tsx"
+        },
+        {
+          "target": "components/commandly/types/tool.ts",
+          "path": "registry/commandly/types/tool.ts",
+          "type": "registry:file"
+        },
+        {
+          "target": "components/commandly/utils/clipboard.ts",
+          "path": "registry/commandly/utils/clipboard.ts",
           "type": "registry:file"
         }
       ]
@@ -139,8 +246,20 @@
       "type": "registry:component",
       "title": "Tool Renderer",
       "description": "A component that provides real-time preview of CLI command execution and output.",
-      "dependencies": ["react"],
-      "registryDependencies": ["button", "scroll-area", "tabs"],
+      "dependencies": ["react", "lucide-react", "class-variance-authority"],
+      "registryDependencies": [
+        "badge",
+        "button",
+        "command",
+        "input",
+        "label",
+        "popover",
+        "scroll-area",
+        "separator",
+        "switch",
+        "tabs",
+        "tooltip"
+      ],
       "files": [
         {
           "path": "registry/commandly/tool-renderer.tsx",
@@ -148,18 +267,28 @@
           "target": "components/commandly/tool-renderer.tsx"
         },
         {
+          "path": "src/components/ui/multi-select.tsx",
+          "type": "registry:file",
+          "target": "components/ui/multi-select.tsx"
+        },
+        {
           "target": "components/commandly/types/renderer.ts",
           "path": "registry/commandly/types/renderer.ts",
           "type": "registry:file"
         },
         {
-          "target": "components/commandly/types/flat.ts",
-          "path": "registry/commandly/types/flat.ts",
+          "target": "components/commandly/types/tool.ts",
+          "path": "registry/commandly/types/tool.ts",
           "type": "registry:file"
         },
         {
-          "target": "components/commandly/types/nested.ts",
-          "path": "registry/commandly/types/nested.ts",
+          "target": "components/commandly/utils/tool.ts",
+          "path": "registry/commandly/utils/tool.ts",
+          "type": "registry:file"
+        },
+        {
+          "target": "components/commandly/utils/generate-command.ts",
+          "path": "registry/commandly/utils/generate-command.ts",
           "type": "registry:file"
         }
       ]

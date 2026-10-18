@@ -1,5 +1,5 @@
-import { type Tool } from "@/components/commandly/types/flat";
-import { slugify } from "@/components/commandly/utils/flat";
+import { type Tool } from "@/components/commandly/types/tool";
+import { slugify } from "@/components/commandly/utils/tool";
 import { SkeletonCard } from "@/components/square-card-skeleton";
 import { ToolCard } from "@/components/tool-card";
 import { Button } from "@/components/ui/button";
@@ -17,17 +17,9 @@ import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { fetchToolsList } from "@/lib/api/tools.api";
-import { queryOptions } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { SearchIcon } from "lucide-react";
 import React, { Suspense, useEffect, useState } from "react";
-
-export const toolsQueryOptions = () =>
-  queryOptions({
-    queryKey: ["tools"],
-    queryFn: () => fetchToolsList(),
-    staleTime: Infinity,
-  });
 
 export const Route = createFileRoute("/tools/")({
   component: RouteComponent,

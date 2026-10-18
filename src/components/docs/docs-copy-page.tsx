@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { CheckIcon, ChevronDownIcon, CopyIcon } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 
 function getPromptUrl(baseURL: string, url: string) {
   return `${baseURL}?q=${encodeURIComponent(
@@ -17,37 +18,36 @@ function getPromptUrl(baseURL: string, url: string) {
 }
 
 interface DocsCopyPageProps {
-  page: string;
-  sourceUrl?: string;
+  /** Raw URL of the markdown source for this page. */
+  sourceUrl: string;
 }
 
 const menuLinkClassName = "flex w-full items-center gap-2";
 
-function getMenuItems(url: string, sourceUrl?: string) {
+function getMenuItems(url: string, sourceUrl: string) {
   return {
-    source: () =>
-      sourceUrl ? (
-        <a
-          href={sourceUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={menuLinkClassName}
+    source: () => (
+      <a
+        href={sourceUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={menuLinkClassName}
+      >
+        <svg
+          strokeLinejoin="round"
+          viewBox="0 0 22 16"
+          className="size-4"
         >
-          <svg
-            strokeLinejoin="round"
-            viewBox="0 0 22 16"
-            className="size-4"
-          >
-            <path
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M19.5 2.25H2.5C1.80964 2.25 1.25 2.80964 1.25 3.5V12.5C1.25 13.1904 1.80964 13.75 2.5 13.75H19.5C20.1904 13.75 20.75 13.1904 20.75 12.5V3.5C20.75 2.80964 20.1904 2.25 19.5 2.25ZM2.5 1C1.11929 1 0 2.11929 0 3.5V12.5C0 13.8807 1.11929 15 2.5 15H19.5C20.8807 15 22 13.8807 22 12.5V3.5C22 2.11929 20.8807 1 19.5 1H2.5ZM3 4.5H4H4.25H4.6899L4.98715 4.82428L7 7.02011L9.01285 4.82428L9.3101 4.5H9.75H10H11V5.5V11.5H9V7.79807L7.73715 9.17572L7 9.97989L6.26285 9.17572L5 7.79807V11.5H3V5.5V4.5ZM15 8V4.5H17V8H19.5L17 10.5L16 11.5L15 10.5L12.5 8H15Z"
-              fill="currentColor"
-            />
-          </svg>
-          View Markdown
-        </a>
-      ) : null,
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M19.5 2.25H2.5C1.80964 2.25 1.25 2.80964 1.25 3.5V12.5C1.25 13.1904 1.80964 13.75 2.5 13.75H19.5C20.1904 13.75 20.75 13.1904 20.75 12.5V3.5C20.75 2.80964 20.1904 2.25 19.5 2.25ZM2.5 1C1.11929 1 0 2.11929 0 3.5V12.5C0 13.8807 1.11929 15 2.5 15H19.5C20.8807 15 22 13.8807 22 12.5V3.5C22 2.11929 20.8807 1 19.5 1H2.5ZM3 4.5H4H4.25H4.6899L4.98715 4.82428L7 7.02011L9.01285 4.82428L9.3101 4.5H9.75H10H11V5.5V11.5H9V7.79807L7.73715 9.17572L7 9.97989L6.26285 9.17572L5 7.79807V11.5H3V5.5V4.5ZM15 8V4.5H17V8H19.5L17 10.5L16 11.5L15 10.5L12.5 8H15Z"
+            fill="currentColor"
+          />
+        </svg>
+        View Markdown
+      </a>
+    ),
     v0: () => (
       <a
         href={getPromptUrl("https://v0.dev", url)}
@@ -173,13 +173,13 @@ function getMenuItems(url: string, sourceUrl?: string) {
   };
 }
 
-export function DocsCopyPage({ page, sourceUrl }: DocsCopyPageProps) {
+export function DocsCopyPage({ sourceUrl }: DocsCopyPageProps) {
   const [currentUrl, setCurrentUrl] = useState("");
   const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
     setCurrentUrl(window.location.href);
-  }, [page]);
+  }, []);
 
   useEffect(() => {
     if (!isCopied) {
@@ -191,21 +191,14 @@ export function DocsCopyPage({ page, sourceUrl }: DocsCopyPageProps) {
   }, [isCopied]);
 
   const copyPage = async () => {
-    let content = page;
-
-    if (sourceUrl) {
-      try {
-        const response = await fetch(sourceUrl);
-        if (response.ok) {
-          content = await response.text();
-        }
-      } catch {
-        // Fall back to the preloaded page content when the source URL is unavailable.
-      }
+    try {
+      const response = await fetch(sourceUrl);
+      if (!response.ok) throw new Error("Fetch failed");
+      await navigator.clipboard.writeText(await response.text());
+      setIsCopied(true);
+    } catch {
+      toast.error("Copy failed", { description: "Could not read the markdown source." });
     }
-
-    await navigator.clipboard.writeText(content);
-    setIsCopied(true);
   };
   const menuItems = useMemo(() => getMenuItems(currentUrl, sourceUrl), [currentUrl, sourceUrl]);
 
@@ -238,22 +231,15 @@ export function DocsCopyPage({ page, sourceUrl }: DocsCopyPageProps) {
           sideOffset={6}
           className="w-[calc(100vw-2rem)] max-w-56 rounded-lg p-1 shadow-md sm:w-56"
         >
-          {Object.entries(menuItems).map(([key, item]) => {
-            const content = item();
-            if (!content) {
-              return null;
-            }
-
-            return (
-              <DropdownMenuItem
-                key={key}
-                asChild
-                className="cursor-pointer"
-              >
-                {content}
-              </DropdownMenuItem>
-            );
-          })}
+          {Object.entries(menuItems).map(([key, item]) => (
+            <DropdownMenuItem
+              key={key}
+              asChild
+              className="cursor-pointer"
+            >
+              {item()}
+            </DropdownMenuItem>
+          ))}
         </DropdownMenuContent>
       </div>
     </DropdownMenu>

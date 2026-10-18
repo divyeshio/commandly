@@ -4,7 +4,7 @@
 </div>
 
 <h4 align="center">CLI -> JSON -> UI. Browse tool definitions, edit command schemas, and generate runnable CLI commands from a visual interface.</h4>
-     
+
 <p align="center">
   <a href="#features">Features</a> •
   <a href="#contributing">Contribute</a> •
@@ -23,7 +23,7 @@
 - Parameters
 - Tool Renderer
 - Specify Dependencies and Validations
-- JSON Output - Nested, Flat.
+- JSON Output
 - Generate Help Menu
 - Generate Command
 - Saved Commands
@@ -33,8 +33,9 @@
 
 ## Specification
 
-- [Flat](https://commandly.divyeshio.in/docs/specification-schema)
-- [Nested](https://commandly.divyeshio.in/docs/specification-nested)
+- [Specification](https://commandly.divyeshio.in/docs/specification-intro)
+- [Schema](https://commandly.divyeshio.in/docs/specification-schema)
+- [Examples](https://commandly.divyeshio.in/docs/specification-examples)
 
 ## 🎯 Motivation
 
@@ -51,7 +52,7 @@ Development - Please read the [contributing guide](/CONTRIBUTING.md).
 For adding new tools:
 
 1. Create or edit a tool in the browser
-2. Copy the **Flat** JSON output
+2. Copy the JSON output
 3. Raise a PR with the JSON file in `tools-collection`
 
 ## 📜 License

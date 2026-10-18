@@ -1,4 +1,4 @@
-import type { Tool, Parameter, Command, ExclusionGroup } from "@/components/commandly/types/flat";
+import type { Tool, Parameter, Command, ExclusionGroup } from "@/components/commandly/types/tool";
 
 export type ValidationSeverity = "error" | "warning";
 
@@ -40,15 +40,18 @@ function checkUniqueKeys(
   return errors;
 }
 
-function validateParameter(param: Parameter, index: number, tool: Tool): ToolValidationError[] {
+function validateParameter(
+  param: Parameter,
+  index: number,
+  siblingKeys: Set<string>,
+  path = `parameters[${index}]`,
+): ToolValidationError[] {
   const errors: ToolValidationError[] = [];
-  const path = `parameters[${index}]`;
-  const hasCommands = tool.commands.length > 0;
 
-  if (!param.name) {
+  if (!param.displayName) {
     errors.push({
-      path: `${path}.name`,
-      message: `Parameter "${param.key}" has no name`,
+      path: `${path}.displayName`,
+      message: `Parameter "${param.key}" has no displayName`,
       severity: "error",
     });
   }
@@ -74,38 +77,6 @@ function validateParameter(param: Parameter, index: number, tool: Tool): ToolVal
       path: `${path}.dataType`,
       message: `Flag "${param.key}" should have dataType "Boolean" but has "${param.dataType}"`,
       severity: "warning",
-    });
-  }
-
-  if (hasCommands && !param.commandKey && !param.isGlobal) {
-    errors.push({
-      path: `${path}`,
-      message: `Parameter "${param.key}" must have commandKey or isGlobal when commands exist`,
-      severity: "error",
-    });
-  }
-
-  if (!hasCommands && (param.commandKey || param.isGlobal)) {
-    errors.push({
-      path: `${path}`,
-      message: `Parameter "${param.key}" must not have commandKey or isGlobal when there are no commands`,
-      severity: "error",
-    });
-  }
-
-  if (param.isGlobal && param.commandKey) {
-    errors.push({
-      path: `${path}`,
-      message: `Parameter "${param.key}" has both isGlobal and commandKey - global parameters must not have commandKey`,
-      severity: "error",
-    });
-  }
-
-  if (param.commandKey && !tool.commands.some((c) => c.key === param.commandKey)) {
-    errors.push({
-      path: `${path}.commandKey`,
-      message: `Parameter "${param.key}" references non-existent command "${param.commandKey}"`,
-      severity: "error",
     });
   }
 
@@ -153,10 +124,9 @@ function validateParameter(param: Parameter, index: number, tool: Tool): ToolVal
   }
 
   if (param.dependencies) {
-    const paramKeys = new Set(tool.parameters.map((p) => p.key));
     for (let j = 0; j < param.dependencies.length; j++) {
       const dep = param.dependencies[j];
-      if (!paramKeys.has(dep.dependsOnParameterKey)) {
+      if (!siblingKeys.has(dep.dependsOnParameterKey)) {
         errors.push({
           path: `${path}.dependencies[${j}].dependsOnParameterKey`,
           message: `Dependency in "${param.key}" references non-existent parameter "${dep.dependsOnParameterKey}"`,
@@ -169,40 +139,72 @@ function validateParameter(param: Parameter, index: number, tool: Tool): ToolVal
   return errors;
 }
 
-function validateCommand(cmd: Command, index: number, tool: Tool): ToolValidationError[] {
-  const errors: ToolValidationError[] = [];
-  const path = `commands[${index}]`;
-
-  if (!cmd.name) {
+function validateCommand(
+  cmd: Command,
+  path: string,
+  errors: ToolValidationError[],
+  seenCommandKeys: Map<string, string>,
+): void {
+  if (!cmd.displayName) {
     errors.push({
-      path: `${path}.name`,
-      message: `Command "${cmd.key}" has no name`,
+      path: `${path}.displayName`,
+      message: `Command "${cmd.key}" has no displayName`,
       severity: "error",
     });
   }
 
-  if (cmd.parentCommandKey && !tool.commands.some((c) => c.key === cmd.parentCommandKey)) {
+  if (!cmd.key) {
     errors.push({
-      path: `${path}.parentCommandKey`,
-      message: `Command "${cmd.key}" references non-existent parent command "${cmd.parentCommandKey}"`,
+      path: `${path}.key`,
+      message: `Command at ${path} has no key`,
       severity: "error",
     });
+  } else {
+    const firstSeenAt = seenCommandKeys.get(cmd.key);
+    if (firstSeenAt !== undefined) {
+      errors.push({
+        path: `${path}.key`,
+        message: `Duplicate command key "${cmd.key}" (first at ${firstSeenAt})`,
+        severity: "error",
+      });
+    } else {
+      seenCommandKeys.set(cmd.key, path);
+    }
   }
 
-  return errors;
+  const parameters = cmd.parameters ?? [];
+  errors.push(...checkUniqueKeys(parameters, "Parameter", `${path}.parameters`));
+  const siblingKeys = new Set(parameters.map((p) => p.key));
+  for (let i = 0; i < parameters.length; i++) {
+    errors.push(...validateParameter(parameters[i], i, siblingKeys, `${path}.parameters[${i}]`));
+  }
+
+  if (cmd.exclusionGroups && cmd.exclusionGroups.length > 0) {
+    errors.push(
+      ...validateExclusionGroups(cmd.exclusionGroups, siblingKeys, `${path}.exclusionGroups`),
+    );
+  }
+
+  const subcommands = cmd.commands ?? [];
+  for (let i = 0; i < subcommands.length; i++) {
+    validateCommand(subcommands[i], `${path}.commands[${i}]`, errors, seenCommandKeys);
+  }
 }
 
-function validateExclusionGroups(groups: ExclusionGroup[], tool: Tool): ToolValidationError[] {
+function validateExclusionGroups(
+  groups: ExclusionGroup[],
+  paramKeys: Set<string>,
+  pathPrefix: string,
+): ToolValidationError[] {
   const errors: ToolValidationError[] = [];
-  const paramKeys = new Set(tool.parameters.map((p) => p.key));
 
   for (let i = 0; i < groups.length; i++) {
     const group = groups[i];
-    const path = `exclusionGroups[${i}]`;
+    const path = `${pathPrefix}[${i}]`;
 
-    if (!group.name) {
+    if (!group.displayName) {
       errors.push({
-        path: `${path}.name`,
+        path: `${path}.displayName`,
         message: `Exclusion group at index ${i} has no name`,
         severity: "error",
       });
@@ -211,7 +213,7 @@ function validateExclusionGroups(groups: ExclusionGroup[], tool: Tool): ToolVali
     if (!group.parameterKeys || group.parameterKeys.length < 2) {
       errors.push({
         path: `${path}.parameterKeys`,
-        message: `Exclusion group "${group.name}" must reference at least 2 parameters`,
+        message: `Exclusion group "${group.displayName}" must reference at least 2 parameters`,
         severity: "error",
       });
     } else {
@@ -219,19 +221,11 @@ function validateExclusionGroups(groups: ExclusionGroup[], tool: Tool): ToolVali
         if (!paramKeys.has(pk)) {
           errors.push({
             path: `${path}.parameterKeys`,
-            message: `Exclusion group "${group.name}" references non-existent parameter "${pk}"`,
+            message: `Exclusion group "${group.displayName}" references non-existent parameter "${pk}"`,
             severity: "error",
           });
         }
       }
-    }
-
-    if (group.commandKey && !tool.commands.some((c) => c.key === group.commandKey)) {
-      errors.push({
-        path: `${path}.commandKey`,
-        message: `Exclusion group "${group.name}" references non-existent command "${group.commandKey}"`,
-        severity: "error",
-      });
     }
   }
 
@@ -252,9 +246,9 @@ export function validateTool(tool: Tool): ToolValidationError[] {
   if (!Array.isArray(tool.commands)) {
     errors.push({ path: "commands", message: "commands must be an array", severity: "error" });
   } else {
-    errors.push(...checkUniqueKeys(tool.commands, "Command", "commands"));
+    const seenCommandKeys = new Map<string, string>();
     for (let i = 0; i < tool.commands.length; i++) {
-      errors.push(...validateCommand(tool.commands[i], i, tool));
+      validateCommand(tool.commands[i], `commands[${i}]`, errors, seenCommandKeys);
     }
   }
 
@@ -262,29 +256,14 @@ export function validateTool(tool: Tool): ToolValidationError[] {
     errors.push({ path: "parameters", message: "parameters must be an array", severity: "error" });
   } else {
     errors.push(...checkUniqueKeys(tool.parameters, "Parameter", "parameters"));
+    const rootKeys = new Set(tool.parameters.map((p) => p.key));
     for (let i = 0; i < tool.parameters.length; i++) {
-      errors.push(...validateParameter(tool.parameters[i], i, tool));
+      errors.push(...validateParameter(tool.parameters[i], i, rootKeys));
     }
-  }
 
-  if (tool.exclusionGroups && tool.exclusionGroups.length > 0) {
-    errors.push(...validateExclusionGroups(tool.exclusionGroups, tool));
-  }
-
-  if ("description" in tool && !(tool as Record<string, unknown>)["info"]) {
-    errors.push({
-      path: "description",
-      message: "Tool description should be nested under info object, not at top level",
-      severity: "warning",
-    });
-  }
-
-  if ("version" in tool && !(tool as Record<string, unknown>)["info"]) {
-    errors.push({
-      path: "version",
-      message: "Tool version should be nested under info object, not at top level",
-      severity: "warning",
-    });
+    if (tool.exclusionGroups && tool.exclusionGroups.length > 0) {
+      errors.push(...validateExclusionGroups(tool.exclusionGroups, rootKeys, "exclusionGroups"));
+    }
   }
 
   return errors;

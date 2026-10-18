@@ -1,16 +1,22 @@
-import { ParameterValue, Tool, Command } from "@/components/commandly/types/flat";
-import { generateCommand } from "@/components/commandly/utils/flat";
+import { ParameterValue, Tool, Command } from "@/components/commandly/types/tool";
+import { writeClipboard } from "@/components/commandly/utils/clipboard";
+import { generateCommand, getToolFlagForms } from "@/components/commandly/utils/generate-command";
 import { Button } from "@/components/ui/button";
 import { CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { TerminalIcon, CopyIcon, SaveIcon } from "lucide-react";
 import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useState,
   type ComponentProps,
@@ -23,15 +29,21 @@ interface GeneratedCommandProps {
   selectedCommand?: Command | null;
   parameterValues: Record<string, ParameterValue>;
   onSaveCommand?: (command: string) => void;
-  useLongFlag?: boolean;
+  /** Position emitted by default: 0 is a parameter's full flag, later positions its aliases. */
+  defaultFlagFormIndex?: number;
   children?: ReactNode;
+}
+
+interface FlagFormOption {
+  index: number;
+  label: string;
 }
 
 interface GeneratedCommandContextValue {
   generatedCommand: string;
-  useLongFlag: boolean;
-  setUseLongFlag: (value: boolean) => void;
-  supportsFlagPreference: boolean;
+  flagFormIndex: number;
+  setFlagFormIndex: (value: number) => void;
+  flagFormOptions: FlagFormOption[];
   onCopyCommand: () => void;
   onSaveCommand?: (command: string) => void;
 }
@@ -53,49 +65,42 @@ function GeneratedCommandRoot({
   selectedCommand: providedCommand,
   parameterValues,
   onSaveCommand,
-  useLongFlag = false,
+  defaultFlagFormIndex = 0,
   children,
 }: GeneratedCommandProps) {
-  const [prefersLongFlag, setPrefersLongFlag] = useState(useLongFlag);
-  const supportsFlagPreference = useMemo(
-    () =>
-      tool.parameters.some(
-        (parameter) =>
-          parameter.parameterType !== "Argument" &&
-          Boolean(parameter.shortFlag) &&
-          Boolean(parameter.longFlag),
-      ),
-    [tool.parameters],
-  );
+  const [flagFormIndex, setFlagFormIndex] = useState(defaultFlagFormIndex);
 
-  useEffect(() => {
-    setPrefersLongFlag(useLongFlag);
-  }, [useLongFlag]);
+  const flagFormOptions = useMemo<FlagFormOption[]>(
+    () => getToolFlagForms(tool).map((label, index) => ({ index, label })),
+    [tool],
+  );
 
   const generatedCommand = useMemo(
     () =>
       generateCommand(tool, parameterValues, {
         selectedCommand: providedCommand,
-        useLongFlag: prefersLongFlag,
+        flagFormIndex,
       }),
-    [tool, parameterValues, providedCommand, prefersLongFlag],
+    [tool, parameterValues, providedCommand, flagFormIndex],
   );
 
   const copyCommand = useCallback(() => {
-    navigator.clipboard.writeText(generatedCommand);
-    toast("Command copied!");
+    writeClipboard(generatedCommand).then(
+      () => toast("Command copied!"),
+      () => toast.error("Copy failed"),
+    );
   }, [generatedCommand]);
 
   const contextValue = useMemo(
     () => ({
       generatedCommand,
-      useLongFlag: prefersLongFlag,
-      setUseLongFlag: setPrefersLongFlag,
-      supportsFlagPreference,
+      flagFormIndex,
+      setFlagFormIndex,
+      flagFormOptions,
       onCopyCommand: copyCommand,
       onSaveCommand,
     }),
-    [generatedCommand, prefersLongFlag, supportsFlagPreference, copyCommand, onSaveCommand],
+    [generatedCommand, flagFormIndex, flagFormOptions, copyCommand, onSaveCommand],
   );
 
   return (
@@ -142,25 +147,42 @@ function GeneratedCommandHeader({
   );
 }
 
-function GeneratedCommandFlagPreference({
+function GeneratedCommandFlagFormPreference({
   className,
   ...props
-}: Omit<ComponentProps<typeof Switch>, "checked" | "onCheckedChange">) {
-  const { supportsFlagPreference, useLongFlag, setUseLongFlag } = useGeneratedCommandContext();
+}: Omit<ComponentProps<typeof SelectTrigger>, "value" | "onValueChange">) {
+  const { flagFormIndex, setFlagFormIndex, flagFormOptions } = useGeneratedCommandContext();
 
-  if (!supportsFlagPreference) return null;
+  if (flagFormOptions.length < 2) return null;
 
   return (
-    <Label className="shrink-0 gap-2 text-xs text-muted-foreground">
-      <span className="font-mono tracking-[0.12em] uppercase">Long flags</span>
-      <Switch
-        checked={useLongFlag}
-        onCheckedChange={setUseLongFlag}
-        aria-label="Long flags"
-        className={className}
-        {...props}
-      />
-    </Label>
+    <div className="flex shrink-0 items-center gap-2">
+      <Label className="font-mono text-xs tracking-[0.12em] text-muted-foreground uppercase">
+        Flag style
+      </Label>
+      <Select
+        value={String(flagFormIndex)}
+        onValueChange={(value) => setFlagFormIndex(Number(value))}
+      >
+        <SelectTrigger
+          className={cn("h-8 w-36", className)}
+          aria-label="Flag style"
+          {...props}
+        >
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {flagFormOptions.map((option) => (
+            <SelectItem
+              key={option.index}
+              value={String(option.index)}
+            >
+              {option.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
   );
 }
 
@@ -219,7 +241,7 @@ function GeneratedCommandEmptyState() {
 export const GeneratedCommand = Object.assign(GeneratedCommandRoot, {
   Header: GeneratedCommandHeader,
   Toolbar: GeneratedCommandToolbar,
-  FlagPreference: GeneratedCommandFlagPreference,
+  FlagFormPreference: GeneratedCommandFlagFormPreference,
   Output: GeneratedCommandOutput,
   Actions: GeneratedCommandActions,
   EmptyState: GeneratedCommandEmptyState,

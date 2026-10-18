@@ -1,184 +1,163 @@
 {
-  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
+  "$schema": "https://commandly.divyeshio.in/specification/tool.json",
   "binaryName": "yt-dlp",
   "displayName": "yt-dlp",
   "info": {
     "description": "yt-dlp is a command-line program to download videos from YouTube and other sites.",
-    "version": "2026.03.17",
+    "version": "2026.08.19",
     "url": "https://github.com/yt-dlp/yt-dlp"
   },
   "commands": [],
   "parameters": [
     {
-      "name": "Help",
+      "displayName": "Help",
       "description": "Print this help text and exit",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--help",
-      "key": "help"
+      "key": "--help"
     },
     {
-      "name": "Version",
+      "displayName": "Version",
       "description": "Print program version and exit",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--version",
-      "key": "version"
+      "key": "--version"
     },
     {
-      "name": "Update",
+      "displayName": "Update",
       "description": "Update this program to the latest version",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--update",
-      "key": "update"
+      "key": "--update"
     },
     {
-      "name": "No Update",
+      "displayName": "No Update",
       "description": "Do not check for updates (default)",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--no-update",
-      "key": "no-update"
+      "key": "--no-update"
     },
     {
-      "name": "Update To Version",
+      "displayName": "Update To Version",
       "description": "Upgrade/downgrade to a specific version. CHANNEL can be a repository as well. CHANNEL and TAG default to \"stable\" and \"latest\" respectively if omitted; See \"UPDATE\" for details. Supported channels: stable, nightly, master",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--update-to",
-      "key": "update-to"
+      "key": "--update-to"
     },
     {
-      "name": "Ignore Errors",
+      "displayName": "Ignore Errors",
       "description": "Ignore download and postprocessing errors. The download will be considered successful even if the postprocessing fails",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--ignore-errors",
-      "key": "ignore-errors"
+      "key": "--ignore-errors"
     },
     {
-      "name": "No Abort On Error",
+      "displayName": "No Abort On Error",
       "description": "Continue with next video on download errors; e.g. to skip unavailable videos in a playlist (default)",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--no-abort-on-error",
-      "key": "no-abort-on-error"
+      "key": "--no-abort-on-error"
     },
     {
-      "name": "Abort On Error",
+      "displayName": "Abort On Error",
       "description": "Abort downloading of further videos if an error occurs (Alias: --no-ignore-errors)",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--abort-on-error",
-      "key": "abort-on-error"
+      "key": "--abort-on-error"
     },
     {
-      "name": "Dump User Agent",
+      "displayName": "Dump User Agent",
       "description": "Display the current user-agent and exit",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--dump-user-agent",
-      "key": "dump-user-agent"
+      "key": "--dump-user-agent"
     },
     {
-      "name": "List Extractors",
+      "displayName": "List Extractors",
       "description": "List all supported extractors and exit",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--list-extractors",
-      "key": "list-extractors"
+      "key": "--list-extractors"
     },
     {
-      "name": "Extractor Descriptions",
+      "displayName": "Extractor Descriptions",
       "description": "Output descriptions of all supported extractors and exit",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--extractor-descriptions",
-      "key": "extractor-descriptions"
+      "key": "--extractor-descriptions"
     },
     {
-      "name": "Use Extractors",
+      "displayName": "Use Extractors",
       "description": "Extractor names to use separated by commas. You can also use regexes, \"all\", \"default\" and \"end\" (end URL matching); e.g. --ies \"holodex.*,end,youtube\". Prefix the name with a \"-\" to exclude it, e.g. --ies default,-generic. Use --list-extractors for a list of extractor names. (Alias: --ies)",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--use-extractors",
-      "key": "use-extractors"
+      "key": "--use-extractors"
     },
     {
-      "name": "Default Search",
+      "displayName": "Default Search",
       "description": "Use this prefix for unqualified URLs. E.g. \"gvsearch2:python\" downloads two videos from google videos for the search term \"python\". Use the value \"auto\" to let yt-dlp guess (\"auto_warning\" to emit a warning when guessing). \"error\" just throws an error. The default value \"fixup_error\" repairs broken URLs, but emits an error if this is not possible instead of searching",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--default-search",
-      "key": "default-search"
+      "key": "--default-search"
     },
     {
-      "name": "Ignore Config",
+      "displayName": "Ignore Config",
       "description": "Don't load any more configuration files except those given to --config-locations. For backward compatibility, if this option is found inside the system configuration file, the user configuration is not loaded. (Alias: --no-config)",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--ignore-config",
-      "key": "ignore-config"
+      "key": "--ignore-config"
     },
     {
-      "name": "No Config Locations",
+      "displayName": "No Config Locations",
       "description": "Do not load any custom configuration files (default). When given inside a configuration file, ignore all previous --config-locations defined in the current file",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--no-config-locations",
-      "key": "no-config-locations"
+      "key": "--no-config-locations"
     },
     {
-      "name": "Config Locations",
+      "displayName": "Config Locations",
       "description": "Location of the main configuration file; either the path to the config or its containing directory (\"-\" for stdin). Can be used multiple times and inside other configuration files",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "longFlag": "--config-locations",
-      "key": "config-locations"
+      "key": "--config-locations"
     },
     {
-      "name": "Plugin Dirs",
+      "displayName": "Plugin Dirs",
       "description": "Path to an additional directory to search for plugins. This option can be used multiple times to add multiple directories. Use \"default\" to search the default plugin directories (default)",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "longFlag": "--plugin-dirs",
-      "key": "plugin-dirs"
+      "key": "--plugin-dirs"
     },
     {
-      "name": "No Plugin Dirs",
+      "displayName": "No Plugin Dirs",
       "description": "Clear plugin directories to search, including defaults and those provided by previous --plugin-dirs",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--no-plugin-dirs",
-      "key": "no-plugin-dirs"
+      "key": "--no-plugin-dirs"
     },
     {
-      "name": "Flat Playlist",
+      "displayName": "Flat Playlist",
       "description": "Do not extract a playlist's URL result entries; some entry metadata may be missing and downloading may be bypassed",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--flat-playlist",
-      "key": "flat-playlist"
+      "key": "--flat-playlist"
     },
     {
-      "name": "No Flat Playlist",
+      "displayName": "No Flat Playlist",
       "description": "Fully extract the videos of a playlist (default)",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--no-flat-playlist",
-      "key": "no-flat-playlist"
+      "key": "--no-flat-playlist"
     },
     {
-      "name": "Preset Alias",
+      "displayName": "Preset Alias",
       "description": "Applies a predefined set of options. e.g. --preset-alias mp3. The following presets are available: mp3, aac, mp4, mkv, sleep. See the \"Preset Aliases\" section at the end for more info. This option can be used multiple times",
       "parameterType": "Option",
       "dataType": "Enum",
       "isRepeatable": true,
-      "longFlag": "--preset-alias",
-      "key": "preset-alias",
+      "key": "--preset-alias",
       "enum": {
         "values": [
           {
@@ -205,167 +184,219 @@
       }
     },
     {
-      "name": "Proxy",
+      "displayName": "Proxy",
       "description": "Use the specified HTTP/HTTPS/SOCKS proxy. To enable SOCKS proxy, specify a proper scheme, e.g. socks5://user:pass@127.0.0.1:1080/. Pass in an empty string (--proxy \"\") for direct connection",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--proxy",
-      "key": "proxy"
+      "key": "--proxy"
     },
     {
-      "name": "Socket Timeout",
+      "displayName": "Socket Timeout",
       "description": "Time to wait before giving up, in seconds",
       "parameterType": "Option",
       "dataType": "Number",
-      "longFlag": "--socket-timeout",
-      "key": "socket-timeout"
+      "key": "--socket-timeout"
     },
     {
-      "name": "Source Address",
+      "displayName": "Source Address",
       "description": "Client-side IP address to bind to",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--source-address",
-      "key": "source-address"
+      "key": "--source-address"
     },
     {
-      "name": "Impersonate",
+      "displayName": "Impersonate",
       "description": "Client to impersonate for requests. E.g. chrome, chrome-110, chrome:windows-10. Pass --impersonate=\"\" to impersonate any client. Note that forcing impersonation for all requests may have a detrimental impact on download speed and stability",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--impersonate",
-      "key": "impersonate"
+      "key": "--impersonate"
     },
     {
-      "name": "List Impersonate Targets",
+      "displayName": "List Impersonate Targets",
       "description": "List available clients to impersonate.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--list-impersonate-targets",
-      "key": "list-impersonate-targets"
+      "key": "--list-impersonate-targets"
     },
     {
-      "name": "Force IPv4",
+      "displayName": "Force IPv4",
       "description": "Make all connections via IPv4",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--force-ipv4",
-      "key": "force-ipv4"
+      "key": "--force-ipv4"
     },
     {
-      "name": "Force IPv6",
+      "displayName": "Force IPv6",
       "description": "Make all connections via IPv6",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--force-ipv6",
-      "key": "force-ipv6"
+      "key": "--force-ipv6"
     },
     {
-      "name": "Enable File URLs",
+      "displayName": "Enable File URLs",
       "description": "Enable file:// URLs. This is disabled by default for security reasons.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--enable-file-urls",
-      "key": "enable-file-urls"
+      "key": "--enable-file-urls"
     },
     {
-      "name": "Geo Verification Proxy",
+      "displayName": "Geo Verification Proxy",
       "description": "Use this proxy to verify the IP address for some geo-restricted sites. The default proxy specified by --proxy (or none, if the option is not present) is used for the actual downloading",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--geo-verification-proxy",
-      "key": "geo-verification-proxy"
+      "key": "--geo-verification-proxy"
     },
     {
-      "name": "Fake X-Forwarded-For",
+      "displayName": "Fake X-Forwarded-For",
       "description": "How to fake X-Forwarded-For HTTP header to try bypassing geographic restriction. One of \"default\" (only when known to be useful), \"never\", an IP block in CIDR notation, or a two-letter ISO 3166-2 country code",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--xff",
-      "key": "xff"
+      "key": "--xff"
     },
     {
-      "name": "Playlist Items",
+      "displayName": "Playlist Items",
       "description": "Comma separated playlist_index of the items to download. You can specify a range using \"[START]:[STOP][:STEP]\". For backward compatibility, START-STOP is also supported. Use negative indices to count from the right and negative STEP to download in reverse order. E.g. \"-I 1:3,7,-5::2\" used on a playlist of size 15 will download the items at index 1,2,3,7,11,13,15",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--playlist-items",
-      "shortFlag": "-I",
-      "key": "playlist-items"
+      "key": "--playlist-items",
+      "aliases": [
+        "-I"
+      ]
     },
     {
-      "name": "Min Filesize",
+      "displayName": "Min Filesize",
       "description": "Abort download if filesize is smaller than SIZE, e.g. 50k or 44.6M",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--min-filesize",
-      "key": "min-filesize"
+      "key": "--min-filesize"
     },
     {
-      "name": "Max Filesize",
+      "displayName": "Max Filesize",
       "description": "Abort download if filesize is larger than SIZE, e.g. 50k or 44.6M",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--max-filesize",
-      "key": "max-filesize"
+      "key": "--max-filesize"
     },
     {
-      "name": "Date",
+      "displayName": "Date",
       "description": "Download only videos uploaded on this date. The date can be \"YYYYMMDD\" or in the format [now|today|yesterday][-N[day|week|month|year]]. E.g. \"--date today-2weeks\" downloads only videos uploaded on the same day two weeks ago",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--date",
-      "key": "date"
+      "key": "--date"
     },
     {
-      "name": "Date Before",
+      "displayName": "Date Before",
       "description": "Download only videos uploaded on or before this date. The date formats accepted are the same as --date",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--datebefore",
-      "key": "datebefore"
+      "key": "--datebefore"
     },
     {
-      "name": "Date After",
+      "displayName": "Date After",
       "description": "Download only videos uploaded on or after this date. The date formats accepted are the same as --date",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "--dateafter",
-      "key": "dateafter"
+      "key": "--dateafter"
     },
     {
-      "name": "Match Filters",
+      "displayName": "Match Filters",
       "description": "Generic video filter. Any \"OUTPUT TEMPLATE\" field can be compared with a number or a string using the operators defined in \"Filtering Formats\". You can also simply specify a field to match if the field is present, use \"!field\" to check if the field is not present, and \"&\" to check multiple conditions. Use a \"\\\" to escape \"&\" or quotes if needed. If used multiple times, the filter matches if at least one of the conditions is met. E.g. --match-filters !is_live --match-filters \"like_count>?100 & description~='(?i)\\bcats \\& dogs\\b'\" matches only videos that are not live OR those that have a like count more than 100 (or the like field is not available) and also has a description that contains the phrase \"cats & dogs\" (caseless). Use \"--match-filters -\" to interactively ask whether to download each video",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "longFlag": "--match-filters",
-      "key": "match-filters"
+      "key": "--match-filters"
     },
     {
-      "name": "No Match Filters",
+      "displayName": "No Match Filters",
       "description": "Do not use any --match-filters (default)",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--no-match-filters",
-      "key": "no-match-filters"
+      "key": "--no-match-filters"
     },
     {
-      "name": "Break Match Filters",
+      "displayName": "Break Match Filters",
       "description": "Same as \"--match-filters\" but stops the download process when a video is rejected",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "longFlag": "--break-match-filters",
-      "key": "break-match-filters"
+      "key": "--break-match-filters"
     },
     {
-      "name": "No Break Match Filters",
+      "displayName": "No Break Match Filters",
       "description": "Do not use any --break-match-filters (default)",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "--no-break-match-filters",
-      "key": "no-break-match-filters"
+      "key": "--no-break-match-filters"
     }
-  ]
+  ],
+  "installation": {
+    "sources": [
+      {
+        "key": "release-binary-curl",
+        "method": "binary",
+        "command": "curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o ~/.local/bin/yt-dlp\nchmod a+rx ~/.local/bin/yt-dlp",
+        "url": "https://github.com/yt-dlp/yt-dlp/wiki/Installation#installing-the-release-binary",
+        "os": [
+          "linux",
+          "macos"
+        ]
+      },
+      {
+        "key": "release-binary-wget",
+        "method": "binary",
+        "command": "wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ~/.local/bin/yt-dlp\nchmod a+rx ~/.local/bin/yt-dlp",
+        "url": "https://github.com/yt-dlp/yt-dlp/wiki/Installation#installing-the-release-binary",
+        "os": [
+          "linux",
+          "macos"
+        ]
+      },
+      {
+        "key": "pip",
+        "method": "package_manager",
+        "manager": "pip",
+        "command": "python3 -m pip install -U \"yt-dlp[default]\"",
+        "url": "https://github.com/yt-dlp/yt-dlp/wiki/Installation#with-pip"
+      },
+      {
+        "key": "brew",
+        "method": "package_manager",
+        "manager": "brew",
+        "command": "brew install yt-dlp",
+        "url": "https://github.com/yt-dlp/yt-dlp/wiki/Installation#homebrew",
+        "os": [
+          "linux",
+          "macos"
+        ]
+      },
+      {
+        "key": "pacman",
+        "method": "package_manager",
+        "manager": "pacman",
+        "command": "sudo pacman -Syu yt-dlp",
+        "url": "https://github.com/yt-dlp/yt-dlp/wiki/Installation#pacman",
+        "os": [
+          "linux"
+        ]
+      },
+      {
+        "key": "release-binary-macos",
+        "method": "binary",
+        "command": "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_macos",
+        "url": "https://github.com/yt-dlp/yt-dlp#installation",
+        "os": [
+          "macos"
+        ]
+      },
+      {
+        "key": "release-binary-windows",
+        "method": "binary",
+        "command": "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe",
+        "url": "https://github.com/yt-dlp/yt-dlp#installation",
+        "os": [
+          "windows"
+        ]
+      }
+    ]
+  }
 }

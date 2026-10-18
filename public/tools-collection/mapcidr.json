@@ -1,95 +1,100 @@
 {
-  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
+  "$schema": "https://commandly.divyeshio.in/specification/tool.json",
   "binaryName": "mapcidr",
   "displayName": "Mapcidr",
   "commands": [],
   "parameters": [
     {
-      "key": "cidr",
-      "name": "CIDR input",
+      "key": "-cidr",
+      "displayName": "CIDR input",
       "description": "CIDR, IP, or file input to process.",
       "group": "Input",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-cl",
-      "longFlag": "-cidr",
       "isRepeatable": true,
-      "arraySeparator": ","
+      "arraySeparator": ",",
+      "aliases": [
+        "-cl"
+      ]
     },
     {
-      "key": "slice-by-cidr-count",
-      "name": "Slice by CIDR count",
+      "key": "-sbc",
+      "displayName": "Slice by CIDR count",
       "description": "Split CIDRs into the requested number of subnets.",
       "group": "Process",
       "parameterType": "Option",
-      "dataType": "Number",
-      "shortFlag": "-sbc",
-      "isRepeatable": false
+      "dataType": "Number"
     },
     {
-      "key": "slice-by-host-count",
-      "name": "Slice by host count",
+      "key": "-sbh",
+      "displayName": "Slice by host count",
       "description": "Split CIDRs into subnets with the requested host count.",
       "group": "Process",
       "parameterType": "Option",
-      "dataType": "Number",
-      "shortFlag": "-sbh",
-      "isRepeatable": false
+      "dataType": "Number"
     },
     {
-      "key": "aggregate",
-      "name": "Aggregate",
+      "key": "-aggregate",
+      "displayName": "Aggregate",
       "description": "Merge IPs and CIDRs into the smallest subnet.",
       "group": "Process",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-a"
+      "aliases": [
+        "-a"
+      ]
     },
     {
-      "key": "approximate-aggregate",
-      "name": "Approximate aggregate",
+      "key": "-aggregate-approx",
+      "displayName": "Approximate aggregate",
       "description": "Approximate sparse IPv4 ranges into the smallest subnet block.",
       "group": "Process",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-aa"
+      "aliases": [
+        "-aa"
+      ]
     },
     {
-      "key": "count",
-      "name": "Count",
+      "key": "-count",
+      "displayName": "Count",
       "description": "Count the number of IPs in the input CIDR.",
       "group": "Process",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-c"
+      "aliases": [
+        "-c"
+      ]
     },
     {
-      "key": "convert-to-ipv4",
-      "name": "Convert to IPv4",
+      "key": "-to-ipv4",
+      "displayName": "Convert to IPv4",
       "description": "Convert input IPs to IPv4 format.",
       "group": "Process",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-t4"
+      "aliases": [
+        "-t4"
+      ]
     },
     {
-      "key": "convert-to-ipv6",
-      "name": "Convert to IPv6",
+      "key": "-to-ipv6",
+      "displayName": "Convert to IPv6",
       "description": "Convert input IPs to IPv6 format.",
       "group": "Process",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-t6"
+      "aliases": [
+        "-t6"
+      ]
     },
     {
-      "key": "ip-format",
-      "name": "IP format",
+      "key": "-ip-format",
+      "displayName": "IP format",
       "description": "Output IPs in one or more format indices.",
       "group": "Process",
       "parameterType": "Option",
       "dataType": "Enum",
-      "shortFlag": "-if",
-      "longFlag": "-ip-format",
       "enum": {
         "values": [
           {
@@ -143,190 +148,213 @@
         ],
         "allowMultiple": true,
         "separator": ","
-      }
+      },
+      "aliases": [
+        "-if"
+      ]
     },
     {
-      "key": "zero-pad-n",
-      "name": "Zero pad count",
+      "key": "-zero-pad-n",
+      "displayName": "Zero pad count",
       "description": "Number of padded zeros to use.",
       "group": "Process",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-zpn",
-      "longFlag": "-zero-pad-n"
+      "aliases": [
+        "-zpn"
+      ]
     },
     {
-      "key": "zero-pad-permute",
-      "name": "Zero pad permutations",
+      "key": "-zero-pad-permute",
+      "displayName": "Zero pad permutations",
       "description": "Enable permutations from zero to the pad count for each octet.",
       "group": "Process",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-zpp",
-      "longFlag": "-zero-pad-permute"
+      "aliases": [
+        "-zpp"
+      ]
     },
     {
-      "key": "filter-ipv4",
-      "name": "Filter IPv4",
+      "key": "-filter-ipv4",
+      "displayName": "Filter IPv4",
       "description": "Keep only IPv4 addresses from the input.",
       "group": "Filter",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-f4",
-      "longFlag": "-filter-ipv4"
+      "aliases": [
+        "-f4"
+      ]
     },
     {
-      "key": "filter-ipv6",
-      "name": "Filter IPv6",
+      "key": "-filter-ipv6",
+      "displayName": "Filter IPv6",
       "description": "Keep only IPv6 addresses from the input.",
       "group": "Filter",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-f6",
-      "longFlag": "-filter-ipv6"
+      "aliases": [
+        "-f6"
+      ]
     },
     {
-      "key": "skip-base",
-      "name": "Skip base IPs",
+      "key": "-skip-base",
+      "displayName": "Skip base IPs",
       "description": "Skip base IPs ending in .0.",
       "group": "Filter",
       "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "-skip-base"
+      "dataType": "Boolean"
     },
     {
-      "key": "skip-broadcast",
-      "name": "Skip broadcast IPs",
+      "key": "-skip-broadcast",
+      "displayName": "Skip broadcast IPs",
       "description": "Skip broadcast IPs ending in .255.",
       "group": "Filter",
       "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "-skip-broadcast"
+      "dataType": "Boolean"
     },
     {
-      "key": "match-ip",
-      "name": "Match IPs",
+      "key": "-match-ip",
+      "displayName": "Match IPs",
       "description": "Match IPs or CIDRs from the given list or file.",
       "group": "Filter",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-mi",
-      "longFlag": "-match-ip",
       "isRepeatable": true,
-      "arraySeparator": ","
+      "arraySeparator": ",",
+      "aliases": [
+        "-mi"
+      ]
     },
     {
-      "key": "filter-ip",
-      "name": "Filter IPs",
+      "key": "-filter-ip",
+      "displayName": "Filter IPs",
       "description": "Filter IPs or CIDRs from the given list or file.",
       "group": "Filter",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-fi",
-      "longFlag": "-filter-ip",
       "isRepeatable": true,
-      "arraySeparator": ","
+      "arraySeparator": ",",
+      "aliases": [
+        "-fi"
+      ]
     },
     {
-      "key": "sort",
-      "name": "Sort ascending",
+      "key": "-sort",
+      "displayName": "Sort ascending",
       "description": "Sort input IPs and CIDRs in ascending order.",
       "group": "Miscellaneous",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-s",
-      "longFlag": "-sort"
+      "aliases": [
+        "-s"
+      ]
     },
     {
-      "key": "sort-reverse",
-      "name": "Sort descending",
+      "key": "-sort-reverse",
+      "displayName": "Sort descending",
       "description": "Sort input IPs and CIDRs in descending order.",
       "group": "Miscellaneous",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-sr",
-      "longFlag": "-sort-reverse"
+      "aliases": [
+        "-sr"
+      ]
     },
     {
-      "key": "shuffle-ip",
-      "name": "Shuffle IPs",
+      "key": "-shuffle-ip",
+      "displayName": "Shuffle IPs",
       "description": "Shuffle input IPs randomly.",
       "group": "Miscellaneous",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-si",
-      "longFlag": "-shuffle-ip"
+      "aliases": [
+        "-si"
+      ]
     },
     {
-      "key": "shuffle-port",
-      "name": "Shuffle ports",
+      "key": "-shuffle-port",
+      "displayName": "Shuffle ports",
       "description": "Shuffle input IP:Port values randomly.",
       "group": "Miscellaneous",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-sp",
-      "longFlag": "-shuffle-port"
+      "aliases": [
+        "-sp"
+      ]
     },
     {
-      "key": "update",
-      "name": "Update",
+      "key": "-update",
+      "displayName": "Update",
       "description": "Update mapcidr to the latest version.",
       "group": "Update",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-up",
-      "longFlag": "-update"
+      "aliases": [
+        "-up"
+      ]
     },
     {
-      "key": "disable-update-check",
-      "name": "Disable update check",
+      "key": "-disable-update-check",
+      "displayName": "Disable update check",
       "description": "Disable automatic update checks.",
       "group": "Update",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-duc",
-      "longFlag": "-disable-update-check"
+      "aliases": [
+        "-duc"
+      ]
     },
     {
-      "key": "verbose",
-      "name": "Verbose",
+      "key": "-verbose",
+      "displayName": "Verbose",
       "description": "Enable verbose output.",
       "group": "Output",
       "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "-verbose"
+      "dataType": "Boolean"
     },
     {
-      "key": "output",
-      "name": "Output file",
+      "key": "-output",
+      "displayName": "Output file",
       "description": "Write output to a file.",
       "group": "Output",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-o",
-      "longFlag": "-output"
+      "aliases": [
+        "-o"
+      ]
     },
     {
-      "key": "silent",
-      "name": "Silent",
+      "key": "-silent",
+      "displayName": "Silent",
       "description": "Suppress non-output logs.",
       "group": "Output",
       "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "-silent"
+      "dataType": "Boolean"
     },
     {
-      "key": "version",
-      "name": "Version",
+      "key": "-version",
+      "displayName": "Version",
       "description": "Show the project version.",
       "group": "Output",
       "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "-version"
+      "dataType": "Boolean"
     }
   ],
   "info": {
     "description": "Perform multiple operations on CIDR and IP ranges.",
+    "version": "1.1.97",
     "url": "https://github.com/projectdiscovery/mapcidr"
+  },
+  "installation": {
+    "sources": [
+      {
+        "key": "go-install",
+        "method": "package_manager",
+        "manager": "go",
+        "command": "go install -v github.com/projectdiscovery/mapcidr/cmd/mapcidr@latest",
+        "url": "https://github.com/projectdiscovery/mapcidr#installation"
+      }
+    ]
   }
 }

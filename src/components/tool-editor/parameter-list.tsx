@@ -1,5 +1,7 @@
-import { useToolBuilder } from "./tool-editor.context";
-import { ExclusionGroup, ParameterType } from "@/components/commandly/types/flat";
+import { parameterRef, useToolBuilder } from "./tool-editor.context";
+import { ExclusionGroup, ParameterType } from "@/components/commandly/types/tool";
+import { getFlagForms } from "@/components/commandly/utils/generate-command";
+import { getCommandParameters, getExclusionGroups } from "@/components/commandly/utils/tool";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,8 +27,8 @@ import { useRef } from "react";
 
 interface ParameterListProps {
   title: string;
-  isGlobal?: boolean;
   isChatOpen?: boolean;
+  /** Parameters the AI proposed, measured against the tool as it was loaded. */
   pendingChanges?: { updated: Set<string>; added: Set<string>; removed: Set<string> };
 }
 
@@ -43,19 +45,11 @@ function ParameterIcon({ type }: { type: ParameterType }) {
   }
 }
 
-export function ParameterList({
-  title,
-  isGlobal = false,
-  isChatOpen = false,
-  pendingChanges,
-}: ParameterListProps) {
+export function ParameterList({ title, isChatOpen = false, pendingChanges }: ParameterListProps) {
   const {
-    selectedCommand,
+    tool,
+    selectedCommandKey,
     contextSelection,
-    getGlobalParameters,
-    getRootParameters,
-    getParametersForCommand,
-    getExclusionGroupsForCommand,
     setSelectedParameter,
     setContextSelection,
     removeParameter,
@@ -64,30 +58,11 @@ export function ParameterList({
 
   const lastSelectedIndexRef = useRef<number | null>(null);
 
-  const globalParameters = getGlobalParameters();
-  const rootParameters = getRootParameters();
-  const commandParameters = selectedCommand?.key
-    ? getParametersForCommand(selectedCommand.key)
-    : [];
-  const exclusionGroups = selectedCommand?.key
-    ? getExclusionGroupsForCommand(selectedCommand.key)
-    : [];
+  const isRootParameter = selectedCommandKey === null;
+  const parameters = getCommandParameters(tool, selectedCommandKey);
+  const exclusionGroups = getExclusionGroups(tool, selectedCommandKey);
 
-  const parameters = isGlobal
-    ? globalParameters
-    : selectedCommand
-      ? commandParameters
-      : rootParameters;
-
-  const removedParameters = isGlobal
-    ? pendingChanges
-      ? [...pendingChanges.removed].filter((k) => !parameters.some((p) => p.key === k))
-      : []
-    : pendingChanges
-      ? [...pendingChanges.removed].filter(
-          (k) => !parameters.some((p) => p.key === k) && !globalParameters.some((p) => p.key === k),
-        )
-      : [];
+  const removedParameters = pendingChanges ? [...pendingChanges.removed] : [];
 
   const getParameterExclusionGroups = (parameterKey: string): ExclusionGroup[] => {
     return exclusionGroups.filter((group) => group.parameterKeys.includes(parameterKey));
@@ -95,25 +70,28 @@ export function ParameterList({
 
   const handleParameterClick = (e: React.MouseEvent, paramKey: string, index: number) => {
     e.stopPropagation();
+    const ref = parameterRef(selectedCommandKey, paramKey);
 
     if (e.ctrlKey || e.metaKey) {
-      const already = contextSelection.parameterKeys.includes(paramKey);
+      const already = contextSelection.parameterRefs.includes(ref);
       setContextSelection({
         ...contextSelection,
-        parameterKeys: already
-          ? contextSelection.parameterKeys.filter((k) => k !== paramKey)
-          : [...contextSelection.parameterKeys, paramKey],
+        parameterRefs: already
+          ? contextSelection.parameterRefs.filter((item) => item !== ref)
+          : [...contextSelection.parameterRefs, ref],
       });
       lastSelectedIndexRef.current = index;
     } else if (e.shiftKey) {
       const anchor = lastSelectedIndexRef.current ?? index;
       const from = Math.min(anchor, index);
       const to = Math.max(anchor, index);
-      const rangeKeys = parameters.slice(from, to + 1).map((p) => p.key);
-      const merged = Array.from(new Set([...contextSelection.parameterKeys, ...rangeKeys]));
-      setContextSelection({ ...contextSelection, parameterKeys: merged });
+      const rangeRefs = parameters
+        .slice(from, to + 1)
+        .map((parameter) => parameterRef(selectedCommandKey, parameter.key));
+      const merged = Array.from(new Set([...contextSelection.parameterRefs, ...rangeRefs]));
+      setContextSelection({ ...contextSelection, parameterRefs: merged });
     } else {
-      setContextSelection({ commandKeys: [], parameterKeys: [paramKey] });
+      setContextSelection({ commandKeys: [], parameterRefs: [ref] });
       lastSelectedIndexRef.current = index;
     }
   };
@@ -122,17 +100,17 @@ export function ParameterList({
     <div>
       <div className="mb-4 flex items-center justify-between">
         <h3 className="flex items-center gap-2 text-lg font-semibold">
-          {isGlobal && <GlobeIcon className="h-5 w-5" />}
+          {isRootParameter && <GlobeIcon className="h-5 w-5" />}
           {title} ({parameters.length})
         </h3>
         <Button
           onClick={() =>
             setSelectedParameter({
               key: "",
-              name: "",
+              displayName: "",
               parameterType: "Option",
               dataType: "String",
-              ...(isGlobal ? { isGlobal: true as const } : { commandKey: selectedCommand?.key }),
+              ...(isRootParameter ? { recursive: true as const } : {}),
             })
           }
           size="sm"
@@ -149,7 +127,9 @@ export function ParameterList({
         <SortableContent className="space-y-2">
           {parameters.map((parameter, index) => {
             const paramGroups = getParameterExclusionGroups(parameter.key);
-            const isContextSelected = contextSelection.parameterKeys.includes(parameter.key);
+            const isContextSelected = contextSelection.parameterRefs.includes(
+              parameterRef(selectedCommandKey, parameter.key),
+            );
             const isAdded = pendingChanges?.added.has(parameter.key);
             const isUpdated = pendingChanges?.updated.has(parameter.key);
 
@@ -176,10 +156,10 @@ export function ParameterList({
                     <div className="flex items-center gap-2">
                       <ParameterIcon type={parameter.parameterType} />
                       <span className="text-sm font-medium">
-                        {parameter.name}
-                        {(parameter.longFlag || parameter.shortFlag) && (
+                        {parameter.displayName}
+                        {!!getFlagForms(parameter).length && (
                           <span className="ml-1 text-muted-foreground">
-                            ({[parameter.longFlag, parameter.shortFlag].filter(Boolean).join(", ")})
+                            ({getFlagForms(parameter).join(", ")})
                           </span>
                         )}
                       </span>
@@ -190,6 +170,7 @@ export function ParameterList({
                           variant="ghost"
                           size="sm"
                           className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100"
+                          aria-label={`Reorder ${parameter.displayName}`}
                           onClick={(e) => e.stopPropagation()}
                         >
                           <GripVerticalIcon className="h-3 w-3" />
@@ -199,6 +180,7 @@ export function ParameterList({
                         variant="ghost"
                         size="sm"
                         className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100"
+                        aria-label={`Edit ${parameter.displayName}`}
                         onClick={(e) => {
                           e.stopPropagation();
                           setSelectedParameter(parameter);
@@ -210,6 +192,7 @@ export function ParameterList({
                         variant="ghost"
                         size="sm"
                         className="h-6 w-6 p-0"
+                        aria-label={`Remove ${parameter.displayName}`}
                         onClick={(e) => {
                           e.stopPropagation();
                           removeParameter(parameter.key);
@@ -240,12 +223,12 @@ export function ParameterList({
                     >
                       {parameter.dataType}
                     </Badge>
-                    {isGlobal && (
+                    {parameter.recursive && (
                       <Badge
-                        variant="default"
+                        variant="outline"
                         className="text-xs"
                       >
-                        global
+                        inherited
                       </Badge>
                     )}
                     {paramGroups.map((group) => (
@@ -255,7 +238,7 @@ export function ParameterList({
                         className="flex items-center gap-1 bg-muted text-xs"
                       >
                         <LayersIcon className="h-3 w-3" />
-                        {group.name}
+                        {group.displayName}
                       </Badge>
                     ))}
                     {isAdded && (
@@ -285,7 +268,7 @@ export function ParameterList({
             const param = parameters.find((p) => p.key === value);
             return (
               <div className="rounded border bg-background p-3 text-sm font-medium">
-                {param?.name}
+                {param?.displayName}
               </div>
             );
           }}

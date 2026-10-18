@@ -22,7 +22,9 @@ Renders a CLI tool's parameters as interactive form inputs for real-time preview
   <TabsContent value="manual">
     <Steps>
       <Step>
-        Copy `tool-renderer.tsx` into `components/commandly/tool-renderer.tsx` in your project.
+        Copy `tool-renderer.tsx` into `components/commandly/`, along with `multi-select.tsx` (into
+        `components/ui/`), `types/tool.ts`, `types/renderer.ts`, `utils/tool.ts` and
+        `utils/generate-command.ts`.
       </Step>
       <Step>Update import paths to match your project setup.</Step>
     </Steps>
@@ -54,7 +56,7 @@ const [values, setValues] = useState<Record<string, ParameterValue>>({})
 ```tsx
 <ToolRenderer
   tool={tool}
-  selectedCommand={tool.commands[1]}
+  selectedCommand={tool.commands[0]}
   parameterValues={values}
   updateParameterValue={(key, val) => setValues((prev) => ({ ...prev, [key]: val }))}
 />
@@ -66,11 +68,11 @@ You can override how specific parameters are rendered by providing a custom `cat
 
 ```tsx
 import { defaultComponents } from "@/components/commandly/tool-renderer"
-import type { ParameterRendererEntry } from "@/components/commandly/lib/types/renderer"
+import type { ParameterRendererEntry } from "@/components/commandly/types/renderer"
 
 const customCatalog: ParameterRendererEntry[] = [
   {
-    condition: (p) => p.dataType === "String" && p.name === "format",
+    condition: (p) => p.dataType === "String" && p.displayName === "format",
     component: ({ parameter, value, onUpdate }) => (
       <select value={String(value)} onChange={(e) => onUpdate(e.target.value)}>
         <option value="json">JSON</option>
@@ -88,13 +90,13 @@ const customCatalog: ParameterRendererEntry[] = [
 
 ### ToolRenderer
 
-| Prop                   | Type                                           | Default               | Description                                                     |
-| ---------------------- | ---------------------------------------------- | --------------------- | --------------------------------------------------------------- |
-| `tool`                 | `Tool`                                         | -                     | The tool definition to render inputs for                        |
-| `selectedCommand`      | `Command`                                      | Auto-detected default | The command whose parameters should be shown                    |
-| `parameterValues`      | `Record<string, ParameterValue>`               | -                     | Current values keyed by parameter key                           |
-| `updateParameterValue` | `(key: string, value: ParameterValue) => void` | -                     | Callback to update a parameter's value                          |
-| `catalog`              | `ParameterRendererEntry[]`                     | `defaultComponents()` | Ordered list of renderer entries; first matching condition wins |
+| Prop                   | Type                                           | Default               | Description                                                                 |
+| ---------------------- | ---------------------------------------------- | --------------------- | --------------------------------------------------------------------------- |
+| `tool`                 | `Tool`                                         | -                     | The tool definition to render inputs for                                    |
+| `selectedCommand`      | `Command \| null`                              | Auto-detected default | The command whose parameters should be shown; `null` renders the tool's own |
+| `parameterValues`      | `Record<string, ParameterValue>`               | -                     | Current values keyed by parameter key                                       |
+| `updateParameterValue` | `(key: string, value: ParameterValue) => void` | -                     | Callback to update a parameter's value                                      |
+| `catalog`              | `ParameterRendererEntry[]`                     | `defaultComponents()` | Ordered list of renderer entries; first matching condition wins             |
 
 ### ParameterRendererEntry
 
@@ -105,16 +107,22 @@ const customCatalog: ParameterRendererEntry[] = [
 
 ### ParameterRenderContext
 
-| Field       | Type                              | Description                  |
-| ----------- | --------------------------------- | ---------------------------- |
-| `parameter` | `Parameter`                       | The parameter definition     |
-| `value`     | `ParameterValue`                  | The current value            |
-| `onUpdate`  | `(value: ParameterValue) => void` | Callback to push a new value |
+| Field        | Type                              | Description                                                                |
+| ------------ | --------------------------------- | -------------------------------------------------------------------------- |
+| `parameter`  | `Parameter`                       | The parameter definition                                                   |
+| `flags`      | `string[]`                        | The parameter's invocation forms: the canonical flag plus its aliases      |
+| `value`      | `ParameterValue`                  | The current value                                                          |
+| `onUpdate`   | `(value: ParameterValue) => void` | Callback to push a new value                                               |
+| `isRequired` | `boolean`                         | Whether the parameter must be provided, counting a `required_one_of` group |
+| `excludedBy` | `string`                          | The exclusion group ruling the parameter out, once another member is set   |
 
 ## Notes
 
 - The default catalog renders `Flag` → checkbox, `Option` → text/number/select input, `Argument` → text input
-- Global parameters are shown regardless of the selected command
-- If `selectedCommand` is omitted, the component first looks for a command whose `name` matches `tool.binaryName`, then falls back to the first command
-- If `selectedCommand` is explicitly `null`, the component renders root-level parameters plus any global parameters
+- Inherited parameters (`recursive: true`) are shown alongside the selected command's own parameters
+- If `selectedCommand` is omitted, the component first looks for a command whose `displayName` matches `tool.binaryName`, then falls back to the first command
+- A tool's own flags belong in `tool.parameters`, not on a command named after the binary, which would describe the root invocation twice
+- Mutual exclusion is enforced: once one member of a `mutual_exclusive` group is set, the others are disabled and carry an `excluded by <group>` badge, and the generated command never emits two of them
+- A custom renderer is given `excludedBy` and `isRequired`, so it can disable its own input the same way
+- If `selectedCommand` is explicitly `null`, the component renders the tool's own parameters
 - Provide a custom `catalog` to render domain-specific parameter types differently

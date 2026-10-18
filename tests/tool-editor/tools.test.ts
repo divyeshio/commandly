@@ -34,8 +34,8 @@ describe("applyMergePatch", () => {
     const newParams = [
       {
         key: "output",
-        name: "Output",
-        longFlag: "--output",
+        displayName: "Output",
+        aliases: ["--output"],
         parameterType: "Option" as const,
         dataType: "String" as const,
         isRequired: false,

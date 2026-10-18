@@ -1,5 +1,6 @@
 export interface DocNavItem {
-  name: string;
+  /** The page's module under `src/routes/docs/__collection__`, or `null` for the docs index. */
+  name: string | null;
   title: string;
 }
 
@@ -10,7 +11,7 @@ export interface DocNavSection {
 
 export const docsNav: DocNavSection[] = [
   {
-    items: [{ name: "", title: "Overview" }],
+    items: [{ name: null, title: "Overview" }],
   },
   {
     section: "Components",
@@ -18,6 +19,8 @@ export const docsNav: DocNavSection[] = [
       { name: "tool-renderer", title: "Tool Renderer" },
       { name: "generated-command", title: "Generated Command" },
       { name: "json-output", title: "JSON Output" },
+      { name: "command-tree", title: "Command Tree" },
+      { name: "installation", title: "Installation" },
     ],
   },
   {
@@ -28,8 +31,7 @@ export const docsNav: DocNavSection[] = [
     section: "Specification",
     items: [
       { name: "specification-intro", title: "Introduction" },
-      { name: "specification-schema", title: "Flat Schema" },
-      { name: "specification-nested", title: "Nested Schema" },
+      { name: "specification-schema", title: "Schema Reference" },
       { name: "specification-examples", title: "Examples" },
     ],
   },

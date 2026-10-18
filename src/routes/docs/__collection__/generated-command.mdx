@@ -29,8 +29,8 @@ Displays a real-time generated CLI command string with copy and save functionali
         __bun__="bun add lucide-react sonner"
       />
       <Step>
-        Copy `generated-command.tsx` into `components/commandly/generated-command.tsx` in your
-        project.
+        Copy `generated-command.tsx` into `components/commandly/`, along with `types/tool.ts`,
+        `utils/tool.ts`, `utils/generate-command.ts` and `utils/clipboard.ts`.
       </Step>
       <Step>Update import paths to match your project setup.</Step>
     </Steps>
@@ -50,18 +50,17 @@ import { Card, CardContent } from "@/components/ui/card";
 const tool: Tool = {
   binaryName: "curl",
   displayName: "curl",
-  commands: [{ key: "curl", name: "curl" }],
   parameters: [
     {
-      key: "url",
-      name: "url",
+      key: "--output",
+      displayName: "Output",
       parameterType: "Option",
       dataType: "String",
-      longFlag: "-X",
+      aliases: ["-o"],
       isRequired: true,
-      commandKey: "curl",
     },
   ],
+  commands: [],
 }
 
 const [values, setValues] = useState({})
@@ -69,12 +68,12 @@ const [values, setValues] = useState({})
 <Card>
   <GeneratedCommand
     tool={tool}
-    selectedCommand={tool.commands[0]}
+    selectedCommand={null}
     parameterValues={values}
     onSaveCommand={(cmd) => console.log(cmd)}
   >
     <GeneratedCommand.Header>
-      <GeneratedCommand.FlagPreference />
+      <GeneratedCommand.FlagFormPreference />
     </GeneratedCommand.Header>
     <CardContent className="space-y-4">
       <GeneratedCommand.Output />
@@ -90,7 +89,7 @@ const [values, setValues] = useState({})
 <GeneratedCommand
   tool={tool}
   parameterValues={values}
-/>
+>
   <GeneratedCommand.Output />
 </GeneratedCommand>
 ```
@@ -99,25 +98,25 @@ const [values, setValues] = useState({})
 
 ### GeneratedCommand
 
-| Prop              | Type                             | Default            | Description                                                             |
-| ----------------- | -------------------------------- | ------------------ | ----------------------------------------------------------------------- |
-| `tool`            | `Tool`                           | -                  | The tool definition including `binaryName`, commands, and parameters    |
-| `selectedCommand` | `Command \| null`                | `tool.commands[0]` | The currently selected command, or `null` to render the root invocation |
-| `parameterValues` | `Record<string, ParameterValue>` | -                  | Map of parameter key to current value                                   |
-| `onSaveCommand`   | `(command: string) => void`      | -                  | Optional callback fired when the save button is clicked                 |
-| `useLongFlag`     | `boolean`                        | `false`            | Initial flag preference for generated flags and options                 |
-| `children`        | `ReactNode`                      | -                  | Optional composed layout using the exported subcomponents               |
+| Prop                   | Type                             | Default               | Description                                                               |
+| ---------------------- | -------------------------------- | --------------------- | ------------------------------------------------------------------------- |
+| `tool`                 | `Tool`                           | -                     | The tool definition including `binaryName`, commands, and parameters      |
+| `selectedCommand`      | `Command \| null`                | Auto-detected default | The currently selected command, or `null` to render the root invocation   |
+| `parameterValues`      | `Record<string, ParameterValue>` | -                     | Map of parameter key to current value                                     |
+| `onSaveCommand`        | `(command: string) => void`      | -                     | Optional callback fired when the save button is clicked                   |
+| `defaultFlagFormIndex` | `number`                         | `0`                   | Position emitted by default: `0` is the full flag, later ones the aliases |
+| `children`             | `ReactNode`                      | -                     | Optional composed layout using the exported subcomponents                 |
 
 ### Compound Components
 
-| Component                         | Description                                                              |
-| --------------------------------- | ------------------------------------------------------------------------ |
-| `GeneratedCommand.Header`         | Renders the `Generated Command` header row                               |
-| `GeneratedCommand.FlagPreference` | Renders the inline long-flag switch when both short and long flags exist |
-| `GeneratedCommand.Toolbar`        | Optional layout wrapper for custom controls inside the command body      |
-| `GeneratedCommand.Output`         | Renders the scrollable generated command text                            |
-| `GeneratedCommand.Actions`        | Renders the copy and save buttons                                        |
-| `GeneratedCommand.EmptyState`     | Renders the empty state when no command can be produced                  |
+| Component                             | Description                                                         |
+| ------------------------------------- | ------------------------------------------------------------------- |
+| `GeneratedCommand.Header`             | Renders the `Generated Command` header row                          |
+| `GeneratedCommand.FlagFormPreference` | Renders the flag-form picker when any parameter declares an alias   |
+| `GeneratedCommand.Toolbar`            | Optional layout wrapper for custom controls inside the command body |
+| `GeneratedCommand.Output`             | Renders the scrollable generated command text                       |
+| `GeneratedCommand.Actions`            | Renders the copy and save buttons                                   |
+| `GeneratedCommand.EmptyState`         | Renders the empty state when no command can be produced             |
 
 ## Notes
 
@@ -125,6 +124,7 @@ const [values, setValues] = useState({})
 - Flag parameters are only included when their value is `true`
 - Option parameters are joined using `keyValueSeparator` (defaults to a space)
 - Argument parameters are appended in order of their `position` field
-- Global parameters are included regardless of the selected command
+- Each flag and option emits the flag form at `defaultFlagFormIndex`: index `0` is the full flag (`key`), later indexes are the parameter's `aliases` in order, falling back to the full flag
+- Tool-level recursive parameters are inherited by every command, and a command's own recursive parameters by every command beneath it
 - Passing `selectedCommand={null}` includes root-level parameters and skips command path segments
-- `GeneratedCommand.Header` and `GeneratedCommand.FlagPreference` must be rendered inside the `GeneratedCommand` root to access shared state
+- `GeneratedCommand.Header` and `GeneratedCommand.FlagFormPreference` must be rendered inside the `GeneratedCommand` root to access shared state

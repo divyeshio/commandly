@@ -10,16 +10,9 @@ const settings: TJS.PartialArgs = {
 
 const tsConfigPath = join(process.cwd(), "tsconfig.json");
 
-const flatProgram = TJS.programFromConfig(tsConfigPath, [
-  join(process.cwd(), "registry/commandly/types/flat.ts"),
+const program = TJS.programFromConfig(tsConfigPath, [
+  join(process.cwd(), "registry/commandly/types/tool.ts"),
 ]);
-const flatSchema = TJS.generateSchema(flatProgram, "Tool", settings);
-const flatOutputPath = join(process.cwd(), "public", "specification", "flat.json");
-writeFileSync(flatOutputPath, JSON.stringify(flatSchema, null, 2));
-
-const nestedProgram = TJS.programFromConfig(tsConfigPath, [
-  join(process.cwd(), "registry/commandly/types/nested.ts"),
-]);
-const nestedSchema = TJS.generateSchema(nestedProgram, "NestedTool", settings);
-const nestedOutputPath = join(process.cwd(), "public", "specification", "nested.json");
-writeFileSync(nestedOutputPath, JSON.stringify(nestedSchema, null, 2));
+const schema = TJS.generateSchema(program, "Tool", settings);
+const outputPath = join(process.cwd(), "public", "specification", "tool.json");
+writeFileSync(outputPath, JSON.stringify(schema, null, 2));

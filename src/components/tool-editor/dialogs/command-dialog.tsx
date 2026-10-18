@@ -1,5 +1,6 @@
-import { Command } from "@/components/commandly/types/flat";
-import { slugify } from "@/components/commandly/utils/flat";
+import { Command } from "@/components/commandly/types/tool";
+import { TagsInput } from "@/components/commandly/ui/tags-input";
+import { slugify } from "@/components/commandly/utils/tool";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -38,19 +39,19 @@ export function CommandDialog({
   const getDefaultCommand = () =>
     command ?? {
       key: "",
-      name: "",
+      displayName: "",
       description: "",
       sortOrder: 0,
-      parentCommandKey: parentKey,
+      parameters: [],
     };
 
   const [editCommand, setCommand] = useState<Command>(getDefaultCommand);
 
-  const sluggedName = slugify(editCommand.name);
+  const derivedKey = slugify(editCommand.displayName);
+  /** A command follows its display name until a key is written. */
+  const commandKey = editCommand.key || derivedKey;
   const isDuplicate =
-    isNewCommand &&
-    !!sluggedName &&
-    (sluggedName === parentKey || siblingKeys.includes(sluggedName));
+    isNewCommand && !!commandKey && (commandKey === parentKey || siblingKeys.includes(commandKey));
 
   return (
     <Dialog
@@ -71,23 +72,40 @@ export function CommandDialog({
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-3">
-              <Label htmlFor="cmd-name">Command Name</Label>
+              <Label htmlFor="cmd-display-name">Display Name</Label>
               <Input
-                id="cmd-name"
-                value={editCommand.name}
+                id="cmd-display-name"
+                value={editCommand.displayName}
                 onChange={(e) =>
                   setCommand((prev) => ({
                     ...prev,
-                    name: e.target.value,
+                    displayName: e.target.value,
                   }))
                 }
               />
-              {isDuplicate && (
-                <p className="text-sm text-destructive">
-                  A command with this name already exists at this level.
-                </p>
-              )}
             </div>
+            <div className="flex flex-col gap-3">
+              <Label htmlFor="cmd-key">Key</Label>
+              <Input
+                id="cmd-key"
+                value={editCommand.key}
+                onChange={(e) => setCommand((prev) => ({ ...prev, key: slugify(e.target.value) }))}
+                placeholder={derivedKey}
+              />
+            </div>
+          </div>
+          {isDuplicate && (
+            <p className="text-sm text-destructive">
+              A command with this key already exists at this level.
+            </p>
+          )}
+          <div className="flex flex-col gap-3">
+            <Label htmlFor="cmd-aliases">Aliases</Label>
+            <TagsInput
+              value={editCommand.aliases ?? []}
+              onValueChange={(aliases) => setCommand((prev) => ({ ...prev, aliases }))}
+              placeholder="Add alternate spellings"
+            />
           </div>
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
@@ -117,12 +135,9 @@ export function CommandDialog({
         <DialogFooter>
           <Button
             variant="outline"
-            disabled={(isNewCommand && !editCommand.name.trim()) || isDuplicate}
+            disabled={!editCommand.displayName.trim() || isDuplicate}
             onClick={() => {
-              const finalCommand = isNewCommand
-                ? { ...editCommand, key: slugify(editCommand.name) }
-                : editCommand;
-              onSave(finalCommand);
+              onSave({ ...editCommand, key: commandKey });
               setCommand(getDefaultCommand());
               onOpenChange(false);
             }}

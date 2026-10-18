@@ -12,7 +12,7 @@ This skill provides guidance for creating effective skills.
 
 Skills are modular, self-contained packages that extend Claude's capabilities by providing
 specialized knowledge, workflows, and tools. Think of them as "onboarding guides" for specific
-domains or tasks—they transform Claude from a general-purpose agent into a specialized agent
+domains or tasks-they transform Claude from a general-purpose agent into a specialized agent
 equipped with procedural knowledge that no model can fully possess.
 
 ### What Skills Provide
@@ -88,7 +88,7 @@ Documentation and reference material intended to be loaded as needed into contex
 - **Use cases**: Database schemas, API documentation, domain knowledge, company policies, detailed workflow guides
 - **Benefits**: Keeps SKILL.md lean, loaded only when Claude determines it's needed
 - **Best practice**: If files are large (>10k words), include grep search patterns in SKILL.md
-- **Avoid duplication**: Information should live in either SKILL.md or references files, not both. Prefer references files for detailed information unless it's truly core to the skill—this keeps SKILL.md lean while making information discoverable without hogging the context window. Keep only essential procedural instructions and workflow guidance in SKILL.md; move detailed reference material, schemas, and examples to references files.
+- **Avoid duplication**: Information should live in either SKILL.md or references files, not both. Prefer references files for detailed information unless it's truly core to the skill-this keeps SKILL.md lean while making information discoverable without hogging the context window. Keep only essential procedural instructions and workflow guidance in SKILL.md; move detailed reference material, schemas, and examples to references files.
 
 ##### Assets (`assets/`)
 

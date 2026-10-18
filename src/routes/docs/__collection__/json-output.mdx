@@ -1,6 +1,6 @@
 # JSON Output
 
-Displays a tool definition as formatted JSON in flat or nested structure with copy functionality.
+Displays a tool definition as a collapsible JSON tree with search, copy, and diff functionality.
 
 <ComponentPreview name="json-output" />
 
@@ -21,15 +21,10 @@ Displays a tool definition as formatted JSON in flat or nested structure with co
   </TabsContent>
   <TabsContent value="manual">
     <Steps>
-      <Step>Install the required dependencies:</Step>
-      <CodeBlockCommand
-        __pnpm__="pnpm add nuqs"
-        __npm__="npm install nuqs"
-        __yarn__="yarn add nuqs"
-        __bun__="bun add nuqs"
-      />
       <Step>
-        Copy `json-output.tsx` into `components/commandly/json-output.tsx` in your project.
+        Copy `json-output.tsx` and `json-tree.tsx` into `components/commandly/`, along with
+        `types/tool.ts`, `utils/tool.ts`, `utils/tool-file.ts`, `utils/diff.ts`,
+        `utils/clipboard.ts` and `utils/json-tree.ts`.
       </Step>
       <Step>Update import paths to match your project setup.</Step>
     </Steps>
@@ -48,30 +43,19 @@ import { JsonOutput } from "@/components/commandly/json-output";
 const tool: Tool = {
   binaryName: "curl",
   displayName: "curl",
-  commands: [{ key: "curl", name: "curl" }],
   parameters: [
     {
-      key: "url",
-      name: "url",
+      key: "--url",
+      displayName: "URL",
       parameterType: "Option",
       dataType: "String",
-      longFlag: "-X",
       isRequired: true,
-      commandKey: "curl",
     },
   ],
-}
+  commands: [],
+};
 
-<JsonOutput tool={tool} />
-```
-
-### Output Format
-
-The output format (flat or nested) is synced to the URL query string via the `output` parameter using `nuqs`. You can link directly to a specific format:
-
-```tsx
-// defaults to flat; navigate to ?output=nested for nested structure
-<JsonOutput tool={tool} />
+<JsonOutput tool={tool} />;
 ```
 
 ## API Reference
@@ -84,7 +68,10 @@ The output format (flat or nested) is synced to the URL query string via the `ou
 
 ## Notes
 
-- The selected output format (`flat` or `nested`) is persisted in the URL query string (`?output=`)
-- `flat` format is the native Commandly storage format with all parameters in a flat array
-- `nested` format converts the structure so parameters are nested under their parent commands
-- The copy button copies the current JSON string to the clipboard
+- Parameters are nested under the command that accepts them, matching the tool definition
+- Branches unfold one row at a time and long arrays and objects load in pages
+- The tree follows the WAI-ARIA tree pattern: arrow keys move and open, Home and End jump, Enter toggles, and the modifier key with C copies the focused value
+- Search highlights every match and opens the branches that hold them
+- Each row copies its own value or path from the row actions, and the path of the current row is shown under the tree
+- The copy button in the header copies the whole JSON string to the clipboard
+- Passing `originalTool` adds a diff view of the two serialized tools, and `onApply` adds an editor for the raw JSON

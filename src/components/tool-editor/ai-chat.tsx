@@ -18,7 +18,7 @@ import {
 import { WebSearchResults, type WebSearchResult } from "../ai-chat/web-search-results";
 import { ChatStore } from "./ai-chat-store";
 import { generatePrompt } from "./prompt";
-import { useToolBuilder } from "./tool-editor.context";
+import { resolveContextParameters, useToolBuilder } from "./tool-editor.context";
 import {
   createApplyToolDefinitionTool,
   createEditTool,
@@ -71,12 +71,14 @@ import { Reasoning, ReasoningContent, ReasoningTrigger } from "@/components/ai-e
 import { Shimmer } from "@/components/ai-elements/shimmer";
 import { Suggestion, Suggestions } from "@/components/ai-elements/suggestion";
 import { Tool as ToolCard, ToolContent, ToolHeader } from "@/components/ai-elements/tool";
-import { Tool } from "@/components/commandly/types/flat";
+import { Tool } from "@/components/commandly/types/tool";
+import { getAllCommands } from "@/components/commandly/utils/tool";
+import { normalizeKeys } from "@/components/commandly/utils/tool-file";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Textarea } from "@/components/ui/textarea";
 import { useAIKeys, type AIProvider } from "@/lib/ai-keys";
-import { cn, replaceKey } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { createGroq } from "@ai-sdk/groq";
@@ -239,23 +241,23 @@ function useAIChat(
   const systemPrompt = useMemo(
     function computeSystemPrompt() {
       const serializedSchema = snapshot.schema ? JSON.stringify(snapshot.schema, null, 2) : "{}";
-      const contextCommands = currentTool.commands.filter((command) =>
+      const contextCommands = getAllCommands(currentTool).filter((command) =>
         contextSelection.commandKeys.includes(command.key),
       );
-      const contextParameters = currentTool.parameters.filter((parameter) =>
-        contextSelection.parameterKeys.includes(parameter.key),
+      const contextParameters = resolveContextParameters(
+        currentTool,
+        contextSelection.parameterRefs,
       );
       return generatePrompt(serializedSchema, {
         context: {
           selectedCommands: contextCommands.map((command) => ({
             key: command.key,
-            name: command.name,
+            displayName: command.displayName,
           })),
-          selectedParameters: contextParameters.map((parameter) => ({
+          selectedParameters: contextParameters.map(({ parameter }) => ({
             key: parameter.key,
-            name: parameter.name,
-            longFlag: parameter.longFlag,
-            shortFlag: parameter.shortFlag,
+            displayName: parameter.displayName,
+            aliases: parameter.aliases,
           })),
         },
       });
@@ -278,7 +280,7 @@ function useAIChat(
       const applyToolDefinitionDef = createApplyToolDefinitionTool(function onApplyExecuted() {
         const preview = store.getPendingPreview();
         if (preview) {
-          onApply(replaceKey(preview) as Tool);
+          onApply(normalizeKeys(preview));
           store.setPendingPreview(null);
         }
         onStreamingTool?.(null);
@@ -385,7 +387,7 @@ function useAIChat(
     if (!userText || isStreaming || !snapshot.model) return;
     if (!currentKeys.key) {
       toast.error("API key not configured", {
-        description: "Open settings to add your API key.",
+        description: "Add one with the settings button in this panel.",
       });
       return;
     }
@@ -750,12 +752,10 @@ export function AIChatPanel({
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editingValue, setEditingValue] = useState("");
 
-  const contextCommands = currentTool.commands.filter((c) =>
+  const contextCommands = getAllCommands(currentTool).filter((c) =>
     contextSelection.commandKeys.includes(c.key),
   );
-  const contextParameters = currentTool.parameters.filter((p) =>
-    contextSelection.parameterKeys.includes(p.key),
-  );
+  const contextParameters = resolveContextParameters(currentTool, contextSelection.parameterRefs);
   const hasContextItems = contextCommands.length > 0 || contextParameters.length > 0;
 
   return (
@@ -880,21 +880,23 @@ export function AIChatPanel({
                   className="flex items-center gap-1 rounded-full border border-border bg-muted px-2 py-0.5 text-xs italic"
                 >
                   <TerminalIcon className="h-3 w-3 shrink-0 text-muted-foreground" />
-                  {cmd.name}
+                  {cmd.displayName}
                 </span>
               ))}
-              {contextParameters.map((param) => (
+              {contextParameters.map(({ ref, parameter }) => (
                 <span
-                  key={param.key}
+                  key={ref}
                   className="flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-xs italic"
                 >
-                  {param.parameterType === "Flag" ? (
+                  {parameter.parameterType === "Flag" ? (
                     <FlagIcon className="h-3 w-3 shrink-0 text-primary/70" />
                   ) : (
                     <HashIcon className="h-3 w-3 shrink-0 text-primary/70" />
                   )}
-                  {param.name}
-                  {param.longFlag && <span className="text-primary/60">{param.longFlag}</span>}
+                  {parameter.displayName}
+                  {!!parameter.aliases?.length && (
+                    <span className="text-primary/60">{parameter.aliases[0]}</span>
+                  )}
                 </span>
               ))}
               <button
@@ -955,11 +957,7 @@ export function AIChatPanel({
               )}
               <PromptInputSubmit
                 status={chat.isStreaming ? "streaming" : "ready"}
-                disabled={
-                  !chat.isStreaming &&
-                  (!chat.allProviderKeys[chat.provider as Exclude<AIProvider, "tavily">]?.key ||
-                    !chat.model)
-                }
+                disabled={!chat.isStreaming && !chat.model}
                 onStop={chat.stopStreaming}
               />
             </div>

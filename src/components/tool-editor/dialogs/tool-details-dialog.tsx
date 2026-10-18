@@ -1,4 +1,9 @@
 import { useToolBuilder } from "../tool-editor.context";
+import {
+  INSTALLATION_METHODS,
+  InstallationMethod,
+  InstallationSource,
+} from "@/components/commandly/types/tool";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -9,12 +14,28 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { SettingsIcon } from "lucide-react";
+import { PlusIcon, SettingsIcon, Trash2Icon } from "lucide-react";
 
 export function ToolDetailsDialog() {
   const { tool, dialogs, setDialogOpen, updateTool } = useToolBuilder();
+
+  const sources = tool.installation?.sources ?? [];
+
+  const setSources = (next: InstallationSource[]) =>
+    updateTool({ installation: next.length > 0 ? { sources: next } : undefined });
+
+  const updateSource = (key: string, updates: Partial<InstallationSource>) =>
+    setSources(sources.map((source) => (source.key === key ? { ...source, ...updates } : source)));
 
   const isOpen = dialogs.editTool;
   return (
@@ -42,7 +63,7 @@ export function ToolDetailsDialog() {
                   updateTool({
                     binaryName: newName,
                     commands: tool.commands.map((cmd) =>
-                      cmd.name === prevName ? { ...cmd, name: newName } : cmd,
+                      cmd.displayName === prevName ? { ...cmd, displayName: newName } : cmd,
                     ),
                   });
                 }}
@@ -95,6 +116,109 @@ export function ToolDetailsDialog() {
               rows={3}
             />
           </div>
+
+          <Separator />
+
+          <div className="flex items-center justify-between">
+            <Label className="text-base font-medium">Installation</Label>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() =>
+                setSources([
+                  ...sources,
+                  {
+                    key: `source-${sources.length + 1}`,
+                    method: "package_manager",
+                    command: "",
+                  },
+                ])
+              }
+            >
+              <PlusIcon className="mr-2 h-4 w-4" />
+              Add source
+            </Button>
+          </div>
+
+          {sources.length === 0 && (
+            <p className="text-sm text-muted-foreground">No installation sources documented.</p>
+          )}
+
+          {sources.map((source, index) => (
+            <div
+              // Identity cannot follow `source.key`, which is edited below: re-keying on every
+              // keystroke would remount the row and drop focus from the input.
+              key={index}
+              className="space-y-3 rounded-lg border p-3"
+            >
+              <div className="grid grid-cols-[10rem_1fr_auto] gap-2">
+                <Select
+                  value={source.method}
+                  onValueChange={(value) =>
+                    updateSource(source.key, { method: value as InstallationMethod })
+                  }
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {INSTALLATION_METHODS.map(({ method, label }) => (
+                      <SelectItem
+                        key={method}
+                        value={method}
+                      >
+                        {label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Input
+                  value={source.key}
+                  onChange={(e) => updateSource(source.key, { key: e.target.value })}
+                  placeholder="key"
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  aria-label={`Remove ${source.key}`}
+                  onClick={() => setSources(sources.filter((s) => s.key !== source.key))}
+                >
+                  <Trash2Icon className="h-4 w-4 text-destructive" />
+                </Button>
+              </div>
+
+              {source.method === "package_manager" && (
+                <Input
+                  value={source.manager ?? ""}
+                  onChange={(e) =>
+                    updateSource(source.key, { manager: e.target.value || undefined })
+                  }
+                  placeholder="Manager, e.g. brew, go, npm"
+                />
+              )}
+
+              <Textarea
+                value={source.command}
+                onChange={(e) => updateSource(source.key, { command: e.target.value })}
+                placeholder="Install command"
+                rows={2}
+              />
+
+              <Input
+                value={source.url ?? ""}
+                onChange={(e) => updateSource(source.key, { url: e.target.value || undefined })}
+                placeholder="Documentation URL"
+              />
+
+              <Input
+                value={source.note ?? ""}
+                onChange={(e) => updateSource(source.key, { note: e.target.value || undefined })}
+                placeholder="Note"
+              />
+            </div>
+          ))}
         </div>
         <DialogFooter>
           <Button

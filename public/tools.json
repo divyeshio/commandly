@@ -15,18 +15,18 @@
     "description": "cdncheck is a tool for identifying the technology associated with dns / ip network addresses.",
     "info": {
       "description": "cdncheck is a tool for identifying the technology associated with dns / ip network addresses.",
-      "version": "1.2.27",
+      "version": "1.3.2",
       "url": "https://github.com/projectdiscovery/cdncheck"
     }
   },
   {
     "binaryName": "curl",
-    "displayName": "Curl",
-    "description": "curl is a command line tool and library for transferring data with URLs.",
+    "displayName": "curl",
+    "description": "curl is a tool for transferring data from or to a server using URLs.",
     "info": {
-      "description": "curl is a command line tool and library for transferring data with URLs.",
-      "version": "8.19.0",
-      "url": "https://curl.se/"
+      "description": "curl is a tool for transferring data from or to a server using URLs.",
+      "version": "8.7.1",
+      "url": "https://curl.se"
     }
   },
   {
@@ -35,8 +35,28 @@
     "description": "A fast and multi-purpose DNS toolkit designed for running DNS queries.",
     "info": {
       "description": "A fast and multi-purpose DNS toolkit designed for running DNS queries.",
-      "version": "1.2.3",
+      "version": "1.3.1",
       "url": "https://github.com/projectdiscovery/dnsx"
+    }
+  },
+  {
+    "binaryName": "dotnet",
+    "displayName": "dotnet",
+    "description": "The dotnet command is the generic driver for the .NET SDK and runtime.",
+    "info": {
+      "description": "The dotnet command is the generic driver for the .NET SDK and runtime.",
+      "version": "10.0.302",
+      "url": "https://github.com/dotnet/sdk"
+    }
+  },
+  {
+    "binaryName": "ffmpeg",
+    "displayName": "ffmpeg",
+    "description": "ffmpeg is a universal media converter.",
+    "info": {
+      "description": "ffmpeg is a universal media converter.",
+      "version": "8.1.2",
+      "url": "https://ffmpeg.org"
     }
   },
   {
@@ -45,8 +65,18 @@
     "description": "A fast web fuzzer written in Go.",
     "info": {
       "description": "A fast web fuzzer written in Go.",
-      "version": "2.1.0",
+      "version": "2.3.0",
       "url": "https://github.com/ffuf/ffuf"
+    }
+  },
+  {
+    "binaryName": "git",
+    "displayName": "git",
+    "description": "Git is a fast, scalable, distributed revision control system with an unusually rich command set that provides both high-level operations and full access to internals.",
+    "info": {
+      "description": "Git is a fast, scalable, distributed revision control system with an unusually rich command set that provides both high-level operations and full access to internals.",
+      "version": "2.50.1",
+      "url": "https://git-scm.com"
     }
   },
   {
@@ -65,7 +95,7 @@
     "description": "Httpx is a fast and multi-purpose HTTP toolkit that allows running multiple probes using the retryablehttp library.",
     "info": {
       "description": "Httpx is a fast and multi-purpose HTTP toolkit that allows running multiple probes using the retryablehttp library.",
-      "version": "1.9.0",
+      "version": "1.12.0",
       "url": "https://github.com/projectdiscovery/httpx"
     }
   },
@@ -75,7 +105,7 @@
     "description": "Katana is a fast crawler focused on execution in automation pipelines offering both headless and non-headless crawling.",
     "info": {
       "description": "Katana is a fast crawler focused on execution in automation pipelines offering both headless and non-headless crawling.",
-      "version": "1.5.0",
+      "version": "1.8.0",
       "url": "https://github.com/projectdiscovery/katana"
     }
   },
@@ -85,6 +115,7 @@
     "description": "Perform multiple operations on CIDR and IP ranges.",
     "info": {
       "description": "Perform multiple operations on CIDR and IP ranges.",
+      "version": "1.1.97",
       "url": "https://github.com/projectdiscovery/mapcidr"
     }
   },
@@ -94,7 +125,7 @@
     "description": "Fast port scanner for discovering open ports on hosts.",
     "info": {
       "description": "Fast port scanner for discovering open ports on hosts.",
-      "version": "2.5.0",
+      "version": "2.6.1",
       "url": "https://github.com/projectdiscovery/naabu"
     }
   },
@@ -104,7 +135,8 @@
     "description": "Stream output from files or pipes to notification providers.",
     "info": {
       "url": "https://github.com/projectdiscovery/notify",
-      "description": "Stream output from files or pipes to notification providers."
+      "description": "Stream output from files or pipes to notification providers.",
+      "version": "1.0.7"
     }
   },
   {
@@ -113,7 +145,7 @@
     "description": "Nuclei is a fast, template based vulnerability scanner focusing on extensive configurability, massive extensibility and ease of use.",
     "info": {
       "description": "Nuclei is a fast, template based vulnerability scanner focusing on extensive configurability, massive extensibility and ease of use.",
-      "version": "3.7.1",
+      "version": "3.11.1",
       "url": "https://github.com/projectdiscovery/nuclei"
     }
   },
@@ -133,7 +165,7 @@
     "description": "Subfinder is a subdomain discovery tool that discovers subdomains for websites by using passive online sources.",
     "info": {
       "description": "Subfinder is a subdomain discovery tool that discovers subdomains for websites by using passive online sources.",
-      "version": "2.13.0",
+      "version": "2.17.0",
       "url": "https://github.com/projectdiscovery/subfinder"
     }
   },
@@ -153,7 +185,7 @@
     "description": "yt-dlp is a command-line program to download videos from YouTube and other sites.",
     "info": {
       "description": "yt-dlp is a command-line program to download videos from YouTube and other sites.",
-      "version": "2026.03.17",
+      "version": "2026.08.19",
       "url": "https://github.com/yt-dlp/yt-dlp"
     }
   }

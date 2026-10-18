@@ -1,40 +1,26 @@
 import { DocsCopyPage } from "@/components/docs/docs-copy-page";
 import { mdxComponents } from "@/components/docs/mdx-components";
-import { createFileRoute } from "@tanstack/react-router";
-import { ComponentType, lazy } from "react";
+import { createFileRoute, notFound } from "@tanstack/react-router";
+import type { ComponentType } from "react";
 
 const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/divyeshio/commandly/refs/heads/main";
 
-const componentCache = new Map<string, ComponentType<{ components?: object }>>();
-const rawCache = new Map<string, string>();
-const docModules = import.meta.glob<{
-  default: ComponentType<{ components?: object }>;
-}>("./__collection__/*.mdx");
-const rawDocModules = import.meta.glob<string>("./__collection__/*.mdx", {
-  query: "?raw",
-  import: "default",
-});
+/**
+ * Imported eagerly, not lazily. These pages are prerendered, so the client hydrates HTML that
+ * already contains the page body: the component has to resolve on the client's first render as
+ * well, or hydration would render nothing where the static HTML had content.
+ */
+const docModules = import.meta.glob<{ default: ComponentType<{ components?: object }> }>(
+  "./__collection__/*.mdx",
+  { eager: true },
+);
 
-const MissingDocumentation: ComponentType<{ components?: object }> = () => {
-  return <div>Documentation not found</div>;
-};
+const docModulePath = (componentName: string) => `./__collection__/${componentName}.mdx`;
 
 export const Route = createFileRoute("/docs/$componentName")({
   component: RouteComponent,
-  loader: async ({ params: { componentName } }) => {
-    const moduleLoader = docModules[`./__collection__/${componentName}.mdx`];
-    const rawLoader = rawDocModules[`./__collection__/${componentName}.mdx`];
-
-    if (!moduleLoader || !rawLoader) {
-      throw new Error(`Documentation not found for "${componentName}"`);
-    }
-
-    const module = await moduleLoader();
-    const raw = await rawLoader();
-    const component = module.default;
-
-    componentCache.set(componentName, component);
-    rawCache.set(componentName, raw);
+  loader: ({ params: { componentName } }) => {
+    if (!docModules[docModulePath(componentName)]) throw notFound();
     return { componentName };
   },
   preload: true,
@@ -42,26 +28,15 @@ export const Route = createFileRoute("/docs/$componentName")({
 
 function RouteComponent() {
   const { componentName } = Route.useLoaderData();
-  let Component = componentCache.get(componentName);
-  const raw = rawCache.get(componentName) ?? "";
+  const Component = docModules[docModulePath(componentName)]?.default;
 
-  if (!Component) {
-    Component = lazy(async () => {
-      const moduleLoader = docModules[`./__collection__/${componentName}.mdx`];
-
-      if (!moduleLoader) {
-        return { default: MissingDocumentation };
-      }
-
-      return moduleLoader();
-    });
-  }
+  // The loader throws for an unknown page, so this only guards a directly-rendered route.
+  if (!Component) return null;
 
   return (
     <div className="mx-auto w-full max-w-4xl min-w-0 px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
       <div className="mb-5 flex justify-end sm:mb-6">
         <DocsCopyPage
-          page={raw}
           sourceUrl={`${GITHUB_RAW_BASE}/src/routes/docs/__collection__/${componentName}.mdx`}
         />
       </div>

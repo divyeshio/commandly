@@ -5,7 +5,7 @@ import {
   type ApprovalArtifact,
   type ChatMessage,
 } from "@/components/ai-chat/ai-chat-message-mapping";
-import type { Tool } from "@/components/commandly/types/flat";
+import type { Tool } from "@/components/commandly/types/tool";
 import type { UIMessage } from "ai";
 
 function makeToolUIPart(

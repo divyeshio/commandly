@@ -1,8 +1,16 @@
 import { defaultTool } from "../test-utils";
-import type { Tool } from "@/components/commandly/types/flat";
+import type { Tool } from "@/components/commandly/types/tool";
 import { generateToolPreview, HelpMenu } from "@/components/tool-editor/help-menu";
 import { ToolBuilderProvider } from "@/components/tool-editor/tool-editor.context";
 import { render, screen } from "@testing-library/react";
+
+/** Builds a single-command tool whose options live on the "run" command. */
+const toolWithOptions = (parameters: Tool["parameters"]): Tool => ({
+  binaryName: "tool",
+  displayName: "Tool",
+  commands: [{ key: "run", displayName: "run", parameters }],
+  parameters: [],
+});
 
 describe("HelpMenu", () => {
   it("renders tool name and description", () => {
@@ -21,7 +29,7 @@ describe("HelpMenu", () => {
       commands: [
         {
           key: "tool",
-          name: "tool",
+          displayName: "tool",
         },
       ],
       parameters: [],
@@ -60,160 +68,128 @@ describe("HelpMenu", () => {
 
 describe("generateToolPreview", () => {
   it("includes enum values for option parameters", () => {
-    const tool: Tool = {
-      binaryName: "tool",
-      displayName: "Tool",
-      commands: [{ key: "run", name: "run" }],
-      parameters: [
-        {
-          key: "format",
-          name: "Format",
-          commandKey: "run",
-          parameterType: "Option",
-          dataType: "Enum",
-          longFlag: "--format",
-          enum: {
-            values: [
-              { value: "json", displayName: "JSON" },
-              { value: "csv", displayName: "CSV" },
-            ],
-          },
+    const tool = toolWithOptions([
+      {
+        key: "format",
+        displayName: "Format",
+        parameterType: "Option",
+        dataType: "Enum",
+        aliases: ["--format"],
+        enum: {
+          values: [
+            { value: "json", displayName: "JSON" },
+            { value: "csv", displayName: "CSV" },
+          ],
         },
-      ],
-    };
+      },
+    ]);
     const preview = generateToolPreview(tool);
     expect(preview).toContain("json, csv");
   });
 
   it("includes allowMultiple for enum with multiple selection", () => {
-    const tool: Tool = {
-      binaryName: "tool",
-      displayName: "Tool",
-      commands: [{ key: "run", name: "run" }],
-      parameters: [
-        {
-          key: "format",
-          name: "Format",
-          commandKey: "run",
-          parameterType: "Option",
-          dataType: "Enum",
-          longFlag: "--format",
-          enum: {
-            values: [{ value: "json", displayName: "JSON" }],
-            allowMultiple: true,
-            separator: "|",
-          },
+    const tool = toolWithOptions([
+      {
+        key: "format",
+        displayName: "Format",
+        parameterType: "Option",
+        dataType: "Enum",
+        aliases: ["--format"],
+        enum: {
+          values: [{ value: "json", displayName: "JSON" }],
+          allowMultiple: true,
+          separator: "|",
         },
-      ],
-    };
+      },
+    ]);
     const preview = generateToolPreview(tool);
     expect(preview).toContain("Multiple: yes");
     expect(preview).toContain('"|"');
   });
 
   it("includes validation rules in output", () => {
-    const tool: Tool = {
-      binaryName: "tool",
-      displayName: "Tool",
-      commands: [{ key: "run", name: "run" }],
-      parameters: [
-        {
-          key: "port",
-          name: "Port",
-          commandKey: "run",
-          parameterType: "Option",
-          dataType: "Number",
-          longFlag: "--port",
-          validations: [
-            {
-              key: "min",
-              validationType: "min_value",
-              validationValue: "1",
-              errorMessage: "Must be at least 1",
-            },
-            {
-              key: "max",
-              validationType: "max_value",
-              validationValue: "65535",
-              errorMessage: "Must be at most 65535",
-            },
-          ],
-        },
-      ],
-    };
+    const tool = toolWithOptions([
+      {
+        key: "port",
+        displayName: "Port",
+        parameterType: "Option",
+        dataType: "Number",
+        aliases: ["--port"],
+        validations: [
+          {
+            key: "min",
+            validationType: "min_value",
+            validationValue: "1",
+            errorMessage: "Must be at least 1",
+          },
+          {
+            key: "max",
+            validationType: "max_value",
+            validationValue: "65535",
+            errorMessage: "Must be at most 65535",
+          },
+        ],
+      },
+    ]);
     const preview = generateToolPreview(tool);
     expect(preview).toContain("min_value=1");
     expect(preview).toContain("max_value=65535");
   });
 
   it("includes dependencies in output", () => {
-    const tool: Tool = {
-      binaryName: "tool",
-      displayName: "Tool",
-      commands: [{ key: "run", name: "run" }],
-      parameters: [
-        {
-          key: "output",
-          name: "Output",
-          commandKey: "run",
-          parameterType: "Option",
-          dataType: "String",
-          longFlag: "--output",
-          dependencies: [
-            {
-              key: "d1",
-              parameterKey: "output",
-              dependsOnParameterKey: "format",
-              dependencyType: "requires",
-            },
-          ],
-        },
-        {
-          key: "format",
-          name: "Format",
-          commandKey: "run",
-          parameterType: "Option",
-          dataType: "String",
-          longFlag: "--format",
-        },
-      ],
-    };
+    const tool = toolWithOptions([
+      {
+        key: "output",
+        displayName: "Output",
+        parameterType: "Option",
+        dataType: "String",
+        aliases: ["--output"],
+        dependencies: [
+          {
+            key: "d1",
+            parameterKey: "output",
+            dependsOnParameterKey: "format",
+            dependencyType: "requires",
+          },
+        ],
+      },
+      {
+        key: "format",
+        displayName: "Format",
+        parameterType: "Option",
+        dataType: "String",
+        aliases: ["--format"],
+      },
+    ]);
     const preview = generateToolPreview(tool);
     expect(preview).toContain("Requires: format");
   });
 
   it("includes conflicts_with dependencies", () => {
-    const tool: Tool = {
-      binaryName: "tool",
-      displayName: "Tool",
-      commands: [{ key: "run", name: "run" }],
-      parameters: [
-        {
-          key: "verbose",
-          name: "Verbose",
-          commandKey: "run",
-          parameterType: "Flag",
-          dataType: "Boolean",
-          longFlag: "--verbose",
-          dependencies: [
-            {
-              key: "d1",
-              parameterKey: "verbose",
-              dependsOnParameterKey: "silent",
-              dependencyType: "conflicts_with",
-            },
-          ],
-        },
-        {
-          key: "silent",
-          name: "Silent",
-          commandKey: "run",
-          parameterType: "Flag",
-          dataType: "Boolean",
-          longFlag: "--silent",
-        },
-      ],
-    };
+    const tool = toolWithOptions([
+      {
+        key: "verbose",
+        displayName: "Verbose",
+        parameterType: "Flag",
+        dataType: "Boolean",
+        aliases: ["--verbose"],
+        dependencies: [
+          {
+            key: "d1",
+            parameterKey: "verbose",
+            dependsOnParameterKey: "silent",
+            dependencyType: "conflicts_with",
+          },
+        ],
+      },
+      {
+        key: "silent",
+        displayName: "Silent",
+        parameterType: "Flag",
+        dataType: "Boolean",
+        aliases: ["--silent"],
+      },
+    ]);
     const preview = generateToolPreview(tool);
     expect(preview).toContain("Conflicts with: silent");
   });
@@ -224,12 +200,12 @@ describe("generateToolPreview", () => {
       displayName: "Tool",
       commands: [],
       parameters: [
-        { key: "json", name: "JSON", parameterType: "Flag", dataType: "Boolean" },
-        { key: "csv", name: "CSV", parameterType: "Flag", dataType: "Boolean" },
+        { key: "json", displayName: "JSON", parameterType: "Flag", dataType: "Boolean" },
+        { key: "csv", displayName: "CSV", parameterType: "Flag", dataType: "Boolean" },
       ],
       exclusionGroups: [
         {
-          name: "Output Format",
+          displayName: "Output Format",
           exclusionType: "mutual_exclusive",
           parameterKeys: ["json", "csv"],
         },
@@ -248,12 +224,12 @@ describe("generateToolPreview", () => {
       displayName: "Tool",
       commands: [],
       parameters: [
-        { key: "a", name: "A", parameterType: "Flag", dataType: "Boolean" },
-        { key: "b", name: "B", parameterType: "Flag", dataType: "Boolean" },
+        { key: "a", displayName: "A", parameterType: "Flag", dataType: "Boolean" },
+        { key: "b", displayName: "B", parameterType: "Flag", dataType: "Boolean" },
       ],
       exclusionGroups: [
         {
-          name: "Input Source",
+          displayName: "Input Source",
           exclusionType: "required_one_of",
           parameterKeys: ["a", "b"],
         },
@@ -263,19 +239,19 @@ describe("generateToolPreview", () => {
     expect(preview).toContain("Required one of");
   });
 
-  it("includes enum values for global option parameters", () => {
+  it("includes enum values for common option parameters", () => {
     const tool: Tool = {
       binaryName: "tool",
       displayName: "Tool",
-      commands: [{ key: "run", name: "run" }],
+      commands: [{ key: "run", displayName: "run" }],
       parameters: [
         {
           key: "log-level",
-          name: "Log Level",
-          isGlobal: true,
+          displayName: "Log Level",
+          recursive: true,
           parameterType: "Option",
           dataType: "Enum",
-          longFlag: "--log-level",
+          aliases: ["--log-level"],
           enum: {
             values: [
               { value: "debug", displayName: "Debug" },

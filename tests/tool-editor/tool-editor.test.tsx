@@ -1,5 +1,5 @@
 import { defaultTool } from "../test-utils";
-import { Tool } from "@/components/commandly/types/flat";
+import { Tool } from "@/components/commandly/types/tool";
 import { ToolDetailsDialog } from "@/components/tool-editor/dialogs/tool-details-dialog";
 import ToolEditor from "@/components/tool-editor/tool-editor";
 import {
@@ -134,10 +134,10 @@ describe("ToolEditor", () => {
           parameters: [
             {
               key: "output",
-              name: "Output",
+              displayName: "Output",
               parameterType: "Option",
               dataType: "String",
-              longFlag: "--output",
+              aliases: ["--output"],
               keyValueSeparator: " ",
               arraySeparator: ",",
             },

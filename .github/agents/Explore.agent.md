@@ -24,7 +24,7 @@ You are an exploration agent specialized in rapid codebase analysis and answerin
 
 Adapt search strategy based on the requested thoroughness level.
 
-**Bias for speed** — return findings as quickly as possible:
+**Bias for speed** - return findings as quickly as possible:
 
 - Parallelize independent tool calls (multiple greps, multiple reads)
 - Stop searching once you have sufficient context

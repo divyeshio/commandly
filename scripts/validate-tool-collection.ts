@@ -1,8 +1,8 @@
 import { readFileSync, writeFileSync } from "fs";
 import { basename, resolve } from "path";
 
-import type { Tool } from "@/components/commandly/types/flat";
-import { fixTool } from "@/components/commandly/utils/flat";
+import type { Tool } from "@/components/commandly/types/tool";
+import { fixTool } from "@/components/commandly/utils/tool-file";
 import {
   validateTool,
   formatValidationErrors,
@@ -10,7 +10,7 @@ import {
 } from "@/components/commandly/utils/tool-validation";
 import Ajv from "ajv";
 
-const schemaPath = resolve("public/specification/flat.json");
+const schemaPath = resolve("public/specification/tool.json");
 const schema = JSON.parse(readFileSync(schemaPath, "utf-8")) as object;
 
 const ajv = new Ajv({ allErrors: true });
@@ -54,7 +54,7 @@ for (const file of files) {
 
   if (tool.binaryName !== fileName) {
     errors.push(
-      `❌ \`${file}\`: \`name\` field (\`${tool.binaryName}\`) does not match filename (\`${fileName}\`).`,
+      `❌ \`${file}\`: \`binaryName\` field (\`${tool.binaryName}\`) does not match filename (\`${fileName}\`).`,
     );
     continue;
   }
