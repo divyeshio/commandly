@@ -1,111 +1,52 @@
 # Examples
 
-## Minimal Tool (Flat)
+## Minimal Tool
 
-A simple tool with one command, one flag, and one option.
+A simple tool with one command, one argument, one flag, and one option.
 
 ```json
 {
-  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
+  "$schema": "https://commandly.divyeshio.in/specification/tool.json",
   "binaryName": "curl",
   "displayName": "Curl",
   "info": {
     "description": "curl is a command line tool for transferring data with URLs."
   },
+  "parameters": [],
   "commands": [
     {
       "key": "curl",
-      "name": "curl",
-      "description": "Run curl to download files.",
-      "sortOrder": 1
-    }
-  ],
-  "parameters": [
-    {
-      "key": "target",
-      "name": "Target",
-      "description": "URL to download.",
-      "parameterType": "Argument",
-      "dataType": "String",
-      "isRequired": true,
-      "position": 1,
-      "sortOrder": 1,
-      "commandKey": "curl"
-    },
-    {
-      "key": "output",
-      "name": "Output",
-      "description": "Write to file instead of stdout.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "shortFlag": "-o",
-      "longFlag": "--output",
-      "keyValueSeparator": " ",
-      "sortOrder": 2,
-      "commandKey": "curl"
-    },
-    {
-      "key": "location",
-      "name": "Location",
-      "description": "Follow redirects.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "shortFlag": "-L",
-      "longFlag": "--location",
-      "sortOrder": 3,
-      "commandKey": "curl"
-    }
-  ]
-}
-```
-
-## Same Tool in Nested Format
-
-The same tool expressed using the nested format. Parameters are embedded inside the command instead of using `key`/`commandKey` references.
-
-```json
-{
-  "$schema": "https://commandly.divyeshio.in/specification/nested.json",
-  "binaryName": "curl",
-  "displayName": "Curl",
-  "info": {
-    "description": "curl is a command line tool for transferring data with URLs."
-  },
-  "rootParameters": [],
-  "globalParameters": [],
-  "commands": [
-    {
-      "name": "curl",
+      "displayName": "curl",
       "description": "Run curl to download files.",
       "sortOrder": 1,
-      "subcommands": [],
       "parameters": [
         {
-          "name": "Target",
+          "key": "target",
+          "displayName": "Target",
           "description": "URL to download.",
           "parameterType": "Argument",
           "dataType": "String",
           "isRequired": true,
-          "position": 1,
+          "position": 0,
           "sortOrder": 1
         },
         {
-          "name": "Output",
+          "key": "--output",
+          "displayName": "Output",
           "description": "Write to file instead of stdout.",
           "parameterType": "Option",
           "dataType": "String",
-          "shortFlag": "-o",
-          "longFlag": "--output",
+          "aliases": ["-o"],
           "keyValueSeparator": " ",
           "sortOrder": 2
         },
         {
-          "name": "Location",
+          "key": "--location",
+          "displayName": "Location",
           "description": "Follow redirects.",
           "parameterType": "Flag",
           "dataType": "Boolean",
-          "shortFlag": "-L",
-          "longFlag": "--location",
+          "aliases": ["-L"],
           "sortOrder": 3
         }
       ]
@@ -114,51 +55,53 @@ The same tool expressed using the nested format. Parameters are embedded inside 
 }
 ```
 
-## Tool with Subcommands (Flat)
+## Tool with Subcommands
 
-A tool where parameters belong to different commands via `commandKey`, and one command is a subcommand of another via `parentCommandKey`.
+A tool with a subcommand. Subcommands are nested inside the command they belong to, and each command owns its parameters; `recursive` makes a parameter inherited by the commands beneath it.
 
 ```json
 {
-  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
+  "$schema": "https://commandly.divyeshio.in/specification/tool.json",
   "binaryName": "mytool",
   "displayName": "My Tool",
+  "parameters": [],
   "commands": [
     {
       "key": "mytool",
-      "name": "mytool",
-      "sortOrder": 1
-    },
-    {
-      "key": "mytool-scan",
-      "name": "scan",
-      "parentCommandKey": "mytool",
-      "description": "Run a scan.",
-      "sortOrder": 2
-    }
-  ],
-  "parameters": [
-    {
-      "key": "verbose",
-      "name": "Verbose",
-      "description": "Enable verbose output.",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "isGlobal": true,
-      "longFlag": "--verbose",
-      "sortOrder": 1
-    },
-    {
-      "key": "target",
-      "name": "Target",
-      "description": "Host to scan.",
-      "parameterType": "Option",
-      "dataType": "String",
-      "isRequired": true,
-      "shortFlag": "-t",
-      "longFlag": "--target",
+      "displayName": "mytool",
       "sortOrder": 1,
-      "commandKey": "mytool-scan"
+      "parameters": [
+        {
+          "key": "--verbose",
+          "displayName": "Verbose",
+          "description": "Enable verbose output.",
+          "parameterType": "Flag",
+          "dataType": "Boolean",
+          "aliases": ["-v"],
+          "recursive": true,
+          "sortOrder": 1
+        }
+      ],
+      "commands": [
+        {
+          "key": "mytool-scan",
+          "displayName": "scan",
+          "description": "Run a scan.",
+          "sortOrder": 2,
+          "parameters": [
+            {
+              "key": "--target",
+              "displayName": "Target",
+              "description": "Host to scan.",
+              "parameterType": "Option",
+              "dataType": "String",
+              "isRequired": true,
+              "aliases": ["-t"],
+              "sortOrder": 1
+            }
+          ]
+        }
+      ]
     }
   ]
 }
@@ -170,14 +113,12 @@ A parameter that accepts one of a fixed set of values.
 
 ```json
 {
-  "key": "format",
-  "name": "Output Format",
+  "key": "--format",
+  "displayName": "Output Format",
   "description": "Format for the output.",
   "parameterType": "Option",
   "dataType": "Enum",
-  "longFlag": "--format",
   "sortOrder": 1,
-  "commandKey": "mytool",
   "enum": {
     "values": [
       { "value": "json", "displayName": "JSON", "isDefault": true, "sortOrder": 1 },
@@ -194,13 +135,14 @@ Two parameters that cannot be used together:
 
 ```json
 {
+  "key": "mytool",
+  "displayName": "mytool",
   "exclusionGroups": [
     {
       "key": "output-mode",
-      "name": "Output Mode",
-      "commandKey": "mytool",
+      "displayName": "Output Mode",
       "exclusionType": "mutual_exclusive",
-      "parameterKeys": ["silent", "verbose"]
+      "parameterKeys": ["--silent", "--verbose"]
     }
   ]
 }
@@ -208,32 +150,123 @@ Two parameters that cannot be used together:
 
 ## Tool with Validation and Dependencies
 
-A parameter with a minimum-length validation, and a dependency that requires another parameter to be set first:
+Two parameters where `--password` carries a minimum-length validation and a dependency on `--username`:
+
+```json
+[
+  {
+    "key": "--username",
+    "displayName": "Username",
+    "parameterType": "Option",
+    "dataType": "String",
+    "sortOrder": 1
+  },
+  {
+    "key": "--password",
+    "displayName": "Password",
+    "parameterType": "Option",
+    "dataType": "String",
+    "sortOrder": 2,
+    "validations": [
+      {
+        "key": "pwd-min",
+        "validationType": "min_length",
+        "validationValue": "8",
+        "errorMessage": "Password must be at least 8 characters."
+      }
+    ],
+    "dependencies": [
+      {
+        "key": "pwd-requires-user",
+        "parameterKey": "--password",
+        "dependsOnParameterKey": "--username",
+        "dependencyType": "requires"
+      }
+    ]
+  }
+]
+```
+
+## Tool with Single-Dash Flags
+
+Some CLIs (Go/kingpin tools such as `httpx`, `dnsx`, `nuclei`) spell their full-name flags with a
+single dash. The key carries its own dashes, so nothing extra is needed.
 
 ```json
 {
-  "key": "password",
-  "name": "Password",
-  "parameterType": "Option",
-  "dataType": "String",
-  "longFlag": "--password",
-  "sortOrder": 2,
-  "commandKey": "login",
-  "validations": [
+  "$schema": "https://commandly.divyeshio.in/specification/tool.json",
+  "binaryName": "httpx",
+  "displayName": "HTTPx",
+  "commands": [],
+  "parameters": [
     {
-      "key": "pwd-min",
-      "validationType": "min_length",
-      "validationValue": "8",
-      "errorMessage": "Password must be at least 8 characters."
-    }
-  ],
-  "dependencies": [
+      "key": "-list",
+      "displayName": "List",
+      "description": "File containing the URLs to probe.",
+      "parameterType": "Option",
+      "dataType": "String",
+      "aliases": ["-l"],
+      "sortOrder": 1
+    },
     {
-      "key": "pwd-requires-user",
-      "parameterKey": "password",
-      "dependsOnParameterKey": "username",
-      "dependencyType": "requires"
+      "key": "-silent",
+      "displayName": "Silent",
+      "description": "Silent mode.",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 2
     }
   ]
+}
+```
+
+`-silent` is the full flag, and `-l` is listed as a short name.
+
+## Tool with Installation Sources
+
+A tool that documents how to install it, using several install methods.
+
+```json
+{
+  "$schema": "https://commandly.divyeshio.in/specification/tool.json",
+  "binaryName": "httpx",
+  "displayName": "HTTPx",
+  "info": {
+    "description": "Fast and multi-purpose HTTP toolkit.",
+    "url": "https://github.com/projectdiscovery/httpx"
+  },
+  "installation": {
+    "sources": [
+      {
+        "key": "go-install",
+        "method": "package_manager",
+        "manager": "go",
+        "command": "go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest",
+        "url": "https://docs.projectdiscovery.io/opensource/httpx/install"
+      },
+      {
+        "key": "brew",
+        "method": "package_manager",
+        "manager": "brew",
+        "command": "brew install httpx",
+        "url": "https://docs.projectdiscovery.io/opensource/httpx/install",
+        "os": ["linux", "macos"]
+      },
+      {
+        "key": "docker",
+        "method": "docker",
+        "command": "docker pull projectdiscovery/httpx:latest",
+        "url": "https://docs.projectdiscovery.io/opensource/httpx/install"
+      },
+      {
+        "key": "release-binary",
+        "method": "binary",
+        "command": "https://github.com/projectdiscovery/httpx/releases",
+        "note": "Download the latest binary for your OS and unzip it."
+      }
+    ]
+  },
+  "commands": [{ "key": "httpx", "displayName": "httpx", "sortOrder": 1 }],
+  "parameters": []
 }
 ```

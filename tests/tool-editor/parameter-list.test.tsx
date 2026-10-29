@@ -1,35 +1,21 @@
-import { defaultTool } from "../test-utils";
-import { Parameter, ExclusionGroup } from "@/components/commandly/types/flat";
+import { createTestParameter, defaultTool } from "../test-utils";
+import { Parameter, ExclusionGroup } from "@/components/commandly/types/tool";
+import { getCommandParameters } from "@/components/commandly/utils/tool";
 import { ParameterList } from "@/components/tool-editor/parameter-list";
 import {
   ToolBuilderProvider,
   ToolBuilderState,
+  parameterRef,
   useToolBuilder,
 } from "@/components/tool-editor/tool-editor.context";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { ReactNode } from "react";
 
-const createTestParameter = (overrides: Partial<Parameter> = {}): Parameter => ({
-  key: "test-param-key",
-  name: "test-param",
-  description: "Test parameter",
-  parameterType: "Option",
-  dataType: "String",
-  isRequired: false,
-  isRepeatable: false,
-  isGlobal: false,
-  longFlag: "--test",
-  shortFlag: "-t",
-  commandKey: "test-command-key",
-  ...overrides,
-});
-
 const createTestExclusionGroup = (parameterKeys: string[] = []): ExclusionGroup => ({
   key: "test-group-key",
-  name: "Test Group",
+  displayName: "Test Group",
   exclusionType: "mutual_exclusive",
   parameterKeys,
-  commandKey: "test-command-key",
 });
 
 const baseTestState = (): Partial<ToolBuilderState> => ({
@@ -38,19 +24,29 @@ const baseTestState = (): Partial<ToolBuilderState> => ({
     commands: [
       {
         key: "test-command-key",
-        name: "test-command",
+        displayName: "test-command",
         description: "Test command",
         sortOrder: 0,
       },
     ],
   },
-  selectedCommand: {
-    key: "test-command-key",
-    name: "test-command",
-    description: "Test command",
-    sortOrder: 0,
-  },
+  selectedCommandKey: "test-command-key",
   selectedParameter: null,
+});
+
+/** Places parameters on the selected command, which is where command-scoped ones live. */
+const withCommandParams = (
+  state: Partial<ToolBuilderState>,
+  parameters: Parameter[],
+): Partial<ToolBuilderState> => ({
+  ...state,
+  tool: {
+    ...state.tool!,
+    parameters: [],
+    commands: (state.tool?.commands ?? []).map((command) =>
+      command.key === "test-command-key" ? { ...command, parameters } : command,
+    ),
+  },
 });
 
 let capturedCtx: ReturnType<typeof useToolBuilder>;
@@ -75,46 +71,38 @@ describe("ParameterList - Rendering & Structure", () => {
   it("renders the title and parameter count correctly", () => {
     const parameters = [
       createTestParameter(),
-      createTestParameter({ key: "param2-key", name: "param2" }),
+      createTestParameter({ key: "param2-key", displayName: "param2" }),
     ];
-    const state = baseTestState();
-    state.tool = { ...state.tool!, parameters };
+    const state = withCommandParams(baseTestState(), parameters);
     renderWithProvider(<ParameterList title="Test Parameters" />, state);
     expect(screen.getByText("Test Parameters (2)")).toBeInTheDocument();
   });
 
-  it("renders the globe icon when isGlobal is true", () => {
-    const globalParam = createTestParameter({ isGlobal: true });
+  it("renders the globe icon for root parameters", () => {
+    const rootParam = createTestParameter();
     const state = baseTestState();
-    state.tool = { ...state.tool!, parameters: [globalParam] };
-    renderWithProvider(
-      <ParameterList
-        title="Global Parameters"
-        isGlobal
-      />,
-      state,
-    );
-    expect(screen.getByText("Global Parameters (1)")).toBeInTheDocument();
+    state.selectedCommandKey = null;
+    state.tool = { ...state.tool!, parameters: [rootParam] };
+    renderWithProvider(<ParameterList title="Root Parameters" />, state);
+    expect(screen.getByText("Root Parameters (1)")).toBeInTheDocument();
     const heading = screen.getByRole("heading", { level: 3 });
     expect(heading.querySelector("svg")).toBeInTheDocument();
   });
 
-  it("renders the add button and triggers the correct action on click", () => {
+  it("renders the add button", () => {
     renderWithProvider(<ParameterList title="Parameters" />, baseTestState());
     const addButton = screen.getByRole("button");
     expect(addButton).toBeInTheDocument();
     expect(addButton.querySelector("svg")).toBeInTheDocument();
-    fireEvent.click(addButton);
   });
 
   it("renders the correct number of parameter cards based on the parameters array", () => {
     const parameters = [
-      createTestParameter({ key: "param1-key", name: "param1" }),
-      createTestParameter({ key: "param2-key", name: "param2" }),
-      createTestParameter({ key: "param3-key", name: "param3" }),
+      createTestParameter({ key: "param1-key", displayName: "param1" }),
+      createTestParameter({ key: "param2-key", displayName: "param2" }),
+      createTestParameter({ key: "param3-key", displayName: "param3" }),
     ];
-    const state = baseTestState();
-    state.tool = { ...state.tool!, parameters };
+    const state = withCommandParams(baseTestState(), parameters);
     renderWithProvider(<ParameterList title="Parameters" />, state);
     expect(screen.getByText("param1")).toBeInTheDocument();
     expect(screen.getByText("param2")).toBeInTheDocument();
@@ -124,20 +112,23 @@ describe("ParameterList - Rendering & Structure", () => {
   describe("Parameter Card Display", () => {
     it("displays the correct icon for each parameterType", () => {
       const parameters = [
-        createTestParameter({ key: "flag-param-key", name: "flag-param", parameterType: "Flag" }),
         createTestParameter({
-          key: "option-param-key",
-          name: "option-param",
+          key: "flag-param-key",
+          displayName: "flag-param",
+          parameterType: "Flag",
+        }),
+        createTestParameter({
+          key: "--option-param-key",
+          displayName: "option-param",
           parameterType: "Option",
         }),
         createTestParameter({
           key: "argument-param-key",
-          name: "argument-param",
+          displayName: "argument-param",
           parameterType: "Argument",
         }),
       ];
-      const state = baseTestState();
-      state.tool = { ...state.tool!, parameters };
+      const state = withCommandParams(baseTestState(), parameters);
       renderWithProvider(<ParameterList title="Parameters" />, state);
 
       const flagCard = screen.getByText("flag-param").closest("div");
@@ -148,49 +139,50 @@ describe("ParameterList - Rendering & Structure", () => {
       expect(argumentCard?.querySelector("svg")).toBeInTheDocument();
     });
 
-    it("shows parameter name and flags if present", () => {
-      const paramWithBothFlags = createTestParameter({ longFlag: "--verbose", shortFlag: "-v" });
-      const paramWithLongFlagOnly = createTestParameter({
-        key: "long-only-key",
-        name: "long-only",
-        longFlag: "--long-only",
-        shortFlag: "",
+    it("shows parameter name and its flag forms", () => {
+      const paramWithShortName = createTestParameter({
+        key: "--verbose",
+        displayName: "verbose",
+        aliases: ["-v"],
       });
-      const paramWithNoFlags = createTestParameter({
+      const paramWithNoAliases = createTestParameter({
+        key: "--silent",
+        displayName: "silent",
+        aliases: [],
+      });
+      const argumentParam = createTestParameter({
         key: "no-flags-key",
-        name: "no-flags",
-        longFlag: "",
-        shortFlag: "",
+        displayName: "no-flags",
+        parameterType: "Argument",
+        aliases: [],
       });
 
-      const state = baseTestState();
-      state.tool = {
-        ...state.tool!,
-        parameters: [paramWithBothFlags, paramWithLongFlagOnly, paramWithNoFlags],
-      };
+      const state = withCommandParams(baseTestState(), [
+        paramWithShortName,
+        paramWithNoAliases,
+        argumentParam,
+      ]);
       renderWithProvider(<ParameterList title="Parameters" />, state);
 
-      expect(screen.getByText("test-param")).toBeInTheDocument();
+      expect(screen.getByText("verbose")).toBeInTheDocument();
       expect(screen.getByText("(--verbose, -v)")).toBeInTheDocument();
-      expect(screen.getByText("long-only")).toBeInTheDocument();
-      expect(screen.getByText("(--long-only)")).toBeInTheDocument();
+      expect(screen.getByText("silent")).toBeInTheDocument();
+      expect(screen.getByText("(--silent)")).toBeInTheDocument();
       expect(screen.getByText("no-flags")).toBeInTheDocument();
-      const noFlagsCard = screen.getByText("no-flags").closest("div");
-      expect(noFlagsCard?.textContent).not.toContain("(--");
+      const argumentCard = screen.getByText("no-flags").closest("div");
+      expect(argumentCard?.textContent).not.toContain("(--");
     });
 
     it("shows the remove button and triggers the correct action on click", () => {
       const parameter = createTestParameter();
-      const state = baseTestState();
-      state.tool = { ...state.tool!, parameters: [parameter] };
+      const state = withCommandParams(baseTestState(), [parameter]);
       renderWithProvider(<ParameterList title="Parameters" />, state);
 
-      const removeButtons = screen.getAllByRole("button");
-      const removeButton = removeButtons.find(
-        (btn) => btn.querySelector("svg") && btn.className.includes("h-6 w-6"),
-      );
+      const removeButton = screen.getByRole("button", {
+        name: `Remove ${parameter.displayName}`,
+      });
       expect(removeButton).toBeInTheDocument();
-      fireEvent.click(removeButton!);
+      fireEvent.click(removeButton);
     });
   });
 
@@ -199,11 +191,10 @@ describe("ParameterList - Rendering & Structure", () => {
       const requiredParam = createTestParameter({ isRequired: true });
       const optionalParam = createTestParameter({
         key: "optional-param-key",
-        name: "optional-param",
+        displayName: "optional-param",
         isRequired: false,
       });
-      const state = baseTestState();
-      state.tool = { ...state.tool!, parameters: [requiredParam, optionalParam] };
+      const state = withCommandParams(baseTestState(), [requiredParam, optionalParam]);
       renderWithProvider(<ParameterList title="Parameters" />, state);
 
       const requiredCard = screen.getByText("test-param").closest("div.p-3");
@@ -214,20 +205,23 @@ describe("ParameterList - Rendering & Structure", () => {
 
     it("shows the correct badge for parameterType", () => {
       const parameters = [
-        createTestParameter({ key: "flag-param-key", name: "flag-param", parameterType: "Flag" }),
         createTestParameter({
-          key: "option-param-key",
-          name: "option-param",
+          key: "flag-param-key",
+          displayName: "flag-param",
+          parameterType: "Flag",
+        }),
+        createTestParameter({
+          key: "--option-param-key",
+          displayName: "option-param",
           parameterType: "Option",
         }),
         createTestParameter({
           key: "argument-param-key",
-          name: "argument-param",
+          displayName: "argument-param",
           parameterType: "Argument",
         }),
       ];
-      const state = baseTestState();
-      state.tool = { ...state.tool!, parameters };
+      const state = withCommandParams(baseTestState(), parameters);
       renderWithProvider(<ParameterList title="Parameters" />, state);
 
       expect(screen.getByText("Flag")).toBeInTheDocument();
@@ -237,17 +231,24 @@ describe("ParameterList - Rendering & Structure", () => {
 
     it("shows the correct badge for dataType", () => {
       const parameters = [
-        createTestParameter({ key: "string-param-key", name: "string-param", dataType: "String" }),
-        createTestParameter({ key: "number-param-key", name: "number-param", dataType: "Number" }),
+        createTestParameter({
+          key: "string-param-key",
+          displayName: "string-param",
+          dataType: "String",
+        }),
+        createTestParameter({
+          key: "number-param-key",
+          displayName: "number-param",
+          dataType: "Number",
+        }),
         createTestParameter({
           key: "boolean-param-key",
-          name: "boolean-param",
+          displayName: "boolean-param",
           dataType: "Boolean",
         }),
-        createTestParameter({ key: "enum-param-key", name: "enum-param", dataType: "Enum" }),
+        createTestParameter({ key: "enum-param-key", displayName: "enum-param", dataType: "Enum" }),
       ];
-      const state = baseTestState();
-      state.tool = { ...state.tool!, parameters };
+      const state = withCommandParams(baseTestState(), parameters);
       renderWithProvider(<ParameterList title="Parameters" />, state);
 
       expect(screen.getByText("String")).toBeInTheDocument();
@@ -256,29 +257,34 @@ describe("ParameterList - Rendering & Structure", () => {
       expect(screen.getByText("Enum")).toBeInTheDocument();
     });
 
-    it("shows the global badge if isGlobal is true", () => {
-      const globalParam = createTestParameter({ isGlobal: true });
-      const state = baseTestState();
-      state.tool = { ...state.tool!, parameters: [globalParam] };
-      renderWithProvider(
-        <ParameterList
-          title="Global Parameters"
-          isGlobal
-        />,
-        state,
-      );
+    it("shows the inherited badge for recursive parameters", () => {
+      const inheritedParam = createTestParameter({ recursive: true });
+      const state = withCommandParams(baseTestState(), [inheritedParam]);
+      renderWithProvider(<ParameterList title="Parameters" />, state);
 
-      const globalCard = screen.getByText("test-param").closest("div.p-3");
-      expect(globalCard).toHaveTextContent("global");
+      const inheritedCard = screen.getByText("test-param").closest("div.p-3");
+      expect(inheritedCard).toHaveTextContent("inherited");
+    });
+
+    it("shows the inherited badge for a command-scoped recursive parameter", () => {
+      const recursiveParam = createTestParameter({ recursive: true });
+      const state = withCommandParams(baseTestState(), [recursiveParam]);
+      renderWithProvider(<ParameterList title="Parameters" />, state);
+
+      const recursiveCard = screen.getByText("test-param").closest("div.p-3");
+      expect(recursiveCard).toHaveTextContent("inherited");
     });
 
     it("shows exclusion group badges with correct group names and icons", () => {
       const parameter = createTestParameter();
       const exclusionGroup = createTestExclusionGroup([parameter.key]);
-      exclusionGroup.commandKey = "test-command-key";
 
-      const state = baseTestState();
-      state.tool = { ...state.tool!, parameters: [parameter], exclusionGroups: [exclusionGroup] };
+      const state = withCommandParams(baseTestState(), [parameter]);
+      state.tool!.commands = state.tool!.commands!.map((command) =>
+        command.key === "test-command-key"
+          ? { ...command, exclusionGroups: [exclusionGroup] }
+          : command,
+      );
       renderWithProvider(<ParameterList title="Parameters" />, state);
 
       expect(screen.getByText("Test Group")).toBeInTheDocument();
@@ -290,30 +296,31 @@ describe("ParameterList - Rendering & Structure", () => {
   describe("Interactions", () => {
     it("clicking a parameter card selects it in context", () => {
       const parameter = createTestParameter();
-      const state = baseTestState();
-      state.tool = { ...state.tool!, parameters: [parameter] };
+      const state = withCommandParams(baseTestState(), [parameter]);
       renderWithProvider(<ParameterList title="Parameters" />, state);
 
       const paramCard = screen.getByText("test-param").closest("div.p-3");
       expect(paramCard).toBeInTheDocument();
       fireEvent.click(paramCard!);
 
-      expect(capturedCtx.contextSelection.parameterKeys).toContain(parameter.key);
+      expect(capturedCtx.contextSelection.parameterRefs).toContain(
+        parameterRef("test-command-key", parameter.key),
+      );
     });
 
     it("clicking the remove button does not select the parameter in context", () => {
       const parameter = createTestParameter();
-      const state = baseTestState();
-      state.tool = { ...state.tool!, parameters: [parameter] };
+      const state = withCommandParams(baseTestState(), [parameter]);
       renderWithProvider(<ParameterList title="Parameters" />, state);
 
-      const removeButtons = screen.getAllByRole("button");
-      const removeButton = removeButtons.find(
-        (btn) => btn.querySelector("svg") && btn.className.includes("h-6 w-6"),
-      );
-      fireEvent.click(removeButton!);
+      const removeButton = screen.getByRole("button", {
+        name: `Remove ${parameter.displayName}`,
+      });
+      fireEvent.click(removeButton);
 
-      expect(capturedCtx.contextSelection.parameterKeys).not.toContain(parameter.key);
+      expect(capturedCtx.contextSelection.parameterRefs).not.toContain(
+        parameterRef("test-command-key", parameter.key),
+      );
     });
 
     it("add button creates a new parameter with correct context for command parameters", () => {
@@ -325,27 +332,21 @@ describe("ParameterList - Rendering & Structure", () => {
       fireEvent.click(addButton);
 
       expect(capturedCtx.selectedParameter).toBeTruthy();
-      expect(capturedCtx.selectedParameter?.isGlobal).toBe(undefined);
-      expect(capturedCtx.selectedParameter?.commandKey).toBe("test-command-key");
+      expect(capturedCtx.selectedParameter?.recursive).toBe(undefined);
     });
 
-    it("add button creates a new parameter with correct context for global parameters", () => {
+    it("add button creates a new parameter with correct context for root parameters", () => {
       const state = baseTestState();
       state.selectedParameter = null;
+      state.selectedCommandKey = null;
       state.tool = { ...state.tool!, parameters: [] };
-      renderWithProvider(
-        <ParameterList
-          title="Global Parameters"
-          isGlobal
-        />,
-        state,
-      );
+      renderWithProvider(<ParameterList title="Root Parameters" />, state);
 
       const addButton = screen.getByRole("button");
       fireEvent.click(addButton);
 
       expect(capturedCtx.selectedParameter).toBeTruthy();
-      expect(capturedCtx.selectedParameter?.isGlobal).toBe(true);
+      expect(capturedCtx.selectedParameter?.recursive).toBe(true);
     });
   });
 
@@ -362,12 +363,10 @@ describe("ParameterList - Rendering & Structure", () => {
 
     it("handles parameters with missing or undefined fields gracefully", () => {
       const paramWithMissingFields = createTestParameter({
-        longFlag: "",
-        shortFlag: "",
+        aliases: [],
         validations: undefined,
       });
-      const state = baseTestState();
-      state.tool = { ...state.tool!, parameters: [paramWithMissingFields] };
+      const state = withCommandParams(baseTestState(), [paramWithMissingFields]);
       renderWithProvider(<ParameterList title="Parameters" />, state);
 
       expect(screen.getByText("test-param")).toBeInTheDocument();
@@ -378,67 +377,63 @@ describe("ParameterList - Rendering & Structure", () => {
     it("handles exclusion groups with no matching parameters", () => {
       const parameter = createTestParameter();
       const exclusionGroupWithNoParams = createTestExclusionGroup([]);
-      exclusionGroupWithNoParams.commandKey = "test-command";
 
-      const state = baseTestState();
-      state.tool = {
-        ...state.tool!,
-        parameters: [parameter],
-        exclusionGroups: [exclusionGroupWithNoParams],
-      };
+      const state = withCommandParams(baseTestState(), [parameter]);
+      state.tool!.commands = state.tool!.commands!.map((command) =>
+        command.key === "test-command-key"
+          ? { ...command, exclusionGroups: [exclusionGroupWithNoParams] }
+          : command,
+      );
       renderWithProvider(<ParameterList title="Parameters" />, state);
 
       expect(screen.getByText("test-param")).toBeInTheDocument();
       expect(screen.queryByText("Test Group")).not.toBeInTheDocument();
     });
 
-    it("handles parameters with both longFlag and shortFlag", () => {
-      const paramWithBothFlags = createTestParameter({ longFlag: "--verbose", shortFlag: "-v" });
-      const state = baseTestState();
-      state.tool = { ...state.tool!, parameters: [paramWithBothFlags] };
+    it("handles parameters with multiple aliases", () => {
+      const paramWithBothFlags = createTestParameter({
+        key: "--verbose",
+        displayName: "verbose",
+        aliases: ["-v", "--extended"],
+      });
+      const state = withCommandParams(baseTestState(), [paramWithBothFlags]);
       renderWithProvider(<ParameterList title="Parameters" />, state);
 
-      expect(screen.getByText("test-param")).toBeInTheDocument();
-      expect(screen.getByText("(--verbose, -v)")).toBeInTheDocument();
+      expect(screen.getByText("verbose")).toBeInTheDocument();
+      expect(screen.getByText("(--verbose, -v, --extended)")).toBeInTheDocument();
     });
   });
 
   describe("Drag and Drop", () => {
     it("renders a drag handle for each parameter card", () => {
       const parameters = [
-        createTestParameter({ key: "p1", name: "param-one" }),
-        createTestParameter({ key: "p2", name: "param-two" }),
+        createTestParameter({ key: "p1", displayName: "param-one" }),
+        createTestParameter({ key: "p2", displayName: "param-two" }),
       ];
-      const state = baseTestState();
-      state.tool = { ...state.tool!, parameters };
+      const state = withCommandParams(baseTestState(), parameters);
       renderWithProvider(<ParameterList title="Parameters" />, state);
 
       const cards = screen.getAllByText(/param-one|param-two/);
       expect(cards.length).toBeGreaterThanOrEqual(2);
 
-      const allButtons = document.querySelectorAll("button.opacity-0.group-hover\\:opacity-100");
-      // Each card has grip + edit buttons (at minimum 2 × 2 = 4 hidden buttons)
-      expect(allButtons.length).toBeGreaterThanOrEqual(4);
+      // Each card exposes a reorder handle and an edit action.
+      expect(screen.getAllByRole("button", { name: /^(Reorder|Edit) / })).toHaveLength(4);
     });
 
     it("reorderParameters updates sortOrder in context", () => {
       const p1 = createTestParameter({
         key: "p1",
-        name: "param-one",
-        commandKey: "test-command-key",
+        displayName: "param-one",
       });
       const p2 = createTestParameter({
         key: "p2",
-        name: "param-two",
-        commandKey: "test-command-key",
+        displayName: "param-two",
       });
       const p3 = createTestParameter({
         key: "p3",
-        name: "param-three",
-        commandKey: "test-command-key",
+        displayName: "param-three",
       });
-      const state = baseTestState();
-      state.tool = { ...state.tool!, parameters: [p1, p2, p3] };
+      const state = withCommandParams(baseTestState(), [p1, p2, p3]);
       renderWithProvider(<ParameterList title="Parameters" />, state);
 
       expect(typeof capturedCtx.reorderParameters).toBe("function");
@@ -447,12 +442,52 @@ describe("ParameterList - Rendering & Structure", () => {
         capturedCtx.reorderParameters(["p3", "p1", "p2"]);
       });
 
-      const p3Updated = capturedCtx.tool.parameters.find((p) => p.key === "p3");
-      const p1Updated = capturedCtx.tool.parameters.find((p) => p.key === "p1");
-      const p2Updated = capturedCtx.tool.parameters.find((p) => p.key === "p2");
-      expect(p3Updated?.sortOrder).toBe(0);
-      expect(p1Updated?.sortOrder).toBe(1);
-      expect(p2Updated?.sortOrder).toBe(2);
+      const reordered = getCommandParameters(capturedCtx.tool, "test-command-key");
+      const sortOrderOf = (key: string) => reordered.find((p) => p.key === key)?.sortOrder;
+      expect(sortOrderOf("p3")).toBe(0);
+      expect(sortOrderOf("p1")).toBe(1);
+      expect(sortOrderOf("p2")).toBe(2);
+    });
+  });
+
+  describe("Context selection refs", () => {
+    it("follows a command rename", () => {
+      renderWithProvider(<ParameterList title="Parameters" />, baseTestState());
+
+      act(() => {
+        capturedCtx.setContextSelection({
+          commandKeys: ["test-command-key"],
+          parameterRefs: [parameterRef("test-command-key", "--test-param-key")],
+        });
+      });
+      act(() => {
+        capturedCtx.updateCommand("test-command-key", { key: "renamed-command" });
+      });
+
+      expect(capturedCtx.contextSelection.commandKeys).toEqual(["renamed-command"]);
+      expect(capturedCtx.contextSelection.parameterRefs).toEqual([
+        parameterRef("renamed-command", "--test-param-key"),
+      ]);
+    });
+
+    it("drops refs owned by a deleted command", () => {
+      renderWithProvider(<ParameterList title="Parameters" />, baseTestState());
+
+      act(() => {
+        capturedCtx.setContextSelection({
+          commandKeys: ["test-command-key"],
+          parameterRefs: [
+            parameterRef("test-command-key", "--test-param-key"),
+            parameterRef(null, "help"),
+          ],
+        });
+      });
+      act(() => {
+        capturedCtx.deleteCommand("test-command-key");
+      });
+
+      expect(capturedCtx.contextSelection.commandKeys).toEqual([]);
+      expect(capturedCtx.contextSelection.parameterRefs).toEqual([parameterRef(null, "help")]);
     });
   });
 });

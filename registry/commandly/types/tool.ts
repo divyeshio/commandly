@@ -10,17 +10,61 @@ export interface ToolInfo {
 export interface Command {
   /** Unique identifier for this command within the tool. */
   key: string;
-  /** Key of the parent command; used to represent subcommand nesting. */
-  parentCommandKey?: string;
   /** Human-readable display name of the command. */
-  name: string;
+  displayName: string;
+  /** Alternate spellings that invoke this command in place of its name. */
+  aliases?: string[];
   /** Brief description of what this command does. */
   description?: string;
   /** Whether this command opens an interactive session or prompt. */
   interactive?: boolean;
   /** Display sort position relative to sibling commands. */
   sortOrder?: number;
+  /** Parameters accepted by this command. Keys are unique among them. Omit for grouping commands. */
+  parameters?: Parameter[];
+  /** Groups of this command's parameters with mutual exclusion or required-one-of constraints. */
+  exclusionGroups?: ExclusionGroup[];
+  /** Subcommands nested beneath this command. */
+  commands?: Command[];
 }
+
+export type InstallationMethod = "package_manager" | "binary" | "docker" | "script";
+
+export interface InstallationSource {
+  /** Unique identifier for this installation source within the tool. */
+  key: string;
+  /** How the tool is installed. */
+  method: InstallationMethod;
+  /** Package manager name, set only when method is "package_manager" (e.g. "brew", "go"). */
+  manager?: string;
+  /** The command that installs the tool. */
+  command: string;
+  /** Documentation URL describing this installation method. */
+  url?: string;
+  /** Platforms this installation method applies to. */
+  os?: Array<"linux" | "macos" | "windows">;
+  /** Additional context for this installation source. */
+  note?: string;
+}
+
+export interface Installation {
+  /** The list of documented ways to install the tool. */
+  sources: InstallationSource[];
+}
+
+export interface InstallationMethodOption {
+  method: InstallationMethod;
+  /** Human-readable label for the method. */
+  label: string;
+}
+
+/** The methods in presentation order; a new method must be given a position here. */
+export const INSTALLATION_METHODS: InstallationMethodOption[] = [
+  { method: "package_manager", label: "Package manager" },
+  { method: "binary", label: "Release binary" },
+  { method: "docker", label: "Docker" },
+  { method: "script", label: "Script" },
+];
 
 export interface ParameterEnumValue {
   /** The raw value passed to the CLI for this choice. */
@@ -93,12 +137,10 @@ export type ParameterType = "Flag" | "Option" | "Argument";
 export type ParameterDataType = "String" | "Number" | "Boolean" | "Enum";
 
 export interface Parameter {
-  /** Unique identifier for this parameter within the tool. */
+  /** Unique identifier among its command's parameters. For flags and options this is the full flag, dashes included (e.g. "--output", "-list"). */
   key: string;
   /** Human-readable display name of the parameter. */
-  name: string;
-  /** Key of the command this parameter belongs to; omit for global parameters. */
-  commandKey?: string;
+  displayName: string;
   /** Brief description of what this parameter does or accepts. */
   description?: string;
   /** Optional grouping label for organising related parameters in the UI. */
@@ -113,12 +155,10 @@ export interface Parameter {
   isRequired?: boolean;
   /** Whether this parameter can be specified multiple times. */
   isRepeatable?: boolean;
-  /** Whether this parameter applies to all commands rather than a single command. */
-  isGlobal?: boolean;
-  /** The single-character short flag (e.g. "-v"). */
-  shortFlag?: string;
-  /** The long-form flag or option name (e.g. "--verbose"). */
-  longFlag?: string;
+  /** Short names and other alternate invocation forms (e.g. ["-o"]). The full flag is `key`. */
+  aliases?: string[];
+  /** Whether this parameter is also accessible from the subcommands of its command, recursively. */
+  recursive?: boolean;
   /** Zero-based position index for positional arguments. */
   position?: number;
   /** Display sort position relative to sibling parameters. */
@@ -140,10 +180,8 @@ export type ExclusionType = "mutual_exclusive" | "required_one_of";
 export interface ExclusionGroup {
   /** Unique identifier for this exclusion group. */
   key?: string;
-  /** Key of the command this exclusion group belongs to; omit for global groups. */
-  commandKey?: string;
   /** Human-readable name for this exclusion group. */
-  name: string;
+  displayName: string;
   /** Whether parameters in this group are mutually exclusive or one is required. */
   exclusionType: ExclusionType;
   /** Keys of the parameters that participate in this exclusion group. */
@@ -159,11 +197,17 @@ export interface Tool {
   interactive?: boolean;
   /** General information about the tool such as description, version, and URL. */
   info?: ToolInfo;
+  /** Structured installation instructions for the tool. */
+  installation?: Installation;
+  /**
+   * Parameters accepted by the tool itself, before a command is chosen. A tool's own flags live
+   * here; do not model the root invocation as a command named after the binary, or the root would
+   * be described twice.
+   */
+  parameters: Parameter[];
   /** List of all commands and subcommands defined for this tool. */
   commands: Command[];
-  /** Flat list of all parameters across all commands and global scope. */
-  parameters: Parameter[];
-  /** Groups of parameters with mutual exclusion or required-one-of constraints. */
+  /** Groups of the tool's own parameters with mutual exclusion or required-one-of constraints. */
   exclusionGroups?: ExclusionGroup[];
   /** Arbitrary metadata attached to the tool. */
   metadata?: ToolMetadata;

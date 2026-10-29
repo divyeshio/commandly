@@ -1,4 +1,4 @@
-import type { Tool } from "@/components/commandly/types/flat";
+import type { Tool } from "@/components/commandly/types/tool";
 
 export type SupportedToolInputType = "StandardInput" | "Parameter";
 
@@ -20,7 +20,7 @@ export type AIParseResponse = {
   error?: string;
 };
 
-declare module "@/components/commandly/types/flat" {
+declare module "@/components/commandly/types/tool" {
   interface ToolMetadata {
     supportedInput: SupportedToolInputType[];
     supportedOutput: SupportedToolOutputType[];

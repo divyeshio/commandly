@@ -3,7 +3,7 @@ import { useToolBuilder } from "./tool-editor.context";
 import { GeneratedCommand } from "@/components/commandly/generated-command";
 import { JsonOutput } from "@/components/commandly/json-output";
 import { ToolRenderer } from "@/components/commandly/tool-renderer";
-import { Tool } from "@/components/commandly/types/flat";
+import { Tool } from "@/components/commandly/types/tool";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -109,7 +109,7 @@ export function PreviewTabs({ onSaveCommand, streamingTool, isAIGenerating }: Pr
                   onSaveCommand={onSaveCommand}
                 >
                   <GeneratedCommand.Header>
-                    <GeneratedCommand.FlagPreference />
+                    <GeneratedCommand.FlagFormPreference />
                   </GeneratedCommand.Header>
                   <CardContent className="space-y-4">
                     <GeneratedCommand.Output />

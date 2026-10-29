@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 
-import { Tool } from "@/components/commandly/types/flat";
+import { Tool } from "@/components/commandly/types/tool";
 
 const collectionDir = join(process.cwd(), "public", "tools-collection");
 const files = readdirSync(collectionDir).filter((f) => f.endsWith(".json"));

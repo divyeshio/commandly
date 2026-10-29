@@ -23,6 +23,8 @@ function RouteComponent() {
           <h2 className="mb-5 text-xl font-semibold sm:mb-6">{section.section}</h2>
           <div className="flex flex-col gap-8 sm:gap-10">
             {section.items.map((item, itemIdx) => {
+              if (item.name === null) return null;
+
               const demo = demos[item.name];
               const DemoComponent = demo?.component;
               return (

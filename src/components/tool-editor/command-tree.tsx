@@ -1,7 +1,8 @@
 import { CommandDialog } from "../tool-editor/dialogs/command-dialog";
 import { useToolBuilder } from "./tool-editor.context";
-import { Command } from "@/components/commandly/types/flat";
-import { Badge } from "@/components/ui/badge";
+import { CountBadge } from "@/components/commandly/command-tree";
+import { Command } from "@/components/commandly/types/tool";
+import { findCommand, isInheritedParameter } from "@/components/commandly/utils/tool";
 import { Button } from "@/components/ui/button";
 import { Tree, Folder, File } from "@/components/ui/file-tree";
 import {
@@ -16,20 +17,23 @@ import {
   ChevronRightIcon,
   Edit2Icon,
   GripVerticalIcon,
+  KeyboardIcon,
   PlusIcon,
   TerminalIcon,
   Trash2Icon,
 } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const ROOT_ID = "__root__";
 
 function CommandActions({
+  label,
   onEdit,
   onAdd,
   onDelete,
   showHandle = false,
 }: {
+  label: string;
   onEdit?: () => void;
   onAdd: () => void;
   onDelete?: () => void;
@@ -43,6 +47,7 @@ function CommandActions({
             variant="ghost"
             size="sm"
             className="h-5 w-5 p-0 opacity-0 group-hover:opacity-100"
+            aria-label={`Reorder ${label}`}
           >
             <GripVerticalIcon className="h-3 w-3" />
           </Button>
@@ -53,6 +58,7 @@ function CommandActions({
           variant="ghost"
           size="sm"
           className="h-5 w-5 p-0 opacity-0 group-hover:opacity-100"
+          aria-label={`Edit ${label}`}
           onClick={onEdit}
         >
           <Edit2Icon className="h-3 w-3" />
@@ -62,6 +68,7 @@ function CommandActions({
         variant="ghost"
         size="sm"
         className="h-5 w-5 p-0 opacity-0 group-hover:opacity-100"
+        aria-label={`Add subcommand to ${label}`}
         onClick={onAdd}
       >
         <PlusIcon className="h-3 w-3" />
@@ -71,6 +78,7 @@ function CommandActions({
           variant="ghost"
           size="sm"
           className="h-5 w-5 p-0 opacity-0 group-hover:opacity-100"
+          aria-label={`Delete ${label}`}
           onClick={onDelete}
         >
           <Trash2Icon className="h-3 w-3 text-destructive" />
@@ -86,7 +94,7 @@ export function CommandTree({ isChatOpen = false }: { isChatOpen?: boolean }) {
     selectedCommand,
     contextSelection,
     addCommand,
-    setSelectedCommand,
+    setSelectedCommandKey,
     setContextSelection,
     updateCommand,
     deleteCommand,
@@ -97,7 +105,7 @@ export function CommandTree({ isChatOpen = false }: { isChatOpen?: boolean }) {
   const [dialogCommand, setDialogCommand] = useState<Command | undefined>(undefined);
   const [pendingParentKey, setPendingParentKey] = useState<string | undefined>(undefined);
 
-  const lastSelectedCommandIndexRef = { current: null as number | null };
+  const lastSelectedCommandIndexRef = useRef<number | null>(null);
 
   const handleAddSubcommand = (parentKey?: string) => {
     setDialogCommand(undefined);
@@ -113,14 +121,13 @@ export function CommandTree({ isChatOpen = false }: { isChatOpen?: boolean }) {
 
   const handleRootClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setSelectedCommand(null);
-    setContextSelection({ commandKeys: [], parameterKeys: [] });
+    setSelectedCommandKey(null);
+    setContextSelection({ commandKeys: [], parameterRefs: [] });
   };
 
-  const handleCommandClick = (command: Command, e: React.MouseEvent) => {
+  const handleCommandClick = (command: Command, siblings: Command[], e: React.MouseEvent) => {
     e.stopPropagation();
-    const flatCommands = tool.commands;
-    const index = flatCommands.findIndex((c) => c.key === command.key);
+    const index = siblings.findIndex((c) => c.key === command.key);
 
     if (e.ctrlKey || e.metaKey) {
       const already = contextSelection.commandKeys.includes(command.key);
@@ -134,47 +141,55 @@ export function CommandTree({ isChatOpen = false }: { isChatOpen?: boolean }) {
       const anchor = lastSelectedCommandIndexRef.current ?? index;
       const from = Math.min(anchor, index);
       const to = Math.max(anchor, index);
-      const rangeKeys = flatCommands.slice(from, to + 1).map((c) => c.key);
+      const rangeKeys = siblings.slice(from, to + 1).map((c) => c.key);
       const merged = Array.from(new Set([...contextSelection.commandKeys, ...rangeKeys]));
       setContextSelection({ ...contextSelection, commandKeys: merged });
     } else {
-      setSelectedCommand(command);
-      setContextSelection({ commandKeys: [command.key], parameterKeys: [] });
+      setSelectedCommandKey(command.key);
+      setContextSelection({ commandKeys: [command.key], parameterRefs: [] });
       lastSelectedCommandIndexRef.current = index;
     }
   };
 
   const handleDialogSave = (savedCommand: Command) => {
     if (!dialogCommand) {
-      addCommand(savedCommand);
-      setSelectedCommand(savedCommand);
+      addCommand(savedCommand, pendingParentKey ?? null);
+      setSelectedCommandKey(savedCommand.key);
     } else {
-      updateCommand(savedCommand.key, savedCommand);
+      updateCommand(dialogCommand.key, savedCommand);
     }
   };
 
-  const renderCommand = (command: Command) => {
-    const subcommands = tool.commands.filter((c) => c.parentCommandKey === command.key);
+  const renderCommand = (command: Command, siblings: Command[]) => {
+    const subcommands = command.commands ?? [];
     const isSelected = selectedCommand?.key === command.key;
     const isContextSelected = contextSelection.commandKeys.includes(command.key);
-    const paramCount = tool.parameters.filter((p) => p.commandKey === command.key).length;
+    const paramCount = command.parameters?.length ?? 0;
 
     const nameElement = (
       <span className="flex items-center gap-1.5">
-        {command.name}
-        {paramCount > 0 && (
-          <Badge
-            variant="secondary"
-            className="h-4 min-w-4 px-1 text-[10px] leading-none"
-          >
-            {paramCount}
-          </Badge>
+        {command.displayName}
+        {command.interactive && (
+          <KeyboardIcon
+            className="size-3.5 shrink-0 text-amber-600 dark:text-amber-400"
+            aria-label="Interactive"
+          />
         )}
+        {command.aliases?.map((alias) => (
+          <span
+            key={alias}
+            className="font-mono text-[10px] text-muted-foreground"
+          >
+            {alias}
+          </span>
+        ))}
+        {paramCount > 0 && <CountBadge count={paramCount} />}
       </span>
     );
 
     const actions = (
       <CommandActions
+        label={command.displayName}
         onEdit={() => handleEdit(command)}
         onAdd={() => handleAddSubcommand(command.key)}
         onDelete={() => deleteCommand(command.key)}
@@ -193,7 +208,7 @@ export function CommandTree({ isChatOpen = false }: { isChatOpen?: boolean }) {
             isChatOpen && isContextSelected && "ring-1 ring-primary",
           )}
           actions={actions}
-          onClick={(e) => handleCommandClick(command, e)}
+          onClick={(e) => handleCommandClick(command, siblings, e)}
         >
           <Sortable
             value={subcommands}
@@ -211,16 +226,16 @@ export function CommandTree({ isChatOpen = false }: { isChatOpen?: boolean }) {
                   key={subcmd.key}
                   value={subcmd.key}
                 >
-                  {renderCommand(subcmd)}
+                  {renderCommand(subcmd, subcommands)}
                 </SortableItem>
               ))}
             </SortableContent>
             <SortableOverlay>
               {({ value }) => {
-                const cmd = tool.commands.find((c) => c.key === value);
+                const cmd = findCommand(tool, String(value));
                 return (
                   <div className="rounded-md border bg-background px-2 py-1.5 text-sm">
-                    {cmd?.name}
+                    {cmd?.displayName}
                   </div>
                 );
               }}
@@ -240,37 +255,26 @@ export function CommandTree({ isChatOpen = false }: { isChatOpen?: boolean }) {
         )}
         fileIcon={<ChevronRightIcon className="invisible size-4" />}
         actions={actions}
-        onClick={(e) => handleCommandClick(command, e)}
+        onClick={(e) => handleCommandClick(command, siblings, e)}
       >
         {nameElement}
       </File>
     );
   };
 
-  const rootCommands = tool.commands.filter((cmd) => !cmd.parentCommandKey);
+  const rootCommands = tool.commands;
   const isRootSelected = selectedCommand === null;
-  const rootParamCount = tool.parameters.filter((p) => !p.commandKey && !p.isGlobal).length;
-  const globalParamCount = tool.parameters.filter((p) => p.isGlobal).length;
+  const rootParamCount = tool.parameters.filter((p) => !p.recursive).length;
+  const inheritedParamCount = tool.parameters.filter(isInheritedParameter).length;
 
   const rootElement = (
     <span className="flex items-center gap-1.5">
       {tool.binaryName}
-      {rootParamCount > 0 && (
-        <Badge
-          variant="secondary"
-          className="h-4 min-w-4 px-1 text-[10px] leading-none"
-        >
-          {rootParamCount}
-        </Badge>
-      )}
-      {globalParamCount > 0 && (
-        <Badge
-          variant="outline"
-          className="h-4 min-w-4 px-1 text-[10px] leading-none"
-        >
-          {globalParamCount}
-        </Badge>
-      )}
+      <CountBadge count={rootParamCount} />
+      <CountBadge
+        count={inheritedParamCount}
+        variant="outline"
+      />
     </span>
   );
 
@@ -290,7 +294,12 @@ export function CommandTree({ isChatOpen = false }: { isChatOpen?: boolean }) {
           isSelect={isRootSelected}
           className="group px-2 py-1.5 font-medium"
           hasChildren={rootCommands.length > 0}
-          actions={<CommandActions onAdd={() => handleAddSubcommand()} />}
+          actions={
+            <CommandActions
+              label={tool.binaryName}
+              onAdd={() => handleAddSubcommand()}
+            />
+          }
           onClick={handleRootClick}
         >
           <Sortable
@@ -299,7 +308,7 @@ export function CommandTree({ isChatOpen = false }: { isChatOpen?: boolean }) {
             onValueChange={(newOrder) =>
               reorderCommands(
                 newOrder.map((c) => c.key),
-                undefined,
+                null,
               )
             }
           >
@@ -309,16 +318,16 @@ export function CommandTree({ isChatOpen = false }: { isChatOpen?: boolean }) {
                   key={command.key}
                   value={command.key}
                 >
-                  {renderCommand(command)}
+                  {renderCommand(command, rootCommands)}
                 </SortableItem>
               ))}
             </SortableContent>
             <SortableOverlay>
               {({ value }) => {
-                const cmd = tool.commands.find((c) => c.key === value);
+                const cmd = findCommand(tool, String(value));
                 return (
                   <div className="rounded-md border bg-background px-2 py-1.5 text-sm">
-                    {cmd?.name}
+                    {cmd?.displayName}
                   </div>
                 );
               }}
@@ -338,9 +347,11 @@ export function CommandTree({ isChatOpen = false }: { isChatOpen?: boolean }) {
         }}
         command={dialogCommand}
         parentKey={pendingParentKey}
-        siblingKeys={tool.commands
-          .filter((c) => c.parentCommandKey === pendingParentKey)
-          .map((c) => c.key)}
+        siblingKeys={
+          pendingParentKey
+            ? (findCommand(tool, pendingParentKey)?.commands ?? []).map((c) => c.key)
+            : tool.commands.map((c) => c.key)
+        }
         toolName={tool.binaryName}
         onSave={handleDialogSave}
       />

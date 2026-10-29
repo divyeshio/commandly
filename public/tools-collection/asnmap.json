@@ -1,5 +1,5 @@
 {
-  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
+  "$schema": "https://commandly.divyeshio.in/specification/tool.json",
   "binaryName": "asnmap",
   "displayName": "ASNMap",
   "info": {
@@ -10,179 +10,196 @@
   "commands": [],
   "parameters": [
     {
-      "name": "ASN",
+      "displayName": "ASN",
       "description": "Target ASN to lookup, example: -a AS5650",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-a",
-      "longFlag": "-asn",
       "sortOrder": 1,
       "arraySeparator": ",",
-      "keyValueSeparator": " ",
-      "key": "asn"
+      "key": "-asn",
+      "aliases": [
+        "-a"
+      ]
     },
     {
-      "name": "IP",
+      "displayName": "IP",
       "description": "Target IP to lookup, example: -i 100.19.12.21, -i 2a10:ad40::",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-i",
-      "longFlag": "-ip",
       "sortOrder": 2,
       "arraySeparator": ",",
-      "keyValueSeparator": " ",
-      "key": "ip"
+      "key": "-ip",
+      "aliases": [
+        "-i"
+      ]
     },
     {
-      "name": "Domain",
+      "displayName": "Domain",
       "description": "Target domain to lookup, example: -d google.com, -d facebook.com",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-d",
-      "longFlag": "-domain",
       "sortOrder": 3,
       "arraySeparator": ",",
-      "keyValueSeparator": " ",
-      "key": "domain"
+      "key": "-domain",
+      "aliases": [
+        "-d"
+      ]
     },
     {
-      "name": "Org",
+      "displayName": "Org",
       "description": "Target organization to lookup, example: -org GOOGLE",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "longFlag": "-org",
       "sortOrder": 4,
       "arraySeparator": ",",
-      "keyValueSeparator": " ",
-      "key": "org"
+      "key": "-org"
     },
     {
-      "name": "File",
+      "displayName": "File",
       "description": "Targets to lookup from file",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-f",
-      "longFlag": "-file",
       "sortOrder": 5,
       "arraySeparator": ",",
-      "keyValueSeparator": " ",
-      "key": "file"
+      "key": "-file",
+      "aliases": [
+        "-f"
+      ]
     },
     {
-      "name": "Config",
+      "displayName": "Config",
       "description": "Path to the asnmap configuration file",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "-config",
       "sortOrder": 6,
-      "keyValueSeparator": " ",
-      "key": "config"
+      "key": "-config"
     },
     {
-      "name": "Resolvers",
+      "displayName": "Resolvers",
       "description": "List of resolvers to use",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-r",
-      "longFlag": "-resolvers",
       "sortOrder": 7,
       "arraySeparator": ",",
-      "keyValueSeparator": " ",
-      "key": "resolvers"
+      "key": "-resolvers",
+      "aliases": [
+        "-r"
+      ]
     },
     {
-      "name": "Update",
+      "displayName": "Update",
       "description": "Update asnmap to latest version",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-up",
-      "longFlag": "-update",
       "sortOrder": 8,
-      "key": "update"
+      "key": "-update",
+      "aliases": [
+        "-up"
+      ]
     },
     {
-      "name": "Disable Update Check",
+      "displayName": "Disable Update Check",
       "description": "Disable automatic asnmap update check",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-duc",
-      "longFlag": "-disable-update-check",
       "sortOrder": 9,
-      "key": "disable-update-check"
+      "key": "-disable-update-check",
+      "aliases": [
+        "-duc"
+      ]
     },
     {
-      "name": "Output File",
+      "displayName": "Output File",
       "description": "File to write output to",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-o",
-      "longFlag": "-output",
       "sortOrder": 10,
-      "keyValueSeparator": " ",
-      "key": "output"
+      "key": "-output",
+      "aliases": [
+        "-o"
+      ]
     },
     {
-      "name": "JSON Output",
+      "displayName": "JSON Output",
       "description": "Display JSON format output",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-j",
-      "longFlag": "-json",
       "sortOrder": 11,
-      "key": "json"
+      "key": "-json",
+      "aliases": [
+        "-j"
+      ]
     },
     {
-      "name": "CSV Output",
+      "displayName": "CSV Output",
       "description": "Display CSV format output",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-c",
-      "longFlag": "-csv",
       "sortOrder": 12,
-      "key": "csv"
+      "key": "-csv",
+      "aliases": [
+        "-c"
+      ]
     },
     {
-      "name": "IPv6 Output",
+      "displayName": "IPv6 Output",
       "description": "Display IPv6 CIDR ranges in CLI output",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-v6",
       "sortOrder": 13,
-      "key": "v6"
+      "key": "-v6"
     },
     {
-      "name": "Verbose Output",
+      "displayName": "Verbose Output",
       "description": "Display verbose output",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-v",
-      "longFlag": "-verbose",
       "sortOrder": 14,
-      "key": "verbose"
+      "key": "-verbose",
+      "aliases": [
+        "-v"
+      ]
     },
     {
-      "name": "Silent",
+      "displayName": "Silent",
       "description": "Display silent output",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-silent",
       "sortOrder": 15,
-      "key": "silent"
+      "key": "-silent"
     },
     {
-      "name": "Version",
+      "displayName": "Version",
       "description": "Show version of the project",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-version",
       "sortOrder": 16,
-      "key": "version"
+      "key": "-version"
     }
-  ]
+  ],
+  "installation": {
+    "sources": [
+      {
+        "key": "go-install",
+        "method": "package_manager",
+        "manager": "go",
+        "command": "go install github.com/projectdiscovery/asnmap/cmd/asnmap@latest",
+        "url": "https://github.com/projectdiscovery/asnmap#installation",
+        "note": "Requires Go 1.21."
+      },
+      {
+        "key": "release-binary",
+        "method": "binary",
+        "command": "https://github.com/projectdiscovery/asnmap/releases",
+        "url": "https://github.com/projectdiscovery/asnmap#installation",
+        "note": "Download the pre-compiled binary for your OS."
+      }
+    ]
+  }
 }

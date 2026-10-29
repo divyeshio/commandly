@@ -1,5 +1,5 @@
 {
-  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
+  "$schema": "https://commandly.divyeshio.in/specification/tool.json",
   "binaryName": "shuffledns",
   "displayName": "ShuffleDNS",
   "info": {
@@ -10,74 +10,90 @@
   "commands": [],
   "parameters": [
     {
-      "name": "Domain",
+      "displayName": "Domain",
       "description": "Domain to find or resolve subdomains for",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-d",
-      "longFlag": "-domain",
       "sortOrder": 1,
-      "key": "domain"
+      "key": "-domain",
+      "aliases": [
+        "-d"
+      ]
     },
     {
-      "name": "List",
+      "displayName": "Auto Domain",
+      "description": "Automatically extract root domains",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "sortOrder": 2,
+      "key": "-auto-domain",
+      "aliases": [
+        "-ad"
+      ]
+    },
+    {
+      "displayName": "List",
       "description": "File containing list of subdomains to resolve",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-l",
-      "longFlag": "-list",
-      "sortOrder": 2,
-      "key": "list"
+      "sortOrder": 3,
+      "key": "-list",
+      "aliases": [
+        "-l"
+      ]
     },
     {
-      "name": "Wordlist",
+      "displayName": "Wordlist",
       "description": "File containing words to bruteforce for domain",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-w",
-      "longFlag": "-wordlist",
-      "sortOrder": 3,
-      "key": "wordlist"
+      "sortOrder": 4,
+      "key": "-wordlist",
+      "aliases": [
+        "-w"
+      ]
     },
     {
-      "name": "Resolver",
+      "displayName": "Resolver",
       "description": "File containing list of resolvers for enumeration",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-r",
-      "longFlag": "-resolver",
-      "sortOrder": 4,
-      "key": "resolver"
+      "sortOrder": 5,
+      "key": "-resolver",
+      "aliases": [
+        "-r"
+      ]
     },
     {
-      "name": "Trusted Resolver",
+      "displayName": "Trusted Resolver",
       "description": "File containing list of trusted resolvers",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-tr",
-      "longFlag": "-trusted-resolver",
-      "sortOrder": 5,
-      "key": "trusted-resolver"
+      "sortOrder": 6,
+      "key": "-trusted-resolver",
+      "aliases": [
+        "-tr"
+      ]
     },
     {
-      "name": "Raw Input",
+      "displayName": "Raw Input",
       "description": "Validate raw full massdns output",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-ri",
-      "longFlag": "-raw-input",
-      "sortOrder": 6,
-      "key": "raw-input"
+      "sortOrder": 7,
+      "key": "-raw-input",
+      "aliases": [
+        "-ri"
+      ]
     },
     {
-      "name": "Mode",
+      "displayName": "Mode",
       "description": "Execution mode (bruteforce, resolve, filter)",
       "parameterType": "Option",
       "dataType": "Enum",
-      "longFlag": "-mode",
-      "sortOrder": 7,
-      "key": "mode",
+      "sortOrder": 8,
+      "key": "-mode",
       "enum": {
         "values": [
           {
@@ -96,158 +112,178 @@
       }
     },
     {
-      "name": "Threads",
+      "displayName": "Threads",
       "description": "Number of concurrent massdns resolves (default 10000)",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-t",
-      "longFlag": "-t",
-      "sortOrder": 8,
-      "key": "t"
+      "sortOrder": 9,
+      "key": "-t"
     },
     {
-      "name": "Update",
+      "displayName": "Update",
       "description": "update shuffledns to latest version",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-up",
-      "longFlag": "-update",
-      "sortOrder": 9,
-      "key": "update"
+      "sortOrder": 10,
+      "key": "-update",
+      "aliases": [
+        "-up"
+      ]
     },
     {
-      "name": "Disable Update Check",
+      "displayName": "Disable Update Check",
       "description": "disable automatic shuffledns update check",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-duc",
-      "longFlag": "-disable-update-check",
-      "sortOrder": 10,
-      "key": "disable-update-check"
+      "sortOrder": 11,
+      "key": "-disable-update-check",
+      "aliases": [
+        "-duc"
+      ]
     },
     {
-      "name": "Output",
+      "displayName": "Output",
       "description": "File to write output to (optional)",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-o",
-      "longFlag": "-output",
-      "sortOrder": 11,
-      "key": "output"
+      "sortOrder": 12,
+      "key": "-output",
+      "aliases": [
+        "-o"
+      ]
     },
     {
-      "name": "JSON Output",
+      "displayName": "JSON Output",
       "description": "Make output format as ndjson",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-j",
-      "longFlag": "-json",
-      "sortOrder": 12,
-      "key": "json"
+      "sortOrder": 13,
+      "key": "-json",
+      "aliases": [
+        "-j"
+      ]
     },
     {
-      "name": "Wildcard Output",
+      "displayName": "Wildcard Output",
       "description": "Dump wildcard ips to output file",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-wo",
-      "longFlag": "-wildcard-output",
-      "sortOrder": 13,
-      "key": "wildcard-output"
+      "sortOrder": 14,
+      "key": "-wildcard-output",
+      "aliases": [
+        "-wo"
+      ]
     },
     {
-      "name": "Massdns",
+      "displayName": "Massdns",
       "description": "Path to the massdns binary",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-m",
-      "longFlag": "-massdns",
-      "sortOrder": 14,
-      "key": "massdns"
+      "sortOrder": 15,
+      "key": "-massdns",
+      "aliases": [
+        "-m"
+      ]
     },
     {
-      "name": "Massdns Cmd",
+      "displayName": "Massdns Cmd",
       "description": "Optional massdns commands to run (example '-i 10')",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-mcmd",
-      "longFlag": "-massdns-cmd",
-      "sortOrder": 15,
-      "key": "massdns-cmd"
+      "sortOrder": 16,
+      "key": "-massdns-cmd",
+      "aliases": [
+        "-mcmd"
+      ]
     },
     {
-      "name": "Directory",
+      "displayName": "Directory",
       "description": "Temporary directory for enumeration",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "-directory",
-      "sortOrder": 16,
-      "key": "directory"
+      "sortOrder": 17,
+      "key": "-directory"
     },
     {
-      "name": "Retries",
+      "displayName": "Retries",
       "description": "Number of retries for dns enumeration (default 5)",
       "parameterType": "Option",
       "dataType": "Number",
-      "longFlag": "-retries",
-      "sortOrder": 17,
-      "key": "retries"
+      "sortOrder": 18,
+      "key": "-retries"
     },
     {
-      "name": "Strict Wildcard",
+      "displayName": "Strict Wildcard",
       "description": "Perform wildcard check on all found subdomains",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-sw",
-      "longFlag": "-strict-wildcard",
-      "sortOrder": 18,
-      "key": "strict-wildcard"
+      "sortOrder": 19,
+      "key": "-strict-wildcard",
+      "aliases": [
+        "-sw"
+      ]
     },
     {
-      "name": "Wildcard Threads",
+      "displayName": "Wildcard Threads",
       "description": "Number of concurrent wildcard checks (default 250)",
       "parameterType": "Option",
       "dataType": "Number",
-      "longFlag": "-wt",
-      "sortOrder": 19,
-      "key": "wt"
+      "sortOrder": 20,
+      "key": "-wt"
     },
     {
-      "name": "Silent",
+      "displayName": "Silent",
       "description": "Show only subdomains in output",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-silent",
-      "sortOrder": 20,
-      "key": "silent"
+      "sortOrder": 21,
+      "key": "-silent"
     },
     {
-      "name": "Version",
+      "displayName": "Version",
       "description": "Show version of shuffledns",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-version",
-      "sortOrder": 21,
-      "key": "version"
+      "sortOrder": 22,
+      "key": "-version"
     },
     {
-      "name": "Verbose",
+      "displayName": "Verbose",
       "description": "Show Verbose output",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-v",
-      "sortOrder": 22,
-      "key": "v"
+      "sortOrder": 23,
+      "key": "-v"
     },
     {
-      "name": "No Color",
+      "displayName": "No Color",
       "description": "Don't Use colors in output",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-nc",
-      "longFlag": "-no-color",
-      "sortOrder": 23,
-      "key": "no-color"
+      "sortOrder": 24,
+      "key": "-no-color",
+      "aliases": [
+        "-nc"
+      ]
     }
-  ]
+  ],
+  "installation": {
+    "sources": [
+      {
+        "key": "go-install",
+        "method": "package_manager",
+        "manager": "go",
+        "command": "go install -v github.com/projectdiscovery/shuffledns/cmd/shuffledns@latest",
+        "url": "https://github.com/projectdiscovery/shuffledns#installation-instructions",
+        "note": "Requires Go 1.24+ and the massdns binary at runtime."
+      },
+      {
+        "key": "release-binary",
+        "method": "binary",
+        "command": "https://github.com/projectdiscovery/shuffledns/releases",
+        "url": "https://github.com/projectdiscovery/shuffledns#installation-instructions",
+        "note": "Release assets include OS-specific ZIP archives."
+      }
+    ]
+  }
 }

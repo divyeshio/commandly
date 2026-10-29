@@ -1,19 +1,22 @@
+import { CommandTree } from "@/components/commandly/command-tree";
 import { GeneratedCommand } from "@/components/commandly/generated-command";
+import { InstallationSection } from "@/components/commandly/installation";
 import { defaultComponents, ToolRenderer } from "@/components/commandly/tool-renderer";
-import { Tool } from "@/components/commandly/types/flat";
-import { slugify } from "@/components/commandly/utils/flat";
+import { Tool } from "@/components/commandly/types/tool";
+import { findCommand, getDefaultCommand, slugify } from "@/components/commandly/utils/tool";
 import { SavedCommandsDialog } from "@/components/tool-editor/dialogs/saved-commands-dialog";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
-  Command,
-  CommandGroup,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-} from "@/components/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { fetchToolDetails } from "@/lib/api/tools.api";
 import {
@@ -22,9 +25,8 @@ import {
   removeSavedCommandFromStorage,
 } from "@/lib/editor-utils";
 import { SavedCommand } from "@/lib/types";
-import { cn } from "@/lib/utils";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { CheckIcon, ChevronsUpDownIcon, Edit2Icon, InfoIcon, SaveIcon } from "lucide-react";
+import { Edit2Icon, InfoIcon, ListTreeIcon, PackageIcon, SaveIcon } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -69,35 +71,32 @@ function RouteComponent() {
   const { isLocal } = Route.useSearch();
 
   const [parameterValues, setParameterValues] = useState({});
-  const [savedCommands, setSavedCommands] = useState(() => {
-    if (!tool) return [];
-    const toolId = tool.binaryName;
-    return getSavedCommandsFromStorage(toolId);
-  });
-  const [open, setOpen] = useState(false);
+  const [savedCommands, setSavedCommands] = useState(() =>
+    getSavedCommandsFromStorage(tool.binaryName),
+  );
   const [savedCommandsOpen, setSavedCommandsOpen] = useState(false);
-  const hasUncategorizedParams =
-    tool?.parameters.some((p) => !p.commandKey && !p.isGlobal) ?? false;
+  const [treeOpen, setTreeOpen] = useState(false);
+  const [installationOpen, setInstallationOpen] = useState(false);
+  const hasInstallation = !!tool.installation?.sources?.length;
 
-  const getCommandDepth = (key: string, depth = 0): number => {
-    const cmd = tool?.commands.find((c) => c.key === key);
-    if (!cmd?.parentCommandKey) return depth;
-    return getCommandDepth(cmd.parentCommandKey, depth + 1);
-  };
-
-  const getCommandLabel = (name: string): string => {
-    const cmd = tool?.commands.find((c) => c.name === name);
-    if (!cmd?.parentCommandKey) return name;
-    const parent = tool?.commands.find((c) => c.key === cmd.parentCommandKey);
-    return parent ? `${getCommandLabel(parent.name)} / ${name}` : name;
-  };
-
-  const defaultCommandName = tool?.commands?.[0]?.name ?? "";
-  const [selectedCommand, setSelectedCommand] = useQueryState("command", {
-    defaultValue: defaultCommandName,
+  const defaultCommandKey = getDefaultCommand(tool)?.key ?? "";
+  const [commandKey, setCommandKey] = useQueryState("command", {
+    defaultValue: defaultCommandKey,
   });
 
-  if (!tool) return <div>Tool not found.</div>;
+  // An empty `command` selects the tool's own parameters rather than a command's.
+  const selectedCommandObject = commandKey === "" ? null : (findCommand(tool, commandKey) ?? null);
+
+  const commandTree = (
+    <CommandTree
+      tool={tool}
+      selectedCommand={selectedCommandObject}
+      onSelectCommand={(command) => {
+        setCommandKey(command?.key ?? "");
+        setTreeOpen(false);
+      }}
+    />
+  );
 
   const handleSaveCommand = (command: string) => {
     const toolId = tool.binaryName;
@@ -129,8 +128,8 @@ function RouteComponent() {
   };
 
   return (
-    <div className="mt-16 flex flex-col">
-      <div className="relative mx-4 my-4 flex flex-wrap items-center gap-2 sm:mx-8">
+    <div className="mt-16 flex flex-col lg:h-[calc(100svh-4rem)]">
+      <div className="relative mx-4 my-4 flex flex-wrap items-center gap-2 sm:mx-8 lg:shrink-0">
         <p className="flex gap-2 sm:absolute sm:left-1/2 sm:-translate-x-1/2">
           <span
             className="font-mono text-base font-medium sm:text-lg"
@@ -152,6 +151,30 @@ function RouteComponent() {
           )}
         </p>
         <div className="flex flex-wrap gap-2 sm:ml-auto">
+          <Sheet
+            open={treeOpen}
+            onOpenChange={setTreeOpen}
+          >
+            <SheetTrigger asChild>
+              <Button
+                className="relative z-10 lg:hidden"
+                variant="outline"
+                size="sm"
+              >
+                <ListTreeIcon className="mr-2 h-4 w-4" />
+                Commands
+              </Button>
+            </SheetTrigger>
+            <SheetContent
+              side="left"
+              className="w-72"
+            >
+              <SheetHeader>
+                <SheetTitle>Commands</SheetTitle>
+              </SheetHeader>
+              <div className="min-h-0 flex-1">{commandTree}</div>
+            </SheetContent>
+          </Sheet>
           <Button
             className="relative z-10 flex gap-2"
             variant="outline"
@@ -176,146 +199,90 @@ function RouteComponent() {
             <SaveIcon className="mr-2 h-4 w-4" />
             Saved Commands
           </Button>
+          {hasInstallation && (
+            <Dialog
+              open={installationOpen}
+              onOpenChange={setInstallationOpen}
+            >
+              <DialogTrigger asChild>
+                <Button
+                  className="relative z-10"
+                  variant="outline"
+                  size="sm"
+                >
+                  <PackageIcon className="mr-2 h-4 w-4" />
+                  Installation
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-h-[calc(100svh-4rem)] overflow-y-auto">
+                {/* The section renders its own heading, so the dialog title is for screen readers. */}
+                <DialogHeader className="sr-only">
+                  <DialogTitle>Installation</DialogTitle>
+                  <DialogDescription>
+                    Ways to install {tool.displayName || tool.binaryName}.
+                  </DialogDescription>
+                </DialogHeader>
+                <InstallationSection installation={tool.installation} />
+              </DialogContent>
+            </Dialog>
+          )}
         </div>
       </div>
-      <div className="flex w-full flex-col items-center justify-center gap-8 px-4 lg:flex-row lg:items-start lg:gap-16">
-        <Card
-          className="w-full max-w-4xl lg:w-2xl"
-          style={{
-            viewTransitionName: `tool-card-${tool.binaryName}`,
-          }}
-        >
-          <CardHeader>
-            <CardDescription hidden={true}></CardDescription>
-            <CardTitle className="flex items-center gap-2">
-              {(tool.commands.length > 0 || hasUncategorizedParams) && (
-                <div className="flex items-center gap-4">
-                  <span className="text-sm">Command</span>
-                  <Popover
-                    open={open}
-                    onOpenChange={setOpen}
-                  >
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        role="combobox"
-                        aria-expanded={open}
-                        className="w-48 justify-between"
-                      >
-                        <span className="truncate">
-                          {selectedCommand === ""
-                            ? tool.binaryName
-                            : getCommandLabel(selectedCommand)}
-                        </span>
-                        <ChevronsUpDownIcon className="opacity-50" />
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-48 p-0">
-                      <Command>
-                        <CommandList>
-                          {hasUncategorizedParams && (
-                            <CommandGroup>
-                              <CommandItem
-                                key="__none__"
-                                value=""
-                                onSelect={() => {
-                                  setSelectedCommand("");
-                                  setOpen(false);
-                                }}
-                              >
-                                <span className="font-mono">{tool.binaryName}</span>
-                                <CheckIcon
-                                  className={cn(
-                                    "ml-auto h-4 w-4",
-                                    selectedCommand === "" ? "opacity-100" : "opacity-0",
-                                  )}
-                                />
-                              </CommandItem>
-                            </CommandGroup>
-                          )}
-                          {hasUncategorizedParams && tool.commands.length > 0 && (
-                            <CommandSeparator />
-                          )}
-                          {tool.commands.length > 0 && (
-                            <CommandGroup>
-                              {tool.commands.map((option) => {
-                                const depth = getCommandDepth(option.key);
-                                return (
-                                  <CommandItem
-                                    key={option.key}
-                                    value={option.name}
-                                    onSelect={(currentValue) => {
-                                      setSelectedCommand(currentValue);
-                                      setOpen(false);
-                                    }}
-                                    style={{ paddingLeft: `${0.5 + depth * 1.25}rem` }}
-                                  >
-                                    {option.name}
-                                    <CheckIcon
-                                      className={cn(
-                                        "ml-auto h-4 w-4",
-                                        selectedCommand === option.name
-                                          ? "opacity-100"
-                                          : "opacity-0",
-                                      )}
-                                    />
-                                  </CommandItem>
-                                );
-                              })}
-                            </CommandGroup>
-                          )}
-                        </CommandList>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
-                </div>
-              )}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <ScrollArea className="*:data-radix-scroll-area-viewport:max-h-[calc(100vh-260px)]">
-              <div className="p-4">
-                <ToolRenderer
-                  selectedCommand={
-                    selectedCommand === ""
-                      ? null
-                      : tool.commands.find((command) => command.name === selectedCommand)
-                  }
-                  tool={tool}
-                  catalog={defaultComponents()}
-                  parameterValues={parameterValues}
-                  updateParameterValue={(parameterId, value) =>
-                    setParameterValues((prev) => ({
-                      ...prev,
-                      [parameterId]: value,
-                    }))
-                  }
-                />
-              </div>
-            </ScrollArea>
-          </CardContent>
-        </Card>
+      {/*
+       * On large screens the page is one viewport tall: the title row keeps its height, the grid
+       * takes the rest, and each column scrolls on its own. That gives the sidebar a definite
+       * height for the tree's scroll viewport to size against, and keeps a long command tree from
+       * stretching the page.
+       */}
+      <div className="mx-auto grid w-full max-w-360 grid-cols-1 gap-6 px-4 sm:px-8 lg:min-h-0 lg:flex-1 lg:grid-cols-[15rem_minmax(0,1fr)]">
+        <aside className="hidden min-h-0 lg:block">
+          <div className="flex h-full flex-col">{commandTree}</div>
+        </aside>
 
-        <Card className="w-full max-w-full lg:h-full lg:w-3xl">
-          <GeneratedCommand
-            selectedCommand={
-              selectedCommand === ""
-                ? null
-                : tool.commands.find((command) => command.name === selectedCommand)
-            }
-            tool={tool}
-            parameterValues={parameterValues}
-            onSaveCommand={handleSaveCommand}
+        <div className="grid grid-cols-1 items-start gap-6 xl:grid-cols-2">
+          <Card
+            className="w-full"
+            style={{
+              viewTransitionName: `tool-card-${tool.binaryName}`,
+            }}
           >
-            <GeneratedCommand.Header>
-              <GeneratedCommand.FlagPreference />
-            </GeneratedCommand.Header>
             <CardContent className="space-y-4">
-              <GeneratedCommand.Output />
-              <GeneratedCommand.Actions />
+              <ScrollArea className="*:data-radix-scroll-area-viewport:max-h-[calc(100vh-260px)]">
+                <div className="p-4">
+                  <ToolRenderer
+                    selectedCommand={selectedCommandObject}
+                    tool={tool}
+                    catalog={defaultComponents()}
+                    parameterValues={parameterValues}
+                    updateParameterValue={(parameterId, value) =>
+                      setParameterValues((prev) => ({
+                        ...prev,
+                        [parameterId]: value,
+                      }))
+                    }
+                  />
+                </div>
+              </ScrollArea>
             </CardContent>
-          </GeneratedCommand>
-        </Card>
+          </Card>
+
+          <Card className="w-full">
+            <GeneratedCommand
+              selectedCommand={selectedCommandObject}
+              tool={tool}
+              parameterValues={parameterValues}
+              onSaveCommand={handleSaveCommand}
+            >
+              <GeneratedCommand.Header>
+                <GeneratedCommand.FlagFormPreference />
+              </GeneratedCommand.Header>
+              <CardContent className="space-y-4">
+                <GeneratedCommand.Output />
+                <GeneratedCommand.Actions />
+              </CardContent>
+            </GeneratedCommand>
+          </Card>
+        </div>
       </div>
       <SavedCommandsDialog
         open={savedCommandsOpen}

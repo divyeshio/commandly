@@ -17,44 +17,30 @@
       "description": "General information about the tool such as description, version, and URL.",
       "$ref": "#/definitions/ToolInfo"
     },
-    "url": {
-      "description": "The homepage or documentation URL for the tool.",
-      "type": "string"
+    "installation": {
+      "description": "Structured installation instructions for the tool.",
+      "$ref": "#/definitions/Installation"
     },
-    "rootParameters": {
-      "description": "Parameters that belong to the root invocation when no commands exist.",
+    "parameters": {
+      "description": "Parameters accepted by the tool itself, before a command is chosen. A tool's own flags live\nhere; do not model the root invocation as a command named after the binary, or the root would\nbe described twice.",
       "type": "array",
       "items": {
-        "$ref": "#/definitions/NestedParameter"
-      }
-    },
-    "globalParameters": {
-      "description": "Parameters that apply to all commands globally.",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/NestedParameter"
+        "$ref": "#/definitions/Parameter"
       }
     },
     "commands": {
-      "description": "Hierarchical list of commands and their nested subcommands.",
+      "description": "List of all commands and subcommands defined for this tool.",
       "type": "array",
       "items": {
-        "$ref": "#/definitions/NestedCommand"
+        "$ref": "#/definitions/Command"
       }
     },
     "exclusionGroups": {
-      "description": "Groups of parameters with mutual exclusion or required-one-of constraints.",
-      "anyOf": [
-        {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/NestedExclusionGroup"
-          }
-        },
-        {
-          "type": "null"
-        }
-      ]
+      "description": "Groups of the tool's own parameters with mutual exclusion or required-one-of constraints.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ExclusionGroup"
+      }
     },
     "metadata": {
       "description": "Arbitrary metadata attached to the tool.",
@@ -65,8 +51,7 @@
     "binaryName",
     "commands",
     "displayName",
-    "globalParameters",
-    "rootParameters"
+    "parameters"
   ],
   "definitions": {
     "ToolInfo": {
@@ -86,10 +71,84 @@
         }
       }
     },
-    "NestedParameter": {
+    "Installation": {
       "type": "object",
       "properties": {
-        "name": {
+        "sources": {
+          "description": "The list of documented ways to install the tool.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/InstallationSource"
+          }
+        }
+      },
+      "required": [
+        "sources"
+      ]
+    },
+    "InstallationSource": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "description": "Unique identifier for this installation source within the tool.",
+          "type": "string"
+        },
+        "method": {
+          "$ref": "#/definitions/InstallationMethod",
+          "description": "How the tool is installed."
+        },
+        "manager": {
+          "description": "Package manager name, set only when method is \"package_manager\" (e.g. \"brew\", \"go\").",
+          "type": "string"
+        },
+        "command": {
+          "description": "The command that installs the tool.",
+          "type": "string"
+        },
+        "url": {
+          "description": "Documentation URL describing this installation method.",
+          "type": "string"
+        },
+        "os": {
+          "description": "Platforms this installation method applies to.",
+          "type": "array",
+          "items": {
+            "enum": [
+              "linux",
+              "macos",
+              "windows"
+            ],
+            "type": "string"
+          }
+        },
+        "note": {
+          "description": "Additional context for this installation source.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "command",
+        "key",
+        "method"
+      ]
+    },
+    "InstallationMethod": {
+      "enum": [
+        "binary",
+        "docker",
+        "package_manager",
+        "script"
+      ],
+      "type": "string"
+    },
+    "Parameter": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "description": "Unique identifier among its command's parameters. For flags and options this is the full flag, dashes included (e.g. \"--output\", \"-list\").",
+          "type": "string"
+        },
+        "displayName": {
           "description": "Human-readable display name of the parameter.",
           "type": "string"
         },
@@ -101,6 +160,10 @@
           "description": "Optional grouping label for organising related parameters in the UI.",
           "type": "string"
         },
+        "metadata": {
+          "description": "Additional metadata such as tags.",
+          "$ref": "#/definitions/ParameterMetadata"
+        },
         "parameterType": {
           "$ref": "#/definitions/ParameterType",
           "description": "Whether this is a boolean flag, a key-value option, or a positional argument."
@@ -108,10 +171,6 @@
         "dataType": {
           "$ref": "#/definitions/ParameterDataType",
           "description": "The data type of the parameter's value."
-        },
-        "metadata": {
-          "description": "Additional metadata such as tags.",
-          "$ref": "#/definitions/ParameterMetadata"
         },
         "isRequired": {
           "description": "Whether the user must provide this parameter.",
@@ -121,17 +180,16 @@
           "description": "Whether this parameter can be specified multiple times.",
           "type": "boolean"
         },
-        "isGlobal": {
-          "description": "Whether this parameter applies to all commands rather than a single command.",
+        "aliases": {
+          "description": "Short names and other alternate invocation forms (e.g. [\"-o\"]). The full flag is `key`.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "recursive": {
+          "description": "Whether this parameter is also accessible from the subcommands of its command, recursively.",
           "type": "boolean"
-        },
-        "shortFlag": {
-          "description": "The single-character short flag (e.g. \"-v\").",
-          "type": "string"
-        },
-        "longFlag": {
-          "description": "The long-form flag or option name (e.g. \"--verbose\").",
-          "type": "string"
         },
         "position": {
           "description": "Zero-based position index for positional arguments.",
@@ -157,22 +215,35 @@
           "description": "Validation rules applied to this parameter's value.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/NestedParameterValidation"
+            "$ref": "#/definitions/ParameterValidation"
           }
         },
         "dependencies": {
           "description": "Dependencies on other parameters (requires or conflicts-with relationships).",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/NestedParameterDependency"
+            "$ref": "#/definitions/ParameterDependency"
           }
         }
       },
       "required": [
         "dataType",
-        "name",
+        "displayName",
+        "key",
         "parameterType"
       ]
+    },
+    "ParameterMetadata": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "description": "Arbitrary tags for categorising or filtering parameters.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
     },
     "ParameterType": {
       "enum": [
@@ -190,18 +261,6 @@
         "String"
       ],
       "type": "string"
-    },
-    "ParameterMetadata": {
-      "type": "object",
-      "properties": {
-        "tags": {
-          "description": "Arbitrary tags for categorising or filtering parameters.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
     },
     "ParameterEnumValues": {
       "type": "object",
@@ -255,15 +314,19 @@
         "value"
       ]
     },
-    "NestedParameterValidation": {
+    "ParameterValidation": {
       "type": "object",
       "properties": {
+        "key": {
+          "description": "Unique identifier for this validation rule.",
+          "type": "string"
+        },
         "validationType": {
           "$ref": "#/definitions/ParameterValidationType",
           "description": "The type of validation to apply."
         },
         "validationValue": {
-          "description": "The value to validate against (e.g. max length number or regex pattern).",
+          "description": "The value to validate against (e.g. the max length number, or a regex pattern).",
           "type": "string"
         },
         "errorMessage": {
@@ -273,6 +336,7 @@
       },
       "required": [
         "errorMessage",
+        "key",
         "validationType",
         "validationValue"
       ]
@@ -287,11 +351,19 @@
       ],
       "type": "string"
     },
-    "NestedParameterDependency": {
+    "ParameterDependency": {
       "type": "object",
       "properties": {
-        "dependsOnParameter": {
-          "description": "Name of the parameter this dependency references.",
+        "key": {
+          "description": "Unique identifier for this dependency rule.",
+          "type": "string"
+        },
+        "parameterKey": {
+          "description": "Key of the parameter that owns this dependency.",
+          "type": "string"
+        },
+        "dependsOnParameterKey": {
+          "description": "Key of the parameter this dependency references.",
           "type": "string"
         },
         "dependencyType": {
@@ -305,7 +377,9 @@
       },
       "required": [
         "dependencyType",
-        "dependsOnParameter"
+        "dependsOnParameterKey",
+        "key",
+        "parameterKey"
       ]
     },
     "ParameterDependencyType": {
@@ -315,12 +389,23 @@
       ],
       "type": "string"
     },
-    "NestedCommand": {
+    "Command": {
       "type": "object",
       "properties": {
-        "name": {
+        "key": {
+          "description": "Unique identifier for this command within the tool.",
+          "type": "string"
+        },
+        "displayName": {
           "description": "Human-readable display name of the command.",
           "type": "string"
+        },
+        "aliases": {
+          "description": "Alternate spellings that invoke this command in place of its name.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "description": {
           "description": "Brief description of what this command does.",
@@ -335,36 +420,40 @@
           "type": "number"
         },
         "parameters": {
-          "description": "Parameters that belong directly to this command.",
+          "description": "Parameters accepted by this command. Keys are unique among them. Omit for grouping commands.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/NestedParameter"
-          }
-        },
-        "subcommands": {
-          "description": "Nested subcommands of this command.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/NestedCommand"
+            "$ref": "#/definitions/Parameter"
           }
         },
         "exclusionGroups": {
+          "description": "Groups of this command's parameters with mutual exclusion or required-one-of constraints.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/NestedExclusionGroup"
+            "$ref": "#/definitions/ExclusionGroup"
+          }
+        },
+        "commands": {
+          "description": "Subcommands nested beneath this command.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Command"
           }
         }
       },
       "required": [
-        "name",
-        "parameters",
-        "subcommands"
+        "displayName",
+        "key"
       ]
     },
-    "NestedExclusionGroup": {
+    "ExclusionGroup": {
       "type": "object",
       "properties": {
-        "name": {
+        "key": {
+          "description": "Unique identifier for this exclusion group.",
+          "type": "string"
+        },
+        "displayName": {
           "description": "Human-readable name for this exclusion group.",
           "type": "string"
         },
@@ -372,8 +461,8 @@
           "$ref": "#/definitions/ExclusionType",
           "description": "Whether parameters in this group are mutually exclusive or one is required."
         },
-        "parameters": {
-          "description": "Names of the parameters that participate in this exclusion group.",
+        "parameterKeys": {
+          "description": "Keys of the parameters that participate in this exclusion group.",
           "type": "array",
           "items": {
             "type": "string"
@@ -381,9 +470,9 @@
         }
       },
       "required": [
+        "displayName",
         "exclusionType",
-        "name",
-        "parameters"
+        "parameterKeys"
       ]
     },
     "ExclusionType": {

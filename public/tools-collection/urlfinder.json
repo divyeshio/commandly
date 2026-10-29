@@ -1,5 +1,5 @@
 {
-  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
+  "$schema": "https://commandly.divyeshio.in/specification/tool.json",
   "binaryName": "urlfinder",
   "displayName": "URLFinder",
   "info": {
@@ -10,204 +10,310 @@
   "commands": [],
   "parameters": [
     {
-      "name": "Domain",
-      "description": "Target domain",
+      "displayName": "List of Domains",
+      "description": "Target domain or list of domains",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "longFlag": "-d",
-      "key": "domain"
-    },
-    {
-      "name": "List of Domains",
-      "description": "Target domain list",
-      "parameterType": "Option",
-      "dataType": "String",
-      "isRepeatable": true,
-      "longFlag": "-list",
       "arraySeparator": ",",
-      "key": "list"
+      "key": "-list",
+      "aliases": [
+        "-d"
+      ]
     },
     {
-      "name": "Sources",
+      "displayName": "Sources",
       "description": "Specific sources for discovery (e.g., -s alienvault,commoncrawl)",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-s",
-      "longFlag": "-sources",
       "arraySeparator": ",",
-      "key": "sources"
+      "key": "-sources",
+      "aliases": [
+        "-s"
+      ]
     },
     {
-      "name": "Exclude Sources",
+      "displayName": "Exclude Sources",
       "description": "Sources to exclude (e.g., -es alienvault,commoncrawl)",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-es",
-      "longFlag": "-exclude-sources",
       "arraySeparator": ",",
-      "key": "exclude-sources"
+      "key": "-exclude-sources",
+      "aliases": [
+        "-es"
+      ]
     },
     {
-      "name": "All",
+      "displayName": "All",
       "description": "Use all sources (may be slower)",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-all",
-      "key": "all"
+      "key": "-all"
     },
     {
-      "name": "URL Scope",
+      "displayName": "URL Scope",
       "description": "In scope url regex to be followed by urlfinder",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-us",
-      "longFlag": "-url-scope",
       "arraySeparator": ",",
-      "key": "url-scope"
+      "key": "-url-scope",
+      "aliases": [
+        "-us"
+      ]
     },
     {
-      "name": "URL Out Scope",
+      "displayName": "URL Out Scope",
       "description": "Out of scope url regex to be excluded by urlfinder",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-uos",
-      "longFlag": "-url-out-scope",
       "arraySeparator": ",",
-      "key": "url-out-scope"
+      "key": "-url-out-scope",
+      "aliases": [
+        "-uos"
+      ]
     },
     {
-      "name": "Field Scope",
+      "displayName": "Field Scope",
       "description": "Pre-defined scope field (dn,rdn,fqdn) or custom regex (e.g., '(company-staging.io|company.com)')",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-fs",
-      "longFlag": "-field-scope",
-      "key": "field-scope"
+      "key": "-field-scope",
+      "aliases": [
+        "-fs"
+      ]
     },
     {
-      "name": "No Scope",
+      "displayName": "No Scope",
       "description": "Disables host based default scope",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-ns",
-      "longFlag": "-no-scope",
-      "key": "no-scope"
+      "key": "-no-scope",
+      "aliases": [
+        "-ns"
+      ]
     },
     {
-      "name": "Display Out Scope",
+      "displayName": "Display Out Scope",
       "description": "Display external endpoint from scoped crawling",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-do",
-      "longFlag": "-display-out-scope",
-      "key": "display-out-scope"
+      "key": "-display-out-scope",
+      "aliases": [
+        "-do"
+      ]
     },
     {
-      "name": "Match",
+      "displayName": "Match",
       "description": "URLs or list to match (file or comma-separated)",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-m",
-      "longFlag": "-match",
       "arraySeparator": ",",
-      "key": "match"
+      "key": "-match",
+      "aliases": [
+        "-m"
+      ]
     },
     {
-      "name": "Filter",
+      "displayName": "Filter",
       "description": "URLs or list to filter (file or comma-separated)",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-f",
-      "longFlag": "-filter",
       "arraySeparator": ",",
-      "key": "filter"
+      "key": "-filter",
+      "aliases": [
+        "-f"
+      ]
     },
     {
-      "name": "Rate Limit",
+      "displayName": "Rate Limit",
       "description": "Max HTTP requests per second (global)",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-rl",
-      "longFlag": "-rate-limit",
-      "key": "rate-limit"
+      "key": "-rate-limit",
+      "aliases": [
+        "-rl"
+      ]
     },
     {
-      "name": "Rate Limits",
+      "displayName": "Rate Limits",
       "description": "Per-provider HTTP request limits (e.g., -rls waybackarchive=15/m)",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-rls",
-      "longFlag": "-rate-limits",
-      "key": "rate-limits"
+      "key": "-rate-limits",
+      "aliases": [
+        "-rls"
+      ]
     },
     {
-      "name": "Update",
+      "displayName": "Update",
       "description": "Update URLFinder to the latest version",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-up",
-      "longFlag": "-update",
-      "key": "update"
+      "key": "-update",
+      "aliases": [
+        "-up"
+      ]
     },
     {
-      "name": "Verbose",
-      "description": "Enable verbose output",
+      "displayName": "Verbose",
+      "description": "Verbose output",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-v",
-      "longFlag": "-verbose",
-      "key": "verbose"
+      "key": "-v"
     },
     {
-      "name": "Silent",
-      "description": "Suppress output",
+      "displayName": "Silent",
+      "description": "Show only URLs in output",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-s",
-      "longFlag": "-silent",
-      "key": "silent"
+      "key": "-silent"
     },
     {
-      "name": "Timeout",
-      "description": "Timeout for HTTP requests (in seconds)",
+      "displayName": "Timeout",
+      "description": "Timeout in seconds (default 30)",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-to",
-      "longFlag": "-timeout",
-      "key": "timeout"
+      "key": "-timeout"
     },
     {
-      "name": "JSON Output",
-      "description": "Output in JSON format",
+      "displayName": "JSONL Output",
+      "description": "JSONL output format",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-j",
-      "longFlag": "-json",
-      "key": "json"
+      "key": "-jsonl",
+      "aliases": [
+        "-j"
+      ]
     },
     {
-      "name": "CSV Output",
-      "description": "Output in CSV format",
-      "parameterType": "Flag",
-      "dataType": "Boolean",
-      "longFlag": "-csv",
-      "key": "csv"
-    },
-    {
-      "name": "Version",
+      "displayName": "Version",
       "description": "Display URLFinder version",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-vrs",
-      "longFlag": "-version",
-      "key": "version"
+      "key": "-version"
+    },
+    {
+      "displayName": "Disable Update Check",
+      "description": "Disable automatic update checks",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "key": "-disable-update-check",
+      "aliases": [
+        "-duc"
+      ]
+    },
+    {
+      "displayName": "Output File",
+      "description": "Specify output file",
+      "parameterType": "Option",
+      "dataType": "String",
+      "key": "-output",
+      "aliases": [
+        "-o"
+      ]
+    },
+    {
+      "displayName": "Output Directory",
+      "description": "Specify output directory",
+      "parameterType": "Option",
+      "dataType": "String",
+      "key": "-output-dir",
+      "aliases": [
+        "-od"
+      ]
+    },
+    {
+      "displayName": "Collect Sources",
+      "description": "Include all sources in JSON output",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "key": "-collect-sources",
+      "aliases": [
+        "-cs"
+      ]
+    },
+    {
+      "displayName": "Config File",
+      "description": "Config file path",
+      "parameterType": "Option",
+      "dataType": "String",
+      "key": "-config"
+    },
+    {
+      "displayName": "Provider Config File",
+      "description": "Provider config file path",
+      "parameterType": "Option",
+      "dataType": "String",
+      "key": "-provider-config",
+      "aliases": [
+        "-pc"
+      ]
+    },
+    {
+      "displayName": "HTTP Proxy",
+      "description": "HTTP proxy to use",
+      "parameterType": "Option",
+      "dataType": "String",
+      "key": "-proxy"
+    },
+    {
+      "displayName": "No Color",
+      "description": "Disable colored output",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "key": "-no-color",
+      "aliases": [
+        "-nc"
+      ]
+    },
+    {
+      "displayName": "List Sources",
+      "description": "List all available sources",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "key": "-list-sources",
+      "aliases": [
+        "-ls"
+      ]
+    },
+    {
+      "displayName": "Stats",
+      "description": "Display source statistics",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "key": "-stats"
+    },
+    {
+      "displayName": "Max Time",
+      "description": "Max time in minutes for enumeration (default 10)",
+      "parameterType": "Option",
+      "dataType": "Number",
+      "key": "-max-time"
     }
-  ]
+  ],
+  "installation": {
+    "sources": [
+      {
+        "key": "go-install",
+        "method": "package_manager",
+        "manager": "go",
+        "command": "go install -v github.com/projectdiscovery/urlfinder/cmd/urlfinder@latest",
+        "url": "https://github.com/projectdiscovery/urlfinder#installation",
+        "note": "Requires Go 1.21."
+      },
+      {
+        "key": "release-binary",
+        "method": "binary",
+        "command": "https://github.com/projectdiscovery/urlfinder/releases",
+        "url": "https://github.com/projectdiscovery/urlfinder#installation",
+        "note": "Download the pre-compiled binary for your OS."
+      }
+    ]
+  }
 }

@@ -1,5 +1,6 @@
 import { defaultTool } from "../test-utils";
-import { Command, Tool } from "@/components/commandly/types/flat";
+import { Command, Tool } from "@/components/commandly/types/tool";
+import { findCommand, getAllCommands } from "@/components/commandly/utils/tool";
 import { CommandTree } from "@/components/tool-editor/command-tree";
 import {
   ToolBuilderProvider,
@@ -19,100 +20,95 @@ const createComplexTool = (): Tool => ({
   commands: [
     {
       key: "my-cli-tool",
-      name: "my-cli-tool",
+      displayName: "my-cli-tool",
       description: "Main CLI tool command",
       sortOrder: 0,
-    },
-    {
-      key: "config",
-      name: "config",
-      parentCommandKey: "my-cli-tool",
-      description: "Configuration management",
-      sortOrder: 1,
-    },
-    {
-      key: "get",
-      name: "get",
-      parentCommandKey: "config",
-      description: "Get configuration values",
-      sortOrder: 0,
-    },
-    {
-      key: "set",
-      name: "set",
-      parentCommandKey: "config",
-      description: "Set configuration values",
-      sortOrder: 1,
-    },
-    {
-      key: "list",
-      name: "list",
-      parentCommandKey: "config",
-      description: "List all configurations",
-      sortOrder: 2,
-    },
-    {
-      key: "data",
-      name: "data",
-      parentCommandKey: "my-cli-tool",
-      description: "Data management operations",
-      sortOrder: 2,
-    },
-    {
-      key: "create",
-      name: "create",
-      parentCommandKey: "data",
-      description: "Create new data entries",
-      sortOrder: 0,
-    },
-    {
-      key: "read",
-      name: "read",
-      parentCommandKey: "data",
-      description: "Read existing data",
-      sortOrder: 1,
-    },
-    {
-      key: "update",
-      name: "update",
-      parentCommandKey: "data",
-      description: "Update existing data",
-      sortOrder: 2,
-    },
-    {
-      key: "delete",
-      name: "delete",
-      parentCommandKey: "data",
-      description: "Delete data entries",
-      sortOrder: 3,
-    },
-    {
-      key: "utils",
-      name: "utils",
-      parentCommandKey: "my-cli-tool",
-      description: "Utility functions",
-      sortOrder: 3,
-    },
-    {
-      key: "validate",
-      name: "validate",
-      parentCommandKey: "utils",
-      description: "Validate data integrity",
-      sortOrder: 0,
-    },
-    {
-      key: "backup",
-      name: "backup",
-      parentCommandKey: "utils",
-      description: "Backup operations",
-      sortOrder: 1,
-    },
-    {
-      key: "help",
-      name: "help",
-      parentCommandKey: "my-cli-tool",
-      description: "Display help information",
-      sortOrder: 4,
+      commands: [
+        {
+          key: "config",
+          displayName: "config",
+          description: "Configuration management",
+          sortOrder: 1,
+          commands: [
+            {
+              key: "get",
+              displayName: "get",
+              description: "Get configuration values",
+              sortOrder: 0,
+            },
+            {
+              key: "set",
+              displayName: "set",
+              description: "Set configuration values",
+              sortOrder: 1,
+            },
+            {
+              key: "list",
+              displayName: "list",
+              description: "List all configurations",
+              sortOrder: 2,
+            },
+          ],
+        },
+        {
+          key: "data",
+          displayName: "data",
+          description: "Data management operations",
+          sortOrder: 2,
+          commands: [
+            {
+              key: "create",
+              displayName: "create",
+              description: "Create new data entries",
+              sortOrder: 0,
+            },
+            {
+              key: "read",
+              displayName: "read",
+              description: "Read existing data",
+              sortOrder: 1,
+            },
+            {
+              key: "update",
+              displayName: "update",
+              description: "Update existing data",
+              sortOrder: 2,
+            },
+            {
+              key: "delete",
+              displayName: "delete",
+              description: "Delete data entries",
+              sortOrder: 3,
+            },
+          ],
+        },
+        {
+          key: "utils",
+          displayName: "utils",
+          description: "Utility functions",
+          sortOrder: 3,
+          commands: [
+            {
+              key: "validate",
+              displayName: "validate",
+              description: "Validate data integrity",
+              sortOrder: 0,
+            },
+            {
+              key: "backup",
+              displayName: "backup",
+              description: "Backup operations",
+              sortOrder: 1,
+            },
+          ],
+        },
+        {
+          key: "help",
+          displayName: "help",
+          description: "Display help information",
+          sortOrder: 4,
+        },
+      ],
     },
   ],
   parameters: [],
@@ -125,7 +121,7 @@ const simpleTestTool: Tool = {
   commands: [
     {
       key: "test-tool",
-      name: "test-tool",
+      displayName: "test-tool",
       description: "Main command",
       sortOrder: 0,
     },
@@ -134,12 +130,12 @@ const simpleTestTool: Tool = {
 
 const simpleTestState: Partial<ToolBuilderState> = {
   tool: simpleTestTool,
-  selectedCommand: simpleTestTool.commands[0],
+  selectedCommandKey: simpleTestTool.commands[0].key,
 };
 
 const complexToolState = (): Partial<ToolBuilderState> => {
   const tool = createComplexTool();
-  return { tool, selectedCommand: tool.commands[0] };
+  return { tool, selectedCommandKey: tool.commands[0].key };
 };
 
 let capturedCtx: ReturnType<typeof useToolBuilder>;
@@ -160,18 +156,18 @@ function renderWithProvider(ui: ReactNode, initialState: Partial<ToolBuilderStat
   );
 }
 
-function findActionButtons(container: Element): HTMLButtonElement[] {
-  return Array.from(container.querySelectorAll("button")).filter(
-    (btn) =>
-      btn.classList.contains("opacity-0") && btn.classList.contains("group-hover:opacity-100"),
-  ) as HTMLButtonElement[];
+const ACTION_LABEL = /^(Reorder|Edit|Add subcommand to|Delete) /;
+
+function findActionButtons(container: Element): HTMLElement[] {
+  return Array.from(container.querySelectorAll<HTMLElement>("button[aria-label]")).filter((btn) =>
+    ACTION_LABEL.test(btn.getAttribute("aria-label") ?? ""),
+  );
 }
 
-function findDeleteButton(container: Element): HTMLButtonElement | undefined {
-  return Array.from(container.querySelectorAll("button")).find((btn) => {
-    const svg = btn.querySelector("svg");
-    return svg && svg.classList.contains("text-destructive");
-  }) as HTMLButtonElement | undefined;
+function findDeleteButton(container: Element): HTMLElement | undefined {
+  return Array.from(container.querySelectorAll<HTMLElement>("button[aria-label]")).find((btn) =>
+    (btn.getAttribute("aria-label") ?? "").startsWith("Delete "),
+  );
 }
 
 function getRootTrigger(): Element {
@@ -183,14 +179,10 @@ function getChevron(trigger: Element): Element {
   return trigger.querySelector("[role='button']")!;
 }
 
+/** The tree item holding this text: the first match in document order. */
 function getTriggerFor(name: string): Element {
-  const elements = screen.getAllByText(name);
-  for (const el of elements) {
-    const trigger = el.closest("[data-radix-collection-item]") || el.closest("[role='button']");
-    if (trigger && !trigger.classList.contains("font-medium")) return trigger;
-  }
-  const textEl = elements[0];
-  return (textEl.closest("[data-radix-collection-item]") || textEl.closest("[role='button']"))!;
+  const text = screen.getAllByText(name)[0];
+  return (text.closest("[data-radix-collection-item]") ?? text.closest("[role='button']"))!;
 }
 
 describe("CommandTree", () => {
@@ -264,15 +256,15 @@ describe("CommandTree", () => {
   describe("Interaction Tests", () => {
     it("clicking a command selects it", () => {
       renderWithProvider(<CommandTree />, complexToolState());
-      expect(capturedCtx.selectedCommand?.name).toBe("my-cli-tool");
+      expect(capturedCtx.selectedCommand?.displayName).toBe("my-cli-tool");
 
       fireEvent.click(screen.getByText("config"));
-      expect(capturedCtx.selectedCommand?.name).toBe("config");
+      expect(capturedCtx.selectedCommand?.displayName).toBe("config");
     });
 
     it("clicking the root node sets selectedCommand to null", () => {
       renderWithProvider(<CommandTree />, complexToolState());
-      expect(capturedCtx.selectedCommand?.name).toBe("my-cli-tool");
+      expect(capturedCtx.selectedCommand?.displayName).toBe("my-cli-tool");
 
       const rootTrigger = getRootTrigger();
       fireEvent.click(rootTrigger);
@@ -309,14 +301,14 @@ describe("CommandTree", () => {
 
     it("clicking delete button removes the command", () => {
       renderWithProvider(<CommandTree />, complexToolState());
-      const initialCommandCount = capturedCtx.tool.commands.length;
+      const initialCommandCount = getAllCommands(capturedCtx.tool).length;
 
       const helpTrigger = getTriggerFor("help");
       const deleteButton = findDeleteButton(helpTrigger);
       expect(deleteButton).toBeDefined();
 
       fireEvent.click(deleteButton!);
-      expect(capturedCtx.tool.commands.length).toBeLessThan(initialCommandCount);
+      expect(getAllCommands(capturedCtx.tool).length).toBeLessThan(initialCommandCount);
       expect(screen.queryByText("help")).not.toBeInTheDocument();
     });
 
@@ -344,19 +336,19 @@ describe("CommandTree", () => {
       });
 
       fireEvent.click(screen.getByText("get"));
-      expect(capturedCtx.selectedCommand?.name).toBe("get");
-      expect(capturedCtx.selectedCommand?.parentCommandKey).toBe("config");
+      expect(capturedCtx.selectedCommand?.displayName).toBe("get");
+      expect(findCommand(capturedCtx.tool, "config")?.commands?.map((c) => c.key)).toContain("get");
     });
   });
 
   describe("State Management Tests", () => {
     it("updates selected command in context when clicking a command", () => {
       renderWithProvider(<CommandTree />, complexToolState());
-      expect(capturedCtx.selectedCommand?.name).toBe("my-cli-tool");
+      expect(capturedCtx.selectedCommand?.displayName).toBe("my-cli-tool");
 
       fireEvent.click(screen.getByText("config"));
-      expect(capturedCtx.selectedCommand?.name).toBe("config");
-      expect(capturedCtx.selectedCommand?.parentCommandKey).toBe("my-cli-tool");
+      expect(capturedCtx.selectedCommand?.displayName).toBe("config");
+      expect(capturedCtx.selectedCommand?.key).toBe("config");
     });
 
     it("clicking edit opens dialog pre-filled with command details", async () => {
@@ -369,7 +361,7 @@ describe("CommandTree", () => {
       fireEvent.click(editButton);
       await waitFor(() => {
         expect(screen.getByText("Edit Command Settings")).toBeInTheDocument();
-        const nameInput = screen.getByLabelText("Command Name") as HTMLInputElement;
+        const nameInput = screen.getByLabelText("Display Name") as HTMLInputElement;
         expect(nameInput.value).toBe("config");
       });
     });
@@ -401,9 +393,9 @@ describe("CommandTree", () => {
       });
     });
 
-    it("saves subcommand with correct parentCommandKey when added via + button", async () => {
+    it("saves subcommand with correct parent when added via + button", async () => {
       renderWithProvider(<CommandTree />, complexToolState());
-      const initialCount = capturedCtx.tool.commands.length;
+      const initialCount = getAllCommands(capturedCtx.tool).length;
 
       const configTrigger = getTriggerFor("config");
       const actions = findActionButtons(configTrigger);
@@ -414,19 +406,21 @@ describe("CommandTree", () => {
         expect(screen.getByRole("dialog")).toBeInTheDocument();
       });
 
-      const nameInput = screen.getByLabelText("Command Name") as HTMLInputElement;
+      const nameInput = screen.getByLabelText("Display Name") as HTMLInputElement;
       fireEvent.change(nameInput, { target: { value: "new-sub" } });
 
       const saveButton = screen.getByRole("button", { name: "Add" });
       fireEvent.click(saveButton);
 
       await waitFor(() => {
-        expect(capturedCtx.tool.commands.length).toBe(initialCount + 1);
+        expect(getAllCommands(capturedCtx.tool).length).toBe(initialCount + 1);
       });
 
-      const newCmd = capturedCtx.tool.commands.find((c) => c.name === "new-sub");
+      const newCmd = findCommand(capturedCtx.tool, "new-sub");
       expect(newCmd).toBeDefined();
-      expect(newCmd!.parentCommandKey).toBe("config");
+      expect(findCommand(capturedCtx.tool, "config")?.commands?.map((c) => c.key)).toContain(
+        "new-sub",
+      );
     });
 
     it("disables save when subcommand name matches parent command name", async () => {
@@ -441,13 +435,13 @@ describe("CommandTree", () => {
         expect(screen.getByRole("dialog")).toBeInTheDocument();
       });
 
-      const nameInput = screen.getByLabelText("Command Name") as HTMLInputElement;
+      const nameInput = screen.getByLabelText("Display Name") as HTMLInputElement;
       fireEvent.change(nameInput, { target: { value: "config" } });
 
       const saveButton = screen.getByRole("button", { name: "Add" });
       expect(saveButton).toBeDisabled();
       expect(
-        screen.getByText("A command with this name already exists at this level."),
+        screen.getByText("A command with this key already exists at this level."),
       ).toBeInTheDocument();
     });
 
@@ -468,13 +462,13 @@ describe("CommandTree", () => {
         expect(screen.getByRole("dialog")).toBeInTheDocument();
       });
 
-      const nameInput = screen.getByLabelText("Command Name") as HTMLInputElement;
+      const nameInput = screen.getByLabelText("Display Name") as HTMLInputElement;
       fireEvent.change(nameInput, { target: { value: "get" } });
 
       const saveButton = screen.getByRole("button", { name: "Add" });
       expect(saveButton).toBeDisabled();
       expect(
-        screen.getByText("A command with this name already exists at this level."),
+        screen.getByText("A command with this key already exists at this level."),
       ).toBeInTheDocument();
     });
 
@@ -490,7 +484,7 @@ describe("CommandTree", () => {
         expect(screen.getByRole("dialog")).toBeInTheDocument();
       });
 
-      const nameInput = screen.getByLabelText("Command Name") as HTMLInputElement;
+      const nameInput = screen.getByLabelText("Display Name") as HTMLInputElement;
       fireEvent.change(nameInput, { target: { value: "some-command" } });
       expect(nameInput.value).toBe("some-command");
 
@@ -507,7 +501,7 @@ describe("CommandTree", () => {
         expect(screen.getByRole("dialog")).toBeInTheDocument();
       });
 
-      const newNameInput = screen.getByLabelText("Command Name") as HTMLInputElement;
+      const newNameInput = screen.getByLabelText("Display Name") as HTMLInputElement;
       const newDescInput = screen.getByLabelText("Description") as HTMLTextAreaElement;
       expect(newNameInput.value).toBe("");
       expect(newDescInput.value).toBe("");
@@ -515,41 +509,41 @@ describe("CommandTree", () => {
 
     it("removes commands from context when deleting", () => {
       renderWithProvider(<CommandTree />, complexToolState());
-      const initialCommandCount = capturedCtx.tool.commands.length;
-      expect(capturedCtx.tool.commands.find((cmd) => cmd.name === "help")).toBeDefined();
+      const initialCommandCount = getAllCommands(capturedCtx.tool).length;
+      expect(findCommand(capturedCtx.tool, "help")).toBeDefined();
 
       const helpTrigger = getTriggerFor("help");
       const deleteButton = findDeleteButton(helpTrigger);
       expect(deleteButton).toBeDefined();
 
       fireEvent.click(deleteButton!);
-      expect(capturedCtx.tool.commands.length).toBe(initialCommandCount - 1);
-      expect(capturedCtx.tool.commands.find((cmd) => cmd.name === "help")).toBeUndefined();
+      expect(getAllCommands(capturedCtx.tool).length).toBe(initialCommandCount - 1);
+      expect(findCommand(capturedCtx.tool, "help")).toBeUndefined();
     });
 
     it("updates selected command when current selection is deleted", () => {
       const initialState = complexToolState();
-      const helpCmd = initialState.tool!.commands.find((c) => c.name === "help")!;
-      renderWithProvider(<CommandTree />, { ...initialState, selectedCommand: helpCmd });
+      const helpCmd = findCommand(initialState.tool!, "help")!;
+      renderWithProvider(<CommandTree />, { ...initialState, selectedCommandKey: helpCmd.key });
 
-      expect(capturedCtx.selectedCommand?.name).toBe("help");
+      expect(capturedCtx.selectedCommand?.displayName).toBe("help");
 
       const helpTrigger = getTriggerFor("help");
       const deleteButton = findDeleteButton(helpTrigger);
       expect(deleteButton).toBeDefined();
 
       fireEvent.click(deleteButton!);
-      expect(capturedCtx.selectedCommand?.name).toBe("my-cli-tool");
+      expect(capturedCtx.selectedCommand?.displayName).toBe("my-cli-tool");
     });
 
     it("responds to external context changes", async () => {
       renderWithProvider(<CommandTree />, complexToolState());
       expect(screen.getAllByText("my-cli-tool").length).toBeGreaterThanOrEqual(1);
 
-      const dataCommand = capturedCtx.tool.commands.find((cmd) => cmd.name === "data");
+      const dataCommand = findCommand(capturedCtx.tool, "data");
       if (dataCommand) {
         act(() => {
-          capturedCtx.setSelectedCommand(dataCommand);
+          capturedCtx.setSelectedCommandKey(dataCommand.key);
         });
 
         await waitFor(() => {
@@ -562,17 +556,15 @@ describe("CommandTree", () => {
     it("handles command hierarchy changes correctly", async () => {
       renderWithProvider(<CommandTree />, complexToolState());
 
-      const currentCommands = capturedCtx.tool.commands;
       const newCommand: Command = {
         key: "new-test-command-id",
-        name: "new-test-command",
-        parentCommandKey: "config",
+        displayName: "new-test-command",
         description: "A new test command",
         sortOrder: 10,
       };
 
       act(() => {
-        capturedCtx.updateTool({ commands: [...currentCommands, newCommand] });
+        capturedCtx.addCommand(newCommand, "config");
       });
 
       const configTrigger = getTriggerFor("config");
@@ -585,19 +577,18 @@ describe("CommandTree", () => {
 
     it("handles rapid context changes correctly", async () => {
       renderWithProvider(<CommandTree />, complexToolState());
-      const commands = capturedCtx.tool.commands;
-      const configCommand = commands.find((cmd) => cmd.name === "config")!;
-      const dataCommand = commands.find((cmd) => cmd.name === "data")!;
-      const utilsCommand = commands.find((cmd) => cmd.name === "utils")!;
+      const configCommand = findCommand(capturedCtx.tool, "config")!;
+      const dataCommand = findCommand(capturedCtx.tool, "data")!;
+      const utilsCommand = findCommand(capturedCtx.tool, "utils")!;
 
       act(() => {
-        capturedCtx.setSelectedCommand(configCommand);
-        capturedCtx.setSelectedCommand(dataCommand);
-        capturedCtx.setSelectedCommand(utilsCommand);
+        capturedCtx.setSelectedCommandKey(configCommand.key);
+        capturedCtx.setSelectedCommandKey(dataCommand.key);
+        capturedCtx.setSelectedCommandKey(utilsCommand.key);
       });
 
       await waitFor(() => {
-        expect(capturedCtx.selectedCommand?.name).toBe("utils");
+        expect(capturedCtx.selectedCommand?.displayName).toBe("utils");
       });
 
       expect(screen.getByText("utils")).toBeInTheDocument();
@@ -607,30 +598,54 @@ describe("CommandTree", () => {
   describe("Edge Cases Tests", () => {
     it("handles deep nesting of commands", async () => {
       const complexTool = createComplexTool();
+      const parent = complexTool.commands[0];
+      const siblings = (parent.commands ?? []).filter((c) => c.key !== "config");
+
       const deepTool: Tool = {
         ...complexTool,
         commands: [
-          ...complexTool.commands,
           {
-            key: "01979f84-addd-754c-8e0a-ef8bd967d51d",
-            name: "level3",
-            parentCommandKey: "get",
-            description: "Level 3 command",
-            sortOrder: 0,
-          },
-          {
-            key: "01979f84-ade1-723b-a8c1-e442b3a14d6a",
-            name: "level4",
-            parentCommandKey: "01979f84-addd-754c-8e0a-ef8bd967d51d",
-            description: "Level 4 command",
-            sortOrder: 0,
+            ...parent,
+            commands: [
+              ...siblings,
+              {
+                key: "config",
+                displayName: "config",
+                description: "Configuration management",
+                sortOrder: 1,
+                commands: [
+                  {
+                    key: "get",
+                    displayName: "get",
+                    description: "Get configuration values",
+                    sortOrder: 0,
+                    commands: [
+                      {
+                        key: "level3",
+                        displayName: "level3",
+                        description: "Level 3 command",
+                        sortOrder: 0,
+                        commands: [
+                          {
+                            key: "level4",
+                            displayName: "level4",
+                            description: "Level 4 command",
+                            sortOrder: 0,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
           },
         ],
       };
 
       renderWithProvider(<CommandTree />, {
         tool: deepTool,
-        selectedCommand: deepTool.commands[0],
+        selectedCommandKey: deepTool.commands[0].key,
       });
 
       fireEvent.click(getChevron(getTriggerFor("config")));
@@ -651,17 +666,17 @@ describe("CommandTree", () => {
 
     it("maintains state correctly after command deletion", () => {
       const initialState = complexToolState();
-      const helpCmd = initialState.tool!.commands.find((c) => c.name === "help")!;
-      renderWithProvider(<CommandTree />, { ...initialState, selectedCommand: helpCmd });
+      const helpCmd = findCommand(initialState.tool!, "help")!;
+      renderWithProvider(<CommandTree />, { ...initialState, selectedCommandKey: helpCmd.key });
 
-      expect(capturedCtx.selectedCommand?.name).toBe("help");
+      expect(capturedCtx.selectedCommand?.displayName).toBe("help");
 
       const helpTrigger = getTriggerFor("help");
       const deleteButton = findDeleteButton(helpTrigger);
       expect(deleteButton).toBeDefined();
 
       fireEvent.click(deleteButton!);
-      expect(capturedCtx.selectedCommand?.name).toBe("my-cli-tool");
+      expect(capturedCtx.selectedCommand?.displayName).toBe("my-cli-tool");
       expect(screen.queryByText("help")).not.toBeInTheDocument();
     });
 
@@ -669,7 +684,7 @@ describe("CommandTree", () => {
       const tool = defaultTool("empty-tool", "Empty Tool");
       renderWithProvider(<CommandTree />, {
         tool,
-        selectedCommand: null,
+        selectedCommandKey: null,
       });
 
       expect(screen.getByText("empty-tool")).toBeInTheDocument();
@@ -679,7 +694,7 @@ describe("CommandTree", () => {
       const tool = defaultTool("empty-tool", "Empty Tool");
       renderWithProvider(<CommandTree />, {
         tool,
-        selectedCommand: null,
+        selectedCommandKey: null,
       });
 
       const rootTrigger = getRootTrigger();
@@ -695,35 +710,29 @@ describe("CommandTree", () => {
       expect(chevronButton).not.toBeNull();
     });
 
-    it("handles invalid command hierarchies gracefully", () => {
+    it("handles commands with empty subcommand arrays gracefully", () => {
       const complexTool = createComplexTool();
-      const brokenTool: Tool = {
+      const emptyTool: Tool = {
         ...complexTool,
         commands: [
           {
-            key: "root-id",
-            name: "root",
-            description: "Root command",
+            key: "solo",
+            displayName: "solo",
+            description: "A command with no subcommands",
             sortOrder: 0,
-          },
-          {
-            key: "orphan-id",
-            name: "orphan",
-            parentCommandKey: "non-existent-parent",
-            description: "Orphaned command",
-            sortOrder: 1,
+            commands: [],
           },
         ],
       };
 
       expect(() =>
         renderWithProvider(<CommandTree />, {
-          tool: brokenTool,
-          selectedCommand: brokenTool.commands[0],
+          tool: emptyTool,
+          selectedCommandKey: emptyTool.commands[0].key,
         }),
       ).not.toThrow();
 
-      expect(screen.getByText("root")).toBeInTheDocument();
+      expect(screen.getByText("solo")).toBeInTheDocument();
     });
 
     it("preserves expansion state when opening add command dialog", async () => {
@@ -781,16 +790,14 @@ describe("CommandTree", () => {
       renderWithProvider(<CommandTree />, complexToolState());
       expect(typeof capturedCtx.reorderCommands).toBe("function");
 
-      const rootChildren = capturedCtx.tool.commands.filter(
-        (c) => c.parentCommandKey === "my-cli-tool",
-      );
+      const rootChildren = capturedCtx.tool.commands[0].commands ?? [];
       const reversedKeys = [...rootChildren].reverse().map((c) => c.key);
 
       act(() => {
         capturedCtx.reorderCommands(reversedKeys, "my-cli-tool");
       });
 
-      const updated = capturedCtx.tool.commands.filter((c) => c.parentCommandKey === "my-cli-tool");
+      const updated = capturedCtx.tool.commands[0].commands ?? [];
       const first = updated.find((c) => c.sortOrder === 0);
       expect(first?.key).toBe(reversedKeys[0]);
     });

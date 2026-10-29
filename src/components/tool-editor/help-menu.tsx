@@ -1,13 +1,13 @@
 import { useToolBuilder } from "./tool-editor.context";
-import type { Command, Parameter, Tool } from "@/components/commandly/types/flat";
+import type { Command, ExclusionGroup, Parameter, Tool } from "@/components/commandly/types/tool";
+import { getFlagForms } from "@/components/commandly/utils/generate-command";
+import { getAllCommands, isInheritedParameter } from "@/components/commandly/utils/tool";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 const formatDescription = (description?: string) => (description?.trim() ? ` ${description}` : "");
 
 function formatFlagStr(param: Parameter): string {
-  const short = param.shortFlag ?? "";
-  const long = param.longFlag ?? "";
-  return short && long ? `${short}, ${long}` : short || long;
+  return getFlagForms(param).join(", ");
 }
 
 function formatEnumValues(param: Parameter, indent: string, pad: number): string {
@@ -53,9 +53,15 @@ function formatParamDetails(param: Parameter, indent: string, pad: number): stri
   return result;
 }
 
+const formatExclusionGroup = (group: ExclusionGroup): string => {
+  const type =
+    group.exclusionType === "mutual_exclusive" ? "Mutually exclusive" : "Required one of";
+  return `  ${group.displayName}: ${type}\n    Parameters: ${group.parameterKeys.join(", ")}\n`;
+};
+
 export function generateToolPreview(tool: Tool): string {
-  const rootCommands = tool.commands.filter((cmd) => !cmd.parentCommandKey);
-  const globalParams = tool.parameters.filter((p) => p.isGlobal);
+  const rootCommands = tool.commands;
+  const inheritedParams = tool.parameters.filter(isInheritedParameter);
 
   let preview = `${tool.displayName}${tool.info?.version ? ` v${tool.info.version}` : ""}\n`;
   preview += `${tool.info?.description ?? ""}\n\n`;
@@ -63,21 +69,21 @@ export function generateToolPreview(tool: Tool): string {
   preview += `USAGE:\n`;
   preview += `  ${tool.binaryName} [GLOBAL OPTIONS] <COMMAND> [OPTIONS] [ARGUMENTS]\n\n`;
 
-  if (globalParams.length > 0) {
-    preview += "GLOBAL OPTIONS:\n";
+  if (inheritedParams.length > 0) {
+    preview += "INHERITED OPTIONS:\n";
 
-    const globalFlags = globalParams.filter((p) => p.parameterType === "Flag");
-    const globalOptions = globalParams.filter((p) => p.parameterType === "Option");
-    const globalArguments = globalParams.filter((p) => p.parameterType === "Argument");
+    const inheritedFlags = inheritedParams.filter((p) => p.parameterType === "Flag");
+    const inheritedOptions = inheritedParams.filter((p) => p.parameterType === "Option");
+    const inheritedArguments = inheritedParams.filter((p) => p.parameterType === "Argument");
 
-    globalFlags.forEach((flag) => {
+    inheritedFlags.forEach((flag) => {
       const flagStr = formatFlagStr(flag);
       const required = flag.isRequired ? "Required: " : "";
       preview += `  ${flagStr.padEnd(20)} ${required}${flag.description ?? ""}\n`;
       preview += formatParamDetails(flag, "  ", 20);
     });
 
-    globalOptions.forEach((option) => {
+    inheritedOptions.forEach((option) => {
       const flagStr = formatFlagStr(option);
       const valueType = option.dataType === "Enum" ? `<enum>` : `<${option.dataType}>`;
       const required = option.isRequired ? "Required: " : "";
@@ -86,9 +92,9 @@ export function generateToolPreview(tool: Tool): string {
       preview += formatParamDetails(option, "  ", 20);
     });
 
-    globalArguments.forEach((arg) => {
+    inheritedArguments.forEach((arg) => {
       const required = arg.isRequired ? "Required: " : "";
-      preview += `  ${arg.name.padEnd(20)} ${required}${arg.description ?? ""}\n`;
+      preview += `  ${arg.displayName.padEnd(20)} ${required}${arg.description ?? ""}\n`;
       preview += formatParamDetails(arg, "  ", 20);
     });
 
@@ -99,11 +105,9 @@ export function generateToolPreview(tool: Tool): string {
     preview += "COMMANDS:\n";
     const printCommand = (command: Command, level = 0) => {
       const indent = "  ".repeat(level + 1);
-      preview += `${indent}${command.name.padEnd(20 - level * 2)}${formatDescription(command.description)}\n`;
+      preview += `${indent}${command.displayName.padEnd(20 - level * 2)}${formatDescription(command.description)}${command.interactive ? " (interactive)" : ""}\n`;
 
-      const commandParams = tool.parameters.filter(
-        (p) => !p.isGlobal && p.commandKey === command.key,
-      );
+      const commandParams = command.parameters ?? [];
 
       const flags = commandParams.filter((p) => p.parameterType === "Flag");
       const options = commandParams.filter((p) => p.parameterType === "Option");
@@ -135,12 +139,12 @@ export function generateToolPreview(tool: Tool): string {
         preview += `${indent}  Arguments:\n`;
         arguments_.forEach((arg) => {
           const required = arg.isRequired ? "Required: " : "";
-          preview += `${indent}    ${arg.name.padEnd(18)} ${required}${arg.description ?? ""}\n`;
+          preview += `${indent}    ${arg.displayName.padEnd(18)} ${required}${arg.description ?? ""}\n`;
           preview += formatParamDetails(arg, `${indent}    `, 18);
         });
       }
 
-      const subcommands = tool.commands.filter((cmd) => cmd.parentCommandKey === command.key);
+      const subcommands = command.commands ?? [];
       if (subcommands.length > 0) {
         preview += `${indent}  Subcommands:\n`;
         subcommands.forEach((subcmd) => {
@@ -152,13 +156,18 @@ export function generateToolPreview(tool: Tool): string {
     rootCommands.forEach((cmd) => printCommand(cmd));
   }
 
-  if (tool.exclusionGroups && tool.exclusionGroups.length > 0) {
+  if (tool.exclusionGroups?.length) {
     preview += "\nEXCLUSION GROUPS:\n";
     tool.exclusionGroups.forEach((group) => {
-      const type =
-        group.exclusionType === "mutual_exclusive" ? "Mutually exclusive" : "Required one of";
-      preview += `  ${group.name}: ${type}\n`;
-      preview += `    Parameters: ${group.parameterKeys.join(", ")}\n`;
+      preview += formatExclusionGroup(group);
+    });
+  }
+
+  for (const command of getAllCommands(tool)) {
+    if (!command.exclusionGroups?.length) continue;
+    preview += `\nEXCLUSION GROUPS (${command.displayName}):\n`;
+    command.exclusionGroups.forEach((group) => {
+      preview += formatExclusionGroup(group);
     });
   }
 

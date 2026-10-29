@@ -10,8 +10,8 @@ export const generatePrompt = (
   options?: {
     helpText?: string;
     context?: {
-      selectedCommands?: { key: string; name: string }[];
-      selectedParameters?: { key: string; name: string; longFlag?: string; shortFlag?: string }[];
+      selectedCommands?: { key: string; displayName: string }[];
+      selectedParameters?: { key: string; displayName: string; aliases?: string[] }[];
     };
   },
 ) => {
@@ -21,11 +21,11 @@ export const generatePrompt = (
   const focusedContextBlock = hasFocusedContext
     ? `\n<focused_context>\nIMPORTANT: Focus your changes EXCLUSIVELY on the items listed below. Do not modify any other commands or parameters - preserve them exactly as-is.\n${
         selectedCommands.length > 0
-          ? `Commands:\n${selectedCommands.map((c) => `  - ${c.name} (key: ${c.key})`).join("\n")}\n`
+          ? `Commands:\n${selectedCommands.map((c) => `  - ${c.displayName} (key: ${c.key})`).join("\n")}\n`
           : ""
       }${
         selectedParameters.length > 0
-          ? `Parameters:\n${selectedParameters.map((p) => `  - ${p.name}${p.longFlag ? ` (${p.longFlag})` : p.shortFlag ? ` (${p.shortFlag})` : ""} (key: ${p.key})`).join("\n")}\n`
+          ? `Parameters:\n${selectedParameters.map((p) => `  - ${p.displayName}${p.aliases?.length ? ` (${p.aliases.join(", ")})` : ""} (key: ${p.key})`).join("\n")}\n`
           : ""
       }</focused_context>\n`
     : "";
@@ -42,9 +42,9 @@ ${jsonSchema}
 </parameter_definitions>
 
 <parsing_rules>
-1. **Hierarchy Preservation:** Maintain parent→child relationships. Subcommands nest under "subcommands" arrays.
+1. **Hierarchy Preservation:** Maintain parent→child relationships. Subcommands nest under their parent command's \`commands\` array.
 2. **Exact Naming:** Keep all prefixes ('-', '--') on flags/options. Don't normalize or strip.
-3. **Aliases:** If a line lists multiple forms (e.g. \`-v, --verbose\`), split into \`aliases\`. The primary \`name\` is the first listed.
+3. **Key and Aliases:** \`key\` holds the complete flag, dashes included (\`--verbose\`, \`-list\`). Put every other form (short names and other spellings) in \`aliases\`, in the order it is written. There is no flag prefix field - write each flag exactly as the CLI spells it.
 4. **Data Types:**
    - If a parameter's help text says \`<string>\`, \`<int>\`, or \`number\`, map to \`"string"\` or \`"number"\`.
    - If \`[]\` appears (e.g. \`--items <string[]>\`), datatype is \`"array"\`.
@@ -53,22 +53,23 @@ ${jsonSchema}
 5. **Required vs Optional:**
    - If notation uses \`[]\`, mark \`required: false\`, otherwise \`true\`.
 6. **Descriptions:** Use the full sentence or phrase that follows the parameter declaration. Trim leading/trailing whitespace.
-7. **Uniqueness:** Ensure every \`key\` is unique.
+7. **Uniqueness:** Ensure every parameter \`key\` is unique among the parameters beside it - its command's, or the tool's own.
 8. **Count Check:** If the help text claims "Options: 5", ensure exactly five parameter entries.
 9. **No Extras:** Do not include any fields not in the schema or deviate from JSON (no comments, no trailing commas).
 10. IMPORTANT: There needs to be at least one command in the commands list. If parsing help text does not result in any command, then create a command with same name as tool name.
-11. **User-Friendly Names:** Name property should be user-friendly. Example: longFlag "--help" should be converted to "Help".
+11. **User-Friendly Names:** The \`displayName\` property should be user-friendly. Example: key \`--help\` should be paired with the displayName "Help".
 12. **Formatting:** Always output formatted JSON with proper indentation.
 13. **Single Command:** If there is only one command, then do not mark all parameters as global.
 14. **JSON Output:** Do NOT add backticks or any other formatting to JSON output. The output should be pure JSON without any additional formatting.
-15. **Unique IDs:** Make sure all keys are unique.
+15. **Unique IDs:** Make sure command keys are unique across the whole tool.
 16. **Sentence Case:** All descriptions should be in sentence case.
 17. Do not add empty arrays or objects for optional properties that have no values (e.g. do not include \`"validations": []\`, \`"exclusionGroups": []\`, \`"tags": []\`, \`"dependencies": []\`, or \`"enum": { "values": [] }\` unless explicitly requested or they already exist).
-18. **Command Association:** If the parameter is not global then make sure to add commandKey to the parameter object. If the parameter is global then do not add commandKey to the parameter object.
-19. **Short Flags:** If short flag is not present then do not add it to the parameter object.
+18. **Parameter Placement:** Parameters are nested inside the command that accepts them. A parameter with \`recursive: true\` is inherited by all of that command's subcommands. Parameters on the tool's own \`parameters\` array apply before a command is chosen; add \`recursive: true\` to inherit them across every command.
+19. **Aliases:** Flag and option parameters use \`key\` for the full name and \`aliases\` for short names. If a parameter has no other form, do not add an \`aliases\` field to it.
 20. Ensure all enum values are correctly parsed and included in the output JSON. Enum values must use the shape \`"enum": { "values": [...], "allowMultiple": false, "separator": "," }\` where \`allowMultiple\` and \`separator\` are optional (default false and "," respectively).
 21. Ensure all dependencies and validations are correctly parsed and included in the output JSON.
 22. Tool description and version must be nested under an \`info\` object: \`{ "info": { "description": "...", "version": "..." } }\`. Do not add top-level \`description\` or \`version\` fields.
+23. **Flag Fidelity:** Copy each flag exactly as the CLI spells it. Go/kingpin tools use a single dash for full-name flags (e.g. \`-list\`, \`-request\`); most others use \`--\`. Do not add a tool-level prefix field.
 </parsing_rules>
 
 <capabilities>
@@ -105,9 +106,9 @@ ${VALIDATION_RULES}
 - After all edits are complete and verified with \`readTool\`, call \`applyToolDefinition\` once with an overall summary of all changes. Do NOT call any other tool after \`applyToolDefinition\`.
 - For large help text pages: process in sections - break the text into logical groups and create a separate \`editTool\` patch for each section. Do not try to process everything at once.
 - If the user asks a question without requesting changes, answer in plain text without calling any tool.
-- All parameter keys must be unique. They should be meaningful and derived from the parameter name or description.
+- All parameter keys must be unique among their own command's parameters. They should be meaningful and derived from the parameter display name or description.
 - All descriptions should be in sentence case.
-- If a parameter is not global, it must have a commandKey. Global parameters must not have a commandKey.
+- Place each parameter inside the command that accepts it - a parameter's location defines its scope.
 - Do not add fields not present in the schema.
 - When parsing help text: produce the JSON via \`editTool\` patches. Each patch must be syntactically valid and conform exactly to the schema.
 </output_rules>
@@ -115,7 +116,7 @@ ${VALIDATION_RULES}
 <plan_layout>
 - Get the help text or documentation for the CLI tool that you want to parse or edit.
 - Call \`readTool\` to inspect the current tool JSON structure before making any changes. Use the \`fields\` parameter if the tool is large to read only specific sections.
-- If parsing from help text, break the text into logical sections (e.g. global parameters, subcommands, command-specific parameters) and create a separate \`editTool\` patch for each section. Always include a concise \`summary\` describing what that patch changes.
+- If parsing from help text, break the text into logical sections (e.g. the tool's own flags, subcommands, per-command flags) and create a separate \`editTool\` patch for each section. Always include a concise \`summary\` describing what that patch changes.
 - When modifying an existing tool, make sure to preserve all other fields, keys, and structure exactly as-is in your patches. Only include the fields that changed.
 - After applying each \`editTool\` patch, call \`readTool\` again to verify that the changes were applied correctly and that no unintended modifications were made.
 - Once all edits are complete and verified, call \`applyToolDefinition\` once with an overall summary of all changes to present them to the user for approval.

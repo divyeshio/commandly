@@ -1,68 +1,69 @@
 {
-  "$schema": "https://commandly.divyeshio.in/specification/flat.json",
+  "$schema": "https://commandly.divyeshio.in/specification/tool.json",
   "binaryName": "nuclei",
   "displayName": "Nuclei",
   "info": {
     "description": "Nuclei is a fast, template based vulnerability scanner focusing on extensive configurability, massive extensibility and ease of use.",
-    "version": "3.7.1",
+    "version": "3.11.1",
     "url": "https://github.com/projectdiscovery/nuclei"
   },
   "commands": [],
   "parameters": [
     {
-      "name": "Target",
+      "displayName": "Target",
       "description": "Target URLs/hosts to scan.",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-u",
-      "longFlag": "-target",
-      "key": "target"
+      "key": "-target",
+      "aliases": [
+        "-u"
+      ]
     },
     {
-      "name": "List",
+      "displayName": "List",
       "description": "Path to file containing a list of target URLs/hosts to scan (one per line).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-l",
-      "longFlag": "-list",
-      "key": "list"
+      "key": "-list",
+      "aliases": [
+        "-l"
+      ]
     },
     {
-      "name": "Exclude Hosts",
+      "displayName": "Exclude Hosts",
       "description": "Hosts to exclude to scan from the input list (ip, cidr, hostname).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-eh",
-      "longFlag": "-exclude-hosts",
-      "key": "exclude-hosts"
+      "key": "-exclude-hosts",
+      "aliases": [
+        "-eh"
+      ]
     },
     {
-      "name": "Resume",
+      "displayName": "Resume",
       "description": "Resume scan using resume.cfg (clustering will be disabled).",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "-resume",
-      "key": "resume"
+      "key": "-resume"
     },
     {
-      "name": "Scan All IPs",
+      "displayName": "Scan All IPs",
       "description": "Scan all the IP's associated with dns record.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-sa",
-      "longFlag": "-scan-all-ips",
-      "key": "scan-all-ips"
+      "key": "-scan-all-ips",
+      "aliases": [
+        "-sa"
+      ]
     },
     {
-      "name": "IP Version",
+      "displayName": "IP Version",
       "description": "IP version to scan of hostname (4,6) - (default 4).",
       "parameterType": "Option",
       "dataType": "Enum",
       "isRepeatable": true,
-      "shortFlag": "-iv",
-      "longFlag": "-ip-version",
       "enum": {
         "values": [
           {
@@ -81,15 +82,16 @@
           }
         ]
       },
-      "key": "ip-version"
+      "key": "-ip-version",
+      "aliases": [
+        "-iv"
+      ]
     },
     {
-      "name": "Input Mode",
+      "displayName": "Input Mode",
       "description": "Mode of input file (list, burp, jsonl, yaml, openapi, swagger) (default \"list\").",
       "parameterType": "Option",
       "dataType": "Enum",
-      "shortFlag": "-im",
-      "longFlag": "-input-mode",
       "enum": {
         "values": [
           {
@@ -136,293 +138,310 @@
           }
         ]
       },
-      "key": "input-mode"
+      "key": "-input-mode",
+      "aliases": [
+        "-im"
+      ]
     },
     {
-      "name": "Required Only",
+      "displayName": "Required Only",
       "description": "Use only required fields in input format when generating requests.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-ro",
-      "longFlag": "-required-only",
-      "key": "required-only"
+      "key": "-required-only",
+      "aliases": [
+        "-ro"
+      ]
     },
     {
-      "name": "Skip Format Validation",
+      "displayName": "Skip Format Validation",
       "description": "Skip format validation (like missing vars) when parsing input file.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-sfv",
-      "longFlag": "-skip-format-validation",
-      "key": "skip-format-validation"
+      "key": "-skip-format-validation",
+      "aliases": [
+        "-sfv"
+      ]
     },
     {
-      "name": "New Templates",
+      "displayName": "New Templates",
       "description": "Run only new templates added in latest nuclei-templates release.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-nt",
-      "longFlag": "-new-templates",
-      "key": "new-templates"
+      "key": "-new-templates",
+      "aliases": [
+        "-nt"
+      ]
     },
     {
-      "name": "New Templates Version",
+      "displayName": "New Templates Version",
       "description": "Run new templates added in specific version.",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-ntv",
-      "longFlag": "-new-templates-version",
-      "key": "new-templates-version"
+      "key": "-new-templates-version",
+      "aliases": [
+        "-ntv"
+      ]
     },
     {
-      "name": "Automatic Scan",
+      "displayName": "Automatic Scan",
       "description": "Automatic web scan using wappalyzer technology detection to tags mapping.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-as",
-      "longFlag": "-automatic-scan",
-      "key": "automatic-scan"
+      "key": "-automatic-scan",
+      "aliases": [
+        "-as"
+      ]
     },
     {
-      "name": "Templates",
+      "displayName": "Templates",
       "description": "List of template or template directory to run (comma-separated, file).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-t",
-      "longFlag": "-templates",
-      "key": "templates"
+      "key": "-templates",
+      "aliases": [
+        "-t"
+      ]
     },
     {
-      "name": "Template URL",
+      "displayName": "Template URL",
       "description": "Template url or list containing template urls to run (comma-separated, file).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-turl",
-      "longFlag": "-template-url",
-      "key": "template-url"
+      "key": "-template-url",
+      "aliases": [
+        "-turl"
+      ]
     },
     {
-      "name": "Prompt",
+      "displayName": "Prompt",
       "description": "Generate and run template using ai prompt.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-ai",
-      "longFlag": "-prompt",
-      "key": "prompt"
+      "key": "-prompt",
+      "aliases": [
+        "-ai"
+      ]
     },
     {
-      "name": "Workflows",
+      "displayName": "Workflows",
       "description": "List of workflow or workflow directory to run (comma-separated, file).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-w",
-      "longFlag": "-workflows",
-      "key": "workflows"
+      "key": "-workflows",
+      "aliases": [
+        "-w"
+      ]
     },
     {
-      "name": "Workflow URL",
+      "displayName": "Workflow URL",
       "description": "Workflow url or list containing workflow urls to run (comma-separated, file).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-wurl",
-      "longFlag": "-workflow-url",
-      "key": "workflow-url"
+      "key": "-workflow-url",
+      "aliases": [
+        "-wurl"
+      ]
     },
     {
-      "name": "Validate",
+      "displayName": "Validate",
       "description": "Validate the passed templates to nuclei.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-validate",
-      "key": "validate"
+      "key": "-validate"
     },
     {
-      "name": "No Strict Syntax",
+      "displayName": "No Strict Syntax",
       "description": "Disable strict syntax check on templates.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-nss",
-      "longFlag": "-no-strict-syntax",
-      "key": "no-strict-syntax"
+      "key": "-no-strict-syntax",
+      "aliases": [
+        "-nss"
+      ]
     },
     {
-      "name": "Template Display",
+      "displayName": "Template Display",
       "description": "Displays the templates content.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-td",
-      "longFlag": "-template-display",
-      "key": "template-display"
+      "key": "-template-display",
+      "aliases": [
+        "-td"
+      ]
     },
     {
-      "name": "List Templates",
+      "displayName": "List Templates",
       "description": "List all available templates.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-tl",
-      "key": "list-templates"
+      "key": "-tl"
     },
     {
-      "name": "List Tags",
+      "displayName": "List Tags",
       "description": "List all available tags.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-tgl",
-      "key": "list-tags"
+      "key": "-tgl"
     },
     {
-      "name": "Sign",
+      "displayName": "Sign",
       "description": "Signs the templates with the private key defined in NUCLEI_SIGNATURE_PRIVATE_KEY env variable.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-sign",
-      "key": "sign"
+      "key": "-sign"
     },
     {
-      "name": "Code",
+      "displayName": "Code",
       "description": "Enable loading code protocol-based templates.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-code",
-      "key": "code"
+      "key": "-code"
     },
     {
-      "name": "Disable Unsigned Templates",
+      "displayName": "Disable Unsigned Templates",
       "description": "Disable running unsigned templates or templates with mismatched signature.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-dut",
-      "longFlag": "-disable-unsigned-templates",
-      "key": "disable-unsigned-templates"
+      "key": "-disable-unsigned-templates",
+      "aliases": [
+        "-dut"
+      ]
     },
     {
-      "name": "Enable Self Contained",
+      "displayName": "Enable Self Contained",
       "description": "Enable loading self-contained templates.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-esc",
-      "longFlag": "-enable-self-contained",
-      "key": "enable-self-contained"
+      "key": "-enable-self-contained",
+      "aliases": [
+        "-esc"
+      ]
     },
     {
-      "name": "Enable Global Matchers",
+      "displayName": "Enable Global Matchers",
       "description": "Enable loading global matchers templates.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-egm",
-      "longFlag": "-enable-global-matchers",
-      "key": "enable-global-matchers"
+      "key": "-enable-global-matchers",
+      "aliases": [
+        "-egm"
+      ]
     },
     {
-      "name": "File",
+      "displayName": "File",
       "description": "Enable loading file templates.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-file",
-      "key": "file"
+      "key": "-file"
     },
     {
-      "name": "Author",
+      "displayName": "Author",
       "description": "Templates to run based on authors (comma-separated, file).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-a",
-      "longFlag": "-author",
-      "key": "author"
+      "key": "-author",
+      "aliases": [
+        "-a"
+      ]
     },
     {
-      "name": "Tags",
+      "displayName": "Tags",
       "description": "Templates to run based on tags (comma-separated, file).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "longFlag": "-tags",
-      "key": "tags"
+      "key": "-tags"
     },
     {
-      "name": "Exclude Tags",
+      "displayName": "Exclude Tags",
       "description": "Templates to exclude based on tags (comma-separated, file).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-etags",
-      "longFlag": "-exclude-tags",
-      "key": "exclude-tags"
+      "key": "-exclude-tags",
+      "aliases": [
+        "-etags"
+      ]
     },
     {
-      "name": "Include Tags",
+      "displayName": "Include Tags",
       "description": "Tags to be executed even if they are excluded either by default or configuration.",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-itags",
-      "longFlag": "-include-tags",
-      "key": "include-tags"
+      "key": "-include-tags",
+      "aliases": [
+        "-itags"
+      ]
     },
     {
-      "name": "Template ID",
+      "displayName": "Template ID",
       "description": "Templates to run based on template ids (comma-separated, file, allow-wildcard).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-id",
-      "longFlag": "-template-id",
-      "key": "template-id"
+      "key": "-template-id",
+      "aliases": [
+        "-id"
+      ]
     },
     {
-      "name": "Exclude Id",
+      "displayName": "Exclude Id",
       "description": "Templates to exclude based on template ids (comma-separated, file).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-eid",
-      "longFlag": "-exclude-id",
-      "key": "exclude-id"
+      "key": "-exclude-id",
+      "aliases": [
+        "-eid"
+      ]
     },
     {
-      "name": "Include Templates",
+      "displayName": "Include Templates",
       "description": "Path to template file or directory to be executed even if they are excluded either by default or configuration.",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-it",
-      "longFlag": "-include-templates",
-      "key": "include-templates"
+      "key": "-include-templates",
+      "aliases": [
+        "-it"
+      ]
     },
     {
-      "name": "Exclude Templates",
+      "displayName": "Exclude Templates",
       "description": "Path to template file or directory to exclude (comma-separated, file).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-et",
-      "longFlag": "-exclude-templates",
-      "key": "exclude-templates"
+      "key": "-exclude-templates",
+      "aliases": [
+        "-et"
+      ]
     },
     {
-      "name": "Exclude Matchers",
+      "displayName": "Exclude Matchers",
       "description": "Template matchers to exclude in result.",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-em",
-      "longFlag": "-exclude-matchers",
-      "key": "exclude-matchers"
+      "key": "-exclude-matchers",
+      "aliases": [
+        "-em"
+      ]
     },
     {
-      "name": "Severity",
+      "displayName": "Severity",
       "description": "Templates to run based on severity.",
       "parameterType": "Option",
       "dataType": "Enum",
       "isRepeatable": true,
-      "shortFlag": "-s",
-      "longFlag": "-severity",
       "enum": {
         "values": [
           {
@@ -469,16 +488,17 @@
           }
         ]
       },
-      "key": "severity"
+      "key": "-severity",
+      "aliases": [
+        "-s"
+      ]
     },
     {
-      "name": "Exclude Severity",
+      "displayName": "Exclude Severity",
       "description": "Templates to exclude based on severity.",
       "parameterType": "Option",
       "dataType": "Enum",
       "isRepeatable": true,
-      "shortFlag": "-es",
-      "longFlag": "-exclude-severity",
       "enum": {
         "values": [
           {
@@ -525,16 +545,17 @@
           }
         ]
       },
-      "key": "exclude-severity"
+      "key": "-exclude-severity",
+      "aliases": [
+        "-es"
+      ]
     },
     {
-      "name": "Type",
+      "displayName": "Type",
       "description": "Templates to run based on protocol type.",
       "parameterType": "Option",
       "dataType": "Enum",
       "isRepeatable": true,
-      "shortFlag": "-pt",
-      "longFlag": "-type",
       "enum": {
         "values": [
           {
@@ -616,16 +637,17 @@
           }
         ]
       },
-      "key": "type"
+      "key": "-type",
+      "aliases": [
+        "-pt"
+      ]
     },
     {
-      "name": "Exclude Type",
+      "displayName": "Exclude Type",
       "description": "Templates to exclude based on protocol type.",
       "parameterType": "Option",
       "dataType": "Enum",
       "isRepeatable": true,
-      "shortFlag": "-ept",
-      "longFlag": "-exclude-type",
       "enum": {
         "values": [
           {
@@ -707,418 +729,454 @@
           }
         ]
       },
-      "key": "exclude-type"
+      "key": "-exclude-type",
+      "aliases": [
+        "-ept"
+      ]
     },
     {
-      "name": "Template Condition",
+      "displayName": "Template Condition",
       "description": "Templates to run based on expression condition.",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-tc",
-      "longFlag": "-template-condition",
-      "key": "template-condition"
+      "key": "-template-condition",
+      "aliases": [
+        "-tc"
+      ]
     },
     {
-      "name": "Output",
+      "displayName": "Output",
       "description": "Output file to write found issues/vulnerabilities.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-o",
-      "longFlag": "-output",
-      "key": "output"
+      "key": "-output",
+      "aliases": [
+        "-o"
+      ]
     },
     {
-      "name": "Store Response",
+      "displayName": "Store Response",
       "description": "Store all request/response passed through nuclei to output directory.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-sresp",
-      "longFlag": "-store-resp",
-      "key": "store-resp"
+      "key": "-store-resp",
+      "aliases": [
+        "-sresp"
+      ]
     },
     {
-      "name": "Store Response Dir",
+      "displayName": "Store Response Dir",
       "description": "Store all request/response passed through nuclei to custom directory (default \"output\").",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-srd",
-      "longFlag": "-store-resp-dir",
-      "key": "store-resp-dir"
+      "key": "-store-resp-dir",
+      "aliases": [
+        "-srd"
+      ]
     },
     {
-      "name": "Silent",
+      "displayName": "Silent",
       "description": "Display findings only.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-silent",
-      "key": "silent"
+      "key": "-silent"
     },
     {
-      "name": "No Color",
+      "displayName": "No Color",
       "description": "Disable output content coloring (ANSI escape codes).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-nc",
-      "longFlag": "-no-color",
-      "key": "no-color"
+      "key": "-no-color",
+      "aliases": [
+        "-nc"
+      ]
     },
     {
-      "name": "JSONL",
+      "displayName": "JSONL",
       "description": "Write output in JSONL(ines) format.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-j",
-      "longFlag": "-jsonl",
-      "key": "jsonl"
+      "key": "-jsonl",
+      "aliases": [
+        "-j"
+      ]
     },
     {
-      "name": "Include RR",
+      "displayName": "Include RR",
       "description": "Include request/response pairs in the JSON, JSONL, and Markdown outputs (for findings only) [deprecated use -omit-raw] (default true).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-irr",
-      "longFlag": "-include-rr",
-      "key": "include-rr"
+      "key": "-include-rr",
+      "aliases": [
+        "-irr"
+      ]
     },
     {
-      "name": "Omit Raw",
+      "displayName": "Omit Raw",
       "description": "Omit request/response pairs in the JSON, JSONL, and Markdown outputs (for findings only).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-or",
-      "longFlag": "-omit-raw",
-      "key": "omit-raw"
+      "key": "-omit-raw",
+      "aliases": [
+        "-or"
+      ]
     },
     {
-      "name": "Omit Template",
+      "displayName": "Omit Template",
       "description": "Omit encoded template in the JSON, JSONL output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-ot",
-      "longFlag": "-omit-template",
-      "key": "omit-template"
+      "key": "-omit-template",
+      "aliases": [
+        "-ot"
+      ]
     },
     {
-      "name": "No Meta",
+      "displayName": "No Meta",
       "description": "Disable printing result metadata in cli output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-nm",
-      "longFlag": "-no-meta",
-      "key": "no-meta"
+      "key": "-no-meta",
+      "aliases": [
+        "-nm"
+      ]
     },
     {
-      "name": "Timestamp",
+      "displayName": "Timestamp",
       "description": "Enables printing timestamp in cli output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-ts",
-      "longFlag": "-timestamp",
-      "key": "timestamp"
+      "key": "-timestamp",
+      "aliases": [
+        "-ts"
+      ]
     },
     {
-      "name": "Report DB",
+      "displayName": "Report DB",
       "description": "Nuclei reporting database (always use this to persist report data).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-rdb",
-      "longFlag": "-report-db",
-      "key": "report-db"
+      "key": "-report-db",
+      "aliases": [
+        "-rdb"
+      ]
     },
     {
-      "name": "Matcher Status",
+      "displayName": "Matcher Status",
       "description": "Display match failure status.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-ms",
-      "longFlag": "-matcher-status",
-      "key": "matcher-status"
+      "key": "-matcher-status",
+      "aliases": [
+        "-ms"
+      ]
     },
     {
-      "name": "Markdown Export",
+      "displayName": "Markdown Export",
       "description": "Directory to export results in markdown format.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-me",
-      "longFlag": "-markdown-export",
-      "key": "markdown-export"
+      "key": "-markdown-export",
+      "aliases": [
+        "-me"
+      ]
     },
     {
-      "name": "Sarif Export",
+      "displayName": "Sarif Export",
       "description": "File to export results in SARIF format.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-se",
-      "longFlag": "-sarif-export",
-      "key": "sarif-export"
+      "key": "-sarif-export",
+      "aliases": [
+        "-se"
+      ]
     },
     {
-      "name": "JSON Export",
+      "displayName": "JSON Export",
       "description": "File to export results in JSON format.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-je",
-      "longFlag": "-json-export",
-      "key": "json-export"
+      "key": "-json-export",
+      "aliases": [
+        "-je"
+      ]
     },
     {
-      "name": "JSONL Export",
+      "displayName": "JSONL Export",
       "description": "File to export results in JSONL(ine) format.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-jle",
-      "longFlag": "-jsonl-export",
-      "key": "jsonl-export"
+      "key": "-jsonl-export",
+      "aliases": [
+        "-jle"
+      ]
     },
     {
-      "name": "Redact",
+      "displayName": "Redact",
       "description": "Redact given list of keys from query parameter, request header and body.",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-rd",
-      "longFlag": "-redact",
-      "key": "redact"
+      "key": "-redact",
+      "aliases": [
+        "-rd"
+      ]
     },
     {
-      "name": "Config",
+      "displayName": "Config",
       "description": "Path to the nuclei configuration file.",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "-config",
-      "key": "config"
+      "key": "-config"
     },
     {
-      "name": "Profile",
+      "displayName": "Profile",
       "description": "Template profile config file to run.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-tp",
-      "longFlag": "-profile",
-      "key": "profile"
+      "key": "-profile",
+      "aliases": [
+        "-tp"
+      ]
     },
     {
-      "name": "Profile List",
+      "displayName": "Profile List",
       "description": "List community template profiles.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-tpl",
-      "longFlag": "-profile-list",
-      "key": "profile-list"
+      "key": "-profile-list",
+      "aliases": [
+        "-tpl"
+      ]
     },
     {
-      "name": "Follow Redirects",
+      "displayName": "Follow Redirects",
       "description": "Enable following redirects for http templates.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-fr",
-      "longFlag": "-follow-redirects",
-      "key": "follow-redirects"
+      "key": "-follow-redirects",
+      "aliases": [
+        "-fr"
+      ]
     },
     {
-      "name": "Follow Host Redirects",
+      "displayName": "Follow Host Redirects",
       "description": "Follow redirects on the same host.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-fhr",
-      "longFlag": "-follow-host-redirects",
-      "key": "follow-host-redirects"
+      "key": "-follow-host-redirects",
+      "aliases": [
+        "-fhr"
+      ]
     },
     {
-      "name": "Max Redirects",
+      "displayName": "Max Redirects",
       "description": "Max number of redirects to follow for http templates (default 10).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-mr",
-      "longFlag": "-max-redirects",
-      "key": "max-redirects"
+      "key": "-max-redirects",
+      "aliases": [
+        "-mr"
+      ]
     },
     {
-      "name": "Disable Redirects",
+      "displayName": "Disable Redirects",
       "description": "Disable redirects for http templates.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-dr",
-      "longFlag": "-disable-redirects",
-      "key": "disable-redirects"
+      "key": "-disable-redirects",
+      "aliases": [
+        "-dr"
+      ]
     },
     {
-      "name": "Report Config",
+      "displayName": "Report Config",
       "description": "Nuclei reporting module configuration file.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-rc",
-      "longFlag": "-report-config",
-      "key": "report-config"
+      "key": "-report-config",
+      "aliases": [
+        "-rc"
+      ]
     },
     {
-      "name": "Header",
+      "displayName": "Header",
       "description": "Custom header/cookie to include in all http request in header:value format (cli, file).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-H",
-      "longFlag": "-header",
-      "key": "header"
+      "key": "-header",
+      "aliases": [
+        "-H"
+      ]
     },
     {
-      "name": "Var",
+      "displayName": "Var",
       "description": "Custom vars in key=value format.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-V",
-      "longFlag": "-var",
-      "key": "var"
+      "key": "-var",
+      "aliases": [
+        "-V"
+      ]
     },
     {
-      "name": "Resolvers",
+      "displayName": "Resolvers",
       "description": "File containing resolver list for nuclei.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-r",
-      "longFlag": "-resolvers",
-      "key": "resolvers"
+      "key": "-resolvers",
+      "aliases": [
+        "-r"
+      ]
     },
     {
-      "name": "System Resolvers",
+      "displayName": "System Resolvers",
       "description": "Use system DNS resolving as error fallback.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-sr",
-      "longFlag": "-system-resolvers",
-      "key": "system-resolvers"
+      "key": "-system-resolvers",
+      "aliases": [
+        "-sr"
+      ]
     },
     {
-      "name": "Disable Clustering",
+      "displayName": "Disable Clustering",
       "description": "Disable clustering of requests.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-dc",
-      "longFlag": "-disable-clustering",
-      "key": "disable-clustering"
+      "key": "-disable-clustering",
+      "aliases": [
+        "-dc"
+      ]
     },
     {
-      "name": "Passive",
+      "displayName": "Passive",
       "description": "Enable passive HTTP response processing mode.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-passive",
-      "key": "passive"
+      "key": "-passive"
     },
     {
-      "name": "Force HTTP/2",
+      "displayName": "Force HTTP/2",
       "description": "Force http2 connection on requests.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-fh2",
-      "longFlag": "-force-http2",
-      "key": "force-http2"
+      "key": "-force-http2",
+      "aliases": [
+        "-fh2"
+      ]
     },
     {
-      "name": "Env Vars",
+      "displayName": "Env Vars",
       "description": "Enable environment variables to be used in template.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-ev",
-      "longFlag": "-env-vars",
-      "key": "env-vars"
+      "key": "-env-vars",
+      "aliases": [
+        "-ev"
+      ]
     },
     {
-      "name": "Client Cert",
+      "displayName": "Client Cert",
       "description": "Client certificate file (PEM-encoded) used for authenticating against scanned hosts.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-cc",
-      "longFlag": "-client-cert",
-      "key": "client-cert"
+      "key": "-client-cert",
+      "aliases": [
+        "-cc"
+      ]
     },
     {
-      "name": "Client Key",
+      "displayName": "Client Key",
       "description": "Client key file (PEM-encoded) used for authenticating against scanned hosts.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-ck",
-      "longFlag": "-client-key",
-      "key": "client-key"
+      "key": "-client-key",
+      "aliases": [
+        "-ck"
+      ]
     },
     {
-      "name": "Client CA",
+      "displayName": "Client CA",
       "description": "Client certificate authority file (PEM-encoded) used for authenticating against scanned hosts.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-ca",
-      "longFlag": "-client-ca",
-      "key": "client-ca"
+      "key": "-client-ca",
+      "aliases": [
+        "-ca"
+      ]
     },
     {
-      "name": "Show Match Line",
+      "displayName": "Show Match Line",
       "description": "Show match lines for file templates, works with extractors only.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-sml",
-      "longFlag": "-show-match-line",
-      "key": "show-match-line"
+      "key": "-show-match-line",
+      "aliases": [
+        "-sml"
+      ]
     },
     {
-      "name": "Ztls",
+      "displayName": "Ztls",
       "description": "Use ztls library with autofallback to standard one for tls13 [deprecated] autofallback to ztls is enabled by default.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-ztls",
-      "key": "ztls"
+      "key": "-ztls"
     },
     {
-      "name": "Sni",
+      "displayName": "Sni",
       "description": "Tls sni hostname to use (default: input domain name).",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "-sni",
-      "key": "sni"
+      "key": "-sni"
     },
     {
-      "name": "Dialer Keep Alive",
+      "displayName": "Dialer Keep Alive",
       "description": "Keep-alive duration for network requests.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-dka",
-      "longFlag": "-dialer-keep-alive",
-      "key": "dialer-keep-alive"
+      "key": "-dialer-keep-alive",
+      "aliases": [
+        "-dka"
+      ]
     },
     {
-      "name": "Allow Local File Access",
+      "displayName": "Allow Local File Access",
       "description": "Allows file (payload) access anywhere on the system.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-lfa",
-      "longFlag": "-allow-local-file-access",
-      "key": "allow-local-file-access"
+      "key": "-allow-local-file-access",
+      "aliases": [
+        "-lfa"
+      ]
     },
     {
-      "name": "Restrict Local Network Access",
+      "displayName": "Restrict Local Network Access",
       "description": "Blocks connections to the local / private network.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-lna",
-      "longFlag": "-restrict-local-network-access",
-      "key": "restrict-local-network-access"
+      "key": "-restrict-local-network-access",
+      "aliases": [
+        "-lna"
+      ]
     },
     {
-      "name": "Interface",
+      "displayName": "Interface",
       "description": "Network interface to use for network scan.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-i",
-      "longFlag": "-interface",
-      "key": "interface"
+      "key": "-interface",
+      "aliases": [
+        "-i"
+      ]
     },
     {
-      "name": "Attack Type",
+      "displayName": "Attack Type",
       "description": "Type of payload combinations to perform (batteringram,pitchfork,clusterbomb).",
       "parameterType": "Option",
       "dataType": "Enum",
-      "shortFlag": "-at",
-      "longFlag": "-attack-type",
       "enum": {
         "values": [
           {
@@ -1144,127 +1202,131 @@
           }
         ]
       },
-      "key": "attack-type"
+      "key": "-attack-type",
+      "aliases": [
+        "-at"
+      ]
     },
     {
-      "name": "Source IP",
+      "displayName": "Source IP",
       "description": "Source ip address to use for network scan.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-sip",
-      "longFlag": "-source-ip",
-      "key": "source-ip"
+      "key": "-source-ip",
+      "aliases": [
+        "-sip"
+      ]
     },
     {
-      "name": "Response Size Read",
+      "displayName": "Response Size Read",
       "description": "Max response size to read in bytes.",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-rsr",
-      "longFlag": "-response-size-read",
-      "key": "response-size-read"
+      "key": "-response-size-read",
+      "aliases": [
+        "-rsr"
+      ]
     },
     {
-      "name": "Response Size Save",
+      "displayName": "Response Size Save",
       "description": "Max response size to read in bytes (default 1048576).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-rss",
-      "longFlag": "-response-size-save",
-      "key": "response-size-save"
+      "key": "-response-size-save",
+      "aliases": [
+        "-rss"
+      ]
     },
     {
-      "name": "Reset",
+      "displayName": "Reset",
       "description": "Reset removes all nuclei configuration and data files (including nuclei-templates).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-reset",
-      "key": "reset"
+      "key": "-reset"
     },
     {
-      "name": "TLS Impersonate",
+      "displayName": "TLS Impersonate",
       "description": "Enable experimental client hello (ja3) tls randomization.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-tlsi",
-      "longFlag": "-tls-impersonate",
-      "key": "tls-impersonate"
+      "key": "-tls-impersonate",
+      "aliases": [
+        "-tlsi"
+      ]
     },
     {
-      "name": "HTTP API Endpoint",
+      "displayName": "HTTP API Endpoint",
       "description": "Experimental http api endpoint.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-hae",
-      "longFlag": "-http-api-endpoint",
-      "key": "http-api-endpoint"
+      "key": "-http-api-endpoint",
+      "aliases": [
+        "-hae"
+      ]
     },
     {
-      "name": "Interactsh Server",
+      "displayName": "Interactsh Server",
       "description": "Interactsh server url for self-hosted instance (default: oast.pro,oast.live,oast.site,oast.online,oast.fun,oast.me).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-iserver",
-      "longFlag": "-interactsh-server",
-      "key": "interactsh-server"
+      "key": "-interactsh-server",
+      "aliases": [
+        "-iserver"
+      ]
     },
     {
-      "name": "Interactsh Token",
+      "displayName": "Interactsh Token",
       "description": "Authentication token for self-hosted interactsh server.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-itoken",
-      "longFlag": "-interactsh-token",
-      "key": "interactsh-token"
+      "key": "-interactsh-token",
+      "aliases": [
+        "-itoken"
+      ]
     },
     {
-      "name": "Interactions Cache Size",
+      "displayName": "Interactions Cache Size",
       "description": "Number of requests to keep in the interactions cache (default 5000).",
       "parameterType": "Option",
       "dataType": "Number",
-      "longFlag": "-interactions-cache-size",
-      "key": "interactions-cache-size"
+      "key": "-interactions-cache-size"
     },
     {
-      "name": "Interactions Eviction",
+      "displayName": "Interactions Eviction",
       "description": "Number of seconds to wait before evicting requests from cache (default 60).",
       "parameterType": "Option",
       "dataType": "Number",
-      "longFlag": "-interactions-eviction",
-      "key": "interactions-eviction"
+      "key": "-interactions-eviction"
     },
     {
-      "name": "Interactions Poll Duration",
+      "displayName": "Interactions Poll Duration",
       "description": "Number of seconds to wait before each interaction poll request (default 5).",
       "parameterType": "Option",
       "dataType": "Number",
-      "longFlag": "-interactions-poll-duration",
-      "key": "interactions-poll-duration"
+      "key": "-interactions-poll-duration"
     },
     {
-      "name": "Interactions Cooldown Period",
+      "displayName": "Interactions Cooldown Period",
       "description": "Extra time for interaction polling before exiting (default 5).",
       "parameterType": "Option",
       "dataType": "Number",
-      "longFlag": "-interactions-cooldown-period",
-      "key": "interactions-cooldown-period"
+      "key": "-interactions-cooldown-period"
     },
     {
-      "name": "No Interactsh",
+      "displayName": "No Interactsh",
       "description": "Disable interactsh server for OAST testing, exclude OAST based templates.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-ni",
-      "longFlag": "-no-interactsh",
-      "key": "no-interactsh"
+      "key": "-no-interactsh",
+      "aliases": [
+        "-ni"
+      ]
     },
     {
-      "name": "Fuzzing Type",
+      "displayName": "Fuzzing Type",
       "description": "Overrides fuzzing type set in template (replace, prefix, postfix, infix).",
       "parameterType": "Option",
       "dataType": "Enum",
-      "shortFlag": "-ft",
-      "longFlag": "-fuzzing-type",
       "enum": {
         "values": [
           {
@@ -1297,15 +1359,16 @@
           }
         ]
       },
-      "key": "fuzzing-type"
+      "key": "-fuzzing-type",
+      "aliases": [
+        "-ft"
+      ]
     },
     {
-      "name": "Fuzzing Mode",
+      "displayName": "Fuzzing Mode",
       "description": "Overrides fuzzing mode set in template (multiple, single).",
       "parameterType": "Option",
       "dataType": "Enum",
-      "shortFlag": "-fm",
-      "longFlag": "-fuzzing-mode",
       "enum": {
         "values": [
           {
@@ -1324,83 +1387,87 @@
           }
         ]
       },
-      "key": "fuzzing-mode"
+      "key": "-fuzzing-mode",
+      "aliases": [
+        "-fm"
+      ]
     },
     {
-      "name": "Fuzz",
+      "displayName": "Fuzz",
       "description": "Enable loading fuzzing templates (deprecated: use -dast instead).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-fuzz",
-      "key": "fuzz"
+      "key": "-fuzz"
     },
     {
-      "name": "DAST",
+      "displayName": "DAST",
       "description": "Enable / run dast (fuzz) nuclei templates.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-dast",
-      "key": "dast"
+      "key": "-dast"
     },
     {
-      "name": "DAST Server",
+      "displayName": "DAST Server",
       "description": "Enable dast server mode (live fuzzing).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-dts",
-      "longFlag": "-dast-server",
-      "key": "dast-server"
+      "key": "-dast-server",
+      "aliases": [
+        "-dts"
+      ]
     },
     {
-      "name": "DAST Report",
+      "displayName": "DAST Report",
       "description": "Write dast scan report to file.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-dtr",
-      "longFlag": "-dast-report",
-      "key": "dast-report"
+      "key": "-dast-report",
+      "aliases": [
+        "-dtr"
+      ]
     },
     {
-      "name": "DAST Server Token",
+      "displayName": "DAST Server Token",
       "description": "Dast server token (optional).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-dtst",
-      "longFlag": "-dast-server-token",
-      "key": "dast-server-token"
+      "key": "-dast-server-token",
+      "aliases": [
+        "-dtst"
+      ]
     },
     {
-      "name": "DAST Server Address",
+      "displayName": "DAST Server Address",
       "description": "Dast server address (default \"localhost:9055\").",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-dtsa",
-      "longFlag": "-dast-server-address",
-      "key": "dast-server-address"
+      "key": "-dast-server-address",
+      "aliases": [
+        "-dtsa"
+      ]
     },
     {
-      "name": "Display Fuzz Points",
+      "displayName": "Display Fuzz Points",
       "description": "Display fuzz points in the output for debugging.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-dfp",
-      "key": "display-fuzz-points"
+      "key": "-display-fuzz-points",
+      "aliases": [
+        "-dfp"
+      ]
     },
     {
-      "name": "Fuzz Param Frequency",
+      "displayName": "Fuzz Param Frequency",
       "description": "Frequency of uninteresting parameters for fuzzing before skipping (default 10).",
       "parameterType": "Option",
       "dataType": "Number",
-      "longFlag": "-fuzz-param-frequency",
-      "key": "fuzz-param-frequency"
+      "key": "-fuzz-param-frequency"
     },
     {
-      "name": "Fuzz Aggression",
+      "displayName": "Fuzz Aggression",
       "description": "Fuzzing aggression level controls payload count for fuzz (low, medium, high) (default \"low\").",
       "parameterType": "Option",
       "dataType": "Enum",
-      "shortFlag": "-fa",
-      "longFlag": "-fuzz-aggression",
       "enum": {
         "values": [
           {
@@ -1426,266 +1493,286 @@
           }
         ]
       },
-      "key": "fuzz-aggression"
+      "key": "-fuzz-aggression",
+      "aliases": [
+        "-fa"
+      ]
     },
     {
-      "name": "Fuzz Scope",
+      "displayName": "Fuzz Scope",
       "description": "In scope url regex to be followed by fuzzer.",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-cs",
-      "longFlag": "-fuzz-scope",
-      "key": "fuzz-scope"
+      "key": "-fuzz-scope",
+      "aliases": [
+        "-cs"
+      ]
     },
     {
-      "name": "Fuzz Out Scope",
+      "displayName": "Fuzz Out Scope",
       "description": "Out of scope url regex to be excluded by fuzzer.",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-cos",
-      "longFlag": "-fuzz-out-scope",
-      "key": "fuzz-out-scope"
+      "key": "-fuzz-out-scope",
+      "aliases": [
+        "-cos"
+      ]
     },
     {
-      "name": "Uncover",
+      "displayName": "Uncover",
       "description": "Enable uncover engine.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-uc",
-      "longFlag": "-uncover",
-      "key": "uncover"
+      "key": "-uncover",
+      "aliases": [
+        "-uc"
+      ]
     },
     {
-      "name": "Uncover Query",
+      "displayName": "Uncover Query",
       "description": "Uncover search query.",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-uq",
-      "longFlag": "-uncover-query",
-      "key": "uncover-query"
+      "key": "-uncover-query",
+      "aliases": [
+        "-uq"
+      ]
     },
     {
-      "name": "Uncover Engine",
+      "displayName": "Uncover Engine",
       "description": "Uncover search engine.",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-ue",
-      "longFlag": "-uncover-engine",
-      "key": "uncover-engine"
+      "key": "-uncover-engine",
+      "aliases": [
+        "-ue"
+      ]
     },
     {
-      "name": "Uncover Field",
+      "displayName": "Uncover Field",
       "description": "Uncover fields to return (ip,port,host) (default \"ip:port\").",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-uf",
-      "longFlag": "-uncover-field",
-      "key": "uncover-field"
+      "key": "-uncover-field",
+      "aliases": [
+        "-uf"
+      ]
     },
     {
-      "name": "Uncover Limit",
+      "displayName": "Uncover Limit",
       "description": "Uncover results to return (default 100).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-ul",
-      "longFlag": "-uncover-limit",
-      "key": "uncover-limit"
+      "key": "-uncover-limit",
+      "aliases": [
+        "-ul"
+      ]
     },
     {
-      "name": "Uncover Rate Limit",
+      "displayName": "Uncover Rate Limit",
       "description": "Override ratelimit of engines with unknown ratelimit (default 60 req/min) (default 60).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-ur",
-      "longFlag": "-uncover-ratelimit",
-      "key": "uncover-ratelimit"
+      "key": "-uncover-ratelimit",
+      "aliases": [
+        "-ur"
+      ]
     },
     {
-      "name": "Rate Limit",
+      "displayName": "Rate Limit",
       "description": "Maximum number of requests to send per second (default 150).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-rl",
-      "longFlag": "-rate-limit",
-      "key": "rate-limit"
+      "key": "-rate-limit",
+      "aliases": [
+        "-rl"
+      ]
     },
     {
-      "name": "Rate Limit Duration",
+      "displayName": "Rate Limit Duration",
       "description": "Maximum number of requests to send per second (default 1s).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-rld",
-      "longFlag": "-rate-limit-duration",
-      "key": "rate-limit-duration"
+      "key": "-rate-limit-duration",
+      "aliases": [
+        "-rld"
+      ]
     },
     {
-      "name": "Rate Limit Minute",
+      "displayName": "Rate Limit Minute",
       "description": "Maximum number of requests to send per minute (deprecated).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-rlm",
-      "longFlag": "-rate-limit-minute",
-      "key": "rate-limit-minute"
+      "key": "-rate-limit-minute",
+      "aliases": [
+        "-rlm"
+      ]
     },
     {
-      "name": "Bulk Size",
+      "displayName": "Bulk Size",
       "description": "Maximum number of hosts to be analyzed in parallel per template (default 25).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-bs",
-      "longFlag": "-bulk-size",
-      "key": "bulk-size"
+      "key": "-bulk-size",
+      "aliases": [
+        "-bs"
+      ]
     },
     {
-      "name": "Concurrency",
+      "displayName": "Concurrency",
       "description": "Maximum number of templates to be executed in parallel (default 25).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-c",
-      "longFlag": "-concurrency",
-      "key": "concurrency"
+      "key": "-concurrency",
+      "aliases": [
+        "-c"
+      ]
     },
     {
-      "name": "Headless Bulk Size",
+      "displayName": "Headless Bulk Size",
       "description": "Maximum number of headless hosts to be analyzed in parallel per template (default 10).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-hbs",
-      "longFlag": "-headless-bulk-size",
-      "key": "headless-bulk-size"
+      "key": "-headless-bulk-size",
+      "aliases": [
+        "-hbs"
+      ]
     },
     {
-      "name": "Headless Concurrency",
+      "displayName": "Headless Concurrency",
       "description": "Maximum number of headless templates to be executed in parallel (default 10).",
       "parameterType": "Option",
       "dataType": "Number",
-      "longFlag": "-headless-concurrency",
-      "key": "headless-concurrency"
+      "key": "-headless-concurrency",
+      "aliases": [
+        "-headc"
+      ]
     },
     {
-      "name": "JS Concurrency",
+      "displayName": "JS Concurrency",
       "description": "Maximum number of javascript runtimes to be executed in parallel (default 120).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-jsc",
-      "longFlag": "-js-concurrency",
-      "key": "js-concurrency"
+      "key": "-js-concurrency",
+      "aliases": [
+        "-jsc"
+      ]
     },
     {
-      "name": "Payload Concurrency",
+      "displayName": "Payload Concurrency",
       "description": "Max payload concurrency for each template (default 25).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-pc",
-      "longFlag": "-payload-concurrency",
-      "key": "payload-concurrency"
+      "key": "-payload-concurrency",
+      "aliases": [
+        "-pc"
+      ]
     },
     {
-      "name": "Probe Concurrency",
+      "displayName": "Probe Concurrency",
       "description": "Http probe concurrency with httpx (default 50).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-prc",
-      "longFlag": "-probe-concurrency",
-      "key": "probe-concurrency"
+      "key": "-probe-concurrency",
+      "aliases": [
+        "-prc"
+      ]
     },
     {
-      "name": "Timeout",
+      "displayName": "Timeout",
       "description": "Time to wait in seconds before timeout (default 10).",
       "parameterType": "Option",
       "dataType": "Number",
-      "longFlag": "-timeout",
-      "key": "timeout"
+      "key": "-timeout"
     },
     {
-      "name": "Retries",
+      "displayName": "Retries",
       "description": "Number of times to retry a failed request (default 1).",
       "parameterType": "Option",
       "dataType": "Number",
-      "longFlag": "-retries",
-      "key": "retries"
+      "key": "-retries"
     },
     {
-      "name": "Leave Default Ports",
+      "displayName": "Leave Default Ports",
       "description": "Leave default HTTP/HTTPS ports (eg. host:80,host:443).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-ldp",
-      "longFlag": "-leave-default-ports",
-      "key": "leave-default-ports"
+      "key": "-leave-default-ports",
+      "aliases": [
+        "-ldp"
+      ]
     },
     {
-      "name": "Max Host Error",
+      "displayName": "Max Host Error",
       "description": "Max errors for a host before skipping from scan (default 30).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-mhe",
-      "longFlag": "-max-host-error",
-      "key": "max-host-error"
+      "key": "-max-host-error",
+      "aliases": [
+        "-mhe"
+      ]
     },
     {
-      "name": "Track Error",
+      "displayName": "Track Error",
       "description": "Adds given error to max-host-error watchlist (standard, file).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-te",
-      "longFlag": "-track-error",
-      "key": "track-error"
+      "key": "-track-error",
+      "aliases": [
+        "-te"
+      ]
     },
     {
-      "name": "No MHE",
+      "displayName": "No MHE",
       "description": "Disable skipping host from scan based on errors.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-nmhe",
-      "longFlag": "-no-mhe",
-      "key": "no-mhe"
+      "key": "-no-mhe",
+      "aliases": [
+        "-nmhe"
+      ]
     },
     {
-      "name": "Project",
+      "displayName": "Project",
       "description": "Use a project folder to avoid sending same request multiple times.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-project",
-      "key": "project"
+      "key": "-project"
     },
     {
-      "name": "Project Path",
+      "displayName": "Project Path",
       "description": "Set a specific project path (default \"/var/folders/56/klbhqyh52zj8s4rrlh_mlcgh0000gn/T/\").",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "-project-path",
-      "key": "project-path"
+      "key": "-project-path"
     },
     {
-      "name": "Stop At First Match",
+      "displayName": "Stop At First Match",
       "description": "Stop processing HTTP requests after the first match (may break template/workflow logic).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-spm",
-      "longFlag": "-stop-at-first-match",
-      "key": "stop-at-first-match"
+      "key": "-stop-at-first-match",
+      "aliases": [
+        "-spm"
+      ]
     },
     {
-      "name": "Stream",
+      "displayName": "Stream",
       "description": "Stream mode - start elaborating without sorting the input.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-stream",
-      "key": "stream"
+      "key": "-stream"
     },
     {
-      "name": "Scan Strategy",
+      "displayName": "Scan Strategy",
       "description": "Strategy to use while scanning(auto/host-spray/template-spray) (default auto).",
       "parameterType": "Option",
       "dataType": "Enum",
-      "shortFlag": "-ss",
-      "longFlag": "-scan-strategy",
       "enum": {
         "values": [
           {
@@ -1711,406 +1798,575 @@
           }
         ]
       },
-      "key": "scan-strategy"
+      "key": "-scan-strategy",
+      "aliases": [
+        "-ss"
+      ]
     },
     {
-      "name": "Input Read Timeout",
+      "displayName": "Input Read Timeout",
       "description": "Timeout on input read (default 3m0s).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-irt",
-      "longFlag": "-input-read-timeout",
-      "key": "input-read-timeout"
+      "key": "-input-read-timeout",
+      "aliases": [
+        "-irt"
+      ]
     },
     {
-      "name": "No HTTPX",
+      "displayName": "No HTTPX",
       "description": "Disable httpx probing for non-url input.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-nh",
-      "longFlag": "-no-httpx",
-      "key": "no-httpx"
+      "key": "-no-httpx",
+      "aliases": [
+        "-nh"
+      ]
     },
     {
-      "name": "No Stdin",
+      "displayName": "No Stdin",
       "description": "Disable stdin processing.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-no-stdin",
-      "key": "no-stdin"
+      "key": "-no-stdin"
     },
     {
-      "name": "Headless",
+      "displayName": "Headless",
       "description": "Enable templates that require headless browser support (root user on Linux will disable sandbox).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-headless",
-      "key": "headless"
+      "key": "-headless"
     },
     {
-      "name": "Page Timeout",
+      "displayName": "Page Timeout",
       "description": "Seconds to wait for each page in headless mode (default 20).",
       "parameterType": "Option",
       "dataType": "Number",
-      "longFlag": "-page-timeout",
-      "key": "page-timeout"
+      "key": "-page-timeout"
     },
     {
-      "name": "Show Browser",
+      "displayName": "Show Browser",
       "description": "Show the browser on the screen when running templates with headless mode.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-sb",
-      "longFlag": "-show-browser",
-      "key": "show-browser"
+      "key": "-show-browser",
+      "aliases": [
+        "-sb"
+      ]
     },
     {
-      "name": "Headless Options",
+      "displayName": "Headless Options",
       "description": "Start headless chrome with additional options.",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-ho",
-      "longFlag": "-headless-options",
-      "key": "headless-options"
+      "key": "-headless-options",
+      "aliases": [
+        "-ho"
+      ]
     },
     {
-      "name": "System Chrome",
+      "displayName": "System Chrome",
       "description": "Use local installed Chrome browser instead of nuclei installed.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-sc",
-      "longFlag": "-system-chrome",
-      "key": "system-chrome"
+      "key": "-system-chrome",
+      "aliases": [
+        "-sc"
+      ]
     },
     {
-      "name": "List Headless Action",
+      "displayName": "List Headless Action",
       "description": "List available headless actions.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-lha",
-      "longFlag": "-list-headless-action",
-      "key": "list-headless-action"
+      "key": "-list-headless-action",
+      "aliases": [
+        "-lha"
+      ]
     },
     {
-      "name": "Debug",
+      "displayName": "Debug",
       "description": "Show all requests and responses.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-debug",
-      "key": "debug"
+      "key": "-debug"
     },
     {
-      "name": "Debug Request",
+      "displayName": "Debug Request",
       "description": "Show all sent requests.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-dreq",
-      "longFlag": "-debug-req",
-      "key": "debug-req"
+      "key": "-debug-req",
+      "aliases": [
+        "-dreq"
+      ]
     },
     {
-      "name": "Debug Response",
+      "displayName": "Debug Response",
       "description": "Show all received responses.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-dresp",
-      "longFlag": "-debug-resp",
-      "key": "debug-resp"
+      "key": "-debug-resp",
+      "aliases": [
+        "-dresp"
+      ]
     },
     {
-      "name": "Proxy",
+      "displayName": "Proxy",
       "description": "List of http/socks5 proxy to use (comma separated or file input).",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-p",
-      "longFlag": "-proxy",
-      "key": "proxy"
+      "key": "-proxy",
+      "aliases": [
+        "-p"
+      ]
     },
     {
-      "name": "Proxy Internal",
+      "displayName": "Proxy Internal",
       "description": "Proxy all internal requests.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-pi",
-      "longFlag": "-proxy-internal",
-      "key": "proxy-internal"
+      "key": "-proxy-internal",
+      "aliases": [
+        "-pi"
+      ]
     },
     {
-      "name": "List DSL Function",
+      "displayName": "List DSL Function",
       "description": "List all supported DSL function signatures.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-ldf",
-      "longFlag": "-list-dsl-function",
-      "key": "list-dsl-function"
+      "key": "-list-dsl-function",
+      "aliases": [
+        "-ldf"
+      ]
     },
     {
-      "name": "Trace Log",
+      "displayName": "Trace Log",
       "description": "File to write sent requests trace log.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-tlog",
-      "longFlag": "-trace-log",
-      "key": "trace-log"
+      "key": "-trace-log",
+      "aliases": [
+        "-tlog"
+      ]
     },
     {
-      "name": "Error Log",
+      "displayName": "Error Log",
       "description": "File to write sent requests error log.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-elog",
-      "longFlag": "-error-log",
-      "key": "error-log"
+      "key": "-error-log",
+      "aliases": [
+        "-elog"
+      ]
     },
     {
-      "name": "Version",
+      "displayName": "Version",
       "description": "Show nuclei version.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-version",
-      "key": "version"
+      "key": "-version"
     },
     {
-      "name": "Hang Monitor",
+      "displayName": "Hang Monitor",
       "description": "Enable nuclei hang monitoring.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-hm",
-      "longFlag": "-hang-monitor",
-      "key": "hang-monitor"
+      "key": "-hang-monitor",
+      "aliases": [
+        "-hm"
+      ]
     },
     {
-      "name": "Verbose",
+      "displayName": "Verbose",
       "description": "Show verbose output.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-v",
-      "longFlag": "-verbose",
-      "key": "verbose"
+      "key": "-verbose",
+      "aliases": [
+        "-v"
+      ]
     },
     {
-      "name": "Profile Mem",
+      "displayName": "Profile Mem",
       "description": "Generate memory (heap) profile & trace files.",
       "parameterType": "Option",
       "dataType": "String",
-      "longFlag": "-profile-mem",
-      "key": "profile-mem"
+      "key": "-profile-mem"
     },
     {
-      "name": "Vv",
+      "displayName": "Vv",
       "description": "Display templates loaded for scan.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-vv",
-      "key": "vv"
+      "key": "-vv"
     },
     {
-      "name": "Show Var Dump",
+      "displayName": "Show Var Dump",
       "description": "Show variables dump for debugging.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-svd",
-      "longFlag": "-show-var-dump",
-      "key": "show-var-dump"
+      "key": "-show-var-dump",
+      "aliases": [
+        "-svd"
+      ]
     },
     {
-      "name": "Var Dump Limit",
+      "displayName": "Var Dump Limit",
       "description": "Limit the number of characters displayed in var dump (default 255).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-vdl",
-      "longFlag": "-var-dump-limit",
-      "key": "var-dump-limit"
+      "key": "-var-dump-limit",
+      "aliases": [
+        "-vdl"
+      ]
     },
     {
-      "name": "Enable Pprof",
+      "displayName": "Enable Pprof",
       "description": "Enable pprof debugging server.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-ep",
-      "longFlag": "-enable-pprof",
-      "key": "enable-pprof"
+      "key": "-enable-pprof",
+      "aliases": [
+        "-ep"
+      ]
     },
     {
-      "name": "Templates Version",
+      "displayName": "Templates Version",
       "description": "Shows the version of the installed nuclei-templates.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-tv",
-      "longFlag": "-templates-version",
-      "key": "templates-version"
+      "key": "-templates-version",
+      "aliases": [
+        "-tv"
+      ]
     },
     {
-      "name": "Health Check",
+      "displayName": "Health Check",
       "description": "Run diagnostic check up.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-hc",
-      "longFlag": "-health-check",
-      "key": "health-check"
+      "key": "-health-check",
+      "aliases": [
+        "-hc"
+      ]
     },
     {
-      "name": "Update",
+      "displayName": "Update",
       "description": "Update nuclei engine to the latest released version.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-up",
-      "longFlag": "-update",
-      "key": "update"
+      "key": "-update",
+      "aliases": [
+        "-up"
+      ]
     },
     {
-      "name": "Update Templates",
+      "displayName": "Update Templates",
       "description": "Update nuclei-templates to latest released version.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-ut",
-      "longFlag": "-update-templates",
-      "key": "update-templates"
+      "key": "-update-templates",
+      "aliases": [
+        "-ut"
+      ]
     },
     {
-      "name": "Update Template Dir",
+      "displayName": "Update Template Dir",
       "description": "Custom directory to install / update nuclei-templates.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-ud",
-      "longFlag": "-update-template-dir",
-      "key": "update-template-dir"
+      "key": "-update-template-dir",
+      "aliases": [
+        "-ud"
+      ]
     },
     {
-      "name": "Disable Update Check",
+      "displayName": "Disable Update Check",
       "description": "Disable automatic nuclei/templates update check.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-duc",
-      "longFlag": "-disable-update-check",
-      "key": "disable-update-check"
+      "key": "-disable-update-check",
+      "aliases": [
+        "-duc"
+      ]
     },
     {
-      "name": "Stats",
+      "displayName": "Stats",
       "description": "Display statistics about the running scan.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-stats",
-      "key": "stats"
+      "key": "-stats"
     },
     {
-      "name": "Stats Json",
+      "displayName": "Stats Json",
       "description": "Display statistics in JSONL(ines) format.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-sj",
-      "longFlag": "-stats-json",
-      "key": "stats-json"
+      "key": "-stats-json",
+      "aliases": [
+        "-sj"
+      ]
     },
     {
-      "name": "Stats Interval",
+      "displayName": "Stats Interval",
       "description": "Number of seconds to wait between showing a statistics update (default 5).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-si",
-      "longFlag": "-stats-interval",
-      "key": "stats-interval"
+      "key": "-stats-interval",
+      "aliases": [
+        "-si"
+      ]
     },
     {
-      "name": "Metrics Port",
+      "displayName": "Metrics Port",
       "description": "Port to expose nuclei metrics on (default 9092).",
       "parameterType": "Option",
       "dataType": "Number",
-      "shortFlag": "-mp",
-      "longFlag": "-metrics-port",
-      "key": "metrics-port"
+      "key": "-metrics-port",
+      "aliases": [
+        "-mp"
+      ]
     },
     {
-      "name": "Http Stats",
+      "displayName": "Http Stats",
       "description": "Enable http status capturing (experimental).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-hps",
-      "longFlag": "-http-stats",
-      "key": "http-stats"
+      "key": "-http-stats",
+      "aliases": [
+        "-hps"
+      ]
     },
     {
-      "name": "Auth",
+      "displayName": "Auth",
       "description": "Configure projectdiscovery cloud (pdcp) api key (default true).",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "longFlag": "-auth",
-      "key": "auth"
+      "key": "-auth"
     },
     {
-      "name": "Team Id",
+      "displayName": "Team Id",
       "description": "Upload scan results to given team id (optional) (default \"none\").",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-tid",
-      "longFlag": "-team-id",
-      "key": "team-id"
+      "key": "-team-id",
+      "aliases": [
+        "-tid"
+      ]
     },
     {
-      "name": "Cloud Upload",
+      "displayName": "Cloud Upload",
       "description": "Upload scan results to pdcp dashboard [deprecated use -dashboard].",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-cup",
-      "longFlag": "-cloud-upload",
-      "key": "cloud-upload"
+      "key": "-cloud-upload",
+      "aliases": [
+        "-cup"
+      ]
     },
     {
-      "name": "Scan Id",
+      "displayName": "Scan Id",
       "description": "Upload scan results to existing scan id (optional).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-sid",
-      "longFlag": "-scan-id",
-      "key": "scan-id"
+      "key": "-scan-id",
+      "aliases": [
+        "-sid"
+      ]
     },
     {
-      "name": "Scan Name",
+      "displayName": "Scan Name",
       "description": "Scan name to set (optional).",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-sname",
-      "longFlag": "-scan-name",
-      "key": "scan-name"
+      "key": "-scan-name",
+      "aliases": [
+        "-sname"
+      ]
     },
     {
-      "name": "Dashboard",
+      "displayName": "Dashboard",
       "description": "Upload / view nuclei results in projectdiscovery cloud (pdcp) UI dashboard.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-pd",
-      "longFlag": "-dashboard",
-      "key": "dashboard"
+      "key": "-dashboard",
+      "aliases": [
+        "-pd"
+      ]
     },
     {
-      "name": "Dashboard Upload",
+      "displayName": "Dashboard Upload",
       "description": "Upload / view nuclei results file (jsonl) in projectdiscovery cloud (pdcp) UI dashboard.",
       "parameterType": "Option",
       "dataType": "String",
-      "shortFlag": "-pdu",
-      "longFlag": "-dashboard-upload",
-      "key": "dashboard-upload"
+      "key": "-dashboard-upload",
+      "aliases": [
+        "-pdu"
+      ]
     },
     {
-      "name": "Secret File",
+      "displayName": "Secret File",
       "description": "Path to config file containing secrets for nuclei authenticated scan.",
       "parameterType": "Option",
       "dataType": "String",
       "isRepeatable": true,
-      "shortFlag": "-sf",
-      "longFlag": "-secret-file",
-      "key": "secret-file"
+      "key": "-secret-file",
+      "aliases": [
+        "-sf"
+      ]
     },
     {
-      "name": "Prefetch Secrets",
+      "displayName": "Prefetch Secrets",
       "description": "Prefetch secrets from the secrets file.",
       "parameterType": "Flag",
       "dataType": "Boolean",
-      "shortFlag": "-ps",
-      "longFlag": "-prefetch-secrets",
-      "key": "prefetch-secrets"
+      "key": "-prefetch-secrets",
+      "aliases": [
+        "-ps"
+      ]
+    },
+    {
+      "displayName": "Targets Inline",
+      "description": "Inline multiline target list (for use in template profiles).",
+      "parameterType": "Option",
+      "dataType": "String",
+      "key": "-targets-inline"
+    },
+    {
+      "displayName": "Vars Text Templating",
+      "description": "Enable text templating for vars in input file (only for YAML input mode).",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "key": "-vars-text-templating",
+      "aliases": [
+        "-vtt"
+      ]
+    },
+    {
+      "displayName": "Var File Paths",
+      "description": "List of YAML files contained vars to inject into YAML input.",
+      "parameterType": "Option",
+      "dataType": "String",
+      "isRepeatable": true,
+      "arraySeparator": ",",
+      "key": "-var-file-paths",
+      "aliases": [
+        "-vfp"
+      ]
+    },
+    {
+      "displayName": "PDF Export",
+      "description": "File to export results in PDF format.",
+      "parameterType": "Option",
+      "dataType": "String",
+      "key": "-pdf-export",
+      "aliases": [
+        "-pe"
+      ]
+    },
+    {
+      "displayName": "Per Host Rate Limit",
+      "description": "Enable per-host rate limiting (global rate limit becomes unlimited when enabled).",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "key": "-per-host-rate-limit"
+    },
+    {
+      "displayName": "Template Loading Concurrency",
+      "description": "Maximum number of concurrent template loading operations (default 50).",
+      "parameterType": "Option",
+      "dataType": "Number",
+      "key": "-template-loading-concurrency",
+      "aliases": [
+        "-tlc"
+      ]
+    },
+    {
+      "displayName": "Preflight Portscan",
+      "description": "Run preflight resolve and TCP portscan and filter targets before scanning (disabled by default).",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "key": "-preflight-portscan"
+    },
+    {
+      "displayName": "CDP Endpoint",
+      "description": "Use remote browser via Chrome DevTools Protocol (CDP) endpoint.",
+      "parameterType": "Option",
+      "dataType": "String",
+      "key": "-cdp-endpoint",
+      "aliases": [
+        "-cdpe"
+      ]
+    },
+    {
+      "displayName": "Honeypot Detect",
+      "description": "Detect potential honeypot hosts based on match concentration.",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "key": "-honeypot-detect",
+      "aliases": [
+        "-hpd"
+      ]
+    },
+    {
+      "displayName": "Honeypot Threshold",
+      "description": "Number of distinct template IDs required to flag a honeypot host (default 15).",
+      "parameterType": "Option",
+      "dataType": "Number",
+      "key": "-honeypot-threshold",
+      "aliases": [
+        "-hpt"
+      ]
+    },
+    {
+      "displayName": "Suppress Honeypot",
+      "description": "Suppress output for flagged honeypot hosts.",
+      "parameterType": "Flag",
+      "dataType": "Boolean",
+      "key": "-suppress-honeypot",
+      "aliases": [
+        "-shp"
+      ]
     }
-  ]
+  ],
+  "installation": {
+    "sources": [
+      {
+        "key": "go-install",
+        "method": "package_manager",
+        "manager": "go",
+        "command": "go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest",
+        "url": "https://docs.projectdiscovery.io/opensource/nuclei/install",
+        "note": "Requires the latest Go version."
+      },
+      {
+        "key": "brew",
+        "method": "package_manager",
+        "manager": "brew",
+        "command": "brew install nuclei",
+        "url": "https://docs.projectdiscovery.io/opensource/nuclei/install",
+        "os": [
+          "linux",
+          "macos"
+        ]
+      },
+      {
+        "key": "docker",
+        "method": "docker",
+        "command": "docker pull projectdiscovery/nuclei:latest",
+        "url": "https://docs.projectdiscovery.io/opensource/nuclei/install"
+      },
+      {
+        "key": "release-binary",
+        "method": "binary",
+        "command": "https://github.com/projectdiscovery/nuclei/releases",
+        "url": "https://docs.projectdiscovery.io/opensource/nuclei/install",
+        "note": "Download the latest binary for your OS and unzip it."
+      }
+    ]
+  }
 }
